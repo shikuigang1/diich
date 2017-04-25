@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="diich-web:war">
+    <output-path>$PROJECT_DIR$/diich-web/target</output-path>
+    <root id="archive" name="diich-web-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="diich-web:war exploded" />
+    </root>
+  </artifact>
+</component>

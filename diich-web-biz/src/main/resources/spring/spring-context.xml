@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-4.1.xsd
+                        http://www.springframework.org/schema/tx
+                        http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+                        http://www.springframework.org/schema/task
+                        http://www.springframework.org/schema/task/spring-task-4.1.xsd">
+    <!-- 引入配置文件 -->
+
+<!--    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <array>
+                <value>classpath:config/jdbc.properties</value>
+                <value>classpath:config/dubbo.properties</value>
+                <value>classpath:config/redis.properties</value>
+
+            </array>
+        </property>
+    </bean>-->
+
+
+    <bean class="com.diich.core.util.PropertiesUtil">
+        <property name="locations">
+            <list>
+                <value>classpath:config/dubbo.properties</value>
+                <value>classpath:config/redis.properties</value>
+                <value>classpath:config/jdbc.properties</value>
+            </list>
+        </property>
+
+    </bean>
+
+    <!-- 扫描service、dao组件 -->
+    <context:component-scan base-package="com.diich.service,
+    com.diich.mapper" />
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          destroy-method="close" init-method="init" lazy-init="true">
+
+        <property name="driverClassName" value="${db.driver}" />
+        <property name="url" value="${db.writer.url}" />
+        <property name="username" value="${db.writer.username}" />
+        <property name="password" value="${db.writer.password}" />
+        <property name="initialSize" value="${db.initialSize}" />
+        <property name="maxActive" value="${db.maxActive}" />
+        <property name="minIdle" value="${db.minIdle}" />
+        <property name="maxWait" value="${db.maxWait}" />
+        <property name="defaultReadOnly" value="false" />
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+        <property name="validationQuery" value="SELECT 'x'" />
+        <property name="timeBetweenLogStatsMillis" value="60000" />
+        <property name="minEvictableIdleTimeMillis" value="${db.minEvictableIdleTimeMillis}" />
+        <property name="timeBetweenEvictionRunsMillis" value="${db.timeBetweenEvictionRunsMillis}" />
+    </bean>
+
+
+    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean">
+        <description>spring和MyBatis完美整合，不需要mybatis的配置映射文件</description>
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <!-- 自动扫描mapping.xml文件 -->
+        <property name="mapperLocations" value="classpath*:**/mapper/xml/*.xml" />
+        <property name="typeAliasesPackage" value="com.diich.core.model*" />
+        <property name="globalConfig">
+            <bean class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
+                <property name="dbColumnUnderline" value="true" />
+                <property name="sqlInjector">
+                    <bean class="com.baomidou.mybatisplus.mapper.AutoSqlInjector" />
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <description>DAO接口所在包名，Spring会自动查找其下的类</description>
+        <property name="basePackage" value="com.diich.mapper*" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </bean>
+
+
+  <!--  <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+
+        <property name="mapperLocations" value="classpath:com/diich/mapper/xml/*.xml"></property>
+    </bean>-->
+
+    <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.efeiyi.search.dao" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+
+    <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- 通知 -->
+    <tx:advice id="tx"
+               transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="delete*" propagation="REQUIRED" />
+            <tx:method name="insert*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="find*" read-only="true" />
+            <tx:method name="get*" read-only="true" />
+            <tx:method name="select*" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="pc" expression="execution(* com.diich.service.*.*(..))" />
+        <!--把事务控制在Service层-->
+        <aop:advisor pointcut-ref="pc" advice-ref="tx" />
+    </aop:config>
+
+    <!--ssm 集成 dubbo -->
+    <!--<import resource="spring/dubbo.xml"/>-->
+
+    <import resource="classpath:spring/redis.xml"/>
+    <!--<import resource="classpath:spring/session.xml"/>-->
+   <!-- <import resource="classpath:spring/dubbo.xml"/>-->
+    <import resource="spring-dubbo-provider.xml"/>
+
+   <!-- <bean id="searchService" class="com.efeiyi.search.service.impl.ISearchServiceImpl" />
+
+    &lt;!&ndash; 提供方应用信息，用于计算依赖关系 &ndash;&gt;
+    <dubbo:application name="search_provider"  />
+
+    &lt;!&ndash; 使用zookeeper注册中心暴露服务地址 &ndash;&gt;
+    <dubbo:registry address="zookeeper://192.168.1.111:2181" />
+
+    &lt;!&ndash; 用dubbo协议在20880端口暴露服务 &ndash;&gt;
+    <dubbo:protocol name="dubbo" port="20880" />
+
+    &lt;!&ndash; 声明需要暴露的服务接口 &ndash;&gt;
+    <dubbo:service interface="com.efeiyi.data.service.ISearchService" ref="searchService" />-->
+
+    <!--开启定时任务-->
+    <task:annotation-driven />
+
+</beans>

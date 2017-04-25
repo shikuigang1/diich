@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/diich.iml" filepath="$PROJECT_DIR$/diich.iml" />
+      <module fileurl="file://$PROJECT_DIR$/diich-core/diich-core.iml" filepath="$PROJECT_DIR$/diich-core/diich-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/diich-search-service/diich-search-service.iml" filepath="$PROJECT_DIR$/diich-search-service/diich-search-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/diich-web/diich-web.iml" filepath="$PROJECT_DIR$/diich-web/diich-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/diich-web-biz/diich-web-biz.iml" filepath="$PROJECT_DIR$/diich-web-biz/diich-web-biz.iml" />
+    </modules>
+  </component>
+</project>
