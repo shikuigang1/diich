@@ -6,11 +6,13 @@ import java.util.Date;
  * Created by Administrator on 2016/11/25.
  */
 public class Works {
-    private String id;
-    private String resourceId;
-    private String lastEditorId;
+    private Long id;
+    private Long resourceId;
+    private Long lastEditorId;
+    private Long ichMasterId;
+    private String doi;
     private String series;
-    private String targetId;
+    private Long targetId;
     private Integer targetType;
     private String cnName;
     private String enName;
@@ -20,35 +22,51 @@ public class Works {
     private String introduction;
     private Integer status;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getResourceId() {
+    public Long getResourceId() {
         return resourceId;
     }
 
-    public void setResourceId(String resourceId) {
+    public void setResourceId(Long resourceId) {
         this.resourceId = resourceId;
     }
 
-    public String getLastEditorId() {
+    public Long getLastEditorId() {
         return lastEditorId;
     }
 
-    public void setLastEditorId(String lastEditorId) {
+    public void setLastEditorId(Long lastEditorId) {
         this.lastEditorId = lastEditorId;
     }
 
-    public String getTargetId() {
+    public Long getIchMasterId() {
+        return ichMasterId;
+    }
+
+    public void setIchMasterId(Long ichMasterId) {
+        this.ichMasterId = ichMasterId;
+    }
+
+    public String getDoi() {
+        return doi;
+    }
+
+    public void setDoi(String doi) {
+        this.doi = doi;
+    }
+
+    public Long getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(String targetId) {
+    public void setTargetId(Long targetId) {
         this.targetId = targetId;
     }
 

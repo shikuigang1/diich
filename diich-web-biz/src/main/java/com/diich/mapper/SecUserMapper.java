@@ -3,6 +3,8 @@ package com.diich.mapper;
 import com.diich.core.base.BaseMapper;
 import com.diich.core.model.SecUser;
 
+import java.util.List;
+
 public interface SecUserMapper extends BaseMapper<SecUser>{
     int deleteByPrimaryKey(Integer user_id);
 
@@ -15,4 +17,6 @@ public interface SecUserMapper extends BaseMapper<SecUser>{
     int updateByPrimaryKeySelective(SecUser record);
 
     int updateByPrimaryKey(SecUser record);
+
+    List<SecUser> querySecUserList();
 }

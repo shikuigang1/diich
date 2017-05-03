@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class User {
 
-    private String id;
+    private Long id;
     private String loginName;
     private String password;
     private Integer rank;
@@ -18,11 +18,11 @@ public class User {
     private Date lastLoginDate;
     private Integer status;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

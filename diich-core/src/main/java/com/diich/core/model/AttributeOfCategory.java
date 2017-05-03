@@ -4,33 +4,33 @@ package com.diich.core.model;
  * Created by Administrator on 2016/11/29.
  */
 public class AttributeOfCategory {
-    private String id;
-    private String ichCategoryId;
-    private String title;
+    private Long id;
+    private Long ichCategoryId;
+    private String name;
     private Integer status;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getIchCategoryId() {
+    public Long getIchCategoryId() {
         return ichCategoryId;
     }
 
-    public void setIchCategoryId(String ichCategoryId) {
+    public void setIchCategoryId(Long ichCategoryId) {
         this.ichCategoryId = ichCategoryId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getStatus() {

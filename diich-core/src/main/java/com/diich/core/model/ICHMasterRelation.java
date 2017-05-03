@@ -4,32 +4,32 @@ package com.diich.core.model;
  * Created by Administrator on 2016/11/25.
  */
 public class ICHMasterRelation {
-    private String id;
-    private String masterId;
-    private String apprenticeId;
+    private Long id;
+    private Long masterId;
+    private Long apprenticeId;
     private Integer status;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getMasterId() {
+    public Long getMasterId() {
         return masterId;
     }
 
-    public void setMasterId(String masterId) {
+    public void setMasterId(Long masterId) {
         this.masterId = masterId;
     }
 
-    public String getApprenticeId() {
+    public Long getApprenticeId() {
         return apprenticeId;
     }
 
-    public void setApprenticeId(String apprenticeId) {
+    public void setApprenticeId(Long apprenticeId) {
         this.apprenticeId = apprenticeId;
     }
 

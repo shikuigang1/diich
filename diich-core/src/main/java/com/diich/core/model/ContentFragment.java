@@ -4,29 +4,28 @@ package com.diich.core.model;
  * Created by Administrator on 2016/11/25.
  */
 public class ContentFragment {
-    private String id;
-    private String targetId;
+    private Long id;
+    private Long targetId;
     private Integer targetType;
+    private Long attributeOfCategoryid;
     private String title;
     private Integer type;
     private String content;
-    private Integer graghicRelation;
-    private String attributeOfCategoryid;
     private Integer status;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getTargetId() {
+    public Long getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(String targetId) {
+    public void setTargetId(Long targetId) {
         this.targetId = targetId;
     }
 
@@ -54,13 +53,6 @@ public class ContentFragment {
         this.title = title;
     }
 
-    public Integer getGraghicRelation() {
-        return graghicRelation;
-    }
-
-    public void setGraghicRelation(Integer graghicRelation) {
-        this.graghicRelation = graghicRelation;
-    }
 
     public Integer getStatus() {
         return status;
@@ -78,11 +70,11 @@ public class ContentFragment {
         this.content = content;
     }
 
-    public String getAttributeOfCategoryid() {
+    public Long getAttributeOfCategoryid() {
         return attributeOfCategoryid;
     }
 
-    public void setAttributeOfCategoryid(String attributeOfCategoryid) {
+    public void setAttributeOfCategoryid(Long attributeOfCategoryid) {
         this.attributeOfCategoryid = attributeOfCategoryid;
     }
 }

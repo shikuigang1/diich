@@ -4,34 +4,34 @@ package com.diich.core.model;
  * Created by Administrator on 2016/11/25.
  */
 public class Certificate {
-    private String id;
-    private String organizationId;
-    private String resourceId;
+    private Long id;
+    private Long organizationId;
+    private Long resourceId;
     private String name;
     private Integer rank;
     private Integer status;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getOrganizationId() {
+    public Long getOrganizationId() {
         return organizationId;
     }
 
-    public void setOrganizationId(String organizationId) {
+    public void setOrganizationId(Long organizationId) {
         this.organizationId = organizationId;
     }
 
-    public String getResourceId() {
+    public Long getResourceId() {
         return resourceId;
     }
 
-    public void setResourceId(String resourceId) {
+    public void setResourceId(Long resourceId) {
         this.resourceId = resourceId;
     }
 

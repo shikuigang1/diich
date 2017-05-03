@@ -4,26 +4,26 @@ package com.diich.core.model;
  * Created by Administrator on 2016/11/25.
  */
 public class Reference {
-    private String id;
-    private String targetId;
+    private Long id;
+    private Long targetId;
     private Integer targetType;
     private Integer type;
     private String uri;
     private Integer status;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getTargetId() {
+    public Long getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(String targetId) {
+    public void setTargetId(Long targetId) {
         this.targetId = targetId;
     }
 

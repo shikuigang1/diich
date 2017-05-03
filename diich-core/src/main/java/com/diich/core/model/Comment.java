@@ -4,36 +4,36 @@ package com.diich.core.model;
  * Created by Administrator on 2016/11/25.
  */
 public class Comment {
-    private String id;
-    private String commenterId;
-    private String parentId;
+    private Long id;
+    private Long commentatorId;
+    private Long parentId;
     private Integer type;
     private String content;
-    private String targetId;
+    private Long targetId;
     private Integer targetType;
     private Integer status;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getCommenterId() {
-        return commenterId;
+    public Long getCommentatorId() {
+        return commentatorId;
     }
 
-    public void setCommenterId(String commenterId) {
-        this.commenterId = commenterId;
+    public void setCommentatorId(Long commentatorId) {
+        this.commentatorId = commentatorId;
     }
 
-    public String getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 
@@ -53,11 +53,11 @@ public class Comment {
         this.content = content;
     }
 
-    public String getTargetId() {
+    public Long getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(String targetId) {
+    public void setTargetId(Long targetId) {
         this.targetId = targetId;
     }
 

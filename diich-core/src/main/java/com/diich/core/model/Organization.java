@@ -4,15 +4,15 @@ package com.diich.core.model;
  * Created by Administrator on 2016/11/25.
  */
 public class Organization {
-    private String id;
+    private Long id;
     private String name;
     private Integer status;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

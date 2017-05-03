@@ -5,16 +5,16 @@ package com.diich.core.model;
  */
 public class Dictionary {
 
-    private String id;
+    private Long id;
     private String code;
     private String name;
-    private String type;
+    private Integer type;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -34,11 +34,11 @@ public class Dictionary {
         this.name = name;
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 }

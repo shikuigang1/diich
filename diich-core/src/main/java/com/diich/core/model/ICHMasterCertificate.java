@@ -4,32 +4,32 @@ package com.diich.core.model;
  * Created by Administrator on 2016/11/25.
  */
 public class ICHMasterCertificate {
-    private String id;
-    private String ichMasterId;
-    private String certificateId;
+    private Long id;
+    private Long ichMasterId;
+    private Long certificateId;
     private Integer status;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getIchMasterId() {
+    public Long getIchMasterId() {
         return ichMasterId;
     }
 
-    public void setIchMasterId(String ichMasterId) {
+    public void setIchMasterId(Long ichMasterId) {
         this.ichMasterId = ichMasterId;
     }
 
-    public String getCertificateId() {
+    public Long getCertificateId() {
         return certificateId;
     }
 
-    public void setCertificateId(String certificateId) {
+    public void setCertificateId(Long certificateId) {
         this.certificateId = certificateId;
     }
 

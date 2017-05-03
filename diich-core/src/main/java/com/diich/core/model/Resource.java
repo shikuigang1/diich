@@ -4,16 +4,16 @@ package com.diich.core.model;
  * Created by Administrator on 2016/11/25.
  */
 public class Resource {
-    private String id;
+    private Long id;
     private Integer type;
     private String uri;
     private Integer status;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

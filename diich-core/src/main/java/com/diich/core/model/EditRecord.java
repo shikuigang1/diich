@@ -6,34 +6,34 @@ import java.util.Date;
  * Created by Administrator on 2016/11/25.
  */
 public class EditRecord {
-    private String id;
-    private String editorId;
-    private String targetId;
+    private Long id;
+    private Long editorId;
+    private Long targetId;
     private Integer targetType;
     private Date editDate;
     private Integer status;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getEditorId() {
+    public Long getEditorId() {
         return editorId;
     }
 
-    public void setEditorId(String editorId) {
+    public void setEditorId(Long editorId) {
         this.editorId = editorId;
     }
 
-    public String getTargetId() {
+    public Long getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(String targetId) {
+    public void setTargetId(Long targetId) {
         this.targetId = targetId;
     }
 

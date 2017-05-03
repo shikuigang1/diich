@@ -56,5 +56,10 @@ public interface Constants {
          * 日志表状态，未执行
          */
         public static final String UN_STATS = "N";
+
+        /**
+         * 分页
+         */
+        public static Integer pageSize = 10;
     }
 }

@@ -6,11 +6,11 @@ import java.util.Date;
  * Created by Administrator on 2016/11/25.
  */
 public class ICHMaster {
-    private String id;
-    private String ichCategoryId;
-    private String resourceId;
-    private String ichItemId;
-    private String lastEditorId;
+    private Long id;
+    private Long resourceId;
+    private Long ichItemId;
+    private Long lastEditorId;
+    private String doi;
     private String series;
     private String cnName;
     private String enName;
@@ -28,44 +28,44 @@ public class ICHMaster {
     private String introduction;
     private Integer status;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getIchCategoryId() {
-        return ichCategoryId;
-    }
-
-    public void setIchCategoryId(String ichCategoryId) {
-        this.ichCategoryId = ichCategoryId;
-    }
-
-    public String getResourceId() {
+    public Long getResourceId() {
         return resourceId;
     }
 
-    public void setResourceId(String resourceId) {
+    public void setResourceId(Long resourceId) {
         this.resourceId = resourceId;
     }
 
-    public String getIchItemId() {
+    public Long getIchItemId() {
         return ichItemId;
     }
 
-    public void setIchItemId(String ichItemId) {
+    public void setIchItemId(Long ichItemId) {
         this.ichItemId = ichItemId;
     }
 
-    public String getLastEditorId() {
+    public Long getLastEditorId() {
         return lastEditorId;
     }
 
-    public void setLastEditorId(String lastEditorId) {
+    public void setLastEditorId(Long lastEditorId) {
         this.lastEditorId = lastEditorId;
+    }
+
+    public String getDoi() {
+        return doi;
+    }
+
+    public void setDoi(String doi) {
+        this.doi = doi;
     }
 
     public String getSeries() {

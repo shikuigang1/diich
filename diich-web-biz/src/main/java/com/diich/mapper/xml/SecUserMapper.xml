@@ -5,13 +5,21 @@
     <id column="user_id" property="user_id" jdbcType="INTEGER" />
     <result column="user_name" property="user_name" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="id_" property="id_" jdbcType="BIGINT" />
-    <result column="enable_" property="enable_" jdbcType="INTEGER" />
-    <result column="remark_" property="remark_" jdbcType="VARCHAR" />
-    <result column="create_by" property="create_by" jdbcType="BIGINT" />
-    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="update_time" jdbcType="TIMESTAMP" />
-    <result column="update_by" property="update_by" jdbcType="BIGINT" />
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_by" property="createBy" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="BIGINT" />
   </resultMap>
 
+  <!--<parameterMap type="java.util.Map" id="querySecUserListParam">
+    <parameter property="sexid" jdbcType="INTEGER"/>
+    <parameter property="usercount" jdbcType="INTEGER"/>
+  </parameterMap>-->
+
+  <select id="querySecUserList" resultMap="BaseResultMap">
+    select * from sec_user
+  </select>
 </mapper>

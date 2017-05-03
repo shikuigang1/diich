@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import  com.diich.core.model.SecUser;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Administrator on 2017/4/24 0024.
  */
@@ -34,6 +38,18 @@ public class SysUserController {
         u.setEnable(2);
         sysUserService.updateUser(u);
 
+    }
+
+    @RequestMapping("getSecUser")
+    @ResponseBody
+    public Map<String, Object> getSecUser() {
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        List<SecUser> secUserList = sysUserService.querySecUserList();
+        result.put("code", "0");
+        result.put("msg", "获取用户列表成功");
+        result.put("data", secUserList);
+        return result;
     }
 
 }

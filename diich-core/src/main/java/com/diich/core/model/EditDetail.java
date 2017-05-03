@@ -4,24 +4,24 @@ package com.diich.core.model;
  * Created by Administrator on 2016/11/25.
  */
 public class EditDetail {
-    private String id;
-    private String editRecordId;
+    private Long id;
+    private Long editRecordId;
     private String fieldName;
     private String content;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getEditRecordId() {
+    public Long getEditRecordId() {
         return editRecordId;
     }
 
-    public void setEditRecordId(String editRecordId) {
+    public void setEditRecordId(Long editRecordId) {
         this.editRecordId = editRecordId;
     }
 

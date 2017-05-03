@@ -4,32 +4,32 @@ package com.diich.core.model;
  * Created by Administrator on 2016/11/25.
  */
 public class ContentFragmentResource {
-    private String id;
-    private String contentFragmentId;
-    private String resourceId;
+    private Long id;
+    private Long contentFragmentId;
+    private Long resourceId;
     private Integer status;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getContentFragmentId() {
+    public Long getContentFragmentId() {
         return contentFragmentId;
     }
 
-    public void setContentFragmentId(String contentFragmentId) {
+    public void setContentFragmentId(Long contentFragmentId) {
         this.contentFragmentId = contentFragmentId;
     }
 
-    public String getResourceId() {
+    public Long getResourceId() {
         return resourceId;
     }
 
-    public void setResourceId(String resourceId) {
+    public void setResourceId(Long resourceId) {
         this.resourceId = resourceId;
     }
 

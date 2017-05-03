@@ -1,6 +1,10 @@
 package com.diich.core.service;
 
 import com.diich.core.model.SecUser;
+
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Administrator on 2017/4/24 0024.
  */
@@ -12,5 +16,7 @@ public interface SysUserService {
         public boolean updateUser(SecUser user);
         //查询用户信息
         public SecUser queryById(long ID);
+
+        List<SecUser> querySecUserList();
 
 }

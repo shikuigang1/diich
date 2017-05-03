@@ -4,33 +4,33 @@ package com.diich.core.model;
  * Created by Administrator on 2016/11/25.
  */
 public class ICHCategory {
-    private String id;
-    private String parentId;
+    private Long id;
+    private Long parentId;
     private String name;
-    private Integer gbCategory;
+    private String gbCategory;
     private Integer status;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 
-    public Integer getGbCategory() {
+    public String getGbCategory() {
         return gbCategory;
     }
 
-    public void setGbCategory(Integer gbCategory) {
+    public void setGbCategory(String gbCategory) {
         this.gbCategory = gbCategory;
     }
 
