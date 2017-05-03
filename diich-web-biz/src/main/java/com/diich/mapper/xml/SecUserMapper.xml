@@ -162,12 +162,6 @@
 
   </select>
 
-
-  <!--<parameterMap type="java.util.Map" id="querySecUserListParam">
-    <parameter property="sexid" jdbcType="INTEGER"/>
-    <parameter property="usercount" jdbcType="INTEGER"/>
-  </parameterMap>-->
-
   <select id="querySecUserList" resultMap="BaseResultMap">
     select * from sec_user
   </select>

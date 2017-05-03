@@ -15,14 +15,10 @@ import java.util.Map;
 /**
  * Created by Administrator on 2017/4/24 0024.
  */
-//@CacheConfig(cacheNames = "sysUser")
+
 @Service("sysUserService")
 public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUserService  {
 
-   /// LogManager.getLog(this.class);
-
-    @Autowired
-    private SecUserMapper secUserMapper;
     @Autowired
     private SecUserMapper secUserMapper;
 
@@ -31,10 +27,10 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
     }
 
     public boolean updateUser(SecUser user) {
-        return  super.update(user)==null;
+        //return  super.update(user)==null;
+        return false;
     }
 
-    //@Cacheable(value = Constants.CACHE_NAMESPACE + "sysParams")
     public SecUser queryById(long ID) {
         return super.queryById(ID);
     }
@@ -57,13 +53,6 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
 
         //secUserMapper.selectPage(EntityWrapper ew)
         return super.selectPage( page,  ew);
-    }
-
-
-
-
-    public List<SecUser> getList(Map<String, Object> params, Integer from, Integer to) {
-        return null;
     }
 
     public List<SecUser> querySecUserList() {
