@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.diich.core.model.SecUser;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -40,7 +42,7 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
     public static Page<Long> getPage(Map<String, Object> params) {
         Integer current = 1;
         Integer size = 10;
-        String orderBy = "id_";
+        String orderBy = "id";
         if (DataUtil.isNotEmpty(params.get("pageNum"))) {
             current = Integer.valueOf(params.get("pageNum").toString());
         }
@@ -132,17 +134,7 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
 
     @Transactional
     public void del(Long id, Long userId) {
-        try {
-            T record = this.queryById(id);
-            record.setEnable(0);
-            record.setUpdateTime(new Date());
-            record.setUpdateBy(userId);
-            mapper.updateById(record);
-            CacheUtil.getCache().set(getCacheKey(id), record);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            throw new RuntimeException(e.getMessage(), e);
-        }
+
     }
 
     @Transactional
@@ -157,46 +149,13 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
     }
 
     @Transactional
-    public T update(T record) {
-        try {
-            record.setUpdateTime(new Date());
-            if (record.getId() == null) {
-                record.setCreateTime(new Date());
-                mapper.insert(record);
-            } else {
-                T org = queryById(record.getId());
-                String lockKey = getLockKey(record.getId());
-                if (StringUtils.isBlank(lockKey)) {
-                    T update = InstanceUtil.getDiff(org, record);
-                    update.setId(record.getId());
-                    mapper.updateById(update);
-                } else {
-                    if (CacheUtil.getLock(lockKey)) {
-                        try {
-                            T update = InstanceUtil.getDiff(org, record);
-                            update.setId(record.getId());
-                            mapper.updateById(update);
-                            record = mapper.selectById(record.getId());
-                            CacheUtil.getCache().set(getCacheKey(record.getId()), record);
-                        } finally {
-                            CacheUtil.unlock(lockKey);
-                        }
-                    } else {
-                        sleep(20);
-                        return update(record);
-                    }
-                }
-            }
-        } catch (DuplicateKeyException e) {
-            String msg = ExceptionUtil.getStackTraceAsString(e);
-            logger.error(Constants.Exception_Head + msg, e);
-            throw new RuntimeException("已经存在相同的配置.");
-        } catch (Exception e) {
-            String msg = ExceptionUtil.getStackTraceAsString(e);
-            logger.error(Constants.Exception_Head + msg, e);
-            throw new RuntimeException(msg);
-        }
-        return record;
+    public int update(T record) {
+
+       /* if(mapper.update(record,null)>0){
+
+        }*/
+
+        return  mapper.updateById(record);
     }
 
     @Transactional
@@ -295,5 +254,10 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
             Constants.cacheKeyMap.put(cls, cacheName);
         }
         return cacheName;
+    }
+
+
+    public List<T> selectPage(Page<T> page, EntityWrapper ew){
+        return mapper.selectPage(page,ew);
     }
 }
