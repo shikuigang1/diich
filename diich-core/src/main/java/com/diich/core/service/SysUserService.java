@@ -1,5 +1,7 @@
 package com.diich.core.service;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.model.SecUser;
 
 import java.util.List;
@@ -18,5 +20,7 @@ public interface SysUserService {
         public SecUser queryById(long ID);
 
         List<SecUser> querySecUserList();
+
+        List<SecUser> selectUserPage(Page<SecUser> page, EntityWrapper ew);
 
 }

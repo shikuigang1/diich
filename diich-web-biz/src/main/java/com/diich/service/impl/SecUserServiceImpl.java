@@ -49,10 +49,8 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
     }
 
     public List<SecUser> selectUserPage(Page<SecUser> page,  EntityWrapper ew) {
-        //page.setRecords(secUserMapper.selectUserList(page,state));
-
-        //secUserMapper.selectPage(EntityWrapper ew)
-        return super.selectPage( page,  ew);
+        List<SecUser> secUserList = secUserMapper.selectPage(page, ew);
+        return secUserList;
     }
 
     public List<SecUser> querySecUserList() {

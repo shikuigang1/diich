@@ -1,5 +1,7 @@
 package com.diich.web.controller;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +48,27 @@ public class SysUserController {
         Map<String, Object> result = new HashMap<String, Object>();
 
         List<SecUser> secUserList = sysUserService.querySecUserList();
+        result.put("code", "0");
+        result.put("msg", "获取用户列表成功");
+        result.put("data", secUserList);
+        return result;
+    }
+
+
+    @RequestMapping("/page")
+    @ResponseBody
+    public Map<String, Object> selectPage(){
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        Page page=new Page<SecUser>(1,2);
+
+        EntityWrapper entityWrapper = new EntityWrapper<SecUser>();
+
+        Integer id = 2;
+        entityWrapper.where("id> {0}",id).orderBy("id", false);
+
+        List<SecUser>  secUserList = sysUserService.selectUserPage(page, entityWrapper);
+
         result.put("code", "0");
         result.put("msg", "获取用户列表成功");
         result.put("data", secUserList);

@@ -43,37 +43,6 @@ public class SysUserController {
         return ls;
     }
 
- /*   @RequestMapping(value="/user")
-    @ResponseBody
-    public void user(String userid ){
-
-        SecUser u = sysUserService.queryById(Long.parseLong(userid));
-        System.out.println(u.getUser_name());
-    }
-    @RequestMapping(value="/userlist")
-    @ResponseBody
-    public void userlist(String page,String pageSize ){
-
-        Map<String, Object> params = new HashedMap();
-        params.put("pageNum",2);
-        params.put("pageSize",2);
-        List<SecUser> ls = sysUserService.getPageByMap(params);
-
-
-        System.out.println(ls.get(1).getUser_name());
-    }
-
-
-    @RequestMapping(value="/enable")
-    @ResponseBody
-    public void enable(String enable ){
-
-        SecUser u = new SecUser();
-        u.setId(1l);
-        u.setEnable(2);
-        sysUserService.updateUser(u);
-
-    }*/
     /**
      * session 测试
      */
