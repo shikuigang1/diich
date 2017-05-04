@@ -24,16 +24,9 @@ import java.util.List;
 
 @Service("sysUserService")
 public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUserService  {
-//@CacheConfig(cacheNames = "sysUser")
-@Service
-public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUserService {
 
     @Autowired
     private SecUserMapper secUserMapper;
-
-    public SecUser addUser(SecUser user) {
-    @Autowired
-    private  SecUserMapper mapper;
     @Autowired
     @Qualifier("masterTemplateServiceImpl")
     private BaseTemplateService baseTemplateService;
@@ -82,7 +75,7 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
 
     public String queryList() throws Exception {
 
-        List userList = mapper.queryList();
+        List userList = secUserMapper.queryList();
         String filename=userList.get(0).toString();
         String title="freemarker测试";
         String templatename="user.ftl";

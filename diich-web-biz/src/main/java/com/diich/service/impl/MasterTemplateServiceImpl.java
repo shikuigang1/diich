@@ -23,12 +23,12 @@ public class MasterTemplateServiceImpl implements BaseTemplateService {
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor=Exception.class)
     public  void  save(BaseModel model) throws Exception {
 
-        //将数据保存到数据库
-        secUserMapper.insert((SecUser) model);
-        //调用生成静态页面的方法
-        String title="freemarker测试";
-        String templatename="user.ftl";
-        String path = masterTemplateEngine.buildHTML(templatename, model, "1", title);
+//        //将数据保存到数据库
+//        secUserMapper.insert((SecUser) model);
+//        //调用生成静态页面的方法
+//        String title="freemarker测试";
+//        String templatename="user.ftl";
+//        String path = masterTemplateEngine.buildHTML(templatename, model, "1", title);
 
     }
 
