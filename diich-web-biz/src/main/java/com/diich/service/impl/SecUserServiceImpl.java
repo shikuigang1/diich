@@ -11,6 +11,12 @@ import com.diich.core.model.SecUser;
 
 import java.util.List;
 import java.util.Map;
+import com.diich.mapper.SecUserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/4/24 0024.
@@ -18,11 +24,25 @@ import java.util.Map;
 
 @Service("sysUserService")
 public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUserService  {
+//@CacheConfig(cacheNames = "sysUser")
+@Service
+public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUserService {
 
     @Autowired
     private SecUserMapper secUserMapper;
 
     public SecUser addUser(SecUser user) {
+    @Autowired
+    private  SecUserMapper mapper;
+    @Autowired
+    @Qualifier("masterTemplateServiceImpl")
+    private BaseTemplateService baseTemplateService;
+
+    @Autowired
+    private MasterTemplateEngine masterTemplateEngine;
+
+    public SecUser addUser(SecUser user) throws Exception {
+        baseTemplateService.save(user);
         return null;
     }
 
@@ -31,6 +51,7 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
         return false;
     }
 
+    //@Cacheable(value = Constants.CACHE_NAMESPACE + "sysParams")
     public SecUser queryById(long ID) {
         return super.queryById(ID);
     }
@@ -58,4 +79,14 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
         return secUserList;
     }
 
+
+    public String queryList() throws Exception {
+
+        List userList = mapper.queryList();
+        String filename=userList.get(0).toString();
+        String title="freemarker测试";
+        String templatename="user.ftl";
+        String outPutPath =masterTemplateEngine.buildHTML(templatename, userList, filename, title);
+        return outPutPath;
+    }
 }

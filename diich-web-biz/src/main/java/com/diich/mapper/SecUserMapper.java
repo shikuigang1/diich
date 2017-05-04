@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
+import java.util.List;
+
 public interface SecUserMapper extends BaseMapper<SecUser>{
 
 
@@ -21,6 +23,8 @@ public interface SecUserMapper extends BaseMapper<SecUser>{
     int updateByPrimaryKeySelective(SecUser record);
 
     int updateByPrimaryKey(SecUser record);
+
+    List<SecUser> queryList();
 
     List<SecUser> querySecUserList();
 

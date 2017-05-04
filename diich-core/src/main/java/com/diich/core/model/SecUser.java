@@ -12,6 +12,8 @@ public class SecUser extends BaseModel{
 
     private String password;
 
+    private Date create_time;
+
     public Integer getUser_id() {
         return user_id;
     }
@@ -36,4 +38,11 @@ public class SecUser extends BaseModel{
         this.password = password == null ? null : password.trim();
     }
 
+    public Date getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
+    }
 }

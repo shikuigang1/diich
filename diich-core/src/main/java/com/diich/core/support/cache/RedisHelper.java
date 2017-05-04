@@ -7,13 +7,16 @@ import java.util.concurrent.TimeUnit;
 
 import com.diich.core.util.InstanceUtil;
 import com.diich.core.util.PropertiesUtil;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.test.context.ContextConfiguration;
 
 /**
  * Redis缓存辅助类
  */
+//@ContextConfiguration
 public final class RedisHelper implements CacheManager, ApplicationContextAware {
 
     private RedisTemplate<Serializable, Serializable> redisTemplate = null;

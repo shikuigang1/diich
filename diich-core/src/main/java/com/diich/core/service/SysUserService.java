@@ -13,12 +13,13 @@ import java.util.Map;
 public interface SysUserService {
 
         //新增注册用户
-        public SecUser addUser(SecUser user);
+        public SecUser addUser(SecUser user) throws Exception;
         //修改用户信息
         public boolean updateUser(SecUser user);
         //查询用户信息
         public SecUser queryById(long ID);
 
+        public String queryList() throws  Exception;
         List<SecUser> querySecUserList();
 
         List<SecUser> selectUserPage(Page<SecUser> page, EntityWrapper ew);

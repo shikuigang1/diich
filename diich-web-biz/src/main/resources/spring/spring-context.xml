@@ -36,6 +36,7 @@
                 <value>classpath:config/dubbo.properties</value>
                 <value>classpath:config/redis.properties</value>
                 <value>classpath:config/jdbc.properties</value>
+                <value>classpath:config/freemarker.properties</value>
             </list>
         </property>
 
@@ -114,7 +115,7 @@
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
-
+    <tx:annotation-driven transaction-manager="transactionManager"/>
     <!-- 通知 -->
     <tx:advice id="tx"
                transaction-manager="transactionManager">

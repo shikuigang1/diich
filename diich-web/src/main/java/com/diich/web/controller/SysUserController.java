@@ -42,6 +42,19 @@ public class SysUserController {
 
     }
 
+    @RequestMapping(value="/test")
+    @ResponseBody
+    public String buildHTML() throws Exception {
+        SecUser user = new SecUser();
+        user.setUser_id(4);
+        user.setUser_name("zhang");
+        user.setPassword("1234");
+        user.setId((long) 4);
+        SecUser secUser = sysUserService.addUser(user);
+//        String outPutPath = sysUserService.queryList();
+        return "secUser";
+    }
+
     @RequestMapping("getSecUser")
     @ResponseBody
     public Map<String, Object> getSecUser() {
