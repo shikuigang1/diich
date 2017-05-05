@@ -157,7 +157,7 @@
     select u.user_id,u.user_name,u.password,u.create_time from sec_user AS u
   </select>
 
-<!--  <insert id="insert" parameterType="com.diich.core.model.SecUser" >
+<!-- <insert id="insert" parameterType="com.diich.core.model.SecUser" >
     insert into sec_user(user_id,id,user_name,password) VALUES (#{user_id},#{id},#{user_name},#{password})
 
   </insert>-->
