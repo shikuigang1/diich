@@ -19,9 +19,6 @@ public interface SysUserService {
         //查询用户信息
         public SecUser queryById(long ID);
 
-        public String queryList() throws  Exception;
-        List<SecUser> querySecUserList();
-
-        List<SecUser> selectUserPage(Page<SecUser> page, EntityWrapper ew);
+        List<SecUser> selectUserPage(Pagination page, String id, String password);
 
 }

@@ -72,15 +72,18 @@ public class SysUserController {
     @ResponseBody
     public Map<String, Object> selectPage(){
         Map<String, Object> result = new HashMap<String, Object>();
+        Map<String, Object> conditons = new HashMap<String, Object>();
 
         Page page=new Page<SecUser>(1,2);
+        conditons.put("id", 2);
+        page.setCondition(conditons);
 
         EntityWrapper entityWrapper = new EntityWrapper<SecUser>();
 
-        Integer id = 2;
-        entityWrapper.where("id> {0}",id).orderBy("id", false);
+        /*Integer id = 2;
+        entityWrapper.where("id> {0}",id).orderBy("id", false);*/
 
-        List<SecUser>  secUserList = sysUserService.selectUserPage(page, entityWrapper);
+        List<SecUser>  secUserList = null;//sysUserService.selectUserPage(page, entityWrapper);
 
         result.put("code", "0");
         result.put("msg", "获取用户列表成功");

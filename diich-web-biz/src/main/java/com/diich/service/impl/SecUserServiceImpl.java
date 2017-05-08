@@ -2,6 +2,7 @@ package com.diich.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.diich.core.base.BaseService;
 import com.diich.core.service.SysUserService;
 import com.diich.mapper.SecUserMapper;
@@ -40,7 +41,6 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
     }
 
     public boolean updateUser(SecUser user) {
-        //return  super.update(user)==null;
         return false;
     }
 
@@ -50,25 +50,16 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
     }
 
     public List<SecUser> getPageByMap(Map<String, Object> params){
-
-        //Page<Long> ids = super.getPage(params);
-        //super.queryById(2L);
-
         return super.queryList(params);
-
-        //List<SecUser> ls =  new ArrayList<SecUser>();
-
-       // ls.add(super.queryById(2L));
-        //return ls;
     }
 
-    public List<SecUser> selectUserPage(Page<SecUser> page,  EntityWrapper ew) {
-        List<SecUser> secUserList = secUserMapper.selectPage(page, ew);
-        return secUserList;
-    }
+    public List<SecUser> selectUserPage(Pagination page, String id, String password) {
+        //List<SecUser> secUserList = secUserMapper.selectPage(page, ew);
+        //List<SecUser> secUserList = secUserMapper.selectUserList(page, id, password);
+        SecUser secUser = new SecUser();
+        secUser.setId(Long.parseLong(id));
 
-    public List<SecUser> querySecUserList() {
-        List<SecUser> secUserList = secUserMapper.querySecUserList();
+        List<SecUser> secUserList = secUserMapper.selectUserList(page, secUser);
         return secUserList;
     }
 
