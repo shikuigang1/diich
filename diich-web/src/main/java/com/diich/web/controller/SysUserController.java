@@ -60,7 +60,7 @@ public class SysUserController {
     public Map<String, Object> getSecUser() {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        List<SecUser> secUserList = sysUserService.querySecUserList();
+        List<SecUser> secUserList = null;//sysUserService.querySecUserList();
         result.put("code", "0");
         result.put("msg", "获取用户列表成功");
         result.put("data", secUserList);

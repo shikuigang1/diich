@@ -53,7 +53,7 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
         return super.queryList(params);
     }
 
-    public List<SecUser> selectUserPage(Pagination page, String id, String password) {
+    public List<SecUser> selectUserPage(Page page, String id, String password) {
         //List<SecUser> secUserList = secUserMapper.selectPage(page, ew);
         //List<SecUser> secUserList = secUserMapper.selectUserList(page, id, password);
         SecUser secUser = new SecUser();

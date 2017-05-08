@@ -37,7 +37,7 @@ public class SysUserController {
         Integer id=1;
         ew.where("id> {0}",1).orderBy("id");
 
-        List<SecUser>  ls= sysUserService.selectUserPage(page, ew);
+        List<SecUser>  ls= null;//sysUserService.selectUserPage(page, ew);
 
         System.out.println(ls.size());
         return ls;
