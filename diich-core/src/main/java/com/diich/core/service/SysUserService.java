@@ -19,6 +19,6 @@ public interface SysUserService {
     //查询用户信息
     public SecUser queryById(long ID);;
 
-    List<SecUser> selectUserPage(Page page, String id, String password);
+    void selectUserPage(Page page, String id, String password);
 
 }

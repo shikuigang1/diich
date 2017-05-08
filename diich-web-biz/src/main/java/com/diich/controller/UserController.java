@@ -2,10 +2,13 @@ package com.diich.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.diich.core.base.BaseController;
 import com.diich.core.model.SecUser;
 import com.diich.core.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,25 +22,22 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("user")
-public class UserController {
+public class UserController extends BaseController{
 
     @Autowired
     private SysUserService sysUserService;
 
     @RequestMapping("userPage")
     @ResponseBody
-    public List<SecUser> selectPage(HttpServletRequest request){
+    public ResponseEntity<ModelMap> selectPage(HttpServletRequest request){
         String id = request.getParameter("id");
         String password = "1";
 
-        Map<String, Object> conditons = new HashMap<String, Object>();
-
+        ModelMap modelMap = new ModelMap();
         Page page=new Page<SecUser>(1,2);
 
-        EntityWrapper entityWrapper = new EntityWrapper<SecUser>();
+        sysUserService.selectUserPage(page, id, password);
 
-        List<SecUser> secUserList = sysUserService.selectUserPage(page, id, password);
-
-        return secUserList;
+        return setSuccessModelMap(modelMap, page);
     }
 }

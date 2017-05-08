@@ -84,7 +84,7 @@ public abstract class BaseController {
 			}
 		}
 		modelMap.put("httpCode", code.value());
-		modelMap.put("msg", code.msg());
+		modelMap.put("msg", code.name());
 		modelMap.put("timestamp", System.currentTimeMillis());
 		return ResponseEntity.ok(modelMap);
 	}
