@@ -1,9 +1,11 @@
 package com.diich.core.model;
 
+import com.diich.core.base.BaseModel;
+
 /**
  * Created by Administrator on 2016/11/29.
  */
-public class ContentResource {
+public class ContentResource extends BaseModel{
     private Long id;
     private Long commentId;
     private Long resourceId;

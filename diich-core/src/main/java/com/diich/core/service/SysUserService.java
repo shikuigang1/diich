@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.model.SecUser;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +18,8 @@ public interface SysUserService {
     //修改用户信息
     public boolean updateUser(SecUser user);
     //查询用户信息
-    public SecUser queryById(long ID);;
+    public SecUser queryById(long ID);
 
-    void selectUserPage(Page page, String id, String password);
+    Page<SecUser> selectUserPage(SecUser secUser);
 
 }

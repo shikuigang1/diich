@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -53,17 +54,24 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
         return super.queryList(params);
     }
 
-    public void selectUserPage(Page page, String id, String password) {
-        //List<SecUser> secUserList = secUserMapper.selectPage(page, ew);
-        //List<SecUser> secUserList = secUserMapper.selectUserList(page, id, password);
-        SecUser secUser = new SecUser();
+    public Page<SecUser> selectUserPage(SecUser secUser) {
+        Page<SecUser> page=new Page<SecUser>(1,2);
+        /*SecUser secUser = new SecUser();
         if(id != null) {
             secUser.setId(Long.parseLong(id));
+        }*/
+
+        List<SecUser> secUserList = null;
+
+        try {
+            secUserList = secUserMapper.selectUserList(page, secUser);
+        } catch (Exception e) {
+            System.out.println("数据错误");
         }
 
-        List<SecUser> secUserList = secUserMapper.selectUserList(page, secUser);
-
         page.setRecords(secUserList);
+
+        return page;
     }
 
 

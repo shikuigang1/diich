@@ -1,9 +1,11 @@
 package com.diich.core.model;
 
+import com.diich.core.base.BaseModel;
+
 /**
  * Created by Administrator on 2016/11/25.
  */
-public class ICHMasterRelation {
+public class ICHMasterRelation extends BaseModel{
     private Long id;
     private Long masterId;
     private Long apprenticeId;

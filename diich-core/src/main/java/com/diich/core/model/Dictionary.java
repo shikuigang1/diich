@@ -1,9 +1,11 @@
 package com.diich.core.model;
 
+import com.diich.core.base.BaseModel;
+
 /**
  * Created by Administrator on 2016/7/14 0014.
  */
-public class Dictionary {
+public class Dictionary extends BaseModel{
 
     private Long id;
     private String code;

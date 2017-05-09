@@ -1,9 +1,11 @@
 package com.diich.core.model;
 
+import com.diich.core.base.BaseModel;
+
 /**
  * Created by Administrator on 2016/11/29.
  */
-public class AttributeOfCategory {
+public class AttributeOfCategory extends BaseModel{
     private Long id;
     private Long ichCategoryId;
     private String name;

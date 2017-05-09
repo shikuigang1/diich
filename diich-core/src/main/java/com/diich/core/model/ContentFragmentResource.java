@@ -1,9 +1,11 @@
 package com.diich.core.model;
 
+import com.diich.core.base.BaseModel;
+
 /**
  * Created by Administrator on 2016/11/25.
  */
-public class ContentFragmentResource {
+public class ContentFragmentResource extends BaseModel{
     private Long id;
     private Long contentFragmentId;
     private Long resourceId;

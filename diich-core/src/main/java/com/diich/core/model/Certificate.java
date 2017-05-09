@@ -1,9 +1,11 @@
 package com.diich.core.model;
 
+import com.diich.core.base.BaseModel;
+
 /**
  * Created by Administrator on 2016/11/25.
  */
-public class Certificate {
+public class Certificate extends BaseModel{
     private Long id;
     private Long organizationId;
     private Long resourceId;

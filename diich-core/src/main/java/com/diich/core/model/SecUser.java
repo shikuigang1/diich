@@ -6,12 +6,20 @@ import java.util.Date;
 
 public class SecUser extends BaseModel{
 
+    private Long id;
     private Integer user_id;
 
     private String user_name;
 
     private String password;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Integer getUser_id() {
         return user_id;

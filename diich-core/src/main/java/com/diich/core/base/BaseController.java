@@ -3,6 +3,7 @@
  */
 package com.diich.core.base;
 
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,7 +34,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 /**
  * 控制器基类
  */
-public abstract class BaseController {
+public abstract class BaseController<T extends BaseModel> {
 	protected final Logger logger = LogManager.getLogger(this.getClass());
 
 	/** 获取当前用户Id */
@@ -112,5 +115,20 @@ public abstract class BaseController {
 		logger.info(JSON.toJSON(modelMap));
 		byte[] bytes = JSON.toJSONBytes(modelMap, SerializerFeature.DisableCircularReferenceDetect);
 		response.getOutputStream().write(bytes);
+	}
+
+	public T parseObject(String jsonObjStr, Class<T> clazz) {
+		T object = null;
+		try {
+			JSONObject jobObj = JSONObject.parseObject(jsonObjStr);
+			ObjectMapper mapper = new ObjectMapper();
+			SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			mapper.setDateFormat(fmt);
+			object = mapper.readValue(jobObj.toString(), clazz);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return object;
+
 	}
 }

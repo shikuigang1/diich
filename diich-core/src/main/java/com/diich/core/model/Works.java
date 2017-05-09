@@ -1,11 +1,13 @@
 package com.diich.core.model;
 
+import com.diich.core.base.BaseModel;
+
 import java.util.Date;
 
 /**
  * Created by Administrator on 2016/11/25.
  */
-public class Works {
+public class Works extends BaseModel{
     private Long id;
     private Long resourceId;
     private Long lastEditorId;

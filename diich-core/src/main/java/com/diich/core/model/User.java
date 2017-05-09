@@ -1,8 +1,10 @@
 package com.diich.core.model;
 
+import com.diich.core.base.BaseModel;
+
 import java.util.Date;
 
-public class User {
+public class User extends BaseModel{
 
     private Long id;
     private String loginName;
