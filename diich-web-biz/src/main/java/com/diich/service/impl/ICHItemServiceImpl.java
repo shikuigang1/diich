@@ -1,7 +1,9 @@
 package com.diich.service.impl;
 
 import com.diich.core.base.BaseService;
+import com.diich.core.model.ICHCategory;
 import com.diich.core.model.ICHItem;
+import com.diich.core.service.ICHCategoryService;
 import com.diich.core.service.ICHItemService;
 import com.diich.mapper.ICHItemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,19 @@ public class ICHItemServiceImpl extends BaseService<ICHItem> implements ICHItemS
     @Autowired
     private ICHItemMapper ichItemMapper;
 
+    @Autowired
+    private ICHCategoryService ichCategoryService;
+
     public ICHItem selectICHItem(Long id) {
         ICHItem ichItem = ichItemMapper.selectByPrimaryKey(id);
+
+        if(ichItem != null) {
+            ICHCategory ichCategory = ichCategoryService.selectICHCategory(ichItem.getIchCategoryId());
+            if(ichCategory != null) {
+                ichItem.setIchCategory(ichCategory);
+            }
+        }
+
         return ichItem;
     }
 
