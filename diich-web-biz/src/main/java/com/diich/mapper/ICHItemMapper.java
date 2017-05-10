@@ -14,7 +14,5 @@ public interface ICHItemMapper extends BaseMapper<ICHItem>{
 
     int updateByPrimaryKeySelective(ICHItem record);
 
-    int updateByPrimaryKeyWithBLOBs(ICHItem record);
-
     int updateByPrimaryKey(ICHItem record);
 }

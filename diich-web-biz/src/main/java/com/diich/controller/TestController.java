@@ -2,8 +2,10 @@ package com.diich.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseController;
+import com.diich.core.model.ICHItem;
 import com.diich.core.model.SecUser;
 import com.diich.core.model.User;
+import com.diich.core.service.ICHItemService;
 import com.diich.core.service.SysUserService;
 import com.diich.core.support.HttpCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +21,15 @@ import javax.servlet.http.HttpServletRequest;
  * Created by Administrator on 2017/5/4.
  */
 @Controller
-@RequestMapping("user")
-public class UserController extends BaseController{
+public class TestController extends BaseController{
 
     @Autowired
     private SysUserService sysUserService;
 
-    @RequestMapping("userPage")
+    @Autowired
+    private ICHItemService ichItemService;
+
+    @RequestMapping("test1")
     @ResponseBody
     public ResponseEntity<ModelMap> selectPage(HttpServletRequest request) {
 
@@ -41,5 +45,21 @@ public class UserController extends BaseController{
         }
 
         return setSuccessModelMap(modelMap, page);
+    }
+
+    @RequestMapping("test2")
+    @ResponseBody
+
+    public ResponseEntity<ModelMap> selectICHItem(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        ModelMap map = new ModelMap();
+
+        if(id == null || "".equals(id)) {
+            return setModelMap(map, HttpCode.BAD_REQUEST);
+        }
+
+        ICHItem ichItem = ichItemService.selectICHItem(Long.parseLong(id));
+
+        return setSuccessModelMap(map, ichItem);
     }
 }

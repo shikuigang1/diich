@@ -3,6 +3,7 @@ package com.diich.core.model;
 import com.diich.core.base.BaseModel;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/11/25.
@@ -23,6 +24,10 @@ public class ICHItem extends BaseModel{
     private Integer editRank;
     private String introduction;
     private Integer status;
+    private ICHCategory ichCategory;//所属分类
+    private User user;//最后编辑者
+    private Resource resource;//题图资源
+    private List<ICHMaster> ichMasterList;
 
     public Long getId() {
         return id;
@@ -142,5 +147,37 @@ public class ICHItem extends BaseModel{
 
     public void setSeries(String series) {
         this.series = series;
+    }
+
+    public ICHCategory getIchCategory() {
+        return ichCategory;
+    }
+
+    public void setIchCategory(ICHCategory ichCategory) {
+        this.ichCategory = ichCategory;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Resource getResource() {
+        return resource;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
+
+    public List<ICHMaster> getIchMasterList() {
+        return ichMasterList;
+    }
+
+    public void setIchMasterList(List<ICHMaster> ichMasterList) {
+        this.ichMasterList = ichMasterList;
     }
 }

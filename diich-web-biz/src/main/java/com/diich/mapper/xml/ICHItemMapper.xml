@@ -178,23 +178,6 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.diich.core.model.ICHItem" >
-    update ich_item
-    set ich_category_id = #{ichCategoryId,jdbcType=BIGINT},
-    resource_id = #{resourceId,jdbcType=BIGINT},
-    last_editor_id = #{lastEditorId,jdbcType=BIGINT},
-    doi = #{doi,jdbcType=CHAR},
-    series = #{series,jdbcType=VARCHAR},
-    cn_name = #{cnName,jdbcType=VARCHAR},
-    en_name = #{enName,jdbcType=VARCHAR},
-    pinyin = #{pinyin,jdbcType=VARCHAR},
-    declare_batch = #{declareBatch,jdbcType=VARCHAR},
-    ich_rank = #{ichRank,jdbcType=INTEGER},
-    last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
-    edit_rank = #{editRank,jdbcType=INTEGER},
-    status = #{status,jdbcType=INTEGER}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.ICHItem" >
     update ich_item
     set ich_category_id = #{ichCategoryId,jdbcType=BIGINT},
