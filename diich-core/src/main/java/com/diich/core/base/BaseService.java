@@ -1,27 +1,33 @@
 package com.diich.core.base;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.diich.core.exception.BusinessException;
 import com.diich.core.model.SecUser;
+import com.diich.core.util.*;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.diich.core.Constants;
-import com.diich.core.util.CacheUtil;
-import com.diich.core.util.DataUtil;
-import com.diich.core.util.ExceptionUtil;
-import com.diich.core.util.InstanceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.diich.core.exception.BusinessException;
+import com.diich.core.util.PropertiesUtil;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import com.baomidou.mybatisplus.plugins.Page;
 
 /**
@@ -259,5 +265,62 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
 
     public List<T> selectPage(Page<T> page, EntityWrapper ew){
         return mapper.selectPage(page,ew);
+    }
+
+    /**
+     *生成列表静态页面的方法
+     */
+    public String buildHTML(String templateName, List<BaseModel> entityList, String outputFileName, String title) throws Exception{
+        if("".equals(templateName) || templateName !=null){
+            throw new BusinessException("模板名不能为空 ");
+        }
+        if(entityList.size()==0){
+            throw new BusinessException("生成模板的对象不能为空 ");
+        }
+        if("".equals(outputFileName) || outputFileName !=null){
+            throw new BusinessException("生成静态页面的名称不能为空 ");
+        }
+        Configuration configuration = new Configuration(Configuration.getVersion());
+        String path= PropertiesUtil.getString("freemarker.templateLoaderPath");
+        configuration.setDirectoryForTemplateLoading(new File(path));
+        configuration.setDefaultEncoding("UTF-8");
+        Template template = configuration.getTemplate(templateName);
+        Map dataMap = new HashMap<>();
+        dataMap.put("title", title);
+        dataMap.put("obj",entityList);
+        String outPutPath=PropertiesUtil.getString("freemarker.filepath")+"/"+outputFileName+".html";
+        Writer out =  new OutputStreamWriter(new FileOutputStream(outPutPath),"utf-8");
+        template.process(dataMap, out);
+        out.flush();
+        out.close();
+        return outPutPath;
+    }
+    /**
+     *生成静态页面的方法
+     */
+    public String buildHTML(String templateName, BaseModel entity, String outputFileName, String title) throws Exception{
+        if("".equals(templateName) || templateName !=null){
+            throw new BusinessException("模板名不能为空 ");
+        }
+        if("".equals(entity) || entity !=null){
+            throw new BusinessException("生成模板的对象不能为空 ");
+        }
+        if("".equals(outputFileName) || outputFileName !=null){
+            throw new BusinessException("生成静态页面的名称不能为空 ");
+        }
+        Configuration configuration = new Configuration(Configuration.getVersion());
+        String path=PropertiesUtil.getString("freemarker.templateLoaderPath");
+        configuration.setDirectoryForTemplateLoading(new File(path));
+        configuration.setDefaultEncoding("UTF-8");
+        Template template = configuration.getTemplate(templateName);
+        Map dataMap = new HashMap<>();
+        dataMap.put("title", title);
+        dataMap.put("obj",entity);
+        String outPutPath=PropertiesUtil.getString("freemarker.filepath")+"/"+outputFileName+".html";
+        Writer out =  new OutputStreamWriter(new FileOutputStream(outPutPath),"utf-8");
+        template.process(dataMap, out);
+        out.flush();
+        out.close();
+        return outPutPath;
     }
 }

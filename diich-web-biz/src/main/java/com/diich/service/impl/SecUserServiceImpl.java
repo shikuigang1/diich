@@ -16,6 +16,8 @@ import com.diich.mapper.SecUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -29,15 +31,14 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
 
     @Autowired
     private SecUserMapper secUserMapper;
-    @Autowired
-    @Qualifier("masterTemplateServiceImpl")
-    private BaseTemplateService baseTemplateService;
 
-    @Autowired
-    private MasterTemplateEngine masterTemplateEngine;
-
+    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     public SecUser addUser(SecUser user) throws Exception {
-        baseTemplateService.save(user);
+//        secUserMapper.insert(user);
+//        //调用生成静态页面的方法
+//        String title="freemarker测试";
+//        String templatename="user.ftl";
+//        String path = buildHTML(templatename, user, "1", title);
         return null;
     }
 
@@ -81,7 +82,7 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
         String filename=userList.get(0).toString();
         String title="freemarker测试";
         String templatename="user.ftl";
-        String outPutPath =masterTemplateEngine.buildHTML(templatename, userList, filename, title);
+        String outPutPath =buildHTML(templatename, userList, filename, title);
         return outPutPath;
     }
 }
