@@ -19,9 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("ichMaster")
 public class ICHMasterController extends BaseController<ICHMaster>{
 
-    @RequestMapping("selectICHMaster")
+    @RequestMapping("getICHMaster")
     @ResponseBody
-    public ResponseEntity<ModelMap> selectICHMaster(HttpServletRequest request) {
+    public ResponseEntity<ModelMap> getICHMaster(HttpServletRequest request) {
         String ichMasterId = request.getParameter("ichMasterId");
         ModelMap map = new ModelMap();
 
@@ -34,9 +34,9 @@ public class ICHMasterController extends BaseController<ICHMaster>{
         return setSuccessModelMap(map,ichMaster);
     }
 
-    @RequestMapping("selectICHMasterList")
+    @RequestMapping("getICHMasterList")
     @ResponseBody
-    public ResponseEntity<ModelMap> selectICHMasterList(HttpServletRequest request) {
+    public ResponseEntity<ModelMap> getICHMasterList(HttpServletRequest request) {
         String ichItemId = request.getParameter("ichItemId");
         ModelMap map = new ModelMap();
 
@@ -47,5 +47,14 @@ public class ICHMasterController extends BaseController<ICHMaster>{
         Page<ICHMaster> page = null;
 
         return setSuccessModelMap(map, page);
+    }
+
+    @RequestMapping("saveICHMaster")
+    @ResponseBody
+    public ResponseEntity<ModelMap> saveICHMaster(HttpServletRequest request) {
+        String params = request.getParameter("params");
+        ModelMap map = new ModelMap();
+        ICHMaster ichMaster = null;
+        return setSuccessModelMap(map, ichMaster);
     }
 }

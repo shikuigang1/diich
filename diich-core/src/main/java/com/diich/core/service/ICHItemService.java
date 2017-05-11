@@ -7,7 +7,7 @@ import com.diich.core.model.ICHItem;
  */
 public interface ICHItemService {
 
-    ICHItem selectICHItem(Long id);
+    ICHItem getICHItem(Long id);
 
     void saveICHItem(ICHItem ichItem);
 }

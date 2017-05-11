@@ -3,6 +3,8 @@ package com.diich.mapper;
 import com.diich.core.base.BaseMapper;
 import com.diich.core.model.ICHMaster;
 
+import java.util.List;
+
 public interface ICHMasterMapper extends BaseMapper<ICHMaster>{
     int deleteByPrimaryKey(Long id);
 
@@ -17,4 +19,6 @@ public interface ICHMasterMapper extends BaseMapper<ICHMaster>{
     int updateByPrimaryKeyWithBLOBs(ICHMaster record);
 
     int updateByPrimaryKey(ICHMaster record);
+
+    List<ICHMaster> selectICHMasterByItem(Long ichItemId);
 }

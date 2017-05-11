@@ -117,18 +117,4 @@ public abstract class BaseController<T extends BaseModel> {
 		response.getOutputStream().write(bytes);
 	}
 
-	public T parseObject(String jsonObjStr, Class<T> clazz) {
-		T object = null;
-		try {
-			JSONObject jobObj = JSONObject.parseObject(jsonObjStr);
-			ObjectMapper mapper = new ObjectMapper();
-			SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			mapper.setDateFormat(fmt);
-			object = mapper.readValue(jobObj.toString(), clazz);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return object;
-
-	}
 }

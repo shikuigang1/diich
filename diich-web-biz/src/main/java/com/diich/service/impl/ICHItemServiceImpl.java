@@ -21,11 +21,11 @@ public class ICHItemServiceImpl extends BaseService<ICHItem> implements ICHItemS
     @Autowired
     private ICHCategoryService ichCategoryService;
 
-    public ICHItem selectICHItem(Long id) {
+    public ICHItem getICHItem(Long id) {
         ICHItem ichItem = ichItemMapper.selectByPrimaryKey(id);
 
         if(ichItem != null) {
-            ICHCategory ichCategory = ichCategoryService.selectICHCategory(ichItem.getIchCategoryId());
+            ICHCategory ichCategory = ichCategoryService.getICHCategory(ichItem.getIchCategoryId());
             if(ichCategory != null) {
                 ichItem.setIchCategory(ichCategory);
             }

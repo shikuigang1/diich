@@ -4,15 +4,19 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.diich.core.exception.BusinessException;
 import com.diich.core.model.SecUser;
 import com.diich.core.util.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -322,5 +326,19 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         out.flush();
         out.close();
         return outPutPath;
+    }
+
+    public T parseObject(String jsonObjStr, Class<T> clazz) {
+        T object = null;
+        try {
+            JSONObject jobObj = JSON.parseObject(jsonObjStr);
+            ObjectMapper mapper = new ObjectMapper();
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            mapper.setDateFormat(fmt);
+            object = mapper.readValue(jobObj.toString(), clazz);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return object;
     }
 }

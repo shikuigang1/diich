@@ -3,7 +3,9 @@ package com.diich.web.controller;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseController;
 import com.diich.core.model.ICHItem;
+import com.diich.core.service.ICHItemService;
 import com.diich.core.support.HttpCode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,24 +21,27 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("ichItem")
 public class ICHItemController extends BaseController<ICHItem> {
 
-    @RequestMapping("selectICHItem")
+    @Autowired
+    private ICHItemService ichItemService;
+
+    @RequestMapping("getICHItem")
     @ResponseBody
-    public ResponseEntity<ModelMap> selectICHItem(HttpServletRequest request) {
-        String ichItemId = request.getParameter("ichItemId");
+    public ResponseEntity<ModelMap> getICHItem(HttpServletRequest request) {
+        String id = request.getParameter("id");
         ModelMap map = new ModelMap();
 
-        if(ichItemId == null || "".equals(ichItemId)) {
+        if(id == null || "".equals(id)) {
             return setModelMap(map, HttpCode.BAD_REQUEST);
         }
 
-        ICHItem ichItem = null;
+        ICHItem ichItem = ichItemService.getICHItem(Long.parseLong(id));
 
         return setSuccessModelMap(map, ichItem);
     }
 
-    @RequestMapping("selectICHItemList")
+    @RequestMapping("getICHItemList")
     @ResponseBody
-    public ResponseEntity<ModelMap> selectICHItemList(HttpServletRequest request) {
+    public ResponseEntity<ModelMap> getICHItemList(HttpServletRequest request) {
         ModelMap map = new ModelMap();
 
         Page<ICHItem> page = null;

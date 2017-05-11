@@ -23,7 +23,7 @@ public class ICHCategoryServiceImpl extends BaseService<ICHCategory> implements 
     @Autowired
     private AttributeOfCategoryMapper attributeMapper;
 
-    public ICHCategory selectICHCategory(Long id) {
+    public ICHCategory getICHCategory(Long id) {
         ICHCategory ichCategory = ichCategoryMapper.selectByPrimaryKey(id);
 
         if(ichCategory != null) {

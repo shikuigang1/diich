@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.alibaba.fastjson.JSON.parseObject;
+
 /**
  * Created by Administrator on 2017/5/4.
  */
@@ -31,14 +33,14 @@ public class TestController extends BaseController{
 
     @RequestMapping("test1")
     @ResponseBody
-    public ResponseEntity<ModelMap> selectPage(HttpServletRequest request) {
+    public ResponseEntity<ModelMap> getPage(HttpServletRequest request) {
 
         String params = request.getParameter("params");
         User user = (User)parseObject(params, User.class);
 
         ModelMap modelMap = new ModelMap();
         String id = request.getParameter("id");
-        Page<SecUser> page = null;//sysUserService.selectUserPage(id);
+        Page<SecUser> page = null;//sysUserService.getUserPage(id);
 
         if("1".equals(id)) {
             return setModelMap(modelMap, HttpCode.BAD_REQUEST);
@@ -50,7 +52,7 @@ public class TestController extends BaseController{
     @RequestMapping("test2")
     @ResponseBody
 
-    public ResponseEntity<ModelMap> selectICHItem(HttpServletRequest request) {
+    public ResponseEntity<ModelMap> getICHItem(HttpServletRequest request) {
         String id = request.getParameter("id");
         ModelMap map = new ModelMap();
 
@@ -58,7 +60,7 @@ public class TestController extends BaseController{
             return setModelMap(map, HttpCode.BAD_REQUEST);
         }
 
-        ICHItem ichItem = ichItemService.selectICHItem(Long.parseLong(id));
+        ICHItem ichItem = ichItemService.getICHItem(Long.parseLong(id));
 
         return setSuccessModelMap(map, ichItem);
     }
