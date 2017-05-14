@@ -390,4 +390,8 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
     public void rollback(TransactionStatus transactionStatus) {
         transactionManager.rollback(transactionStatus);
     }
+
+    public void commit(TransactionStatus transactionStatus) {
+        transactionManager.commit(transactionStatus);
+    }
 }
