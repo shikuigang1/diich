@@ -1,5 +1,6 @@
 package com.diich.core.model;
 
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.diich.core.base.BaseModel;
 
 import java.util.Date;
@@ -13,7 +14,7 @@ public class ICHItem extends BaseModel{
     private Long ichCategoryId;
     private Long resourceId;
     private Long lastEditorId;
-    private String doi;
+    private String doi;//doi编码
     private String series;
     private String cnName;
     private String enName;
@@ -27,7 +28,8 @@ public class ICHItem extends BaseModel{
     private ICHCategory ichCategory;//所属分类
     private User user;//最后编辑者
     private Resource resource;//题图资源
-    private List<ICHMaster> ichMasterList;
+    private List<ICHMaster> ichMasterList;//所属传承人列表
+    private List<ContentFragment> contentFragmentList;//图文列表
 
     public Long getId() {
         return id;
@@ -179,5 +181,13 @@ public class ICHItem extends BaseModel{
 
     public void setIchMasterList(List<ICHMaster> ichMasterList) {
         this.ichMasterList = ichMasterList;
+    }
+
+    public List<ContentFragment> getContentFragmentList() {
+        return contentFragmentList;
+    }
+
+    public void setContentFragmentList(List<ContentFragment> contentFragmentList) {
+        this.contentFragmentList = contentFragmentList;
     }
 }

@@ -54,10 +54,11 @@ public class TestController extends BaseController{
 
     @RequestMapping("test2")
     @ResponseBody
+    public Map<String, Object> test2(HttpServletRequest request) {
+        String params = "{doi:'jolsuejk',series:'fwfdsdge',cnName:'粉墙',status:1}";
 
-    public void test2(HttpServletRequest request) {
-        String params = "{cnName:'苏绣'}";
+        Map<String, Object> result = ichItemService.saveICHItem(params);
 
-        ichItemService.getICHItemList(params);
+        return result;
     }
 }

@@ -27,12 +27,16 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import com.diich.core.exception.BusinessException;
 import com.diich.core.util.PropertiesUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import com.baomidou.mybatisplus.plugins.Page;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 /**
  * 业务逻辑层基类
@@ -40,6 +44,10 @@ import com.baomidou.mybatisplus.plugins.Page;
 public abstract class BaseService<T extends BaseModel> implements ApplicationContextAware {
 
     protected Logger logger = LogManager.getLogger(getClass());
+
+    @Autowired
+    private DataSourceTransactionManager transactionManager;
+
     @Autowired
     protected BaseMapper<T> mapper;
     protected ApplicationContext applicationContext;
@@ -367,5 +375,19 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         map.put("code", code);
         map.put("msg", Constants.MSGS[code]);
         return map;
+    }
+
+    public TransactionStatus getTransactionStatus() {
+        //获取事务定义
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        //设置事务隔离级别，开启新事务
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        //获得事务状态
+        TransactionStatus transactionStatus = transactionManager.getTransaction(def);
+        return transactionStatus;
+    }
+
+    public void rollback(TransactionStatus transactionStatus) {
+        transactionManager.rollback(transactionStatus);
     }
 }
