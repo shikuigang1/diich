@@ -314,7 +314,7 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         if("".equals(templateName) || templateName ==null){
             throw new BusinessException("模板名不能为空 ");
         }
-        if("".equals(entity) || entity !=null){
+        if("".equals(entity) || entity ==null){
             throw new BusinessException("生成模板的对象不能为空 ");
         }
         if("".equals(outputFileName) || outputFileName ==null){
