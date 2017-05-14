@@ -341,4 +341,31 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         }
         return object;
     }
+
+    public Map<String, Object> setResultMap(Integer code, Object data) {
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        if (data != null) {
+            if (data instanceof Page) {
+                Page<?> page = (Page<?>) data;
+                map.put("data", page.getRecords());
+                map.put("current", page.getCurrent());
+                map.put("size", page.getSize());
+                map.put("pages", page.getPages());
+                map.put("total", page.getTotal());
+                map.put("iTotalRecords", page.getTotal());
+                map.put("iTotalDisplayRecords", page.getTotal());
+            } else if (data instanceof List<?>) {
+                map.put("data", data);
+                map.put("iTotalRecords", ((List<?>) data).size());
+                map.put("iTotalDisplayRecords", ((List<?>) data).size());
+            } else {
+                map.put("data", data);
+            }
+        }
+
+        map.put("code", code);
+        map.put("msg", Constants.MSGS[code]);
+        return map;
+    }
 }

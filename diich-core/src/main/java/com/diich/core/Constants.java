@@ -38,6 +38,12 @@ public interface Constants {
     /** TOKEN */
     public static final String TOKEN_KEY = CACHE_NAMESPACE + "TOKEN_KEY";
 
+    /** 返回到客户端编码 */
+    public static final Integer SUCCESS = 0;
+    public static final Integer INNER_ERROR = 1;
+    public static final Integer PARAM_ERROR = 2;
+    public static final String[] MSGS = new String[]{"操作成功", "内部错误", "参数错误"};
+
     /** 日志表状态 */
     public interface JOBSTATE {
         /**

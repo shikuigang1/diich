@@ -52,4 +52,15 @@ public class UserController extends BaseController<User> {
 
         return setSuccessModelMap(map, user);
     }
+
+    @RequestMapping("saveUser")
+    @ResponseBody
+    public ResponseEntity<ModelMap> getUser(HttpServletRequest request) {
+        String params = request.getParameter("params");
+        ModelMap map = new ModelMap();
+
+        User user = null;//saveUser(params);
+
+        return setSuccessModelMap(map, user);
+    }
 }

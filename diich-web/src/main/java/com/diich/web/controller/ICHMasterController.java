@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/5/9.
@@ -21,40 +22,31 @@ public class ICHMasterController extends BaseController<ICHMaster>{
 
     @RequestMapping("getICHMaster")
     @ResponseBody
-    public ResponseEntity<ModelMap> getICHMaster(HttpServletRequest request) {
-        String ichMasterId = request.getParameter("ichMasterId");
-        ModelMap map = new ModelMap();
+    public Map<String, Object> getICHMaster(HttpServletRequest request) {
+        String ichMasterId = request.getParameter("params");
 
-        if(ichMasterId == null || "".equals(ichMasterId)) {
-            return setModelMap(map, HttpCode.BAD_REQUEST);
-        }
+        Map<String, Object> result = null;
 
-        ICHMaster ichMaster = null;
-
-        return setSuccessModelMap(map,ichMaster);
+        return result;
     }
 
     @RequestMapping("getICHMasterList")
     @ResponseBody
-    public ResponseEntity<ModelMap> getICHMasterList(HttpServletRequest request) {
-        String ichItemId = request.getParameter("ichItemId");
-        ModelMap map = new ModelMap();
+    public Map<String, Object> getICHMasterList(HttpServletRequest request) {
+        String params = request.getParameter("params");
 
-        if(ichItemId == null || "".equals(ichItemId)) {
-            return setModelMap(map, HttpCode.BAD_REQUEST);
-        }
+        Map<String, Object> result = null;
 
-        Page<ICHMaster> page = null;
-
-        return setSuccessModelMap(map, page);
+        return result;
     }
 
     @RequestMapping("saveICHMaster")
     @ResponseBody
-    public ResponseEntity<ModelMap> saveICHMaster(HttpServletRequest request) {
-        String params = request.getParameter("params");
-        ModelMap map = new ModelMap();
-        ICHMaster ichMaster = null;
-        return setSuccessModelMap(map, ichMaster);
+    public Map<String, Object> saveICHMaster(HttpServletRequest request) {
+        String ichMaster = request.getParameter("params");
+
+        Map<String, Object> result = null;
+
+        return result;
     }
 }

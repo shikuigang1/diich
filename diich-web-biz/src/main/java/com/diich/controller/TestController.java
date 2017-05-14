@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.alibaba.fastjson.JSON.parseObject;
 
 /**
@@ -52,16 +55,9 @@ public class TestController extends BaseController{
     @RequestMapping("test2")
     @ResponseBody
 
-    public ResponseEntity<ModelMap> getICHItem(HttpServletRequest request) {
-        String id = request.getParameter("id");
-        ModelMap map = new ModelMap();
+    public void test2(HttpServletRequest request) {
+        String params = "{cnName:'苏绣'}";
 
-        if(id == null || "".equals(id)) {
-            return setModelMap(map, HttpCode.BAD_REQUEST);
-        }
-
-        ICHItem ichItem = ichItemService.getICHItem(Long.parseLong(id));
-
-        return setSuccessModelMap(map, ichItem);
+        ichItemService.getICHItemList(params);
     }
 }

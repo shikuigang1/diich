@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/5/9.
@@ -26,41 +27,31 @@ public class ICHItemController extends BaseController<ICHItem> {
 
     @RequestMapping("getICHItem")
     @ResponseBody
-    public ResponseEntity<ModelMap> getICHItem(HttpServletRequest request) {
-        String id = request.getParameter("id");
-        ModelMap map = new ModelMap();
+    public Map<String, Object> getICHItem(HttpServletRequest request) {
+        String ichItemId = request.getParameter("params");
 
-        if(id == null || "".equals(id)) {
-            return setModelMap(map, HttpCode.BAD_REQUEST);
-        }
+        Map<String, Object> result = ichItemService.getICHItem(ichItemId);
 
-        ICHItem ichItem = ichItemService.getICHItem(Long.parseLong(id));
-
-        return setSuccessModelMap(map, ichItem);
+        return result;
     }
 
     @RequestMapping("getICHItemList")
     @ResponseBody
-    public ResponseEntity<ModelMap> getICHItemList(HttpServletRequest request) {
-        ModelMap map = new ModelMap();
+    public Map<String, Object> getICHItemList(HttpServletRequest request) {
+        String params = request.getParameter("params");
 
-        Page<ICHItem> page = null;
+        Map<String, Object> result = ichItemService.getICHItemList(params);
 
-        return setSuccessModelMap(map, page);
+        return result;
     }
 
     @RequestMapping("saveICHItem")
     @ResponseBody
-    public ResponseEntity<ModelMap> saveICHItem(HttpServletRequest request) {
-        String ichItemId = request.getParameter("ichItemId");
-        ModelMap map = new ModelMap();
+    public Map<String, Object> saveICHItem(HttpServletRequest request) {
+        String ichItem = request.getParameter("params");
 
-        if(ichItemId == null || "".equals(ichItemId)) {
-            return setModelMap(map, HttpCode.BAD_REQUEST);
-        }
+        Map<String, Object> result = ichItemService.saveICHItem(ichItem);
 
-        ICHItem ichItem = null;
-
-        return setSuccessModelMap(map, ichItem);
+        return result;
     }
 }
