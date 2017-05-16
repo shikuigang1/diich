@@ -8,8 +8,8 @@ import com.diich.core.base.BaseService;
 import com.diich.core.model.IchCategory;
 import com.diich.core.model.IchProject;
 import com.diich.core.model.User;
-import com.diich.core.service.ICHCategoryService;
-import com.diich.core.service.ICHItemService;
+import com.diich.core.service.IchCategoryService;
+import com.diich.core.service.IchItemService;
 import com.diich.mapper.IchProjectMapper;
 import com.diich.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.Map;
  * Created by Administrator on 2017/5/9.
  */
 @Service("ichItemService")
-public class ICHItemServiceImpl extends BaseService<IchProject> implements ICHItemService{
+public class IchProjectServiceImpl extends BaseService<IchProject> implements IchItemService {
 
     @Autowired
     private IchProjectMapper ichProjectMapper;
@@ -32,12 +32,12 @@ public class ICHItemServiceImpl extends BaseService<IchProject> implements ICHIt
     private UserMapper userMapper;
 
     @Autowired
-    private ICHCategoryService ichCategoryService;
+    private IchCategoryService ichCategoryService;
 
     /*@Autowired
     private DataSourceTransactionManager transactionManager;*/
 
-    public Map<String, Object> getICHItem(String id) {
+    public Map<String, Object> getIchProject(String id) {
 
         if(id == null || "".equals(id)) {
             return setResultMap(Constants.PARAM_ERROR, null);
@@ -50,7 +50,7 @@ public class ICHItemServiceImpl extends BaseService<IchProject> implements ICHIt
 
             if(ichProject != null) {
                 Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
-                IchCategory ichCategory = ichCategoryService.getICHCategory(ichProject.getIchCategoryId());
+                IchCategory ichCategory = ichCategoryService.getIchCategory(ichProject.getIchCategoryId());
                 if(ichCategory != null) {
                     ichProject.setIchCategory(ichCategory);
                 }
@@ -65,7 +65,7 @@ public class ICHItemServiceImpl extends BaseService<IchProject> implements ICHIt
     }
 
     @Override
-    public Map<String, Object> getICHItemList(String text) {
+    public Map<String, Object> getIchProjectList(String text) {
         Map<String, Object> params = null;
         Integer current = 1;
         Integer pageSize = 10;
@@ -96,7 +96,7 @@ public class ICHItemServiceImpl extends BaseService<IchProject> implements ICHIt
 
     @Override
     @Transactional
-    public Map<String, Object> saveICHItem(String text) {
+    public Map<String, Object> saveIchProject(String text) {
         TransactionStatus transactionStatus = getTransactionStatus();
 
         User user = new User();

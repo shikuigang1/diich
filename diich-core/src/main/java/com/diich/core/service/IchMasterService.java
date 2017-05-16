@@ -7,8 +7,8 @@ import java.util.List;
 /**
  * Created by Administrator on 2017/5/10.
  */
-public interface ICHMasterService {
-    IchMaster getICHMaster(Long id);
+public interface IchMasterService {
+    IchMaster getIchMaster(Long id);
 
-    List<IchMaster> getICHMasterList(IchMaster ichMaster);
+    List<IchMaster> getIchMasterList(IchMaster ichMaster);
 }

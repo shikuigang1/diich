@@ -3,7 +3,7 @@ package com.diich.service.impl;
 import com.diich.core.base.BaseService;
 import com.diich.core.model.Attribute;
 import com.diich.core.model.IchCategory;
-import com.diich.core.service.ICHCategoryService;
+import com.diich.core.service.IchCategoryService;
 import com.diich.mapper.AttributeMapper;
 import com.diich.mapper.IchCategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Administrator on 2017/5/10.
  */
 @Service("ichCategoryService")
-public class ICHCategoryServiceImpl extends BaseService<IchCategory> implements ICHCategoryService{
+public class IchCategoryServiceImpl extends BaseService<IchCategory> implements IchCategoryService {
 
     @Autowired
     private IchCategoryMapper ichCategoryMapper;
@@ -23,7 +23,7 @@ public class ICHCategoryServiceImpl extends BaseService<IchCategory> implements 
     @Autowired
     private AttributeMapper attributeMapper;
 
-    public IchCategory getICHCategory(Long id) {
+    public IchCategory getIchCategory(Long id) {
         IchCategory ichCategory = ichCategoryMapper.selectByPrimaryKey(id);
 
         if(ichCategory != null) {

@@ -18,11 +18,11 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("ichMaster")
-public class ICHMasterController extends BaseController<IchMaster>{
+public class IchMasterController extends BaseController<IchMaster>{
 
     @RequestMapping("getICHMaster")
     @ResponseBody
-    public Map<String, Object> getICHMaster(HttpServletRequest request) {
+    public Map<String, Object> getIchMaster(HttpServletRequest request) {
         String ichMasterId = request.getParameter("params");
 
         Map<String, Object> result = null;
@@ -32,7 +32,7 @@ public class ICHMasterController extends BaseController<IchMaster>{
 
     @RequestMapping("getICHMasterList")
     @ResponseBody
-    public Map<String, Object> getICHMasterList(HttpServletRequest request) {
+    public Map<String, Object> getIchMasterList(HttpServletRequest request) {
         String params = request.getParameter("params");
 
         Map<String, Object> result = null;
@@ -42,7 +42,7 @@ public class ICHMasterController extends BaseController<IchMaster>{
 
     @RequestMapping("saveICHMaster")
     @ResponseBody
-    public Map<String, Object> saveICHMaster(HttpServletRequest request) {
+    public Map<String, Object> saveIchMaster(HttpServletRequest request) {
         String ichMaster = request.getParameter("params");
 
         Map<String, Object> result = null;

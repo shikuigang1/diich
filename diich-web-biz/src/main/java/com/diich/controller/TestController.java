@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseController;
 import com.diich.core.model.SecUser;
 import com.diich.core.model.User;
-import com.diich.core.service.ICHItemService;
+import com.diich.core.service.IchItemService;
 import com.diich.core.service.SysUserService;
 import com.diich.core.support.HttpCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class TestController extends BaseController{
     private SysUserService sysUserService;
 
     @Autowired
-    private ICHItemService ichItemService;
+    private IchItemService ichItemService;
 
     @RequestMapping("test1")
     @ResponseBody
