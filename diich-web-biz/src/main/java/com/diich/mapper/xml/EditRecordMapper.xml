@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.diich.mapper.EditRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.diich.core.model.EditRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="editor_id" property="editorId" jdbcType="BIGINT" />
+    <result column="target_id" property="targetId" jdbcType="BIGINT" />
+    <result column="target_type" property="targetType" jdbcType="INTEGER" />
+    <result column="edit_date" property="editDate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, editor_id, target_id, target_type, edit_date, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from edit_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from edit_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.diich.core.model.EditRecord" >
+    insert into edit_record (id, editor_id, target_id, 
+      target_type, edit_date, status
+      )
+    values (#{id,jdbcType=BIGINT}, #{editor_id,jdbcType=BIGINT}, #{target_id,jdbcType=BIGINT}, 
+      #{target_type,jdbcType=INTEGER}, #{edit_date,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.diich.core.model.EditRecord" >
+    insert into edit_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="editor_id != null" >
+        editor_id,
+      </if>
+      <if test="target_id != null" >
+        target_id,
+      </if>
+      <if test="target_type != null" >
+        target_type,
+      </if>
+      <if test="edit_date != null" >
+        edit_date,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="editor_id != null" >
+        #{editor_id,jdbcType=BIGINT},
+      </if>
+      <if test="target_id != null" >
+        #{target_id,jdbcType=BIGINT},
+      </if>
+      <if test="target_type != null" >
+        #{target_type,jdbcType=INTEGER},
+      </if>
+      <if test="edit_date != null" >
+        #{edit_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.EditRecord" >
+    update edit_record
+    <set >
+      <if test="editor_id != null" >
+        editor_id = #{editor_id,jdbcType=BIGINT},
+      </if>
+      <if test="target_id != null" >
+        target_id = #{target_id,jdbcType=BIGINT},
+      </if>
+      <if test="target_type != null" >
+        target_type = #{target_type,jdbcType=INTEGER},
+      </if>
+      <if test="edit_date != null" >
+        edit_date = #{edit_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.diich.core.model.EditRecord" >
+    update edit_record
+    set editor_id = #{editor_id,jdbcType=BIGINT},
+      target_id = #{target_id,jdbcType=BIGINT},
+      target_type = #{target_type,jdbcType=INTEGER},
+      edit_date = #{edit_date,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

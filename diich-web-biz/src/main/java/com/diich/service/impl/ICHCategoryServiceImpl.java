@@ -1,11 +1,11 @@
 package com.diich.service.impl;
 
 import com.diich.core.base.BaseService;
-import com.diich.core.model.AttributeOfCategory;
-import com.diich.core.model.ICHCategory;
+import com.diich.core.model.Attribute;
+import com.diich.core.model.IchCategory;
 import com.diich.core.service.ICHCategoryService;
-import com.diich.mapper.AttributeOfCategoryMapper;
-import com.diich.mapper.ICHCategoryMapper;
+import com.diich.mapper.AttributeMapper;
+import com.diich.mapper.IchCategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,19 +15,19 @@ import java.util.List;
  * Created by Administrator on 2017/5/10.
  */
 @Service("ichCategoryService")
-public class ICHCategoryServiceImpl extends BaseService<ICHCategory> implements ICHCategoryService{
+public class ICHCategoryServiceImpl extends BaseService<IchCategory> implements ICHCategoryService{
 
     @Autowired
-    private ICHCategoryMapper ichCategoryMapper;
+    private IchCategoryMapper ichCategoryMapper;
 
     @Autowired
-    private AttributeOfCategoryMapper attributeMapper;
+    private AttributeMapper attributeMapper;
 
-    public ICHCategory getICHCategory(Long id) {
-        ICHCategory ichCategory = ichCategoryMapper.selectByPrimaryKey(id);
+    public IchCategory getICHCategory(Long id) {
+        IchCategory ichCategory = ichCategoryMapper.selectByPrimaryKey(id);
 
         if(ichCategory != null) {
-            List<AttributeOfCategory> attributeList = attributeMapper.selectAttrListByCategory(ichCategory.getId());
+            List<Attribute> attributeList = attributeMapper.selectAttrListByCategory(ichCategory.getId());
             if(attributeList.size() != 0) {
                 ichCategory.setAttributeList(attributeList);
             }

@@ -2,7 +2,6 @@ package com.diich.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseController;
-import com.diich.core.model.ICHItem;
 import com.diich.core.model.SecUser;
 import com.diich.core.model.User;
 import com.diich.core.service.ICHItemService;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.alibaba.fastjson.JSON.parseObject;

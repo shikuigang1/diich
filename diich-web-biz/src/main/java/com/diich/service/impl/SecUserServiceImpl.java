@@ -1,26 +1,18 @@
 package com.diich.service.impl;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.plugins.pagination.Pagination;
+import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
+import com.diich.core.model.SecUser;
 import com.diich.core.service.SysUserService;
 import com.diich.mapper.SecUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.diich.core.model.SecUser;
 
 import java.util.List;
 import java.util.Map;
-import com.diich.mapper.SecUserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import org.springframework.transaction.TransactionStatus;
 
 /**
  * Created by Administrator on 2017/4/24 0024.
@@ -32,14 +24,22 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
     @Autowired
     private SecUserMapper secUserMapper;
 
-    @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
-    public SecUser addUser(SecUser user) throws Exception {
-//        secUserMapper.insert(user);
-//        //调用生成静态页面的方法
-//        String title="freemarker测试";
-//        String templatename="user.ftl";
-//        String path = buildHTML(templatename, user, "1", title);
-        return null;
+    public Map<String, Object> addUser(SecUser user) throws Exception {
+       TransactionStatus transactionStatus = getTransactionStatus();
+
+       try {
+           Integer a = secUserMapper.insert(user);
+           //调用生成静态页面的方法
+           String title = "freemarker测试";
+           String templatename = "user.ftl";
+           String path = buildHTML(templatename, user, "1", title);
+           commit(transactionStatus);
+           return setResultMap(Constants.SUCCESS, path);
+       }catch(Exception e){
+           rollback(transactionStatus);
+           return setResultMap(Constants.INNER_ERROR, null);
+       }
+
     }
 
     public boolean updateUser(SecUser user) {

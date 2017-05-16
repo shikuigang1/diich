@@ -2,14 +2,13 @@ package com.diich.core.model;
 
 import com.diich.core.base.BaseModel;
 
-/**
- * Created by Administrator on 2016/7/14 0014.
- */
-public class Dictionary extends BaseModel{
-
+public class Dictionary extends BaseModel {
     private Long id;
+
     private String code;
+
     private String name;
+
     private Integer type;
 
     public Long getId() {
@@ -25,7 +24,7 @@ public class Dictionary extends BaseModel{
     }
 
     public void setCode(String code) {
-        this.code = code;
+        this.code = code == null ? null : code.trim();
     }
 
     public String getName() {
@@ -33,7 +32,7 @@ public class Dictionary extends BaseModel{
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
     public Integer getType() {

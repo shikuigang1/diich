@@ -2,13 +2,13 @@ package com.diich.core.model;
 
 import com.diich.core.base.BaseModel;
 
-/**
- * Created by Administrator on 2016/11/25.
- */
-public class Resource extends BaseModel{
+public class Resource extends BaseModel {
     private Long id;
+
     private Integer type;
+
     private String uri;
+
     private Integer status;
 
     public Long getId() {
@@ -32,7 +32,7 @@ public class Resource extends BaseModel{
     }
 
     public void setUri(String uri) {
-        this.uri = uri;
+        this.uri = uri == null ? null : uri.trim();
     }
 
     public Integer getStatus() {

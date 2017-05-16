@@ -48,7 +48,7 @@ public class SysUserController extends BaseController{
         user.setUser_id(4);
         user.setUser_name("zhang");
         user.setPassword("1234");
-        SecUser secUser = sysUserService.addUser(user);
+        Map<String, Object> userMap = sysUserService.addUser(user);
 //        String outPutPath = sysUserService.queryList();
         return "secUser";
     }

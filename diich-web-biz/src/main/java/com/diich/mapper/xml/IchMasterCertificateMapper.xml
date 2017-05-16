@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.diich.mapper.IchMasterCertificateMapper" >
+  <resultMap id="BaseResultMap" type="com.diich.core.model.IchMasterCertificate" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ich_master_id" property="ichMasterId" jdbcType="BIGINT" />
+    <result column="certificate_id" property="certificateId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ich_master_id, certificate_id, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ich_master_certificate
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ich_master_certificate
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.diich.core.model.IchMasterCertificate" >
+    insert into ich_master_certificate (id, ich_master_id, certificate_id, 
+      status)
+    values (#{id,jdbcType=BIGINT}, #{ich_master_id,jdbcType=BIGINT}, #{certificate_id,jdbcType=BIGINT}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.diich.core.model.IchMasterCertificate" >
+    insert into ich_master_certificate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ich_master_id != null" >
+        ich_master_id,
+      </if>
+      <if test="certificate_id != null" >
+        certificate_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ich_master_id != null" >
+        #{ich_master_id,jdbcType=BIGINT},
+      </if>
+      <if test="certificate_id != null" >
+        #{certificate_id,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.IchMasterCertificate" >
+    update ich_master_certificate
+    <set >
+      <if test="ich_master_id != null" >
+        ich_master_id = #{ich_master_id,jdbcType=BIGINT},
+      </if>
+      <if test="certificate_id != null" >
+        certificate_id = #{certificate_id,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.diich.core.model.IchMasterCertificate" >
+    update ich_master_certificate
+    set ich_master_id = #{ich_master_id,jdbcType=BIGINT},
+      certificate_id = #{certificate_id,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

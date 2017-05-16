@@ -2,18 +2,22 @@ package com.diich.core.model;
 
 import com.diich.core.base.BaseModel;
 
-/**
- * Created by Administrator on 2016/11/25.
- */
-public class ContentFragment extends BaseModel{
+public class ContentFragment extends BaseModel {
     private Long id;
+
+    private Long attributeId;
+
     private Long targetId;
+
     private Integer targetType;
-    private Long attributeOfCategoryid;
+
     private String title;
-    private Integer type;
-    private String content;
+
+    private Integer fieldType;
+
     private Integer status;
+
+    private String content;
 
     public Long getId() {
         return id;
@@ -21,6 +25,14 @@ public class ContentFragment extends BaseModel{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getAttributeId() {
+        return attributeId;
+    }
+
+    public void setAttributeId(Long attributeId) {
+        this.attributeId = attributeId;
     }
 
     public Long getTargetId() {
@@ -39,22 +51,21 @@ public class ContentFragment extends BaseModel{
         this.targetType = targetType;
     }
 
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = title == null ? null : title.trim();
     }
 
+    public Integer getFieldType() {
+        return fieldType;
+    }
+
+    public void setFieldType(Integer fieldType) {
+        this.fieldType = fieldType;
+    }
 
     public Integer getStatus() {
         return status;
@@ -69,14 +80,6 @@ public class ContentFragment extends BaseModel{
     }
 
     public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Long getAttributeOfCategoryid() {
-        return attributeOfCategoryid;
-    }
-
-    public void setAttributeOfCategoryid(Long attributeOfCategoryid) {
-        this.attributeOfCategoryid = attributeOfCategoryid;
+        this.content = content == null ? null : content.trim();
     }
 }

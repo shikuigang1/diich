@@ -4,15 +4,17 @@ import com.diich.core.base.BaseModel;
 
 import java.util.Date;
 
-/**
- * Created by Administrator on 2016/11/25.
- */
-public class EditRecord extends BaseModel{
+public class EditRecord extends BaseModel {
     private Long id;
+
     private Long editorId;
+
     private Long targetId;
+
     private Integer targetType;
+
     private Date editDate;
+
     private Integer status;
 
     public Long getId() {

@@ -4,17 +4,18 @@ import com.diich.core.base.BaseModel;
 
 import java.util.List;
 
-/**
- * Created by Administrator on 2016/11/25.
- */
-public class ICHCategory extends BaseModel{
+public class IchCategory extends BaseModel {
     private Long id;
+
     private Long parentId;
+
     private String name;
+
     private String gbCategory;
+
     private Integer status;
-    private List<AttributeOfCategory> attributeList;
-    private List<ICHCategory> ichCategoryList;//二级分类或基本分类
+
+    private List<Attribute> attributeList;
 
     public Long getId() {
         return id;
@@ -32,20 +33,20 @@ public class ICHCategory extends BaseModel{
         this.parentId = parentId;
     }
 
-    public String getGbCategory() {
-        return gbCategory;
-    }
-
-    public void setGbCategory(String gbCategory) {
-        this.gbCategory = gbCategory;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
+    }
+
+    public String getGbCategory() {
+        return gbCategory;
+    }
+
+    public void setGbCategory(String gbCategory) {
+        this.gbCategory = gbCategory == null ? null : gbCategory.trim();
     }
 
     public Integer getStatus() {
@@ -56,19 +57,11 @@ public class ICHCategory extends BaseModel{
         this.status = status;
     }
 
-    public List<AttributeOfCategory> getAttributeList() {
+    public List<Attribute> getAttributeList() {
         return attributeList;
     }
 
-    public void setAttributeList(List<AttributeOfCategory> attributeList) {
+    public void setAttributeList(List<Attribute> attributeList) {
         this.attributeList = attributeList;
-    }
-
-    public List<ICHCategory> getIchCategoryList() {
-        return ichCategoryList;
-    }
-
-    public void setIchCategoryList(List<ICHCategory> ichCategoryList) {
-        this.ichCategoryList = ichCategoryList;
     }
 }

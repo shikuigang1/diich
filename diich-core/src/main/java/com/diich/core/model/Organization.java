@@ -2,12 +2,11 @@ package com.diich.core.model;
 
 import com.diich.core.base.BaseModel;
 
-/**
- * Created by Administrator on 2016/11/25.
- */
-public class Organization extends BaseModel{
+public class Organization extends BaseModel {
     private Long id;
+
     private String name;
+
     private Integer status;
 
     public Long getId() {
@@ -23,7 +22,7 @@ public class Organization extends BaseModel{
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
     public Integer getStatus() {

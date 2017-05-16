@@ -2,7 +2,7 @@ package com.diich.web.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseController;
-import com.diich.core.model.ICHMaster;
+import com.diich.core.model.IchMaster;
 import com.diich.core.support.HttpCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("ichMaster")
-public class ICHMasterController extends BaseController<ICHMaster>{
+public class ICHMasterController extends BaseController<IchMaster>{
 
     @RequestMapping("getICHMaster")
     @ResponseBody

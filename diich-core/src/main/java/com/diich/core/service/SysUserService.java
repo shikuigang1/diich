@@ -1,11 +1,8 @@
 package com.diich.core.service;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.model.SecUser;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,7 +11,7 @@ import java.util.Map;
 public interface SysUserService {
 
     //新增注册用户
-    public SecUser addUser(SecUser user) throws Exception;
+    public Map<String, Object> addUser(SecUser user) throws Exception;
     //修改用户信息
     public boolean updateUser(SecUser user);
     //查询用户信息

@@ -2,13 +2,13 @@ package com.diich.core.model;
 
 import com.diich.core.base.BaseModel;
 
-/**
- * Created by Administrator on 2016/11/25.
- */
-public class ICHMasterCertificate extends BaseModel{
+public class IchMasterCertificate extends BaseModel {
     private Long id;
+
     private Long ichMasterId;
+
     private Long certificateId;
+
     private Integer status;
 
     public Long getId() {

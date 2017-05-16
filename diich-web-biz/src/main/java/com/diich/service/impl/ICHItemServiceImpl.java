@@ -5,24 +5,18 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
-import com.diich.core.model.ICHCategory;
-import com.diich.core.model.ICHItem;
+import com.diich.core.model.IchCategory;
+import com.diich.core.model.IchProject;
 import com.diich.core.model.User;
 import com.diich.core.service.ICHCategoryService;
 import com.diich.core.service.ICHItemService;
-import com.diich.mapper.ICHItemMapper;
+import com.diich.mapper.IchProjectMapper;
 import com.diich.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,10 +24,10 @@ import java.util.Map;
  * Created by Administrator on 2017/5/9.
  */
 @Service("ichItemService")
-public class ICHItemServiceImpl extends BaseService<ICHItem> implements ICHItemService{
+public class ICHItemServiceImpl extends BaseService<IchProject> implements ICHItemService{
 
     @Autowired
-    private ICHItemMapper ichItemMapper;
+    private IchProjectMapper ichProjectMapper;
     @Autowired
     private UserMapper userMapper;
 
@@ -49,25 +43,25 @@ public class ICHItemServiceImpl extends BaseService<ICHItem> implements ICHItemS
             return setResultMap(Constants.PARAM_ERROR, null);
         }
 
-        ICHItem ichItem = null;
+        IchProject ichProject = null;
 
         try {
-            ichItem = ichItemMapper.selectByPrimaryKey(Long.parseLong(id));
+            ichProject = ichProjectMapper.selectByPrimaryKey(Long.parseLong(id));
 
-            if(ichItem != null) {
-                Long ichCategoryId = ichItem.getIchCategoryId() == null ? ichItem.getIchCategoryId() : 0;
-                ICHCategory ichCategory = ichCategoryService.getICHCategory(ichItem.getIchCategoryId());
+            if(ichProject != null) {
+                Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
+                IchCategory ichCategory = ichCategoryService.getICHCategory(ichProject.getIchCategoryId());
                 if(ichCategory != null) {
-                    ichItem.setIchCategory(ichCategory);
+                    ichProject.setIchCategory(ichCategory);
                 }
 
-                User user = userMapper.selectByPrimaryKey(ichItem.getLastEditorId());
+                User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
             }
         } catch (Exception e) {
             return setResultMap(Constants.INNER_ERROR, null);
         }
 
-        return setResultMap(Constants.SUCCESS, ichItem);
+        return setResultMap(Constants.SUCCESS, ichProject);
     }
 
     @Override
@@ -87,11 +81,11 @@ public class ICHItemServiceImpl extends BaseService<ICHItem> implements ICHItemS
             pageSize = (Integer) params.get("pageSize");
         }
 
-        Page<ICHItem> page = new Page<ICHItem>(current, pageSize);
+        Page<IchProject> page = new Page<IchProject>(current, pageSize);
 
-        List<ICHItem> ichItemList = null;
+        List<IchProject> ichItemList = null;
         try {
-            ichItemList = ichItemMapper.selectICHItemList(page, params);
+            ichItemList = ichProjectMapper.selectICHItemList(page, params);
         } catch (Exception e) {
             return setResultMap(Constants.INNER_ERROR, null);
         }
@@ -107,22 +101,22 @@ public class ICHItemServiceImpl extends BaseService<ICHItem> implements ICHItemS
 
         User user = new User();
         user.setLoginName("user");
-        ICHItem ichItem = null;
+        IchProject ichProject = null;
 
         try {
-            ichItem = parseObject(text, ICHItem.class);
+            ichProject = parseObject(text, IchProject.class);
         } catch (Exception e) {
             return setResultMap(Constants.PARAM_ERROR, null);
         }
 
         try {
-            if(ichItem.getId() == null) {
-                ichItem.setId(IdWorker.getId());
-                ichItemMapper.insertSelective(ichItem);
+            if(ichProject.getId() == null) {
+                ichProject.setId(IdWorker.getId());
+                ichProjectMapper.insertSelective(ichProject);
 
                 userMapper.insertSelective(user);
             } else {
-                ichItemMapper.updateByPrimaryKeySelective(ichItem);
+                ichProjectMapper.updateByPrimaryKeySelective(ichProject);
             }
 
         } catch (Exception e) {
@@ -130,7 +124,7 @@ public class ICHItemServiceImpl extends BaseService<ICHItem> implements ICHItemS
             return setResultMap(Constants.INNER_ERROR, null);
         }
 
-        return setResultMap(Constants.SUCCESS, ichItem);
+        return setResultMap(Constants.SUCCESS, ichProject);
     }
 
 

@@ -2,13 +2,13 @@ package com.diich.core.model;
 
 import com.diich.core.base.BaseModel;
 
-/**
- * Created by Administrator on 2016/11/25.
- */
-public class EditDetail extends BaseModel{
+public class EditDetail extends BaseModel {
     private Long id;
+
     private Long editRecordId;
+
     private String fieldName;
+
     private String content;
 
     public Long getId() {
@@ -32,7 +32,7 @@ public class EditDetail extends BaseModel{
     }
 
     public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
+        this.fieldName = fieldName == null ? null : fieldName.trim();
     }
 
     public String getContent() {
@@ -40,6 +40,6 @@ public class EditDetail extends BaseModel{
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.content = content == null ? null : content.trim();
     }
 }

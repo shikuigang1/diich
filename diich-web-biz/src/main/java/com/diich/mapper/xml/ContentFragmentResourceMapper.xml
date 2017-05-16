@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.diich.mapper.ContentFragmentResourceMapper" >
+  <resultMap id="BaseResultMap" type="com.diich.core.model.ContentFragmentResource" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="content_fragment_id" property="contentFragmentId" jdbcType="BIGINT" />
+    <result column="resource_id" property="resourceId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, content_fragment_id, resource_id, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from content_fragment_resource
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from content_fragment_resource
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.diich.core.model.ContentFragmentResource" >
+    insert into content_fragment_resource (id, content_fragment_id, resource_id, 
+      status)
+    values (#{id,jdbcType=BIGINT}, #{content_fragment_id,jdbcType=BIGINT}, #{resource_id,jdbcType=BIGINT}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.diich.core.model.ContentFragmentResource" >
+    insert into content_fragment_resource
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="content_fragment_id != null" >
+        content_fragment_id,
+      </if>
+      <if test="resource_id != null" >
+        resource_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="content_fragment_id != null" >
+        #{content_fragment_id,jdbcType=BIGINT},
+      </if>
+      <if test="resource_id != null" >
+        #{resource_id,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.ContentFragmentResource" >
+    update content_fragment_resource
+    <set >
+      <if test="content_fragment_id != null" >
+        content_fragment_id = #{content_fragment_id,jdbcType=BIGINT},
+      </if>
+      <if test="resource_id != null" >
+        resource_id = #{resource_id,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.diich.core.model.ContentFragmentResource" >
+    update content_fragment_resource
+    set content_fragment_id = #{content_fragment_id,jdbcType=BIGINT},
+      resource_id = #{resource_id,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

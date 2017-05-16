@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.diich.mapper.IchProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.diich.core.model.IchProject">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="ich_category_id" jdbcType="BIGINT" property="ichCategoryId" />
+    <result column="last_editor_id" jdbcType="BIGINT" property="lastEditorId" />
+    <result column="last_edit_date" jdbcType="TIMESTAMP" property="lastEditDate" />
+    <result column="edit_rank" jdbcType="INTEGER" property="editRank" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ich_category_id, last_editor_id, last_edit_date, edit_rank, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ich_project
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ich_project
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.diich.core.model.IchProject" >
+    insert into ich_project (id, ich_category_id, last_editor_id, 
+      last_edit_date, edit_rank, status
+      )
+    values (#{id,jdbcType=BIGINT}, #{ich_category_id,jdbcType=BIGINT}, #{last_editor_id,jdbcType=BIGINT}, 
+      #{last_edit_date,jdbcType=TIMESTAMP}, #{edit_rank,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.diich.core.model.IchProject" >
+    insert into ich_project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ich_category_id != null" >
+        ich_category_id,
+      </if>
+      <if test="last_editor_id != null" >
+        last_editor_id,
+      </if>
+      <if test="last_edit_date != null" >
+        last_edit_date,
+      </if>
+      <if test="edit_rank != null" >
+        edit_rank,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ich_category_id != null" >
+        #{ich_category_id,jdbcType=BIGINT},
+      </if>
+      <if test="last_editor_id != null" >
+        #{last_editor_id,jdbcType=BIGINT},
+      </if>
+      <if test="last_edit_date != null" >
+        #{last_edit_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="edit_rank != null" >
+        #{edit_rank,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.IchProject" >
+    update ich_project
+    <set >
+      <if test="ich_category_id != null" >
+        ich_category_id = #{ich_category_id,jdbcType=BIGINT},
+      </if>
+      <if test="last_editor_id != null" >
+        last_editor_id = #{last_editor_id,jdbcType=BIGINT},
+      </if>
+      <if test="last_edit_date != null" >
+        last_edit_date = #{last_edit_date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="edit_rank != null" >
+        edit_rank = #{edit_rank,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.diich.core.model.IchProject" >
+    update ich_project
+    set ich_category_id = #{ich_category_id,jdbcType=BIGINT},
+      last_editor_id = #{last_editor_id,jdbcType=BIGINT},
+      last_edit_date = #{last_edit_date,jdbcType=TIMESTAMP},
+      edit_rank = #{edit_rank,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

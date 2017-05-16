@@ -4,20 +4,33 @@ import com.diich.core.base.BaseModel;
 
 import java.util.Date;
 
-public class User extends BaseModel{
-
+public class User extends BaseModel {
     private Long id;
+
+    private Long organizationId;
+
     private String loginName;
+
     private String password;
+
     private Integer rank;
+
     private Integer credit;
+
     private String name;
+
     private Integer gender;
+
     private Integer type;
+
     private String mail;
+
     private Integer phone;
+
     private String lastLoginIp;
+
     private Date lastLoginDate;
+
     private Integer status;
 
     public Long getId() {
@@ -28,12 +41,20 @@ public class User extends BaseModel{
         this.id = id;
     }
 
+    public Long getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(Long organizationId) {
+        this.organizationId = organizationId;
+    }
+
     public String getLoginName() {
         return loginName;
     }
 
     public void setLoginName(String loginName) {
-        this.loginName = loginName;
+        this.loginName = loginName == null ? null : loginName.trim();
     }
 
     public String getPassword() {
@@ -41,7 +62,7 @@ public class User extends BaseModel{
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password == null ? null : password.trim();
     }
 
     public Integer getRank() {
@@ -65,7 +86,7 @@ public class User extends BaseModel{
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
     public Integer getGender() {
@@ -89,7 +110,7 @@ public class User extends BaseModel{
     }
 
     public void setMail(String mail) {
-        this.mail = mail;
+        this.mail = mail == null ? null : mail.trim();
     }
 
     public Integer getPhone() {
@@ -105,7 +126,7 @@ public class User extends BaseModel{
     }
 
     public void setLastLoginIp(String lastLoginIp) {
-        this.lastLoginIp = lastLoginIp;
+        this.lastLoginIp = lastLoginIp == null ? null : lastLoginIp.trim();
     }
 
     public Date getLastLoginDate() {

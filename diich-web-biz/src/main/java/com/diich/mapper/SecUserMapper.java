@@ -1,10 +1,9 @@
 package com.diich.mapper;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import  com.diich.core.model.SecUser;
 import com.diich.core.base.BaseMapper;
+import com.diich.core.model.SecUser;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
