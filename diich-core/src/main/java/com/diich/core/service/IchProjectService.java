@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2017/5/10.
  */
-public interface IchItemService {
+public interface IchProjectService {
 
     Map<String, Object> getIchProject(String id);
 

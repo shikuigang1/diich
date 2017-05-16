@@ -9,7 +9,7 @@ import com.diich.core.model.IchCategory;
 import com.diich.core.model.IchProject;
 import com.diich.core.model.User;
 import com.diich.core.service.IchCategoryService;
-import com.diich.core.service.IchItemService;
+import com.diich.core.service.IchProjectService;
 import com.diich.mapper.IchProjectMapper;
 import com.diich.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.Map;
  * Created by Administrator on 2017/5/9.
  */
 @Service("ichItemService")
-public class IchProjectServiceImpl extends BaseService<IchProject> implements IchItemService {
+public class IchProjectServiceImpl extends BaseService<IchProject> implements IchProjectService {
 
     @Autowired
     private IchProjectMapper ichProjectMapper;

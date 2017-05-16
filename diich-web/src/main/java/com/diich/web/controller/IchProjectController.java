@@ -2,7 +2,7 @@ package com.diich.web.controller;
 
 import com.diich.core.base.BaseController;
 import com.diich.core.model.IchProject;
-import com.diich.core.service.IchItemService;
+import com.diich.core.service.IchProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,14 +19,14 @@ import java.util.Map;
 public class IchProjectController extends BaseController<IchProject> {
 
     @Autowired
-    private IchItemService ichItemService;
+    private IchProjectService ichProjectService;
 
     @RequestMapping("getIchProject")
     @ResponseBody
     public Map<String, Object> getIchProject(HttpServletRequest request) {
         String ichItemId = request.getParameter("params");
 
-        Map<String, Object> result = ichItemService.getICHItem(ichItemId);
+        Map<String, Object> result = ichProjectService.getIchProject(ichItemId);
 
         return result;
     }
@@ -36,7 +36,7 @@ public class IchProjectController extends BaseController<IchProject> {
     public Map<String, Object> getIchProjectList(HttpServletRequest request) {
         String params = request.getParameter("params");
 
-        Map<String, Object> result = ichItemService.getICHItemList(params);
+        Map<String, Object> result = ichProjectService.getIchProjectList(params);
 
         return result;
     }
@@ -46,7 +46,7 @@ public class IchProjectController extends BaseController<IchProject> {
     public Map<String, Object> saveIchProject(HttpServletRequest request) {
         String ichItem = request.getParameter("params");
 
-        Map<String, Object> result = ichItemService.saveICHItem(ichItem);
+        Map<String, Object> result = ichProjectService.saveIchProject(ichItem);
 
         return result;
     }

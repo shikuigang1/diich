@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseController;
 import com.diich.core.model.SecUser;
 import com.diich.core.model.User;
-import com.diich.core.service.IchItemService;
+import com.diich.core.service.IchProjectService;
 import com.diich.core.service.SysUserService;
 import com.diich.core.support.HttpCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class TestController extends BaseController{
     private SysUserService sysUserService;
 
     @Autowired
-    private IchItemService ichItemService;
+    private IchProjectService ichProjectService;
 
     @RequestMapping("test1")
     @ResponseBody
@@ -55,7 +55,7 @@ public class TestController extends BaseController{
     public Map<String, Object> test2(HttpServletRequest request) {
         String params = "{doi:'jolsuejk',series:'fwfdsdge',cnName:'粉墙',status:1}";
 
-        Map<String, Object> result = ichItemService.saveICHItem(params);
+        Map<String, Object> result = ichProjectService.saveIchProject(params);
 
         return result;
     }
