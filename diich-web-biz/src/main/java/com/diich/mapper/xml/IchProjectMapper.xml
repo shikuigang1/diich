@@ -31,7 +31,7 @@
     #{lastEditDate,jdbcType=TIMESTAMP}, #{editRank,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
     #{uri,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.diich.core.model.IchProject" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.diich.core.model.IchProject">
     insert into ich_project
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -114,4 +114,10 @@
       uri = #{uri,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectIchProjectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+    SELECT <include refid="Base_Column_List" /> FROM ich_project WHERE 1=1
+
+  </select>
 </mapper>
