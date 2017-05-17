@@ -114,4 +114,7 @@
       uri = #{uri,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectIchMasterList" resultMap="BaseResultMap">
+  select * from ich_master
+  </select>
 </mapper>
