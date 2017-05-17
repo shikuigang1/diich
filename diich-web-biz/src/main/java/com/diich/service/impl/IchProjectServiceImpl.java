@@ -8,6 +8,7 @@ import com.diich.core.base.BaseService;
 import com.diich.core.model.*;
 import com.diich.core.service.IchCategoryService;
 import com.diich.core.service.IchProjectService;
+import com.diich.mapper.AttributeMapper;
 import com.diich.mapper.ContentFragmentMapper;
 import com.diich.mapper.IchProjectMapper;
 import com.diich.mapper.UserMapper;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +32,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Autowired
     private UserMapper userMapper;
 
-
+    @Autowired
+    private AttributeMapper attributeMapper;
     @Autowired
     private ContentFragmentMapper contentFragmentMapper;
 
@@ -46,10 +49,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             return setResultMap(Constants.PARAM_ERROR, null);
         }
 
+
         IchProject ichProject = null;
 
         try {
             ichProject = ichProjectMapper.selectByPrimaryKey(Long.parseLong(id));
+
 
             if(ichProject != null) {
                 Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
@@ -57,9 +62,21 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 if(ichCategory != null) {
                     ichProject.setIchCategory(ichCategory);
                 }
-
-                User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
+                 // User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
             }
+
+            //获取项目的field
+            ContentFragment c = new ContentFragment();
+            c.setTargetId(Long.parseLong(id));
+            c.setTargetType(0);//标示项目
+            List<ContentFragment> ls =  contentFragmentMapper.selectByTargetIdAndType(c);
+            //List<ContentFragment> ls_ = new ArrayList<ContentFragment>();
+            for(int i=0;i<ls.size();i++){
+                ls.get(i).setAttribute(attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId()));
+            }
+            ichProject.setContentFragmentList(ls);
+
+
         } catch (Exception e) {
             return setResultMap(Constants.INNER_ERROR, null);
         }
@@ -88,10 +105,39 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
         List<IchProject> ichItemList = null;
         try {
-            ichItemList = ichProjectMapper.selectICHItemList(page, params);
+            ichItemList = ichProjectMapper.selectIchProjectList(page, params);
+            System.out.println("size:"+ichItemList.size());
+            for (IchProject ichProject:ichItemList) {
+
+                if(ichProject != null) {
+                    Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
+
+                    IchCategory ichCategory = ichCategoryService.getIchCategory(ichProject.getIchCategoryId());
+
+                    if(ichCategory != null) {
+                        ichProject.setIchCategory(ichCategory);
+                    }
+                    // User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
+                }
+
+                //获取项目的field
+                ContentFragment c = new ContentFragment();
+                c.setTargetId(ichProject.getId());
+                c.setTargetType(0);//标示项目
+                List<ContentFragment> ls =  contentFragmentMapper.selectByTargetIdAndType(c);
+                //List<ContentFragment> ls_ = new ArrayList<ContentFragment>();
+                for(int i=0;i<ls.size();i++){
+                    ls.get(i).setAttribute(attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId()));
+                }
+                ichProject.setContentFragmentList(ls);
+
+            }
+
         } catch (Exception e) {
             return setResultMap(Constants.INNER_ERROR, null);
         }
+
+
         page.setRecords(ichItemList);
 
         return setResultMap(Constants.SUCCESS, page);
@@ -114,36 +160,29 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
         try {
             if(ichProject.getId() == null) {
-                ichProject.setId(IdWorker.getId());
-                long proID = ichProjectMapper.insertSelective(ichProject);
 
-                List<Attribute> ls = ichProject.getAttributeList();
+                long proID = IdWorker.getId();
 
-                for(int i=0;i<ls.size();i++){
-                    Attribute a = ls.get(i);
-                    ContentFragment c = new ContentFragment();
-                    c.setStatus(a.getStatus());
+                ichProject.setId(proID);
+                ichProjectMapper.insertSelective(ichProject);
+                System.out.println(proID);
+                 List<ContentFragment> ls = ichProject.getContentFragmentList();
+
+             for(int i=0;i<ls.size();i++){
+                 ContentFragment c = ls.get(i);
+
+                    c.setId(IdWorker.getId());
+
                     c.setTargetId(proID);
-                    c.setAttributeId(a.getId());
-                    c.setTargetType(a.getTargetType());
-                    if(a.getTargetType()==0){ //短文本
-                        c.setTitle(a.getValue());
-                    }
-
-                    if(a.getTargetType()==1){//长文本
-                        c.setContent(a.getValue());
-                    }
 
                     contentFragmentMapper.insertSelective(c);
                 }
-
-
 
                 //userMapper.insertSelective(user);
             } else {
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
             }
-
+            commit(transactionStatus);
         } catch (Exception e) {
             rollback(transactionStatus);
             return setResultMap(Constants.INNER_ERROR, null);
