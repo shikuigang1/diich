@@ -35,8 +35,8 @@
     insert into content_fragment (id, attribute_id, target_id, 
       target_type, title, field_type, 
       status, content)
-    values (#{id,jdbcType=BIGINT}, #{attribute_id,jdbcType=BIGINT}, #{target_id,jdbcType=BIGINT}, 
-      #{target_type,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{field_type,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=BIGINT}, #{attributeId,jdbcType=BIGINT}, #{targetId,jdbcType=BIGINT},
+      #{targetType,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{fieldType,jdbcType=INTEGER},
       #{status,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.ContentFragment" >
