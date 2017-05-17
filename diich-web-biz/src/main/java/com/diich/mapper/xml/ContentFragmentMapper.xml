@@ -142,5 +142,7 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
+  <select id="selectByTargetIdAndType" parameterType="com.diich.core.model.ContentFragment" resultMap="BaseResultMap">
+    select * from content_fragment where target_id = #{targetId} and target_type =#{targetType}
+  </select>
 </mapper>
