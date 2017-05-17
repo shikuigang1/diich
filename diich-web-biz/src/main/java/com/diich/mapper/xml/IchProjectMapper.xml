@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.diich.mapper.IchProjectMapper" >
-  <resultMap id="BaseResultMap" type="com.diich.core.model.IchProject">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="ich_category_id" jdbcType="BIGINT" property="ichCategoryId" />
-    <result column="last_editor_id" jdbcType="BIGINT" property="lastEditorId" />
-    <result column="last_edit_date" jdbcType="TIMESTAMP" property="lastEditDate" />
-    <result column="edit_rank" jdbcType="INTEGER" property="editRank" />
-    <result column="status" jdbcType="INTEGER" property="status" />
+  <resultMap id="BaseResultMap" type="com.diich.core.model.IchProject" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ich_category_id" property="ichCategoryId" jdbcType="BIGINT" />
+    <result column="last_editor_id" property="lastEditorId" jdbcType="BIGINT" />
+    <result column="last_edit_date" property="lastEditDate" jdbcType="TIMESTAMP" />
+    <result column="edit_rank" property="editRank" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="uri" property="uri" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, ich_category_id, last_editor_id, last_edit_date, edit_rank, status
+    id, ich_category_id, last_editor_id, last_edit_date, edit_rank, status, uri
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from ich_project
     where id = #{id,jdbcType=BIGINT}
@@ -23,12 +24,12 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.IchProject" >
-    insert into ich_project (id, ich_category_id, last_editor_id, 
-      last_edit_date, edit_rank, status
-      )
-    values (#{id,jdbcType=BIGINT}, #{ich_category_id,jdbcType=BIGINT}, #{last_editor_id,jdbcType=BIGINT}, 
-      #{last_edit_date,jdbcType=TIMESTAMP}, #{edit_rank,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}
-      )
+    insert into ich_project (id, ich_category_id, last_editor_id,
+    last_edit_date, edit_rank, status,
+    uri)
+    values (#{id,jdbcType=BIGINT}, #{ichCategoryId,jdbcType=BIGINT}, #{lastEditorId,jdbcType=BIGINT},
+    #{lastEditDate,jdbcType=TIMESTAMP}, #{editRank,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+    #{uri,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.IchProject" >
     insert into ich_project
@@ -36,71 +37,81 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="ich_category_id != null" >
+      <if test="ichCategoryId != null" >
         ich_category_id,
       </if>
-      <if test="last_editor_id != null" >
+      <if test="lastEditorId != null" >
         last_editor_id,
       </if>
-      <if test="last_edit_date != null" >
+      <if test="lastEditDate != null" >
         last_edit_date,
       </if>
-      <if test="edit_rank != null" >
+      <if test="editRank != null" >
         edit_rank,
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="uri != null" >
+        uri,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="ich_category_id != null" >
-        #{ich_category_id,jdbcType=BIGINT},
+      <if test="ichCategoryId != null" >
+        #{ichCategoryId,jdbcType=BIGINT},
       </if>
-      <if test="last_editor_id != null" >
-        #{last_editor_id,jdbcType=BIGINT},
+      <if test="lastEditorId != null" >
+        #{lastEditorId,jdbcType=BIGINT},
       </if>
-      <if test="last_edit_date != null" >
-        #{last_edit_date,jdbcType=TIMESTAMP},
+      <if test="lastEditDate != null" >
+        #{lastEditDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="edit_rank != null" >
-        #{edit_rank,jdbcType=INTEGER},
+      <if test="editRank != null" >
+        #{editRank,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="uri != null" >
+        #{uri,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.IchProject" >
     update ich_project
     <set >
-      <if test="ich_category_id != null" >
-        ich_category_id = #{ich_category_id,jdbcType=BIGINT},
+      <if test="ichCategoryId != null" >
+        ich_category_id = #{ichCategoryId,jdbcType=BIGINT},
       </if>
-      <if test="last_editor_id != null" >
-        last_editor_id = #{last_editor_id,jdbcType=BIGINT},
+      <if test="lastEditorId != null" >
+        last_editor_id = #{lastEditorId,jdbcType=BIGINT},
       </if>
-      <if test="last_edit_date != null" >
-        last_edit_date = #{last_edit_date,jdbcType=TIMESTAMP},
+      <if test="lastEditDate != null" >
+        last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="edit_rank != null" >
-        edit_rank = #{edit_rank,jdbcType=INTEGER},
+      <if test="editRank != null" >
+        edit_rank = #{editRank,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="uri != null" >
+        uri = #{uri,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.IchProject" >
     update ich_project
-    set ich_category_id = #{ich_category_id,jdbcType=BIGINT},
-      last_editor_id = #{last_editor_id,jdbcType=BIGINT},
-      last_edit_date = #{last_edit_date,jdbcType=TIMESTAMP},
-      edit_rank = #{edit_rank,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER}
+    set ich_category_id = #{ichCategoryId,jdbcType=BIGINT},
+      last_editor_id = #{lastEditorId,jdbcType=BIGINT},
+      last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
+      edit_rank = #{editRank,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      uri = #{uri,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -17,6 +17,8 @@ public class IchProject extends BaseModel {
 
     private Integer status;
 
+    private String uri;//项目静态页面的存储路径
+
     private  IchCategory ichCategory;//项目分类
 
     private User user;//最后编辑者
@@ -83,5 +85,13 @@ public class IchProject extends BaseModel {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }

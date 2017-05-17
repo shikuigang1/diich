@@ -17,6 +17,8 @@ public class IchMaster extends BaseModel {
 
     private Integer status;
 
+    private String uri;//静态页面的存储路径
+
     public Long getId() {
         return id;
     }
@@ -63,5 +65,13 @@ public class IchMaster extends BaseModel {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }

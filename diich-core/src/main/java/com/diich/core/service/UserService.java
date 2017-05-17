@@ -6,8 +6,9 @@ import java.util.Map;
  * Created by Administrator on 2017/5/11.
  */
 public interface UserService {
-    //注册
-    Map<String, Object>  register(String phone, String code);
+
+    //获取验证码
+    Map<String, Object> getVerifyCode(String phone);
 
     //登陆
     Map<String, Object> login(String loginName, String password);

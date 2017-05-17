@@ -19,6 +19,8 @@ public class Works extends BaseModel {
 
     private Integer status;
 
+    private String uri;//作品静态页面的路径
+
     public Long getId() {
         return id;
     }
@@ -73,5 +75,13 @@ public class Works extends BaseModel {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }
