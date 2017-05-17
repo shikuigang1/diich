@@ -3,6 +3,7 @@ package com.diich.core.model;
 import com.diich.core.base.BaseModel;
 
 import java.util.Date;
+import java.util.List;
 
 public class IchProject extends BaseModel {
     private Long id;
@@ -22,6 +23,16 @@ public class IchProject extends BaseModel {
     private  IchCategory ichCategory;//项目分类
 
     private User user;//最后编辑者
+
+    public List<Attribute> getLs() {
+        return ls;
+    }
+
+    public void setLs(List<Attribute> ls) {
+        this.ls = ls;
+    }
+
+    private List<Attribute> ls ;
 
     public Long getId() {
         return id;
