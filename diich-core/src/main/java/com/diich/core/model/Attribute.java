@@ -19,6 +19,16 @@ public class Attribute extends BaseModel {
 
     private Integer dataType;
 
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    private String value; //值字段
+
     public Long getId() {
         return id;
     }
