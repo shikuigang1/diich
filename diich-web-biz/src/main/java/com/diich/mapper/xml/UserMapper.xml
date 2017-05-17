@@ -22,7 +22,7 @@
     phone, last_login_ip, last_login_date, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from user
     where id = #{id,jdbcType=BIGINT}
@@ -37,11 +37,11 @@
       name, gender, type, 
       mail, phone, last_login_ip, 
       last_login_date, status)
-    values (#{id,jdbcType=BIGINT}, #{organization_id,jdbcType=BIGINT}, #{login_name,jdbcType=VARCHAR}, 
-      #{password,jdbcType=CHAR}, #{rank,jdbcType=INTEGER}, #{credit,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
-      #{mail,jdbcType=VARCHAR}, #{phone,jdbcType=INTEGER}, #{last_login_ip,jdbcType=VARCHAR}, 
-      #{last_login_date,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+    values (#{id,jdbcType=BIGINT}, #{organizationId,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR},
+      #{password,jdbcType=CHAR}, #{rank,jdbcType=INTEGER}, #{credit,jdbcType=INTEGER},
+      #{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},
+      #{mail,jdbcType=VARCHAR}, #{phone,jdbcType=INTEGER}, #{lastLoginIp,jdbcType=VARCHAR},
+      #{lastLoginDate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.User" >
     insert into user
@@ -49,10 +49,10 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="organization_id != null" >
+      <if test="organizationId != null" >
         organization_id,
       </if>
-      <if test="login_name != null" >
+      <if test="loginName != null" >
         login_name,
       </if>
       <if test="password != null" >
@@ -79,10 +79,10 @@
       <if test="phone != null" >
         phone,
       </if>
-      <if test="last_login_ip != null" >
+      <if test="lastLoginIp != null" >
         last_login_ip,
       </if>
-      <if test="last_login_date != null" >
+      <if test="lastLoginDate != null" >
         last_login_date,
       </if>
       <if test="status != null" >
@@ -93,11 +93,11 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="organization_id != null" >
-        #{organization_id,jdbcType=BIGINT},
+      <if test="organizationId != null" >
+        #{organizationId,jdbcType=BIGINT},
       </if>
-      <if test="login_name != null" >
-        #{login_name,jdbcType=VARCHAR},
+      <if test="loginName != null" >
+        #{loginName,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         #{password,jdbcType=CHAR},
@@ -123,11 +123,11 @@
       <if test="phone != null" >
         #{phone,jdbcType=INTEGER},
       </if>
-      <if test="last_login_ip != null" >
-        #{last_login_ip,jdbcType=VARCHAR},
+      <if test="lastLoginIp != null" >
+        #{lastLoginIp,jdbcType=VARCHAR},
       </if>
-      <if test="last_login_date != null" >
-        #{last_login_date,jdbcType=TIMESTAMP},
+      <if test="lastLoginDate != null" >
+        #{lastLoginDate,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -137,11 +137,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.User" >
     update user
     <set >
-      <if test="organization_id != null" >
-        organization_id = #{organization_id,jdbcType=BIGINT},
+      <if test="organizationId != null" >
+        organization_id = #{organizationId,jdbcType=BIGINT},
       </if>
-      <if test="login_name != null" >
-        login_name = #{login_name,jdbcType=VARCHAR},
+      <if test="loginName != null" >
+        login_name = #{loginName,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         password = #{password,jdbcType=CHAR},
@@ -167,11 +167,11 @@
       <if test="phone != null" >
         phone = #{phone,jdbcType=INTEGER},
       </if>
-      <if test="last_login_ip != null" >
-        last_login_ip = #{last_login_ip,jdbcType=VARCHAR},
+      <if test="lastLoginIp != null" >
+        last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
       </if>
-      <if test="last_login_date != null" >
-        last_login_date = #{last_login_date,jdbcType=TIMESTAMP},
+      <if test="lastLoginDate != null" >
+        last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -181,8 +181,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.User" >
     update user
-    set organization_id = #{organization_id,jdbcType=BIGINT},
-      login_name = #{login_name,jdbcType=VARCHAR},
+    set organization_id = #{organizationId,jdbcType=BIGINT},
+      login_name = #{loginName,jdbcType=VARCHAR},
       password = #{password,jdbcType=CHAR},
       rank = #{rank,jdbcType=INTEGER},
       credit = #{credit,jdbcType=INTEGER},
@@ -191,8 +191,8 @@
       type = #{type,jdbcType=INTEGER},
       mail = #{mail,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=INTEGER},
-      last_login_ip = #{last_login_ip,jdbcType=VARCHAR},
-      last_login_date = #{last_login_date,jdbcType=TIMESTAMP},
+      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>

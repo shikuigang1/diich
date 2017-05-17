@@ -13,7 +13,7 @@
     id, organization_id, resource_id, name, rank, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from certificate
     where id = #{id,jdbcType=BIGINT}
@@ -23,10 +23,10 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.Certificate" >
-    insert into certificate (id, organization_id, resource_id, 
-      name, rank, status)
-    values (#{id,jdbcType=BIGINT}, #{organization_id,jdbcType=BIGINT}, #{resource_id,jdbcType=BIGINT}, 
-      #{name,jdbcType=VARCHAR}, #{rank,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+    insert into certificate (id, organization_id, resource_id,
+    name, rank, status)
+    values (#{id,jdbcType=BIGINT}, #{organizationId,jdbcType=BIGINT}, #{resourceId,jdbcType=BIGINT},
+    #{name,jdbcType=VARCHAR}, #{rank,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.Certificate" >
     insert into certificate
@@ -34,10 +34,10 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="organization_id != null" >
+      <if test="organizationId != null" >
         organization_id,
       </if>
-      <if test="resource_id != null" >
+      <if test="resourceId != null" >
         resource_id,
       </if>
       <if test="name != null" >
@@ -54,11 +54,11 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="organization_id != null" >
-        #{organization_id,jdbcType=BIGINT},
+      <if test="organizationId != null" >
+        #{organizationId,jdbcType=BIGINT},
       </if>
-      <if test="resource_id != null" >
-        #{resource_id,jdbcType=BIGINT},
+      <if test="resourceId != null" >
+        #{resourceId,jdbcType=BIGINT},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -74,11 +74,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.Certificate" >
     update certificate
     <set >
-      <if test="organization_id != null" >
-        organization_id = #{organization_id,jdbcType=BIGINT},
+      <if test="organizationId != null" >
+        organization_id = #{organizationId,jdbcType=BIGINT},
       </if>
-      <if test="resource_id != null" >
-        resource_id = #{resource_id,jdbcType=BIGINT},
+      <if test="resourceId != null" >
+        resource_id = #{resourceId,jdbcType=BIGINT},
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -94,8 +94,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.Certificate" >
     update certificate
-    set organization_id = #{organization_id,jdbcType=BIGINT},
-      resource_id = #{resource_id,jdbcType=BIGINT},
+    set organization_id = #{organizationId,jdbcType=BIGINT},
+      resource_id = #{resourceId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
       rank = #{rank,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER}

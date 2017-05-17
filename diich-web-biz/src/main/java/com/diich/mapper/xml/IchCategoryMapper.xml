@@ -12,7 +12,7 @@
     id, parent_id, name, gb_category, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from ich_category
     where id = #{id,jdbcType=BIGINT}
@@ -22,10 +22,10 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.IchCategory" >
-    insert into ich_category (id, parent_id, name, 
-      gb_category, status)
-    values (#{id,jdbcType=BIGINT}, #{parent_id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
-      #{gb_category,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+    insert into ich_category (id, parent_id, name,
+    gb_category, status)
+    values (#{id,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+    #{gbCategory,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.IchCategory" >
     insert into ich_category
@@ -33,13 +33,13 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="parent_id != null" >
+      <if test="parentId != null" >
         parent_id,
       </if>
       <if test="name != null" >
         name,
       </if>
-      <if test="gb_category != null" >
+      <if test="gbCategory != null" >
         gb_category,
       </if>
       <if test="status != null" >
@@ -50,14 +50,14 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="parent_id != null" >
-        #{parent_id,jdbcType=BIGINT},
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="gb_category != null" >
-        #{gb_category,jdbcType=VARCHAR},
+      <if test="gbCategory != null" >
+        #{gbCategory,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -67,14 +67,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.IchCategory" >
     update ich_category
     <set >
-      <if test="parent_id != null" >
-        parent_id = #{parent_id,jdbcType=BIGINT},
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="gb_category != null" >
-        gb_category = #{gb_category,jdbcType=VARCHAR},
+      <if test="gbCategory != null" >
+        gb_category = #{gbCategory,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -84,9 +84,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.IchCategory" >
     update ich_category
-    set parent_id = #{parent_id,jdbcType=BIGINT},
+    set parent_id = #{parentId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
-      gb_category = #{gb_category,jdbcType=VARCHAR},
+      gb_category = #{gbCategory,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>

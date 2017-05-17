@@ -15,4 +15,5 @@ public interface IchMasterMapper extends BaseMapper<IchMaster> {
     int updateByPrimaryKeySelective(IchMaster record);
 
     int updateByPrimaryKey(IchMaster record);
+
 }

@@ -19,6 +19,8 @@ public class ContentFragment extends BaseModel {
 
     private String content;
 
+    private Attribute attribute;//属性名称
+
     public Long getId() {
         return id;
     }
@@ -81,5 +83,13 @@ public class ContentFragment extends BaseModel {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public Attribute getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(Attribute attribute) {
+        this.attribute = attribute;
     }
 }

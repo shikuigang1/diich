@@ -11,7 +11,7 @@
     id, ich_master_id, certificate_id, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from ich_master_certificate
     where id = #{id,jdbcType=BIGINT}
@@ -21,10 +21,10 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.IchMasterCertificate" >
-    insert into ich_master_certificate (id, ich_master_id, certificate_id, 
-      status)
-    values (#{id,jdbcType=BIGINT}, #{ich_master_id,jdbcType=BIGINT}, #{certificate_id,jdbcType=BIGINT}, 
-      #{status,jdbcType=INTEGER})
+    insert into ich_master_certificate (id, ich_master_id, certificate_id,
+    status)
+    values (#{id,jdbcType=BIGINT}, #{ichMasterId,jdbcType=BIGINT}, #{certificateId,jdbcType=BIGINT},
+    #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.IchMasterCertificate" >
     insert into ich_master_certificate
@@ -32,10 +32,10 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="ich_master_id != null" >
+      <if test="ichMasterId != null" >
         ich_master_id,
       </if>
-      <if test="certificate_id != null" >
+      <if test="certificateId != null" >
         certificate_id,
       </if>
       <if test="status != null" >
@@ -46,11 +46,11 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="ich_master_id != null" >
-        #{ich_master_id,jdbcType=BIGINT},
+      <if test="ichMasterId != null" >
+        #{ichMasterId,jdbcType=BIGINT},
       </if>
-      <if test="certificate_id != null" >
-        #{certificate_id,jdbcType=BIGINT},
+      <if test="certificateId != null" >
+        #{certificateId,jdbcType=BIGINT},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -60,11 +60,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.IchMasterCertificate" >
     update ich_master_certificate
     <set >
-      <if test="ich_master_id != null" >
-        ich_master_id = #{ich_master_id,jdbcType=BIGINT},
+      <if test="ichMasterId != null" >
+        ich_master_id = #{ichMasterId,jdbcType=BIGINT},
       </if>
-      <if test="certificate_id != null" >
-        certificate_id = #{certificate_id,jdbcType=BIGINT},
+      <if test="certificateId != null" >
+        certificate_id = #{certificateId,jdbcType=BIGINT},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -74,8 +74,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.IchMasterCertificate" >
     update ich_master_certificate
-    set ich_master_id = #{ich_master_id,jdbcType=BIGINT},
-      certificate_id = #{certificate_id,jdbcType=BIGINT},
+    set ich_master_id = #{ichMasterId,jdbcType=BIGINT},
+      certificate_id = #{certificateId,jdbcType=BIGINT},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
