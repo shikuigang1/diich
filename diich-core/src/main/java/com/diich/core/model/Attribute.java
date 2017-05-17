@@ -17,6 +17,8 @@ public class Attribute extends BaseModel {
 
     private Integer status;
 
+    private Integer dataType;
+
     public Long getId() {
         return id;
     }
@@ -71,5 +73,13 @@ public class Attribute extends BaseModel {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(Integer dataType) {
+        this.dataType = dataType;
     }
 }

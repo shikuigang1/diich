@@ -9,7 +9,7 @@ public class Works extends BaseModel {
 
     private Long lastEditorId;
 
-    private Long ichItemId;
+    private Long ichProjectId;
 
     private Long ichMasterId;
 
@@ -19,7 +19,7 @@ public class Works extends BaseModel {
 
     private Integer status;
 
-    private String uri;//作品静态页面的路径
+    private String uri;
 
     public Long getId() {
         return id;
@@ -37,12 +37,12 @@ public class Works extends BaseModel {
         this.lastEditorId = lastEditorId;
     }
 
-    public Long getIchItemId() {
-        return ichItemId;
+    public Long getIchProjectId() {
+        return ichProjectId;
     }
 
-    public void setIchItemId(Long ichItemId) {
-        this.ichItemId = ichItemId;
+    public void setIchProjectId(Long ichProjectId) {
+        this.ichProjectId = ichProjectId;
     }
 
     public Long getIchMasterId() {
@@ -82,6 +82,6 @@ public class Works extends BaseModel {
     }
 
     public void setUri(String uri) {
-        this.uri = uri;
+        this.uri = uri == null ? null : uri.trim();
     }
 }

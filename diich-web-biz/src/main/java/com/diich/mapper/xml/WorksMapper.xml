@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.diich.core.model.Works" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="last_editor_id" property="lastEditorId" jdbcType="BIGINT" />
-    <result column="ich_item_id" property="ichItemId" jdbcType="BIGINT" />
+    <result column="ich_project_id" property="ichProjectId" jdbcType="BIGINT" />
     <result column="ich_master_id" property="ichMasterId" jdbcType="BIGINT" />
     <result column="last_edit_date" property="lastEditDate" jdbcType="TIMESTAMP" />
     <result column="edit_rank" property="editRank" jdbcType="INTEGER" />
@@ -12,7 +12,7 @@
     <result column="uri" property="uri" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, last_editor_id, ich_item_id, ich_master_id, last_edit_date, edit_rank, status,
+    id, last_editor_id, ich_project_id, ich_master_id, last_edit_date, edit_rank, status,
     uri
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -26,10 +26,10 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.Works" >
-    insert into works (id, last_editor_id, ich_item_id,
+    insert into works (id, last_editor_id, ich_project_id,
     ich_master_id, last_edit_date, edit_rank,
     status, uri)
-    values (#{id,jdbcType=BIGINT}, #{lastEditorId,jdbcType=BIGINT}, #{ichItemId,jdbcType=BIGINT},
+    values (#{id,jdbcType=BIGINT}, #{lastEditorId,jdbcType=BIGINT}, #{ichProjectId,jdbcType=BIGINT},
     #{ichMasterId,jdbcType=BIGINT}, #{lastEditDate,jdbcType=TIMESTAMP}, #{editRank,jdbcType=INTEGER},
     #{status,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR})
   </insert>
@@ -42,8 +42,8 @@
       <if test="lastEditorId != null" >
         last_editor_id,
       </if>
-      <if test="ichItemId != null" >
-        ich_item_id,
+      <if test="ichProjectId != null" >
+        ich_project_id,
       </if>
       <if test="ichMasterId != null" >
         ich_master_id,
@@ -68,8 +68,8 @@
       <if test="lastEditorId != null" >
         #{lastEditorId,jdbcType=BIGINT},
       </if>
-      <if test="ichItemId != null" >
-        #{ichItemId,jdbcType=BIGINT},
+      <if test="ichProjectId != null" >
+        #{ichProjectId,jdbcType=BIGINT},
       </if>
       <if test="ichMasterId != null" >
         #{ichMasterId,jdbcType=BIGINT},
@@ -94,8 +94,8 @@
       <if test="lastEditorId != null" >
         last_editor_id = #{lastEditorId,jdbcType=BIGINT},
       </if>
-      <if test="ichItemId != null" >
-        ich_item_id = #{ichItemId,jdbcType=BIGINT},
+      <if test="ichProjectId != null" >
+        ich_project_id = #{ichProjectId,jdbcType=BIGINT},
       </if>
       <if test="ichMasterId != null" >
         ich_master_id = #{ichMasterId,jdbcType=BIGINT},
@@ -118,7 +118,7 @@
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.Works" >
     update works
     set last_editor_id = #{lastEditorId,jdbcType=BIGINT},
-      ich_item_id = #{ichItemId,jdbcType=BIGINT},
+      ich_project_id = #{ichProjectId,jdbcType=BIGINT},
       ich_master_id = #{ichMasterId,jdbcType=BIGINT},
       last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
       edit_rank = #{editRank,jdbcType=INTEGER},

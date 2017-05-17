@@ -7,7 +7,7 @@ import java.util.Date;
 public class IchMaster extends BaseModel {
     private Long id;
 
-    private Long ichItemId;
+    private Long ichProjectId;
 
     private Long lastEditorId;
 
@@ -17,7 +17,7 @@ public class IchMaster extends BaseModel {
 
     private Integer status;
 
-    private String uri;//静态页面的存储路径
+    private String uri;
 
     public Long getId() {
         return id;
@@ -27,12 +27,12 @@ public class IchMaster extends BaseModel {
         this.id = id;
     }
 
-    public Long getIchItemId() {
-        return ichItemId;
+    public Long getIchProjectId() {
+        return ichProjectId;
     }
 
-    public void setIchItemId(Long ichItemId) {
-        this.ichItemId = ichItemId;
+    public void setIchProjectId(Long ichProjectId) {
+        this.ichProjectId = ichProjectId;
     }
 
     public Long getLastEditorId() {
@@ -72,6 +72,6 @@ public class IchMaster extends BaseModel {
     }
 
     public void setUri(String uri) {
-        this.uri = uri;
+        this.uri = uri == null ? null : uri.trim();
     }
 }
