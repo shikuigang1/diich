@@ -18,5 +18,5 @@ public interface AttributeMapper extends BaseMapper<Attribute>{
 
     int updateByPrimaryKey(Attribute record);
 
-    List<Attribute> selectAttrListByCategory(Long categoryId);
+    List<Attribute> selectAttrListByCategory(Long ichCategoryId);
 }
