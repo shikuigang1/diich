@@ -19,6 +19,16 @@ public class ContentFragment extends BaseModel {
 
     private String content;
 
+    public Attribute getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(Attribute attribute) {
+        this.attribute = attribute;
+    }
+
+    private Attribute attribute;
+
     public Long getId() {
         return id;
     }
