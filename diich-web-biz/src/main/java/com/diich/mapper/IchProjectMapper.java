@@ -21,5 +21,5 @@ public interface IchProjectMapper extends BaseMapper<IchProject>{
 
     int updateByPrimaryKey(IchProject record);
 
-    List<IchProject> selectICHItemList(Page<IchProject> page, @Param("params") Map<String, Object> params);
+    List<IchProject> selectIchProjectList(Page<IchProject> page, @Param("params") Map<String, Object> params);
 }
