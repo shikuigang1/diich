@@ -16,7 +16,7 @@
     content
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -30,7 +30,7 @@
   <insert id="insert" parameterType="com.diich.core.model.EditDetail" >
     insert into edit_detail (id, edit_record_id, field_name, 
       content)
-    values (#{id,jdbcType=BIGINT}, #{edit_record_id,jdbcType=BIGINT}, #{field_name,jdbcType=CHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{editRecordId,jdbcType=BIGINT}, #{fieldName,jdbcType=CHAR},
       #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.EditDetail" >
@@ -39,10 +39,10 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="edit_record_id != null" >
+      <if test="editRecordId != null" >
         edit_record_id,
       </if>
-      <if test="field_name != null" >
+      <if test="fieldName != null" >
         field_name,
       </if>
       <if test="content != null" >
@@ -53,11 +53,11 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="edit_record_id != null" >
-        #{edit_record_id,jdbcType=BIGINT},
+      <if test="editRecordId != null" >
+        #{editRecordId,jdbcType=BIGINT},
       </if>
-      <if test="field_name != null" >
-        #{field_name,jdbcType=CHAR},
+      <if test="fieldName != null" >
+        #{fieldName,jdbcType=CHAR},
       </if>
       <if test="content != null" >
         #{content,jdbcType=LONGVARCHAR},
@@ -67,11 +67,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.EditDetail" >
     update edit_detail
     <set >
-      <if test="edit_record_id != null" >
-        edit_record_id = #{edit_record_id,jdbcType=BIGINT},
+      <if test="editRecordId != null" >
+        edit_record_id = #{editRecordId,jdbcType=BIGINT},
       </if>
-      <if test="field_name != null" >
-        field_name = #{field_name,jdbcType=CHAR},
+      <if test="fieldName != null" >
+        field_name = #{fieldName,jdbcType=CHAR},
       </if>
       <if test="content != null" >
         content = #{content,jdbcType=LONGVARCHAR},
@@ -81,15 +81,15 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.diich.core.model.EditDetail" >
     update edit_detail
-    set edit_record_id = #{edit_record_id,jdbcType=BIGINT},
-      field_name = #{field_name,jdbcType=CHAR},
-      content = #{content,jdbcType=LONGVARCHAR}
+    set edit_record_id = #{editRecordId,jdbcType=BIGINT},
+    field_name = #{fieldName,jdbcType=CHAR},
+    content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.EditDetail" >
     update edit_detail
-    set edit_record_id = #{edit_record_id,jdbcType=BIGINT},
-      field_name = #{field_name,jdbcType=CHAR}
+    set edit_record_id = #{editRecordId,jdbcType=BIGINT},
+      field_name = #{fieldName,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -13,7 +13,7 @@
     id, editor_id, target_id, target_type, edit_date, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from edit_record
     where id = #{id,jdbcType=BIGINT}
@@ -26,8 +26,8 @@
     insert into edit_record (id, editor_id, target_id, 
       target_type, edit_date, status
       )
-    values (#{id,jdbcType=BIGINT}, #{editor_id,jdbcType=BIGINT}, #{target_id,jdbcType=BIGINT}, 
-      #{target_type,jdbcType=INTEGER}, #{edit_date,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+    values (#{id,jdbcType=BIGINT}, #{editorId,jdbcType=BIGINT}, #{targetId,jdbcType=BIGINT},
+      #{targetType,jdbcType=INTEGER}, #{editDate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.EditRecord" >
@@ -36,16 +36,16 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="editor_id != null" >
+      <if test="editorId != null" >
         editor_id,
       </if>
-      <if test="target_id != null" >
+      <if test="targetId != null" >
         target_id,
       </if>
-      <if test="target_type != null" >
+      <if test="targetType != null" >
         target_type,
       </if>
-      <if test="edit_date != null" >
+      <if test="editDate != null" >
         edit_date,
       </if>
       <if test="status != null" >
@@ -56,17 +56,17 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="editor_id != null" >
-        #{editor_id,jdbcType=BIGINT},
+      <if test="editorId != null" >
+        #{editorId,jdbcType=BIGINT},
       </if>
-      <if test="target_id != null" >
-        #{target_id,jdbcType=BIGINT},
+      <if test="targetId != null" >
+        #{targetId,jdbcType=BIGINT},
       </if>
-      <if test="target_type != null" >
-        #{target_type,jdbcType=INTEGER},
+      <if test="targetType != null" >
+        #{targetType,jdbcType=INTEGER},
       </if>
-      <if test="edit_date != null" >
-        #{edit_date,jdbcType=TIMESTAMP},
+      <if test="editDate != null" >
+        #{editDate,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -76,17 +76,17 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.EditRecord" >
     update edit_record
     <set >
-      <if test="editor_id != null" >
-        editor_id = #{editor_id,jdbcType=BIGINT},
+      <if test="editorId != null" >
+        editor_id = #{editorId,jdbcType=BIGINT},
       </if>
-      <if test="target_id != null" >
-        target_id = #{target_id,jdbcType=BIGINT},
+      <if test="targetId != null" >
+        target_id = #{targetId,jdbcType=BIGINT},
       </if>
-      <if test="target_type != null" >
-        target_type = #{target_type,jdbcType=INTEGER},
+      <if test="targetType != null" >
+        target_type = #{targetType,jdbcType=INTEGER},
       </if>
-      <if test="edit_date != null" >
-        edit_date = #{edit_date,jdbcType=TIMESTAMP},
+      <if test="editDate != null" >
+        edit_date = #{editDate,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -96,10 +96,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.EditRecord" >
     update edit_record
-    set editor_id = #{editor_id,jdbcType=BIGINT},
-      target_id = #{target_id,jdbcType=BIGINT},
-      target_type = #{target_type,jdbcType=INTEGER},
-      edit_date = #{edit_date,jdbcType=TIMESTAMP},
+    set editor_id = #{editorId,jdbcType=BIGINT},
+      target_id = #{targetId,jdbcType=BIGINT},
+      target_type = #{targetType,jdbcType=INTEGER},
+      edit_date = #{editDate,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>

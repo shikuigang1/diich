@@ -11,7 +11,7 @@
     id, content_fragment_id, resource_id, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from content_fragment_resource
     where id = #{id,jdbcType=BIGINT}
@@ -23,7 +23,7 @@
   <insert id="insert" parameterType="com.diich.core.model.ContentFragmentResource" >
     insert into content_fragment_resource (id, content_fragment_id, resource_id, 
       status)
-    values (#{id,jdbcType=BIGINT}, #{content_fragment_id,jdbcType=BIGINT}, #{resource_id,jdbcType=BIGINT}, 
+    values (#{id,jdbcType=BIGINT}, #{contentFragmentId,jdbcType=BIGINT}, #{resourceId,jdbcType=BIGINT},
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.ContentFragmentResource" >
@@ -32,10 +32,10 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="content_fragment_id != null" >
+      <if test="contentFragmentId != null" >
         content_fragment_id,
       </if>
-      <if test="resource_id != null" >
+      <if test="resourceId != null" >
         resource_id,
       </if>
       <if test="status != null" >
@@ -46,11 +46,11 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="content_fragment_id != null" >
-        #{content_fragment_id,jdbcType=BIGINT},
+      <if test="contentFragmentId != null" >
+        #{contentFragmentId,jdbcType=BIGINT},
       </if>
-      <if test="resource_id != null" >
-        #{resource_id,jdbcType=BIGINT},
+      <if test="resourceId != null" >
+        #{resourceId,jdbcType=BIGINT},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -60,11 +60,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.ContentFragmentResource" >
     update content_fragment_resource
     <set >
-      <if test="content_fragment_id != null" >
-        content_fragment_id = #{content_fragment_id,jdbcType=BIGINT},
+      <if test="contentFragmentId != null" >
+        content_fragment_id = #{contentFragmentId,jdbcType=BIGINT},
       </if>
-      <if test="resource_id != null" >
-        resource_id = #{resource_id,jdbcType=BIGINT},
+      <if test="resourceId != null" >
+        resource_id = #{resourceId,jdbcType=BIGINT},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -74,8 +74,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.ContentFragmentResource" >
     update content_fragment_resource
-    set content_fragment_id = #{content_fragment_id,jdbcType=BIGINT},
-      resource_id = #{resource_id,jdbcType=BIGINT},
+    set content_fragment_id = #{contentFragmentId,jdbcType=BIGINT},
+      resource_id = #{resourceId,jdbcType=BIGINT},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>

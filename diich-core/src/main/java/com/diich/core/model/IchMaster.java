@@ -3,6 +3,7 @@ package com.diich.core.model;
 import com.diich.core.base.BaseModel;
 
 import java.util.Date;
+import java.util.List;
 
 public class IchMaster extends BaseModel {
     private Long id;
@@ -18,6 +19,12 @@ public class IchMaster extends BaseModel {
     private Integer status;
 
     private String uri;
+
+    private IchProject ichProject;//项目
+
+    private User user;//最后编辑者
+
+    private List<ContentFragment> contentFragmentArray;//内容片断列表
 
     public Long getId() {
         return id;
@@ -73,5 +80,29 @@ public class IchMaster extends BaseModel {
 
     public void setUri(String uri) {
         this.uri = uri == null ? null : uri.trim();
+    }
+
+    public IchProject getIchProject() {
+        return ichProject;
+    }
+
+    public void setIchProject(IchProject ichProject) {
+        this.ichProject = ichProject;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<ContentFragment> getContentFragmentArray() {
+        return contentFragmentArray;
+    }
+
+    public void setContentFragmentArray(List<ContentFragment> contentFragmentArray) {
+        this.contentFragmentArray = contentFragmentArray;
     }
 }

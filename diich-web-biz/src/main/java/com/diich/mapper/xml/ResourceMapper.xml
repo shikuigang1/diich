@@ -11,7 +11,7 @@
     id, type, uri, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from resource
     where id = #{id,jdbcType=BIGINT}

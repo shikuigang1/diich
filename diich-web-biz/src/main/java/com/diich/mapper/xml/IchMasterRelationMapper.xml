@@ -11,7 +11,7 @@
     id, master_id, apprentice_id, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from ich_master_relation
     where id = #{id,jdbcType=BIGINT}
@@ -21,10 +21,10 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.IchMasterRelation" >
-    insert into ich_master_relation (id, master_id, apprentice_id, 
-      status)
-    values (#{id,jdbcType=BIGINT}, #{master_id,jdbcType=BIGINT}, #{apprentice_id,jdbcType=BIGINT}, 
-      #{status,jdbcType=INTEGER})
+    insert into ich_master_relation (id, master_id, apprentice_id,
+    status)
+    values (#{id,jdbcType=BIGINT}, #{masterId,jdbcType=BIGINT}, #{apprenticeId,jdbcType=BIGINT},
+    #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.IchMasterRelation" >
     insert into ich_master_relation
@@ -32,10 +32,10 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="master_id != null" >
+      <if test="masterId != null" >
         master_id,
       </if>
-      <if test="apprentice_id != null" >
+      <if test="apprenticeId != null" >
         apprentice_id,
       </if>
       <if test="status != null" >
@@ -46,11 +46,11 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="master_id != null" >
-        #{master_id,jdbcType=BIGINT},
+      <if test="masterId != null" >
+        #{masterId,jdbcType=BIGINT},
       </if>
-      <if test="apprentice_id != null" >
-        #{apprentice_id,jdbcType=BIGINT},
+      <if test="apprenticeId != null" >
+        #{apprenticeId,jdbcType=BIGINT},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -60,11 +60,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.IchMasterRelation" >
     update ich_master_relation
     <set >
-      <if test="master_id != null" >
-        master_id = #{master_id,jdbcType=BIGINT},
+      <if test="masterId != null" >
+        master_id = #{masterId,jdbcType=BIGINT},
       </if>
-      <if test="apprentice_id != null" >
-        apprentice_id = #{apprentice_id,jdbcType=BIGINT},
+      <if test="apprenticeId != null" >
+        apprentice_id = #{apprenticeId,jdbcType=BIGINT},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -74,8 +74,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.IchMasterRelation" >
     update ich_master_relation
-    set master_id = #{master_id,jdbcType=BIGINT},
-      apprentice_id = #{apprentice_id,jdbcType=BIGINT},
+    set master_id = #{masterId,jdbcType=BIGINT},
+      apprentice_id = #{apprenticeId,jdbcType=BIGINT},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
