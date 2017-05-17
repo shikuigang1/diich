@@ -25,7 +25,7 @@ import java.util.Map;
 @RequestMapping("user")
 public class UserController extends BaseController<User> {
 
-    @Autowired
+    //@Autowired
     private UserService userService;
 
     /**

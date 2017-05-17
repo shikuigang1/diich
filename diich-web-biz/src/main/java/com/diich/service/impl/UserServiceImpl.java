@@ -5,7 +5,6 @@ import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
 import com.diich.core.model.User;
 import com.diich.core.service.UserService;
-import com.diich.core.util.IdGenerator;
 import com.diich.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,21 +22,12 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    @Override
-    public Map<String, Object> getVerifyCode(String phone) {
-        String code =null;
-        try{
-            code = IdGenerator.gensalt(6);
-            //发送信息 ＴＯＤＯ
 
-           }catch(Exception e){
-            return setResultMap(Constants.INNER_ERROR, null);
-        }
-
-        return setResultMap(Constants.SUCCESS, code);
+    public Map<String, Object> register(String phone, String code) {
+        return null;
     }
 
-    @Override
+
     public Map<String, Object> login(String loginName, String password) {
 
 
@@ -56,7 +46,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         return setResultMap(Constants.SUCCESS, userList.get(0));
     }
 
-    @Override
+
     public Map<String, Object> checkUser(String loginName) {
         try{
             User user = new User();
@@ -72,7 +62,6 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     }
 
 
-    @Override
     public Map<String, Object> saveUser(String text) {
         //获取当前事务状态
         TransactionStatus transactionStatus = getTransactionStatus();

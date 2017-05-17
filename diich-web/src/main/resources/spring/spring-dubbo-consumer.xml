@@ -11,5 +11,5 @@
     <dubbo:application name="userService" />
     <dubbo:registry  protocol="zookeeper"  address="${dubbo.registry.address}" />
     <dubbo:reference id="sysUserService" interface="com.diich.core.service.SysUserService" />
-    <dubbo:reference id="ichItemService" interface="com.diich.core.service.IchProjectService" />
+    <dubbo:reference id="ichProjectService" interface="com.diich.core.service.IchProjectService" />
 </beans>

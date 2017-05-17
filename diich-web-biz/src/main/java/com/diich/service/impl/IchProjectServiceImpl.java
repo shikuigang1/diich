@@ -5,11 +5,10 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
-import com.diich.core.model.IchCategory;
-import com.diich.core.model.IchProject;
-import com.diich.core.model.User;
+import com.diich.core.model.*;
 import com.diich.core.service.IchCategoryService;
 import com.diich.core.service.IchProjectService;
+import com.diich.mapper.ContentFragmentMapper;
 import com.diich.mapper.IchProjectMapper;
 import com.diich.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +22,17 @@ import java.util.Map;
 /**
  * Created by Administrator on 2017/5/9.
  */
-@Service("ichItemService")
+@Service("ichProjectService")
 public class IchProjectServiceImpl extends BaseService<IchProject> implements IchProjectService {
 
     @Autowired
     private IchProjectMapper ichProjectMapper;
     @Autowired
     private UserMapper userMapper;
+
+
+    @Autowired
+    private ContentFragmentMapper contentFragmentMapper;
 
     @Autowired
     private IchCategoryService ichCategoryService;
@@ -64,7 +67,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return setResultMap(Constants.SUCCESS, ichProject);
     }
 
-    @Override
+
     public Map<String, Object> getIchProjectList(String text) {
         Map<String, Object> params = null;
         Integer current = 1;
@@ -94,7 +97,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return setResultMap(Constants.SUCCESS, page);
     }
 
-    @Override
+
     @Transactional
     public Map<String, Object> saveIchProject(String text) {
         TransactionStatus transactionStatus = getTransactionStatus();
@@ -112,9 +115,31 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         try {
             if(ichProject.getId() == null) {
                 ichProject.setId(IdWorker.getId());
-                ichProjectMapper.insertSelective(ichProject);
+                long proID = ichProjectMapper.insertSelective(ichProject);
 
-                userMapper.insertSelective(user);
+                List<Attribute> ls = ichProject.getAttributeList();
+
+                for(int i=0;i<ls.size();i++){
+                    Attribute a = ls.get(i);
+                    ContentFragment c = new ContentFragment();
+                    c.setStatus(a.getStatus());
+                    c.setTargetId(proID);
+                    c.setAttributeId(a.getId());
+                    c.setTargetType(a.getTargetType());
+                    if(a.getTargetType()==0){ //短文本
+                        c.setTitle(a.getValue());
+                    }
+
+                    if(a.getTargetType()==1){//长文本
+                        c.setContent(a.getValue());
+                    }
+
+                    contentFragmentMapper.insertSelective(c);
+                }
+
+
+
+                //userMapper.insertSelective(user);
             } else {
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
             }

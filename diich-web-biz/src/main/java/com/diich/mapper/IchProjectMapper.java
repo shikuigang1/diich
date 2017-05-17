@@ -13,7 +13,7 @@ public interface IchProjectMapper extends BaseMapper<IchProject>{
 
     Integer insert(IchProject record);
 
-    int insertSelective(IchProject record);
+    long insertSelective(IchProject record);
 
     IchProject selectByPrimaryKey(Long id);
 

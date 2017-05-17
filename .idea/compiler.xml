@@ -14,10 +14,10 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="diich" target="1.5" />
-      <module name="diich-core" target="1.5" />
+      <module name="diich-core" target="1.7" />
       <module name="diich-search-service" target="1.5" />
-      <module name="diich-web" target="1.5" />
-      <module name="diich-web-biz" target="1.5" />
+      <module name="diich-web" target="1.7" />
+      <module name="diich-web-biz" target="1.7" />
       <module name="diich-web-service" target="1.5" />
       <module name="diich-web-services" target="1.5" />
     </bytecodeTargetLevel>
