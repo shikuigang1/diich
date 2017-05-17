@@ -24,15 +24,15 @@ public class IchProject extends BaseModel {
 
     private User user;//最后编辑者
 
-    public List<Attribute> getAttributeList() {
-        return attributeList;
+    public List<ContentFragment> getContentFragmentList() {
+        return contentFragmentList;
     }
 
-    public void setAttributeList(List<Attribute> attributeList) {
-        this.attributeList = attributeList;
+    public void setContentFragmentList(List<ContentFragment> contentFragmentList) {
+        this.contentFragmentList = contentFragmentList;
     }
 
-    private List<Attribute> attributeList ;
+    private List<ContentFragment> contentFragmentList;
 
     public Long getId() {
         return id;
