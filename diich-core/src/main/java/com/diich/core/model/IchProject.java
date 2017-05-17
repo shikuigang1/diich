@@ -24,15 +24,15 @@ public class IchProject extends BaseModel {
 
     private User user;//最后编辑者
 
-    public List<Attribute> getLs() {
-        return ls;
+    public List<Attribute> getAttributeList() {
+        return attributeList;
     }
 
-    public void setLs(List<Attribute> ls) {
-        this.ls = ls;
+    public void setAttributeList(List<Attribute> attributeList) {
+        this.attributeList = attributeList;
     }
 
-    private List<Attribute> ls ;
+    private List<Attribute> attributeList ;
 
     public Long getId() {
         return id;
