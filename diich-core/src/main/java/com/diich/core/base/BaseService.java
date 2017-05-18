@@ -14,7 +14,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.diich.core.exception.BusinessException;
+import com.diich.core.model.IchMaster;
+import com.diich.core.model.IchProject;
 import com.diich.core.model.SecUser;
+import com.diich.core.model.Works;
 import com.diich.core.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomUtils;
@@ -282,23 +285,22 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
     /**
      *生成列表静态页面的方法
      */
-    public String buildHTML(String templateName, List<BaseModel> entityList, String outputFileName, String title) throws Exception{
-        if("".equals(templateName) || templateName ==null){
+    public String buildHTML(String templateName, List<BaseModel> entityList) throws Exception{
+
+        if(StringUtils.isBlank(templateName)){
             throw new BusinessException("模板名不能为空 ");
         }
         if(entityList.size()==0){
             throw new BusinessException("生成模板的对象不能为空 ");
         }
-        if("".equals(outputFileName) || outputFileName ==null){
-            throw new BusinessException("生成静态页面的名称不能为空 ");
-        }
+        String outputFileName=entityList.get(0).toString();
+
         Configuration configuration = new Configuration(Configuration.getVersion());
         String path= PropertiesUtil.getString("freemarker.templateLoaderPath");
         configuration.setDirectoryForTemplateLoading(new File(path));
         configuration.setDefaultEncoding("UTF-8");
         Template template = configuration.getTemplate(templateName);
         Map dataMap = new HashMap<>();
-        dataMap.put("title", title);
         dataMap.put("obj",entityList);
         String outPutPath=PropertiesUtil.getString("freemarker.filepath")+"/"+outputFileName+".html";
         Writer out =  new OutputStreamWriter(new FileOutputStream(outPutPath),"utf-8");
@@ -310,15 +312,35 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
     /**
      *生成静态页面的方法
      */
-    public String buildHTML(String templateName, BaseModel entity, String outputFileName, String title) throws Exception{
-        if("".equals(templateName) || templateName ==null){
+    public String buildHTML(String templateName, BaseModel entity) throws Exception{
+
+        if(StringUtils.isBlank(templateName)){
             throw new BusinessException("模板名不能为空 ");
         }
         if("".equals(entity) || entity ==null){
             throw new BusinessException("生成模板的对象不能为空 ");
         }
-        if("".equals(outputFileName) || outputFileName ==null){
-            throw new BusinessException("生成静态页面的名称不能为空 ");
+        String outputFileName="";
+        if( entity instanceof IchProject){
+            try {
+                outputFileName= ((IchProject) entity).getId().toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if( entity instanceof IchMaster){
+            try {
+                outputFileName= ((IchMaster) entity).getId().toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if( entity instanceof Works){
+            try {
+                outputFileName= ((Works) entity).getId().toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         Configuration configuration = new Configuration(Configuration.getVersion());
         String path=PropertiesUtil.getString("freemarker.templateLoaderPath");
@@ -326,7 +348,6 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         configuration.setDefaultEncoding("UTF-8");
         Template template = configuration.getTemplate(templateName);
         Map dataMap = new HashMap<>();
-        dataMap.put("title", title);
         dataMap.put("obj",entity);
         String outPutPath=PropertiesUtil.getString("freemarker.filepath")+"/"+outputFileName+".html";
         Writer out =  new OutputStreamWriter(new FileOutputStream(outPutPath),"utf-8");
