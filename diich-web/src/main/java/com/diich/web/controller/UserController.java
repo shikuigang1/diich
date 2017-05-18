@@ -1,11 +1,13 @@
 package com.diich.web.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.diich.core.Constants;
 import com.diich.core.base.BaseController;
 import com.diich.core.model.User;
 import com.diich.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -131,10 +133,13 @@ public class UserController extends BaseController<User> {
     public  Map<String, Object> login(HttpServletRequest request) {
         String loginName = request.getParameter("loginName");
         String password = request.getParameter("password");
-        String code = request.getParameter("code");
+//        String code = request.getParameter("code");
         Map<String, Object> result = userService.login(loginName,password);
-        HttpSession session = request.getSession();
-        session.setAttribute("loginName",loginName);
+        Integer code = (Integer) result.get("code");
+        if(code==0){
+            HttpSession session = request.getSession();
+            session.setAttribute("currentUser",result.get("data"));
+        }
         return result;
     }
 
@@ -148,7 +153,7 @@ public class UserController extends BaseController<User> {
     public Map<String, Object> logoff(HttpServletRequest request) {
         String loginName = request.getParameter("loginName");
         HttpSession session = request.getSession();
-        session.removeAttribute("loginName");
+        session.removeAttribute("currentUser");
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", Constants.SUCCESS);
         result.put("msg", Constants.MSGS[Constants.SUCCESS]);
@@ -162,10 +167,10 @@ public class UserController extends BaseController<User> {
      */
     @RequestMapping("saveUser")
     @ResponseBody
-    public Map<String, Object> saveUser(HttpServletRequest request) {
-        String params = request.getParameter("params");
+    public Map<String, Object> saveUser(HttpServletRequest request, @RequestBody User user) {
+//        String params = request.getParameter("params");
 
-        Map<String, Object> result = userService.saveUser(params);
+        Map<String, Object> result = userService.saveUser(JSON.toJSONString(user));
 
         return result;
     }

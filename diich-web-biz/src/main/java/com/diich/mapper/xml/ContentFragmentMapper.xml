@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.diich.mapper.ContentFragmentMapper" >
-  <resultMap id="BaseResultMap" type="com.diich.core.model.ContentFragment">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="attribute_id" jdbcType="BIGINT" property="attributeId" />
-    <result column="target_id" jdbcType="BIGINT" property="targetId" />
-    <result column="target_type" jdbcType="INTEGER" property="targetType" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="field_type" jdbcType="INTEGER" property="fieldType" />
-    <result column="status" jdbcType="INTEGER" property="status" />
+  <resultMap id="BaseResultMap" type="com.diich.core.model.ContentFragment" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="attribute_id" property="attributeId" jdbcType="BIGINT" />
+    <result column="target_id" property="targetId" jdbcType="BIGINT" />
+    <result column="target_type" property="targetType" jdbcType="INTEGER" />
+    <result column="field_type" property="fieldType" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.diich.core.model.ContentFragment" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, attribute_id, target_id, target_type, title, field_type, status
+    id, attribute_id, target_id, target_type, field_type, status
   </sql>
   <sql id="Blob_Column_List" >
     content
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -32,12 +31,12 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.ContentFragment" >
-    insert into content_fragment (id, attribute_id, target_id, 
-      target_type, title, field_type, 
-      status, content)
+    insert into content_fragment (id, attribute_id, target_id,
+    target_type, field_type, status,
+    content)
     values (#{id,jdbcType=BIGINT}, #{attributeId,jdbcType=BIGINT}, #{targetId,jdbcType=BIGINT},
-      #{targetType,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{fieldType,jdbcType=INTEGER},
-      #{status,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+    #{targetType,jdbcType=INTEGER}, #{fieldType,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+    #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.ContentFragment" >
     insert into content_fragment
@@ -53,9 +52,6 @@
       </if>
       <if test="targetType != null" >
         target_type,
-      </if>
-      <if test="title != null" >
-        title,
       </if>
       <if test="fieldType != null" >
         field_type,
@@ -80,9 +76,6 @@
       <if test="targetType != null" >
         #{targetType,jdbcType=INTEGER},
       </if>
-      <if test="title != null" >
-        #{title,jdbcType=VARCHAR},
-      </if>
       <if test="fieldType != null" >
         #{fieldType,jdbcType=INTEGER},
       </if>
@@ -106,9 +99,6 @@
       <if test="targetType != null" >
         target_type = #{targetType,jdbcType=INTEGER},
       </if>
-      <if test="title != null" >
-        title = #{title,jdbcType=VARCHAR},
-      </if>
       <if test="fieldType != null" >
         field_type = #{fieldType,jdbcType=INTEGER},
       </if>
@@ -123,13 +113,12 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.diich.core.model.ContentFragment" >
     update content_fragment
-    set attribute_id = #{attributeTd,jdbcType=BIGINT},
-      target_id = #{targetId,jdbcType=BIGINT},
-      target_type = #{targetType,jdbcType=INTEGER},
-      title = #{title,jdbcType=VARCHAR},
-      field_type = #{fieldType,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      content = #{content,jdbcType=LONGVARCHAR}
+    set attribute_id = #{attributeId,jdbcType=BIGINT},
+    target_id = #{targetId,jdbcType=BIGINT},
+    target_type = #{targetType,jdbcType=INTEGER},
+    field_type = #{fieldType,jdbcType=INTEGER},
+    status = #{status,jdbcType=INTEGER},
+    content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.ContentFragment" >
@@ -137,7 +126,6 @@
     set attribute_id = #{attributeId,jdbcType=BIGINT},
       target_id = #{targetId,jdbcType=BIGINT},
       target_type = #{targetType,jdbcType=INTEGER},
-      title = #{title,jdbcType=VARCHAR},
       field_type = #{fieldType,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}

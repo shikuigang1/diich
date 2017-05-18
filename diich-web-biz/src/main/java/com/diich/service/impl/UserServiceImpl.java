@@ -5,6 +5,8 @@ import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
 import com.diich.core.model.User;
 import com.diich.core.service.UserService;
+import com.diich.core.util.IdGenerator;
+import com.diich.core.util.SendMsgUtil;
 import com.diich.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,12 +24,22 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Override
+    public Map<String, Object> getVerifyCode(String phone) {
+        String code =null;
+        try{
+            code = IdGenerator.gensalt(6);
+            String text="【永新华韵】您的验证码是"+code;
+            //发送信息
+            SendMsgUtil.sendSms(text,phone);
+           }catch(Exception e){
+            return setResultMap(Constants.INNER_ERROR, null);
+        }
 
-    public Map<String, Object> register(String phone, String code) {
-        return null;
+        return setResultMap(Constants.SUCCESS, code);
     }
 
-
+    @Override
     public Map<String, Object> login(String loginName, String password) {
 
 

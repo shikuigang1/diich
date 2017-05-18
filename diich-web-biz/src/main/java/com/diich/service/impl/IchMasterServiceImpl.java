@@ -2,6 +2,7 @@ package com.diich.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
 import com.diich.core.model.*;
@@ -9,8 +10,10 @@ import com.diich.core.service.IchMasterService;
 import com.diich.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -102,6 +105,29 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         List<IchMaster> ichMasterList = null;
         try {
             ichMasterList = ichMasterMapper.selectIchMasterList(page, params);
+            for (IchMaster ichMaster:ichMasterList) {
+                //所属项目
+                IchProject ichProject = ichProjectMapper.selectByPrimaryKey(ichMaster.getIchProjectId());
+                if(ichProject !=null){
+                    ichMaster.setIchProject(ichProject);
+                }
+                //最后编辑者
+                User user = userMapper.selectByPrimaryKey(ichMaster.getLastEditorId());
+                if(user !=null){
+                    ichMaster.setUser(user);
+                }
+                //内容片断列表
+                ContentFragment con = new ContentFragment();
+                con.setTargetId(ichMaster.getId());
+                con.setTargetType(1);
+                List<ContentFragment>  contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
+                for (ContentFragment contentFragment :contentFragmentList) {
+                    Long attrId = contentFragment.getId();
+                    Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
+                    contentFragment.setAttribute(attribute);
+                }
+                ichMaster.setContentFragmentArray(contentFragmentList);
+            }
         } catch (Exception e) {
             return setResultMap(Constants.INNER_ERROR, null);
         }
@@ -110,9 +136,48 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         return setResultMap(Constants.SUCCESS, page);
     }
 
-
+    /**
+     * 添加或更新传承人
+     * @param text
+     * @return
+     */
     public Map<String, Object> saveIchMaster(String text) {
-        return null;
+        TransactionStatus transactionStatus = getTransactionStatus();
+
+        IchMaster ichMaster = null;
+
+        try {
+            ichMaster = parseObject(text, IchMaster.class);
+        } catch (Exception e) {
+            return setResultMap(Constants.PARAM_ERROR, null);
+        }
+
+        try {
+            if(ichMaster.getId() == null) {
+                long id = IdWorker.getId();
+                ichMaster.setId(id);
+                ichMaster.setLastEditDate(new Date());
+                ichMasterMapper.insertSelective(ichMaster);
+                List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentArray();
+                for (ContentFragment contentFragment: contentFragmentList) {
+                    contentFragment.setTargetId(id);
+                    contentFragment.setId(IdWorker.getId());
+                    contentFragmentMapper.insertSelective(contentFragment);
+                }
+            } else {
+                ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
+                List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentArray();
+                for (ContentFragment contentFragment: contentFragmentList) {
+                    contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                }
+            }
+            commit(transactionStatus);
+        } catch (Exception e) {
+            rollback(transactionStatus);
+            return setResultMap(Constants.INNER_ERROR, null);
+        }
+
+        return setResultMap(Constants.SUCCESS, ichMaster);
     }
 
 }
