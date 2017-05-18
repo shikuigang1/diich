@@ -137,4 +137,7 @@
       lang = #{lang,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectByIchProjectId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  select * from works where ich_project_id = #{ichProjectId,jdbcType=BIGINT}
+  </select>
 </mapper>

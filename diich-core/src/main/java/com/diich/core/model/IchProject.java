@@ -36,6 +36,10 @@ public class IchProject extends BaseModel {
 
     private List<ContentFragment> contentFragmentList;
 
+    private List<IchMaster> ichMasterList;//传承人列表
+
+    private List<Works> worksList;//作品列表
+
     public Long getId() {
         return id;
     }
@@ -114,5 +118,21 @@ public class IchProject extends BaseModel {
 
     public void setLang(String lang) {
         this.lang = lang;
+    }
+
+    public List<IchMaster> getIchMasterList() {
+        return ichMasterList;
+    }
+
+    public void setIchMasterList(List<IchMaster> ichMasterList) {
+        this.ichMasterList = ichMasterList;
+    }
+
+    public List<Works> getWorksList() {
+        return worksList;
+    }
+
+    public void setWorksList(List<Works> worksList) {
+        this.worksList = worksList;
     }
 }

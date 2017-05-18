@@ -40,6 +40,10 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
     @Autowired
     private IchCategoryService ichCategoryService;
+    @Autowired
+    private IchMasterMapper ichMasterMapper;
+    @Autowired
+    private WorksMapper worksMapper;
 
     /*@Autowired
     private DataSourceTransactionManager transactionManager;*/
@@ -64,6 +68,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     ichProject.setIchCategory(ichCategory);
                 }
                  // User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
+                //获取传承人列表
+                List<IchMaster> ichMasterList = ichMasterMapper.selectByIchProjectId(Long.parseLong(id));
+                ichProject.setIchMasterList(ichMasterList);
+                //作品列表
+                List<Works> worksList = worksMapper.selectByIchProjectId(Long.parseLong(id));
+                ichProject.setWorksList(worksList);
             }
 
             //获取项目的field
@@ -115,7 +125,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         List<IchProject> ichItemList = null;
         try {
             ichItemList = ichProjectMapper.selectIchProjectList(page, params);
-            System.out.println("size:"+ichItemList.size());
+//            System.out.println("size:"+ichItemList.size());
             for (IchProject ichProject:ichItemList) {
 
                 if(ichProject != null) {
@@ -127,6 +137,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                         ichProject.setIchCategory(ichCategory);
                     }
                     // User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
+                    //获取传承人列表
+                    List<IchMaster> ichMasterList = ichMasterMapper.selectByIchProjectId(ichProject.getId());
+                    ichProject.setIchMasterList(ichMasterList);
+                    //作品列表
+                    List<Works> worksList = worksMapper.selectByIchProjectId(ichProject.getId());
+                    ichProject.setWorksList(worksList);
                 }
 
                 //获取项目的field
@@ -137,6 +153,14 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 //List<ContentFragment> ls_ = new ArrayList<ContentFragment>();
                 for(int i=0;i<ls.size();i++){
                     ls.get(i).setAttribute(attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId()));
+                    Long contentFragmentId = ls.get(i).getId();
+                    List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
+                    List<Resource> resourceList = new ArrayList<>();
+                    for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
+                        Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
+                        resourceList.add(resource);
+                    }
+                    ls.get(i).setResourceList(resourceList);
                 }
                 ichProject.setContentFragmentList(ls);
 

@@ -3,6 +3,8 @@ package com.diich.mapper;
 import com.diich.core.base.BaseMapper;
 import com.diich.core.model.Works;
 
+import java.util.List;
+
 public interface WorksMapper extends BaseMapper<Works> {
     int deleteByPrimaryKey(Long id);
 
@@ -15,4 +17,6 @@ public interface WorksMapper extends BaseMapper<Works> {
     int updateByPrimaryKeySelective(Works record);
 
     int updateByPrimaryKey(Works record);
+
+    List<Works> selectByIchProjectId(Long ichProjectId);
 }

@@ -26,7 +26,7 @@ public class IchMaster extends BaseModel {
 
     private User user;//最后编辑者
 
-    private List<ContentFragment> contentFragmentArray;//内容片断列表
+    private List<ContentFragment> contentFragmentList;//内容片断列表
 
     public Long getId() {
         return id;
@@ -100,12 +100,12 @@ public class IchMaster extends BaseModel {
         this.user = user;
     }
 
-    public List<ContentFragment> getContentFragmentArray() {
-        return contentFragmentArray;
+    public List<ContentFragment> getContentFragmentList() {
+        return contentFragmentList;
     }
 
-    public void setContentFragmentArray(List<ContentFragment> contentFragmentArray) {
-        this.contentFragmentArray = contentFragmentArray;
+    public void setContentFragmentList(List<ContentFragment> contentFragmentList) {
+        this.contentFragmentList = contentFragmentList;
     }
 
     public String getLang() {

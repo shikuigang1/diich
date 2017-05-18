@@ -25,4 +25,7 @@ public interface IchMasterMapper extends BaseMapper<IchMaster> {
     //根据条件查询列表信息
     List<IchMaster> selectIchMasterList(Page<IchMaster> page, @Param("params") Map<String, Object> params);
 
+    //根据项目id查询传承人列表
+    List<IchMaster> selectByIchProjectId(Long ichProjectId);
+
 }
