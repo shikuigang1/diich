@@ -11,6 +11,10 @@ public class Dictionary extends BaseModel {
 
     private Integer type;
 
+    private Long parentId;
+
+    private Integer status;
+
     public Long getId() {
         return id;
     }
@@ -41,5 +45,21 @@ public class Dictionary extends BaseModel {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }
