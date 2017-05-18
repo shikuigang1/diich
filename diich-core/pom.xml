@@ -189,6 +189,11 @@
             <artifactId>spring-data-keyvalue</artifactId>
             <version>1.2.1.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.25-incubating</version>
+        </dependency>
 
     </dependencies>
 </project>

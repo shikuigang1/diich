@@ -3,6 +3,8 @@ package com.diich.mapper;
 import com.diich.core.base.BaseMapper;
 import com.diich.core.model.ContentFragmentResource;
 
+import java.util.List;
+
 public interface ContentFragmentResourceMapper extends BaseMapper<ContentFragmentResource> {
     int deleteByPrimaryKey(Long id);
 
@@ -15,4 +17,6 @@ public interface ContentFragmentResourceMapper extends BaseMapper<ContentFragmen
     int updateByPrimaryKeySelective(ContentFragmentResource record);
 
     int updateByPrimaryKey(ContentFragmentResource record);
+
+    List<ContentFragmentResource> selectByContentFragmentId(Long contentFragmentId);
 }

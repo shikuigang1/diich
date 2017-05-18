@@ -8,10 +8,7 @@ import com.diich.core.base.BaseService;
 import com.diich.core.model.*;
 import com.diich.core.service.IchCategoryService;
 import com.diich.core.service.IchProjectService;
-import com.diich.mapper.AttributeMapper;
-import com.diich.mapper.ContentFragmentMapper;
-import com.diich.mapper.IchProjectMapper;
-import com.diich.mapper.UserMapper;
+import com.diich.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
@@ -36,6 +33,10 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     private AttributeMapper attributeMapper;
     @Autowired
     private ContentFragmentMapper contentFragmentMapper;
+    @Autowired
+    private ContentFragmentResourceMapper contentFragmentResourceMapper;
+    @Autowired
+    private ResourceMapper resourceMapper;
 
     @Autowired
     private IchCategoryService ichCategoryService;
@@ -73,6 +74,14 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             //List<ContentFragment> ls_ = new ArrayList<ContentFragment>();
             for(int i=0;i<ls.size();i++){
                 ls.get(i).setAttribute(attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId()));
+                Long contentFragmentId = ls.get(i).getId();
+                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
+                List<Resource> resourceList = new ArrayList<>();
+                for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
+                    Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
+                    resourceList.add(resource);
+                }
+                ls.get(i).setResourceList(resourceList);
             }
             ichProject.setContentFragmentList(ls);
 

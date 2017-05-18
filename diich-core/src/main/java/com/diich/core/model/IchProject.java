@@ -18,6 +18,8 @@ public class IchProject extends BaseModel {
 
     private Integer status;
 
+    private String lang;//语言
+
     private String uri;//项目静态页面的存储路径
 
     private  IchCategory ichCategory;//项目分类
@@ -104,5 +106,13 @@ public class IchProject extends BaseModel {
 
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 }

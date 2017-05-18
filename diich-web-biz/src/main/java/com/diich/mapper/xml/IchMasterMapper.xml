@@ -9,9 +9,10 @@
     <result column="edit_rank" property="editRank" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="uri" property="uri" jdbcType="VARCHAR" />
+    <result column="lang" property="lang" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, ich_project_id, last_editor_id, last_edit_date, edit_rank, status, uri
+    id, ich_project_id, last_editor_id, last_edit_date, edit_rank, status, uri, lang
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
@@ -26,10 +27,10 @@
   <insert id="insert" parameterType="com.diich.core.model.IchMaster" >
     insert into ich_master (id, ich_project_id, last_editor_id,
     last_edit_date, edit_rank, status,
-    uri)
+    uri, lang)
     values (#{id,jdbcType=BIGINT}, #{ichProjectId,jdbcType=BIGINT}, #{lastEditorId,jdbcType=BIGINT},
     #{lastEditDate,jdbcType=TIMESTAMP}, #{editRank,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
-    #{uri,jdbcType=VARCHAR})
+    #{uri,jdbcType=VARCHAR}, #{lang,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.IchMaster" >
     insert into ich_master
@@ -55,6 +56,9 @@
       <if test="uri != null" >
         uri,
       </if>
+      <if test="lang != null" >
+        lang,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -77,6 +81,9 @@
       </if>
       <if test="uri != null" >
         #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="lang != null" >
+        #{lang,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -101,6 +108,9 @@
       <if test="uri != null" >
         uri = #{uri,jdbcType=VARCHAR},
       </if>
+      <if test="lang != null" >
+        lang = #{lang,jdbcType=CHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -111,7 +121,8 @@
       last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
       edit_rank = #{editRank,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
-      uri = #{uri,jdbcType=VARCHAR}
+      uri = #{uri,jdbcType=VARCHAR},
+      lang = #{lang,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectIchMasterList" resultMap="BaseResultMap">

@@ -2,6 +2,8 @@ package com.diich.core.model;
 
 import com.diich.core.base.BaseModel;
 
+import java.util.List;
+
 public class ContentFragment extends BaseModel {
     private Long id;
 
@@ -18,6 +20,8 @@ public class ContentFragment extends BaseModel {
     private String content;
 
     private Attribute attribute;//属性名称
+
+    private List<Resource> resourceList;//资源列表
 
     public Long getId() {
         return id;
@@ -81,5 +85,13 @@ public class ContentFragment extends BaseModel {
 
     public void setAttribute(Attribute attribute) {
         this.attribute = attribute;
+    }
+
+    public List<Resource> getResourceList() {
+        return resourceList;
+    }
+
+    public void setResourceList(List<Resource> resourceList) {
+        this.resourceList = resourceList;
     }
 }

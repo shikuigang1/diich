@@ -9,9 +9,10 @@
     <result column="edit_rank" property="editRank" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="uri" property="uri" jdbcType="VARCHAR" />
+    <result column="lang" property="lang" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, ich_category_id, last_editor_id, last_edit_date, edit_rank, status, uri
+    id, ich_category_id, last_editor_id, last_edit_date, edit_rank, status, uri, lang
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
@@ -26,12 +27,12 @@
   <insert id="insert" parameterType="com.diich.core.model.IchProject" >
     insert into ich_project (id, ich_category_id, last_editor_id,
     last_edit_date, edit_rank, status,
-    uri)
+    uri, lang)
     values (#{id,jdbcType=BIGINT}, #{ichCategoryId,jdbcType=BIGINT}, #{lastEditorId,jdbcType=BIGINT},
     #{lastEditDate,jdbcType=TIMESTAMP}, #{editRank,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
-    #{uri,jdbcType=VARCHAR})
+    #{uri,jdbcType=VARCHAR}, #{lang,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.diich.core.model.IchProject">
+  <insert id="insertSelective" parameterType="com.diich.core.model.IchProject" >
     insert into ich_project
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -54,6 +55,9 @@
       </if>
       <if test="uri != null" >
         uri,
+      </if>
+      <if test="lang != null" >
+        lang,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -78,6 +82,9 @@
       <if test="uri != null" >
         #{uri,jdbcType=VARCHAR},
       </if>
+      <if test="lang != null" >
+        #{lang,jdbcType=CHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.IchProject" >
@@ -101,20 +108,23 @@
       <if test="uri != null" >
         uri = #{uri,jdbcType=VARCHAR},
       </if>
+      <if test="lang != null" >
+        lang = #{lang,jdbcType=CHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.IchProject" >
     update ich_project
     set ich_category_id = #{ichCategoryId,jdbcType=BIGINT},
-      last_editor_id = #{lastEditorId,jdbcType=BIGINT},
-      last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
-      edit_rank = #{editRank,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      uri = #{uri,jdbcType=VARCHAR}
+    last_editor_id = #{lastEditorId,jdbcType=BIGINT},
+    last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
+    edit_rank = #{editRank,jdbcType=INTEGER},
+    status = #{status,jdbcType=INTEGER},
+    uri = #{uri,jdbcType=VARCHAR},
+    lang = #{lang,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
   <select id="selectIchProjectList" parameterType="java.util.Map" resultMap="BaseResultMap">
 
     SELECT <include refid="Base_Column_List" /> FROM ich_project WHERE 1=1

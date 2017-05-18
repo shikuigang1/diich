@@ -20,6 +20,8 @@ public class IchMaster extends BaseModel {
 
     private String uri;
 
+    private String lang;//语言
+
     private IchProject ichProject;//项目
 
     private User user;//最后编辑者
@@ -104,5 +106,13 @@ public class IchMaster extends BaseModel {
 
     public void setContentFragmentArray(List<ContentFragment> contentFragmentArray) {
         this.contentFragmentArray = contentFragmentArray;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 }

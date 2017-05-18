@@ -79,4 +79,7 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectByContentFragmentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from content_fragment_resource where content_fragment_id = #{contentFragmentId,jdbcType=BIGINT}
+  </select>
 </mapper>

@@ -21,6 +21,8 @@ public class Works extends BaseModel {
 
     private String uri;
 
+    private String lang;//语言
+
     public Long getId() {
         return id;
     }
@@ -83,5 +85,13 @@ public class Works extends BaseModel {
 
     public void setUri(String uri) {
         this.uri = uri == null ? null : uri.trim();
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 }
