@@ -28,6 +28,8 @@ public class IchMaster extends BaseModel {
 
     private List<ContentFragment> contentFragmentList;//内容片断列表
 
+    private List<Works> worksList;//作品列表
+
     public Long getId() {
         return id;
     }
@@ -114,5 +116,13 @@ public class IchMaster extends BaseModel {
 
     public void setLang(String lang) {
         this.lang = lang;
+    }
+
+    public List<Works> getWorksList() {
+        return worksList;
+    }
+
+    public void setWorksList(List<Works> worksList) {
+        this.worksList = worksList;
     }
 }

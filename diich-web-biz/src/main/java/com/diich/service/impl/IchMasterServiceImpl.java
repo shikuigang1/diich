@@ -43,6 +43,8 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
 
     @Autowired
     private ResourceMapper resourceMapper;
+    @Autowired
+    private WorksMapper worksMapper;
 
     public Map<String, Object> getIchMaster(String id) {
 
@@ -54,15 +56,16 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             ichMaster = ichMasterMapper.selectByPrimaryKey(Long.parseLong(id));
             if(ichMaster !=null){
                 //所属项目
-                IchProject ichProject = ichProjectMapper.selectByPrimaryKey(ichMaster.getIchProjectId());
-                if(ichProject !=null){
-                    ichMaster.setIchProject(ichProject);
-                }
+                IchProject ichProject = getIchProjectByIchMaster(ichMaster);
+                ichMaster.setIchProject(ichProject);
                 //最后编辑者
                 User user = userMapper.selectByPrimaryKey(ichMaster.getLastEditorId());
                 if(user !=null){
                     ichMaster.setUser(user);
                 }
+                //作品列表
+                List<Works> worksList =getWorksByIchMasterId(Long.parseLong(id));
+                ichMaster.setWorksList(worksList);
                 //内容片断列表
                 ContentFragment con = new ContentFragment();
                 con.setTargetId(Long.parseLong(id));
@@ -120,15 +123,16 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             ichMasterList = ichMasterMapper.selectIchMasterList(page, params);
             for (IchMaster ichMaster:ichMasterList) {
                 //所属项目
-                IchProject ichProject = ichProjectMapper.selectByPrimaryKey(ichMaster.getIchProjectId());
-                if(ichProject !=null){
-                    ichMaster.setIchProject(ichProject);
-                }
+                IchProject ichProject = getIchProjectByIchMaster(ichMaster);
+                ichMaster.setIchProject(ichProject);
                 //最后编辑者
                 User user = userMapper.selectByPrimaryKey(ichMaster.getLastEditorId());
                 if(user !=null){
                     ichMaster.setUser(user);
                 }
+                //作品列表
+                List<Works> worksList =getWorksByIchMasterId(ichMaster.getId());
+                ichMaster.setWorksList(worksList);
                 //内容片断列表
                 ContentFragment con = new ContentFragment();
                 con.setTargetId(ichMaster.getId());
@@ -183,12 +187,27 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                     contentFragment.setTargetId(id);
                     contentFragment.setId(IdWorker.getId());
                     contentFragmentMapper.insertSelective(contentFragment);
+                    List<Resource> resourceList = contentFragment.getResourceList();
+                    for (Resource resource:resourceList) {
+                        long recId = IdWorker.getId();
+                        resource.setId(recId);
+                        //保存resource
+                        resourceMapper.insertSelective(resource);
+                        ContentFragmentResource cfr = new ContentFragmentResource();
+                        cfr.setId(IdWorker.getId());
+                        cfr.setContentFragmentId(contentFragment.getId());
+                        cfr.setResourceId(recId);
+                        cfr.setStatus(1);
+                        //保存中间表
+                        contentFragmentResourceMapper.insertSelective(cfr);
+                    }
                 }
             } else {
                 ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
                 List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
                 for (ContentFragment contentFragment: contentFragmentList) {
                     contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+
                 }
             }
             commit(transactionStatus);
@@ -200,4 +219,49 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         return setResultMap(Constants.SUCCESS, ichMaster);
     }
 
+    /**
+     * 根据传承人id获取作品列表
+     * @param ichMasterId
+     * @return
+     */
+    private List<Works> getWorksByIchMasterId(Long ichMasterId){
+        List<Works> worksList = worksMapper.selectByIchMasterId(ichMasterId);
+        for (Works works:worksList) {
+            ContentFragment con = new ContentFragment();
+            con.setTargetId(works.getId());
+            con.setTargetType(2);
+            List<ContentFragment> contentFragments = contentFragmentMapper.selectByTargetIdAndType(con);
+            for (ContentFragment contentFragment :contentFragments) {
+                Long attrId = contentFragment.getId();
+                Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
+                contentFragment.setAttribute(attribute);//添加属性
+            }
+            works.setContentFragmentList(contentFragments);
+        }
+        return worksList;
+    }
+
+    /**
+     *
+     * @param ichMaster
+     * @return
+     */
+    private IchProject getIchProjectByIchMaster(IchMaster ichMaster) {
+        //所属项目
+        IchProject ichProject = ichProjectMapper.selectByPrimaryKey(ichMaster.getIchProjectId());
+        if (ichProject != null) {
+            //内容片断列表
+            ContentFragment con = new ContentFragment();
+            con.setTargetId(ichProject.getId());
+            con.setTargetType(0);
+            List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
+            for (ContentFragment contentFragment : contentFragmentList) {
+                Long attrId = contentFragment.getId();
+                Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
+                contentFragment.setAttribute(attribute);//添加属性
+            }
+            ichProject.setContentFragmentList(contentFragmentList);
+        }
+        return ichProject;
+    }
 }

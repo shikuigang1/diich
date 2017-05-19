@@ -3,6 +3,7 @@ package com.diich.core.model;
 import com.diich.core.base.BaseModel;
 
 import java.util.Date;
+import java.util.List;
 
 public class Works extends BaseModel {
     private Long id;
@@ -22,6 +23,12 @@ public class Works extends BaseModel {
     private String uri;
 
     private String lang;//语言
+
+    private IchProject ichProject;//项目
+
+    private IchMaster ichMsster;//传承人
+
+    private List<ContentFragment> contentFragmentList;//内容片断列表
 
     public Long getId() {
         return id;
@@ -93,5 +100,29 @@ public class Works extends BaseModel {
 
     public void setLang(String lang) {
         this.lang = lang;
+    }
+
+    public IchProject getIchProject() {
+        return ichProject;
+    }
+
+    public void setIchProject(IchProject ichProject) {
+        this.ichProject = ichProject;
+    }
+
+    public IchMaster getIchMsster() {
+        return ichMsster;
+    }
+
+    public void setIchMsster(IchMaster ichMsster) {
+        this.ichMsster = ichMsster;
+    }
+
+    public List<ContentFragment> getContentFragmentList() {
+        return contentFragmentList;
+    }
+
+    public void setContentFragmentList(List<ContentFragment> contentFragmentList) {
+        this.contentFragmentList = contentFragmentList;
     }
 }

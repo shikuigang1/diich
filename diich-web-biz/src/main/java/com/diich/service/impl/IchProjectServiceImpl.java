@@ -69,10 +69,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
                  // User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
                 //获取传承人列表
-                List<IchMaster> ichMasterList = ichMasterMapper.selectByIchProjectId(Long.parseLong(id));
+                List<IchMaster> ichMasterList = getIchMasterByIchProjectId(Long.parseLong(id));
+
                 ichProject.setIchMasterList(ichMasterList);
                 //作品列表
-                List<Works> worksList = worksMapper.selectByIchProjectId(Long.parseLong(id));
+                List<Works> worksList = getWorksByIchProjectId(Long.parseLong(id));
                 ichProject.setWorksList(worksList);
             }
 
@@ -138,10 +139,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     }
                     // User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
                     //获取传承人列表
-                    List<IchMaster> ichMasterList = ichMasterMapper.selectByIchProjectId(ichProject.getId());
+                    List<IchMaster> ichMasterList = getIchMasterByIchProjectId(ichProject.getId());
+
                     ichProject.setIchMasterList(ichMasterList);
                     //作品列表
-                    List<Works> worksList = worksMapper.selectByIchProjectId(ichProject.getId());
+                    List<Works> worksList = getWorksByIchProjectId(ichProject.getId());
+
                     ichProject.setWorksList(worksList);
                 }
 
@@ -198,7 +201,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
                 ichProject.setId(proID);
                 ichProjectMapper.insertSelective(ichProject);
-                System.out.println(proID);
+                List<IchMaster> masterList = ichProject.getIchMasterList();
+
+//                System.out.println(proID);
                  List<ContentFragment> ls = ichProject.getContentFragmentList();
 
              for(int i=0;i<ls.size();i++){
@@ -209,7 +214,22 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     c.setTargetId(proID);
 
                     contentFragmentMapper.insertSelective(c);
-                }
+                 List<Resource> resourceList = c.getResourceList();
+                 for (Resource resource: resourceList ) {
+                     Long resourceId = IdWorker.getId();
+                      resource.setId(resourceId);
+                     //保存resource
+                     resourceMapper.insertSelective(resource);
+                     ContentFragmentResource cfr = new ContentFragmentResource();
+                     cfr.setId(IdWorker.getId());
+                     cfr.setContentFragmentId(c.getId());
+                     cfr.setResourceId(resourceId);
+                     cfr.setStatus(1);
+                     //保存中间表
+                     contentFragmentResourceMapper.insertSelective(cfr);
+                 }
+
+             }
 
                 //userMapper.insertSelective(user);
             } else {
@@ -224,5 +244,47 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return setResultMap(Constants.SUCCESS, ichProject);
     }
 
+    /**
+     * 根据传承人id获取传承人列表
+     * @param ichProjectId
+     * @return
+     */
+    private List<IchMaster> getIchMasterByIchProjectId(Long ichProjectId){
+        List<IchMaster> ichMasterList = ichMasterMapper.selectByIchProjectId(ichProjectId);
+        for (IchMaster ichMaster:ichMasterList) {
+            ContentFragment con = new ContentFragment();
+            con.setTargetId(ichMaster.getId());
+            con.setTargetType(1);
+            List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
+            for (ContentFragment contentFragment :contentFragmentList) {
+                Long attrId = contentFragment.getId();
+                Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
+                contentFragment.setAttribute(attribute);//添加属性
+            }
+            ichMaster.setContentFragmentList(contentFragmentList);
+        }
+        return ichMasterList;
+    }
 
+    /**
+     * 根据项目id获取作品列表
+     * @param ichProjectId
+     * @return
+     */
+    private List<Works> getWorksByIchProjectId(Long ichProjectId){
+        List<Works> worksList = worksMapper.selectByIchProjectId(ichProjectId);
+        for (Works works:worksList) {
+            ContentFragment con = new ContentFragment();
+            con.setTargetId(works.getId());
+            con.setTargetType(2);
+            List<ContentFragment> contentFragments = contentFragmentMapper.selectByTargetIdAndType(con);
+            for (ContentFragment contentFragment :contentFragments) {
+                Long attrId = contentFragment.getId();
+                Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
+                contentFragment.setAttribute(attribute);//添加属性
+            }
+            works.setContentFragmentList(contentFragments);
+        }
+        return worksList;
+    }
 }
