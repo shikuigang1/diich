@@ -22,7 +22,7 @@ public class ApplicationException extends Exception {
 	private int code;
 	private String msg;
 
-	public ApplicationException(int code) {
+	public ApplicationException(int code, String s) {
 		this.code = code;
 		this.msg = ERROR_DESC_LIST[code];
 	}
