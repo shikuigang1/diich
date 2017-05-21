@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -28,20 +29,17 @@ public class IchProjectController extends BaseController<IchProject> {
 
     @RequestMapping("getIchProject")
     @ResponseBody
-    public Map<String, Object> getIchProject(HttpServletRequest request) {
-        String ichItemId = request.getParameter("params");
+    public Map<String, Object> getIchProject(HttpServletRequest request,@RequestBody Map<String,Long> map) {
 
-        Map<String, Object> result = ichProjectService.getIchProject(ichItemId);
-
+        Map<String, Object> result = ichProjectService.getIchProject(String.valueOf(map.get("proId")));
         return result;
     }
 
     @RequestMapping("getIchProjectList")
     @ResponseBody
-    public Map<String, Object> getIchProjectList(HttpServletRequest request) {
-        String params = request.getParameter("params");
+    public Map<String, Object> getIchProjectList(HttpServletRequest request,@RequestBody Map<String,Long> map) {
 
-        Map<String, Object> result = ichProjectService.getIchProjectList(params);
+        Map<String, Object> result = ichProjectService.getIchProjectList(JSON.toJSONString(map));
 
         return result;
     }
