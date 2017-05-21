@@ -1,6 +1,7 @@
 package com.diich.core.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.diich.core.model.IchMaster;
 import com.diich.core.model.IchProject;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface IchProjectService {
     List<IchProject> getIchProjectList(Page<IchProject> page) throws Exception;
 
     Page<IchProject> getIchProjectPage(Map<String, Object>  params)throws Exception;
+
+    IchProject getIchProjectById(Long id);
 }

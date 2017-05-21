@@ -2,6 +2,7 @@ package com.diich.core.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.model.IchMaster;
+import com.diich.core.model.Works;
 
 import java.util.List;
 import java.util.Map;
@@ -21,4 +22,8 @@ public interface IchMasterService {
 
     //保存传承人
     void  saveIchMaster(IchMaster ichMaster) throws Exception;
+    //根据项目id查询传承人
+    List<IchMaster> getIchMasterByIchProjectId(Long ichProjectId);
+
+    IchMaster getIchMasterByWorks(Works works);
 }

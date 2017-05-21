@@ -3,6 +3,7 @@ package com.diich.web.controller;
 import com.alibaba.fastjson.JSON;
 import com.diich.core.Constants;
 import com.diich.core.base.BaseController;
+import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.User;
 import com.diich.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class UserController extends BaseController<User> {
         if(begindate !=null){
             Date bdate = df.parse(begindate);
             long time = (new Date().getTime() - bdate.getTime())/1000;
-            if(time>60){
+            if(time>60){//验证码有效期1分钟
                 session.removeAttribute(phone);
                 session.removeAttribute("begindate"+phone);
             }
@@ -64,14 +65,18 @@ public class UserController extends BaseController<User> {
             result.put("msg","验证码已发送,不能重复发送,请稍后再试");
             return result;
         }
-        //验证码不存在或者已经超时 重新获取
-        result = userService.getVerifyCode(phone);
-        //返回成功 将验证码和当前时间存入session
-        if((int)result.get("code")==0){
+        String verifyCode = null;
+        try{
+            //验证码不存在或者已经超时 重新获取
+            verifyCode = userService.getVerifyCode(phone);
+            //返回成功 将验证码和当前时间存入session
             session.setAttribute(phone,result.get("data"));
             session.setAttribute("begindate"+phone,df.format(new Date()));
+        }catch (Exception e){
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
         }
-        return result;
+        return setResultMap(verifyCode);
     }
 
     /**
@@ -107,7 +112,7 @@ public class UserController extends BaseController<User> {
             }
         }
         String verifyCode = (String) session.getAttribute(phone);
-        //防止没有获取验证码直接
+        //防止没有获取验证码直接点击注册
         if(verifyCode == null){
             result.put("code",Constants.PARAM_ERROR);
             result.put("msg","你还没有获取验证码或者验证码超时,请获取验证码");
@@ -134,13 +139,16 @@ public class UserController extends BaseController<User> {
         String loginName = request.getParameter("loginName");
         String password = request.getParameter("password");
 //        String code = request.getParameter("code");
-        Map<String, Object> result = userService.login(loginName,password);
-        Integer code = (Integer) result.get("code");
-        if(code==0){
+        User user =null;
+        try{
+            user = userService.login(loginName,password);
             HttpSession session = request.getSession();
-            session.setAttribute("currentUser",result.get("data"));
+            session.setAttribute("CURRENT_USER",user);
+        }catch (Exception e){
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
         }
-        return result;
+        return setResultMap(user);
     }
 
     /**
@@ -153,7 +161,7 @@ public class UserController extends BaseController<User> {
     public Map<String, Object> logoff(HttpServletRequest request) {
         String loginName = request.getParameter("loginName");
         HttpSession session = request.getSession();
-        session.removeAttribute("currentUser");
+        session.removeAttribute("CURRENT_USER");
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", Constants.SUCCESS);
         result.put("msg", Constants.MSGS[Constants.SUCCESS]);
@@ -167,12 +175,24 @@ public class UserController extends BaseController<User> {
      */
     @RequestMapping("saveUser")
     @ResponseBody
-    public Map<String, Object> saveUser(HttpServletRequest request, @RequestBody User user) {
-//        String params = request.getParameter("params");
+    public Map<String, Object> saveUser(HttpServletRequest request) {
+        String params = request.getParameter("params");
+        User user = null;
 
-        Map<String, Object> result = userService.saveUser(JSON.toJSONString(user));
+        try {
+            user = parseObject(params, User.class);
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return ae.toMap();
+        }
+        try {
+            userService.saveUser(user);
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
 
-        return result;
+        return setResultMap(user);
     }
 
     /**
@@ -185,8 +205,13 @@ public class UserController extends BaseController<User> {
     public Map<String, Object> checkUser(HttpServletRequest request) {
         String loginName = request.getParameter("loginName");
 
-        Map<String, Object> result = userService.checkUser(loginName);
+        try {
+            userService.checkUser(loginName);
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
 
-        return result;
+        return setResultMap(loginName);
     }
 }

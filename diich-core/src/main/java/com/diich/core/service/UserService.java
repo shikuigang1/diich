@@ -1,5 +1,7 @@
 package com.diich.core.service;
 
+import com.diich.core.model.User;
+
 import java.util.Map;
 
 /**
@@ -8,15 +10,15 @@ import java.util.Map;
 public interface UserService {
 
     //获取验证码
-    Map<String, Object> getVerifyCode(String phone);
+    String getVerifyCode(String phone) throws Exception;
 
     //登陆
-    Map<String, Object> login(String loginName, String password);
+    User login(String loginName, String password) throws Exception;
 
     //检查用户名是否存在
-    Map<String, Object> checkUser(String loginName);
+    void checkUser(String loginName) throws Exception;
 
     //保存用户信息
-    Map<String, Object> saveUser(String params);
+    void saveUser(User user) throws Exception;
 
 }

@@ -1,5 +1,8 @@
 package com.diich.web.controller;
 
+import com.diich.core.base.BaseController;
+import com.diich.core.exception.ApplicationException;
+import com.diich.core.model.Works;
 import com.diich.core.service.WorksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +17,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("works")
-public class WorksController {
+public class WorksController extends BaseController<Works> {
 
     @Autowired
     private WorksService worksService;
@@ -22,11 +25,20 @@ public class WorksController {
     @RequestMapping("getWorks")
     @ResponseBody
     public Map<String, Object> getWorks(HttpServletRequest request){
-        String worksId = request.getParameter("params");
+        String id = request.getParameter("params");
+        if(id == null || "".equals(id)) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return ae.toMap();
+        }
+        Works works = null;
+        try{
+            works = worksService.getWorks(id);
+        }catch (Exception e){
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
 
-        Map<String, Object> result = worksService.getWorks(worksId);
-
-        return result;
+        return setResultMap(works);
 
     }
 
