@@ -129,5 +129,27 @@
 
     SELECT <include refid="Base_Column_List" /> FROM ich_project WHERE 1=1
 
+    <if test="params.ichCategoryId != null" >
+      and  ich_category_id = #{params.ichCategoryId,jdbcType=BIGINT}
+    </if>
+    <if test="params.lastEditorId != null" >
+     and  last_editor_id = #{params.lastEditorId,jdbcType=BIGINT}
+    </if>
+    <if test="params.lastEditDate != null" >
+     and  last_edit_date = #{params.lastEditDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="params.editRank != null" >
+     and  edit_rank = #{params.editRank,jdbcType=INTEGER}
+    </if>
+    <if test="params.status != null" >
+      and status = #{params.status,jdbcType=INTEGER}
+    </if>
+    <if test="params.uri != null" >
+      and uri = #{params.uri,jdbcType=VARCHAR}
+    </if>
+    <if test="params.lang != null" >
+      and lang = #{params.lang,jdbcType=CHAR}
+    </if>
+
   </select>
 </mapper>

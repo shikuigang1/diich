@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
+import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
 import com.diich.core.service.IchMasterService;
 import com.diich.mapper.*;
@@ -46,11 +47,8 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     @Autowired
     private WorksMapper worksMapper;
 
-    public Map<String, Object> getIchMaster(String id) {
+    public IchMaster getIchMaster(String id) throws Exception{
 
-        if(id == null || "".equals(id)) {
-            return setResultMap(Constants.PARAM_ERROR, null);
-        }
         IchMaster ichMaster =null;
         try{
             ichMaster = ichMasterMapper.selectByPrimaryKey(Long.parseLong(id));
@@ -86,41 +84,47 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 ichMaster.setContentFragmentList(contentFragmentList);
             }
         }catch (Exception e){
-            return setResultMap(Constants.INNER_ERROR, null);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
-        return setResultMap(Constants.SUCCESS, ichMaster);
+        return  ichMaster;
     }
 
     /**
-     * 获取传承人列表
-     * @param text
+     * 根据条件查询分页列表
+     * @param params
      * @return
+     * @throws Exception
      */
-    @Override
-    public Map<String, Object> getIchMasterList(String text) {
-
-        Map<String, Object> params = null;
+    public Page<IchMaster> getIchMasterPage(Map<String, Object>  params) throws Exception {
         Integer current = 1;
         Integer pageSize = 10;
 
-        try {
-            params = JSON.parseObject(text);
-        } catch (Exception e) {
-            return setResultMap(Constants.PARAM_ERROR, null);
-        }
-        if(params !=null){
-            if(params.containsKey("current") && params.containsKey("pageSize")) {
-                current = (Integer) params.get("current");
-                pageSize = (Integer) params.get("pageSize");
-            }
+        if(params != null && params.containsKey("current") && params.containsKey("pageSize")) {
+            current = (Integer) params.get("current");
+            pageSize = (Integer) params.get("pageSize");
         }
 
         Page<IchMaster> page = new Page<IchMaster>(current, pageSize);
+        page.setCondition(params);
+
+        List<IchMaster> ichMasterList = getIchMasterList(page);
+
+        page.setRecords(ichMasterList);
+
+        return page;
+    }
+    /**
+     * 获取传承人列表
+     * @param page
+     * @return
+     */
+    @Override
+    public List<IchMaster> getIchMasterList(Page<IchMaster> page) throws ApplicationException {
 
         List<IchMaster> ichMasterList = null;
         try {
-            ichMasterList = ichMasterMapper.selectIchMasterList(page, params);
+            ichMasterList = ichMasterMapper.selectIchMasterList(page, page.getCondition());
             for (IchMaster ichMaster:ichMasterList) {
                 //所属项目
                 IchProject ichProject = getIchProjectByIchMaster(ichMaster);
@@ -153,28 +157,18 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 ichMaster.setContentFragmentList(contentFragmentList);
             }
         } catch (Exception e) {
-            return setResultMap(Constants.INNER_ERROR, null);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-        page.setRecords(ichMasterList);
-
-        return setResultMap(Constants.SUCCESS, page);
+        return ichMasterList;
     }
 
     /**
      * 添加或更新传承人
-     * @param text
+     * @param ichMaster
      * @return
      */
-    public Map<String, Object> saveIchMaster(String text) {
+    public void saveIchMaster(IchMaster ichMaster) throws ApplicationException {
         TransactionStatus transactionStatus = getTransactionStatus();
-
-        IchMaster ichMaster = null;
-
-        try {
-            ichMaster = parseObject(text, IchMaster.class);
-        } catch (Exception e) {
-            return setResultMap(Constants.PARAM_ERROR, null);
-        }
 
         try {
             if(ichMaster.getId() == null) {
@@ -213,10 +207,8 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             commit(transactionStatus);
         } catch (Exception e) {
             rollback(transactionStatus);
-            return setResultMap(Constants.INNER_ERROR, null);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-
-        return setResultMap(Constants.SUCCESS, ichMaster);
     }
 
     /**

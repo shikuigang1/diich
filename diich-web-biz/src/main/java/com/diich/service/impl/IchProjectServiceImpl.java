@@ -1,6 +1,7 @@
 package com.diich.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.diich.core.Constants;
@@ -49,11 +50,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     /*@Autowired
     private DataSourceTransactionManager transactionManager;*/
 
-    public Map<String, Object> getIchProject(String id) {
-
-        if(id == null || "".equals(id)) {
-            return setResultMap(Constants.PARAM_ERROR, null);
-        }
+    public IchProject getIchProject(String id) throws Exception {
 
 
         IchProject ichProject = null;
@@ -99,34 +96,36 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
 
         } catch (Exception e) {
-            return setResultMap(Constants.INNER_ERROR, null);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
-        return setResultMap(Constants.SUCCESS, ichProject);
+        return  ichProject;
     }
 
-
-    public Map<String, Object> getIchProjectList(String text) {
-        Map<String, Object> params = null;
+    public Page<IchProject> getIchProjectPage(Map<String, Object>  params) throws Exception {
         Integer current = 1;
         Integer pageSize = 10;
 
-        try {
-            params = JSON.parseObject(text);
-        } catch (Exception e) {
-            return setResultMap(Constants.PARAM_ERROR, null);
-        }
-
-        if(params.containsKey("current") && params.containsKey("pageSize")) {
+        if(params != null && params.containsKey("current") && params.containsKey("pageSize")) {
             current = (Integer) params.get("current");
             pageSize = (Integer) params.get("pageSize");
         }
 
         Page<IchProject> page = new Page<IchProject>(current, pageSize);
+        page.setCondition(params);
+
+        List<IchProject> ichProjectList = getIchProjectList(page);
+
+        page.setRecords(ichProjectList);
+
+        return page;
+    }
+
+    public List<IchProject> getIchProjectList(Page<IchProject> page) throws Exception{
 
         List<IchProject> ichItemList = null;
         try {
-            ichItemList = ichProjectMapper.selectIchProjectList(page, params);
+            ichItemList = ichProjectMapper.selectIchProjectList(page, page.getCondition());
 //            System.out.println("size:"+ichItemList.size());
             for (IchProject ichProject:ichItemList) {
 
@@ -171,13 +170,10 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             }
 
         } catch (Exception e) {
-            return setResultMap(Constants.INNER_ERROR, null);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
-
-        page.setRecords(ichItemList);
-
-        return setResultMap(Constants.SUCCESS, page);
+        return ichItemList;
     }
 
 
@@ -195,20 +191,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 System.out.println(proID);
                 List<ContentFragment> ls = ichProject.getContentFragmentList();
                 List<IchMaster> masterList = ichProject.getIchMasterList();
-
-//                System.out.println(proID);
-                 List<ContentFragment> ls = ichProject.getContentFragmentList();
-
                 for(int i=0;i<ls.size();i++){
                      ContentFragment c = ls.get(i);
-
                      c.setId(IdWorker.getId());
-
                      c.setTargetId(proID);
-
                      contentFragmentMapper.insertSelective(c);
-                 }
-                    contentFragmentMapper.insertSelective(c);
                  List<Resource> resourceList = c.getResourceList();
                  for (Resource resource: resourceList ) {
                      Long resourceId = IdWorker.getId();
@@ -231,6 +218,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             }
             commit(transactionStatus);
         } catch (Exception e) {
+            rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
     }

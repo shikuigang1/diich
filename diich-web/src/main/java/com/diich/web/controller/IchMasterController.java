@@ -3,10 +3,12 @@ package com.diich.web.controller;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseController;
+import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.IchMaster;
 import com.diich.core.model.User;
 import com.diich.core.service.IchMasterService;
 import com.diich.core.support.HttpCode;
+import com.diich.core.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,31 +33,73 @@ public class IchMasterController extends BaseController<IchMaster>{
     @RequestMapping("getIchMaster")
     @ResponseBody
     public Map<String, Object> getIchMaster(HttpServletRequest request) {
-        String ichMasterId = request.getParameter("id");
+        String id = request.getParameter("params");
+        if(id == null || "".equals(id)) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return ae.toMap();
+        }
+        IchMaster ichMaster = null;
+        try{
+            ichMaster = ichMasterService.getIchMaster(id);
+        }catch (Exception e){
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
 
-        Map<String, Object> result = ichMasterService.getIchMaster(ichMasterId);
-
-        return result;
+        return setResultMap(ichMaster);
     }
 
     @RequestMapping("getIchMasterList")
     @ResponseBody
     public Map<String, Object> getIchMasterList(HttpServletRequest request) {
-        String params = request.getParameter("params");
 
-        Map<String, Object> result = ichMasterService.getIchMasterList(params);
+        Map<String, Object> params = null;
+        String param = request.getParameter("params");
+        try{
+            params = JSON.parseObject(param, Map.class);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return ae.toMap();
+        }
+        Page<IchMaster> page = null;
+        try {
+            page = ichMasterService.getIchMasterPage(params);
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
 
-        return result;
+        return setResultMap(page);
     }
 
     @RequestMapping("saveIchMaster")
     @ResponseBody
-    public Map<String, Object> saveIchMaster(HttpServletRequest request, @RequestBody IchMaster ichMaster) {
-//        String ichMaster = request.getParameter("params");
-        User user = (User)request.getSession().getAttribute("currentUser");
-        ichMaster.setLastEditorId(user.getId());
-        Map<String, Object> result = ichMasterService.saveIchMaster(JSON.toJSONString(ichMaster));
+    public Map<String, Object> saveIchMaster(HttpServletRequest request) {
+        String params = request.getParameter("params");
+        IchMaster ichMaster = null;
 
-        return result;
+        try {
+            ichMaster = parseObject(params, IchMaster.class);
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return ae.toMap();
+        }
+
+        User user = (User) WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return ae.toMap();
+        }
+
+        ichMaster.setLastEditorId(user.getId());
+
+        try {
+            ichMasterService.saveIchMaster(ichMaster);
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
+
+        return setResultMap(ichMaster);
     }
 }
