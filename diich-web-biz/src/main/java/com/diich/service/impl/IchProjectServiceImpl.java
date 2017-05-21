@@ -97,12 +97,20 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             }
             ichProject.setContentFragmentList(ls);
 
+            //buildHTML();
+
 
         } catch (Exception e) {
             return setResultMap(Constants.INNER_ERROR, null);
         }
 
         return setResultMap(Constants.SUCCESS, ichProject);
+    }
+
+    @Override
+    public String buildHTML(String templateName, IchProject entity, String outputFileName) throws Exception{
+        super.buildHTML(templateName, entity, outputFileName);
+        return null;
     }
 
 
