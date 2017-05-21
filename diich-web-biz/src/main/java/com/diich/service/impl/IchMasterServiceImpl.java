@@ -249,7 +249,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     }
 
     /**
-     *
+     *  根据传承人信息查询项目
      * @param ichMaster
      * @return
      */
@@ -263,7 +263,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             con.setTargetType(0);
             List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
             for (ContentFragment contentFragment : contentFragmentList) {
-                Long attrId = contentFragment.getId();
+                Long attrId = contentFragment.getAttributeId();
                 Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
                 contentFragment.setAttribute(attribute);//添加属性
                 List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
