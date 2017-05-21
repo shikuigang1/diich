@@ -32,7 +32,7 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
            //调用生成静态页面的方法
            String title = "freemarker测试";
            String templatename = "user.ftl";
-           String path = buildHTML(templatename, user);
+           String path = buildHTML(templatename, user,"");
            commit(transactionStatus);
            return setResultMap(Constants.SUCCESS, path);
        }catch(Exception e){
@@ -82,7 +82,7 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
         String filename=userList.get(0).toString();
         String title="freemarker测试";
         String templatename="user.ftl";
-        String outPutPath =buildHTML(templatename, userList);
+        String outPutPath =buildHTML(templatename, userList,"");
         return outPutPath;
     }
 }

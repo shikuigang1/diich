@@ -3,6 +3,7 @@ package com.diich.service.impl;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
+import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.User;
 import com.diich.core.service.UserService;
 import com.diich.core.util.IdGenerator;
@@ -25,7 +26,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public Map<String, Object> getVerifyCode(String phone) {
+    public String getVerifyCode(String phone) throws Exception{
         String code =null;
         try{
             code = IdGenerator.gensalt(6);
@@ -33,14 +34,14 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
             //发送信息
             SendMsgUtil.sendSms(text,phone);
            }catch(Exception e){
-            return setResultMap(Constants.INNER_ERROR, null);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
-        return setResultMap(Constants.SUCCESS, code);
+        return code;
     }
 
     @Override
-    public Map<String, Object> login(String loginName, String password) {
+    public User login(String loginName, String password) throws Exception {
 
 
         List<User> userList=null;
@@ -49,49 +50,47 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
             user.setLoginName(loginName);
             user.setPassword(password);
             userList = userMapper.selectByLogNameAndPwd(user);
-            if(userList.size()==0){
-                return setResultMap(Constants.PARAM_ERROR, null);
-            }
         }catch(Exception e){
-            return setResultMap(Constants.INNER_ERROR, null);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-        return setResultMap(Constants.SUCCESS, userList.get(0));
+        if(userList.size()==0){
+            throw new ApplicationException(ApplicationException.PARAM_ERROR);
+        }
+        return  userList.get(0);
     }
 
-
-    public Map<String, Object> checkUser(String loginName) {
+    /**
+     * 根据用户名查询用户是否存在
+     * @param loginName
+     * @throws Exception
+     */
+    public void checkUser(String loginName) throws Exception {
+        List<User> userList = null;
         try{
             User user = new User();
             user.setLoginName(loginName);
-            List<User> userList = userMapper.selectByLogNameAndPwd(user);
-            if(userList.size()>0){
-                return setResultMap(Constants.PARAM_ERROR, null);
-            }
+            userList = userMapper.selectByLogNameAndPwd(user);
         }catch(Exception e){
-            return setResultMap(Constants.INNER_ERROR, null);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-        return setResultMap(Constants.SUCCESS, null);
+        if(userList.size()>0){
+            throw new ApplicationException(ApplicationException.PARAM_ERROR);
+        }
+
     }
 
 
-    public Map<String, Object> saveUser(String text) {
+    public void saveUser(User user) throws Exception {
         //获取当前事务状态
         TransactionStatus transactionStatus = getTransactionStatus();
-        User user=null;
-        try {
-            user = parseObject(text, User.class);
-        } catch (Exception e) {
-            return setResultMap(Constants.PARAM_ERROR, null);
-        }
         try {
             user.setId(IdWorker.getId());
             userMapper.insertSelective(user);
             commit(transactionStatus);//提交事务
         } catch (Exception e) {
             rollback(transactionStatus);//回滚事务
-            return setResultMap(Constants.INNER_ERROR, null);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
-        return setResultMap(Constants.SUCCESS, user);
     }
 }

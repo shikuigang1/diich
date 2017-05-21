@@ -140,4 +140,7 @@
   <select id="selectByIchProjectId" parameterType="java.lang.Long" resultMap="BaseResultMap">
   select * from works where ich_project_id = #{ichProjectId,jdbcType=BIGINT}
   </select>
+  <select id="selectByIchMasterId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  select * from works where ich_master_id = #{ichMasterId,jdbcType=BIGINT}
+  </select>
 </mapper>

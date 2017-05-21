@@ -1,6 +1,7 @@
 package com.diich.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.diich.core.Constants;
@@ -8,7 +9,9 @@ import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
 import com.diich.core.service.IchCategoryService;
+import com.diich.core.service.IchMasterService;
 import com.diich.core.service.IchProjectService;
+import com.diich.core.service.WorksService;
 import com.diich.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,15 +49,15 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     private IchMasterMapper ichMasterMapper;
     @Autowired
     private WorksMapper worksMapper;
+    @Autowired
+    private IchMasterService ichMasterService;
+    @Autowired
+    private WorksService worksService;
 
     /*@Autowired
     private DataSourceTransactionManager transactionManager;*/
 
-    public Map<String, Object> getIchProject(String id) {
-
-        if(id == null || "".equals(id)) {
-            return setResultMap(Constants.PARAM_ERROR, null);
-        }
+    public IchProject getIchProject(String id) throws Exception {
 
 
         IchProject ichProject = null;
@@ -70,11 +74,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
                  // User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
                 //获取传承人列表
-                List<IchMaster> ichMasterList = getIchMasterByIchProjectId(Long.parseLong(id));
+                List<IchMaster> ichMasterList = ichMasterService.getIchMasterByIchProjectId(Long.parseLong(id));
 
                 ichProject.setIchMasterList(ichMasterList);
                 //作品列表
-                List<Works> worksList = getWorksByIchProjectId(Long.parseLong(id));
+                List<Works> worksList =worksService.getWorksByIchProjectId(Long.parseLong(id));
                 ichProject.setWorksList(worksList);
             }
 
@@ -97,44 +101,38 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             }
             ichProject.setContentFragmentList(ls);
 
-            //buildHTML();
-
 
         } catch (Exception e) {
-            return setResultMap(Constants.INNER_ERROR, null);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
-        return setResultMap(Constants.SUCCESS, ichProject);
+        return  ichProject;
     }
 
-    @Override
-    public String buildHTML(String templateName, IchProject entity, String outputFileName) throws Exception{
-        super.buildHTML(templateName, entity, outputFileName);
-        return null;
-    }
-
-
-    public Map<String, Object> getIchProjectList(String text) {
-        Map<String, Object> params = null;
+    public Page<IchProject> getIchProjectPage(Map<String, Object>  params) throws Exception {
         Integer current = 1;
         Integer pageSize = 10;
 
-        try {
-            params = JSON.parseObject(text);
-        } catch (Exception e) {
-            return setResultMap(Constants.PARAM_ERROR, null);
-        }
-
-        if(params.containsKey("current") && params.containsKey("pageSize")) {
+        if(params != null && params.containsKey("current") && params.containsKey("pageSize")) {
             current = (Integer) params.get("current");
             pageSize = (Integer) params.get("pageSize");
         }
 
         Page<IchProject> page = new Page<IchProject>(current, pageSize);
+        page.setCondition(params);
+
+        List<IchProject> ichProjectList = getIchProjectList(page);
+
+        page.setRecords(ichProjectList);
+
+        return page;
+    }
+
+    public List<IchProject> getIchProjectList(Page<IchProject> page) throws Exception{
 
         List<IchProject> ichItemList = null;
         try {
-            ichItemList = ichProjectMapper.selectIchProjectList(page, params);
+            ichItemList = ichProjectMapper.selectIchProjectList(page, page.getCondition());
 //            System.out.println("size:"+ichItemList.size());
             for (IchProject ichProject:ichItemList) {
 
@@ -148,11 +146,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     }
                     // User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
                     //获取传承人列表
-                    List<IchMaster> ichMasterList = getIchMasterByIchProjectId(ichProject.getId());
+                    List<IchMaster> ichMasterList = ichMasterService.getIchMasterByIchProjectId(ichProject.getId());
 
                     ichProject.setIchMasterList(ichMasterList);
                     //作品列表
-                    List<Works> worksList = getWorksByIchProjectId(ichProject.getId());
+                    List<Works> worksList =worksService.getWorksByIchProjectId(ichProject.getId());
 
                     ichProject.setWorksList(worksList);
                 }
@@ -179,13 +177,10 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             }
 
         } catch (Exception e) {
-            return setResultMap(Constants.INNER_ERROR, null);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
-
-        page.setRecords(ichItemList);
-
-        return setResultMap(Constants.SUCCESS, page);
+        return ichItemList;
     }
 
 
@@ -203,20 +198,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 System.out.println(proID);
                 List<ContentFragment> ls = ichProject.getContentFragmentList();
                 List<IchMaster> masterList = ichProject.getIchMasterList();
-
-//                System.out.println(proID);
-                 List<ContentFragment> ls = ichProject.getContentFragmentList();
-
                 for(int i=0;i<ls.size();i++){
                      ContentFragment c = ls.get(i);
-
                      c.setId(IdWorker.getId());
-
                      c.setTargetId(proID);
-
                      contentFragmentMapper.insertSelective(c);
-                 }
-                    contentFragmentMapper.insertSelective(c);
                  List<Resource> resourceList = c.getResourceList();
                  for (Resource resource: resourceList ) {
                      Long resourceId = IdWorker.getId();
@@ -231,31 +217,39 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                      //保存中间表
                      contentFragmentResourceMapper.insertSelective(cfr);
                  }
-
-             }
+                    String templateName ="";
+                    String fileName = ichProject.getId().toString();
+                    //生成静态页面
+                    String uri = buildHTML(templateName, ichProject, fileName);
+                    ichProject.setUri(uri);
+                    ichProjectMapper.updateByPrimaryKeySelective(ichProject);
+                }
 
             } else {
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
             }
             commit(transactionStatus);
         } catch (Exception e) {
+            rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
     }
 
     /**
-     * 根据项目id获取传承人列表
-     * @param ichProjectId
+     *  根据传承人或者作品信息查询项目
+     * @param id
      * @return
      */
-    private List<IchMaster> getIchMasterByIchProjectId(Long ichProjectId){
-        List<IchMaster> ichMasterList = ichMasterMapper.selectByIchProjectId(ichProjectId);
-        for (IchMaster ichMaster:ichMasterList) {
+    public IchProject getIchProjectById(Long id) {
+        //所属项目
+        IchProject ichProject = ichProjectMapper.selectByPrimaryKey(id);
+        if (ichProject != null) {
+            //内容片断列表
             ContentFragment con = new ContentFragment();
-            con.setTargetId(ichMaster.getId());
-            con.setTargetType(1);
+            con.setTargetId(ichProject.getId());
+            con.setTargetType(0);
             List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
-            for (ContentFragment contentFragment :contentFragmentList) {
+            for (ContentFragment contentFragment : contentFragmentList) {
                 Long attrId = contentFragment.getAttributeId();
                 Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
                 contentFragment.setAttribute(attribute);//添加属性
@@ -267,37 +261,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
                 contentFragment.setResourceList(resourceList);
             }
-            ichMaster.setContentFragmentList(contentFragmentList);
+            ichProject.setContentFragmentList(contentFragmentList);
         }
-        return ichMasterList;
+        return ichProject;
     }
 
-    /**
-     * 根据项目id获取作品列表
-     * @param ichProjectId
-     * @return
-     */
-    private List<Works> getWorksByIchProjectId(Long ichProjectId){
-        List<Works> worksList = worksMapper.selectByIchProjectId(ichProjectId);
-        for (Works works:worksList) {
-            ContentFragment con = new ContentFragment();
-            con.setTargetId(works.getId());
-            con.setTargetType(2);
-            List<ContentFragment> contentFragments = contentFragmentMapper.selectByTargetIdAndType(con);
-            for (ContentFragment contentFragment :contentFragments) {
-                Long attrId = contentFragment.getAttributeId();
-                Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
-                contentFragment.setAttribute(attribute);//添加属性
-                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
-                List<Resource> resourceList = new ArrayList<>();
-                for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
-                    Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
-                    resourceList.add(resource);
-                }
-                contentFragment.setResourceList(resourceList);
-            }
-            works.setContentFragmentList(contentFragments);
-        }
-        return worksList;
-    }
 }

@@ -1,7 +1,8 @@
 package com.diich.web.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.diich.core.base.BaseController;
+import com.baomidou.mybatisplus.plugins.Page;
+    import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.IchProject;
 import com.diich.core.model.User;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -29,29 +29,53 @@ public class IchProjectController extends BaseController<IchProject> {
 
     @RequestMapping("getIchProject")
     @ResponseBody
-    public Map<String, Object> getIchProject(HttpServletRequest request,@RequestBody Map<String,Long> map) {
+    public Map<String, Object> getIchProject(HttpServletRequest request) {
+        String id = request.getParameter("params");
+        if(id == null || "".equals(id)) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return ae.toMap();
+        }
+        IchProject ichProject = null;
+        try{
+            ichProject = ichProjectService.getIchProject(id);
+        }catch (Exception e){
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
 
-        Map<String, Object> result = ichProjectService.getIchProject(String.valueOf(map.get("proId")));
-        return result;
+        return setResultMap(ichProject);
     }
 
     @RequestMapping("getIchProjectList")
     @ResponseBody
-    public Map<String, Object> getIchProjectList(HttpServletRequest request,@RequestBody Map<String,Long> map) {
+    public Map<String, Object> getIchProjectList(HttpServletRequest request) {
+        Map<String, Object> params = null;
+        String param = request.getParameter("params");
+        try{
+            params = JSON.parseObject(param, Map.class);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return ae.toMap();
+        }
+        Page<IchProject> page = null;
+        try {
+            page = ichProjectService.getIchProjectPage(params);
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
 
-        Map<String, Object> result = ichProjectService.getIchProjectList(JSON.toJSONString(map));
-
-        return result;
+        return setResultMap(page);
     }
 
     @RequestMapping("saveIchProject")
     @ResponseBody
     public Map<String, Object> saveIchProject(HttpServletRequest request) {
-        String jsonStr = request.getParameter("jsonStr");
+        String params = request.getParameter("params");
         IchProject ichProject = null;
 
         try {
-            ichProject = parseObject(jsonStr, IchProject.class);
+            ichProject = parseObject(params, IchProject.class);
         } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return ae.toMap();
