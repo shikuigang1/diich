@@ -1,5 +1,7 @@
 package com.diich.core.service;
 
+import com.diich.core.model.IchProject;
+
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +12,7 @@ public interface IchProjectService {
 
     Map<String, Object> getIchProject(String id);
 
-    Map<String, Object> saveIchProject(String text);
+    void saveIchProject(IchProject ichProject) throws Exception;
 
     Map<String, Object> getIchProjectList(String text);
 }

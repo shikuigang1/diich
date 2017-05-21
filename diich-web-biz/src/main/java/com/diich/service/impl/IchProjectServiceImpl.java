@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
+import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
 import com.diich.core.service.IchCategoryService;
 import com.diich.core.service.IchProjectService;
@@ -181,18 +182,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
 
     @Transactional
-    public Map<String, Object> saveIchProject(String text) {
+    public void saveIchProject(IchProject ichProject) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
-
-        User user = new User();
-        user.setLoginName("user");
-        IchProject ichProject = null;
-
-        try {
-            ichProject = parseObject(text, IchProject.class);
-        } catch (Exception e) {
-            return setResultMap(Constants.PARAM_ERROR, null);
-        }
 
         try {
             if(ichProject.getId() == null) {
@@ -201,18 +192,22 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
                 ichProject.setId(proID);
                 ichProjectMapper.insertSelective(ichProject);
+                System.out.println(proID);
+                List<ContentFragment> ls = ichProject.getContentFragmentList();
                 List<IchMaster> masterList = ichProject.getIchMasterList();
 
 //                System.out.println(proID);
                  List<ContentFragment> ls = ichProject.getContentFragmentList();
 
-             for(int i=0;i<ls.size();i++){
-                 ContentFragment c = ls.get(i);
+                for(int i=0;i<ls.size();i++){
+                     ContentFragment c = ls.get(i);
 
-                    c.setId(IdWorker.getId());
+                     c.setId(IdWorker.getId());
 
-                    c.setTargetId(proID);
+                     c.setTargetId(proID);
 
+                     contentFragmentMapper.insertSelective(c);
+                 }
                     contentFragmentMapper.insertSelective(c);
                  List<Resource> resourceList = c.getResourceList();
                  for (Resource resource: resourceList ) {
@@ -231,17 +226,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
              }
 
-                //userMapper.insertSelective(user);
             } else {
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
             }
             commit(transactionStatus);
         } catch (Exception e) {
-            rollback(transactionStatus);
-            return setResultMap(Constants.INNER_ERROR, null);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-
-        return setResultMap(Constants.SUCCESS, ichProject);
     }
 
     /**

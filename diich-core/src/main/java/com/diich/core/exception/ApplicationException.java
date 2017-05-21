@@ -3,6 +3,7 @@ package com.diich.core.exception;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ApplicationException extends Exception {
@@ -12,10 +13,11 @@ public class ApplicationException extends Exception {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static int INNER_ERROR = 0x01;
-	public static int PARAM_ERROR = 0x02;
+	public static int INNER_ERROR = 1;
+	public static int PARAM_ERROR = 2;
+	public static int NO_LOGIN = 3;
 
-	private static final String[] ERROR_DESC_LIST = new String[] { "", "内部错误.", "参数错误"};
+	private static final String[] ERROR_DESC_LIST = new String[] { "", "内部错误.", "参数错误", "用户没有登录"};
 
 	private int code;
 	private String msg;
@@ -41,11 +43,11 @@ public class ApplicationException extends Exception {
 		this.msg = msg;
 	}
 
-	public String toJsonString() {
-		JSONObject result = new JSONObject();
+	public Map<String, Object> toMap() {
+		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("code", this.code);
 		result.put("msg", this.msg);
-		return result.toString();
+		return result;
 	}
 
 }

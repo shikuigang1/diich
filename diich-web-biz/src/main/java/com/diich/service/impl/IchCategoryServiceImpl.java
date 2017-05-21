@@ -1,6 +1,7 @@
 package com.diich.service.impl;
 
 import com.diich.core.base.BaseService;
+import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.Attribute;
 import com.diich.core.model.IchCategory;
 import com.diich.core.service.IchCategoryService;
@@ -35,4 +36,16 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
 
         return ichCategory;
     }
+
+    public List<IchCategory> getIchCategoryList() throws Exception {
+        List<IchCategory> list = null;
+
+
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+
+
+        //return list;
+    }
+
+
 }

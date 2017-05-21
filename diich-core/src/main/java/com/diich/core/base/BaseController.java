@@ -4,6 +4,7 @@
 package com.diich.core.base;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
+import com.diich.core.exception.ApplicationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -116,5 +118,46 @@ public abstract class BaseController<T extends BaseModel> {
 		byte[] bytes = JSON.toJSONBytes(modelMap, SerializerFeature.DisableCircularReferenceDetect);
 		response.getOutputStream().write(bytes);
 	}
+
+	protected Map<String, Object> setResultMap(Object data) {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		if (data != null) {
+			if (data instanceof Page) {
+				Page<?> page = (Page<?>) data;
+				map.put("data", page.getRecords());
+				map.put("current", page.getCurrent());
+				map.put("size", page.getSize());
+				map.put("pages", page.getPages());
+				map.put("total", page.getTotal());
+				map.put("iTotalRecords", page.getTotal());
+				map.put("iTotalDisplayRecords", page.getTotal());
+			} else if (data instanceof List<?>) {
+				map.put("data", data);
+				map.put("iTotalRecords", ((List<?>) data).size());
+				map.put("iTotalDisplayRecords", ((List<?>) data).size());
+			} else {
+				map.put("data", data);
+			}
+		}
+
+		map.put("code", 0);
+		map.put("msg", "SUCCESS");
+		return map;
+	}
+
+    public T parseObject(String jsonObjStr, Class<T> clazz) throws Exception {
+        T object = null;
+        try {
+            JSONObject jobObj = JSON.parseObject(jsonObjStr);
+            ObjectMapper mapper = new ObjectMapper();
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            mapper.setDateFormat(fmt);
+            object = mapper.readValue(jobObj.toString(), clazz);
+        } catch (Exception e) {
+            throw new ApplicationException(ApplicationException.PARAM_ERROR);
+        }
+        return object;
+    }
 
 }
