@@ -245,7 +245,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     }
 
     /**
-     * 根据传承人id获取传承人列表
+     * 根据项目id获取传承人列表
      * @param ichProjectId
      * @return
      */
@@ -257,9 +257,16 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             con.setTargetType(1);
             List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
             for (ContentFragment contentFragment :contentFragmentList) {
-                Long attrId = contentFragment.getId();
+                Long attrId = contentFragment.getAttributeId();
                 Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
                 contentFragment.setAttribute(attribute);//添加属性
+                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
+                List<Resource> resourceList = new ArrayList<>();
+                for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
+                    Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
+                    resourceList.add(resource);
+                }
+                contentFragment.setResourceList(resourceList);
             }
             ichMaster.setContentFragmentList(contentFragmentList);
         }
@@ -279,9 +286,16 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             con.setTargetType(2);
             List<ContentFragment> contentFragments = contentFragmentMapper.selectByTargetIdAndType(con);
             for (ContentFragment contentFragment :contentFragments) {
-                Long attrId = contentFragment.getId();
+                Long attrId = contentFragment.getAttributeId();
                 Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
                 contentFragment.setAttribute(attribute);//添加属性
+                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
+                List<Resource> resourceList = new ArrayList<>();
+                for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
+                    Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
+                    resourceList.add(resource);
+                }
+                contentFragment.setResourceList(resourceList);
             }
             works.setContentFragmentList(contentFragments);
         }
