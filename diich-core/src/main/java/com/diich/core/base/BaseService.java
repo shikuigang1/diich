@@ -285,7 +285,7 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
     /**
      *生成列表静态页面的方法
      */
-    public String buildHTML(String templateName, List<BaseModel> entityList) throws Exception{
+    public String buildHTML(String templateName, List<BaseModel> entityList,String outputFileName ) throws Exception{
 
         if(StringUtils.isBlank(templateName)){
             throw new BusinessException("模板名不能为空 ");
@@ -293,7 +293,6 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         if(entityList.size()==0){
             throw new BusinessException("生成模板的对象不能为空 ");
         }
-        String outputFileName=entityList.get(0).toString();
 
         Configuration configuration = new Configuration(Configuration.getVersion());
         String path= PropertiesUtil.getString("freemarker.templateLoaderPath");
@@ -312,35 +311,13 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
     /**
      *生成静态页面的方法
      */
-    public String buildHTML(String templateName, BaseModel entity) throws Exception{
+    public String buildHTML(String templateName, BaseModel entity,String outputFileName) throws Exception{
 
         if(StringUtils.isBlank(templateName)){
             throw new BusinessException("模板名不能为空 ");
         }
         if("".equals(entity) || entity ==null){
             throw new BusinessException("生成模板的对象不能为空 ");
-        }
-        String outputFileName="";
-        if( entity instanceof IchProject){
-            try {
-                outputFileName= ((IchProject) entity).getId().toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if( entity instanceof IchMaster){
-            try {
-                outputFileName= ((IchMaster) entity).getId().toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if( entity instanceof Works){
-            try {
-                outputFileName= ((Works) entity).getId().toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
         Configuration configuration = new Configuration(Configuration.getVersion());
         String path=PropertiesUtil.getString("freemarker.templateLoaderPath");
