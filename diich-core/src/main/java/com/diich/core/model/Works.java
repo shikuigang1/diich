@@ -22,6 +22,8 @@ public class Works extends BaseModel {
 
     private String uri;
 
+    private Integer isRepresent;
+
     private String lang;//语言
 
     private IchProject ichProject;//项目
@@ -100,6 +102,14 @@ public class Works extends BaseModel {
 
     public void setLang(String lang) {
         this.lang = lang;
+    }
+
+    public Integer getIsRepresent() {
+        return isRepresent;
+    }
+
+    public void setIsRepresent(Integer isRepresent) {
+        this.isRepresent = isRepresent;
     }
 
     public IchProject getIchProject() {

@@ -149,7 +149,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     List<IchMaster> ichMasterList = ichMasterService.getIchMasterByIchProjectId(ichProject.getId());
 
                     ichProject.setIchMasterList(ichMasterList);
-                    //作品列表
+                    //代表作品列表
                     List<Works> worksList =worksService.getWorksByIchProjectId(ichProject.getId());
 
                     ichProject.setWorksList(worksList);

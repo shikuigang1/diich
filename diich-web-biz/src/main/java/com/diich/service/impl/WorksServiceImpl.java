@@ -1,5 +1,6 @@
 package com.diich.service.impl;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
@@ -78,26 +79,57 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         return works;
     }
 
+    @Override
+    public Page<Works> getWorksPage(Map<String, Object> params) throws Exception {
+
+        Integer current = 1;
+        Integer pageSize = 10;
+
+        if(params != null && params.containsKey("current") && params.containsKey("pageSize")) {
+            current = (Integer) params.get("current");
+            pageSize = (Integer) params.get("pageSize");
+        }
+
+        Page<Works> page = new Page<Works>(current, pageSize);
+        page.setCondition(params);
+        List<Works> worksList = getWorksList(page);
+
+        page.setRecords(worksList);
+        return page;
+    }
+
+    @Override
+    public List<Works> getWorksList(Page<Works> page) throws Exception {
+
+        return null;
+    }
+
 
     /**
-     * 根据项目id获取作品列表
+     * 根据项目id获取代表作品列表
      * @param ichProjectId
      * @return
      */
     public List<Works> getWorksByIchProjectId(Long ichProjectId){
-        List<Works> getWorkList = worksMapper.selectByIchProjectId(ichProjectId);
+        Works works = new Works();
+        works.setIchProjectId(ichProjectId);
+        works.setIsRepresent(0);
+        List<Works> getWorkList = worksMapper.selectWorks(works);
         List<Works> worksList = getWorkList(getWorkList);
         return worksList;
     }
 
 
     /**
-     * 根据传承人id查询作品列表
+     * 根据传承人id查询代表作品列表
      * @param ichMasterId
      * @return
      */
     public List<Works> getWorksByIchMasterId(Long ichMasterId){
-        List<Works> getWorkList = worksMapper.selectByIchMasterId(ichMasterId);
+        Works works = new Works();
+        works.setIchMasterId(ichMasterId);
+        works.setIsRepresent(0);
+        List<Works> getWorkList = worksMapper.selectWorks(works);
         List<Works> worksList = getWorkList(getWorkList);
         return worksList;
     }
