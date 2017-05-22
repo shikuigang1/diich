@@ -7,6 +7,7 @@ import com.diich.core.model.*;
 import com.diich.core.service.IchMasterService;
 import com.diich.core.service.IchProjectService;
 import com.diich.core.service.WorksService;
+import com.diich.core.util.BuildHTMLEngine;
 import com.diich.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -104,7 +105,11 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         return null;
     }
 
-
+    @Override
+    public String buildHTML(String templateName, Works works, String fileName) throws Exception {
+        String uri = BuildHTMLEngine.buildHTML(templateName, works, fileName);
+        return null;
+    }
     /**
      * 根据项目id获取代表作品列表
      * @param ichProjectId

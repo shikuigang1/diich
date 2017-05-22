@@ -1,6 +1,7 @@
 package com.diich.core.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.diich.core.model.IchProject;
 import com.diich.core.model.Works;
 
 import java.util.List;
@@ -22,4 +23,5 @@ public interface WorksService {
 
     List<Works> getWorksByIchMasterId(Long id);
 
+    String buildHTML(String templateName, Works works, String fileName) throws Exception;
 }

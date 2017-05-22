@@ -10,6 +10,7 @@ import com.diich.core.model.*;
 import com.diich.core.service.IchMasterService;
 import com.diich.core.service.IchProjectService;
 import com.diich.core.service.WorksService;
+import com.diich.core.util.BuildHTMLEngine;
 import com.diich.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -273,5 +274,11 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             ichMaster.setContentFragmentList(contentFragmentList);
         }
         return ichMaster;
+    }
+
+    @Override
+    public String buildHTML(String templateName, IchMaster ichMaster, String fileName) throws Exception {
+        String uri = BuildHTMLEngine.buildHTML(templateName, ichMaster, fileName);
+        return null;
     }
 }

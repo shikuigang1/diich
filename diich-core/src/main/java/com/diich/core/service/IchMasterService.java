@@ -1,6 +1,7 @@
 package com.diich.core.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.diich.core.base.BaseModel;
 import com.diich.core.model.IchMaster;
 import com.diich.core.model.Works;
 
@@ -26,4 +27,6 @@ public interface IchMasterService {
     List<IchMaster> getIchMasterByIchProjectId(Long ichProjectId);
 
     IchMaster getIchMasterByWorks(Works works);
+    //生成静态页面
+    String buildHTML(String templateName, IchMaster ichMaster, String fileName) throws Exception;
 }

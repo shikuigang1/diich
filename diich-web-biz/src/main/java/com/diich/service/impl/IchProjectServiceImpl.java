@@ -2,17 +2,17 @@ package com.diich.service.impl;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.diich.core.base.BaseModel;
 import com.diich.core.base.BaseService;
-import com.diich.core.base.BuildHtmlService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
 import com.diich.core.service.IchCategoryService;
 import com.diich.core.service.IchMasterService;
 import com.diich.core.service.IchProjectService;
 import com.diich.core.service.WorksService;
+import com.diich.core.util.BuildHTMLEngine;
 import com.diich.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,8 +51,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     private IchMasterService ichMasterService;
     @Autowired
     private WorksService worksService;
-    @Autowired
-    private IchProjectBuildHtmlService ichProjectBuildHtmlService;
+
 
     /*@Autowired
     private DataSourceTransactionManager transactionManager;*/
@@ -221,7 +220,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     String templateName ="";
                     String fileName = ichProject.getId().toString();
                     //生成静态页面
-                    String uri = ichProjectBuildHtmlService.buildHTML(templateName, ichProject, fileName);
+                    String uri = buildHTML(templateName, ichProject, fileName);
                     ichProject.setUri(uri);
                     ichProjectMapper.updateByPrimaryKeySelective(ichProject);
                 }
@@ -265,6 +264,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             ichProject.setContentFragmentList(contentFragmentList);
         }
         return ichProject;
+    }
+
+    @Override
+    public String buildHTML(String templateName, IchProject ichProject, String fileName) throws Exception {
+        String uri = BuildHTMLEngine.buildHTML(templateName, ichProject, fileName);
+        return uri;
     }
 
 }

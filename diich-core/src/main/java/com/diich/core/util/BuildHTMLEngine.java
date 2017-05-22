@@ -1,8 +1,7 @@
-package com.diich.core.base;
+package com.diich.core.util;
 
 import com.diich.core.base.BaseModel;
 import com.diich.core.exception.BusinessException;
-import com.diich.core.util.PropertiesUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.apache.commons.lang3.StringUtils;
@@ -18,18 +17,20 @@ import java.util.Map;
 /**
  * Created by Administrator on 2017/5/22.
  */
-public abstract class BuildHtmlService {
-
+public class BuildHTMLEngine {
     /**
      *生成静态页面的方法
      */
-    public String buildHTML(String templateName, BaseModel entity,String outputFileName) throws Exception{
+    public static String buildHTML(String templateName, BaseModel entity, String outputFileName) throws Exception{
 
         if(StringUtils.isBlank(templateName)){
             throw new BusinessException("模板名不能为空 ");
         }
         if("".equals(entity) || entity ==null){
             throw new BusinessException("生成模板的对象不能为空 ");
+        }
+        if(StringUtils.isBlank(outputFileName)){
+            throw new BusinessException("生成文件名不能为空 ");
         }
         Configuration configuration = new Configuration(Configuration.getVersion());
         String path= PropertiesUtil.getString("freemarker.templateLoaderPath");
@@ -49,7 +50,7 @@ public abstract class BuildHtmlService {
     /**
      *生成列表静态页面的方法
      */
-    public String buildHTML(String templateName, List<BaseModel> entityList, String outputFileName ) throws Exception{
+    public static String buildHTML(String templateName, List<BaseModel> entityList, String outputFileName ) throws Exception{
 
         if(StringUtils.isBlank(templateName)){
             throw new BusinessException("模板名不能为空 ");
