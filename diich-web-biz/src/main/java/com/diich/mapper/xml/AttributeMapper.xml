@@ -126,7 +126,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <select id="selectAttrListByCategory" resultType="com.diich.core.model.Attribute" parameterType="java.lang.Long">
-      SELECT * FROM attribute WHERE   ich_category_id = #{ichCategoryId,jdbcType=BIGINT}
+  <select id="selectAttrListByCategory" resultMap="BaseResultMap" parameterType="java.lang.Long">
+      SELECT * FROM attribute WHERE ich_category_id = #{ichCategoryId,jdbcType=BIGINT}
   </select>
 </mapper>

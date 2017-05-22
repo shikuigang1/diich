@@ -24,28 +24,37 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
     @Autowired
     private AttributeMapper attributeMapper;
 
-    public IchCategory getIchCategory(Long id) {
-        IchCategory ichCategory = ichCategoryMapper.selectByPrimaryKey(id);
+    public List<IchCategory> getAllCategory() throws Exception {
+        List<IchCategory> categoryList = null;
 
-        if(ichCategory != null) {
-            List<Attribute> attributeList = attributeMapper.selectAttrListByCategory(ichCategory.getId());
-            if(attributeList.size() != 0) {
-                ichCategory.setAttributeList(attributeList);
-            }
+        try {
+            categoryList = getCategoryListByParentId(null);
+        } catch (Exception e) {
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
-        return ichCategory;
+        return categoryList;
     }
 
-    public List<IchCategory> getIchCategoryList() throws Exception {
-        List<IchCategory> list = null;
+    private List<IchCategory> getCategoryListByParentId(Long parentId) throws Exception {
+        List<IchCategory> childList = ichCategoryMapper.selectByParentId(parentId);
 
+        for(IchCategory category : childList) {
+            List<IchCategory> categoryList = getCategoryListByParentId(category.getId());
 
-            throw new ApplicationException(ApplicationException.INNER_ERROR);
+            List<Attribute> attributeList = attributeMapper.selectAttrListByCategory(category.getId());
+            if(attributeList.size() != 0) {
+                category.setAttributeList(attributeList);
+            }
 
+            if(categoryList.size() == 0) {
+                continue;
+            }
 
-        //return list;
+            category.setChildCategoryList(categoryList);
+        }
+
+        return childList;
     }
-
 
 }
