@@ -101,13 +101,14 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             }
             ichProject.setContentFragmentList(ls);
 
-
         } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
         return  ichProject;
     }
+
+
 
     public Page<IchProject> getIchProjectPage(Map<String, Object>  params) throws Exception {
         Integer current = 1;
