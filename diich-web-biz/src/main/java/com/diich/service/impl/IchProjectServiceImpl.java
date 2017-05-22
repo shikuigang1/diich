@@ -54,9 +54,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Autowired
     private IchProjectBuildHtmlService ichProjectBuildHtmlService;
 
-    /*@Autowired
-    private DataSourceTransactionManager transactionManager;*/
-
     public IchProject getIchProject(String id) throws Exception {
 
 
@@ -67,11 +64,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
 
             if(ichProject != null) {
-                Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
+                /*Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
                 IchCategory ichCategory = ichCategoryService.getIchCategory(ichProject.getIchCategoryId());
                 if(ichCategory != null) {
                     ichProject.setIchCategory(ichCategory);
-                }
+                }*/
                  // User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
                 //获取传承人列表
                 List<IchMaster> ichMasterList = ichMasterService.getIchMasterByIchProjectId(Long.parseLong(id));
@@ -138,13 +135,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             for (IchProject ichProject:ichItemList) {
 
                 if(ichProject != null) {
-                    Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
+                    /*Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
 
                     IchCategory ichCategory = ichCategoryService.getIchCategory(ichProject.getIchCategoryId());
 
                     if(ichCategory != null) {
                         ichProject.setIchCategory(ichCategory);
-                    }
+                    }*/
                     // User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
                     //获取传承人列表
                     List<IchMaster> ichMasterList = ichMasterService.getIchMasterByIchProjectId(ichProject.getId());

@@ -3,6 +3,8 @@ package com.diich.mapper;
 import com.diich.core.base.BaseMapper;
 import com.diich.core.model.IchCategory;
 
+import java.util.List;
+
 public interface IchCategoryMapper extends BaseMapper<IchCategory> {
     int deleteByPrimaryKey(Long id);
 
@@ -15,4 +17,6 @@ public interface IchCategoryMapper extends BaseMapper<IchCategory> {
     int updateByPrimaryKeySelective(IchCategory record);
 
     int updateByPrimaryKey(IchCategory record);
+
+    List<IchCategory> selectByParentId(Long parentId) throws Exception;
 }

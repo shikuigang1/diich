@@ -21,10 +21,17 @@ public class ApplicationException extends Exception {
 
 	private int code;
 	private String msg;
+	private String detailMsg;
 
 	public ApplicationException(int code) {
 		this.code = code;
 		this.msg = ERROR_DESC_LIST[code];
+	}
+
+	public ApplicationException(int code, String detailMsg) {
+		this.code = code;
+		this.msg = ERROR_DESC_LIST[code];
+		this.detailMsg = detailMsg;
 	}
 
 	public int getCode() {
@@ -47,6 +54,11 @@ public class ApplicationException extends Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("code", this.code);
 		result.put("msg", this.msg);
+
+		if(this.detailMsg != null) {
+			result.put("detailMsg", this.detailMsg);
+		}
+
 		return result;
 	}
 

@@ -17,6 +17,21 @@
     from ich_category
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    *
+    from ich_category
+    where
+    <choose>
+      <when test='_parameter != null'>
+        parent_id = #{_parameter,jdbcType=BIGINT}
+      </when>
+      <otherwise>
+        parent_id is null
+      </otherwise>
+    </choose>
+
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from ich_category
     where id = #{id,jdbcType=BIGINT}

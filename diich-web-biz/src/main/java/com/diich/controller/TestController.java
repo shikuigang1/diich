@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,20 +41,16 @@ public class TestController extends BaseController{
     @RequestMapping("test2")
     @ResponseBody
     public Map<String, Object> test2(HttpServletRequest request) {
-        String params = "/ljhuitgyiu";
-
-        IchCategory ichCategory = null;
+        List<IchCategory> categoryList = null;
 
         try {
-            ichCategory = (IchCategory) parseObject(params, IchCategory.class);
-
-            ichCategoryService.getIchCategoryList();
+            categoryList = ichCategoryService.getAllCategory();
         } catch (Exception e) {
             ApplicationException ae = (ApplicationException)e;
             return ae.toMap();
         }
 
-        return setResultMap(ichCategory);
+        return setResultMap(categoryList);
     }
 
 }
