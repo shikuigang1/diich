@@ -217,6 +217,19 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     }
 
     /**
+     * 生成静态页面
+     * @param templateName
+     * @param ichMaster
+     * @param fileName
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public String buildHTML(String templateName, IchMaster ichMaster, String fileName) throws Exception {
+        String uri = BuildHTMLEngine.buildHTML(templateName, ichMaster, fileName);
+        return uri;
+    }
+    /**
      * 根据项目id获取传承人列表
      * @param ichProjectId
      * @return
@@ -276,9 +289,4 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         return ichMaster;
     }
 
-    @Override
-    public String buildHTML(String templateName, IchMaster ichMaster, String fileName) throws Exception {
-        String uri = BuildHTMLEngine.buildHTML(templateName, ichMaster, fileName);
-        return null;
-    }
 }

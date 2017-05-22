@@ -108,7 +108,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
     @Override
     public String buildHTML(String templateName, Works works, String fileName) throws Exception {
         String uri = BuildHTMLEngine.buildHTML(templateName, works, fileName);
-        return null;
+        return uri;
     }
     /**
      * 根据项目id获取代表作品列表
