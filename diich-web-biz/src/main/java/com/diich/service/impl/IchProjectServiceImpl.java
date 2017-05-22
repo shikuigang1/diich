@@ -1,11 +1,9 @@
 package com.diich.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
+import com.diich.core.base.BuildHtmlService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
 import com.diich.core.service.IchCategoryService;
@@ -14,12 +12,12 @@ import com.diich.core.service.IchProjectService;
 import com.diich.core.service.WorksService;
 import com.diich.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +51,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     private IchMasterService ichMasterService;
     @Autowired
     private WorksService worksService;
+    @Autowired
+    private IchProjectBuildHtmlService ichProjectBuildHtmlService;
 
     /*@Autowired
     private DataSourceTransactionManager transactionManager;*/
@@ -221,7 +221,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     String templateName ="";
                     String fileName = ichProject.getId().toString();
                     //生成静态页面
-                    String uri = buildHTML(templateName, ichProject, fileName);
+                    String uri = ichProjectBuildHtmlService.buildHTML(templateName, ichProject, fileName);
                     ichProject.setUri(uri);
                     ichProjectMapper.updateByPrimaryKeySelective(ichProject);
                 }

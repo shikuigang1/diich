@@ -23,6 +23,8 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
 
     @Autowired
     private SecUserMapper secUserMapper;
+    @Autowired
+    private WorksBuildHtmlService worksBuildHtmlService;
 
     public Map<String, Object> addUser(SecUser user) throws Exception {
        TransactionStatus transactionStatus = getTransactionStatus();
@@ -32,7 +34,7 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
            //调用生成静态页面的方法
            String title = "freemarker测试";
            String templatename = "user.ftl";
-           String path = buildHTML(templatename, user,"");
+           String path = worksBuildHtmlService.buildHTML(templatename, user,"");
            commit(transactionStatus);
            return setResultMap(Constants.SUCCESS, path);
        }catch(Exception e){
@@ -82,7 +84,7 @@ public class SecUserServiceImpl extends BaseService<SecUser>  implements  SysUse
         String filename=userList.get(0).toString();
         String title="freemarker测试";
         String templatename="user.ftl";
-        String outPutPath =buildHTML(templatename, userList,"");
+        String outPutPath =worksBuildHtmlService.buildHTML(templatename, userList,"");
         return outPutPath;
     }
 }
