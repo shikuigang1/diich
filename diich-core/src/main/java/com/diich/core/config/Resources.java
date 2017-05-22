@@ -12,7 +12,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
  */
 public final class Resources {
     /** 第三方登录配置 */
-    public static final ResourceBundle THIRDPARTY = ResourceBundle.getBundle("config/thirdParty");
+   // public static final ResourceBundle THIRDPARTY = ResourceBundle.getBundle("config/thirdParty");
     /** 国际化信息 */
     private static final Map<String, ResourceBundle> MESSAGES = new HashMap<String, ResourceBundle>();
 
