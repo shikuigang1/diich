@@ -18,7 +18,6 @@ public interface WorksMapper extends BaseMapper<Works> {
 
     int updateByPrimaryKey(Works record);
 
-    List<Works> selectByIchProjectId(Long ichProjectId);
+    List<Works> selectWorks(Works record);
 
-    List<Works> selectByIchMasterId(Long ichMasterId);
 }

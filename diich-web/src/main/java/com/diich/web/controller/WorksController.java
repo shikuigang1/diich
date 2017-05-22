@@ -1,7 +1,10 @@
 package com.diich.web.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
+import com.diich.core.model.IchMaster;
 import com.diich.core.model.Works;
 import com.diich.core.service.WorksService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,26 @@ public class WorksController extends BaseController<Works> {
 
     }
 
+    @RequestMapping("getWorksList")
+    @ResponseBody
+    public Map<String, Object> getWorksList(HttpServletRequest request){
+        Map<String, Object> params = null;
+        String param = request.getParameter("params");
+        try{
+            params = JSON.parseObject(param, Map.class);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return ae.toMap();
+        }
+        Page<Works> page = null;
+        try {
+            page = worksService.getWorksPage(params);
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
 
+        return setResultMap(page);
+    }
 
 }

@@ -6,9 +6,10 @@
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="uri" property="uri" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, type, uri, status
+    id, type, uri, status, description
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
@@ -21,10 +22,10 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.Resource" >
-    insert into resource (id, type, uri, 
-      status)
-    values (#{id,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER})
+    insert into resource (id, type, uri,
+    status, description)
+    values (#{id,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR},
+    #{status,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.Resource" >
     insert into resource
@@ -41,6 +42,9 @@
       <if test="status != null" >
         status,
       </if>
+      <if test="description != null" >
+        description,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -54,6 +58,9 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -69,6 +76,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -76,7 +86,8 @@
     update resource
     set type = #{type,jdbcType=INTEGER},
       uri = #{uri,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

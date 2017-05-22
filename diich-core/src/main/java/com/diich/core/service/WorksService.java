@@ -1,5 +1,6 @@
 package com.diich.core.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.model.Works;
 
 import java.util.List;
@@ -12,6 +13,10 @@ public interface WorksService {
 
     //根据id获取作品详情
     Works getWorks(String worksId) throws Exception;
+    //查询作品列表信息
+    Page<Works> getWorksPage(Map<String, Object> params)throws Exception;
+
+    List<Works> getWorksList(Page<Works> page) throws Exception;
     //根据项目id或者传承人id获取作品列表
     List<Works> getWorksByIchProjectId(Long id);
 

@@ -38,7 +38,7 @@ public class IchProject extends BaseModel {
 
     private List<IchMaster> ichMasterList;//传承人列表
 
-    private List<Works> worksList;//作品列表
+    private List<Works> worksList;//代表作品列表
 
     public Long getId() {
         return id;
