@@ -2,6 +2,8 @@ package com.diich.core.model;
 
 import com.diich.core.base.BaseModel;
 
+import java.util.List;
+
 public class Dictionary extends BaseModel {
     private Long id;
 
@@ -14,6 +16,8 @@ public class Dictionary extends BaseModel {
     private Long parentId;
 
     private Integer status;
+
+    private List<Dictionary> children;
 
     public Long getId() {
         return id;
@@ -61,5 +65,13 @@ public class Dictionary extends BaseModel {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public List<Dictionary> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Dictionary> children) {
+        this.children = children;
     }
 }

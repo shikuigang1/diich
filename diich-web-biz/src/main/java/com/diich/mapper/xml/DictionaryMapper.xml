@@ -101,4 +101,30 @@
       type = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectListByType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select *
+    from dictionary
+    where type = #{type,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select *
+    from dictionary
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select *
+    FROM dictionary
+    where type = #{params.type,jdbcType=INTEGER} and
+    <choose>
+      <when test="params.parentId != null">
+        parent_id = #{params.parentId,jdbcType=BIGINT}
+      </when>
+      <otherwise>
+        parent_id is null
+      </otherwise>
+    </choose>
+  </select>
 </mapper>
