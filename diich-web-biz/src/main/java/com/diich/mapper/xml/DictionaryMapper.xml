@@ -108,10 +108,10 @@
     where type = #{type,jdbcType=INTEGER}
   </select>
 
-  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+  <select id="selectByTypeAndCode" resultMap="BaseResultMap" parameterType="java.util.Map">
     select *
     from dictionary
-    where code = #{code,jdbcType=VARCHAR}
+    where type = #{params.type,jdbcType=INTEGER} and code = #{params.code,jdbcType=VARCHAR}
   </select>
 
   <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.util.Map">

@@ -22,7 +22,7 @@ public interface DictionaryMapper extends BaseMapper<Dictionary> {
 
     List<Dictionary> selectListByType(Integer type) throws Exception;
 
-    Dictionary selectByCode(String code) throws Exception;
+    List<Dictionary> selectByTypeAndCode(@Param("params") Map<String, Object> params) throws Exception;
 
     List<Dictionary> selectByParentId(@Param("params") Map<String, Object> params) throws Exception;
 
