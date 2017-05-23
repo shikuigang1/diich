@@ -43,7 +43,7 @@ public class DictionaryController extends BaseController<Dictionary> {
             return ae.toMap();
         }
 
-        return setResultMap(dictionaryList);
+        return putDataToMap(dictionaryList);
     }
 
     @RequestMapping("getDictionaryByCode")
@@ -64,6 +64,21 @@ public class DictionaryController extends BaseController<Dictionary> {
             return ae.toMap();
         }
 
-        return setResultMap(dictionary);
+        return putDataToMap(dictionary);
+    }
+
+    @RequestMapping("getAllDictionary")
+    @ResponseBody
+    public Map<String, Object> getDictionaryByCode() {
+        List<Dictionary> dictionaryList = null;
+
+        try {
+            dictionaryList = dictionaryService.getAllDictionary();
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
+
+        return putDataToMap(dictionaryList);
     }
 }

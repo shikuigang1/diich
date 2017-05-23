@@ -11,4 +11,6 @@ public interface DictionaryService {
     List<Dictionary> getDictionaryListByType(Integer type) throws Exception;
 
     Dictionary getDictionaryByCode(String code) throws Exception;
+
+    List<Dictionary> getAllDictionary() throws Exception;
 }

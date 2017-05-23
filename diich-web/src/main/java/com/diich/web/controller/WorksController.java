@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
-import com.diich.core.model.IchMaster;
 import com.diich.core.model.Works;
 import com.diich.core.service.WorksService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ public class WorksController extends BaseController<Works> {
             return ae.toMap();
         }
 
-        return setResultMap(works);
+        return putDataToMap(works);
 
     }
 
@@ -64,7 +63,7 @@ public class WorksController extends BaseController<Works> {
             return ae.toMap();
         }
 
-        return setResultMap(page);
+        return putDataToMap(page);
     }
 
 }

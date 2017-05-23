@@ -119,7 +119,7 @@ public abstract class BaseController<T extends BaseModel> {
 		response.getOutputStream().write(bytes);
 	}
 
-	protected Map<String, Object> setResultMap(Object data) {
+	protected Map<String, Object> putDataToMap(Object data) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		if (data != null) {

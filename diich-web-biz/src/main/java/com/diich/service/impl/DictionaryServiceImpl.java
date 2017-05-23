@@ -65,4 +65,16 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
 
         return dictionary;
     }
+
+    public List<Dictionary> getAllDictionary() throws Exception {
+        List<Dictionary> dictionaryList = null;
+
+        try {
+            dictionaryList = dictionaryMapper.selectAllDictionary();
+        } catch (Exception e) {
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+
+        return dictionaryList;
+    }
 }

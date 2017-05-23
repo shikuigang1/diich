@@ -7,13 +7,9 @@ import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.IchMaster;
 import com.diich.core.model.User;
 import com.diich.core.service.IchMasterService;
-import com.diich.core.support.HttpCode;
 import com.diich.core.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -46,7 +42,7 @@ public class IchMasterController extends BaseController<IchMaster>{
             return ae.toMap();
         }
 
-        return setResultMap(ichMaster);
+        return putDataToMap(ichMaster);
     }
 
     @RequestMapping("getIchMasterList")
@@ -69,7 +65,7 @@ public class IchMasterController extends BaseController<IchMaster>{
             return ae.toMap();
         }
 
-        return setResultMap(page);
+        return putDataToMap(page);
     }
 
     @RequestMapping("saveIchMaster")
@@ -100,6 +96,6 @@ public class IchMasterController extends BaseController<IchMaster>{
             return ae.toMap();
         }
 
-        return setResultMap(ichMaster);
+        return putDataToMap(ichMaster);
     }
 }

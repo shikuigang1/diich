@@ -25,4 +25,6 @@ public interface DictionaryMapper extends BaseMapper<Dictionary> {
     Dictionary selectByCode(String code) throws Exception;
 
     List<Dictionary> selectByParentId(@Param("params") Map<String, Object> params) throws Exception;
+
+    List<Dictionary> selectAllDictionary() throws Exception;
 }
