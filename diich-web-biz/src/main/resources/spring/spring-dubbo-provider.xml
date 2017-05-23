@@ -9,7 +9,6 @@
         ">
 
     <!-- 具体的实现bean -->
-    <bean id="secUserService" class="com.diich.service.impl.SecUserServiceImpl" />
     <bean id="ichItemService" class="com.diich.service.impl.IchProjectServiceImpl" />
     <bean id="userService" class="com.diich.service.impl.UserServiceImpl" />
     <bean id="ichMasterService" class="com.diich.service.impl.IchMasterServiceImpl" />
@@ -22,7 +21,6 @@
     <dubbo:protocol name="dubbo" port="20880" />
 
     <!-- 声明需要暴露的服务接口 -->
-    <dubbo:service interface="com.diich.core.service.SysUserService" ref="secUserService" />
     <dubbo:service interface="com.diich.core.service.IchProjectService" ref="ichProjectService" />
     <dubbo:service interface="com.diich.core.service.UserService" ref="userService" />
     <dubbo:service interface="com.diich.core.service.IchMasterService" ref="ichMasterService" />
