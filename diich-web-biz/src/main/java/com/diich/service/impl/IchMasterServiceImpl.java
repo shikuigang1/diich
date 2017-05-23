@@ -201,6 +201,10 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                         contentFragmentResourceMapper.insertSelective(cfr);
                     }
                 }
+                List<Works> worksList = ichMaster.getWorksList();
+                for (Works works : worksList) {
+                    worksService.saveWorks(works);
+                }
             } else {
                 ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
                 List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();

@@ -18,6 +18,8 @@ public interface WorksService {
     Page<Works> getWorksPage(Map<String, Object> params)throws Exception;
 
     List<Works> getWorksList(Page<Works> page) throws Exception;
+    //保存
+    void saveWorks(Works works) throws Exception;
     //根据项目id或者传承人id获取作品列表
     List<Works> getWorksByIchProjectId(Long id);
 

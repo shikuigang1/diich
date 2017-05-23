@@ -192,13 +192,14 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
                 ichProject.setId(proID);
                 ichProjectMapper.insertSelective(ichProject);
-                System.out.println(proID);
+//                System.out.println(proID);
                 List<ContentFragment> ls = ichProject.getContentFragmentList();
-                List<IchMaster> masterList = ichProject.getIchMasterList();
                 for(int i=0;i<ls.size();i++){
                      ContentFragment c = ls.get(i);
                      c.setId(IdWorker.getId());
                      c.setTargetId(proID);
+                     c.setTargetType(0);
+                     c.setStatus(1);
                      contentFragmentMapper.insertSelective(c);
                  List<Resource> resourceList = c.getResourceList();
                  for (Resource resource: resourceList ) {
@@ -214,14 +215,17 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                      //保存中间表
                      contentFragmentResourceMapper.insertSelective(cfr);
                  }
-                    String templateName ="";
-                    String fileName = ichProject.getId().toString();
-                    //生成静态页面
-                    String uri = buildHTML(templateName, ichProject, fileName);
-                    ichProject.setUri(uri);
-                    ichProjectMapper.updateByPrimaryKeySelective(ichProject);
                 }
-
+                List<Works> worksList = ichProject.getWorksList();
+                for (Works works: worksList) {
+                    worksService.saveWorks(works);
+                }
+                String templateName ="";
+                String fileName = ichProject.getId().toString();
+                //生成静态页面
+                String uri = buildHTML(templateName, ichProject, fileName);
+                ichProject.setUri(uri);
+                ichProjectMapper.updateByPrimaryKeySelective(ichProject);
             } else {
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
             }
