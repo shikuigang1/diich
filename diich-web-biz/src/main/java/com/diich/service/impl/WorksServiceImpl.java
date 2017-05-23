@@ -56,7 +56,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 works.setIchProject(ichProject);
                 //获取传承人信息
                 IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
-                works.setIchMsster(ichMaster);
+                works.setIchMaster(ichMaster);
             }
             //获取内容片断
             ContentFragment con = new ContentFragment();
@@ -117,7 +117,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                works.setIchProject(ichProject);
                //获取传承人信息
                IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
-               works.setIchMsster(ichMaster);
+               works.setIchMaster(ichMaster);
 
                //获取内容片断
                ContentFragment con = new ContentFragment();
@@ -239,6 +239,9 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
 
     private List<Works> getWorkList(List<Works> worksList){
         for (Works works:worksList) {
+            //获取传承人信息
+            IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
+            works.setIchMaster(ichMaster);
             ContentFragment con = new ContentFragment();
             con.setTargetId(works.getId());
             con.setTargetType(2);
