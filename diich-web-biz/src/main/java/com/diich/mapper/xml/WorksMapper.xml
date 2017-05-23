@@ -162,4 +162,34 @@
       and is_represent = #{isRepresent,jdbcType=INTEGER}
     </if>
   </select>
+  <select id="selectWorksList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select * from works where 1=1
+    <if test="params.lastEditorId != null" >
+      last_editor_id = #{params.lastEditorId,jdbcType=BIGINT}
+    </if>
+    <if test="params.ichProjectId != null" >
+      ich_project_id = #{params.ichProjectId,jdbcType=BIGINT}
+    </if>
+    <if test="params.ichMasterId != null" >
+      ich_master_id = #{params.ichMasterId,jdbcType=BIGINT}
+    </if>
+    <if test="params.lastEditDate != null" >
+      last_edit_date = #{params.lastEditDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="params.editRank != null" >
+      edit_rank = #{params.editRank,jdbcType=INTEGER}
+    </if>
+    <if test="params.status != null" >
+      status = #{params.status,jdbcType=INTEGER}
+    </if>
+    <if test="params.uri != null" >
+      uri = #{params.uri,jdbcType=VARCHAR}
+    </if>
+    <if test="params.lang != null" >
+      lang = #{params.lang,jdbcType=CHAR}
+    </if>
+    <if test="params.isRepresent != null" >
+      is_represent = #{params.isRepresent,jdbcType=INTEGER}
+    </if>
+  </select>
 </mapper>

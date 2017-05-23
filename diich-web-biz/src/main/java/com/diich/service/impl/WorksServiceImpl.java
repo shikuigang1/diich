@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -105,6 +106,10 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
     public List<Works> getWorksList(Page<Works> page) throws Exception {
         List<Works> worksList = null;
         try{
+            Map<String, Object> condition = page.getCondition();
+            if(condition == null){
+                condition = new HashMap<>();
+            }
            worksList = worksMapper.selectWorksList(page, page.getCondition());
            for (Works works:worksList) {
                //获取所属项目信息

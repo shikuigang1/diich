@@ -18,6 +18,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -129,7 +130,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
         List<IchProject> ichItemList = null;
         try {
-            ichItemList = ichProjectMapper.selectIchProjectList(page, page.getCondition());
+            Map<String, Object> condition = page.getCondition();
+            if(condition == null){
+                condition = new HashMap<>();
+            }
+            ichItemList = ichProjectMapper.selectIchProjectList(page,condition);
 //            System.out.println("size:"+ichItemList.size());
             for (IchProject ichProject:ichItemList) {
 
