@@ -4,9 +4,14 @@
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/diich-core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/diich-search-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/diich-search-service/src/main/java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/diich-search-service/src/main/resources" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/diich-search-service/src/main/resources/spring/spring-dubbo-consumer.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/diich-web" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/diich-web-biz" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/diich-web-service" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/diich-web-services" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/diich-web-biz/src/main/webapp/WEB-INF/ftl/ich_project_1.ftl" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/diich-web-biz/src/main/webapp/WEB-INF/ftl/ich_project_2.ftl" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/diich-web-biz/src/main/webapp/WEB-INF/ftl/ichproject.ftl" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/diich-web-biz/src/main/webapp/WEB-INF/ftl/pro.ftl" charset="GBK" />
   </component>
 </project>
