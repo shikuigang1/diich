@@ -36,6 +36,11 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
         return categoryList;
     }
 
+    @Override
+    public IchCategory selectIchCategoryByID(long id) {
+        return ichCategoryMapper.selectByPrimaryKey(id);
+    }
+
     private List<IchCategory> getCategoryListByParentId(Long parentId) throws Exception {
         List<IchCategory> childList = ichCategoryMapper.selectByParentId(parentId);
 
