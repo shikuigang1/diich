@@ -43,14 +43,22 @@ public class DictionaryController extends BaseController<Dictionary> {
             return ae.toMap();
         }
 
-        return setResultMap(dictionaryList);
+        return putDataToMap(dictionaryList);
     }
 
-    @RequestMapping("getDictionaryByCode")
+    @RequestMapping("getTextByTypeAndCode")
     @ResponseBody
     public Map<String, Object> getDictionaryByCode(HttpServletRequest request) {
         String code = request.getParameter("code");
-        Dictionary dictionary = null;
+        Integer type = null;
+        String name = null;
+
+        try {
+            type = Integer.parseInt(request.getParameter("type"));
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return ae.toMap();
+        }
 
         if(code == null || "".equals(code)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
@@ -58,12 +66,27 @@ public class DictionaryController extends BaseController<Dictionary> {
         }
 
         try {
-            dictionary = dictionaryService.getDictionaryByCode(code);
+            name = dictionaryService.getTextByTypeAndCode(type, code);
         } catch (Exception e) {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
 
-        return setResultMap(dictionary);
+        return putDataToMap(name);
+    }
+
+    @RequestMapping("getAllDictionary")
+    @ResponseBody
+    public Map<String, Object> getDictionaryByCode() {
+        List<Dictionary> dictionaryList = null;
+
+        try {
+            dictionaryList = dictionaryService.getAllDictionary();
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
+
+        return putDataToMap(dictionaryList);
     }
 }

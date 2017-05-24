@@ -1,6 +1,5 @@
 package com.diich.web.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.diich.core.Constants;
 import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
@@ -8,14 +7,12 @@ import com.diich.core.model.User;
 import com.diich.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,7 +25,7 @@ import java.util.Map;
 @RequestMapping("user")
 public class UserController extends BaseController<User> {
 
-    //@Autowired
+    @Autowired
     private UserService userService;
 
     /**
@@ -76,7 +73,7 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-        return setResultMap(verifyCode);
+        return putDataToMap(verifyCode);
     }
 
     /**
@@ -148,7 +145,7 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-        return setResultMap(user);
+        return putDataToMap(user);
     }
 
     /**
@@ -192,7 +189,7 @@ public class UserController extends BaseController<User> {
             return ae.toMap();
         }
 
-        return setResultMap(user);
+        return putDataToMap(user);
     }
 
     /**
@@ -212,6 +209,6 @@ public class UserController extends BaseController<User> {
             return ae.toMap();
         }
 
-        return setResultMap(loginName);
+        return putDataToMap(loginName);
     }
 }

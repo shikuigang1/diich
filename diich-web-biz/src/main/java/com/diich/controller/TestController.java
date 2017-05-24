@@ -7,7 +7,6 @@ import com.diich.core.model.IchCategory;
 import com.diich.core.model.IchProject;
 import com.diich.core.service.IchCategoryService;
 import com.diich.core.service.IchProjectService;
-import com.diich.core.service.SysUserService;
 import com.diich.core.util.PropertiesUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -33,9 +32,6 @@ import java.util.Map;
  */
 @Controller
 public class TestController extends BaseController{
-
-    @Autowired
-    private SysUserService sysUserService;
 
     @Autowired
     private IchProjectService ichProjectService;

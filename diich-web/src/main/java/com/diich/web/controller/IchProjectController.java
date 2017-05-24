@@ -10,7 +10,6 @@ import com.diich.core.service.IchProjectService;
 import com.diich.core.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -43,7 +42,7 @@ public class IchProjectController extends BaseController<IchProject> {
             return ae.toMap();
         }
 
-        return setResultMap(ichProject);
+        return putDataToMap(ichProject);
     }
 
     @RequestMapping("getIchProjectList")
@@ -65,7 +64,7 @@ public class IchProjectController extends BaseController<IchProject> {
             return ae.toMap();
         }
 
-        return setResultMap(page);
+        return putDataToMap(page);
     }
 
     @RequestMapping("saveIchProject")
@@ -96,6 +95,6 @@ public class IchProjectController extends BaseController<IchProject> {
             return ae.toMap();
         }
 
-        return setResultMap(ichProject);
+        return putDataToMap(ichProject);
     }
 }

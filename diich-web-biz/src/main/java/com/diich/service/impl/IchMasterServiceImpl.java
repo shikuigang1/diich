@@ -129,7 +129,11 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
 
         List<IchMaster> ichMasterList = null;
         try {
-            ichMasterList = ichMasterMapper.selectIchMasterList(page, page.getCondition());
+            Map<String, Object> condition = page.getCondition();
+            if(condition == null){
+                condition = new HashMap<>();
+            }
+            ichMasterList = ichMasterMapper.selectIchMasterList(page, condition);
             for (IchMaster ichMaster:ichMasterList) {
                 //所属项目
                 IchProject ichProject =ichProjectService.getIchProjectById(ichMaster.getIchProjectId());

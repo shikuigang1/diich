@@ -34,6 +34,6 @@ public class IchCategoryController extends BaseController<IchCategory> {
             return ae.toMap();
         }
 
-        return setResultMap(categoryList);
+        return putDataToMap(categoryList);
     }
 }

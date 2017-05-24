@@ -28,7 +28,7 @@ public class Works extends BaseModel {
 
     private IchProject ichProject;//项目
 
-    private IchMaster ichMsster;//传承人
+    private IchMaster ichMaster;//传承人
 
     private List<ContentFragment> contentFragmentList;//内容片断列表
 
@@ -120,12 +120,12 @@ public class Works extends BaseModel {
         this.ichProject = ichProject;
     }
 
-    public IchMaster getIchMsster() {
-        return ichMsster;
+    public IchMaster getIchMaster() {
+        return ichMaster;
     }
 
-    public void setIchMsster(IchMaster ichMsster) {
-        this.ichMsster = ichMsster;
+    public void setIchMaster(IchMaster ichMaster) {
+        this.ichMaster = ichMaster;
     }
 
     public List<ContentFragment> getContentFragmentList() {

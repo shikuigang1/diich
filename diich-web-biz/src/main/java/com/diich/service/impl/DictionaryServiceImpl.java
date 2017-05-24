@@ -54,15 +54,37 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
         return dictionaryList;
     }
 
-    public Dictionary getDictionaryByCode(String code) throws Exception {
-        Dictionary dictionary = null;
+    public String getTextByTypeAndCode(Integer type, String code) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("type", type);
+        params.put("code", code);
+
+        List<Dictionary> dictionaryList = null;
+        String name = null;
 
         try {
-            dictionary = dictionaryMapper.selectByCode(code);
+            dictionaryList = dictionaryMapper.selectByTypeAndCode(params);
         } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
-        return dictionary;
+        if(dictionaryList.size() != 0) {
+            Dictionary dictionary = dictionaryList.get(0);
+            name = dictionary.getName();
+        }
+
+        return name != null ? name : code;
+    }
+
+    public List<Dictionary> getAllDictionary() throws Exception {
+        List<Dictionary> dictionaryList = null;
+
+        try {
+            dictionaryList = dictionaryMapper.selectAllDictionary();
+        } catch (Exception e) {
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+
+        return dictionaryList;
     }
 }
