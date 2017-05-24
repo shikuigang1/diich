@@ -70,9 +70,9 @@
         <property name="securityManager" ref="securityManager"/>
     </bean>-->
     <!--  -->
-    <!--<mvc:view-resolvers>
-        <mvc:jsp cache-views="false" prefix="/WEB-INF/jsp/" suffix=".jsp" />
-    </mvc:view-resolvers>-->
+    <mvc:view-resolvers>
+        <mvc:jsp cache-views="false" prefix="/WEB-INF/jsp/" suffix=".html" />
+    </mvc:view-resolvers>
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <description>配置文件上传</description>
@@ -83,7 +83,5 @@
         <property name="maxInMemorySize" value="40960" />
     </bean>
 
-
-
-
+    <mvc:default-servlet-handler/>
 </beans>

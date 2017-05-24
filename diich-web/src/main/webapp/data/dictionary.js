@@ -1,5 +1,4 @@
-{
-"RECORDS":[
+var dic_arr = [
 {
 "id":1,
 "code":"guowai",
@@ -30552,5 +30551,4 @@
 "parent_id":null,
 "status":1
 }
-]
-}
+];

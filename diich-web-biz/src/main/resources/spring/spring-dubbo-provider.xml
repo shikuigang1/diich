@@ -12,9 +12,12 @@
     <bean id="ichItemService" class="com.diich.service.impl.IchProjectServiceImpl" />
     <bean id="userService" class="com.diich.service.impl.UserServiceImpl" />
     <bean id="ichMasterService" class="com.diich.service.impl.IchMasterServiceImpl" />
+    <bean id="dictionaryService" class="com.diich.service.impl.DictionaryServiceImpl" />
+    <bean id="ichCategoryService" class="com.diich.service.impl.IchCategoryServiceImpl" />
+    <bean id="workService" class="com.diich.service.impl.WorksServiceImpl" />
 
     <!-- 提供方应用信息，用于计算依赖关系 -->
-    <dubbo:application name="sec_provider"  />
+    <dubbo:application name="dubbo-provider"  />
     <!-- 使用zookeeper注册中心暴露服务地址 -->
     <dubbo:registry address="${dubbo.registry.address}" />
     <!-- 用dubbo协议在20880端口暴露服务 -->
@@ -24,5 +27,8 @@
     <dubbo:service interface="com.diich.core.service.IchProjectService" ref="ichProjectService" />
     <dubbo:service interface="com.diich.core.service.UserService" ref="userService" />
     <dubbo:service interface="com.diich.core.service.IchMasterService" ref="ichMasterService" />
+    <dubbo:service interface="com.diich.core.service.DictionaryService" ref="dictionaryService" />
+    <dubbo:service interface="com.diich.core.service.IchCategoryService" ref="ichCategoryService" />
+    <dubbo:service interface="com.diich.core.service.WorksService" ref="workService" />
 
 </beans>
