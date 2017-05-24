@@ -87,4 +87,17 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
 
         return dictionaryList;
     }
+
+    public String getText(int type, String code) throws Exception{
+        try {
+
+            Dictionary dic  = new Dictionary();
+            dic.setType(type);
+            dic.setCode(code);
+           // return dictionaryMapper.selectByTypeCode(dic);
+            return null;
+        } catch (Exception e) {
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+    }
 }
