@@ -250,6 +250,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         //所属项目
         IchProject ichProject = ichProjectMapper.selectByPrimaryKey(id);
         if (ichProject != null) {
+            IchCategory ichCategory = ichCategoryService.selectIchCategoryByID(ichProject.getIchCategoryId());
+            ichProject.setIchCategory(ichCategory);
             //内容片断列表
             ContentFragment con = new ContentFragment();
             con.setTargetId(ichProject.getId());

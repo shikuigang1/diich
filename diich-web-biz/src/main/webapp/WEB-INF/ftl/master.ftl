@@ -151,31 +151,34 @@
     <div class="bd detail">
         <div class="mainbg">
 
-       <#assign backImgUrl="assets/uploads/project_detail_01.png">
+       <#--<#assign backImgUrl="assets/uploads/project_detail_01.png">-->
         <#if (obj.contentFragmentList?size>0)>
             <#list obj.contentFragmentList as cf>
                 <#if cf.attributeId == 10>
                     <#if (cf.resourceList?size>0)>
                         <#list cf.resourceList as res>
                             <#if res.type==0 && res.status==1>
-                                <#--<img src="<#if res.uri??>${res.uri}</#if>" alt="">-->
-                                <#assign backImgUrl="${res.uri}">
+                                <img src="<#if res.uri??>${res.uri}</#if>" alt="">
+                                <#--<#assign backImgUrl="${res.uri}">-->
                             </#if>
                         </#list>
                     </#if>
                 </#if>
             </#list>
         </#if>
-        <img src="${backImgUrl}" alt="">
+        <#--<img src="${backImgUrl}" alt="">
             <video poster="${backImgUrl}" src="http://192.168.1.111/video.mp4"> </video>
-            <span class="play_big"></span>
+            <span class="play_big"></span>-->
         </div>
         <!--//End main-->
 
         <div class="crumbs">
             <span>非遗名录</span>
             <i class="gt"></i>
-            <span><a href="" title="口头传说和表述">口头传说和表述</a></span>
+            <span><a href="" title="口头传说和表述"><#if (obj.ichProject.ichCategory.name)??>
+                                            ${obj.ichProject.ichCategory.name}
+                                    </#if></a>
+            </span>
             <i class="gt"></i>
             <span class="last">
             <#if (obj.contentFragmentList?size>0)>
@@ -216,7 +219,7 @@
                     </#list>
                 </#if>
                     <div class="doi_code">
-                        <i class="icon"></i>
+                        <i class="icon">ID</i>
                         <span>标识码：<#if (obj.contentFragmentList?size>0)>
                             <#list obj.contentFragmentList as cf>
                                 <#if cf.attributeId == 11>
@@ -237,7 +240,7 @@
                             <strong>申报地区：</strong>
                             <em><#if (obj.contentFragmentList?size>0)>
                                 <#list obj.contentFragmentList as cf>
-                                    <#if cf.attributeId == 56 && cf.content??>
+                                    <#if cf.attributeId == 23 && cf.content??>
                                         <#assign codeList = cf.content?split(";")>
                                         <#list codeList as s>
                                             <em>${s}</em>
@@ -281,12 +284,12 @@
                                     </#list>
                                 </#if>
                             </p>
-                            <p>类别：<#if (obj.ichProject.ichCategoryId)??>
-                                            ${obj.ichProject.ichCategoryId}
+                            <p>类别：<#if (obj.ichProject.ichCategory.name)??>
+                                            ${obj.ichProject.ichCategory.name}
                                     </#if>
                                 | 地域： <#if (obj.ichProject.contentFragmentList?size>0)>
                                                  <#list (obj.ichProject.contentFragmentList) as cf>
-                                                            <#if cf.attributeId == 108>
+                                                            <#if cf.attributeId == 33>
                                                             ${cf.content}
                                                             </#if>
                                                 </#list>
@@ -312,8 +315,20 @@
                                 </#if>
                             </#list>
                         </#if>
-                        <span>级别：世界级</span>
-                        <span>批次：第一批</span>
+                        <#if (obj.contentFragmentList?size>0)>
+                            <#list obj.contentFragmentList as cf>
+                                <#if cf.attributeId == 111 && cf.content??>
+                                    <span>级别：${cf.content}</span>
+                                </#if>
+                            </#list>
+                        </#if>
+                        <#if (obj.contentFragmentList?size>0)>
+                            <#list obj.contentFragmentList as cf>
+                                <#if cf.attributeId == 112 && cf.content??>
+                                    <span>批次：${cf.content}</span>
+                                </#if>
+                            </#list>
+                        </#if>
                     </div>
                 </div>
                 <!--//ENd-->
@@ -328,7 +343,7 @@
                     <ul>
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
-                            <#if cf.attribute?? && cf.attribute.dataType==0 && cf.content?? && cf.attributeId != 12 >
+                            <#if cf.attribute?? && cf.attribute.dataType==0 && cf.content?? && cf.attributeId != 12 && cf.attribute.isOpen == 1>
                                 <li>
                                     <span class="key">${cf.attribute.cnName}：</span>
                                     <span class="value">${cf.content}</span>
