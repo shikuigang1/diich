@@ -19,6 +19,8 @@ public class Attribute extends BaseModel {
 
     private Integer dataType;
 
+    private Integer isOpen;
+
     public String getValue() {
         return value;
     }
@@ -91,5 +93,13 @@ public class Attribute extends BaseModel {
 
     public void setDataType(Integer dataType) {
         this.dataType = dataType;
+    }
+
+    public Integer getIsOpen() {
+        return isOpen;
+    }
+
+    public void setIsOpen(Integer isOpen) {
+        this.isOpen = isOpen;
     }
 }
