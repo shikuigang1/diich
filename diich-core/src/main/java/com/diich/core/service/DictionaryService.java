@@ -11,4 +11,8 @@ public interface DictionaryService {
     List<Dictionary> getDictionaryListByType(Integer type) throws Exception;
 
     Dictionary getDictionaryByCode(String code) throws Exception;
+    String getText(int Type, String code) throws Exception;
+
+    //获取所有地区编码集合
+
 }
