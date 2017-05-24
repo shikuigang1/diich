@@ -8,9 +8,12 @@
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd
         ">
 
-    <dubbo:application name="userService" />
+    <dubbo:application name="dubbo-consumer" />
     <dubbo:registry  protocol="zookeeper"  address="${dubbo.registry.address}" />
     <dubbo:reference id="ichProjectService" interface="com.diich.core.service.IchProjectService" />
     <dubbo:reference id="userService" interface="com.diich.core.service.UserService" />
     <dubbo:reference id="ichMasterService" interface="com.diich.core.service.IchMasterService" />
+    <dubbo:reference id="dictionaryService" interface="com.diich.core.service.DictionaryService" />
+    <dubbo:reference id="ichCategoryService" interface="com.diich.core.service.IchCategoryService" />
+    <dubbo:reference id="workService" interface="com.diich.core.service.WorksService" />
 </beans>
