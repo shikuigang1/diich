@@ -73,7 +73,7 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
             name = dictionary.getName();
         }
 
-        return name != null ? name : code;
+        return name != null ? name : "";
     }
 
     public List<Dictionary> getAllDictionary() throws Exception {
