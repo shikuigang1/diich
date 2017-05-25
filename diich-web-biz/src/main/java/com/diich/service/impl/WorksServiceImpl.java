@@ -80,6 +80,8 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
+        buildHTML("works.ftl", works, works.getId() + "");
+
         return works;
     }
 
