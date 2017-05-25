@@ -9,6 +9,15 @@
     <script src="./assets/js/jquery.min.js"></script>
     <script src="./assets/js/system.js"></script>
     <script src="./assets/js/html5media.min.js"></script>
+    <script>
+        $(function () {
+            var btn=$('a[data-type="mediaLayer"]').on('click',function () {
+                var type = $(this).attr('data-type');
+                var index = parseInt($(this).attr('data-id'));
+                detailCommon.mediaShow(type, index);
+            })
+        })
+    </script>
 </head>
 
 <body>
@@ -195,7 +204,7 @@
                     <div class="floor">
                         <a class="share" title="分享"></a>
                         <a class="praise active" title="点赞" style="position: relative;"></a>
-                        <a class="album"><i class="play_sm"></i>【视频】昆曲传承人讲述昆曲…(2个视频／9张图片)</a>
+                        <a class="album" onclick="show()" data-type="mediaLayer"><i class="play_sm"></i>【视频】昆曲传承人讲述昆曲…(2个视频／9张图片)</a>
                         <div class="share_box">
                             <div class="icons">
                                 <a href="" class="sina"></a>
@@ -343,7 +352,6 @@
                     </duv>
                     <div class="info">
                         <ul>
-
                         <#if (obj.contentFragmentList?size>0)>
                             <#list obj.contentFragmentList as cf>
                                 <#if cf.attribute?? && cf.attribute.dataType==0 && cf.content?? && cf.attributeId != 106 && cf.attributeId != 7 && cf.attributeId != 8>
@@ -360,12 +368,8 @@
                 </div>
                 <!--//End 基本信息-->
             </div>
-
-
         <#assign odd_even =0 />
-
-
-        <#if obj.worksList??>
+        <#if obj.worksList?? && (obj.worksList?size>0)>
             <section class="bd floor odd">
                 <div class="card">
                     <header><h4>代表作品 </h4><em>共${obj.worksList?size}项</em></header>
@@ -504,6 +508,178 @@
         <a class="gotop" href="javascript:void(0)" title="返回顶部"></a>
     </div>
     <!--//End 右侧悬浮-->
+
+
+    <div class="media_layer" style="display:none;">
+        <div class="content">
+            <div class="head">
+                <div class="menu">
+                    <span class="active">图片</span>
+
+                <#if (obj.contentFragmentList?size>0)>
+                <#assign breaklop=0>
+                    <#list obj.contentFragmentList as cf>
+                        <#if breaklop==1><#break ></#if>
+                        <#if cf.attribute.dataType == 5 >
+
+                            <#list cf.resourceList as r>
+                                <#if r.type ==1>
+                                    <span>视频</span>
+                                    <#assign breaklop=1>
+                                    <#break>
+                                </#if>
+                            </#list>
+                        </#if>
+                    </#list>
+                </#if>
+
+                </div>
+                <a href="" class="icon_close"></a>
+            </div>
+            <!--//End-->
+
+            <div class="items album">
+                <div class="title">
+                    <ul class="dt">
+
+
+                    <#if (obj.contentFragmentList?size>0)>
+                        <#list obj.contentFragmentList as cf>
+                            <#if cf.attribute.dataType == 5 >
+
+                                <#list cf.resourceList as r>
+                                    <#if r.type ==0>
+                                        <li>${r.description}</li>
+                                    </#if>
+                                </#list>
+                            </#if>
+                        </#list>
+                    </#if>
+                     <#--   <li>《1111-名称示意最多显示20字…》</li>
+                        <li>《2222-名称示意最多显示20字…》</li>
+                        <li>《3333-名称示意最多显示20字…》</li>
+                        <li>《4444-名称示意最多显示20字…》</li>
+                        <li>《5555-名称示意最多显示20字…》</li>
+                        <li>《6666-名称示意最多显示20字…》</li>-->
+                    </ul>
+                    <a href="" class="more">查看详情</a>
+                    <div class="master">
+                        <div class="item">
+                            <a class="avatar" href=""><img src="assets/uploads/master1.jpg" alt=""></a>
+                            <span>林为林</span>
+                            <span class="auth">UNESCO认证传承人</span>
+                        </div>
+                    </div>
+                </div>
+                <!--//End-->
+                <div class="main">
+                    <ul class="media">
+
+                    <#if (obj.contentFragmentList?size>0)>
+                        <#list obj.contentFragmentList as cf>
+                            <#if cf.attribute.dataType == 5 >
+                                <#assign idx=0 />
+                                <#list cf.resourceList as r>
+                                        <#if r.type ==0>
+                                            <li><a href=""><img src="${r.uri}" alt="" data-type="0" data-id="${idx}"></a></li>
+                                            <#assign idx=idx+1 />
+                                        </#if>
+                                </#list>
+                            </#if>
+                        </#list>
+                    </#if>
+
+<#--
+                        <li><a href=""><img src="assets/uploads/media_02.jpg" alt=""></a></li>
+                        <li><a href=""><img src="assets/uploads/media_03.jpg" alt=""></a></li>
+                        <li><a href=""><img src="assets/uploads/media_04.jpg" alt=""></a></li>
+                        <li><a href=""><img src="assets/uploads/media_05.jpg" alt=""></a></li>
+                        <li><a href=""><img src="assets/uploads/media_06.jpg" alt=""></a></li>-->
+                    </ul>
+                    <ul class="num">
+                        <li class="active a-active"></li>
+                        <li class="line">/</li>
+                        <li class="total"></li>
+                    </ul>
+                </div>
+                <!--//End-->
+                <span class="prev"></span>
+                <span class="next"></span>
+            </div>
+            <!--//End 相册-->
+
+            <div class="items video">
+                <div class="title">
+                    <ul class="dt">
+
+                    <#if (obj.contentFragmentList?size>0)>
+                    <#list obj.contentFragmentList as cf>
+                        <#if cf.attribute.dataType == 5 >
+
+                            <#list cf.resourceList as r>
+                                <#if r.type == 1>
+                                    <li>${r.description}</li>
+                                </#if>
+                            </#list>
+                        </#if>
+                    </#list>
+                    </#if>
+                       <#-- <li>111111</li>
+                        <li>222222</li>
+                        <li>333333</li>
+                        <li>444444</li>
+                        <li>555555</li>-->
+                    </ul>
+                </div>
+                <div class="main">
+                    <ul class="media">
+
+                    <#if (obj.contentFragmentList?size>0)>
+                        <#list obj.contentFragmentList as cf>
+                            <#if cf.attribute.dataType == 5 >
+                                <#assign idx=0 />
+                                <#list cf.resourceList as r>
+                                    <#if r.type ==1>
+                                        <li><video src="${r.uri}" controls  data-type="1" data-id="${idx}"></video></li>
+                                        <#assign idx=idx+1 />
+                                    </#if>
+                                </#list>
+                            </#if>
+                        </#list>
+                    </#if>
+
+                     <#--   <li><video src="assets/uploads/video1.mp4" controls></video></li>
+                        <li>
+                            <video src="assets/uploads/video1.mp4" controls></video>
+                        </li>
+                        <li>
+                            <video src="assets/uploads/video1.mp4" controls></video>
+                        </li>
+                        <li>
+                            <video src="assets/uploads/video1.mp4" controls></video>
+                        </li>
+                        <li>
+                            <video src="assets/uploads/video1.mp4" controls></video>
+                        </li>-->
+                    </ul>
+                    <ul class="num">
+                        <li class="active v-active">01_<span>鼓罗</span>(30:20)</li>
+                        <li>02_<span>建国后昆剧杰出的英才</span>(60:00)</li>
+                        <li>03_<span>水调歌头</span>(90:30)</li>
+                        <li>04_<span>吕布与貂蝉</span>(45:15)</li>
+                        <li>05_<span>三国演义</span>(45:15)</li>
+                    </ul>
+                </div>
+                <!--//End-->
+
+                <span class="prev"></span>
+                <span class="next"></span>
+            </div>
+            <!--//End 视频-->
+
+        </div>
+    </div>
+
 
 </body>
 <script>
