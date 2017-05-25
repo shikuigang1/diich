@@ -176,8 +176,8 @@
             <span>非遗名录</span>
             <i class="gt"></i>
             <span><a href="" title="口头传说和表述"><#if (obj.ichProject.ichCategory.name)??>
-                                            ${obj.ichProject.ichCategory.name}
-                                    </#if></a>
+                                                         ${obj.ichProject.ichCategory.name}
+                                                    </#if></a>
             </span>
             <i class="gt"></i>
             <span class="last">
@@ -403,9 +403,18 @@
                                         <#if c.attributeId==28>
                                             <p class="name">${c.content} </p
                                         </#if>
-                                    <#--<#if c.attributeId==31>
+                                  <#--  <#if c.attributeId==25>
                                         <p class="master">${c.content}</p>
                                     </#if>-->
+                                    </#list>
+                                    <#list work.contentFragmentList as c>
+                                        <#if c.attributeId==25>
+                                            <#if c.resourceList??>
+                                                <#list c.resourceList as p>
+                                                    <p class="master"><#if p.description??>${p.description}</#if></p>
+                                                </#list>
+                                            </#if>
+                                        </#if>
                                     </#list>
                                 </li>
                             </#if>
@@ -465,8 +474,6 @@
 
                                         </li>
                                     </#list>
-
-
                                 </ul>
 
                                 <#if (cf.resourceList?size > 2) >
