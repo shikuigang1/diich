@@ -198,7 +198,24 @@
                 <div class="floor">
                     <a class="share" title="分享"></a>
                     <a class="praise active" title="点赞" style="position: relative;"></a>
-                    <a class="album"><i class="icon_img"></i>9张图片</a>
+                    <a class="album"><i class="icon_img"></i>
+                        <#assign numPic = 0>
+                        <#assign numVed = 0>
+                        <#if (obj.contentFragmentList?size>0)>
+                            <#list obj.contentFragmentList as cf>
+                                <#if (cf.resourceList?size>0)>
+                                <#list cf.resourceList as res>
+                                    <#if res.type==0>
+                                        <#assign numPic = numPic+1>
+                                    </#if>
+                                    <#if res.type==1>
+                                        <#assign numVed = numVed +1>
+                                    </#if>
+                                </#list>
+                                </#if>
+                            </#list>
+                        </#if>
+                       ${numPic} 张图片/${numVed} 个视频</a>
                     <div class="share_box">
                         <div class="icons">
                             <a href="" class="sina"></a>
@@ -214,18 +231,18 @@
                     <#list obj.contentFragmentList as cf>
                         <#if cf.attributeId == 13>
                             <#assign mastername = cf.content>
-                        ${cf.content}
+                        <h2>${cf.content}</h2>
                         </#if>
                     </#list>
                 </#if>
                     <div class="doi_code">
                         <i class="icon">ID</i>
                         <span>标识码：<#if (obj.contentFragmentList?size>0)>
-                            <#list obj.contentFragmentList as cf>
-                                <#if cf.attributeId == 11>
-                                ${cf.content}
-                                </#if>
-                            </#list>
+                                        <#list obj.contentFragmentList as cf>
+                                            <#if cf.attributeId == 11>
+                                                ${cf.content}
+                                            </#if>
+                                        </#list>
                         </#if></span>
                         <em class="icon"></em>
                         <div class="drop">
@@ -295,9 +312,13 @@
                                                 </#list>
                                             </#if>
                             </p>
-                            <p>DOI :<#if (obj.ichProject.contentFragmentList?size>0)>
-                                        ${obj.ichProject.id}
-                            </#if>
+                            <p>DOI ：<#if (obj.ichProject.contentFragmentList?size>0)>
+                                        <#list obj.ichProject.contentFragmentList as cf>
+                                            <#if cf.attributeId == 2>
+                                             ${cf.content}
+                                            </#if>
+                                        </#list>
+                                     </#if>
                             </p>
                         </div>
                     </div>
@@ -322,13 +343,13 @@
                                 </#if>
                             </#list>
                         </#if>
-                        <#if (obj.contentFragmentList?size>0)>
+                      <#--  <#if (obj.contentFragmentList?size>0)>
                             <#list obj.contentFragmentList as cf>
                                 <#if cf.attributeId == 112 && cf.content??>
                                     <span>批次：${cf.content}</span>
                                 </#if>
                             </#list>
-                        </#if>
+                        </#if>-->
                     </div>
                 </div>
                 <!--//ENd-->
@@ -343,7 +364,7 @@
                     <ul>
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
-                            <#if cf.attribute?? && cf.attribute.dataType==0 && cf.content?? && cf.attributeId != 12 && cf.attribute.isOpen == 1>
+                            <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content??&& cf.attributeId != 11 && cf.attributeId != 12 && cf.attributeId != 111 && cf.attributeId != 23 && cf.attribute.isOpen == 1>
                                 <li>
                                     <span class="key">${cf.attribute.cnName}：</span>
                                     <span class="value">${cf.content}</span>
@@ -382,9 +403,9 @@
                                         <#if c.attributeId==28>
                                             <p class="name">${c.content} </p
                                         </#if>
-                                        <#if c.attributeId==31>
-                                            <p class="master">${c.content}</p>
-                                        </#if>
+                                    <#--<#if c.attributeId==31>
+                                        <p class="master">${c.content}</p>
+                                    </#if>-->
                                     </#list>
                                 </li>
                             </#if>
