@@ -34,11 +34,6 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
         return categoryList;
     }
 
-    @Override
-    public IchCategory selectIchCategoryByID(long id) {
-        return ichCategoryMapper.selectByPrimaryKey(id);
-    }
-
     //通过父id找到它的子集合
     private List<IchCategory> getCategoryListByParentId(Long parentId) throws Exception {
         List<IchCategory> childList = ichCategoryMapper.selectByParentId(parentId);

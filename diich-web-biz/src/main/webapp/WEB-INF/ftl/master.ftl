@@ -174,11 +174,22 @@
 
         <div class="crumbs">
             <span>非遗名录</span>
-            <i class="gt"></i>
-            <span><a href="" title="口头传说和表述"><#if (obj.ichProject.ichCategory.name)??>
-                                                         ${obj.ichProject.ichCategory.name}
-                                                    </#if></a>
-            </span>
+            <#if (obj.ichProject.ichCategory.name)??>
+                <i class="gt"></i>
+                <span><a href="" title="${obj.ichProject.ichCategory.name}"> ${obj.ichProject.ichCategory.name}</a></span>
+                <#if (obj.ichProject.ichCategory.children?size>0)>
+                    <#list obj.ichProject.ichCategory.children as ch>
+                        <i class="gt"></i>
+                        <span><a href="" title="${ch.name}"> ${ch.name}</a></span>
+                        <#if (ch.children)?? && (ch.children?size>0)>
+                            <#list ch.children as chh>
+                                <i class="gt"></i>
+                                <span><a href="" title="${chh.name}"> ${chh.name}</a></span>
+                            </#list>
+                        </#if>
+                    </#list>
+                </#if>
+            </#if>
             <i class="gt"></i>
             <span class="last">
             <#if (obj.contentFragmentList?size>0)>
@@ -302,8 +313,18 @@
                                 </#if>
                             </p>
                             <p>类别：<#if (obj.ichProject.ichCategory.name)??>
-                                            ${obj.ichProject.ichCategory.name}
-                                    </#if>
+                                ${obj.ichProject.ichCategory.name}
+                                <#if (obj.ichProject.ichCategory.children?size>0)>
+                                    <#list obj.ichProject.ichCategory.children as ch>
+                                        -${ch.name}
+                                        <#if (ch.children)?? && (ch.children?size>0)>
+                                            <#list ch.children as chh>
+                                                -${chh.name}
+                                            </#list>
+                                        </#if>
+                                    </#list>
+                                </#if>
+                            </#if>
                                 | 地域： <#if (obj.ichProject.contentFragmentList?size>0)>
                                                  <#list (obj.ichProject.contentFragmentList) as cf>
                                                             <#if cf.attributeId == 33>
@@ -343,13 +364,6 @@
                                 </#if>
                             </#list>
                         </#if>
-                      <#--  <#if (obj.contentFragmentList?size>0)>
-                            <#list obj.contentFragmentList as cf>
-                                <#if cf.attributeId == 112 && cf.content??>
-                                    <span>批次：${cf.content}</span>
-                                </#if>
-                            </#list>
-                        </#if>-->
                     </div>
                 </div>
                 <!--//ENd-->
@@ -509,7 +523,7 @@
 
         </#list>
     </#if>
-
+    <#include "masterFloat.ftl">
         <!--//End-->
 
     </div>

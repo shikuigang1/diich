@@ -21,7 +21,7 @@ public interface IchProjectService {
 
     Page<IchProject> getIchProjectPage(Map<String, Object>  params)throws Exception;
 
-    IchProject getIchProjectById(Long id);
+    IchProject getIchProjectById(Long id) throws Exception;
 
     String buildHTML(String templateName, IchProject ichProject,String fileName) throws Exception;
 }

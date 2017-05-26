@@ -69,11 +69,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
 
             if(ichProject != null) {
-                /*Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
-                IchCategory ichCategory = ichCategoryService.getIchCategory(ichProject.getIchCategoryId());
+                Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
+                IchCategory ichCategory = ichCategoryService.getCategoryById(ichCategoryId);
                 if(ichCategory != null) {
                     ichProject.setIchCategory(ichCategory);
-                }*/
+                }
                  // User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
                 //获取传承人列表
                 List<IchMaster> ichMasterList = ichMasterService.getIchMasterByIchProjectId(Long.parseLong(id));
@@ -139,13 +139,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             for (IchProject ichProject:ichItemList) {
 
                 if(ichProject != null) {
-                    /*Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
+                    Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
 
-                    IchCategory ichCategory = ichCategoryService.getIchCategory(ichProject.getIchCategoryId());
+                    IchCategory ichCategory = ichCategoryService.getCategoryById(ichCategoryId);
 
                     if(ichCategory != null) {
                         ichProject.setIchCategory(ichCategory);
-                    }*/
+                    }
                     // User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
                     //获取传承人列表
                     List<IchMaster> ichMasterList = ichMasterService.getIchMasterByIchProjectId(ichProject.getId());
@@ -236,11 +236,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      * @param id
      * @return
      */
-    public IchProject getIchProjectById(Long id) {
+    public IchProject getIchProjectById(Long id) throws Exception {
         //所属项目
         IchProject ichProject = ichProjectMapper.selectByPrimaryKey(id);
         if (ichProject != null) {
-            IchCategory ichCategory = ichCategoryService.selectIchCategoryByID(ichProject.getIchCategoryId());
+            IchCategory ichCategory = ichCategoryService.getCategoryById(ichProject.getIchCategoryId());
             ichProject.setIchCategory(ichCategory);
             //内容片断列表
             List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
