@@ -51,7 +51,13 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     @Autowired
     private WorksService worksService;
 
-
+    /**
+     * 根据id查询传承人
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
     public IchMaster getIchMaster(String id) throws Exception{
 
         IchMaster ichMaster =null;
@@ -70,22 +76,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 List<Works> worksList =worksService.getWorksByIchMasterId(ichMaster.getId());
                 ichMaster.setWorksList(worksList);
                 //内容片断列表
-                ContentFragment con = new ContentFragment();
-                con.setTargetId(Long.parseLong(id));
-                con.setTargetType(1);
-                List<ContentFragment>  contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
-                for (ContentFragment contentFragment :contentFragmentList) {
-                    Long attrId = contentFragment.getAttributeId();
-                    Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
-                    contentFragment.setAttribute(attribute);//添加属性
-                    List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
-                    List<Resource> resourceList = new ArrayList<>();
-                    for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
-                        Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
-                        resourceList.add(resource);
-                    }
-                    contentFragment.setResourceList(resourceList);
-                }
+                List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
                 ichMaster.setContentFragmentList(contentFragmentList);
             }
         }catch (Exception e){
@@ -95,12 +86,14 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         return  ichMaster;
     }
 
+
     /**
      * 根据条件查询分页列表
      * @param params
      * @return
      * @throws Exception
      */
+    @Override
     public Page<IchMaster> getIchMasterPage(Map<String, Object>  params) throws Exception {
         Integer current = 1;
         Integer pageSize = 10;
@@ -147,22 +140,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 List<Works> worksList =worksService.getWorksByIchMasterId(ichMaster.getId());
                 ichMaster.setWorksList(worksList);
                 //内容片断列表
-                ContentFragment con = new ContentFragment();
-                con.setTargetId(ichMaster.getId());
-                con.setTargetType(1);
-                List<ContentFragment>  contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
-                for (ContentFragment contentFragment :contentFragmentList) {
-                    Long attrId = contentFragment.getAttributeId();
-                    Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
-                    contentFragment.setAttribute(attribute);//添加属性
-                    List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
-                    List<Resource> resourceList = new ArrayList<>();
-                    for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
-                        Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
-                        resourceList.add(resource);
-                    }
-                    contentFragment.setResourceList(resourceList);
-                }
+                List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
                 ichMaster.setContentFragmentList(contentFragmentList);
             }
         } catch (Exception e) {
@@ -176,6 +154,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
      * @param ichMaster
      * @return
      */
+    @Override
     public void saveIchMaster(IchMaster ichMaster) throws ApplicationException {
         TransactionStatus transactionStatus = getTransactionStatus();
 
@@ -245,22 +224,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     public List<IchMaster> getIchMasterByIchProjectId(Long ichProjectId){
         List<IchMaster> ichMasterList = ichMasterMapper.selectByIchProjectId(ichProjectId);
         for (IchMaster ichMaster:ichMasterList) {
-            ContentFragment con = new ContentFragment();
-            con.setTargetId(ichMaster.getId());
-            con.setTargetType(1);
-            List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
-            for (ContentFragment contentFragment :contentFragmentList) {
-                Long attrId = contentFragment.getAttributeId();
-                Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
-                contentFragment.setAttribute(attribute);//添加属性
-                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
-                List<Resource> resourceList = new ArrayList<>();
-                for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
-                    Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
-                    resourceList.add(resource);
-                }
-                contentFragment.setResourceList(resourceList);
-            }
+            List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
             ichMaster.setContentFragmentList(contentFragmentList);
         }
         return ichMasterList;
@@ -276,25 +240,31 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         IchMaster ichMaster = ichMasterMapper.selectByPrimaryKey(works.getIchMasterId());
         if (ichMaster != null) {
             //内容片断列表
-            ContentFragment con = new ContentFragment();
-            con.setTargetId(ichMaster.getId());
-            con.setTargetType(1);
-            List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
-            for (ContentFragment contentFragment : contentFragmentList) {
-                Long attrId = contentFragment.getAttributeId();
-                Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
-                contentFragment.setAttribute(attribute);//添加属性
-                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
-                List<Resource> resourceList = new ArrayList<>();
-                for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
-                    Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
-                    resourceList.add(resource);
-                }
-                contentFragment.setResourceList(resourceList);
-            }
+            List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
             ichMaster.setContentFragmentList(contentFragmentList);
         }
         return ichMaster;
+    }
+
+    private List<ContentFragment> getContentFragmentListByMasterId(IchMaster ichMaster){
+        //内容片断列表
+        ContentFragment con = new ContentFragment();
+        con.setTargetId(ichMaster.getId());
+        con.setTargetType(1);
+        List<ContentFragment>  contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
+        for (ContentFragment contentFragment :contentFragmentList) {
+            Long attrId = contentFragment.getAttributeId();
+            Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
+            contentFragment.setAttribute(attribute);//添加属性
+            List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
+            List<Resource> resourceList = new ArrayList<>();
+            for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
+                Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
+                resourceList.add(resource);
+            }
+            contentFragment.setResourceList(resourceList);
+        }
+        return contentFragmentList;
     }
 
 }

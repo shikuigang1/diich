@@ -45,6 +45,12 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
     @Autowired
     private IchMasterService ichMasterService;
 
+    /**
+     * 根据id查询作品信息
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public Works getWorks(String id) throws Exception{
 
         Works works = null;
@@ -59,22 +65,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 works.setIchMaster(ichMaster);
             }
             //获取内容片断
-            ContentFragment con = new ContentFragment();
-            con.setTargetId(works.getId());
-            con.setTargetType(2);
-            List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
-            for (ContentFragment contentFragment : contentFragmentList) {
-                Long attrId = contentFragment.getAttributeId();
-                Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
-                contentFragment.setAttribute(attribute);//添加属性
-                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
-                List<Resource> resourceList = new ArrayList<>();
-                for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
-                    Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
-                    resourceList.add(resource);
-                }
-                contentFragment.setResourceList(resourceList);
-            }
+            List<ContentFragment> contentFragmentList = getContentFragmentListByWorksId(works);
             works.setContentFragmentList(contentFragmentList);
         }catch(Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
@@ -85,6 +76,12 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         return works;
     }
 
+    /**
+     * 根据条件查询作品的列表信息
+     * @param params
+     * @return
+     * @throws Exception
+     */
     @Override
     public Page<Works> getWorksPage(Map<String, Object> params) throws Exception {
 
@@ -120,24 +117,8 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                //获取传承人信息
                IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
                works.setIchMaster(ichMaster);
-
                //获取内容片断
-               ContentFragment con = new ContentFragment();
-               con.setTargetId(works.getId());
-               con.setTargetType(2);
-               List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
-               for (ContentFragment contentFragment : contentFragmentList) {
-                   Long attrId = contentFragment.getAttributeId();
-                   Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
-                   contentFragment.setAttribute(attribute);//添加属性
-                   List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
-                   List<Resource> resourceList = new ArrayList<>();
-                   for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
-                       Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
-                       resourceList.add(resource);
-                   }
-                   contentFragment.setResourceList(resourceList);
-               }
+               List<ContentFragment> contentFragmentList = getContentFragmentListByWorksId(works);
                works.setContentFragmentList(contentFragmentList);
            }
        }catch (Exception e){
@@ -204,7 +185,14 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         }
     }
 
-
+    /**
+     * 生成静态页面
+     * @param templateName
+     * @param works
+     * @param fileName
+     * @return
+     * @throws Exception
+     */
     @Override
     public String buildHTML(String templateName, Works works, String fileName) throws Exception {
         String uri = BuildHTMLEngine.buildHTML(templateName, works, fileName);
@@ -244,24 +232,31 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             //获取传承人信息
             IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
             works.setIchMaster(ichMaster);
-            ContentFragment con = new ContentFragment();
-            con.setTargetId(works.getId());
-            con.setTargetType(2);
-            List<ContentFragment> contentFragments = contentFragmentMapper.selectByTargetIdAndType(con);
-            for (ContentFragment contentFragment :contentFragments) {
-                Long attrId = contentFragment.getAttributeId();
-                Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
-                contentFragment.setAttribute(attribute);//添加属性
-                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
-                List<Resource> resourceList = new ArrayList<>();
-                for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
-                    Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
-                    resourceList.add(resource);
-                }
-                contentFragment.setResourceList(resourceList);
-            }
+            //获取内容片断
+            List<ContentFragment> contentFragments = getContentFragmentListByWorksId(works);
             works.setContentFragmentList(contentFragments);
         }
         return worksList;
+    }
+
+    private List<ContentFragment> getContentFragmentListByWorksId(Works works){
+        //获取内容片断
+        ContentFragment con = new ContentFragment();
+        con.setTargetId(works.getId());
+        con.setTargetType(2);
+        List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
+        for (ContentFragment contentFragment : contentFragmentList) {
+            Long attrId = contentFragment.getAttributeId();
+            Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
+            contentFragment.setAttribute(attribute);//添加属性
+            List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
+            List<Resource> resourceList = new ArrayList<>();
+            for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
+                Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
+                resourceList.add(resource);
+            }
+            contentFragment.setResourceList(resourceList);
+        }
+        return contentFragmentList;
     }
 }

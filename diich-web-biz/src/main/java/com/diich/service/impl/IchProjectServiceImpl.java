@@ -53,7 +53,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Autowired
     private WorksService worksService;
 
-
+    /**
+     * 根据id获取项目信息
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public IchProject getIchProject(String id) throws Exception {
 
 
@@ -80,23 +85,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             }
 
             //获取项目的field
-            ContentFragment c = new ContentFragment();
-            c.setTargetId(Long.parseLong(id));
-            c.setTargetType(0);//标示项目
-            List<ContentFragment> ls =  contentFragmentMapper.selectByTargetIdAndType(c);
-            //List<ContentFragment> ls_ = new ArrayList<ContentFragment>();
-            for(int i=0;i<ls.size();i++){
-                ls.get(i).setAttribute(attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId()));
-                Long contentFragmentId = ls.get(i).getId();
-                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
-                List<Resource> resourceList = new ArrayList<>();
-                for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
-                    Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
-                    resourceList.add(resource);
-                }
-                ls.get(i).setResourceList(resourceList);
-            }
-            ichProject.setContentFragmentList(ls);
+            List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
+            ichProject.setContentFragmentList(contentFragmentList);
 
         } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
@@ -105,8 +95,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return  ichProject;
     }
 
-
-
+    /**
+     * 根据条件查询项目列表信息
+     * @param params
+     * @return
+     * @throws Exception
+     */
     public Page<IchProject> getIchProjectPage(Map<String, Object>  params) throws Exception {
         Integer current = 1;
         Integer pageSize = 10;
@@ -126,6 +120,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return page;
     }
 
+    /**
+     * 获取项目列表信息
+     * @param page
+     * @return
+     * @throws Exception
+     */
     public List<IchProject> getIchProjectList(Page<IchProject> page) throws Exception{
 
         List<IchProject> ichItemList = null;
@@ -158,23 +158,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
 
                 //获取项目的field
-                ContentFragment c = new ContentFragment();
-                c.setTargetId(ichProject.getId());
-                c.setTargetType(0);//标示项目
-                List<ContentFragment> ls =  contentFragmentMapper.selectByTargetIdAndType(c);
-                //List<ContentFragment> ls_ = new ArrayList<ContentFragment>();
-                for(int i=0;i<ls.size();i++){
-                    ls.get(i).setAttribute(attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId()));
-                    Long contentFragmentId = ls.get(i).getId();
-                    List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
-                    List<Resource> resourceList = new ArrayList<>();
-                    for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
-                        Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
-                        resourceList.add(resource);
-                    }
-                    ls.get(i).setResourceList(resourceList);
-                }
-                ichProject.setContentFragmentList(ls);
+                List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
+                ichProject.setContentFragmentList(contentFragmentList);
 
             }
 
@@ -186,6 +171,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     }
 
 
+    /**
+     * 保存或更新项目信息
+     * @param ichProject
+     * @throws Exception
+     */
     @Transactional
     public void saveIchProject(IchProject ichProject) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
@@ -253,31 +243,43 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             IchCategory ichCategory = ichCategoryService.selectIchCategoryByID(ichProject.getIchCategoryId());
             ichProject.setIchCategory(ichCategory);
             //内容片断列表
-            ContentFragment con = new ContentFragment();
-            con.setTargetId(ichProject.getId());
-            con.setTargetType(0);
-            List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
-            for (ContentFragment contentFragment : contentFragmentList) {
-                Long attrId = contentFragment.getAttributeId();
-                Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
-                contentFragment.setAttribute(attribute);//添加属性
-                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
-                List<Resource> resourceList = new ArrayList<>();
-                for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
-                    Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
-                    resourceList.add(resource);
-                }
-                contentFragment.setResourceList(resourceList);
-            }
+            List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
             ichProject.setContentFragmentList(contentFragmentList);
         }
         return ichProject;
     }
 
+    /**
+     * 生成静态页面
+     * @param templateName
+     * @param ichProject
+     * @param fileName
+     * @return
+     * @throws Exception
+     */
     @Override
     public String buildHTML(String templateName, IchProject ichProject, String fileName) throws Exception {
         String uri = BuildHTMLEngine.buildHTML(templateName, ichProject, fileName);
         return uri;
     }
 
+    private List<ContentFragment> getContentFragmentListByProjectId(IchProject ichProject){
+        ContentFragment c = new ContentFragment();
+        c.setTargetId(ichProject.getId());
+        c.setTargetType(0);//标示项目
+        List<ContentFragment> ls =  contentFragmentMapper.selectByTargetIdAndType(c);
+        //List<ContentFragment> ls_ = new ArrayList<ContentFragment>();
+        for(int i=0;i<ls.size();i++) {
+            ls.get(i).setAttribute(attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId()));
+            Long contentFragmentId = ls.get(i).getId();
+            List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
+            List<Resource> resourceList = new ArrayList<>();
+            for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
+                Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
+                resourceList.add(resource);
+            }
+            ls.get(i).setResourceList(resourceList);
+        }
+        return ls;
+    }
 }
