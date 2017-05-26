@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -35,5 +36,32 @@ public class IchCategoryController extends BaseController<IchCategory> {
         }
 
         return putDataToMap(categoryList);
+    }
+
+    /**
+     * 通过分类id获得分类信息
+     * @return
+     */
+    @RequestMapping("getIchCategoryById")
+    @ResponseBody
+    public Map<String, Object> getIchCategoryById(HttpServletRequest request) {
+        Long id = null;
+        IchCategory ichCategory = null;
+
+        try {
+            id = Long.parseLong(request.getParameter("id"));
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return ae.toMap();
+        }
+
+        try {
+            ichCategory = ichCategoryService.getCategoryById(id);
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
+
+        return putDataToMap(ichCategory);
     }
 }

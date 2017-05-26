@@ -74,6 +74,10 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
 
     //通过父id找到父对象
     private IchCategory getCategoryByChild(IchCategory childCategory) throws Exception {
+        if(childCategory.getParentId() == 0) {
+            return childCategory;
+        }
+
         List<IchCategory> categoryList = new ArrayList<>();
         categoryList.add(childCategory);
 
@@ -85,7 +89,7 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
 
         while (parentCategory.getParentId() != null) {
             IchCategory obj = getCategoryByChild(parentCategory);
-            if(obj == null) {
+            if(obj.getParentId() == 0) {
                 return obj;
             }
         }
