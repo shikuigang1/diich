@@ -15,9 +15,9 @@ public class IchCategory extends BaseModel {
 
     private Integer status;
 
-    private List<IchCategory> childCategoryList;
+    private List<IchCategory> children;
 
-    private List<Attribute> attributeList;
+    //private List<Attribute> attributeList;
 
     public Long getId() {
         return id;
@@ -59,19 +59,19 @@ public class IchCategory extends BaseModel {
         this.status = status;
     }
 
-    public List<IchCategory> getChildCategoryList() {
-        return childCategoryList;
+    public List<IchCategory> getChildren() {
+        return children;
     }
 
-    public void setChildCategoryList(List<IchCategory> childCategoryList) {
-        this.childCategoryList = childCategoryList;
+    public void setChildren(List<IchCategory> children) {
+        this.children = children;
     }
 
-    public List<Attribute> getAttributeList() {
+    /*public List<Attribute> getAttributeList() {
         return attributeList;
     }
 
     public void setAttributeList(List<Attribute> attributeList) {
         this.attributeList = attributeList;
-    }
+    }*/
 }

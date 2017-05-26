@@ -11,4 +11,5 @@ import java.util.List;
 public interface IchCategoryService {
     List<IchCategory> getAllCategory() throws Exception;
     IchCategory selectIchCategoryByID(long id);
+    IchCategory getCategoryById(Long id) throws Exception;
 }
