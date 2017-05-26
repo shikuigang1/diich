@@ -1,4 +1,4 @@
-[
+var category_all = [
     {
         "children": [
             {
@@ -979,4 +979,4 @@
         "parentId": "0",
         "status": "1"
     }
-]
+];
