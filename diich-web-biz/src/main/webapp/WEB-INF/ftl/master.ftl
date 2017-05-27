@@ -209,24 +209,37 @@
                 <div class="floor">
                     <a class="share" title="分享"></a>
                     <a class="praise active" title="点赞" style="position: relative;"></a>
-                    <a class="album"><i class="icon_img"></i>
-                        <#assign numPic = 0>
-                        <#assign numVed = 0>
-                        <#if (obj.contentFragmentList?size>0)>
-                            <#list obj.contentFragmentList as cf>
-                                <#if (cf.resourceList?size>0)>
-                                <#list cf.resourceList as res>
-                                    <#if res.type==0>
-                                        <#assign numPic = numPic+1>
-                                    </#if>
-                                    <#if res.type==1>
-                                        <#assign numVed = numVed +1>
-                                    </#if>
-                                </#list>
+                <#assign numPic = 0>
+                <#assign numVed = 0>
+                <#if (obj.contentFragmentList?size>0)>
+                    <#list obj.contentFragmentList as cf>
+                        <#if (cf.resourceList?size>0)>
+                            <#list cf.resourceList as res>
+                                <#if res.type==0>
+                                    <#assign numPic = numPic+1>
+                                </#if>
+                                <#if res.type==1>
+                                    <#assign numVed = numVed +1>
                                 </#if>
                             </#list>
                         </#if>
-                       ${numPic} 张图片/${numVed} 个视频</a>
+                    </#list>
+                </#if>
+                    <#if (numPic >0) && (numVed >0)>
+                    <a class="album"><i class="icon_img"></i>
+                            ${numPic}张图片/${numVed}个视频
+                      </a>
+                    </#if>
+                    <#if (numPic >0) && (numVed =0)>
+                    <a class="album"><i class="icon_img"></i>
+                            ${numPic}张图片
+                      </a>
+                    </#if>
+                   <#-- <#if (numPic ==0) && (numVed ==0)>
+                    <a class="album"><i class="icon_img"></i>
+                            ${numPic}张图片/${numVed}个视频
+                      </a>
+                    </#if>-->
                     <div class="share_box">
                         <div class="icons">
                             <a href="" class="sina"></a>
@@ -314,7 +327,7 @@
                             </p>
                             <p>类别：<#if (obj.ichProject.ichCategory.name)??>
                                 ${obj.ichProject.ichCategory.name}
-                                <#if (obj.ichProject.ichCategory.children?size>0)>
+                                <#if ((obj.ichProject.ichCategory.children)?? && obj.ichProject.ichCategory.children?size>0)>
                                     <#list obj.ichProject.ichCategory.children as ch>
                                         -${ch.name}
                                         <#if (ch.children)?? && (ch.children?size>0)>

@@ -204,7 +204,33 @@
                     <div class="floor">
                         <a class="share" title="分享"></a>
                         <a class="praise active" title="点赞" style="position: relative;"></a>
-                        <a class="album" onclick="show()" data-type="mediaLayer"><i class="play_sm"></i>【视频】昆曲传承人讲述昆曲…(2个视频／9张图片)</a>
+                    <#assign numPic = 0>
+                    <#assign numVed = 0>
+                    <#if (obj.contentFragmentList?size>0)>
+                        <#list obj.contentFragmentList as cf>
+                            <#if (cf.resourceList?size>0)>
+                                <#list cf.resourceList as res>
+                                    <#if res.type==0>
+                                        <#assign numPic = numPic+1>
+                                    </#if>
+                                    <#if res.type==1>
+                                        <#assign numVed = numVed +1>
+                                    </#if>
+                                </#list>
+                            </#if>
+                        </#list>
+                    </#if>
+                    <#if (numPic >0) && (numVed >0)>
+                        <a class="album" onclick="show()" data-type="mediaLayer"><i class="play_sm"></i>
+                        ${numPic}张图片/${numVed}个视频
+                        </a>
+                    </#if>
+                    <#if (numPic >0) && (numVed =0)>
+                        <a class="album"><i class="icon_img"></i>
+                        ${numPic}张图片
+                        </a>
+                    </#if>
+                       <#-- <a class="album" onclick="show()" data-type="mediaLayer"><i class="play_sm"></i>【视频】昆曲传承人讲述昆曲…(2个视频／9张图片)</a>-->
                         <div class="share_box">
                             <div class="icons">
                                 <a href="" class="sina"></a>
@@ -224,7 +250,7 @@
                                 </#list>
                             </#if></h2>
                         <div class="doi_code">
-                            <i class="icon"></i>
+                            <i class="icon">ID</i>
                             <span>标识码：<#if (obj.contentFragmentList?size>0)>
                                                 <#list obj.contentFragmentList as cf>
                                                     <#if cf.attributeId == 2>
@@ -243,9 +269,22 @@
                     <div class="bd subtxt">
                         <span>
                             <strong>类别：</strong>
-                            <em><#if type??>
+                            <em><#if (obj.ichCategory.name)??>
+                            ${obj.ichCategory.name}
+                                <#if ((obj.ichCategory.children)?? && obj.ichCategory.children?size>0)>
+                                    <#list obj.ichCategory.children as ch>
+                                        -${ch.name}
+                                        <#if (ch.children)?? && (ch.children?size>0)>
+                                            <#list ch.children as chh>
+                                                -${chh.name}
+                                            </#list>
+                                        </#if>
+                                    </#list>
+                                </#if>
+                            </#if>
+                            <#--<#if type??>
                                                 ${type.name}
-                               </#if>
+                               </#if>-->
                             </em>
                         </span>
                         <span>
@@ -393,9 +432,18 @@
                                             <#if c.attributeId==28>
                                                 <p class="name">${c.content} </p
                                             </#if>
-                                            <#if c.attributeId==31>
-                                                <p class="master">${c.content}</p>
+                                        </#list>
+                                        <#list work.contentFragmentList as c>
+                                            <#if c.attributeId==25>
+                                                <#if c.resourceList??>
+                                                    <#list c.resourceList as p>
+                                                        <p class="master"><#if p.description??>${p.description}</#if></p>
+                                                    </#list>
+                                                </#if>
                                             </#if>
+                                           <#-- <#if c.attributeId==31>
+                                                <p class="master">${c.content}</p>
+                                            </#if>-->
                                         </#list>
                                     </li>
                                 </#if>
@@ -410,6 +458,85 @@
 
 
         <#if (obj.contentFragmentList?size>0)>
+            <#list obj.contentFragmentList as cf>
+                <#if (cf.attribute.dataType == 5 && cf.resourceList?? && cf.resourceList?size>0)>
+                    <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
+                        <div class="card">
+                            <header><h4>${cf.attribute.cnName} </h4></header>
+                            <article class="text_img">
+                                <div class="side">
+                                    <div class="item">
+                                        <p>${cf.content?replace("\n","</p><p>")}</p>
+                                    </div>
+                                </div>
+                                <div class="media">
+                                    <ul>
+                                            <#list cf.resourceList as r>
+                                            <li>
+                                                <#if r.type ==0>
+                                                    <img src="${r.uri}" alt="">
+
+                                                    <#if r.description??>
+                                                        <span>${r.description}</span>
+                                                    </#if>
+
+                                                </#if>
+
+                                                    <#if r.type ==1>
+                                                        <div class="card_video">
+                                                            <div class="time">30:24</div>
+                                                            <div class="play"></div>
+                                                            <video poster="assets/uploads/exp2.png">
+                                                                <source style="width: 100%;" src="${r.uri}" type="video/mp4">
+                                                            </video>
+                                                        </div>
+                                                        <#if r.description??>
+                                                            <span>${r.description}</span>
+                                                        </#if>
+                                                    </#if>
+                                                <#if (r_index == 1)>
+                                                    <#break />
+                                                </#if>
+
+                                                </li>
+                                            </#list>
+
+
+                                    </ul>
+
+                                    <#if (cf.resourceList?size > 2) >
+                                        <div class="more">
+                                            <a href="">查看完整图集<i class="arrow_right"></i></a>
+                                        </div>
+                                    </#if>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+
+                    <#assign odd_even = odd_even+1 />
+                </#if>
+                    <#if ((cf.attribute.dataType == 5 || cf.attribute.dataType == 1) && (!cf.resourceList?? || cf.resourceList?size==0))>
+
+                    <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
+                        <div class="card">
+                            <header><h4>${cf.attribute.cnName}  </h4></header>
+                            <article class="plain_text">
+                            <p>
+                            ${cf.content?replace("\n", "</p><p>")}
+                            </p>
+                                <#--${cf.content?replace("\n","</p></p>")}-->
+
+                            </article>
+                        </div>
+                    </section>
+
+                    <#assign odd_even = odd_even+1 />
+                </#if>
+
+            </#list>
+        </#if>
+        <#-- <#if (obj.contentFragmentList?size>0)>
             <#list obj.contentFragmentList as cf>
                 <#if cf.attribute.dataType == 5 >
 
@@ -479,7 +606,7 @@
                             <p>
                             ${cf.content?replace("\n", "</p><p>")}
                             </p>
-                                <#--${cf.content?replace("\n","</p></p>")}-->
+                                &lt;#&ndash;${cf.content?replace("\n","</p></p>")}&ndash;&gt;
 
                             </article>
                         </div>
@@ -489,7 +616,7 @@
                 </#if>
 
             </#list>
-        </#if>
+        </#if>-->
 
 
 

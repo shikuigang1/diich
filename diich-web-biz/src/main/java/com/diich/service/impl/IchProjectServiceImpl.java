@@ -69,7 +69,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
 
             if(ichProject != null) {
-                Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
+//                Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
+                Long ichCategoryId = Long.valueOf(0);
+                if(ichProject.getIchCategoryId()!=null){
+                    ichCategoryId = ichProject.getIchCategoryId();
+                }
                 IchCategory ichCategory = ichCategoryService.getCategoryById(ichCategoryId);
                 if(ichCategory != null) {
                     ichProject.setIchCategory(ichCategory);
@@ -139,7 +143,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             for (IchProject ichProject:ichItemList) {
 
                 if(ichProject != null) {
-                    Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
+//                    Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
+                    Long ichCategoryId = Long.valueOf(0);
+                    if(ichProject.getIchCategoryId()!=null){
+                        ichCategoryId = ichProject.getIchCategoryId();
+                    }
 
                     IchCategory ichCategory = ichCategoryService.getCategoryById(ichCategoryId);
 
@@ -165,6 +173,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
         } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
+
         }
 
         return ichItemList;
@@ -240,7 +249,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         //所属项目
         IchProject ichProject = ichProjectMapper.selectByPrimaryKey(id);
         if (ichProject != null) {
-            IchCategory ichCategory = ichCategoryService.getCategoryById(ichProject.getIchCategoryId());
+            Long ichCategoryId = Long.valueOf(0);
+            if(ichProject.getIchCategoryId()!=null){
+                ichCategoryId = ichProject.getIchCategoryId();
+            }
+            IchCategory ichCategory = ichCategoryService.getCategoryById(ichCategoryId);
             ichProject.setIchCategory(ichCategory);
             //内容片断列表
             List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
