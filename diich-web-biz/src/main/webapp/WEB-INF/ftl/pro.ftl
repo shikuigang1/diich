@@ -161,7 +161,7 @@
         <div class="bd detail">
             <div class="mainbg">
 
-            <#assign backImgUrl="assets/uploads/project_detail_01.png">
+            <#assign backImgUrl="assets/uploads/大封面.png">
             <#if (obj.contentFragmentList?size>0)>
                 <#list obj.contentFragmentList as cf>
                     <#if cf.attributeId == 1>
@@ -175,10 +175,22 @@
                     </#if>
                 </#list>
             </#if>
-               <#--<img src="${backImgUrl}" alt="">-->
-                <video poster="${backImgUrl}" src="http://192.168.1.111/video.mp4"> </video>
-                <span class="play_big">
-            </span>
+               <img src="${backImgUrl}" alt="">
+            <#if (obj.contentFragmentList?size>0)>
+                <#list obj.contentFragmentList as cf>
+                    <#if cf.attributeId == 1>
+                        <#if (cf.resourceList?size>0)>
+                            <#list cf.resourceList as res>
+                                <#if res.type==1 && res.status==1>
+                                    <video poster="${backImgUrl}" src="http://192.168.1.111/video.mp4"> </video>
+                                         <span class="play_big"> </span>
+                                </#if>
+                            </#list>
+                        </#if>
+                    </#if>
+                </#list>
+            </#if>
+
 
             </div>
             <!--//End main-->
