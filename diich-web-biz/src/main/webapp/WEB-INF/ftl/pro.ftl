@@ -346,9 +346,16 @@
 
                                     </li>
                                 </#if>
-
+                                <#if (master_index == 2)>
+                                    <#break />
+                                </#if>
 
                             </#list>
+                            <#if obj.ichMasterList?? && (obj.ichMasterList?size > 3)>
+                                <li class="more">
+                                    <a href=""><span>其他${obj.ichMasterList?size -3}人</span><i class="gt_big"></i></a>
+                                </li>
+                            </#if>
                         </ul>
                     </div>
                 </#if>

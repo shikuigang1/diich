@@ -346,7 +346,7 @@
                                                 </#list>
                                             </#if>
                             </p>
-                            <p>DOI ：<#if (obj.ichProject.contentFragmentList?size>0)>
+                            <p>ID：<#if (obj.ichProject.contentFragmentList?size>0)>
                                         <#list obj.ichProject.contentFragmentList as cf>
                                             <#if cf.attributeId == 2>
                                              ${cf.content}
