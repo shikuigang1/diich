@@ -12,3 +12,17 @@ function getTextByTypeAndCode(type, code) {
 
     return text;
 }
+
+function uploadFile(uri) {
+    $.ajaxFileUpload({
+        url : uri,
+        secureuri : false,
+        fileElementId : 'file_upload',
+        success : function(data) {
+
+        },
+        error : function(e) {
+            alert(e.responseText);
+        }
+    });
+}

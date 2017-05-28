@@ -149,11 +149,28 @@
         <div class="bd detail_product">
 
             <div class="crumbs">
-                <span>非遗名录</span>
+                <#if (obj.ichProject??)>
+                    <#if (obj.ichProject.ichCategory??)>
+                        <span>${obj.ichProject.ichCategory.name}</span>
+                        <#if (obj.ichProject.ichCategory.children?? && obj.ichProject.ichCategory.children?size>0)>
+                            <#list obj.ichProject.ichCategory.children as second>
+                                <i class="gt"></i>
+                                <span>${second.name}</span>
+                                <#if (second.children?? && second.children?size>0)>
+                                    <#list second.children as third>
+                                        <i class="gt"></i>
+                                        <span class="last">${third.name}</span>
+                                    </#list>
+                                </#if>
+                            </#list>
+                        </#if>
+                    </#if>
+                </#if>
+                <#--<span>非遗名录</span>
                 <i class="gt"></i>
                 <span><a href="" title="口头传说和表述">口头传说和表述</a></span>
                 <i class="gt"></i>
-                <span class="last">昆曲</span>
+                <span class="last">昆曲</span>-->
             </div>
             <!--//End crumbs-->
 
@@ -172,11 +189,26 @@
                         </h2>
                         <div class="doi_code">
                             <i class="icon"></i>
-                            <span>标识码：37232519870103004383</span>
+                            <span>标识码：
+                                <#if (obj.contentFragmentList?? && obj.contentFragmentList?size>0)>
+                                    <#list obj.contentFragmentList as cf>
+                                        <#if cf.attributeId == 26>
+                                        ${cf.content}
+                                        </#if>
+                                    </#list>
+                                </#if>
+                            </span>
                             <em class="icon"></em>
                             <div class="drop">
                                 <img src="assets/images/code.png" alt="">
                             </div>
+
+                            <#--<i class="icon"></i>
+                            <span>标识码：37232519870103004383</span>
+                            <em class="icon"></em>
+                            <div class="drop">
+                                <img src="assets/images/code.png" alt="">
+                            </div>-->
                         </div>
                     </div>
                     <!--//End title-->
@@ -206,12 +238,30 @@
                                 </#if>
                             </#list>
                         </#if>
-                            <span class="auth">UNESCO认证传承人</span>
+
+                        <#if (obj.ichMaster?? && obj.ichMaster.contentFragmentList?? && obj.ichMaster.contentFragmentList?size>0)>
+                            <#list obj.ichMaster.contentFragmentList as cf>
+                                <#if (cf.attributeId == 111)>
+                                    <span class="auth"><#--UNESCO认证传承人-->
+                                        ${cf.content}
+                                    </span>
+                                </#if>
+                            </#list>
+                        </#if>
+
                         </div>
 
                         <div class="item">
                             <span>所属项目：</span>
-                            <strong>昆曲</strong>
+                            <strong><#--昆曲-->
+                                <#if (obj.ichProject?? && obj.ichProject.contentFragmentList?? && obj.ichProject.contentFragmentList?size>0)>
+                                    <#list obj.ichProject.contentFragmentList as cf>
+                                        <#if (cf.attributeId == 4 && cf.content??)>
+                                            ${cf.content}
+                                        </#if>
+                                    </#list>
+                                </#if>
+                            </strong>
                         </div>
                     </div>
                     <!--//End master-->
@@ -386,6 +436,7 @@
     <!--//End--footer-->
 
     <div class="side_fixed">
+        <ul></ul>
         <a class="gotop" href="javascript:void(0)" title="返回顶部"></a>
     </div>
     <!--//End 右侧悬浮-->

@@ -7,6 +7,7 @@ import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
+import com.diich.core.service.DictionaryService;
 import com.diich.core.service.IchMasterService;
 import com.diich.core.service.IchProjectService;
 import com.diich.core.service.WorksService;
@@ -50,6 +51,8 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     private IchProjectService ichProjectService;
     @Autowired
     private WorksService worksService;
+    @Autowired
+    private DictionaryService dictionaryService;
 
     /**
      * 根据id查询传承人
@@ -256,6 +259,10 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             Long attrId = contentFragment.getAttributeId();
             Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
             contentFragment.setAttribute(attribute);//添加属性
+            if(attribute.getDataType() > 100) {
+                String content = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), contentFragment.getContent());
+                contentFragment.setContent(content);
+            }
             List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
             List<Resource> resourceList = new ArrayList<>();
             for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {

@@ -1,22 +1,12 @@
 package com.diich.core.base;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.diich.core.exception.BusinessException;
-import com.diich.core.model.IchMaster;
-import com.diich.core.model.IchProject;
-import com.diich.core.model.Works;
 import com.diich.core.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.RandomUtils;
@@ -28,15 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
-import com.diich.core.exception.BusinessException;
-import com.diich.core.util.PropertiesUtil;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
@@ -276,37 +261,9 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
         return cacheName;
     }
 
-
     public List<T> selectPage(Page<T> page, EntityWrapper ew){
         return mapper.selectPage(page,ew);
     }
-
-
-//    /**
-//     *生成静态页面的方法
-//     */
-//    public String buildHTML(String templateName, BaseModel entity,String outputFileName) throws Exception{
-//
-//        if(StringUtils.isBlank(templateName)){
-//            throw new BusinessException("模板名不能为空 ");
-//        }
-//        if("".equals(entity) || entity ==null){
-//            throw new BusinessException("生成模板的对象不能为空 ");
-//        }
-//        Configuration configuration = new Configuration(Configuration.getVersion());
-//        String path=PropertiesUtil.getString("freemarker.templateLoaderPath");
-//        configuration.setDirectoryForTemplateLoading(new File(path));
-//        configuration.setDefaultEncoding("UTF-8");
-//        Template template = configuration.getTemplate(templateName);
-//        Map dataMap = new HashMap<>();
-//        dataMap.put("obj",entity);
-//        String outPutPath=PropertiesUtil.getString("freemarker.filepath")+"/"+outputFileName+".html";
-//        Writer out =  new OutputStreamWriter(new FileOutputStream(outPutPath),"utf-8");
-//        template.process(dataMap, out);
-//        out.flush();
-//        out.close();
-//        return outPutPath;
-//    }
 
     public T parseObject(String jsonObjStr, Class<T> clazz) {
         T object = null;
@@ -320,33 +277,6 @@ public abstract class BaseService<T extends BaseModel> implements ApplicationCon
             e.printStackTrace();
         }
         return object;
-    }
-
-    public Map<String, Object> setResultMap(Integer code, Object data) {
-        Map<String, Object> map = new HashMap<String, Object>();
-
-        if (data != null) {
-            if (data instanceof Page) {
-                Page<?> page = (Page<?>) data;
-                map.put("data", page.getRecords());
-                map.put("current", page.getCurrent());
-                map.put("size", page.getSize());
-                map.put("pages", page.getPages());
-                map.put("total", page.getTotal());
-                map.put("iTotalRecords", page.getTotal());
-                map.put("iTotalDisplayRecords", page.getTotal());
-            } else if (data instanceof List<?>) {
-                map.put("data", data);
-                map.put("iTotalRecords", ((List<?>) data).size());
-                map.put("iTotalDisplayRecords", ((List<?>) data).size());
-            } else {
-                map.put("data", data);
-            }
-        }
-
-        map.put("code", code);
-        map.put("msg", Constants.MSGS[code]);
-        return map;
     }
 
     public TransactionStatus getTransactionStatus() {
