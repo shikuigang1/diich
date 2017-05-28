@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
+import com.diich.core.service.DictionaryService;
 import com.diich.core.service.IchMasterService;
 import com.diich.core.service.IchProjectService;
 import com.diich.core.service.WorksService;
@@ -44,7 +45,8 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
     private IchProjectService ichProjectService;
     @Autowired
     private IchMasterService ichMasterService;
-
+    @Autowired
+    private DictionaryService dictionaryService;
     /**
      * 根据id查询作品信息
      * @param id
@@ -203,7 +205,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
      * @param ichProjectId
      * @return
      */
-    public List<Works> getWorksByIchProjectId(Long ichProjectId){
+    public List<Works> getWorksByIchProjectId(Long ichProjectId) throws Exception {
         Works works = new Works();
         works.setIchProjectId(ichProjectId);
         works.setIsRepresent(1);
@@ -218,7 +220,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
      * @param ichMasterId
      * @return
      */
-    public List<Works> getWorksByIchMasterId(Long ichMasterId){
+    public List<Works> getWorksByIchMasterId(Long ichMasterId) throws Exception {
         Works works = new Works();
         works.setIchMasterId(ichMasterId);
         works.setIsRepresent(1);
@@ -227,7 +229,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         return worksList;
     }
 
-    private List<Works> getWorkList(List<Works> worksList){
+    private List<Works> getWorkList(List<Works> worksList) throws Exception {
         for (Works works:worksList) {
             //获取传承人信息
             IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
@@ -239,7 +241,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         return worksList;
     }
 
-    private List<ContentFragment> getContentFragmentListByWorksId(Works works){
+    private List<ContentFragment> getContentFragmentListByWorksId(Works works) throws Exception {
         //获取内容片断
         ContentFragment con = new ContentFragment();
         con.setTargetId(works.getId());
@@ -249,6 +251,16 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             Long attrId = contentFragment.getAttributeId();
             Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
             contentFragment.setAttribute(attribute);//添加属性
+            if(attribute.getDataType() > 100) {
+                String[] arrs= contentFragment.getContent().split(",");
+                String name ="";
+                for (String arr: arrs) {
+                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr);
+                    name +=";";
+                }
+                name = name.substring(0,name.length()-1);
+                contentFragment.setContent(name);
+            }
             List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
             List<Resource> resourceList = new ArrayList<>();
             for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {

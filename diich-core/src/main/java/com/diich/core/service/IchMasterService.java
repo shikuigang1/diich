@@ -24,9 +24,9 @@ public interface IchMasterService {
     //保存传承人
     void  saveIchMaster(IchMaster ichMaster) throws Exception;
     //根据项目id查询传承人
-    List<IchMaster> getIchMasterByIchProjectId(Long ichProjectId);
+    List<IchMaster> getIchMasterByIchProjectId(Long ichProjectId) throws Exception;
 
-    IchMaster getIchMasterByWorks(Works works);
+    IchMaster getIchMasterByWorks(Works works) throws Exception;
     //生成静态页面
     String buildHTML(String templateName, IchMaster ichMaster, String fileName) throws Exception;
 }

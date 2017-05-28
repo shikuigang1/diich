@@ -6,10 +6,7 @@ import com.diich.core.base.BaseModel;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
-import com.diich.core.service.IchCategoryService;
-import com.diich.core.service.IchMasterService;
-import com.diich.core.service.IchProjectService;
-import com.diich.core.service.WorksService;
+import com.diich.core.service.*;
 import com.diich.core.util.BuildHTMLEngine;
 import com.diich.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +49,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     private IchMasterService ichMasterService;
     @Autowired
     private WorksService worksService;
-
+    @Autowired
+    private DictionaryService dictionaryService;
     /**
      * 根据id获取项目信息
      * @param id
@@ -276,14 +274,25 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return uri;
     }
 
-    private List<ContentFragment> getContentFragmentListByProjectId(IchProject ichProject){
+    private List<ContentFragment> getContentFragmentListByProjectId(IchProject ichProject) throws Exception {
         ContentFragment c = new ContentFragment();
         c.setTargetId(ichProject.getId());
         c.setTargetType(0);//标示项目
         List<ContentFragment> ls =  contentFragmentMapper.selectByTargetIdAndType(c);
         //List<ContentFragment> ls_ = new ArrayList<ContentFragment>();
         for(int i=0;i<ls.size();i++) {
-            ls.get(i).setAttribute(attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId()));
+            Attribute attribute = attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId());
+            ls.get(i).setAttribute(attribute);
+            if(attribute.getDataType()>100){
+                String[] arrs= ls.get(i).getContent().split(",");
+                String name ="";
+                for (String arr: arrs) {
+                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr);
+                    name +=";";
+                }
+                name = name.substring(0,name.length()-1);
+                ls.get(i).setContent(name);
+            }
             Long contentFragmentId = ls.get(i).getId();
             List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
             List<Resource> resourceList = new ArrayList<>();
