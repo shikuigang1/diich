@@ -15,7 +15,7 @@
     select
     <include refid="Base_Column_List" />
     from resource
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and status = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from resource
