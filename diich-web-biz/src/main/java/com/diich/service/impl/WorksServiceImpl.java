@@ -203,7 +203,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
      * @param ichProjectId
      * @return
      */
-    public List<Works> getWorksByIchProjectId(Long ichProjectId){
+    public List<Works> getWorksByIchProjectId(Long ichProjectId) throws Exception {
         Works works = new Works();
         works.setIchProjectId(ichProjectId);
         works.setIsRepresent(1);
@@ -218,7 +218,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
      * @param ichMasterId
      * @return
      */
-    public List<Works> getWorksByIchMasterId(Long ichMasterId){
+    public List<Works> getWorksByIchMasterId(Long ichMasterId) throws Exception {
         Works works = new Works();
         works.setIchMasterId(ichMasterId);
         works.setIsRepresent(1);
@@ -227,7 +227,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         return worksList;
     }
 
-    private List<Works> getWorkList(List<Works> worksList){
+    private List<Works> getWorkList(List<Works> worksList) throws Exception {
         for (Works works:worksList) {
             //获取传承人信息
             IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);

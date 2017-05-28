@@ -21,9 +21,9 @@ public interface WorksService {
     //保存
     void saveWorks(Works works) throws Exception;
     //根据项目id或者传承人id获取作品列表
-    List<Works> getWorksByIchProjectId(Long id);
+    List<Works> getWorksByIchProjectId(Long id) throws Exception;
 
-    List<Works> getWorksByIchMasterId(Long id);
+    List<Works> getWorksByIchMasterId(Long id) throws Exception;
 
     String buildHTML(String templateName, Works works, String fileName) throws Exception;
 }

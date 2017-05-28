@@ -224,7 +224,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
      * @param ichProjectId
      * @return
      */
-    public List<IchMaster> getIchMasterByIchProjectId(Long ichProjectId){
+    public List<IchMaster> getIchMasterByIchProjectId(Long ichProjectId) throws Exception {
         List<IchMaster> ichMasterList = ichMasterMapper.selectByIchProjectId(ichProjectId);
         for (IchMaster ichMaster:ichMasterList) {
             List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
@@ -238,7 +238,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
      * @param works
      * @return
      */
-    public IchMaster getIchMasterByWorks(Works works) {
+    public IchMaster getIchMasterByWorks(Works works) throws Exception {
         //所属传承人
         IchMaster ichMaster = ichMasterMapper.selectByPrimaryKey(works.getIchMasterId());
         if (ichMaster != null) {
@@ -249,7 +249,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         return ichMaster;
     }
 
-    private List<ContentFragment> getContentFragmentListByMasterId(IchMaster ichMaster){
+    private List<ContentFragment> getContentFragmentListByMasterId(IchMaster ichMaster) throws Exception {
         //内容片断列表
         ContentFragment con = new ContentFragment();
         con.setTargetId(ichMaster.getId());
