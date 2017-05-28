@@ -167,7 +167,7 @@
                     <#if cf.attributeId == 1>
                         <#if (cf.resourceList?size>0)>
                             <#list cf.resourceList as res>
-                                <#if res.type==0 && res.status==2>
+                                <#if res.type==0 && res.status==0>
                                     <#assign backImgUrl="${res.uri}">
                                 </#if>
                             </#list>
@@ -181,8 +181,8 @@
                     <#if cf.attributeId == 1>
                         <#if (cf.resourceList?size>0)>
                             <#list cf.resourceList as res>
-                                <#if res.type==1 && res.status==1>
-                                    <video poster="${backImgUrl}" src="http://192.168.1.111/video.mp4"> </video>
+                                <#if res.type==1 && res.status==0>
+                                    <video poster="${backImgUrl}" src="${res.uri}"> </video>
                                          <span class="play_big"> </span>
                                 </#if>
                             </#list>
@@ -256,6 +256,11 @@
                     <#if (numPic >0) && (numVed =0)>
                         <a class="album"><i class="icon_img"></i>
                         ${numPic}张图片
+                        </a>
+                    </#if>
+                    <#if (numPic =0) && (numVed >0)>
+                        <a class="album"><i class="icon_img"></i>
+                        ${numVed}个视频
                         </a>
                     </#if>
                        <#-- <a class="album" onclick="show()" data-type="mediaLayer"><i class="play_sm"></i>【视频】昆曲传承人讲述昆曲…(2个视频／9张图片)</a>-->

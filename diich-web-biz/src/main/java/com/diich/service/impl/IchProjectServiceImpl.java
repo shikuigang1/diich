@@ -201,19 +201,21 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                      c.setId(IdWorker.getId());
                      c.setTargetId(proID);
                      c.setTargetType(0);
-                     c.setStatus(1);
+                     c.setStatus(0);
+                     c.setAttributeId(c.getAttribute().getId());
                      contentFragmentMapper.insertSelective(c);
                  List<Resource> resourceList = c.getResourceList();
                  for (Resource resource: resourceList ) {
                      Long resourceId = IdWorker.getId();
-                      resource.setId(resourceId);
+                     resource.setId(resourceId);
+                     resource.setStatus(0);
                      //保存resource
                      resourceMapper.insertSelective(resource);
                      ContentFragmentResource cfr = new ContentFragmentResource();
                      cfr.setId(IdWorker.getId());
                      cfr.setContentFragmentId(c.getId());
                      cfr.setResourceId(resourceId);
-                     cfr.setStatus(1);
+                     cfr.setStatus(0);
                      //保存中间表
                      contentFragmentResourceMapper.insertSelective(cfr);
                  }
@@ -230,6 +232,14 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
             } else {
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
+                List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
+                for (ContentFragment contentFragment: contentFragmentList) {
+                    contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                    List<Resource> resourceList = contentFragment.getResourceList();
+                    for (Resource resource: resourceList) {
+                        resourceMapper.updateByPrimaryKeySelective(resource);
+                    }
+                }
             }
             commit(transactionStatus);
         } catch (Exception e) {

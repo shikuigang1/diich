@@ -151,21 +151,37 @@
     <div class="bd detail">
         <div class="mainbg">
 
-       <#--<#assign backImgUrl="assets/uploads/project_detail_01.png">-->
+       <#assign backImgUrl="assets/uploads/头图.png">
         <#if (obj.contentFragmentList?size>0)>
             <#list obj.contentFragmentList as cf>
                 <#if cf.attributeId == 10>
                     <#if (cf.resourceList?size>0)>
                         <#list cf.resourceList as res>
-                            <#if res.type==0 && res.status==1>
-                                <img src="<#if res.uri??>${res.uri}</#if>" alt="">
-                                <#--<#assign backImgUrl="${res.uri}">-->
+                            <#if res.type==0 && res.status==0>
+                                <#if res.uri??>
+                                <#assign backImgUrl="${res.uri}">
+                                </#if>
                             </#if>
                         </#list>
                     </#if>
                 </#if>
             </#list>
         </#if>
+           <img src="${backImgUrl}" alt="">
+       <#if (obj.contentFragmentList?size>0)>
+           <#list obj.contentFragmentList as cf>
+               <#if cf.attributeId == 10>
+                   <#if (cf.resourceList?size>0)>
+                       <#list cf.resourceList as res>
+                           <#if res.type==1 && res.status==0>
+                               <video poster="${backImgUrl}" src="${res.uri}"> </video>
+                               <span class="play_big"> </span>
+                           </#if>
+                       </#list>
+                   </#if>
+               </#if>
+           </#list>
+       </#if>
         <#--<img src="${backImgUrl}" alt="">
             <video poster="${backImgUrl}" src="http://192.168.1.111/video.mp4"> </video>
             <span class="play_big"></span>-->
@@ -234,6 +250,11 @@
                     <a class="album"><i class="icon_img"></i>
                             ${numPic}张图片
                       </a>
+                    </#if>
+                    <#if (numPic =0) && (numVed >0)>
+                        <a class="album"><i class="icon_img"></i>
+                            ${numVed}个视频
+                        </a>
                     </#if>
                    <#-- <#if (numPic ==0) && (numVed ==0)>
                     <a class="album"><i class="icon_img"></i>
@@ -306,7 +327,7 @@
                                     <#if cf.attributeId == 1>
                                         <#if (cf.resourceList?size>0)>
                                             <#list cf.resourceList as r>
-                                                <#if r.type==0 && r.status==1>
+                                                <#if r.type==0 && r.status==0>
                                                     <img src="<#if r.uri??>${r.uri}</#if>" width="94" height="70" alt="">
                                                 </#if>
                                             </#list>

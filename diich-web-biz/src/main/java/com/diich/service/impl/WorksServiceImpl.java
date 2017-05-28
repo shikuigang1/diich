@@ -142,14 +142,13 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             if(works.getId() == null){//新增
                 Long worksId = IdWorker.getId();
                 works .setId(worksId);
-                works.setStatus(1);
-                works.setLang("chi");
+                works.setStatus(0);
                 works.setIsRepresent(1);
                 worksMapper.insertSelective(works);
                 List<ContentFragment> contentFragmentList = works.getContentFragmentList();
                 for (ContentFragment contentFragment:contentFragmentList) {
                     contentFragment.setId(IdWorker.getId());//id
-                    contentFragment.setStatus(1);//状态
+                    contentFragment.setStatus(0);//状态
                     contentFragment.setTargetId(worksId);//作品的id
                     contentFragment.setTargetType(2);//2表示作品
                     contentFragment.setAttributeId(contentFragment.getAttribute().getId());//属性的id 是什么字段
@@ -158,14 +157,14 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                     for (Resource resource: resourceList) {
                         Long resourceId = IdWorker.getId();
                         resource.setId(resourceId);
-                        resource.setStatus(1);
+                        resource.setStatus(0);
                         //保存resource
                         resourceMapper.insertSelective(resource);
                         ContentFragmentResource cfr = new ContentFragmentResource();
                         cfr.setId(IdWorker.getId());
                         cfr.setContentFragmentId(contentFragment.getId());
                         cfr.setResourceId(resourceId);
-                        cfr.setStatus(1);
+                        cfr.setStatus(0);
                         //保存中间表
                         contentFragmentResourceMapper.insertSelective(cfr);
                     }
@@ -173,12 +172,20 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 }
                 String templateName ="";
                 String fileName = works.getId().toString();
-                String uri = buildHTML("", works, fileName);
+                String uri = buildHTML(templateName, works, fileName);
                 works.setUri(uri);
                 worksMapper.updateByPrimaryKeySelective(works);
             }else{
                 //更新
                 worksMapper.updateByPrimaryKeySelective(works);
+                List<ContentFragment> contentFragmentList = works.getContentFragmentList();
+                for (ContentFragment contentFragment : contentFragmentList) {
+                    contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                    List<Resource> resourceList = contentFragment.getResourceList();
+                    for (Resource resource: resourceList) {
+                        resourceMapper.updateByPrimaryKeySelective(resource);
+                    }
+                }
             }
             commit(transactionStatus);
         }catch (Exception e){

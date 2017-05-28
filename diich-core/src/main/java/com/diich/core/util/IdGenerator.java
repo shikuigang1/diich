@@ -1,13 +1,9 @@
 package com.diich.core.util;
 
-//import org.hibernate.HibernateException;
-//import org.hibernate.engine.spi.SessionImplementor;
-//import org.hibernate.id.IdentifierGenerator;
 
 import org.springframework.data.keyvalue.core.IdentifierGenerator;
 import org.springframework.data.util.TypeInformation;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -68,7 +64,8 @@ public class IdGenerator implements IdentifierGenerator {
 	}
 
 	public static void main(String[] args) {
-		String s = gensalt(4);
+//		String s = gensalt(4);
+		String s = newBillNo("SG",new Date());
 		System.out.println(s);
 	}
 }

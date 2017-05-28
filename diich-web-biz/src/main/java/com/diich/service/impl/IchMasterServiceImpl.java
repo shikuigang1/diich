@@ -165,24 +165,28 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             if(ichMaster.getId() == null) {
                 long id = IdWorker.getId();
                 ichMaster.setId(id);
-                ichMaster.setLastEditDate(new Date());
+                ichMaster.setStatus(0);
                 ichMasterMapper.insertSelective(ichMaster);
                 List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
                 for (ContentFragment contentFragment: contentFragmentList) {
                     contentFragment.setTargetId(id);
                     contentFragment.setId(IdWorker.getId());
+                    contentFragment.setTargetType(1);
+                    contentFragment.setStatus(0);
+                    contentFragment.setAttributeId(contentFragment.getAttribute().getId());
                     contentFragmentMapper.insertSelective(contentFragment);
                     List<Resource> resourceList = contentFragment.getResourceList();
                     for (Resource resource:resourceList) {
                         long recId = IdWorker.getId();
                         resource.setId(recId);
+                        resource.setStatus(0);
                         //保存resource
                         resourceMapper.insertSelective(resource);
                         ContentFragmentResource cfr = new ContentFragmentResource();
                         cfr.setId(IdWorker.getId());
                         cfr.setContentFragmentId(contentFragment.getId());
                         cfr.setResourceId(recId);
-                        cfr.setStatus(1);
+                        cfr.setStatus(0);
                         //保存中间表
                         contentFragmentResourceMapper.insertSelective(cfr);
                     }
@@ -196,7 +200,11 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
                 for (ContentFragment contentFragment: contentFragmentList) {
                     contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                    List<Resource> resourceList = contentFragment.getResourceList();
+                    for (Resource resource:resourceList) {
+                        resourceMapper.updateByPrimaryKeySelective(resource);
 
+                    }
                 }
             }
             commit(transactionStatus);
