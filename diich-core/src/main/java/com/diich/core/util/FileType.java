@@ -2,9 +2,7 @@ package com.diich.core.util;
 
 /**
  * Created by Administrator on 2017/5/28.
- */
-
-/**
+ *
  * 根据文件名判断文件类型 图片,文档,视频,音乐
  */
 public class FileType {
