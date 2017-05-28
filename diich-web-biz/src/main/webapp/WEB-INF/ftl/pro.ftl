@@ -161,7 +161,7 @@
         <div class="bd detail">
             <div class="mainbg">
 
-            <#assign backImgUrl="assets/uploads/大封面.png">
+            <#assign backImgUrl="assets/uploads/头图.png">
             <#if (obj.contentFragmentList?size>0)>
                 <#list obj.contentFragmentList as cf>
                     <#if cf.attributeId == 1>
@@ -196,8 +196,24 @@
             <!--//End main-->
             <div class="crumbs">
                 <span>非遗名录</span>
-                <i class="gt"></i>
-                <span><a href="" title="口头传说和表述">口头传说和表述</a></span>
+                <#--<i class="gt"></i>
+                <span><a href="" title="口头传说和表述">口头传说和表述</a></span>-->
+                <#if (obj.ichCategory.name)??>
+                    <i class="gt"></i>
+                    <span><a href="" title="${obj.ichCategory.name}"> ${obj.ichCategory.name}</a></span>
+                    <#if (obj.ichCategory.children?size>0)>
+                        <#list obj.ichCategory.children as ch>
+                            <i class="gt"></i>
+                            <span><a href="" title="${ch.name}"> ${ch.name}</a></span>
+                            <#if (ch.children)?? && (ch.children?size>0)>
+                                <#list ch.children as chh>
+                                    <i class="gt"></i>
+                                    <span><a href="" title="${chh.name}"> ${chh.name}</a></span>
+                                </#list>
+                            </#if>
+                        </#list>
+                    </#if>
+                </#if>
                 <i class="gt"></i>
                 <span class="last"><#if (obj.contentFragmentList?size>0)>
                                         <#list obj.contentFragmentList as cf>
@@ -358,14 +374,14 @@
 
                                     </li>
                                 </#if>
-                                <#if (master_index == 2)>
+                                <#if (master_index == 3)>
                                     <#break />
                                 </#if>
 
                             </#list>
-                            <#if obj.ichMasterList?? && (obj.ichMasterList?size > 3)>
+                            <#if obj.ichMasterList?? && (obj.ichMasterList?size > 4)>
                                 <li class="more">
-                                    <a href=""><span>其他${obj.ichMasterList?size -3}人</span><i class="gt_big"></i></a>
+                                    <a href=""><span>其他${obj.ichMasterList?size -4}人</span><i class="gt_big"></i></a>
                                 </li>
                             </#if>
                         </ul>
@@ -376,12 +392,12 @@
                         <div class="tname">非遗在中国<i></i></div>
                         <div class="subcon">
                             <#if (obj.contentFragmentList?size>0)>
-                                                                <#list obj.contentFragmentList as cf>
-                                                                    <#if cf.attributeId == 106 && cf.content??>
-                                                                    <span>人类非物质文化遗产编号：${cf.content}</span>
-                                                                    </#if>
-                                                                </#list>
-                                                            </#if>
+                                <#list obj.contentFragmentList as cf>
+                                    <#if cf.attributeId == 106 && cf.content??>
+                                    <span>人类非物质文化遗产编号：${cf.content}</span>
+                                    </#if>
+                                </#list>
+                            </#if>
                            <#if (obj.contentFragmentList?size>0)>
                                                 <#list obj.contentFragmentList as cf>
                                                     <#if cf.attributeId == 41 &&  cf.content??>
