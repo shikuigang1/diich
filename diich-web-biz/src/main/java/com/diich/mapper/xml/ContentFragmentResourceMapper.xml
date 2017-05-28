@@ -14,7 +14,7 @@
     select
     <include refid="Base_Column_List" />
     from content_fragment_resource
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and status = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from content_fragment_resource
@@ -80,6 +80,6 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByContentFragmentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select * from content_fragment_resource where content_fragment_id = #{contentFragmentId,jdbcType=BIGINT}
+    select * from content_fragment_resource where content_fragment_id = #{contentFragmentId,jdbcType=BIGINT} and status = 0
   </select>
 </mapper>

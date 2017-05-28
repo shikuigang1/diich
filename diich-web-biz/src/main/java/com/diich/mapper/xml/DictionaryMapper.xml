@@ -16,7 +16,7 @@
     select
     <include refid="Base_Column_List" />
     from dictionary
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and status = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from dictionary
@@ -105,19 +105,19 @@
   <select id="selectListByType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select *
     from dictionary
-    where type = #{type,jdbcType=INTEGER}
+    where type = #{type,jdbcType=INTEGER} and status = 0
   </select>
 
   <select id="selectByTypeAndCode" resultMap="BaseResultMap" parameterType="java.util.Map">
     select *
     from dictionary
-    where type = #{params.type,jdbcType=INTEGER} and code = #{params.code,jdbcType=VARCHAR}
+    where type = #{params.type,jdbcType=INTEGER} and code = #{params.code,jdbcType=VARCHAR} and status = 0
   </select>
 
   <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.util.Map">
     select *
     FROM dictionary
-    where type = #{params.type,jdbcType=INTEGER} and
+    where type = #{params.type,jdbcType=INTEGER} and  status = 0 and
     <choose>
       <when test="params.parentId != null">
         parent_id = #{params.parentId,jdbcType=BIGINT}
@@ -130,6 +130,6 @@
 
   <select id="selectAllDictionary" resultMap="BaseResultMap">
     select *
-    from dictionary
+    from dictionary where status = 0
   </select>
 </mapper>

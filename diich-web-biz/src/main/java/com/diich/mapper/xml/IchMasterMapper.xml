@@ -18,7 +18,7 @@
     select
     <include refid="Base_Column_List" />
     from ich_master
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and status = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from ich_master
@@ -126,7 +126,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectIchMasterList" parameterType="java.util.Map" resultMap="BaseResultMap">
-  select * from ich_master where 1=1
+  select * from ich_master where status = 0
     <if test="params.ichProjectId != null" >
       and ich_project_id = #{params.ichProjectId,jdbcType=BIGINT}
     </if>
@@ -139,9 +139,6 @@
     <if test="params.editRank != null" >
       and edit_rank = #{params.editRank,jdbcType=INTEGER}
     </if>
-    <if test="params.status != null" >
-     and  status = #{params.status,jdbcType=INTEGER}
-    </if>
     <if test="params.uri != null" >
       and uri = #{params.uri,jdbcType=VARCHAR}
     </if>
@@ -150,6 +147,6 @@
     </if>
   </select>
   <select id="selectByIchProjectId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-  select * from ich_master where ich_project_id = #{ichProjectId,jdbcType=BIGINT}
+  select * from ich_master where ich_project_id = #{ichProjectId,jdbcType=BIGINT} and status = 0
   </select>
 </mapper>

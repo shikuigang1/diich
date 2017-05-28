@@ -25,7 +25,7 @@
     select
     <include refid="Base_Column_List" />
     from user
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and status = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from user
@@ -197,7 +197,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByLogNameAndPwd" parameterType="com.diich.core.model.User" resultMap="BaseResultMap">
-    select * from user where status = 1
+    select * from user where status = 0
     <if test="loginName != null" >
       and login_name = #{loginName,jdbcType=VARCHAR}
     </if>

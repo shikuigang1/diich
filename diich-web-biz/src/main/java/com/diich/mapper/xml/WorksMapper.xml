@@ -21,7 +21,7 @@
     select
     <include refid="Base_Column_List" />
     from works
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and status = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from works
@@ -151,7 +151,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectWorks" parameterType="com.diich.core.model.Works" resultMap="BaseResultMap">
-  select * from works where 1=1
+  select * from works where status = 0
     <if test="ichProjectId != null" >
     and ich_project_id = #{ichProjectId,jdbcType=BIGINT}
     </if>
@@ -163,7 +163,7 @@
     </if>
   </select>
   <select id="selectWorksList" parameterType="java.util.Map" resultMap="BaseResultMap">
-    select * from works where 1=1
+    select * from works where status = 0
     <if test="params.lastEditorId != null" >
       last_editor_id = #{params.lastEditorId,jdbcType=BIGINT}
     </if>
@@ -178,9 +178,6 @@
     </if>
     <if test="params.editRank != null" >
       edit_rank = #{params.editRank,jdbcType=INTEGER}
-    </if>
-    <if test="params.status != null" >
-      status = #{params.status,jdbcType=INTEGER}
     </if>
     <if test="params.uri != null" >
       uri = #{params.uri,jdbcType=VARCHAR}

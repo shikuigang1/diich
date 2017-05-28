@@ -15,13 +15,13 @@
     select
     <include refid="Base_Column_List" />
     from ich_category
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and status = 0
   </select>
   <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
     *
     from ich_category
-    where
+    where status = 0 and
     <choose>
       <when test='_parameter != null'>
         parent_id = #{_parameter,jdbcType=BIGINT}

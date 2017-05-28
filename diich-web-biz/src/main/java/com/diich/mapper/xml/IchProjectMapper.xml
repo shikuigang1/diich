@@ -18,7 +18,7 @@
     select
     <include refid="Base_Column_List" />
     from ich_project
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and status = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from ich_project
@@ -127,7 +127,7 @@
   </update>
   <select id="selectIchProjectList" parameterType="java.util.Map" resultMap="BaseResultMap">
 
-    SELECT <include refid="Base_Column_List" /> FROM ich_project WHERE 1=1
+    SELECT <include refid="Base_Column_List" /> FROM ich_project WHERE status = 0
 
     <if test="params.ichCategoryId != null" >
       and  ich_category_id = #{params.ichCategoryId,jdbcType=BIGINT}
@@ -140,9 +140,6 @@
     </if>
     <if test="params.editRank != null" >
      and  edit_rank = #{params.editRank,jdbcType=INTEGER}
-    </if>
-    <if test="params.status != null" >
-      and status = #{params.status,jdbcType=INTEGER}
     </if>
     <if test="params.uri != null" >
       and uri = #{params.uri,jdbcType=VARCHAR}
