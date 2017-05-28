@@ -331,7 +331,7 @@
                         <ul>
                             <#if (obj.contentFragmentList?size>0)>
                                 <#list obj.contentFragmentList as cf>
-                                    <#if cf.attribute?? && cf.attribute.dataType==0 && cf.content?? && cf.attributeId != 12 >
+                                    <#if cf.attribute?? && cf.attribute.dataType==0 && cf.content?? && cf.attributeId != 26 && cf.attributeId != 28>
                                         <li>
                                             <span class="key">${cf.attribute.cnName}：</span>
                                             <span class="value">${cf.content}</span>
