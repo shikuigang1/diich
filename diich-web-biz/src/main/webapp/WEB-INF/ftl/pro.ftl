@@ -160,7 +160,6 @@
     <div class="container">
         <div class="bd detail">
             <div class="mainbg">
-
             <#assign backImgUrl="assets/uploads/头图.png">
             <#if (obj.contentFragmentList?size>0)>
                 <#list obj.contentFragmentList as cf>
@@ -183,7 +182,7 @@
                             <#list cf.resourceList as res>
                                 <#if res.type==1 && res.status==0>
                                     <video poster="${backImgUrl}" src="${res.uri}"> </video>
-                                         <span class="play_big"> </span>
+                                         <span data-type="1"  class="play_big"> </span>
                                 </#if>
                             </#list>
                         </#if>
@@ -201,7 +200,7 @@
                 <#if (obj.ichCategory.name)??>
                     <i class="gt"></i>
                     <span><a href="" title="${obj.ichCategory.name}"> ${obj.ichCategory.name}</a></span>
-                    <#if (obj.ichCategory.children?size>0)>
+                    <#if (obj.ichCategory.children??) && (obj.ichCategory.children?size>0)>
                         <#list obj.ichCategory.children as ch>
                             <i class="gt"></i>
                             <span><a href="" title="${ch.name}"> ${ch.name}</a></span>
@@ -249,17 +248,17 @@
                         </#list>
                     </#if>
                     <#if (numPic >0) && (numVed >0)>
-                        <a class="album" onclick="show()" data-type="mediaLayer"><i class="play_sm"></i>
+                        <a class="album albums" onclick="show()" data-type="mediaLayer" datatype="0" data-id="1"><i class="play_sm"></i>
                         ${numPic}张图片/${numVed}个视频
                         </a>
                     </#if>
                     <#if (numPic >0) && (numVed =0)>
-                        <a class="album"><i class="icon_img"></i>
+                        <a class="album albums"><i class="icon_img"></i>
                         ${numPic}张图片
                         </a>
                     </#if>
                     <#if (numPic =0) && (numVed >0)>
-                        <a class="album"><i class="icon_img"></i>
+                        <a class="album albums"><i class="icon_img"></i>
                         ${numVed}个视频
                         </a>
                     </#if>
@@ -344,6 +343,7 @@
 
                         <div class="tname">代表性传承人</div>
                         <ul class="master">
+                            <#assign masterPic="assets/uploads/master_2.jpg">
                             <#list obj.ichMasterList as master>
                                 <#if master.contentFragmentList??>
                                     <li>
@@ -352,14 +352,18 @@
                                             <a href="<#if master.uri??>${master.uri}</#if>" class="avatar">
                                                 <#if cf.resourceList??>
                                                     <#list cf.resourceList as r>
-                                                        <img src="<#if r.uri??>${r.uri}</#if>" alt="">
+                                                        <#if r.uri??>
+                                                            <#assign masterPic="${r.uri}">
+                                                        </#if>
                                                     </#list>
                                                 </#if>
+                                                <img src="${masterPic}" alt=""/>
                                             </a>
+
                                                 <#---->
                                             </#if>
-
                                         </#list>
+
                                         <span class="txt">
                                             <#list master.contentFragmentList as cf>
                                                 <#if cf.attributeId == 13 && cf.targetType == 1>
@@ -379,14 +383,14 @@
 
                                     </li>
                                 </#if>
-                                <#if (master_index == 3)>
+                                <#if (master_index == 2)>
                                     <#break />
                                 </#if>
 
                             </#list>
-                            <#if obj.ichMasterList?? && (obj.ichMasterList?size > 4)>
+                            <#if obj.ichMasterList?? && (obj.ichMasterList?size > 3)>
                                 <li class="more">
-                                    <a href=""><span>其他${obj.ichMasterList?size -4}人</span><i class="gt_big"></i></a>
+                                    <a href=""><span>其他${obj.ichMasterList?size -3}人</span><i class="gt_big"></i></a>
                                 </li>
                             </#if>
                         </ul>
@@ -743,9 +747,9 @@
                     <ul class="media">
 
                     <#if (obj.contentFragmentList?size>0)>
+                        <#assign idx=0 />
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attribute.dataType == 5 >
-                                <#assign idx=0 />
                                 <#list cf.resourceList as r>
                                         <#if r.type ==0>
                                             <li><a href=""><img src="${r.uri}" alt="" data-type="0" data-id="${idx}"></a></li>
@@ -802,9 +806,9 @@
                     <ul class="media">
 
                     <#if (obj.contentFragmentList?size>0)>
+                        <#assign idx=0 />
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attribute.dataType == 5 >
-                                <#assign idx=0 />
                                 <#list cf.resourceList as r>
                                     <#if r.type ==1>
                                         <li><video src="${r.uri}" controls  data-type="1" data-id="${idx}"></video></li>
@@ -829,13 +833,13 @@
                             <video src="assets/uploads/video1.mp4" controls></video>
                         </li>-->
                     </ul>
-                    <ul class="num">
+                   <#-- <ul class="num">
                         <li class="active v-active">01_<span>鼓罗</span>(30:20)</li>
                         <li>02_<span>建国后昆剧杰出的英才</span>(60:00)</li>
                         <li>03_<span>水调歌头</span>(90:30)</li>
                         <li>04_<span>吕布与貂蝉</span>(45:15)</li>
                         <li>05_<span>三国演义</span>(45:15)</li>
-                    </ul>
+                    </ul>-->
                 </div>
                 <!--//End-->
 
