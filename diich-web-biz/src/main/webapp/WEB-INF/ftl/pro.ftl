@@ -342,57 +342,65 @@
                     <div class="bd inheritor">
 
                         <div class="tname">代表性传承人</div>
-                        <ul class="master">
-                            <#assign masterPic="assets/uploads/master_2.jpg">
-                            <li>
-                            <#list obj.ichMasterList as master>
-                                <#if master.contentFragmentList??>
-                                        <div class="item">
-                                        <#list master.contentFragmentList as cf>
-                                            <#if cf.attributeId == 10 && cf.targetType == 1>
+                        <div class="master">
+                                <ul>
+                                    <#assign masterPic="assets/uploads/default_avatar2.png">
+                                    <li>
+                                    <#list obj.ichMasterList as master>
+                                        <#if master.contentFragmentList??>
+                                                <div class="item">
+                                                <#list master.contentFragmentList as cf>
+                                                    <#if cf.attributeId == 10 && cf.targetType == 1>
 
-                                                <#if cf.resourceList??>
-                                                    <#list cf.resourceList as r>
-                                                        <#if r.uri??>
-                                                            <#assign masterPic="${r.uri}">
+                                                        <#if cf.resourceList??>
+                                                            <#list cf.resourceList as r>
+                                                                <#if r.uri??>
+                                                                    <#assign masterPic="${r.uri}">
+                                                                </#if>
+                                                            </#list>
+                                                        </#if>
+                                                        <#---->
+                                                    </#if>
+
+                                                </#list>
+                                                    <a href="<#if master.uri??>${master.uri}</#if>" class="avatar">
+                                                        <img src="${masterPic}" alt=""/>
+                                                    </a>
+
+                                                <span class="txt">
+                                                    <#list master.contentFragmentList as cf>
+                                                        <#if cf.attributeId == 13 && cf.targetType == 1>
+                                                            <p class="name"><a href="<#if master.uri??>${master.uri}</#if>">${cf.content}</a></p>
+                                                        </#if>
+
+                                                        <#if cf.attributeId == 50 && cf.targetType == 1>
+                                                            <p >${cf.content}</p>
+                                                        </#if>
+
+                                                        <#if cf.attributeId == 48 && cf.targetType == 1>
+                                                            <p >${cf.content}</p>
                                                         </#if>
                                                     </#list>
-                                                </#if>
-                                                <#---->
-                                            </#if>
 
-                                        </#list>
-                                            <a href="<#if master.uri??>${master.uri}</#if>" class="avatar">
-                                                <img src="${masterPic}" alt=""/>
-                                            </a>
+                                                    </span>
+                                                </div>
 
-                                        <span class="txt">
-                                            <#list master.contentFragmentList as cf>
-                                                <#if cf.attributeId == 13 && cf.targetType == 1>
-                                                    <p class="name"><a href="<#if master.uri??>${master.uri}</#if>">${cf.content}</a></p>
-                                                </#if>
+                                        </#if>
+                                        <#if ((master_index+1) %12 == 0) && (obj.ichMasterList?size > master_index+1)>
+                                            </li><li>
+                                        </#if>
+                                    </#list>
 
-                                                <#if cf.attributeId == 50 && cf.targetType == 1>
-                                                    <p >${cf.content}</p>
-                                                </#if>
-
-                                                <#if cf.attributeId == 48 && cf.targetType == 1>
-                                                    <p >${cf.content}</p>
-                                                </#if>
-                                            </#list>
-
-                                            </span>
-                                        </div>
-
-                                </#if>
-                                <#if (master_index %12 == 0) && (obj.ichMasterList?size > master_index+1)>
-                                    </li><li>
-                                </#if>
-                            </#list>
-
-                        </li>
-                            </#if>
-                        </ul>
+                                </li>
+                                    </#if>
+                                </ul>
+                    <div class="more">
+                        <a href="javascript:;"><span>其他<em></em>人</span><i class="gt_big"></i></a>
+                    </div>
+                                <div class="prev"></div>
+                                <div class="next"></div>
+                                <div class="page"></div>
+                        </div>
                     </div>
 
                     <!--//ENd-->
@@ -528,7 +536,7 @@
                                                     <#if r.type ==1>
                                                         <div class="card_video">
                                                             <div class="time">30:24</div>
-                                                            <div class="play"></div>
+                                                            <div class="play" data-type="1" data-id="1" ></div>
                                                             <video poster="assets/uploads/exp2.png">
                                                                 <source style="width: 100%;" src="${r.uri}" type="video/mp4">
                                                             </video>
@@ -549,7 +557,7 @@
 
                                     <#if (cf.resourceList?size > 2) >
                                         <div class="more">
-                                            <a href="">查看完整图集<i class="arrow_right"></i></a>
+                                            <a class="albums" data-type="0" data-id="0" href="javascript:;">查看完整图集<i class="arrow_right"></i></a>
                                         </div>
                                     </#if>
                                 </div>
