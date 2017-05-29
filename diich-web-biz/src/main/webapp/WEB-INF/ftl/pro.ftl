@@ -344,12 +344,13 @@
                         <div class="tname">代表性传承人</div>
                         <ul class="master">
                             <#assign masterPic="assets/uploads/master_2.jpg">
+                            <li>
                             <#list obj.ichMasterList as master>
                                 <#if master.contentFragmentList??>
-                                    <li>
+                                        <div class="item">
                                         <#list master.contentFragmentList as cf>
                                             <#if cf.attributeId == 10 && cf.targetType == 1>
-                                            <a href="<#if master.uri??>${master.uri}</#if>" class="avatar">
+
                                                 <#if cf.resourceList??>
                                                     <#list cf.resourceList as r>
                                                         <#if r.uri??>
@@ -357,12 +358,13 @@
                                                         </#if>
                                                     </#list>
                                                 </#if>
-                                                <img src="${masterPic}" alt=""/>
-                                            </a>
-
                                                 <#---->
                                             </#if>
+
                                         </#list>
+                                            <a href="<#if master.uri??>${master.uri}</#if>" class="avatar">
+                                                <img src="${masterPic}" alt=""/>
+                                            </a>
 
                                         <span class="txt">
                                             <#list master.contentFragmentList as cf>
@@ -380,22 +382,19 @@
                                             </#list>
 
                                             </span>
+                                        </div>
 
-                                    </li>
                                 </#if>
-                                <#if (master_index == 2)>
-                                    <#break />
+                                <#if (master_index %12 == 0) && (obj.ichMasterList?size > master_index+1)>
+                                    </li><li>
                                 </#if>
-
                             </#list>
-                            <#if obj.ichMasterList?? && (obj.ichMasterList?size > 3)>
-                                <li class="more">
-                                    <a href=""><span>其他${obj.ichMasterList?size -3}人</span><i class="gt_big"></i></a>
-                                </li>
+
+                        </li>
                             </#if>
                         </ul>
                     </div>
-                </#if>
+
                     <!--//ENd-->
                     <div class="bd batch">
                         <div class="tname">非遗在中国<i></i></div>
