@@ -248,7 +248,7 @@
                         </#list>
                     </#if>
                     <#if (numPic >0) && (numVed >0)>
-                        <a class="album albums" onclick="show()" data-type="mediaLayer" datatype="0" data-id="1"><i class="play_sm"></i>
+                        <a class="album albums" onclick="show()" data-type="mediaLayer" datatype="0" data-id="0"><i class="play_sm"></i>
                         ${numPic}张图片/${numVed}个视频
                         </a>
                     </#if>
@@ -717,7 +717,7 @@
             </div>
             <!--//End-->
 
-            <div class="items album">
+            <div class="items album" style="display: block">
                 <div class="title">
                     <ul class="dt">
 
