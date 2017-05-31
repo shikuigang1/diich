@@ -268,6 +268,9 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
             contentFragment.setAttribute(attribute);//添加属性
             if(attribute.getDataType() > 100) {
+                if(contentFragment.getContent() == null){
+                    continue;
+                }
                 String[] arrs= contentFragment.getContent().split(",");
                 String name ="";
                 for (String arr: arrs) {
