@@ -175,7 +175,7 @@
                        <#list cf.resourceList as res>
                            <#if res.type==1 && res.status==0>
                                <video poster="${backImgUrl}" src="${res.uri}"> </video>
-                               <span class="play_big"> </span>
+                               <span data-type="1" class="play_big"> </span>
                            </#if>
                        </#list>
                    </#if>
