@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -49,10 +50,12 @@ public class IchMasterController extends BaseController<IchMaster>{
     @ResponseBody
     public Map<String, Object> getIchMasterList(HttpServletRequest request) {
 
-        Map<String, Object> params = null;
+        Map<String, Object> params = new HashMap<>();;
         String param = request.getParameter("params");
         try{
-            params = JSON.parseObject(param, Map.class);
+            if(param !=null){
+                params = JSON.parseObject(param, Map.class);
+            }
         }catch (Exception e){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return ae.toMap();

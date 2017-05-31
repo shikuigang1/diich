@@ -39,7 +39,8 @@ public class BuildHTMLEngine {
         Template template = configuration.getTemplate(templateName);
         Map dataMap = new HashMap<>();
         dataMap.put("obj",entity);
-        String outPutPath=PropertiesUtil.getString("freemarker.filepath")+"/"+outputFileName+".html";
+//        String outPutPath=PropertiesUtil.getString("freemarker.filepath")+"/"+outputFileName+".html";
+        String outPutPath = outputFileName + ".html";
         Writer out =  new OutputStreamWriter(new FileOutputStream(outPutPath),"utf-8");
         template.process(dataMap, out);
         out.flush();
@@ -66,7 +67,7 @@ public class BuildHTMLEngine {
         Template template = configuration.getTemplate(templateName);
         Map dataMap = new HashMap<>();
         dataMap.put("obj",entityList);
-        String outPutPath=PropertiesUtil.getString("freemarker.filepath")+"/"+outputFileName+".html";
+        String outPutPath= outputFileName + ".html";
         Writer out =  new OutputStreamWriter(new FileOutputStream(outPutPath),"utf-8");
         template.process(dataMap, out);
         out.flush();

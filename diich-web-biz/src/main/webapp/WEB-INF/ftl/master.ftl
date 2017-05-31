@@ -151,7 +151,7 @@
     <div class="bd detail">
         <div class="mainbg">
 
-       <#assign backImgUrl="assets/uploads/头图.png">
+       <#assign backImgUrl="assets/uploads/head.png">
         <#if (obj.contentFragmentList?size>0)>
             <#list obj.contentFragmentList as cf>
                 <#if cf.attributeId == 10>
@@ -193,7 +193,7 @@
             <#if (obj.ichProject.ichCategory.name)??>
                 <i class="gt"></i>
                 <span><a href="" title="${obj.ichProject.ichCategory.name}"> ${obj.ichProject.ichCategory.name}</a></span>
-                <#if (obj.ichProject.ichCategory.children?size>0)>
+                <#if (obj.ichProject.ichCategory.children??) && (obj.ichProject.ichCategory.children?size>0)>
                     <#list obj.ichProject.ichCategory.children as ch>
                         <i class="gt"></i>
                         <span><a href="" title="${ch.name}"> ${ch.name}</a></span>
@@ -229,7 +229,7 @@
                 <#assign numVed = 0>
                 <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
-                        <#if (cf.resourceList?size>0)>
+                        <#if (cf.resourceList??) && (cf.resourceList?size>0)>
                             <#list cf.resourceList as res>
                                 <#if res.type==0>
                                     <#assign numPic = numPic+1>
@@ -242,17 +242,17 @@
                     </#list>
                 </#if>
                     <#if (numPic >0) && (numVed >0)>
-                    <a class="album"><i class="icon_img"></i>
+                    <a class="album albums" onclick="show()" data-type="0" data-id="1"><i class="icon_img"></i>
                             ${numPic}张图片/${numVed}个视频
                       </a>
                     </#if>
                     <#if (numPic >0) && (numVed =0)>
-                    <a class="album"><i class="icon_img"></i>
+                    <a class="album albums" onclick="show()"  data-type="0" data-id="1"><i class="icon_img"></i>
                             ${numPic}张图片
                       </a>
                     </#if>
                     <#if (numPic =0) && (numVed >0)>
-                        <a class="album"><i class="icon_img"></i>
+                        <a class="album albums" onclick="show()" data-type="1" data-id="1"><i class="icon_img"></i>
                             ${numVed}个视频
                         </a>
                     </#if>
@@ -323,18 +323,22 @@
                     <div class="pro">
                         <div class="img">
                             <#if (obj.ichProject.contentFragmentList?size>0)>
+                                <#assign proPic="assets/uploads/head.png"/>
                                 <#list (obj.ichProject.contentFragmentList) as cf>
                                     <#if cf.attributeId == 1>
-                                        <#if (cf.resourceList?size>0)>
+                                        <#if (cf.resourceList??)&&(cf.resourceList?size>0)>
                                             <#list cf.resourceList as r>
                                                 <#if r.type==0 && r.status==0>
-                                                    <img src="<#if r.uri??>${r.uri}</#if>" width="94" height="70" alt="">
+                                                    <#if r.uri??>
+                                                        <#assign proPic="${r.uri}" />
+                                                    </#if>
                                                 </#if>
                                             </#list>
                                         </#if>
                                     </#if>
                                 </#list>
                             </#if>
+                            <img src="${proPic}" width="94" height="70" alt="">
                         </div>
                         <div class="txt">
                             <p class="t">
@@ -346,11 +350,11 @@
                                     </#list>
                                 </#if>
                             </p>
-                            <p>类别：<#if (obj.ichProject.ichCategory.name)??>
+                            <p><#if (obj.ichProject.ichCategory.name)??>
                                 ${obj.ichProject.ichCategory.name}
                                 <#if ((obj.ichProject.ichCategory.children)?? && obj.ichProject.ichCategory.children?size>0)>
                                     <#list obj.ichProject.ichCategory.children as ch>
-                                        -${ch.name}
+                                        类别： -${ch.name}
                                         <#if (ch.children)?? && (ch.children?size>0)>
                                             <#list ch.children as chh>
                                                 -${chh.name}
@@ -359,18 +363,18 @@
                                     </#list>
                                 </#if>
                             </#if>
-                                | 地域： <#if (obj.ichProject.contentFragmentList?size>0)>
+                                 <#if (obj.ichProject.contentFragmentList?size>0)>
                                                  <#list (obj.ichProject.contentFragmentList) as cf>
-                                                            <#if cf.attributeId == 33>
-                                                            ${cf.content}
+                                                            <#if cf.attributeId == 33 && cf.content?? && cf.content !="" >
+                                                                | 地域： ${cf.content}
                                                             </#if>
                                                 </#list>
                                             </#if>
                             </p>
-                            <p>ID：<#if (obj.ichProject.contentFragmentList?size>0)>
+                            <p><#if (obj.ichProject.contentFragmentList?size>0)>
                                         <#list obj.ichProject.contentFragmentList as cf>
-                                            <#if cf.attributeId == 2>
-                                             ${cf.content}
+                                            <#if cf.attributeId == 2 && cf.content?? && cf.content !="">
+                                                ID：${cf.content}
                                             </#if>
                                         </#list>
                                      </#if>
@@ -380,26 +384,21 @@
                 </div>
         </#if>
                 <!--//ENd-->
-
+            <#if (obj.contentFragmentList??) &&(obj.contentFragmentList?size>0)>
                 <div class="bd batch">
                     <div class="tname">非遗在中国<i></i></div>
                     <div class="subcon">
-                        <#if (obj.contentFragmentList?size>0)>
                             <#list obj.contentFragmentList as cf>
                                 <#if cf.attributeId == 12 && cf.content??>
                                     <span>人类非物质文化遗产编号：${cf.content}</span>
                                 </#if>
-                            </#list>
-                        </#if>
-                        <#if (obj.contentFragmentList?size>0)>
-                            <#list obj.contentFragmentList as cf>
                                 <#if cf.attributeId == 111 && cf.content??>
                                     <span>级别：${cf.content}</span>
                                 </#if>
                             </#list>
-                        </#if>
                     </div>
                 </div>
+            </#if>
                 <!--//ENd-->
 
             </div>
@@ -412,7 +411,7 @@
                     <ul>
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
-                            <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content??&& cf.attributeId != 11 && cf.attributeId != 12 && cf.attributeId != 111 && cf.attributeId != 23 && cf.attribute.isOpen == 1>
+                            <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.attributeId != 11 && cf.attributeId != 12 && cf.attributeId != 111 && cf.attributeId != 23 && cf.attribute.isOpen == 1>
                                 <li>
                                     <span class="key">${cf.attribute.cnName}：</span>
                                     <span class="value">${cf.content}</span>
@@ -427,7 +426,7 @@
         </div>
     <#assign odd_even =0 />
 
-    <#if obj.worksList??>
+    <#if (obj.worksList??) && (obj.worksList?size>0)>
         <section class="bd floor odd">
             <div class="card">
                 <header><h4>代表作品 </h4><em>共${obj.worksList?size}项</em></header>
@@ -480,7 +479,7 @@
 
     <#if (obj.contentFragmentList?size>0)>
         <#list obj.contentFragmentList as cf>
-            <#if cf.attribute.dataType == 5 >
+            <#if (cf.attribute.dataType == 5) && (cf.resourceList??) && (cf.resourceList?size>0)>
 
                 <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
                     <div class="card">
@@ -537,7 +536,7 @@
                 <#assign odd_even = odd_even+1 />
             </#if>
 
-            <#if cf.attribute.dataType == 1>
+            <#if ((cf.attribute.dataType == 5 || cf.attribute.dataType == 1) && (!cf.resourceList?? || cf.resourceList?size==0))>
 
                 <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
                     <div class="card">
