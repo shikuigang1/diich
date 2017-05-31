@@ -160,7 +160,7 @@
     <div class="container">
         <div class="bd detail">
             <div class="mainbg">
-            <#assign backImgUrl="assets/uploads/头图.png">
+            <#assign backImgUrl="assets/uploads/head.png">
             <#if (obj.contentFragmentList?size>0)>
                 <#list obj.contentFragmentList as cf>
                     <#if cf.attributeId == 1>
@@ -344,9 +344,10 @@
                         <div class="tname">代表性传承人</div>
                         <div class="master">
                                 <ul>
-                                    <#assign masterPic="assets/uploads/default_avatar2.png">
+
                                     <li>
                                     <#list obj.ichMasterList as master>
+                                        <#assign masterPic="assets/uploads/default_avatar2.png">
                                         <#if master.contentFragmentList??>
                                                 <div class="item">
                                                 <#list master.contentFragmentList as cf>
