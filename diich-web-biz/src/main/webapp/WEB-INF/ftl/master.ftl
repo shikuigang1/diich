@@ -525,7 +525,7 @@
 
                                 <#if (cf.resourceList?size > 2) >
                                     <div class="more">
-                                        <a href="">查看完整图集<i class="arrow_right"></i></a>
+                                        <a class="albums" data-type="0" data-id="1" href="javascript:;">查看完整图集<i class="arrow_right"></i></a>
                                     </div>
                                 </#if>
                             </div>
