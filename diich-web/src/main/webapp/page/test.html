@@ -4,15 +4,30 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="/js/jquery.min.js"></script>
-    <script src="/data/dictionary.js"></script>
-    <script src="/js/util.js"></script>
+    <script src="/js/ajaxfileupload.js"></script>
 </head>
 <body>
-hello world!
-<input type="file" id="file_upload" name="file_upload"/>
+hello world!<br/>
+<input type="file" id="file_upload" name="file_upload" multiple="multiple"/><br/>
+<input type="button" value="上传" id="button"/>
+
 </body>
 <script>
-    var text = getTextByTypeAndCode(104, '225000');
-    alert(text);
+
+    $('#button').on('click', function () {
+        $.ajaxFileUpload({
+            url : '../user/uploadFile',
+            secureuri : false,
+            fileElementId : 'file_upload',
+            success : function(data) {
+                console.log(data);
+            },
+            error : function(e) {
+                alert(e.responseText);
+            }
+        });
+    });
+
+
 </script>
 </html>

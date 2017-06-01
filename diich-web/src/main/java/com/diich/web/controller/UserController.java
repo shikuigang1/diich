@@ -1,10 +1,10 @@
 package com.diich.web.controller;
 
-import com.diich.core.Constants;
 import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.User;
 import com.diich.core.service.UserService;
+import com.diich.core.util.OperateFileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +16,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -87,6 +88,7 @@ public class UserController extends BaseController<User> {
         String phone = request.getParameter("phone");
         String code = request.getParameter("code");//验证码
         if(phone==null){
+            result.put("code",ApplicationException.PARAM_ERROR);
             result.put("msg","请输入手机号");
             return result;
         }
@@ -100,6 +102,7 @@ public class UserController extends BaseController<User> {
             if(time>60){
                 session.removeAttribute(phone);
                 session.removeAttribute("begindate"+phone);
+                result.put("code",ApplicationException.PARAM_ERROR);
                 result.put("msg","验证码已经超时,请重新获取");
                 return result;
             }
@@ -107,14 +110,17 @@ public class UserController extends BaseController<User> {
         String verifyCode = (String) session.getAttribute(phone);
         //防止没有获取验证码直接点击注册
         if(verifyCode == null){
+            result.put("code",ApplicationException.PARAM_ERROR);
             result.put("msg","你还没有获取验证码或者验证码超时,请获取验证码");
             return result;
         }
         if(!verifyCode.equals(code)){
+            result.put("code",ApplicationException.PARAM_ERROR);
             result.put("msg","验证码不正确");
             return result;
         }
-
+        result.put("code",0);
+        result.put("msg","注册成功");
         return result;
     }
 
@@ -201,5 +207,20 @@ public class UserController extends BaseController<User> {
         }
 
         return putDataToMap(loginName);
+    }
+
+    @RequestMapping("uploadFile")
+    @ResponseBody
+    public Map<String, Object> uploadFile(HttpServletRequest request) {
+        List<String> list = null;
+
+        try {
+            list = OperateFileUtil.uplaodFile(request);
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
+
+        return putDataToMap(list);
     }
 }

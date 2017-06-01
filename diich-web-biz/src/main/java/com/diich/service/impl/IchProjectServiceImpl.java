@@ -8,6 +8,8 @@ import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
 import com.diich.core.service.*;
 import com.diich.core.util.BuildHTMLEngine;
+import com.diich.core.util.FileType;
+import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -193,6 +195,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 long proID = IdWorker.getId();
 
                 ichProject.setId(proID);
+                ichProject.setStatus(0);
                 ichProjectMapper.insertSelective(ichProject);
 //                System.out.println(proID);
                 List<ContentFragment> ls = ichProject.getContentFragmentList();
@@ -209,6 +212,14 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                      Long resourceId = IdWorker.getId();
                      resource.setId(resourceId);
                      resource.setStatus(0);
+                     //判断上传的文件类型 0图片 1 视频 2 音频
+                     String sType = FileType.fileType(resource.getUri());
+                     if("图片".equals(sType)){
+                         resource.setType(0);
+                     }
+                     if("视频".equals(sType)){
+                         resource.setType(1);
+                     }
                      //保存resource
                      resourceMapper.insertSelective(resource);
                      ContentFragmentResource cfr = new ContentFragmentResource();
@@ -224,8 +235,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 for (Works works: worksList) {
                     worksService.saveWorks(works);
                 }
-                String templateName ="";
-                String fileName = ichProject.getId().toString();
+                String templateName ="pro.ftl";//模板名
+                String fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId();//静态页面生成路径和名称
                 //生成静态页面
                 String uri = buildHTML(templateName, ichProject, fileName);
                 ichProject.setUri(uri);
@@ -240,6 +251,10 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                         resourceMapper.updateByPrimaryKeySelective(resource);
                     }
                 }
+                String templateName ="pro.ftl";//模板名
+                String fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId();//静态页面生成路径和名称
+                //生成静态页面
+                String uri = buildHTML(templateName, ichProject, fileName);
             }
             commit(transactionStatus);
         } catch (Exception e) {

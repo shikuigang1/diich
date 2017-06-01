@@ -12,6 +12,8 @@ import com.diich.core.service.IchMasterService;
 import com.diich.core.service.IchProjectService;
 import com.diich.core.service.WorksService;
 import com.diich.core.util.BuildHTMLEngine;
+import com.diich.core.util.FileType;
+import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -180,6 +182,14 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                         long recId = IdWorker.getId();
                         resource.setId(recId);
                         resource.setStatus(0);
+                        //判断上传的文件类型 0图片 1 视频 2 音频
+                        String sType = FileType.fileType(resource.getUri());
+                        if("图片".equals(sType)){
+                            resource.setType(0);
+                        }
+                        if("视频".equals(sType)){
+                            resource.setType(1);
+                        }
                         //保存resource
                         resourceMapper.insertSelective(resource);
                         ContentFragmentResource cfr = new ContentFragmentResource();
@@ -193,8 +203,14 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 }
                 List<Works> worksList = ichMaster.getWorksList();
                 for (Works works : worksList) {
+                    works.setIchMasterId(ichMaster.getId());
                     worksService.saveWorks(works);
                 }
+                String templateName = "master.ftl";//模板名
+                String filename = PropertiesUtil.getString("freemarker.masterfilepath") +"/"+ ichMaster.getId();//生成静态页面的路径名称
+                String uri = buildHTML(templateName, ichMaster, filename);
+                ichMaster.setUri(uri);
+                ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
             } else {
                 ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
                 List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
@@ -203,9 +219,12 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                     List<Resource> resourceList = contentFragment.getResourceList();
                     for (Resource resource:resourceList) {
                         resourceMapper.updateByPrimaryKeySelective(resource);
-
                     }
                 }
+                //更新完成重新生成模板
+                String templateName = "master.ftl";//模板名
+                String filename = PropertiesUtil.getString("freemarker.masterfilepath") +"/"+ ichMaster.getId();//生成静态页面的路径名称
+                String uri = buildHTML(templateName, ichMaster, filename);
             }
             commit(transactionStatus);
         } catch (Exception e) {

@@ -10,6 +10,8 @@ import com.diich.core.service.IchMasterService;
 import com.diich.core.service.IchProjectService;
 import com.diich.core.service.WorksService;
 import com.diich.core.util.BuildHTMLEngine;
+import com.diich.core.util.FileType;
+import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -158,6 +160,14 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                         Long resourceId = IdWorker.getId();
                         resource.setId(resourceId);
                         resource.setStatus(0);
+                        //判断上传的文件类型 0图片 1 视频 2 音频
+                        String sType = FileType.fileType(resource.getUri());
+                        if("图片".equals(sType)){
+                            resource.setType(0);
+                        }
+                        if("视频".equals(sType)){
+                            resource.setType(1);
+                        }
                         //保存resource
                         resourceMapper.insertSelective(resource);
                         ContentFragmentResource cfr = new ContentFragmentResource();
@@ -170,8 +180,8 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                     }
 
                 }
-                String templateName ="";
-                String fileName = works.getId().toString();
+                String templateName ="works.ftl";
+                String fileName = PropertiesUtil.getString("freemarker.worksfilepath")+"/"+works.getId().toString();
                 String uri = buildHTML(templateName, works, fileName);
                 works.setUri(uri);
                 worksMapper.updateByPrimaryKeySelective(works);
@@ -186,6 +196,9 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                         resourceMapper.updateByPrimaryKeySelective(resource);
                     }
                 }
+                String templateName ="works.ftl";
+                String fileName = PropertiesUtil.getString("freemarker.worksfilepath")+"/"+works.getId().toString();
+                String uri = buildHTML(templateName, works, fileName);
             }
             commit(transactionStatus);
         }catch (Exception e){
@@ -259,6 +272,9 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
             contentFragment.setAttribute(attribute);//添加属性
             if(attribute.getDataType() > 100) {
+                if(contentFragment.getContent() == null){
+                    continue;
+                }
                 String[] arrs= contentFragment.getContent().split(",");
                 String name ="";
                 for (String arr: arrs) {
