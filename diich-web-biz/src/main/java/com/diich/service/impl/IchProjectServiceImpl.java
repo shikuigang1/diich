@@ -11,6 +11,7 @@ import com.diich.core.util.BuildHTMLEngine;
 import com.diich.core.util.FileType;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
@@ -39,9 +40,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Autowired
     private ContentFragmentResourceMapper contentFragmentResourceMapper;
     @Autowired
-    private ResourceMapper resourceMapper;
-
-    @Autowired
     private IchCategoryService ichCategoryService;
     @Autowired
     private IchMasterMapper ichMasterMapper;
@@ -53,6 +51,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     private WorksService worksService;
     @Autowired
     private DictionaryService dictionaryService;
+    @Autowired
+    private  ResourceMapper resourceMapper;
+
     /**
      * 根据id获取项目信息
      * @param id
@@ -297,6 +298,63 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     public String buildHTML(String templateName, IchProject ichProject, String fileName) throws Exception {
         String uri = BuildHTMLEngine.buildHTML(templateName, ichProject, fileName);
         return uri;
+    }
+
+    @Override
+    public List<Map> getIchProjectByName(Map<String,Object> map) throws Exception {
+
+       List<IchProject> ls = ichProjectMapper.selectIchProjectByName(map);
+
+       List<Map> result = new ArrayList<Map>();
+
+       for(int i=0;i<ls.size();i++){
+           Map<String,Object> resultMap = new HashMap<String,Object>();
+
+           resultMap.put("id",ls.get(i).getId());
+            //获取项目分类
+           Long categoryID = ls.get(i).getIchCategoryId();
+           if(categoryID != null){
+               IchCategory category = ichCategoryService.getCategoryById(categoryID);
+               if(category != null){
+                   resultMap.put("category",category.getGbCategory());
+               }
+           }
+
+
+           List<ContentFragment> cs = contentFragmentMapper.selectByProjectId(ls.get(i).getId());
+
+           for(int j=0;j<cs.size();j++){
+               //获取项目名
+               ContentFragment c= cs.get(j);
+               Attribute a = attributeMapper.selectByPrimaryKey(c.getAttributeId());
+                if(c.getAttributeId()==4){
+                    resultMap.put("name",c.getContent());
+                }
+                //获取项目题图
+                if(c.getAttributeId()==1){
+                    String content = c.getContent();
+                    if(content!= null){
+                        Resource r = resourceMapper.selectByContentFramentID(Long.parseLong(content));
+                        resultMap.put("img",r.getUri());
+                    }
+                }
+                //获取区域地址
+               if(a.getDataType()>100){
+                   String content = c.getContent();
+                   if(content!= null){
+                       String dis =  dictionaryService.getTextByTypeAndCode(a.getDataType(),c.getContent());
+                       resultMap.put("dis",dis);
+                   }
+
+               }
+
+           }
+           result.add(resultMap);
+       }
+
+
+
+        return result;
     }
 
     private List<ContentFragment> getContentFragmentListByProjectId(IchProject ichProject) throws Exception {
