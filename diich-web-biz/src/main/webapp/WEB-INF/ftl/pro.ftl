@@ -393,17 +393,17 @@
                                     </#list>
 
                                 </li>
-                                    </#if>
+
                                 </ul>
-                    <div class="more">
-                        <a href="javascript:;"><span>其他<em></em>人</span><i class="gt_big"></i></a>
-                    </div>
+                                <div class="more">
+                                    <a href="javascript:;"><span>其他<em></em>人</span><i class="gt_big"></i></a>
+                                </div>
                                 <div class="prev"></div>
                                 <div class="next"></div>
                                 <div class="page"></div>
                         </div>
                     </div>
-
+                </#if>
                     <!--//ENd-->
                     <div class="bd batch">
                         <div class="tname">非遗在中国<i></i></div>
@@ -512,7 +512,7 @@
         <#if (obj.contentFragmentList?size>0)>
             <#list obj.contentFragmentList as cf>
                 <#if (cf.attribute.dataType == 5 && cf.resourceList?? && cf.resourceList?size>0)>
-                    <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
+                    <section name="tuwen" class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
                         <div class="card">
                             <header><h4>${cf.attribute.cnName} </h4></header>
                             <article class="text_img">
@@ -527,19 +527,17 @@
                                             <li>
                                                 <#if r.type ==0>
                                                     <img src="${r.uri}" alt="">
-
                                                     <#if r.description??>
                                                         <span>${r.description}</span>
                                                     </#if>
-
                                                 </#if>
 
                                                     <#if r.type ==1>
                                                         <div class="card_video">
                                                             <div class="time">30:24</div>
                                                             <div class="play" data-type="1" data-id="1" ></div>
-                                                            <video poster="assets/uploads/exp2.png">
-                                                                <source style="width: 100%;" src="${r.uri}" type="video/mp4">
+                                                            <video poster="assets/uploads/exp2.png"  src="${r.uri}" type="video/mp4" style="width: 100%;">
+
                                                             </video>
                                                         </div>
                                                         <#if r.description??>
@@ -549,11 +547,8 @@
                                                 <#if (r_index == 1)>
                                                     <#break />
                                                 </#if>
-
                                                 </li>
                                             </#list>
-
-
                                     </ul>
 
                                     <#if (cf.resourceList?size > 2) >
@@ -724,14 +719,12 @@
 
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
-                            <#if cf.attribute.dataType == 5 >
 
                                 <#list cf.resourceList as r>
                                     <#if r.type ==0>
                                         <li>${r.description}</li>
                                     </#if>
                                 </#list>
-                            </#if>
                         </#list>
                     </#if>
                      <#--   <li>《1111-名称示意最多显示20字…》</li>
@@ -752,19 +745,19 @@
                 </div>
                 <!--//End-->
                 <div class="main">
-                    <ul class="media">
+                    <ul class="media" id="imgs">
 
                     <#if (obj.contentFragmentList?size>0)>
                         <#assign idx=0 />
                         <#list obj.contentFragmentList as cf>
-                            <#if cf.attribute.dataType == 5 >
+
                                 <#list cf.resourceList as r>
                                         <#if r.type ==0>
                                             <li><a href=""><img src="${r.uri}" alt="" data-type="0" data-id="${idx}"></a></li>
                                             <#assign idx=idx+1 />
                                         </#if>
                                 </#list>
-                            </#if>
+
                         </#list>
                     </#if>
 
@@ -793,14 +786,14 @@
 
                     <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
-                        <#if cf.attribute.dataType == 5 >
+
 
                             <#list cf.resourceList as r>
                                 <#if r.type == 1>
                                     <li>${r.description}</li>
                                 </#if>
                             </#list>
-                        </#if>
+
                     </#list>
                     </#if>
                        <#-- <li>111111</li>
@@ -811,19 +804,19 @@
                     </ul>
                 </div>
                 <div class="main">
-                    <ul class="media">
+                    <ul class="media" id="videos">
 
                     <#if (obj.contentFragmentList?size>0)>
                         <#assign idx=0 />
                         <#list obj.contentFragmentList as cf>
-                            <#if cf.attribute.dataType == 5 >
+
                                 <#list cf.resourceList as r>
                                     <#if r.type ==1>
                                         <li><video src="${r.uri}" controls  data-type="1" data-id="${idx}"></video></li>
                                         <#assign idx=idx+1 />
                                     </#if>
                                 </#list>
-                            </#if>
+
                         </#list>
                     </#if>
 
@@ -865,6 +858,50 @@
     $(function() {
         //初始化
         projectPage.init();
+
+        //reset 视频 data-id
+        $("#imgs img").each(function(){
+            //alert($(this).attr("src")+"---"+$(this).attr("data-id"));
+            var obj=$(this);
+            if($(".mainbg img")){
+                if($(this).attr("src")==$(".mainbg img").attr("src")){
+                    $(".mainbg img").attr("data-id",$(this).attr("data-id"));
+                    $(".mainbg img").attr("data-type",$(this).attr("data-type"));
+                }
+
+            };
+            //section 代码块寻找
+            $("section[name='tuwen']").each(function(index,item){
+                $(this).find("img").each(function(){
+                    if(obj.attr("src")==$(this).attr("src")){
+                        $(this).attr("data-id",obj.attr("data-id"));
+                        $(this).attr("data-type",obj.attr("data-type"));
+                    }
+                });
+            });
+        });
+        //reset 视频 data-id
+        $("#videos video").each(function(){
+            //alert($(this).attr("src")+"---"+$(this).attr("data-id"));
+            var obj=$(this);
+            if($(".mainbg video")){
+                if($(this).attr("src")==$(".mainbg video").attr("src")){
+                    $(".mainbg video").attr("data-id",$(this).attr("data-id"));
+                    $(".mainbg video").attr("data-type",$(this).attr("data-type"));
+                }
+            };
+            //section 代码块寻找
+
+            $("section[name='tuwen']").each(function(index,item){
+                $(this).find("video").each(function(){
+                    if(obj.attr("src")==$(this).attr("src")){
+
+                        $(this).attr("data-id",obj.attr("data-id"));
+                        $(this).attr("data-type",obj.attr("data-type"));
+                    }
+                });
+            });
+        });
     });
 </script>
 
