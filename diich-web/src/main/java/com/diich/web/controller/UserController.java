@@ -87,6 +87,7 @@ public class UserController extends BaseController<User> {
         String phone = request.getParameter("phone");
         String code = request.getParameter("code");//验证码
         if(phone==null){
+            result.put("code",ApplicationException.PARAM_ERROR);
             result.put("msg","请输入手机号");
             return result;
         }
@@ -100,6 +101,7 @@ public class UserController extends BaseController<User> {
             if(time>60){
                 session.removeAttribute(phone);
                 session.removeAttribute("begindate"+phone);
+                result.put("code",ApplicationException.PARAM_ERROR);
                 result.put("msg","验证码已经超时,请重新获取");
                 return result;
             }
@@ -107,14 +109,17 @@ public class UserController extends BaseController<User> {
         String verifyCode = (String) session.getAttribute(phone);
         //防止没有获取验证码直接点击注册
         if(verifyCode == null){
+            result.put("code",ApplicationException.PARAM_ERROR);
             result.put("msg","你还没有获取验证码或者验证码超时,请获取验证码");
             return result;
         }
         if(!verifyCode.equals(code)){
+            result.put("code",ApplicationException.PARAM_ERROR);
             result.put("msg","验证码不正确");
             return result;
         }
-
+        result.put("code",0);
+        result.put("msg","注册成功");
         return result;
     }
 

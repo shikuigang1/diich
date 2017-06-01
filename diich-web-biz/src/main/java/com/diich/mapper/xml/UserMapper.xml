@@ -12,13 +12,13 @@
     <result column="gender" property="gender" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="mail" property="mail" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="CHAR" />
     <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR" />
     <result column="last_login_date" property="lastLoginDate" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, organization_id, login_name, password, rank, credit, name, gender, type, mail, 
+    id, organization_id, login_name, password, rank, credit, name, gender, type, mail,
     phone, last_login_ip, last_login_date, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -32,16 +32,16 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.User" >
-    insert into user (id, organization_id, login_name, 
-      password, rank, credit, 
-      name, gender, type, 
-      mail, phone, last_login_ip, 
-      last_login_date, status)
+    insert into user (id, organization_id, login_name,
+    password, rank, credit,
+    name, gender, type,
+    mail, phone, last_login_ip,
+    last_login_date, status)
     values (#{id,jdbcType=BIGINT}, #{organizationId,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR},
-      #{password,jdbcType=CHAR}, #{rank,jdbcType=INTEGER}, #{credit,jdbcType=INTEGER},
-      #{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},
-      #{mail,jdbcType=VARCHAR}, #{phone,jdbcType=INTEGER}, #{lastLoginIp,jdbcType=VARCHAR},
-      #{lastLoginDate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+    #{password,jdbcType=CHAR}, #{rank,jdbcType=INTEGER}, #{credit,jdbcType=INTEGER},
+    #{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},
+    #{mail,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR}, #{lastLoginIp,jdbcType=VARCHAR},
+    #{lastLoginDate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.User" >
     insert into user
@@ -121,7 +121,7 @@
         #{mail,jdbcType=VARCHAR},
       </if>
       <if test="phone != null" >
-        #{phone,jdbcType=INTEGER},
+        #{phone,jdbcType=CHAR},
       </if>
       <if test="lastLoginIp != null" >
         #{lastLoginIp,jdbcType=VARCHAR},
@@ -165,7 +165,7 @@
         mail = #{mail,jdbcType=VARCHAR},
       </if>
       <if test="phone != null" >
-        phone = #{phone,jdbcType=INTEGER},
+        phone = #{phone,jdbcType=CHAR},
       </if>
       <if test="lastLoginIp != null" >
         last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
@@ -190,7 +190,7 @@
       gender = #{gender,jdbcType=INTEGER},
       type = #{type,jdbcType=INTEGER},
       mail = #{mail,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=CHAR},
       last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
       last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
