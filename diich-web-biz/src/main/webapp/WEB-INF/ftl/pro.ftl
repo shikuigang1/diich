@@ -786,8 +786,6 @@
 
                     <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
-
-
                             <#list cf.resourceList as r>
                                 <#if r.type == 1>
                                     <li>${r.description}</li>
