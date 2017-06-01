@@ -19,8 +19,11 @@ hello world!<br/>
             url : '../user/uploadFile',
             secureuri : false,
             fileElementId : 'file_upload',
+            dataType : 'json',
             success : function(data) {
-                console.log(data);
+                if(data.code == 0) {
+
+                }
             },
             error : function(e) {
                 alert(e.responseText);
