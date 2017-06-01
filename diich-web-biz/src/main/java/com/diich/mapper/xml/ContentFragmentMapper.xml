@@ -133,4 +133,8 @@
   <select id="selectByTargetIdAndType" parameterType="com.diich.core.model.ContentFragment" resultMap="BaseResultMap">
     select * from content_fragment where target_id = #{targetId} and target_type =#{targetType} and status = 0
   </select>
+
+  <select id="selectByProjectId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from content_fragment where target_id = #{projectID,jdbcType=BIGINT} and status = 0
+  </select>
 </mapper>
