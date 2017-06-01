@@ -1,10 +1,10 @@
 package com.diich.web.controller;
 
-import com.diich.core.Constants;
 import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.User;
 import com.diich.core.service.UserService;
+import com.diich.core.util.OperateFileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +16,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -206,5 +207,20 @@ public class UserController extends BaseController<User> {
         }
 
         return putDataToMap(loginName);
+    }
+
+    @RequestMapping("uploadFile")
+    @ResponseBody
+    public Map<String, Object> uploadFile(HttpServletRequest request) {
+        List<String> list = null;
+
+        try {
+            list = OperateFileUtil.uplaodFile(request);
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
+
+        return putDataToMap(list);
     }
 }
