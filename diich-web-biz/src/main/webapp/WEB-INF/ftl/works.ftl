@@ -221,7 +221,7 @@
                                 <#if cf.attributeId == 10>
                                     <#if (cf.resourceList?size>0)>
                                         <#list cf.resourceList as r>
-                                            <#if r.type==0 && r.status==1>
+                                            <#if r.type==0 && r.status== 0>
                                                 <a class="avatar" href=""><img src="<#if r.uri??>${r.uri}</#if>" alt=""></a>
                                             </#if>
                                         </#list>
@@ -270,19 +270,30 @@
 
                 <div class="media_box">
                     <div class="pic video">
-                        <span class="play play120"><i></i></span>
-                        <#--<img src="assets/uploads/detail_product_bg.jpg" alt="">-->
-                        <#if (obj.contentFragmentList?size>0)>
+                        <#--<span class="play play120"><i></i></span>
+                        <img src="assets/uploads/detail_product_bg.jpg" alt="">-->
+                        <#if (obj.contentFragmentList?? && obj.contentFragmentList?size>0)>
                             <#list obj.contentFragmentList as cf>
-                                <#if cf.attributeId == 25 >
+                                <#if cf.attributeId == 25>
                                     <#list cf.resourceList as r>
-                                        <#if r.type ==0>
-                                            <img src="${r.uri}" alt="">
+                                        <#if r.type == 0>
+                                            <div class="item" data-type="0">
+                                                <img src="${r.uri}" alt="">
+                                            </div>
+                                        </#if>
+                                        <#if r.type == 1>
+                                            <div class="item" data-type="1">
+                                                <span class="play play120"><i></i></span>
+                                                <video src="assets/uploads/video1.mp4"></video>
+                                            </div>
                                         </#if>
                                     </#list>
                                 </#if>
                             </#list>
                         </#if>
+                        <#--<#if cf.resourceList?? || cf.resourceList?size <= 0>
+                                        <img src="http://diich.oss-cn-shanghai.aliyuncs.com/image/%E5%B0%8F%E5%B0%81%E9%9D%A2.png" alt="">
+                                    </#if>-->
                     </div>
                     <div class="thumb">
                         <#--<ul>
@@ -295,24 +306,25 @@
                         </ul>-->
 
                         <ul>
-                            <#if (obj.contentFragmentList?size>0)>
+                            <#if (obj.contentFragmentList?? && obj.contentFragmentList?size>0)>
                                 <#list obj.contentFragmentList as cf>
-                                    <#if cf.attribute.dataType == 5 >
-
+                                    <#if cf.attribute.dataType == 5 || cf.attribute.dataType == 25>
                                         <#list cf.resourceList as r>
-                                            <li>
-                                                <#if r.type ==0>
-                                                    <img src="${r.uri}" alt="">
-                                                </#if>
-                                            </li>
+                                            <#if r.type == 0>
+                                                <li data-type="0">
+                                                    <img src="${r.uri}" alt=""><#--?x-oss-process=style/pc-works-style-->
+                                                </li>
+                                            </#if>
+                                            <#if r.type == 1>
+                                                <li data-type="1">
+                                                    <img src="${r.uri}" alt=""><#--?x-oss-process=style/pc-works-style-->
+                                                </li>
+                                            </#if>
                                         </#list>
-
                                     </#if>
-
                                 </#list>
                             </#if>
                         </ul>
-
 
                         <div class="prev"></div>
                         <div class="next"></div>
@@ -347,10 +359,9 @@
 
         <#assign odd_even =0 />
 
-        <#if (obj.contentFragmentList?size>0)>
+        <#if (obj.contentFragmentList?? && obj.contentFragmentList?size>0)>
             <#list obj.contentFragmentList as cf>
-                <#if cf.attribute.dataType == 5 >
-
+                <#if (cf.attribute.dataType == 5 && cf.resourceList?? && cf.resourceList?size>0) >
                     <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
                         <div class="card">
                             <header><h4>${cf.attribute.cnName} </h4></header>
@@ -366,13 +377,10 @@
                                             <li>
                                                 <#if r.type ==0>
                                                     <img src="${r.uri}" alt="">
-
                                                     <#if r.description??>
                                                         <span>${r.description}</span>
                                                     </#if>
-
                                                 </#if>
-
                                                 <#if r.type ==1>
                                                     <div class="card_video">
                                                         <div class="time">30:24</div>
@@ -388,13 +396,9 @@
                                                 <#if (r_index == 1)>
                                                     <#break />
                                                 </#if>
-
                                             </li>
                                         </#list>
-
-
                                     </ul>
-
                                     <#if (cf.resourceList?size > 2) >
                                         <div class="more">
                                             <a href="">查看完整图集<i class="arrow_right"></i></a>
@@ -404,12 +408,10 @@
                             </article>
                         </div>
                     </section>
-
                     <#assign odd_even = odd_even+1 />
                 </#if>
 
-                <#if cf.attribute.dataType == 1>
-
+                <#if (cf.attribute.dataType == 5 && cf.resourceList?? && cf.resourceList?size<1)>
                     <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
                         <div class="card">
                             <header><h4>${cf.attribute.cnName}  </h4></header>
@@ -420,10 +422,22 @@
                             </article>
                         </div>
                     </section>
-
                     <#assign odd_even = odd_even+1 />
                 </#if>
 
+                <#if cf.attribute.dataType == 1>
+                    <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
+                        <div class="card">
+                            <header><h4>${cf.attribute.cnName}  </h4></header>
+                            <article class="plain_text">
+                                <p>
+                                ${cf.content?replace("\n", "</p><p>")}
+                                </p>
+                            </article>
+                        </div>
+                    </section>
+                    <#assign odd_even = odd_even+1 />
+                </#if>
             </#list>
         </#if>
 
