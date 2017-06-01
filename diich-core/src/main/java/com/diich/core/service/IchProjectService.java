@@ -26,5 +26,5 @@ public interface IchProjectService {
     String buildHTML(String templateName, IchProject ichProject,String fileName) throws Exception;
 
     //项目创建 搜索使用  最多显示 5 条数据
-    List<IchProject> getIchProjectByName(Map<String,Object> map) throws Exception;
+    List<Map> getIchProjectByName(Map<String,Object> map) throws Exception;
 }
