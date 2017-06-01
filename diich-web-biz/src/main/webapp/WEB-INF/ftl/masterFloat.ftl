@@ -26,8 +26,6 @@
                         <#assign breaklop=0>
                         <#list obj.contentFragmentList as cf>
                             <#if breaklop==1><#break ></#if>
-                            <#if cf.attribute.dataType == 5 >
-
                                 <#list cf.resourceList as r>
                                     <#if r.type ==1>
                                         <span>视频</span>
@@ -35,7 +33,6 @@
                                         <#break>
                                     </#if>
                                 </#list>
-                            </#if>
                         </#list>
                     </#if>
                 </div>
@@ -43,7 +40,7 @@
             </div>
             <!--//End-->
 
-            <div class="items album">
+            <div class="items album" style="display: block">
                 <div class="title">
                     <ul class="dt">
                         <#if (obj.contentFragmentList?size>0)>
@@ -67,7 +64,7 @@
                                     <#if cf.attributeId == 10>
                                         <#if (cf.resourceList??) &&(cf.resourceList?size>0)>
                                             <#list cf.resourceList as res>
-                                                <#if res.type==0 && res.status==0>
+                                                <#if  res.status==0>
                                                     <img src="<#if res.uri??>${res.uri}</#if>" alt="" width="94" height="70">
                                                 </#if>
                                             </#list>
@@ -154,7 +151,7 @@
                     </ul>
                     <ul class="num">
                     <#if (obj.contentFragmentList?size>0)>
-                        <#assign idx=0 />
+                        <#assign idx=1 />
                         <#list obj.contentFragmentList as cf>
                             <#if (cf.resourceList??) &&(cf.resourceList?size>0)>
                                 <#list cf.resourceList as res>

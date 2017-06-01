@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="assets/css/layout.css">
     <script src="./assets/js/jquery.min.js"></script>
     <script src="./assets/js/system.js"></script>
+    <script>
+        $(function () {
+            var btn=$('a[data-type="mediaLayer"]').on('click',function () {
+                var type = $(this).attr('data-type');
+                var index = parseInt($(this).attr('data-id'));
+                detailCommon.mediaShow(type, index);
+            })
+        })
+    </script>
 </head>
 
 <body>
@@ -242,17 +251,17 @@
                     </#list>
                 </#if>
                     <#if (numPic >0) && (numVed >0)>
-                    <a class="album albums" onclick="show()" data-type="0" data-id="1"><i class="icon_img"></i>
+                    <a class="album albums" onclick="show()" data-type="mediaLayer" datatype="0" data-id="1"><i class="icon_img"></i>
                             ${numPic}张图片/${numVed}个视频
                       </a>
                     </#if>
                     <#if (numPic >0) && (numVed =0)>
-                    <a class="album albums" onclick="show()"  data-type="0" data-id="1"><i class="icon_img"></i>
+                    <a class="album albums" onclick="show()"  data-type="mediaLayer" datatype="0" data-id="1"><i class="icon_img"></i>
                             ${numPic}张图片
                       </a>
                     </#if>
                     <#if (numPic =0) && (numVed >0)>
-                        <a class="album albums" onclick="show()" data-type="1" data-id="1"><i class="icon_img"></i>
+                        <a class="album albums" onclick="show()" data-type="mediaLayer" datatype="1" data-id="1"><i class="icon_img"></i>
                             ${numVed}个视频
                         </a>
                     </#if>
@@ -351,10 +360,10 @@
                                 </#if>
                             </p>
                             <p><#if (obj.ichProject.ichCategory.name)??>
-                                ${obj.ichProject.ichCategory.name}
+                                类别： ${obj.ichProject.ichCategory.name}
                                 <#if ((obj.ichProject.ichCategory.children)?? && obj.ichProject.ichCategory.children?size>0)>
                                     <#list obj.ichProject.ichCategory.children as ch>
-                                        类别： -${ch.name}
+                                        -${ch.name}
                                         <#if (ch.children)?? && (ch.children?size>0)>
                                             <#list ch.children as chh>
                                                 -${chh.name}
@@ -411,7 +420,7 @@
                     <ul>
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
-                            <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.attributeId != 11 && cf.attributeId != 12 && cf.attributeId != 111 && cf.attributeId != 23 && cf.attribute.isOpen == 1>
+                            <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.content !="" && cf.attributeId != 11 && cf.attributeId != 12 && cf.attributeId != 111 && cf.attributeId != 23 && cf.attribute.isOpen == 1>
                                 <li>
                                     <span class="key">${cf.attribute.cnName}：</span>
                                     <span class="value">${cf.content}</span>
@@ -525,7 +534,7 @@
 
                                 <#if (cf.resourceList?size > 2) >
                                     <div class="more">
-                                        <a class="albums" data-type="0" data-id="1" href="javascript:;">查看完整图集<i class="arrow_right"></i></a>
+                                        <a class="albums" data-type="mediaLayer" datatype="0" data-id="1" href="javascript:;">查看完整图集<i class="arrow_right"></i></a>
                                     </div>
                                 </#if>
                             </div>
