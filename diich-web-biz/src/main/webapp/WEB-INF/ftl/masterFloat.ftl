@@ -64,7 +64,7 @@
                                     <#if cf.attributeId == 10>
                                         <#if (cf.resourceList??) &&(cf.resourceList?size>0)>
                                             <#list cf.resourceList as res>
-                                                <#if  res.status==0>
+                                                <#if res.type==0 && res.status==0>
                                                     <img src="<#if res.uri??>${res.uri}</#if>" alt="" width="94" height="70">
                                                 </#if>
                                             </#list>
