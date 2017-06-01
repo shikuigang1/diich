@@ -26,7 +26,7 @@ public class SendMsgUtil {
 
     //编码格式。发送编码格式统一用UTF-8
     private static String ENCODING = "UTF-8";
-    private static String apikey = "";
+    private static String APIKEY = "b802cb40c7a0db20e787884bf29f1e6d";
     /**
      * 智能匹配模板接口发短信
      *
@@ -38,7 +38,7 @@ public class SendMsgUtil {
 
     public static String sendSms( String text, String mobile) throws IOException {
         Map<String, String> params = new HashMap<String, String>();
-        params.put("apikey", apikey);
+        params.put("apikey", APIKEY);
         params.put("text", text);
         params.put("mobile", mobile);
         return post(URI_SEND_SMS, params);
