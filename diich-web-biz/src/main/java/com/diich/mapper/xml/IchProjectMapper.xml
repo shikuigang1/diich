@@ -149,4 +149,15 @@
     </if>
 
   </select>
+
+  <select id="selectIchProjectByName" resultType="com.diich.core.model.IchCategory" parameterType="java.util.Map">
+
+    SELECT i.id,i.ich_category_id as ichCategoryId FROM ich_project i
+    LEFT JOIN content_fragment c on c.target_id = i.id
+
+    WHERE c.content  like  CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+     LIMIT #{pageBegin,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER};
+
+  </select>
+
 </mapper>
