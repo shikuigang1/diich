@@ -15,4 +15,6 @@ public interface ResourceMapper extends BaseMapper<Resource> {
     int updateByPrimaryKeySelective(Resource record);
 
     int updateByPrimaryKey(Resource record);
+
+    Resource selectByContentFramentID(Long id);
 }
