@@ -303,33 +303,34 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Override
     public List<Map> getIchProjectByName(Map<String,Object> map) throws Exception {
 
-       List<IchProject> ls = ichProjectMapper.selectIchProjectByName(map);
+       List<Map> ls = ichProjectMapper.selectIchProjectByName(map);
 
        List<Map> result = new ArrayList<Map>();
 
        for(int i=0;i<ls.size();i++){
            Map<String,Object> resultMap = new HashMap<String,Object>();
 
-           resultMap.put("id",ls.get(i).getId());
+           Long id= (Long)ls.get(i).get("id");
+           resultMap.put("id",id);
+           resultMap.put("name",ls.get(i).get("name"));
             //获取项目分类
-           Long categoryID = ls.get(i).getIchCategoryId();
+           Long categoryID = (Long)ls.get(i).get("ichCategoryId");
            if(categoryID != null){
                IchCategory category = ichCategoryService.getCategoryById(categoryID);
                if(category != null){
-                   resultMap.put("category",category.getGbCategory());
+                   resultMap.put("category",category.getName());
                }
            }
 
-
-           List<ContentFragment> cs = contentFragmentMapper.selectByProjectId(ls.get(i).getId());
+           List<ContentFragment> cs = contentFragmentMapper.selectByProjectId(id);
 
            for(int j=0;j<cs.size();j++){
                //获取项目名
                ContentFragment c= cs.get(j);
                Attribute a = attributeMapper.selectByPrimaryKey(c.getAttributeId());
-                if(c.getAttributeId()==4){
+              /*  if(c.getAttributeId()==4){
                     resultMap.put("name",c.getContent());
-                }
+                }*/
                 //获取项目题图
                 if(c.getAttributeId()==1){
                     String content = c.getContent();
@@ -339,20 +340,17 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     }
                 }
                 //获取区域地址
-               if(a.getDataType()>100){
+               if(a.getDataType()==101){
                    String content = c.getContent();
                    if(content!= null){
                        String dis =  dictionaryService.getTextByTypeAndCode(a.getDataType(),c.getContent());
                        resultMap.put("dis",dis);
                    }
-
                }
 
            }
            result.add(resultMap);
        }
-
-
 
         return result;
     }
