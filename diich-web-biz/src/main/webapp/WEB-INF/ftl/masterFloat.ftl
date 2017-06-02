@@ -25,6 +25,7 @@
                     <#if (obj.contentFragmentList?size>0)>
                         <#assign breaklop=0>
                         <#list obj.contentFragmentList as cf>
+                        <#if cf.resourceList?? && (cf.resourceList?size>0)>
                             <#if breaklop==1><#break ></#if>
                                 <#list cf.resourceList as r>
                                     <#if r.type ==1>
@@ -33,6 +34,7 @@
                                         <#break>
                                     </#if>
                                 </#list>
+                        </#if>
                         </#list>
                     </#if>
                 </div>
