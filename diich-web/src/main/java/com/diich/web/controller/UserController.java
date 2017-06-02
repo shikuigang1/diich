@@ -1,5 +1,6 @@
 package com.diich.web.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.User;
@@ -66,7 +67,7 @@ public class UserController extends BaseController<User> {
             //验证码不存在或者已经超时 重新获取
             verifyCode = userService.getVerifyCode(phone);
             //返回成功 将验证码和当前时间存入session
-            session.setAttribute(phone,result.get("data"));
+            session.setAttribute(phone,verifyCode);
             session.setAttribute("begindate"+phone,df.format(new Date()));
         }catch (Exception e){
             ApplicationException ae = (ApplicationException) e;
@@ -77,6 +78,7 @@ public class UserController extends BaseController<User> {
 
     /**
      * 点击注册按钮校验验证码
+     * 验证完成后保存用户信息
      * @param request
      * @return
      * @throws Exception
@@ -85,8 +87,10 @@ public class UserController extends BaseController<User> {
     @ResponseBody
     public Map<String, Object> register(HttpServletRequest request) throws Exception {
         Map<String, Object> result = new HashMap<>();
-        String phone = request.getParameter("phone");
-        String code = request.getParameter("code");//验证码
+        String params = request.getParameter("params");
+        Map map = JSON.parseObject(params, Map.class);
+        String code = (String) map.get("code");
+        String phone = (String) map.get("phone");
         if(phone==null){
             result.put("code",ApplicationException.PARAM_ERROR);
             result.put("msg","请输入手机号");
@@ -119,9 +123,21 @@ public class UserController extends BaseController<User> {
             result.put("msg","验证码不正确");
             return result;
         }
-        result.put("code",0);
-        result.put("msg","注册成功");
-        return result;
+        User user = null;
+        try {
+            user = parseObject(params, User.class);
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return ae.toMap();
+        }
+        try {
+            userService.saveUser(user);
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
+
+        return putDataToMap(user);
     }
 
     /**
@@ -134,7 +150,6 @@ public class UserController extends BaseController<User> {
     public  Map<String, Object> login(HttpServletRequest request) {
         String loginName = request.getParameter("loginName");
         String password = request.getParameter("password");
-//        String code = request.getParameter("code");
         User user =null;
         try{
             user = userService.login(loginName,password);
@@ -162,32 +177,27 @@ public class UserController extends BaseController<User> {
         return result;
     }
 
-    /**
-     * 保存用户信息
-     * @param request
-     * @return
-     */
-    @RequestMapping("saveUser")
-    @ResponseBody
-    public Map<String, Object> saveUser(HttpServletRequest request) {
-        String params = request.getParameter("params");
-        User user = null;
-
-        try {
-            user = parseObject(params, User.class);
-        } catch (Exception e) {
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
-        }
-        try {
-            userService.saveUser(user);
-        } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
-        }
-
-        return putDataToMap(user);
-    }
+//    @RequestMapping("saveUser")
+//    @ResponseBody
+//    public Map<String, Object> saveUser(HttpServletRequest request) {
+//        String params = request.getParameter("params");
+//        User user = null;
+//
+//        try {
+//            user = parseObject(params, User.class);
+//        } catch (Exception e) {
+//            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+//            return ae.toMap();
+//        }
+//        try {
+//            userService.saveUser(user);
+//        } catch (Exception e) {
+//            ApplicationException ae = (ApplicationException) e;
+//            return ae.toMap();
+//        }
+//
+//        return putDataToMap(user);
+//    }
 
     /**
      * 检测用户是否存在
