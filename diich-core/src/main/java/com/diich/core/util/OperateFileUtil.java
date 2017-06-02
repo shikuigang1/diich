@@ -26,6 +26,8 @@ public class OperateFileUtil {
 
             MultiValueMap<String, MultipartFile> multiFileMap = multiRequest.getMultiFileMap();
 
+            String fileType = null;
+
             for(String key : multiFileMap.keySet()) {
                 List<MultipartFile> fileList = multiFileMap.get(key);
 
@@ -34,7 +36,18 @@ public class OperateFileUtil {
 
                     StringBuilder url = new StringBuilder();
 
-                    url.append("image/" + new Date().getTime() + fileName.trim());
+                    String contentType = file.getContentType();
+                    if(contentType.indexOf("image") > -1) {
+                        fileType = "image";
+                    } else if(contentType.indexOf("audio") > -1) {
+                        fileType = "audio";
+                    } else if(contentType.indexOf("video") > -1) {
+                        fileType = "video";
+                    } else {
+                        fileType = "other";
+                    }
+
+                    url.append(fileType + "/" + new Date().getTime() + fileName.trim());
 
                     String fileUrl = "http://diich-resource.oss-cn-beijing.aliyuncs.com/" + url.toString();
 

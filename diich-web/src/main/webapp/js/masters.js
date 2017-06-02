@@ -1,5 +1,5 @@
 var current_master = null;
-var aliyun_img_uri = 'http://diich.oss-cn-shanghai.aliyuncs.com/image/20masterImage/';
+var aliyun_img_uri = 'http://diich-resource.oss-cn-beijing.aliyuncs.com/image/20masterImage/';
 
 $(function () {
     buildMasterUi();

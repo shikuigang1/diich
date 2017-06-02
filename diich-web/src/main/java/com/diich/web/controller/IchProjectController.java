@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -100,4 +102,29 @@ public class IchProjectController extends BaseController<IchProject> {
 
         return putDataToMap(ichProject);
     }
+
+    @RequestMapping("getProByName")
+    @ResponseBody
+    public Map<String, Object> getProByName(HttpServletRequest request,HttpServletResponse response) {
+
+
+        Map<String,Object> map = new HashMap<String,Object>();
+
+        map.put("keyword",request.getParameter("keyword"));
+        map.put("pageBegin",0);
+        map.put("pageSize",5);
+
+        List<Map> ls=null;
+
+        try {
+            ls =ichProjectService.getIchProjectByName(map);
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(ls);
+    }
+
 }
