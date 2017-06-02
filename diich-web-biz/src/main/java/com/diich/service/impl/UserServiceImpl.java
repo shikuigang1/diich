@@ -85,6 +85,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         TransactionStatus transactionStatus = getTransactionStatus();
         try {
             user.setId(IdWorker.getId());
+            user.setStatus(0);
             userMapper.insertSelective(user);
             commit(transactionStatus);//提交事务
         } catch (Exception e) {
