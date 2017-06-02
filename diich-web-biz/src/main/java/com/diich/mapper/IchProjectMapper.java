@@ -23,7 +23,7 @@ public interface IchProjectMapper extends BaseMapper<IchProject>{
 
     List<IchProject> selectIchProjectList(Page<IchProject> page, @Param("params") Map<String, Object> params);
 
-    List<IchProject> selectIchProjectByName( Map<String, Object> params);
+    List<Map> selectIchProjectByName( Map<String, Object> params);
 
 
 
