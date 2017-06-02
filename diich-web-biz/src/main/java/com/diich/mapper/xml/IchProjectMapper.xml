@@ -155,8 +155,18 @@
     SELECT i.id,i.ich_category_id as ichCategoryId,c.content as name FROM ich_project i
     LEFT JOIN content_fragment c on c.target_id = i.id
 
-    WHERE c.attribute_id=4 AND c.content  LIKE  CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
-    OR #{keyword,jdbcType=VARCHAR} LIKE CONCAT('%',c.content,'%')
+    WHERE c.attribute_id=4
+
+    <if test="type == 0" >
+      AND c.content = #{keyword,jdbcType=VARCHAR}
+    </if>
+
+    <if test="type == 1" >
+
+      AND c.content  LIKE  CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+      OR #{keyword,jdbcType=VARCHAR} LIKE CONCAT('%',c.content,'%')
+    </if>
+
      LIMIT #{pageBegin,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER};
 
   </select>
