@@ -26,7 +26,7 @@ public class DictionaryController extends BaseController<Dictionary> {
 
     @RequestMapping("getDictionariesByType")
     @ResponseBody
-    public Map<String, Object> getDictionariesByType(HttpServletRequest request) {
+    public Map<String, Object> getDictionariesByType(HttpServletRequest request,HttpServletResponse response) {
         Integer type = null;
         List<Dictionary> dictionaryList = null;
 
@@ -43,13 +43,13 @@ public class DictionaryController extends BaseController<Dictionary> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(dictionaryList);
     }
 
     @RequestMapping("getTextByTypeAndCode")
     @ResponseBody
-    public Map<String, Object> getDictionaryByCode(HttpServletRequest request) {
+    public Map<String, Object> getDictionaryByCode(HttpServletRequest request,HttpServletResponse response) {
         String code = request.getParameter("code");
         Integer type = null;
         String name = null;
@@ -72,13 +72,13 @@ public class DictionaryController extends BaseController<Dictionary> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(name);
     }
 
     @RequestMapping("getAllDictionary")
     @ResponseBody
-    public Map<String, Object> getDictionaryByCode() {
+    public Map<String, Object> getDictionaryByCode(HttpServletResponse response) {
         List<Dictionary> dictionaryList = null;
 
         try {
@@ -87,7 +87,7 @@ public class DictionaryController extends BaseController<Dictionary> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(dictionaryList);
     }
     //获取人认证级别列表的接口

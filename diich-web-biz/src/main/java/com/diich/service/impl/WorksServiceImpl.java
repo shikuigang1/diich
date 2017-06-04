@@ -152,42 +152,57 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 works.setUri(fileName + ".html");
                 worksMapper.insertSelective(works);
                 List<ContentFragment> contentFragmentList = works.getContentFragmentList();
-                for (ContentFragment contentFragment:contentFragmentList) {
-                    saveContentFragment(contentFragment,worksId);
+                if(contentFragmentList != null && contentFragmentList.size()>0){
+                    for (ContentFragment contentFragment:contentFragmentList) {
+                        saveContentFragment(contentFragment,worksId);
+                    }
+                    //把code转换为name
+                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
+                    works.setContentFragmentList(contentFragments);
                 }
-                //把code转换为name
-                List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
-                works.setContentFragmentList(contentFragments);
-                //生成静态页面
-                String uri = buildHTML(templateName, works, fileName);
             }else{
                 //更新
                 works.setUri(fileName + ".html");
                 worksMapper.updateByPrimaryKeySelective(works);
                 List<ContentFragment> contentFragmentList = works.getContentFragmentList();
-                for (ContentFragment contentFragment : contentFragmentList) {
-                    if(contentFragment.getId() == null){
-                        //添加
-                        saveContentFragment(contentFragment,works.getId());
-                    }else{
-                        //更新
-                        contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
-                        List<Resource> resourceList = contentFragment.getResourceList();
-                        for (Resource resource: resourceList) {
-                            if(resource.getId() == null){
-                                //新增
-                                saveResource(resource,contentFragment.getId());
-                            }else{//更新
-                                resourceMapper.updateByPrimaryKeySelective(resource);
+                if(contentFragmentList != null && contentFragmentList.size()>0){
+                    for (ContentFragment contentFragment : contentFragmentList) {
+                        if(contentFragment.getId() == null){
+                            //添加
+                            saveContentFragment(contentFragment,works.getId());
+                        }else{
+                            //更新
+                            contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                            List<Resource> resourceList = contentFragment.getResourceList();
+                            if(resourceList != null && resourceList.size()>0){
+                                for (Resource resource: resourceList) {
+                                    if(resource.getId() == null){
+                                        //新增
+                                        saveResource(resource,contentFragment.getId());
+                                    }else{//更新
+                                        resourceMapper.updateByPrimaryKeySelective(resource);
+                                    }
+                                }
                             }
                         }
                     }
+                    //把code转换为name
+                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
+                    works.setContentFragmentList(contentFragments);
                 }
-                //把code转换为name
-                List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
-                works.setContentFragmentList(contentFragments);
-                String uri = buildHTML(templateName, works, fileName);
             }
+            //获取项目信息
+            if(works.getIchProjectId() != null){
+                IchProject ichProject = ichProjectService.getIchProjectById(works.getIchProjectId());
+                works.setIchProject(ichProject);
+            }
+            //获取传承人信息
+            if(works.getIchMasterId() != null){
+                IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
+                works.setIchMaster(ichMaster);
+            }
+            //生成静态页面
+            String uri = buildHTML(templateName, works, fileName);
             commit(transactionStatus);
         }catch (Exception e){
             rollback(transactionStatus);
@@ -305,11 +320,12 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         c.setTargetId(id);
         c.setTargetType(2);
         c.setStatus(0);
-        c.setAttributeId(c.getAttribute().getId());
         contentFragmentMapper.insertSelective(c);
         List<Resource> resourceList = c.getResourceList();
-        for (Resource resource: resourceList ) {
-            saveResource(resource,c.getId());
+        if(resourceList != null && resourceList.size()>0){
+            for (Resource resource: resourceList ) {
+                saveResource(resource,c.getId());
+            }
         }
     }
     /**

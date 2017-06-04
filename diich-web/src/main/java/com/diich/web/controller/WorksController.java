@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class WorksController extends BaseController<Works> {
 
     @RequestMapping("getWorks")
     @ResponseBody
-    public Map<String, Object> getWorks(HttpServletRequest request){
+    public Map<String, Object> getWorks(HttpServletRequest request,HttpServletResponse response){
         String id = request.getParameter("params");
         if(id == null || "".equals(id)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
@@ -40,14 +41,14 @@ public class WorksController extends BaseController<Works> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(works);
 
     }
 
     @RequestMapping("getWorksList")
     @ResponseBody
-    public Map<String, Object> getWorksList(HttpServletRequest request){
+    public Map<String, Object> getWorksList(HttpServletRequest request,HttpServletResponse response){
         Map<String, Object> params = new HashMap<>();;
         String param = request.getParameter("params");
         try{
@@ -65,7 +66,7 @@ public class WorksController extends BaseController<Works> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(page);
     }
 

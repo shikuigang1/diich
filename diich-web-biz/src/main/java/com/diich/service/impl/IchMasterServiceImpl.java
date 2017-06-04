@@ -174,55 +174,62 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 ichMaster.setUri(filename + ".html");
                 ichMasterMapper.insertSelective(ichMaster);
                 List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
-                for (ContentFragment contentFragment: contentFragmentList) {
-                    //添加内容片断
-                    saveContentFragment(contentFragment,id);
+                if(contentFragmentList != null && contentFragmentList.size()>0){
+                    for (ContentFragment contentFragment: contentFragmentList) {
+                        //添加内容片断
+                        saveContentFragment(contentFragment,id);
+                    }
+                    //将code替换为name用于生成静态页面
+                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
+                    ichMaster.setContentFragmentList(contentFragments);
                 }
-                List<Works> worksList = ichMaster.getWorksList();
-                for (Works works : worksList) {
-                    works.setIchMasterId(ichMaster.getId());
-                    worksService.saveWorks(works);
-                }
-                //将code替换为name
-                List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
-                ichMaster.setContentFragmentList(contentFragments);
-                //生成静态页面
-                String uri = buildHTML(templateName, ichMaster, filename);
+
             } else {
                 ichMaster.setUri(filename +".html");
                 ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
                 List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
-                for (ContentFragment contentFragment: contentFragmentList) {
-                    if(contentFragment.getId() == null){
-                        //添加
-                        saveContentFragment(contentFragment,ichMaster.getId());
-                    }else{
-                        //更新
-                        contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
-                        List<Resource> resourceList = contentFragment.getResourceList();
-                        for (Resource resource:resourceList) {
-                            if(resource.getId() == null){
-                                //添加
-                                saveResource(resource,contentFragment.getId());
-                            }else{
-                                //更新
-                                resourceMapper.updateByPrimaryKeySelective(resource);
+                if(contentFragmentList != null && contentFragmentList.size()>0){
+                    for (ContentFragment contentFragment: contentFragmentList) {
+                        if(contentFragment.getId() == null){
+                            //添加
+                            saveContentFragment(contentFragment,ichMaster.getId());
+                        }else{
+                            //更新
+                            contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                            List<Resource> resourceList = contentFragment.getResourceList();
+                            if(resourceList != null && resourceList.size()>0){
+                                for (Resource resource:resourceList) {
+                                    if(resource.getId() == null){
+                                        //添加
+                                        saveResource(resource,contentFragment.getId());
+                                    }else{
+                                        //更新
+                                        resourceMapper.updateByPrimaryKeySelective(resource);
+                                    }
+                                }
                             }
                         }
-
                     }
+                    //将code替换为name用于生成静态页面
+                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
+                    ichMaster.setContentFragmentList(contentFragments);
                 }
-                List<Works> worksList = ichMaster.getWorksList();
+
+            }
+            List<Works> worksList = ichMaster.getWorksList();
+            if(worksList !=null && worksList.size()>0){
                 for (Works works : worksList) {
                     works.setIchMasterId(ichMaster.getId());
                     worksService.saveWorks(works);
                 }
-                //将code替换为name
-                List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
-                ichMaster.setContentFragmentList(contentFragments);
-                //重新生成模板
-                String uri = buildHTML(templateName, ichMaster, filename);
             }
+            //根据项目id查询项目信息
+            if(ichMaster.getIchProjectId() != null){
+                IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
+                ichMaster.setIchProject(ichProject);
+            }
+            //生成静态页面
+            String uri = buildHTML(templateName, ichMaster, filename);
             commit(transactionStatus);
         } catch (Exception e) {
             rollback(transactionStatus);
@@ -329,11 +336,12 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         c.setTargetId(id);
         c.setTargetType(1);
         c.setStatus(0);
-        c.setAttributeId(c.getAttribute().getId());
         contentFragmentMapper.insertSelective(c);
         List<Resource> resourceList = c.getResourceList();
-        for (Resource resource: resourceList ) {
-            saveResource(resource,c.getId());
+        if(resourceList != null && resourceList.size()>0){
+            for (Resource resource: resourceList ) {
+                saveResource(resource,c.getId());
+            }
         }
     }
     /**

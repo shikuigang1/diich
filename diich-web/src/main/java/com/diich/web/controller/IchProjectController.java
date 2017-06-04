@@ -31,7 +31,7 @@ public class IchProjectController extends BaseController<IchProject> {
 
     @RequestMapping("getIchProject")
     @ResponseBody
-    public Map<String, Object> getIchProject(HttpServletRequest request) {
+    public Map<String, Object> getIchProject(HttpServletRequest request,HttpServletResponse response) {
         String id = request.getParameter("params");
         if(id == null || "".equals(id)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
@@ -44,13 +44,13 @@ public class IchProjectController extends BaseController<IchProject> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(ichProject);
     }
 
     @RequestMapping("getIchProjectList")
     @ResponseBody
-    public Map<String, Object> getIchProjectList(HttpServletRequest request) {
+    public Map<String, Object> getIchProjectList(HttpServletRequest request,HttpServletResponse response) {
         Map<String, Object> params = new HashMap<>();;
         String param = request.getParameter("params");
         try{
@@ -68,13 +68,13 @@ public class IchProjectController extends BaseController<IchProject> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(page);
     }
 
     @RequestMapping("saveIchProject")
     @ResponseBody
-    public Map<String, Object> saveIchProject(HttpServletRequest request) {
+    public Map<String, Object> saveIchProject(HttpServletRequest request,HttpServletResponse response) {
         String params = request.getParameter("params");
         IchProject ichProject = null;
 
@@ -99,7 +99,7 @@ public class IchProjectController extends BaseController<IchProject> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(ichProject);
     }
 

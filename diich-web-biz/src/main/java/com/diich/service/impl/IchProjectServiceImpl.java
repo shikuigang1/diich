@@ -202,54 +202,63 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 ichProjectMapper.insertSelective(ichProject);
 //                System.out.println(proID);
                 List<ContentFragment> ls = ichProject.getContentFragmentList();
-                for(int i=0;i<ls.size();i++){
-                     ContentFragment c = ls.get(i);
-                    saveContentFragment(c,proID);
+                if(ls !=null && ls.size()>0){
+                    for(int i=0;i<ls.size();i++){
+                        ContentFragment c = ls.get(i);
+                        saveContentFragment(c,proID);
+                    }
+                    //将datatype>100的将content中的code转换为name
+                    List<ContentFragment> contentFragmentList = getContentFragment(ls);
+                    ichProject.setContentFragmentList(contentFragmentList);
                 }
-                List<Works> worksList = ichProject.getWorksList();
-                for (Works works: worksList) {
-                    works.setIchProjectId(proID);
-                    worksService.saveWorks(works);
-                }
-                List<ContentFragment> contentFragmentList = getContentFragment(ls);
-                ichProject.setContentFragmentList(contentFragmentList);
-                //生成静态页面
-                String uri = buildHTML(templateName, ichProject, fileName);
+
             } else {
 //                if("d".equals(ichProject.getDataFlag())){
+//                  ichProject.setStatus(1);//假删
 //
 //                }
                 ichProject.setUri(fileName +".html");
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
                 List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
-                for (ContentFragment contentFragment: contentFragmentList) {
-                    if(contentFragment.getId()==null){
-                        //新增内容片断
-                        saveContentFragment(contentFragment,ichProject.getId());
-                    }else{//更新内容片断
-                        contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
-                        List<Resource> resourceList = contentFragment.getResourceList();
-                        for (Resource resource : resourceList) {
-                            if(resource.getId()==null){
-                                //新增资源文件
-                                saveResource(resource,contentFragment.getId());
-                            }else{
-                                //更新资源文件
-                                resourceMapper.updateByPrimaryKeySelective(resource);
+                if (contentFragmentList !=null && contentFragmentList.size()>0){
+                    for (ContentFragment contentFragment: contentFragmentList) {
+                        if(contentFragment.getId()==null){
+                            //新增内容片断
+                            saveContentFragment(contentFragment,ichProject.getId());
+                        }else{//更新内容片断
+                            contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                            List<Resource> resourceList = contentFragment.getResourceList();
+                            for (Resource resource : resourceList) {
+                                if(resource.getId()==null){
+                                    //新增资源文件
+                                    saveResource(resource,contentFragment.getId());
+                                }else{
+                                    //更新资源文件
+                                    resourceMapper.updateByPrimaryKeySelective(resource);
+                                }
                             }
                         }
                     }
+                    //将content中的code转换为name
+                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
+                    ichProject.setContentFragmentList(contentFragments);
                 }
-                List<Works> worksList = ichProject.getWorksList();
+
+            }
+            List<Works> worksList = ichProject.getWorksList();
+            if(worksList !=null && worksList.size()>0){
                 for (Works works: worksList) {
                     works.setIchProjectId(ichProject.getId());
                     worksService.saveWorks(works);
                 }
-                List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
-                ichProject.setContentFragmentList(contentFragments);
-                //生成静态页面
-                String uri = buildHTML(templateName, ichProject, fileName);
             }
+            //根据分类id获取分类信息
+            if(ichProject.getIchCategoryId() != null){
+                IchCategory ichCategory = ichCategoryService.getCategoryById(ichProject.getIchCategoryId());
+                ichProject.setIchCategory(ichCategory);
+            }
+            //生成静态页面
+            String uri = buildHTML(templateName, ichProject, fileName);
             commit(transactionStatus);
         } catch (Exception e) {
             rollback(transactionStatus);
@@ -429,11 +438,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         c.setTargetId(proID);
         c.setTargetType(0);
         c.setStatus(0);
-        c.setAttributeId(c.getAttribute().getId());
         contentFragmentMapper.insertSelective(c);
         List<Resource> resourceList = c.getResourceList();
-        for (Resource resource: resourceList ) {
-            saveResource(resource,c.getId());
+        if(resourceList != null && resourceList.size()>0){
+            for (Resource resource: resourceList ) {
+                saveResource(resource,c.getId());
+            }
         }
     }
 
