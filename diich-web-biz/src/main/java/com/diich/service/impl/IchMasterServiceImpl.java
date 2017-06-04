@@ -164,41 +164,52 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         TransactionStatus transactionStatus = getTransactionStatus();
 
         try {
+            String templateName = "master.ftl";//模板名
+            String filename = PropertiesUtil.getString("freemarker.masterfilepath") +"/"+ ichMaster.getId();//生成静态页面的路径名称
             if(ichMaster.getId() == null) {
                 long id = IdWorker.getId();
                 ichMaster.setId(id);
+                filename = PropertiesUtil.getString("freemarker.masterfilepath") +"/"+ id;
                 ichMaster.setStatus(0);
+                ichMaster.setUri(filename + ".html");
                 ichMasterMapper.insertSelective(ichMaster);
                 List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
                 for (ContentFragment contentFragment: contentFragmentList) {
-                    contentFragment.setTargetId(id);
-                    contentFragment.setId(IdWorker.getId());
-                    contentFragment.setTargetType(1);
-                    contentFragment.setStatus(0);
-                    contentFragment.setAttributeId(contentFragment.getAttribute().getId());
-                    contentFragmentMapper.insertSelective(contentFragment);
-                    List<Resource> resourceList = contentFragment.getResourceList();
-                    for (Resource resource:resourceList) {
-                        long recId = IdWorker.getId();
-                        resource.setId(recId);
-                        resource.setStatus(0);
-                        //判断上传的文件类型 0图片 1 视频 2 音频
-                        String sType = FileType.fileType(resource.getUri());
-                        if("图片".equals(sType)){
-                            resource.setType(0);
+                    //添加内容片断
+                    saveContentFragment(contentFragment,id);
+                }
+                List<Works> worksList = ichMaster.getWorksList();
+                for (Works works : worksList) {
+                    works.setIchMasterId(ichMaster.getId());
+                    worksService.saveWorks(works);
+                }
+                //将code替换为name
+                List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
+                ichMaster.setContentFragmentList(contentFragments);
+                //生成静态页面
+                String uri = buildHTML(templateName, ichMaster, filename);
+            } else {
+                ichMaster.setUri(filename +".html");
+                ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
+                List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
+                for (ContentFragment contentFragment: contentFragmentList) {
+                    if(contentFragment.getId() == null){
+                        //添加
+                        saveContentFragment(contentFragment,ichMaster.getId());
+                    }else{
+                        //更新
+                        contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                        List<Resource> resourceList = contentFragment.getResourceList();
+                        for (Resource resource:resourceList) {
+                            if(resource.getId() == null){
+                                //添加
+                                saveResource(resource,contentFragment.getId());
+                            }else{
+                                //更新
+                                resourceMapper.updateByPrimaryKeySelective(resource);
+                            }
                         }
-                        if("视频".equals(sType)){
-                            resource.setType(1);
-                        }
-                        //保存resource
-                        resourceMapper.insertSelective(resource);
-                        ContentFragmentResource cfr = new ContentFragmentResource();
-                        cfr.setId(IdWorker.getId());
-                        cfr.setContentFragmentId(contentFragment.getId());
-                        cfr.setResourceId(recId);
-                        cfr.setStatus(0);
-                        //保存中间表
-                        contentFragmentResourceMapper.insertSelective(cfr);
+
                     }
                 }
                 List<Works> worksList = ichMaster.getWorksList();
@@ -206,24 +217,10 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                     works.setIchMasterId(ichMaster.getId());
                     worksService.saveWorks(works);
                 }
-                String templateName = "master.ftl";//模板名
-                String filename = PropertiesUtil.getString("freemarker.masterfilepath") +"/"+ ichMaster.getId();//生成静态页面的路径名称
-                String uri = buildHTML(templateName, ichMaster, filename);
-                ichMaster.setUri(uri);
-                ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
-            } else {
-                ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
-                List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
-                for (ContentFragment contentFragment: contentFragmentList) {
-                    contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
-                    List<Resource> resourceList = contentFragment.getResourceList();
-                    for (Resource resource:resourceList) {
-                        resourceMapper.updateByPrimaryKeySelective(resource);
-                    }
-                }
-                //更新完成重新生成模板
-                String templateName = "master.ftl";//模板名
-                String filename = PropertiesUtil.getString("freemarker.masterfilepath") +"/"+ ichMaster.getId();//生成静态页面的路径名称
+                //将code替换为name
+                List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
+                ichMaster.setContentFragmentList(contentFragments);
+                //重新生成模板
                 String uri = buildHTML(templateName, ichMaster, filename);
             }
             commit(transactionStatus);
@@ -310,4 +307,85 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         return contentFragmentList;
     }
 
+    /**
+     * 填加contentFragment
+     * @param c
+     */
+    private void saveContentFragment(ContentFragment c,Long id) throws Exception{
+        Long attributeId = c.getAttributeId();
+        if(attributeId == 0 || attributeId == null){
+            Attribute attribute = c.getAttribute();
+            attributeId = IdWorker.getId();
+            attribute.setId(attributeId);
+            attribute.setDataType(5);
+            attribute.setTargetType(1);
+            attribute.setStatus(0);
+            attribute.setIsOpen(1);
+            attribute.setPriority(99);
+            attributeMapper.insertSelective(attribute);
+        }
+        c.setAttributeId(attributeId);
+        c.setId(IdWorker.getId());
+        c.setTargetId(id);
+        c.setTargetType(1);
+        c.setStatus(0);
+        c.setAttributeId(c.getAttribute().getId());
+        contentFragmentMapper.insertSelective(c);
+        List<Resource> resourceList = c.getResourceList();
+        for (Resource resource: resourceList ) {
+            saveResource(resource,c.getId());
+        }
+    }
+    /**
+     * 保存资源文件
+     * @param resource
+     * @param cId
+     */
+    private void saveResource(Resource resource,Long cId) throws Exception{
+
+        Long resourceId = IdWorker.getId();
+        resource.setId(resourceId);
+        resource.setStatus(0);
+        //判断上传的文件类型 0图片 1 视频 2 音频
+        String sType = FileType.fileType(resource.getUri());
+        if("图片".equals(sType)){
+            resource.setType(0);
+        }
+        if("视频".equals(sType)){
+            resource.setType(1);
+        }
+        //保存resource
+        resourceMapper.insertSelective(resource);
+        ContentFragmentResource cfr = new ContentFragmentResource();
+        cfr.setId(IdWorker.getId());
+        cfr.setContentFragmentId(cId);
+        cfr.setResourceId(resourceId);
+        cfr.setStatus(0);
+        //保存中间表
+        contentFragmentResourceMapper.insertSelective(cfr);
+    }
+    /**
+     * 将content的code转换为name
+     * @param cfList
+     * @return
+     */
+    private List<ContentFragment> getContentFragment(List<ContentFragment> cfList) throws Exception {
+        for (ContentFragment contentFragment : cfList) {
+            Attribute attribute = contentFragment.getAttribute();
+            if(attribute.getDataType()>100){
+                if(contentFragment.getContent() == null ){
+                    continue;
+                }
+                String[] arrs= contentFragment.getContent().split(",");
+                String name ="";
+                for (String arr: arrs) {
+                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr);
+                    name +=";";
+                }
+                name = name.substring(0,name.length()-1);
+                contentFragment.setContent(name);
+            }
+        }
+        return cfList;
+    }
 }

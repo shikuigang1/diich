@@ -141,63 +141,51 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
     public void saveWorks(Works works) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
         try{
+            String templateName ="works.ftl";
+            String fileName = PropertiesUtil.getString("freemarker.worksfilepath")+"/"+works.getId().toString();
             if(works.getId() == null){//新增
                 Long worksId = IdWorker.getId();
                 works .setId(worksId);
+                fileName = PropertiesUtil.getString("freemarker.worksfilepath")+"/"+worksId;
                 works.setStatus(0);
                 works.setIsRepresent(1);
+                works.setUri(fileName + ".html");
                 worksMapper.insertSelective(works);
                 List<ContentFragment> contentFragmentList = works.getContentFragmentList();
                 for (ContentFragment contentFragment:contentFragmentList) {
-                    contentFragment.setId(IdWorker.getId());//id
-                    contentFragment.setStatus(0);//状态
-                    contentFragment.setTargetId(worksId);//作品的id
-                    contentFragment.setTargetType(2);//2表示作品
-                    contentFragment.setAttributeId(contentFragment.getAttribute().getId());//属性的id 是什么字段
-                    contentFragmentMapper.insertSelective(contentFragment);
-                    List<Resource> resourceList = contentFragment.getResourceList();
-                    for (Resource resource: resourceList) {
-                        Long resourceId = IdWorker.getId();
-                        resource.setId(resourceId);
-                        resource.setStatus(0);
-                        //判断上传的文件类型 0图片 1 视频 2 音频
-                        String sType = FileType.fileType(resource.getUri());
-                        if("图片".equals(sType)){
-                            resource.setType(0);
-                        }
-                        if("视频".equals(sType)){
-                            resource.setType(1);
-                        }
-                        //保存resource
-                        resourceMapper.insertSelective(resource);
-                        ContentFragmentResource cfr = new ContentFragmentResource();
-                        cfr.setId(IdWorker.getId());
-                        cfr.setContentFragmentId(contentFragment.getId());
-                        cfr.setResourceId(resourceId);
-                        cfr.setStatus(0);
-                        //保存中间表
-                        contentFragmentResourceMapper.insertSelective(cfr);
-                    }
-
+                    saveContentFragment(contentFragment,worksId);
                 }
-                String templateName ="works.ftl";
-                String fileName = PropertiesUtil.getString("freemarker.worksfilepath")+"/"+works.getId().toString();
+                //把code转换为name
+                List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
+                works.setContentFragmentList(contentFragments);
+                //生成静态页面
                 String uri = buildHTML(templateName, works, fileName);
-                works.setUri(uri);
-                worksMapper.updateByPrimaryKeySelective(works);
             }else{
                 //更新
+                works.setUri(fileName + ".html");
                 worksMapper.updateByPrimaryKeySelective(works);
                 List<ContentFragment> contentFragmentList = works.getContentFragmentList();
                 for (ContentFragment contentFragment : contentFragmentList) {
-                    contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
-                    List<Resource> resourceList = contentFragment.getResourceList();
-                    for (Resource resource: resourceList) {
-                        resourceMapper.updateByPrimaryKeySelective(resource);
+                    if(contentFragment.getId() == null){
+                        //添加
+                        saveContentFragment(contentFragment,works.getId());
+                    }else{
+                        //更新
+                        contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                        List<Resource> resourceList = contentFragment.getResourceList();
+                        for (Resource resource: resourceList) {
+                            if(resource.getId() == null){
+                                //新增
+                                saveResource(resource,contentFragment.getId());
+                            }else{//更新
+                                resourceMapper.updateByPrimaryKeySelective(resource);
+                            }
+                        }
                     }
                 }
-                String templateName ="works.ftl";
-                String fileName = PropertiesUtil.getString("freemarker.worksfilepath")+"/"+works.getId().toString();
+                //把code转换为name
+                List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
+                works.setContentFragmentList(contentFragments);
                 String uri = buildHTML(templateName, works, fileName);
             }
             commit(transactionStatus);
@@ -293,5 +281,87 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             contentFragment.setResourceList(resourceList);
         }
         return contentFragmentList;
+    }
+
+    /**
+     * 填加contentFragment
+     * @param c
+     */
+    private void saveContentFragment(ContentFragment c,Long id) throws Exception{
+        Long attributeId = c.getAttributeId();
+        if(attributeId == 0 || attributeId == null){
+            Attribute attribute = c.getAttribute();
+            attributeId = IdWorker.getId();
+            attribute.setId(attributeId);
+            attribute.setDataType(5);
+            attribute.setTargetType(2);
+            attribute.setStatus(0);
+            attribute.setIsOpen(1);
+            attribute.setPriority(99);
+            attributeMapper.insertSelective(attribute);
+        }
+        c.setAttributeId(attributeId);
+        c.setId(IdWorker.getId());
+        c.setTargetId(id);
+        c.setTargetType(2);
+        c.setStatus(0);
+        c.setAttributeId(c.getAttribute().getId());
+        contentFragmentMapper.insertSelective(c);
+        List<Resource> resourceList = c.getResourceList();
+        for (Resource resource: resourceList ) {
+            saveResource(resource,c.getId());
+        }
+    }
+    /**
+     * 保存资源文件
+     * @param resource
+     * @param cId
+     */
+    private void saveResource(Resource resource,Long cId) throws Exception{
+
+        Long resourceId = IdWorker.getId();
+        resource.setId(resourceId);
+        resource.setStatus(0);
+        //判断上传的文件类型 0图片 1 视频 2 音频
+        String sType = FileType.fileType(resource.getUri());
+        if("图片".equals(sType)){
+            resource.setType(0);
+        }
+        if("视频".equals(sType)){
+            resource.setType(1);
+        }
+        //保存resource
+        resourceMapper.insertSelective(resource);
+        ContentFragmentResource cfr = new ContentFragmentResource();
+        cfr.setId(IdWorker.getId());
+        cfr.setContentFragmentId(cId);
+        cfr.setResourceId(resourceId);
+        cfr.setStatus(0);
+        //保存中间表
+        contentFragmentResourceMapper.insertSelective(cfr);
+    }
+    /**
+     * 将content的code转换为name
+     * @param cfList
+     * @return
+     */
+    private List<ContentFragment> getContentFragment(List<ContentFragment> cfList) throws Exception {
+        for (ContentFragment contentFragment : cfList) {
+            Attribute attribute = contentFragment.getAttribute();
+            if(attribute.getDataType()>100){
+                if(contentFragment.getContent() == null ){
+                    continue;
+                }
+                String[] arrs= contentFragment.getContent().split(",");
+                String name ="";
+                for (String arr: arrs) {
+                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr);
+                    name +=";";
+                }
+                name = name.substring(0,name.length()-1);
+                contentFragment.setContent(name);
+            }
+        }
+        return cfList;
     }
 }

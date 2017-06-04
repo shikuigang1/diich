@@ -205,4 +205,9 @@
       and password = #{password,jdbcType=CHAR}
     </if>
   </select>
+  <select id="selectByLogName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from user
+      where status = 0
+      and login_name = #{loginName,jdbcType=VARCHAR}
+  </select>
 </mapper>

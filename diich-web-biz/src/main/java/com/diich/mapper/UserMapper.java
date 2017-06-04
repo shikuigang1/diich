@@ -19,4 +19,6 @@ public interface UserMapper extends BaseMapper<User>{
     int updateByPrimaryKey(User record);
 
     List<User> selectByLogNameAndPwd(User record);
+
+    List<User> selectByLogName(String loginName);
 }

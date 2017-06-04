@@ -191,12 +191,14 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         TransactionStatus transactionStatus = getTransactionStatus();
 
         try {
+            String templateName ="pro.ftl";//模板名
+            String fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId();//静态页面生成路径和名称
             if(ichProject.getId() == null) {
-
                 long proID = IdWorker.getId();
-
                 ichProject.setId(proID);
+                fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+proID;
                 ichProject.setStatus(0);
+                ichProject.setUri(fileName +".html");
                 ichProjectMapper.insertSelective(ichProject);
 //                System.out.println(proID);
                 List<ContentFragment> ls = ichProject.getContentFragmentList();
@@ -206,19 +208,18 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
                 List<Works> worksList = ichProject.getWorksList();
                 for (Works works: worksList) {
+                    works.setIchProjectId(proID);
                     worksService.saveWorks(works);
                 }
-                String templateName ="pro.ftl";//模板名
-                String fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId();//静态页面生成路径和名称
+                List<ContentFragment> contentFragmentList = getContentFragment(ls);
+                ichProject.setContentFragmentList(contentFragmentList);
                 //生成静态页面
                 String uri = buildHTML(templateName, ichProject, fileName);
-                ichProject.setUri(uri);
-                ichProjectMapper.updateByPrimaryKeySelective(ichProject);
             } else {
-                if("d".equals(ichProject.getDataFlag())){
-
-                }
-
+//                if("d".equals(ichProject.getDataFlag())){
+//
+//                }
+                ichProject.setUri(fileName +".html");
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
                 List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
                 for (ContentFragment contentFragment: contentFragmentList) {
@@ -239,8 +240,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                         }
                     }
                 }
-                String templateName ="pro.ftl";//模板名
-                String fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId();//静态页面生成路径和名称
+                List<Works> worksList = ichProject.getWorksList();
+                for (Works works: worksList) {
+                    works.setIchProjectId(ichProject.getId());
+                    worksService.saveWorks(works);
+                }
+                List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
+                ichProject.setContentFragmentList(contentFragments);
                 //生成静态页面
                 String uri = buildHTML(templateName, ichProject, fileName);
             }
@@ -379,32 +385,35 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
     /**
      * 将content的code转换为name
-     * @param contentFragment
+     * @param cfList
      * @return
      */
-//    private ContentFragment getContentFragment(ContentFragment contentFragment){
-//        contentFragment.
-//        if(attribute.getDataType()>100){
-//            if(ls.get(i).getContent() == null ){
-//                continue;
-//            }
-//            String[] arrs= ls.get(i).getContent().split(",");
-//            String name ="";
-//            for (String arr: arrs) {
-//                name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr);
-//                name +=";";
-//            }
-//            name = name.substring(0,name.length()-1);
-//            ls.get(i).setContent(name);
-//        }
-//    }
+    private List<ContentFragment> getContentFragment(List<ContentFragment> cfList) throws Exception {
+        for (ContentFragment contentFragment : cfList) {
+            Attribute attribute = contentFragment.getAttribute();
+            if(attribute.getDataType()>100){
+                if(contentFragment.getContent() == null ){
+                    continue;
+                }
+                String[] arrs= contentFragment.getContent().split(",");
+                String name ="";
+                for (String arr: arrs) {
+                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr);
+                    name +=";";
+                }
+                name = name.substring(0,name.length()-1);
+                contentFragment.setContent(name);
+            }
+        }
+        return cfList;
+    }
     /**
      * 增加contentFragment
      * @param c
      */
-    private void saveContentFragment(ContentFragment c,Long proID){
+    private void saveContentFragment(ContentFragment c,Long proID) throws Exception{
         Long attributeId = c.getAttributeId();
-        if(attributeId == 0){
+        if(attributeId == 0 || attributeId == null){
             Attribute attribute = c.getAttribute();
             attributeId = IdWorker.getId();
             attribute.setId(attributeId);
@@ -433,7 +442,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      * @param resource
      * @param cId
      */
-    private void saveResource(Resource resource,Long cId){
+    private void saveResource(Resource resource,Long cId) throws Exception{
 
         Long resourceId = IdWorker.getId();
         resource.setId(resourceId);
