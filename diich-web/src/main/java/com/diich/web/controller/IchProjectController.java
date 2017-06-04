@@ -94,7 +94,7 @@ public class IchProjectController extends BaseController<IchProject> {
         ichProject.setLastEditorId(user.getId());
 
         try {
-            ichProjectService.saveIchProject(ichProject);
+            ichProject = ichProjectService.saveIchProject(ichProject);
         } catch (Exception e) {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();

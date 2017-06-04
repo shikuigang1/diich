@@ -187,7 +187,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      * @throws Exception
      */
     @Transactional
-    public void saveIchProject(IchProject ichProject) throws Exception {
+    public IchProject saveIchProject(IchProject ichProject) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
 
         try {
@@ -202,35 +202,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 List<ContentFragment> ls = ichProject.getContentFragmentList();
                 for(int i=0;i<ls.size();i++){
                      ContentFragment c = ls.get(i);
-                     c.setId(IdWorker.getId());
-                     c.setTargetId(proID);
-                     c.setTargetType(0);
-                     c.setStatus(0);
-                     c.setAttributeId(c.getAttribute().getId());
-                     contentFragmentMapper.insertSelective(c);
-                 List<Resource> resourceList = c.getResourceList();
-                 for (Resource resource: resourceList ) {
-                     Long resourceId = IdWorker.getId();
-                     resource.setId(resourceId);
-                     resource.setStatus(0);
-                     //判断上传的文件类型 0图片 1 视频 2 音频
-                     String sType = FileType.fileType(resource.getUri());
-                     if("图片".equals(sType)){
-                         resource.setType(0);
-                     }
-                     if("视频".equals(sType)){
-                         resource.setType(1);
-                     }
-                     //保存resource
-                     resourceMapper.insertSelective(resource);
-                     ContentFragmentResource cfr = new ContentFragmentResource();
-                     cfr.setId(IdWorker.getId());
-                     cfr.setContentFragmentId(c.getId());
-                     cfr.setResourceId(resourceId);
-                     cfr.setStatus(0);
-                     //保存中间表
-                     contentFragmentResourceMapper.insertSelective(cfr);
-                 }
+                    saveContentFragment(c,proID);
                 }
                 List<Works> worksList = ichProject.getWorksList();
                 for (Works works: worksList) {
@@ -243,13 +215,28 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 ichProject.setUri(uri);
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
             } else {
+                if("d".equals(ichProject.getDataFlag())){
+
+                }
+
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
                 List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
                 for (ContentFragment contentFragment: contentFragmentList) {
-                    contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
-                    List<Resource> resourceList = contentFragment.getResourceList();
-                    for (Resource resource: resourceList) {
-                        resourceMapper.updateByPrimaryKeySelective(resource);
+                    if(contentFragment.getId()==null){
+                        //新增内容片断
+                        saveContentFragment(contentFragment,ichProject.getId());
+                    }else{//更新内容片断
+                        contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                        List<Resource> resourceList = contentFragment.getResourceList();
+                        for (Resource resource : resourceList) {
+                            if(resource.getId()==null){
+                                //新增资源文件
+                                saveResource(resource,contentFragment.getId());
+                            }else{
+                                //更新资源文件
+                                resourceMapper.updateByPrimaryKeySelective(resource);
+                            }
+                        }
                     }
                 }
                 String templateName ="pro.ftl";//模板名
@@ -262,6 +249,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
+        return ichProject;
     }
 
     /**
@@ -365,6 +353,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             Attribute attribute = attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId());
             ls.get(i).setAttribute(attribute);
             if(attribute.getDataType()>100){
+                if(ls.get(i).getContent() == null ){
+                    continue;
+                }
                 String[] arrs= ls.get(i).getContent().split(",");
                 String name ="";
                 for (String arr: arrs) {
@@ -384,5 +375,85 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             ls.get(i).setResourceList(resourceList);
         }
         return ls;
+    }
+
+    /**
+     * 将content的code转换为name
+     * @param contentFragment
+     * @return
+     */
+//    private ContentFragment getContentFragment(ContentFragment contentFragment){
+//        contentFragment.
+//        if(attribute.getDataType()>100){
+//            if(ls.get(i).getContent() == null ){
+//                continue;
+//            }
+//            String[] arrs= ls.get(i).getContent().split(",");
+//            String name ="";
+//            for (String arr: arrs) {
+//                name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr);
+//                name +=";";
+//            }
+//            name = name.substring(0,name.length()-1);
+//            ls.get(i).setContent(name);
+//        }
+//    }
+    /**
+     * 增加contentFragment
+     * @param c
+     */
+    private void saveContentFragment(ContentFragment c,Long proID){
+        Long attributeId = c.getAttributeId();
+        if(attributeId == 0){
+            Attribute attribute = c.getAttribute();
+            attributeId = IdWorker.getId();
+            attribute.setId(attributeId);
+            attribute.setDataType(5);
+            attribute.setTargetType(0);
+            attribute.setStatus(0);
+            attribute.setIsOpen(1);
+            attribute.setPriority(99);
+            attributeMapper.insertSelective(attribute);
+        }
+        c.setAttributeId(attributeId);
+        c.setId(IdWorker.getId());
+        c.setTargetId(proID);
+        c.setTargetType(0);
+        c.setStatus(0);
+        c.setAttributeId(c.getAttribute().getId());
+        contentFragmentMapper.insertSelective(c);
+        List<Resource> resourceList = c.getResourceList();
+        for (Resource resource: resourceList ) {
+            saveResource(resource,c.getId());
+        }
+    }
+
+    /**
+     * 保存资源文件
+     * @param resource
+     * @param cId
+     */
+    private void saveResource(Resource resource,Long cId){
+
+        Long resourceId = IdWorker.getId();
+        resource.setId(resourceId);
+        resource.setStatus(0);
+        //判断上传的文件类型 0图片 1 视频 2 音频
+        String sType = FileType.fileType(resource.getUri());
+        if("图片".equals(sType)){
+            resource.setType(0);
+        }
+        if("视频".equals(sType)){
+            resource.setType(1);
+        }
+        //保存resource
+        resourceMapper.insertSelective(resource);
+        ContentFragmentResource cfr = new ContentFragmentResource();
+        cfr.setId(IdWorker.getId());
+        cfr.setContentFragmentId(cId);
+        cfr.setResourceId(resourceId);
+        cfr.setStatus(0);
+        //保存中间表
+        contentFragmentResourceMapper.insertSelective(cfr);
     }
 }

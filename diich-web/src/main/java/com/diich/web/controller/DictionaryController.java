@@ -89,4 +89,19 @@ public class DictionaryController extends BaseController<Dictionary> {
 
         return putDataToMap(dictionaryList);
     }
+    //获取人认证级别列表的接口
+    @RequestMapping("getCrtLevelList")
+    @ResponseBody
+    public Map<String,Object> getCrtLevel(){
+        Integer type = 103;
+        List<Dictionary> list = null;
+        try {
+            list = dictionaryService.getDictionaryListByType(type);
+
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
+        return putDataToMap(list);
+    }
 }

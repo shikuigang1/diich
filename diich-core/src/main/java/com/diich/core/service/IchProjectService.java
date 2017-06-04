@@ -15,7 +15,7 @@ public interface IchProjectService {
 
     IchProject getIchProject(String id)throws Exception;
 
-    void saveIchProject(IchProject ichProject) throws Exception;
+    IchProject saveIchProject(IchProject ichProject) throws Exception;
 
     List<IchProject> getIchProjectList(Page<IchProject> page) throws Exception;
 
