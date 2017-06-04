@@ -111,6 +111,7 @@ public class IchProjectController extends BaseController<IchProject> {
         Map<String,Object> map = new HashMap<String,Object>();
 
         map.put("keyword",request.getParameter("keyword"));
+        map.put("type",request.getParameter("type"));
         map.put("pageBegin",0);
         map.put("pageSize",5);
 

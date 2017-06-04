@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -92,7 +93,7 @@ public class DictionaryController extends BaseController<Dictionary> {
     //获取人认证级别列表的接口
     @RequestMapping("getCrtLevelList")
     @ResponseBody
-    public Map<String,Object> getCrtLevel(){
+    public Map<String,Object> getCrtLevel(HttpServletRequest request,HttpServletResponse response){
         Integer type = 103;
         List<Dictionary> list = null;
         try {
@@ -102,6 +103,8 @@ public class DictionaryController extends BaseController<Dictionary> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(list);
     }
 }
