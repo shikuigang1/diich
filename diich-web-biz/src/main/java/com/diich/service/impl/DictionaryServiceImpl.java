@@ -88,6 +88,7 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
         return dictionaryList;
     }
 
+
     public String getText(int type, String code) throws Exception{
         try {
 

@@ -177,27 +177,6 @@ public class UserController extends BaseController<User> {
         return result;
     }
 
-//    @RequestMapping("saveUser")
-//    @ResponseBody
-//    public Map<String, Object> saveUser(HttpServletRequest request) {
-//        String params = request.getParameter("params");
-//        User user = null;
-//
-//        try {
-//            user = parseObject(params, User.class);
-//        } catch (Exception e) {
-//            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-//            return ae.toMap();
-//        }
-//        try {
-//            userService.saveUser(user);
-//        } catch (Exception e) {
-//            ApplicationException ae = (ApplicationException) e;
-//            return ae.toMap();
-//        }
-//
-//        return putDataToMap(user);
-//    }
 
     /**
      * 检测用户是否存在
@@ -208,15 +187,19 @@ public class UserController extends BaseController<User> {
     @ResponseBody
     public Map<String, Object> checkUser(HttpServletRequest request) {
         String loginName = request.getParameter("loginName");
-
+       User user = null;
         try {
-            userService.checkUser(loginName);
+           List<User> userList = userService.checkUser(loginName);
+            if(userList.size()>0){
+                user = userList.get(0);
+                user.setPassword(null);
+            }
         } catch (Exception e) {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
 
-        return putDataToMap(loginName);
+        return putDataToMap(user);
     }
 
     @RequestMapping("uploadFile")

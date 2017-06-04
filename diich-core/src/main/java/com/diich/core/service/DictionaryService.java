@@ -13,4 +13,5 @@ public interface DictionaryService {
     String getTextByTypeAndCode(Integer type, String code) throws Exception;
 
     List<Dictionary> getAllDictionary() throws Exception;
+
 }

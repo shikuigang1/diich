@@ -7,6 +7,7 @@ import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.User;
 import com.diich.core.service.UserService;
 import com.diich.core.util.IdGenerator;
+import com.diich.core.util.SecurityUtil;
 import com.diich.core.util.SendMsgUtil;
 import com.diich.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
      * @param loginName
      * @throws Exception
      */
-    public void checkUser(String loginName) throws Exception {
+    public List<User> checkUser(String loginName) throws Exception {
         List<User> userList = null;
         try{
             User user = new User();
@@ -73,10 +74,11 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         }catch(Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-        if(userList.size()>0){
-            throw new ApplicationException(ApplicationException.PARAM_ERROR);
-        }
+//        if(userList.size()>0){
+//            throw new ApplicationException(ApplicationException.PARAM_ERROR);
+//        }
 
+        return userList;
     }
 
 
@@ -86,6 +88,8 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         try {
             user.setId(IdWorker.getId());
             user.setStatus(0);
+            String password = SecurityUtil.encryptMd5(user.getPassword());
+            user.setPassword(password);
             userMapper.insertSelective(user);
             commit(transactionStatus);//提交事务
         } catch (Exception e) {

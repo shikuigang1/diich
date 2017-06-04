@@ -3,7 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>项目详情页</title>
+    <title>
+    <#if (obj.contentFragmentList?size>0)>
+       <#list obj.contentFragmentList as cf>
+        <#if cf.attributeId == 4>
+            <#assign proname = cf.content>
+        ${cf.content}
+        </#if>
+      </#list>
+    </#if>
+    </title>
     <link rel="stylesheet" href="assets/css/common.css">
     <link rel="stylesheet" href="assets/css/layout.css">
     <script src="./assets/js/jquery.min.js"></script>
@@ -235,7 +244,7 @@
                 <#assign numVed = 0>
                 <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
-                        <#if (cf.resourceList?size>0)>
+                        <#if (cf.resourceList??) && (cf.resourceList?size>0)>
                             <#list cf.resourceList as res>
                                 <#if res.type==0>
                                     <#assign numPic = numPic+1>
@@ -694,16 +703,15 @@
                 <#assign breaklop=0>
                 <#list obj.contentFragmentList as cf>
                     <#if breaklop==1><#break ></#if>
-                    <#if cf.attribute.dataType == 5 >
-
-                        <#list cf.resourceList as r>
-                            <#if r.type ==1>
-                                <span>视频</span>
-                                <#assign breaklop=1>
-                                <#break>
-                            </#if>
-                        </#list>
-                    </#if>
+                        <#if cf.resourceList??>
+                            <#list cf.resourceList as r>
+                                <#if r.type ==1>
+                                    <span>视频</span>
+                                    <#assign breaklop=1>
+                                    <#break>
+                                </#if>
+                            </#list>
+                        </#if>
                 </#list>
             </#if>
 
@@ -719,12 +727,13 @@
 
                 <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
-
-                        <#list cf.resourceList as r>
-                            <#if r.type ==0>
-                                <li>${r.description}</li>
-                            </#if>
-                        </#list>
+                        <#if cf.resourceList??>
+                            <#list cf.resourceList as r>
+                                <#if r.type ==0>
+                                    <li>${r.description}</li>
+                                </#if>
+                            </#list>
+                        </#if>
                     </#list>
                 </#if>
                 <#--   <li>《1111-名称示意最多显示20字…》</li>
@@ -750,14 +759,14 @@
                 <#if (obj.contentFragmentList?size>0)>
                     <#assign idx=0 />
                     <#list obj.contentFragmentList as cf>
-
+                        <#if cf.resourceList??>
                         <#list cf.resourceList as r>
                             <#if r.type ==0>
                                 <li><a href=""><img src="${r.uri}" alt="" data-type="0" data-id="${idx}"></a></li>
                                 <#assign idx=idx+1 />
                             </#if>
                         </#list>
-
+                        </#if>
                     </#list>
                 </#if>
 
@@ -786,12 +795,13 @@
 
                 <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
+                        <#if cf.resourceList??>
                         <#list cf.resourceList as r>
                             <#if r.type == 1>
                                 <li>${r.description}</li>
                             </#if>
                         </#list>
-
+                        </#if>
                     </#list>
                 </#if>
                 <#-- <li>111111</li>
@@ -807,14 +817,14 @@
                 <#if (obj.contentFragmentList?size>0)>
                     <#assign idx=0 />
                     <#list obj.contentFragmentList as cf>
-
+                        <#if cf.resourceList??>
                         <#list cf.resourceList as r>
                             <#if r.type ==1>
                                 <li><video src="${r.uri}" controls  data-type="1" data-id="${idx}"></video></li>
                                 <#assign idx=idx+1 />
                             </#if>
                         </#list>
-
+                    </#if>
                     </#list>
                 </#if>
 
