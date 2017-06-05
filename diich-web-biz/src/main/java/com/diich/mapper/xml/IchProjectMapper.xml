@@ -167,7 +167,7 @@
       OR #{keyword,jdbcType=VARCHAR} LIKE CONCAT('%',c.content,'%')
     </if>
 
-     LIMIT #{pageBegin,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER};
+     LIMIT #{pageBegin,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 
   </select>
 

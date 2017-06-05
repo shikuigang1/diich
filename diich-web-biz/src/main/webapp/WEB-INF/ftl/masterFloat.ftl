@@ -67,7 +67,7 @@
                                         <#if (cf.resourceList??) &&(cf.resourceList?size>0)>
                                             <#list cf.resourceList as res>
                                                 <#if res.type==0 && res.status==0>
-                                                    <img src="<#if res.uri??>${res.uri}</#if>" alt="" width="94" height="70">
+                                                    <img src="<#if res.uri??>${masteruri}${res.uri}</#if>" alt="" width="94" height="70">
                                                 </#if>
                                             </#list>
                                         </#if>
@@ -97,7 +97,7 @@
                             <#if (cf.resourceList??)&&(cf.resourceList?size>0)>
                                 <#list cf.resourceList as res>
                                     <#if res.type==0 && res.status==0>
-                                        <li><a href=""><img src="<#if res.uri??>${res.uri}</#if>" alt="" data-type="0" data-id="${idx}"></a></li>
+                                        <li><a href=""><img src="<#if res.uri??>${masteruri}${res.uri}</#if>" alt="" data-type="0" data-id="${idx}"></a></li>
                                         <#assign idx=idx+1 />
                                     </#if>
                                 </#list>
@@ -143,7 +143,7 @@
                             <#if (cf.resourceList??) && (cf.resourceList?size>0)>
                                 <#list cf.resourceList as res>
                                     <#if res.type==1 && res.status==0>
-                                        <li><video src="<#if res.uri??>${res.uri}</#if>" controls data-type="1" data-id="${idx}"></video></li>
+                                        <li><video src="<#if res.uri??>${masteruri}${res.uri}</#if>" controls data-type="1" data-id="${idx}"></video></li>
                                         <#assign idx=idx+1 />
                                     </#if>
                                 </#list>
@@ -152,7 +152,7 @@
                     </#if>
                     </ul>
                     <ul class="num">
-                    <#if (obj.contentFragmentList?size>0)>
+                  <#--  <#if (obj.contentFragmentList?size>0)>
                         <#assign idx=1 />
                         <#list obj.contentFragmentList as cf>
                             <#if (cf.resourceList??) &&(cf.resourceList?size>0)>
@@ -160,13 +160,13 @@
                                     <#if res.type==1 && res.status==0>
                                         <#if res.description??>
                                             0${idx+1}_<span>${res.description}</span>(30:20)
-                                            <#--<li> ${res.description}</li>-->
+                                            &lt;#&ndash;<li> ${res.description}</li>&ndash;&gt;
                                         </#if>
                                     </#if>
                                 </#list>
                             </#if>
                         </#list>
-                    </#if>
+                    </#if>-->
                         <#--<li class="active v-active">01_<span>鼓罗</span>(30:20)</li>
                         <li>02_<span>建国后昆剧杰出的英才</span>(60:00)</li>
                         <li>03_<span>水调歌头</span>(90:30)</li>

@@ -155,7 +155,8 @@
 </div>
 <!--//End filter_search -->
 
-
+<#assign prouri="../../image/project/" />
+<#assign masteruri="../../image/master/" />
 <div class="container">
     <div class="bd detail">
         <div class="mainbg">
@@ -168,7 +169,7 @@
                         <#list cf.resourceList as res>
                             <#if res.type==0 && res.status==0>
                                 <#if res.uri??>
-                                <#assign backImgUrl="${res.uri}">
+                                <#assign backImgUrl="${masteruri}${res.uri}">
                                 </#if>
                             </#if>
                         </#list>
@@ -183,7 +184,7 @@
                    <#if (cf.resourceList?size>0)>
                        <#list cf.resourceList as res>
                            <#if res.type==1 && res.status==0>
-                               <video poster="${backImgUrl}" src="${res.uri}"> </video>
+                               <video poster="${backImgUrl}" src="${masteruri}${res.uri}"> </video>
                                <span data-type="1" class="play_big"> </span>
                            </#if>
                        </#list>
@@ -339,7 +340,7 @@
                                             <#list cf.resourceList as r>
                                                 <#if r.type==0 && r.status==0>
                                                     <#if r.uri??>
-                                                        <#assign proPic="${r.uri}" />
+                                                        <#assign proPic="${prouri}${r.uri}" />
                                                     </#if>
                                                 </#if>
                                             </#list>
@@ -393,10 +394,18 @@
                 </div>
         </#if>
                 <!--//ENd-->
+            <script>
+                $(function(){
+                    if($("#subcon").find("span").length==0){
+                        $("#mas").css("display","none");;
+                    }
+
+                })
+            </script>
             <#if (obj.contentFragmentList??) &&(obj.contentFragmentList?size>0)>
-                <div class="bd batch">
+                <div class="bd batch" id="mas">
                     <div class="tname">非遗在中国<i></i></div>
-                    <div class="subcon">
+                    <div class="subcon" id="subcon">
                             <#list obj.contentFragmentList as cf>
                                 <#if cf.attributeId == 12 && cf.content??>
                                     <span>人类非物质文化遗产编号：${cf.content}</span>
@@ -504,7 +513,7 @@
                                     <#list cf.resourceList as r>
                                         <li>
                                             <#if r.type ==0>
-                                                <img src="${r.uri}" alt="">
+                                                <img src="${masteruri}${r.uri}" alt="">
 
                                                 <#if r.description??>
                                                     <span>${r.description}</span>
@@ -517,7 +526,7 @@
                                                     <div class="time">30:24</div>
                                                     <div class="play"></div>
                                                     <video poster="assets/uploads/exp2.png">
-                                                        <source style="width: 100%;" src="${r.uri}" type="video/mp4">
+                                                        <source style="width: 100%;" src="${masteruri}${r.uri}" type="video/mp4">
                                                     </video>
                                                 </div>
                                                 <#if r.description??>

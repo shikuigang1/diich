@@ -165,7 +165,8 @@
 <!--//End filter_search -->
 
 
-
+<#assign prouri="../../image/project/" />
+<#assign masteruri="../../image/master/" />
 <div class="container">
     <div class="bd detail">
         <div class="mainbg">
@@ -176,7 +177,7 @@
                     <#if (cf.resourceList?size>0)>
                         <#list cf.resourceList as res>
                             <#if res.type==0 && res.status==0>
-                                <#assign backImgUrl="${res.uri}">
+                                <#assign backImgUrl="${prouri}${res.uri}">
                             </#if>
                         </#list>
                     </#if>
@@ -190,7 +191,7 @@
                     <#if (cf.resourceList?size>0)>
                         <#list cf.resourceList as res>
                             <#if res.type==1 && res.status==0>
-                                <video poster="${backImgUrl}" src="${res.uri}"> </video>
+                                <video poster="${backImgUrl}" src="${prouri}${res.uri}"> </video>
                                 <span data-type="1"  class="play_big"> </span>
                             </#if>
                         </#list>
@@ -365,7 +366,7 @@
                                                 <#if cf.resourceList??>
                                                     <#list cf.resourceList as r>
                                                         <#if r.uri??>
-                                                            <#assign masterPic="${r.uri}">
+                                                            <#assign masterPic="${masteruri}${r.uri}">
                                                         </#if>
                                                     </#list>
                                                 </#if>
@@ -535,7 +536,7 @@
                                     <#list cf.resourceList as r>
                                         <li>
                                             <#if r.type ==0>
-                                                <img src="${r.uri}" alt="">
+                                                <img src="${prouri}${r.uri}" alt="">
                                                 <#if r.description??>
                                                     <span>${r.description}</span>
                                                 </#if>
@@ -545,7 +546,7 @@
                                                 <div class="card_video">
                                                     <div class="time">30:24</div>
                                                     <div class="play" data-type="1" data-id="1" ></div>
-                                                    <video poster="assets/uploads/exp2.png"  src="${r.uri}" type="video/mp4" style="width: 100%;">
+                                                    <video poster="assets/uploads/exp2.png"  src="${prouri}${r.uri}" type="video/mp4" style="width: 100%;">
 
                                                     </video>
                                                 </div>
@@ -730,7 +731,9 @@
                         <#if cf.resourceList??>
                             <#list cf.resourceList as r>
                                 <#if r.type ==0>
+                                    <#if r.description??>
                                     <li>${r.description}</li>
+                                    </#if>
                                 </#if>
                             </#list>
                         </#if>
@@ -762,7 +765,7 @@
                         <#if cf.resourceList??>
                         <#list cf.resourceList as r>
                             <#if r.type ==0>
-                                <li><a href=""><img src="${r.uri}" alt="" data-type="0" data-id="${idx}"></a></li>
+                                <li><a href=""><img src="${prouri}${r.uri}" alt="" data-type="0" data-id="${idx}"></a></li>
                                 <#assign idx=idx+1 />
                             </#if>
                         </#list>
@@ -820,7 +823,7 @@
                         <#if cf.resourceList??>
                         <#list cf.resourceList as r>
                             <#if r.type ==1>
-                                <li><video src="${r.uri}" controls  data-type="1" data-id="${idx}"></video></li>
+                                <li><video src="${prouri}${r.uri}" controls  data-type="1" data-id="${idx}"></video></li>
                                 <#assign idx=idx+1 />
                             </#if>
                         </#list>

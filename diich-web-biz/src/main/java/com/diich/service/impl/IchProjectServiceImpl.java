@@ -226,6 +226,15 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                             //新增内容片断
                             saveContentFragment(contentFragment,ichProject.getId());
                         }else{//更新内容片断
+//                            if ("d".equals(contentFragment.getDataFlag())){
+//                                contentFragment.setStatus(1);
+//                                contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+//                                List<Resource> resourceList = contentFragment.getResourceList();
+//                                for (Resource resource:resourceList) {
+//                                    resource.setStatus(1);
+//                                    resourceMapper.updateByPrimaryKeySelective(resource);
+//                                }
+//                            }
                             contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
                             List<Resource> resourceList = contentFragment.getResourceList();
                             for (Resource resource : resourceList) {
