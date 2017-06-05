@@ -68,15 +68,10 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     public List<User> checkUser(String loginName) throws Exception {
         List<User> userList = null;
         try{
-            User user = new User();
-            user.setLoginName(loginName);
-            userList = userMapper.selectByLogNameAndPwd(user);
+            userList = userMapper.selectByLogName(loginName);
         }catch(Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-//        if(userList.size()>0){
-//            throw new ApplicationException(ApplicationException.PARAM_ERROR);
-//        }
 
         return userList;
     }
@@ -85,6 +80,11 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     public void saveUser(User user) throws Exception {
         //获取当前事务状态
         TransactionStatus transactionStatus = getTransactionStatus();
+        //通过用户名校验用户是否存在
+        List<User> userList = userMapper.selectByLogName(user.getLoginName());
+        if(userList.size() >0){
+            throw new ApplicationException(ApplicationException.PARAM_ERROR);
+        }
         try {
             user.setId(IdWorker.getId());
             user.setStatus(0);

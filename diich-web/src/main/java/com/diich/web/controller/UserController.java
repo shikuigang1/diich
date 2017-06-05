@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -38,7 +39,7 @@ public class UserController extends BaseController<User> {
      */
     @RequestMapping("getVerifycode")
     @ResponseBody
-    public Map<String, Object> getVerifyCode(HttpServletRequest request) throws Exception {
+    public Map<String, Object> getVerifyCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> result=new HashMap<>();
         String phone = request.getParameter("phone");
         if(phone==null){
@@ -73,6 +74,7 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(verifyCode);
     }
 
@@ -85,7 +87,7 @@ public class UserController extends BaseController<User> {
      */
     @RequestMapping("register")
     @ResponseBody
-    public Map<String, Object> register(HttpServletRequest request) throws Exception {
+    public Map<String, Object> register(HttpServletRequest request,HttpServletResponse response) throws Exception {
         Map<String, Object> result = new HashMap<>();
         String params = request.getParameter("params");
         Map map = JSON.parseObject(params, Map.class);
@@ -136,7 +138,7 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(user);
     }
 
@@ -147,7 +149,7 @@ public class UserController extends BaseController<User> {
      */
     @RequestMapping("login")
     @ResponseBody
-    public  Map<String, Object> login(HttpServletRequest request) {
+    public  Map<String, Object> login(HttpServletRequest request,HttpServletResponse response) {
         String loginName = request.getParameter("loginName");
         String password = request.getParameter("password");
         User user =null;
@@ -159,6 +161,7 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(user);
     }
 
@@ -169,12 +172,12 @@ public class UserController extends BaseController<User> {
      */
     @RequestMapping("logoff")
     @ResponseBody
-    public Map<String, Object> logoff(HttpServletRequest request) {
+    public Map<String, Object> logoff(HttpServletRequest request,HttpServletResponse response) {
         String loginName = request.getParameter("loginName");
         HttpSession session = request.getSession();
         session.removeAttribute("CURRENT_USER");
-        Map<String, Object> result = new HashMap<String, Object>();
-        return result;
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(loginName);
     }
 
 
@@ -185,7 +188,7 @@ public class UserController extends BaseController<User> {
      */
     @RequestMapping("checkUser")
     @ResponseBody
-    public Map<String, Object> checkUser(HttpServletRequest request) {
+    public Map<String, Object> checkUser(HttpServletRequest request,HttpServletResponse response) {
         String loginName = request.getParameter("loginName");
        User user = null;
         try {
@@ -198,13 +201,13 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(user);
     }
 
     @RequestMapping("uploadFile")
     @ResponseBody
-    public Map<String, Object> uploadFile(HttpServletRequest request) {
+    public Map<String, Object> uploadFile(HttpServletRequest request,HttpServletResponse response) {
         List<String> list = null;
 
         try {
@@ -213,7 +216,7 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(list);
     }
 }

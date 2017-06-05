@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class IchCategoryController extends BaseController<IchCategory> {
 
     @RequestMapping("getAllIchCategory")
     @ResponseBody
-    public Map<String, Object> getAllIchCategory() {
+    public Map<String, Object> getAllIchCategory(HttpServletResponse response) {
         List<IchCategory> categoryList = null;
 
         try {
@@ -34,7 +35,7 @@ public class IchCategoryController extends BaseController<IchCategory> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(categoryList);
     }
 
@@ -44,7 +45,7 @@ public class IchCategoryController extends BaseController<IchCategory> {
      */
     @RequestMapping("getIchCategoryById")
     @ResponseBody
-    public Map<String, Object> getIchCategoryById(HttpServletRequest request) {
+    public Map<String, Object> getIchCategoryById(HttpServletRequest request,HttpServletResponse response) {
         Long id = null;
         IchCategory ichCategory = null;
 
@@ -61,7 +62,7 @@ public class IchCategoryController extends BaseController<IchCategory> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(ichCategory);
     }
 }
