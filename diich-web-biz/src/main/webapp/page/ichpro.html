@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>我要申报-2.1创建项目页</title>
+    <link rel="stylesheet" href="/assets/css/common.css">
+    <link rel="stylesheet" href="/assets/css/inputs.css">
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/system.js"></script>
+    <script src="/assets/js/inputs.js"></script>
+	<script src="/assets/js/serverinfo.js"></script>
+	
+</head>
+
+<body style="background-color: rgb(245, 246, 247)">
+    <div class="header fixed header_detail"></div>
+    <!--//End header-->
+
+    <div class="container ipt_page">
+        <div class="hd">
+            <div class="bd create_project">
+                <div class="bd back"><a href="javascript:history.go(-1);"><i></i>返回</a></div>
+                <div class="step1">
+                    <div class="dt">创建非遗项目</div>
+                    <div class="dd">
+                        <p>· 请输入您要申报的项目名称，如「景泰蓝」「昆曲」</p>
+                        <p>· 已录入的项目不能重复申报，请先搜索确认非遗国际是否已收录相关项目</p>
+                    </div>
+                    <form id="form" >
+                        <input class="ipt" type="text" placeholder="请输入项目名称" id="keyword" name="keyword">
+						<input type="hidden" id="type" name="type" value="0"/>
+                        <input class="btn" type="button" value="创建"><span id="tipwords"></span>
+                    </form>
+                </div>
+                <!--//End 创建项目页-->
+
+                <div class="step2" style="display:none">
+                    <div class="tips">您要申报的项目已存在，请勿重复申报</div>
+                    <div class="bd">
+                        <div class="result">
+                            <div class="item"  >
+                                <div class="dt">搜索结果：</div>
+                                <div class="dd">
+                                    <ul id="item1">
+                                        <li>
+                                            <img src="/assets/uploads/inputs_01.jpg" alt="">
+                                            <div class="info">
+                                                <p class="name"><strong>银器</strong><em>ID编码x1231233</em></p>
+                                                <p><strong>类型：</strong><span>传统技艺传统技艺传统技艺传统技艺</span></p>
+                                                <p><strong>地区：</strong><span>中国江苏省</span></p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <img src="/assets/uploads/inputs_01.jpg" alt="">
+                                            <div class="info">
+                                                <p class="name"><strong>银器</strong><em>ID编码x1231233</em></p>
+                                                <p><strong>类型：</strong><span>传统技艺传统技艺传统技艺传统技艺</span></p>
+                                                <p><strong>地区：</strong><span>中国江苏省</span></p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--//End-->
+                            <div class="item" id="item2" >
+                                <div class="dt">若非遗国际尚未收录该项目：</div>
+                                <div class="dd">
+                                    <a class="btn_create" href="ichProForm.html">创建新项目</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--//End 有模糊匹配-->
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="footer"></div>
+    <!--//End-->
+
+
+
+</body>
+<script>
+    $(function() {
+        $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
+		
+		//初始化 提交按钮
+		$(".btn").on('click', function() {
+		$("#type").val("1");
+			//判断
+			if($("#keyword").val()==''){
+				$("#tipwords").text("请填写项目名称！");
+				return false;
+			}
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: "../ichProject/getProByName",
+                data: $('#form').serialize(), // 你的formid
+                dataType: "json",
+                async: false,
+                error: function(request) {
+                    //
+                },
+                success: function(res) {
+				var data = res.data;
+					
+				  if(data.length>0){
+					  $("#item1").empty();
+					  $(".step2").hide();
+					  var html="";
+					  $.each(data,function(index,item){
+
+						html+="<li>";
+						if(typeof(item.img)!="undefined"){ 
+							html+="<img src=\""+item.img+"\" alt=\"\">";
+						}else{ 
+							//使用默认图片
+							html+="<img src=\""+defaultheadimg+"\" alt=\"\">";
+						}
+						
+						html+="<div class=\"info\">";
+						html+="<p class=\"name\"><strong>"+item.name+"</strong><em>ID编码"+item.id+"</em></p>";
+						html+="<p><strong>类型：</strong><span>"+item.category+"</span></p>";
+						html+="<p><strong>地区：</strong><span>"+item.dis+"</span></p>";
+						html+="</div></li>";
+					  
+					  });
+					 
+					  $("#item1").append(html);
+					  $(".step2").show();
+					  $("#item2").hide();
+				  }else{
+					//模糊匹配
+					$("#type").val("1");
+					blurSelect();
+				  }
+                   
+                }
+            });
+         });
+		
+		
+    });
+	
+	function blurSelect(){
+	
+	
+		 $.ajax({
+                cache: true,
+                type: "POST",
+                url: "../ichProject/getProByName",
+                data: $('#form').serialize(), // 你的formid
+                dataType: "json",
+                async: true,
+                error: function(request) {
+                    //
+                },
+                success: function(res) {
+				var data = res.data;
+				if(data.length>0){
+					  $("#item1").empty();
+					  $(".step2").hide();
+					  $(".tips").html("您要申报的项目可能已存在，若有符合的项目，请勿重复申报");
+					  var html="";
+					  $.each(data,function(index,item){
+						html+="<li>";
+						if(typeof(item.img)!="undefined"){ 
+							html+="<img src=\""+item.img+"\" alt=\"\">";
+						}else{ 
+							//使用默认图片
+							html+="<img src=\""+defaultheadimg+"\" alt=\"\">";
+						}
+						
+						html+="<div class=\"info\">";
+						html+="<p class=\"name\"><strong>"+item.name+"</strong><em>ID编码"+item.id+"</em></p>";
+						html+="<p><strong>类型：</strong><span>"+item.category+"</span></p>";
+						html+="<p><strong>地区：</strong><span>"+item.dis+"</span></p>";
+						html+="</div></li>";
+					  
+					  });
+					 
+					  $("#item1").append(html);
+					  $(".step2").show();
+					  $("#item2").show();
+				  }else{
+					location.href="ichProForm.html";
+				  }
+				  
+                   
+                }
+            });
+	
+	}
+</script>
+
+</html>

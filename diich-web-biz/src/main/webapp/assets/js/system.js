@@ -5,17 +5,17 @@ var renderHhtml = {
         this.filter();
     },
     header: function() { //导航
-        var htmlStr = `<div class="content">
-        <a class="logo" href=""></a>
+       var htmlStr = `<div class="content">
+            <a class="logo" href=""></a>
             <div class="nav">
                 <ul>
-                    <li class="active"><a href="http://localhost:3000/首页.html">首页</a></li>
-                    <li><a href="http://localhost:3000/非遗名录.html">非遗名录</a></li>
-                    <li><a href="http://localhost:3000/非遗大师.html">非遗大师</a></li>
-                    <li><a href="http://localhost:3000/精选内容.html">精选内容</a></li>
-                    <li><a href="http://localhost:3000/非遗资讯.html">非遗资讯</a></li>
-                    <li><a href="http://localhost:3000/官方服务.html">官方服务</a></li>
-                    <li><a href="http://localhost:3000/我要申报.html">我要申报</a></li>
+                    <li class="active"><a href="http://192.168.1.111/index.html">首页</a></li>
+                    <li><a href="http://192.168.1.111/非遗名录.html">非遗名录</a></li>
+                    <li><a href="http://192.168.1.111/masters.html">非遗大师</a></li>
+                    <li><a href="http://192.168.1.111/精选内容.html">精选内容</a></li>
+                    <li><a href="http://192.168.1.111/非遗资讯.html">非遗资讯</a></li>
+                    <li><a href="http://192.168.1.111/官方服务.html">官方服务</a></li>
+                    <li><a href="declare.html">我要申报</a></li>
                 </ul>
             </div>
             <div class="info">
@@ -36,12 +36,12 @@ var renderHhtml = {
             <div class="content">
                 <div class="item">
                     <dl>
-                        <dt>口头传说和表述</dt>
+                        <dt data-id="A">口头传说和表述</dt>
                         <dd>
-                            <a href="">语言</a>
-                            <a href="">文字</a>
-                            <a href="">口述</a>
-                            <a href="">其他口头传统<br>及表述</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=A01" data-id="A01" >语言</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=A02" data-id="A02">文字</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=A03" data-id="A03">口述</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=A04" data-id="A04">其他口头传统<br>及表述</a>
                         </dd>
                     </dl>
                 </div>
@@ -49,15 +49,15 @@ var renderHhtml = {
 
                 <div class="item">
                     <dl>
-                        <dt>表演艺术</dt>
+                        <dt data-id="B">表演艺术</dt>
                         <dd>
-                            <a href="">音乐演奏</a>
-                            <a href="">舞蹈</a>
-                            <a href="">民歌</a>
-                            <a href="">传统戏剧</a>
-                            <a href="">曲艺</a>
-                            <a href="">传统体育、游艺与杂技</a>
-                            <a href="">其他表演艺术</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=B01" data-id="B01">音乐演奏</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=B02" data-id="B02">舞蹈</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=B03" data-id="B03">民歌</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=B04" data-id="B04">传统戏剧</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=B05" data-id="B05">曲艺</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=B06" data-id="B06">传统体育、游艺与杂技</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=B99" data-id="B99">其他表演艺术</a>
                         </dd>
                     </dl>
                 </div>
@@ -65,13 +65,13 @@ var renderHhtml = {
 
                 <div class="item">
                     <dl>
-                        <dt>社会风俗<br>礼仪、节庆</dt>
+                        <dt data-id="C">社会风俗<br>礼仪、节庆</dt>
                         <dd>
-                            <a href="">生产商贸习俗</a>
-                            <a href="">生活习俗</a>
-                            <a href="">人生仪式</a>
-                            <a href="">节日庆典</a>
-                            <a href="">其他仪式及庆典</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=C01" data-id="C01">生产商贸习俗</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=C02" data-id="C02">生活习俗</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=C03" data-id="C03">人生仪式</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=C04" data-id="C04">节日庆典</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=C99" data-id="C99">其他仪式及庆典</a>
                         </dd>
                     </dl>
                 </div>
@@ -79,22 +79,22 @@ var renderHhtml = {
 
                 <div class="item">
                     <dl>
-                        <dt>有关自然界和<br>宇宙的知识和实践</dt>
+                        <dt data-id="D">有关自然界和<br>宇宙的知识和实践</dt>
                         <dd>
-                            <a href="">农林牧畜渔</a>
-                            <a href="">服装</a>
-                            <a href="">食品</a>
-                            <a href="">住房与建筑</a>
-                            <a href="">交通</a>
-                            <a href="">旅行</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=D01" data-id="D01">农林牧畜渔</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=D02" data-id="D02">服装</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=D03" data-id="D03">食品</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=D04" data-id="D04">住房与建筑</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=D05" data-id="D05">交通,旅行</a>
+                           
                             <!--</dd>-->
                             <!--<dd>-->
-                            <a href="">医、药</a>
-                            <a href="">军事防御</a>
-                            <a href="">商贸</a>
-                            <a href="">工业、工程</a>
-                            <a href="">天文、地理、水文等</a>
-                            <a href="">其他自然知识和实践</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=D06" data-id="D06">医、药</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=D07" data-id="D07">军事防御</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=D08" data-id="D08">商贸</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=D09" data-id="D09">工业、工程</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=D10" data-id="D10">天文、地理、水文等</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=D99" data-id="D99">其他自然知识和实践</a>
                         </dd>
                     </dl>
                 </div>
@@ -102,22 +102,22 @@ var renderHhtml = {
 
                 <div class="item">
                     <dl>
-                        <dt>传统的手工艺技能</dt>
+                        <dt data-id="E">传统的手工艺技能</dt>
                         <dd>
-                            <a href="">工具及机械制作</a>
-                            <a href="">髹饰工艺</a>
-                            <a href="">家畜农林产品加工</a>
-                            <a href="">织染工艺</a>
-                            <a href="">造纸、印刷机装裱</a>
-                            <a href="">编扎工艺</a>
-                            <a href="">字画工艺</a>
-                            <a href="">锻冶工艺</a>
-                            <a href="">剪刻工艺</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=E01" data-id="E01">工具及机械制作</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=E02" data-id="E02">髹饰工艺</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=E03" data-id="E03">家畜农林产品加工</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=E04" data-id="E04">织染工艺</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=E05" data-id="E05">造纸、印刷机装裱</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=E06" data-id="E06">编扎工艺</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=E07" data-id="E07">字画工艺</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=E08" data-id="E08">锻冶工艺</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=E09" data-id="E09">剪刻工艺</a>
 
-                            <a href="">雕塑工艺</a>
-                            <a href="">烧造工艺</a>
-                            <a href="">木作工艺</a>
-                            <a href="">其他类</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=E10" data-id="E10">雕塑工艺</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=E11" data-id="E11">烧造工艺</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=E12" data-id="E12">木作工艺</a>
+                            <a href="http://192.168.1.111/search1.html?gb_category_code=E99" data-id="E99">其他类</a>
 
 
                         </dd>
@@ -127,7 +127,7 @@ var renderHhtml = {
 
             </div>
         </div>
-        <!--//End drop_menu-->
+   
         `;
         this.base('.header', htmlStr);
     },
@@ -154,7 +154,7 @@ var renderHhtml = {
                     <a href="" class="twitter" title="twitter"></a>
                     <a href="" class="instagram" title="instagram"></a>
                     <a href="" class="linkedin" title="linkedin"></a>
-                    <span class="code"><img src="/assets/images/footer_code.png" alt=""></span>
+                    <span class="code"><img src="assets/images/footer_code.png" alt=""></span>
                 </div>
             </div>
         </div>
@@ -524,7 +524,7 @@ var header = {
         var _speed = 300;
 
         //弹出框显示
-        _layer.animate({ 'top': '50%' }, _speed);
+        _layer.show().animate({ 'top': '50%' }, _speed);
         $('body').append('<div class="overbg"></div>');
 
         //弹出框隐藏
@@ -795,9 +795,9 @@ var masterPage = {
         var clientHeight = $(window).height(); //浏览器宽度
         var mainHeight = clientHeight - headerHeight; //内容的高度
 
-
-        var lbox = $('.lbox');
-        var rbox = $('.rbox');
+        var parent=$('.master_page');
+        var lbox = parent.find('.lbox');
+        var rbox = parent.find('.rbox');
         var rboxDefaultContextP = rbox.find('.context p');
         var li = lbox.find('li');
         var liHeight = parseInt(mainHeight / 4) < 150 ? 150 : parseInt(mainHeight / 4); //单个li的高度,最小宽度为150px;
@@ -829,7 +829,7 @@ var masterPage = {
 
     },
     selectMaster: function() { //选中大师
-        /*var _li = $('.master_avatar li');
+        var _li = $('.master_avatar li');
         var _default = $('.master_page .rbox .default');
         var _item = $('.master_page .rbox .item');
         var _h1 = $('.master_page .rbox .item .title h1');
@@ -842,9 +842,8 @@ var masterPage = {
             _item.show();
             $(this).addClass('active').siblings('li').removeClass('active');
             _h1.text(_oldText + index);
-        });*/
+        });
     }
-
 };
 
 //非遗名录 && 搜索结果页
@@ -946,7 +945,7 @@ var loginPage = {
                                     <div class="name">&nbsp;</div>
                                     <div class="area">
                                         <input class="btn" type="submit" value="登录">
-                                        <a class="arrow_right" href="">暂无账号，去注册</a>
+                                        <a class="arrow_right" href="regist.html">暂无账号，去注册</a>
                                     </div>
                                 </div>
                             </form>

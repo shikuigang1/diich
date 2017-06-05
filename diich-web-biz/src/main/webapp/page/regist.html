@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <script src="./assets/js/jquery.min.js"></script>
+    <script src="./assets/js/system.js"></script>
+	<script src="./assets/js/validate-1.14.0.min.js"></script>
+	<script src="./assets/js/jQuery.Form.js"></script>
+	<style>
+	  p span {
+        display: inline-block;
+        width: 150px;
+        text-align: right;
+    }
+    input.error {
+        border: 1px solid red;
+    }
+    input.valid {
+        border: 1px solid green;
+    }
+    label.error {
+        color: red;
+        margin-left: 150px;
+    }
+    label.checked {
+        display: block;
+        width: 200px;
+        height: 20px;
+        border-left: 3px solid green;
+    }
+    </style
+	
+</head>
+
+<body style="background-color: rgb(245, 246, 247)">
+    <div class="header fixed header_detail"></div>
+    <!--//End header-->
+
+    <div class="container">
+        <div class="my_declare">
+            <form class="form_area" id="form" autocomplete="off" >
+                <div class="group">
+                    <div class="name"><em>*</em><span>昵称</span></div>
+                    <div class="area">
+                        <input type="text" id="loginName" name="loginName" class="ipt"  rangelength=[3,6] value=""/>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="name"><em>*</em><span>手机号</span></div>
+                    <div class="area">
+                        <input type="text" id="phone" name="phone" class="ipt" value="">
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="name"><em>*</em><span>验证码</span></div>
+                    <div class="area">
+                        <input type="text" class="ipt" id="code" name="code" value="" maxlength="10">
+                        <div class="code">
+                            <span id="vcode">获取验证码</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="name"><em>*</em><span>密码</span></div>
+                    <div class="area">
+                        <input type="password" id="password" name="password" class="ipt" value="">
+                    </div>
+                </div>
+
+                <div class="group policy">
+                    <div class="name">&nbsp;</div>
+                    <div class="area">
+                        <label for="policy"><input id="policy" type="checkbox" checked>我已仔细阅读并同意《法律声明及隐私权政策》</label>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="name">&nbsp;</div>
+                    <div class="area">
+                        <input class="btn" type="button" value="注册" onclick="submitForm()">
+                        <a class="arrow_right" href="login.html">已有账号，去登录</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--//End-->
+
+        <div class="footer"></div>
+        <!--//End-->
+    </div>
+
+</body>
+<script>
+
+	var wait=60;  
+	function time(o) {  
+        if (wait == 0) {  
+            o.removeAttribute("disabled");            
+            o.value="免费获取验证码";  
+            wait = 60;  
+        } else {  
+            o.setAttribute("disabled", true);  
+            o.value="重新发送(" + wait + ")";  
+            wait--;  
+            setTimeout(function() {  
+                time(o)  
+            },  
+            1000)  
+        }  
+    }  
+	document.getElementById("vcode").onclick=function(){
+			time(this);
+			 $.ajax({
+                cache: true,
+                type: "POST",
+                url: "http://localhost/user/getVerifycode",
+                data: {phone:$("#phone").val()}, 
+                dataType: "json",
+                async: true,
+                error: function(request) {
+                   
+                },
+                success: function(res) {
+					alert(JSON.stringify(res));
+				}
+
+            });
+	} 
+
+    $(function() {
+        $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
+    })
+	
+	//手动提交表单
+	function submitForm(){
+		
+		if (!$("#form").valid()) {
+			return;
+		}
+	
+		 $.ajax({
+                cache: true,
+                type: "POST",
+                url: "http://localhost/user/register",
+                data: $('#form').serialize(), 
+                dataType: "json",
+                async: true,
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    
+					
+                },
+                success: function(res) {
+					alert(JSON.stringify(res));
+				}
+
+            });
+		
+	}
+	
+	
+	$(function(){
+		jQuery.validator.addMethod('phone',function(value,element){
+			var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+			return this.optional(element) || (myreg.test(value));
+		},'请输入正确的手机号码');
+		$('#form').validate({
+	
+		rules:{
+			phone:{
+				required:true,
+				minlength: 11,
+				maxlength: 11,
+				digits: true
+			},
+			loginName:{
+				required:true,
+				rangelength:[2,10]
+			},
+			password:{
+				required:true,
+				rangelength:[6,10]
+			},
+			code:{
+				required:true,
+				minlength: 4,
+				maxlength: 4,
+				digits: true
+			}
+		},messages:{
+			phone:{
+				required:'请输正确手机号码',
+				minlength: '手机号码长度为11位',
+				maxlength: '手机号码长度为11位',
+				digits: '手机号码只能输入数字'
+			},
+			loginName:{
+				required:'请输入一个用户名',
+				rangelength:'昵称长度为2到10位'
+			},
+			password:{
+				required:'请设置一个密码',
+				rangelength:'密码位数为6到10位'
+			},
+			code:{
+				required:'请输入长度4的验证码',
+				minlength: '验证码长度为4位数字',
+				maxlength: '验证码码长度为4位数字',
+				digits: '手机号码只能输入数字'				
+			}
+		}
+	});
+})
+	
+</script>
+
+</html>

@@ -16,6 +16,7 @@ h5,
 h6,
 p,
 input,
+textarea,
 a,
 em,
 img,
@@ -51,7 +52,6 @@ figcaption,
 figure,
 footer,
 header,
-hgroup,
 menu,
 nav,
 section,
@@ -87,7 +87,6 @@ figcaption,
 figure,
 footer,
 header,
-hgroup,
 menu,
 nav,
 section,
@@ -127,7 +126,9 @@ div:after,
 div:before {
     content: '';
 }
-
+input,textarea,select {
+    outline:none;
+}
 
 /*--//End--reset--*/
 
@@ -170,6 +171,7 @@ div:before {
     position: fixed;
     top: 0;
     left: 0;
+    z-index:9;
 }
 
 .container {
@@ -658,7 +660,7 @@ div:before {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, .6);
-    z-index: 8;
+    z-index: 10;
 }
 
 
@@ -668,11 +670,7 @@ div:before {
     /*background: #161616 url(../images/footer_bg.png) top center no-repeat;*/
     width: 100%;
     min-width: 1200px;
-    /*height: 122px;*/
-    /*padding-top: 38px;*/
-    /*position: relative;*/
     float: left;
-    /*text-align: center;*/
 }
 
 .footer .hd {
@@ -977,6 +975,7 @@ div:before {
     margin-top: -40px;
     margin-left: -40px;
     cursor: pointer;
+    z-index:2;
 }
 
 
@@ -1254,17 +1253,6 @@ a.arrow_right:hover:after {
     background: #fafafa;
 }
 
-.doi span.tag:after {
-    content: '';
-    width: 1px;
-    height: 7px;
-    background: #dedede;
-    position: absolute;
-    top: 15px;
-    right: 3px;
-}
-
-
 /*--//End doi图标部分--*/
 
 .icon_list_cate,
@@ -1290,3 +1278,116 @@ a.arrow_right:hover:after {
 .icon_list_album {
     background-position: 0 -44px;
 }
+/*--//End */
+.box_layer {
+    width: 606px;
+    height: 490px;
+    padding: 0 72px;
+    position: fixed;
+    top: -50%;
+    left: 50%;
+    margin-top: -245px;
+    margin-left: -375px;
+    background: #f7f7f7;
+    z-index: 11;
+    display: none;
+}
+
+/*--//End 弹出层--*/
+
+.form_area .title {
+    width: 100%;
+    font-size: 24px;
+    color: #1B1B1B;
+    height: 24px;
+    text-indent: 124px;
+    float: left;
+    margin-top: 60px;
+    margin-bottom: 48px;
+}
+
+.form_area .group {
+    width: 100%;
+    position: relative;
+    float: left;
+    margin-bottom: 30px;
+}
+
+.form_area .group .area {
+    width: 482px;
+    float: left;
+}
+
+.form_area .group .ipt {
+    width: 440px;
+    height: 64px;
+    padding: 0 20px;
+    font-size: 20px;
+    color: #949494;
+    border: 1px solid #e5e5e5;
+    float: left;
+}
+
+.form_area .group .name {
+    width: 124px;
+    height: 66px;
+    line-height: 66px;
+    color: #000;
+    opacity: .7;
+    float: left;
+}
+
+.form_area .group .name em {
+    width: 14px;
+    font-size: 24px;
+    color: #D0011B;
+    float: left;
+    margin-right: 10px;
+}
+
+.form_area .group .name span {
+    width: 74px;
+    font-size: 24px;
+    float: left;
+    cursor: pointer;
+}
+
+.form_area .group .code {
+    height: 16px;
+    color: #4283EB;
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    margin-top: -8px;
+}
+
+.form_area .group .code span.active {
+    color: #9B9B9B;
+}
+
+.form_area .group .forget {
+    color: #9B9B9B;
+    float: right;
+    margin-top: 14px;
+}
+
+.form_area .group .btn {
+    width: 180px;
+    height: 64px;
+    line-height: 64px;
+    text-align: center;
+    background: #4283EA;
+    color: #fff;
+    font-size: 24px;
+    -webkit-border-radius: 1px;
+    border-radius: 1px;
+}
+
+.form_area .group .arrow_right {
+    font-size: 20px;
+    color: #949494;
+    float: right;
+    margin: 24px 0;
+}
+
+/*--//End 表单相关--*/
