@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/ajaxfileupload.js"></script>
+</head>
+<body>
+<div id="img_block"></div>
+<input type="file" id="file_upload" name="file_upload" multiple="multiple"/><br/>
+<input type="button" value="上传" id="button"/>
+<br/>
+<br/>
+<br/>
+
+</body>
+<script>
+
+    $('#button').on('click', function () {
+        $.ajaxFileUpload({
+            url : '../user/uploadFile',
+            secureuri : false,
+            fileElementId : 'file_upload',
+            dataType : 'json',
+            success : function(data) {
+                if(data.code != 0) {
+                    alert(data.msg);
+                    return;
+                }
+
+                var arr = data.data;
+                for(var i = 0; i < arr.length; i ++) {
+                    var $img = $('<img style="width: 50px;"/>');
+                    $img.attr('src', arr[i]);
+                    $('#img_block').append($img);
+                }
+            },
+            error : function(e) {
+                alert(e.responseText);
+            }
+        });
+    });
+
+
+</script>
+</html>
