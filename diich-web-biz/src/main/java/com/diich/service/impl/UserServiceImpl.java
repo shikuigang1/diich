@@ -30,7 +30,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     public String getVerifyCode(String phone) throws Exception{
         String code =null;
         try{
-            code = IdGenerator.gensalt(4);
+            code = IdGenerator.gensalt_num(4);
             String text="【e飞蚁 efeiyi】尊敬的用户，您的《非遗项目》项目注册验证码为"+code+"，请及时处理！";
             //发送信息
             SendMsgUtil.sendSms(text,phone);
