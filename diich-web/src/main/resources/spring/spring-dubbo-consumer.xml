@@ -9,11 +9,12 @@
         ">
 
     <dubbo:application name="dubbo-consumer" />
-    <dubbo:registry  protocol="zookeeper"  address="${dubbo.registry.address}" />
-    <dubbo:reference id="ichProjectService" interface="com.diich.core.service.IchProjectService" />
-    <dubbo:reference id="userService" interface="com.diich.core.service.UserService" />
-    <dubbo:reference id="ichMasterService" interface="com.diich.core.service.IchMasterService" />
-    <dubbo:reference id="dictionaryService" interface="com.diich.core.service.DictionaryService" />
-    <dubbo:reference id="ichCategoryService" interface="com.diich.core.service.IchCategoryService" />
-    <dubbo:reference id="workService" interface="com.diich.core.service.WorksService" />
+    <dubbo:registry  protocol="zookeeper"  address="${dubbo.registry.address}" timeout="120000"/>
+    <dubbo:reference id="ichProjectService" interface="com.diich.core.service.IchProjectService"  timeout="120000"/>
+    <dubbo:reference id="userService" interface="com.diich.core.service.UserService" timeout="120000" />
+    <dubbo:reference id="ichMasterService" interface="com.diich.core.service.IchMasterService" timeout="120000"/>
+    <dubbo:reference id="dictionaryService" interface="com.diich.core.service.DictionaryService" timeout="120000" />
+    <dubbo:reference id="ichCategoryService" interface="com.diich.core.service.IchCategoryService" timeout="120000" />
+    <dubbo:reference id="workService" interface="com.diich.core.service.WorksService" timeout="120000" />
+
 </beans>
