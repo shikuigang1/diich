@@ -137,4 +137,135 @@
   <select id="selectByProjectId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select * from content_fragment where target_id = #{projectID,jdbcType=BIGINT} and status = 0
   </select>
+
+  <select id="queryForSearchPage" resultType="com.diich.core.model.ContentFragment" parameterType="java.util.Map">
+
+    SELECT DISTINCT * FROM (
+
+    SELECT  target_id, target_type
+    FROM
+    (
+    (SELECT DISTINCT a.priority,a.target_type, c.target_id
+    from content_fragment c
+    LEFT JOIN attribute a on c.attribute_id = a.id
+    LEFT JOIN dictionary d on a.data_type = d.type and d.code = c.content
+    LEFT JOIN ich_project ip on a.target_type = 0 AND ip.id = c.target_id
+    LEFT JOIN ich_category ic on ic.id = ip.ich_category_id
+    where (d.type != 101)
+
+    <if test="keyword != null" >
+      AND  d.name LIKE  CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="type != null" >
+      AND a.target_type = #{type,jdbcType=INTEGER}
+    </if>
+
+    <if test="gb_category_code != null" >
+      AND ic.gb_category LIKE CONCAT(#{gb_category_code,jdbcType=VARCHAR},'%')
+    </if>
+
+    )
+    UNION
+    (SELECT DISTINCT
+    CASE
+    WHEN c.content = #{keyword,jdbcType=VARCHAR} THEN a.priority - 0.5
+    ELSE a.priority
+    END priority,
+    a.target_type, c.target_id
+    from content_fragment c
+    LEFT JOIN attribute a on c.attribute_id = a.id
+    LEFT JOIN ich_project ip on a.target_type = 0 AND ip.id = c.target_id
+    LEFT JOIN ich_category ic on ic.id = ip.ich_category_id
+    where 1=1
+
+    <if test="keyword != null" >
+      AND  c.content LIKE CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+    </if>
+
+    <if test="type != null" >
+      AND a.target_type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="gb_category_code != null" >
+      AND ic.gb_category LIKE CONCAT(#{gb_category_code,jdbcType=VARCHAR},'%')
+    </if>
+
+    )
+    ) u  ORDER BY priority ) u2 LIMIT #{pageBegin,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER};
+
+
+
+  </select>
+
+  <select id="queryForSearchCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+
+    SELECT count(*) FROM (
+    SELECT DISTINCT target_id, target_type
+    FROM
+    (
+    (SELECT a.target_type, c.target_id
+    from content_fragment c
+    LEFT JOIN attribute a on c.attribute_id = a.id
+    LEFT JOIN dictionary d on a.data_type = d.type and d.code = c.content
+    LEFT JOIN ich_project ip on a.target_type = 0 AND ip.id = c.target_id
+    LEFT JOIN ich_category ic on ic.id = ip.ich_category_id
+    where 1=1    AND (d.type != 101)
+
+    <if test="keyword != null" >
+      AND  d.name LIKE  CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+    </if>
+
+    <if test="type != null" >
+      AND a.target_type = #{type,jdbcType=INTEGER}
+    </if>
+
+    <if test="gb_category_code != null" >
+      AND ic.gb_category LIKE CONCAT(#{gb_category_code,jdbcType=VARCHAR},'%')
+    </if>
+
+    )
+    UNION
+    (SELECT
+
+    a.target_type, c.target_id
+    from content_fragment c
+    LEFT JOIN attribute a on c.attribute_id = a.id
+    LEFT JOIN ich_project ip on a.target_type = 0 AND ip.id = c.target_id
+    LEFT JOIN ich_category ic on ic.id = ip.ich_category_id
+    where 1=1
+
+    <if test="keyword != null" >
+      AND  c.content LIKE CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+    </if>
+
+    <if test="type != null" >
+      AND a.target_type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="gb_category_code != null" >
+      AND ic.gb_category LIKE CONCAT(#{gb_category_code,jdbcType=VARCHAR},'%')
+    </if>
+
+    )
+    ) u) records
+
+
+  </select>
+
+  <select id="queryByTargetIDAndType" resultType="com.diich.core.model.ContentFragment" parameterType="com.diich.core.model.ContentFragment">
+    select
+    <include refid="Base_Column_List" />
+    from content_fragment
+    where target_type = #{target_type,jdbcType=BIGINT} AND target_id = #{target_id,jdbcType=BIGINT}
+  </select>
+
+  <select id="queryListByTargetId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from content_fragment
+    where target_id = #{target_id,jdbcType=BIGINT}
+  </select>
+
+  <select id="queryForSearch" resultType="com.diich.core.model.ContentFragment" parameterType="java.util.Map">
+    {call search(#{keyword,jdbcType=VARCHAR,mode=IN}, #{type,jdbcType=INTEGER,mode=IN},NULL ,NULL )}
+  </select>
+
 </mapper>
