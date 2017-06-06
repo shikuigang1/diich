@@ -74,43 +74,43 @@ public class SearchServiceImpl implements SearchService {
             SearchVO s = new SearchVO();
             s.setType(ls.get(i).getTargetType());
             s.setId(ls.get(i).getTargetId());
-            //·â×°ËÑË÷¶ÔÏó
+            //ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             for(int j = 0;j<sea.size();j++){
                 ContentFragment cf = sea.get(j);
 
-                if(ls.get(i).getTargetType()==0){//·â×°ÏîÄ¿¶ÔÏó
-                    //Ìí¼ÓÖÐÎÄÃû
+                if(ls.get(i).getTargetType()==0){//ï¿½ï¿½×°ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     if(cf.getAttributeId()==4){
                         s.setTitle(cf.getContent());
                     }
 
-                    //Ìí¼Ó¼ò½é
+                    //ï¿½ï¿½Ó¼ï¿½ï¿½
                     if(cf.getAttributeId()==9){
                         if(cf.getContent().length()>100){
                             s.setContent(cf.getContent().substring(0,99)+"...");
                         }
 
                     }
-                    //Ìí¼ÓÌâÍ¼
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
                     if(cf.getAttributeId()==1){
                         Resource r = resourceMapper.selectByContentFramentID(cf.getId());
                         if(null != r){
                             s.setImg(r.getUri());
                         }
                     }
-                }else if(ls.get(i).getTargetType()==1){//·â×°´óÊ¦¶ÔÏó
+                }else if(ls.get(i).getTargetType()==1){//ï¿½ï¿½×°ï¿½ï¿½Ê¦ï¿½ï¿½ï¿½ï¿½
 
-                    //Ìí¼ÓÖÐÎÄÃû
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     if(cf.getAttributeId()==13){
                         s.setTitle(cf.getContent());
                     }
-                    //Ìí¼Ó¼ò½é
+                    //ï¿½ï¿½Ó¼ï¿½ï¿½
                     if(cf.getAttributeId()==24){
                         if(cf.getContent().length()>100){
                             s.setContent(cf.getContent().substring(0,99)+"...");
                         }
                     }
-                    //Ìí¼ÓÌâÍ¼
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
                     if(cf.getAttributeId()==10){
                         Resource r = resourceMapper.selectByContentFramentID(cf.getId());
                         if(null != r){
@@ -118,18 +118,18 @@ public class SearchServiceImpl implements SearchService {
                         }
                     }
                 }
-                if(ls.get(i).getTargetType()==2){//·â×°×÷Æ·¶ÔÏó
-                    //Ìí¼ÓÖÐÎÄÃû
+                if(ls.get(i).getTargetType()==2){//ï¿½ï¿½×°ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     if(cf.getAttributeId()==28){
                         s.setTitle(cf.getContent());
                     }
-                    //Ìí¼Ó¼ò½é
+                    //ï¿½ï¿½Ó¼ï¿½ï¿½
                     if(cf.getAttributeId()==31){
                         if(cf.getContent().length()>100){
                             s.setContent(cf.getContent().substring(0,99)+"...");
                         }
                     }
-                    //Ìí¼ÓÌâÍ¼
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
                     if(cf.getAttributeId()==25){
                         Resource r = resourceMapper.selectByContentFramentID(cf.getId());
                         if(null != r){
@@ -138,7 +138,7 @@ public class SearchServiceImpl implements SearchService {
                     }
                 }
             }
-            //ÏîÄ¿Í³Ò»Ìí¼Ó·ÖÀà
+            //ï¿½ï¿½Ä¿Í³Ò»ï¿½ï¿½Ó·ï¿½ï¿½ï¿½
             if(ls.get(i).getTargetType()==0){
 
                 IchProject ichProject = ichProjectMapper.selectByPrimaryKey(ls.get(i).getTargetId());
@@ -161,7 +161,7 @@ public class SearchServiceImpl implements SearchService {
                 }
 
             }
-            //´óÊ¦Ìí¼ÓÏîÄ¿ Ãû³Æ
+            //ï¿½ï¿½Ê¦ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ ï¿½ï¿½ï¿½ï¿½
             if(ls.get(i).getTargetType()==1){
                 IchMaster master = ichMasterMapper.selectByPrimaryKey(ls.get(i).getTargetId());
 
@@ -175,7 +175,7 @@ public class SearchServiceImpl implements SearchService {
                         }
                     }
 
-                    //Í¨¹ýÏîÄ¿²éÕÒ´óÊ¦·ÖÀà
+                    //Í¨ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½Ò´ï¿½Ê¦ï¿½ï¿½ï¿½ï¿½
                     IchProject ichProject = ichProjectMapper.selectByPrimaryKey(master.getIchProjectId());
                     IchCategory ichCategory=null;
 
@@ -192,12 +192,12 @@ public class SearchServiceImpl implements SearchService {
                 }
 
             }
-            //×÷Æ·Ìí¼Ó ´óÊ¦
+            //ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½Ê¦
             if(ls.get(i).getTargetType()==2){
 
                 Works works =worksMapper.selectByPrimaryKey(ls.get(i).getTargetId());
 
-                //Ìí¼ÓÏîÄ¿Ãû
+                //ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½
                 List<ContentFragment> ml = contentFragmentMapper.queryListByTargetId(works.getIchProjectId());
 
                 for(ContentFragment c:ml){
@@ -206,7 +206,7 @@ public class SearchServiceImpl implements SearchService {
                         break;
                     }
                 }
-                //Ìí¼Ó´óÊ¦
+                //ï¿½ï¿½Ó´ï¿½Ê¦
                 IchMaster master = ichMasterMapper.selectByPrimaryKey(works.getIchMasterId());
                 List<ContentFragment> mastercontentList = contentFragmentMapper.queryListByTargetId(master.getId());
                 Map<String,String> mastermap = new HashMap<String,String>();
@@ -225,8 +225,8 @@ public class SearchServiceImpl implements SearchService {
                     }
                 }
                 s.setMasters(mastermap);
-                //Ìí¼Ó×÷Æ·ËùÔÚ·ÖÀà
-                //Í¨¹ýÏîÄ¿²éÕÒ×÷Æ··ÖÀà
+                //ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½
+                //Í¨ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
                 IchProject ichProject = ichProjectMapper.selectByPrimaryKey(works.getIchProjectId());
                 IchCategory ichCategory = ichCategoryMapper.selectByPrimaryKey(ichProject.getIchCategoryId());
 

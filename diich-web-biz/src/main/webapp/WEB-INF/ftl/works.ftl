@@ -291,9 +291,6 @@
                                 </#if>
                             </#list>
                         </#if>
-                        <#--<#if cf.resourceList?? || cf.resourceList?size <= 0>
-                                        <img src="http://diich.oss-cn-shanghai.aliyuncs.com/image/%E5%B0%8F%E5%B0%81%E9%9D%A2.png" alt="">
-                                    </#if>-->
                     </div>
                     <div class="thumb">
                         <#--<ul>

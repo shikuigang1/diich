@@ -11,10 +11,10 @@ var renderHhtml = {
                 <ul>
                     <li class="active"><a href="../page/index.html">首页</a></li>
                     <li><a href="#">非遗名录</a></li>
-                    <li><a href="#">非遗大师</a></li>
-                    <li><a href="#">精选内容</a></li>
-                    <li><a href="#">非遗资讯</a></li>
-                    <li><a href="#">官方服务</a></li>
+                    <li><a href="../page/masters.html">非遗大师</a></li>
+                    <li><a href="../page/selected_content.html">精选内容</a></li>
+                    <li><a href="../page/ich_consult.html">非遗资讯</a></li>
+                    <li><a href="../page/official_service.html">官方服务</a></li>
                     <li><a href="../page/declare.html">我要申报</a></li>
                 </ul>
             </div>
