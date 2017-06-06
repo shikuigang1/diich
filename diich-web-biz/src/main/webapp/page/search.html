@@ -45,7 +45,6 @@
 
             {{??it[i].type == 1 }}
 
-
             <a class="pic" href="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/{{=it[i].id }}.html">
                 {{?it[i].img}}
                 <img src="../../master/{{= it[i].img }}" alt="">
@@ -93,9 +92,7 @@
                     {{= it[i].content }}
                 </div>
             </div>
-
             {{?}}
-
         </li>
 
         {{ } }}
@@ -198,10 +195,6 @@
             $("#gb_category_code").val("");
             $("#type").val("");
         }
-
-
-
-
 
     </script>
 </head>
@@ -682,6 +675,8 @@
                             $("#country").find('li').on('click', function() {
                                 filterAll.eq(1).text($(this).html());
                                 _this.hide();
+                                $("#area_code").val("");
+                                searchData_();
                             });
 
                             //一级城市
@@ -692,12 +687,8 @@
                                 searchData_();
                             });
                         }
-
                         level2.show();
-
                     });
-
-
                 });
 
 
@@ -714,10 +705,7 @@
                     filterItem.hide();
                     filterFixed.slideUp('fast');
                 });
-
                 //自动提示
-
-
                 body.find('.overbg').on('click', function() {
                     filterItem.hide();
                     filterFixed.slideUp('fast');
