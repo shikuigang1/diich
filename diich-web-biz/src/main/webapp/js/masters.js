@@ -27,7 +27,12 @@ function buildTemplate($container, master) {
     var $h4 = $('<h4></h4>');
     $h4.text(master.name);
     $div.append($h4);
-    var $p = ('<p>' + master.title + '</p>');
+
+    var title_omit = master.title;
+    if(title_omit.length > 15) {
+        title_omit = title_omit.substring(0, 15) + '...';
+    }
+    var $p = ('<p>' + title_omit + '</p>');
     $div.append($p);
 
     $li.append($img);
@@ -45,7 +50,7 @@ function buildItemUi(master) {
         $item.find('.cate').show();
         $item.find('.cate').text(master.skill);
     } else {
-        $item.find('.cate').hide();
+        $item.find('.cate').text("");
     }
 
     $item.find('h4').text(master.title);
@@ -63,27 +68,31 @@ function addLiListener() {
     var $default = $('.master_page .rbox .default');
     var $item = $('.master_page .rbox .item');
 
-    $li.on('click', function() {
-        $default.hide();
-        $item.show();
+    $li.hover(
+        function() {
+            $default.hide();
+            $item.show();
 
-        if(current_master != null) {
-            $(this).parent().find('.active img').attr('src', aliyun_img_uri + current_master.photo.split(',')[0]);
-        }
+            $li.off('click');
 
-        var data_no = $(this).attr('data-no');
-        var master = null;
-        for(var i = 0; i < masters.length; i ++) {
-            if(masters[i].no == data_no) {
-                master = masters[i];
-                break;
+            if(current_master != null) {
+                $(this).parent().find('.active img').attr('src', aliyun_img_uri + current_master.photo.split(',')[0]);
             }
+
+            var data_no = $(this).attr('data-no');
+            var master = null;
+            for(var i = 0; i < masters.length; i ++) {
+                if(masters[i].no == data_no) {
+                    master = masters[i];
+                    break;
+                }
+            }
+
+            $(this).find('img').attr('src', aliyun_img_uri + master.photo.split(',')[1]);
+            $(this).addClass('active').siblings('li').removeClass('active');
+
+            current_master = master;
+            buildItemUi(master);
         }
-
-        $(this).find('img').attr('src', aliyun_img_uri + master.photo.split(',')[1]);
-        $(this).addClass('active').siblings('li').removeClass('active');
-
-        current_master = master;
-        buildItemUi(master);
-    });
+    );
 }
