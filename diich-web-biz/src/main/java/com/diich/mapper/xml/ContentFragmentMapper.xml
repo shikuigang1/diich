@@ -250,7 +250,7 @@
 
   </select>
 
-  <select id="queryByTargetIDAndType" resultType="BaseResultMap" parameterType="com.diich.core.model.ContentFragment">
+  <select id="queryByTargetIDAndType" resultMap="BaseResultMap" parameterType="com.diich.core.model.ContentFragment">
     select
     <include refid="Base_Column_List" />
     from content_fragment
