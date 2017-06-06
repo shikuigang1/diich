@@ -119,7 +119,7 @@
                     //alert("Connection error");
                 },
                 success: function(data) {
-                  
+
                     $("#totalCount").text(data.totalCount);
                     $("#totalCount_").text(data.totalCount);
                     var evalText = doT.template($("#interpolationtmpl").text());
@@ -192,10 +192,10 @@
             $("#gb_category_code").val("");
             $("#type").val("");
         }
-		
 
 
-      
+
+
 
     </script>
 </head>
@@ -339,7 +339,7 @@
             <input class="submit" type="button" value="搜索" onclick="searchData()">
             <div class="suggest" style="display: none;">
                 <ul id="words">
-                   <!-- <li><a href=""><span>苏州</span>传承人</a></li>-->
+                    <!-- <li><a href=""><span>苏州</span>传承人</a></li>-->
                 </ul>
             </div>
         </form>
@@ -427,7 +427,7 @@
 
             <div class="pro_column3 active">
                 <ul id="content">
-                  
+
 
                 </ul>
             </div>
@@ -481,29 +481,29 @@
         //$("#keyword").val($("#span_"+index).text());
         //$("#form").submit()
         $("#keyword").val($("#span_"+index).text());
-		$(".suggest").hide();
+        $(".suggest").hide();
         searchData_();
-       // location.href="search1.html?keyword="+$("#span_"+index).text();
+        // location.href="search1.html?keyword="+$("#span_"+index).text();
     }
 
     $(function() {
-		
-		$("#keyword").val(getQueryString("keyword"));
-		$("#gb_category_code").val(getQueryString("gb_category_code"));
-		searchData_();
-		
-		//
-		$(".subtitle").on("click",function(){
-		
-			$("#item_1").hide();
-			$("#item_2").hide();
-			$("#attr_text").text("所属类别");
-			$("#area_text").text("全球");
-				
-			$("#gb_category_code").val("");	
-			searchData_();
-		
-		});
+
+        $("#keyword").val(getQueryString("keyword"));
+        $("#gb_category_code").val(getQueryString("gb_category_code"));
+        searchData_();
+
+        //
+        $(".subtitle").on("click",function(){
+
+            $("#item_1").hide();
+            $("#item_2").hide();
+            $("#attr_text").text("所属类别");
+            $("#area_text").text("全球");
+
+            $("#gb_category_code").val("");
+            searchData_();
+
+        });
 
         $("#keyword").keyup(function(){
             $(".suggest").hide();
@@ -727,12 +727,12 @@
 
             if (e.keyCode == 13) {
                 //e.preventDefault();
-               
+
                 //$('.overbg').remove();
                 //$("#area_code").val("");
                 //$("#gb_category_code").val("");
                 //$("#type").val("");
-                
+
                 //$("#item_1").text("所属类别");
                 //$("#item_2").text("全球");
                 //$('.filter_bar').find('a').each(function(i) {
@@ -742,23 +742,23 @@
                 //    }
                 //    searchData_();
                 //});
-				resetForm();
-				window.location = "search1.html?keyword=" + $("#keyword").val();
+                resetForm();
+                window.location = "search1.html?keyword=" + $("#keyword").val();
 
             }
         })
         searchPage.init();
     })
-	
-	function getQueryString(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-    var r = window.location.search.substr(1).match(reg);
-    if ( r != null ){
-       return decodeURI(r[2]);
-    }else{
-       return null;
-    } 
- }
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if ( r != null ){
+            return decodeURI(r[2]);
+        }else{
+            return null;
+        }
+    }
 </script>
 
 </html>

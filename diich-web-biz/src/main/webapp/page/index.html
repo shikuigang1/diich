@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
-    <link rel="stylesheet" href="assets/css/common.css">
-    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
 	
 	<link rel="shortcut icon" type="image/x-icon" href="http://192.168.1.111/logo.png" media="screen" />
-    <script src="./assets/js/jquery.min.js"></script>
- 
-	<script src="http://192.168.1.111/system.js"></script>
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../data/keyword.js"></script>
+	<script src="../assets/js/system.js"></script>
 </head>
 
 <body>
@@ -22,7 +22,7 @@
 <div class="container">
     <div class="home">
         <div class="bd slider">
-            <form class="form" action="search.html" id="form">
+            <form class="form" action="../page/search.html" id="form">
                 <input input class="ipt" id="keyword" name="keyword"  type="text" value="京剧" autocomplete="off">
                 <input class="btn" type="submit">
                 <div class="text">
@@ -42,13 +42,13 @@
                     <a href="#1"><img src="assets/images/hero-bg1@2x.jpg" alt=""></a>
                 </li>
                 <li class="bd">
-                    <a href="#2"><img src="http://192.168.1.111/kq.jpg" alt=""></a>
+                    <a href="#2"><img src="assets/images/kq.jpg" alt=""></a>
                 </li>
                 <li class="bd">
-                    <a href="#3"><img src="http://192.168.1.111/sx.jpg" alt=""></a>
+                    <a href="#3"><img src="assets/images/sx.jpg" alt=""></a>
                 </li>
                 <li class="bd">
-                    <a href="#4"><img src="http://192.168.1.111/zyy.jpg" alt=""></a>
+                    <a href="#4"><img src="assets/images/zyy.jpg" alt=""></a>
                 </li>
             </ul>
             <!--//End img -->
@@ -230,7 +230,7 @@
                     </div>
                 </div>
                 <div class="part">
-                    <a href="declare.html" class="declare">我要申報</a>
+                    <a href="../page/declare.html" class="declare">我要申報</a>
                 </div>
             </div>
         </div>
@@ -288,7 +288,10 @@
  });
  
  function submitForm(index){
-	window.location = "search.html?keyword=" + $("#span_"+index).text();	
+	//window.location = "../page/search.html?keyword=" + $("#span_"+index).text();
+
+     alert("111");
+     window.location = "../page/search.html";
  }
  
  function login(){
