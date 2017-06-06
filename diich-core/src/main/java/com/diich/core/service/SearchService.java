@@ -13,6 +13,10 @@ public interface SearchService {
 
 
     //搜索结果菜单使用
-    Map searchText(Map<String,String> map );
+    Map searchText(Map<String,Object> map );
+
+    //搜索存储过程调用
+    Map searchTextByProcedure(Map<String,Object> map );
+
 
 }
