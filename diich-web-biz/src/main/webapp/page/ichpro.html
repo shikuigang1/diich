@@ -66,7 +66,7 @@
                             <div class="item" id="item2" >
                                 <div class="dt">若非遗国际尚未收录该项目：</div>
                                 <div class="dd">
-                                    <a class="btn_create" href="../page/ichProForm.html">创建新项目</a>
+                                    <a class="btn_create" href="javascript:void(0)" onclick="gotoCreate()">创建新项目</a>
                                 </div>
                             </div>
                         </div>
@@ -189,7 +189,7 @@
 					  $(".step2").show();
 					  $("#item2").show();
 				  }else{
-					location.href="../page/ichProForm.html";
+                    location.href="../page/ichProForm.html?proName="+$("#keyword").val();
 				  }
 				  
                    
@@ -197,6 +197,9 @@
             });
 	
 	}
+    function gotoCreate() {
+        location.href="../page/ichProForm.html?proName="+$("#keyword").val();
+    }
 </script>
 
 </html>
