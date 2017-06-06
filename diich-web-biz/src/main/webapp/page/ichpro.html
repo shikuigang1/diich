@@ -24,10 +24,10 @@
                 <div class="step1">
                     <div class="dt">创建非遗项目</div>
                     <div class="dd">
-                        <p>· 请输入您要申报的项目名称，如「景泰蓝」「昆曲」</p>z
+                        <p>· 请输入您要申报的项目名称，如「景泰蓝」「昆曲」</p>
                         <p>· 已录入的项目不能重复申报，请先搜索确认非遗国际是否已收录相关项目</p>
                     </div>
-                    <form id="form" >
+                    <form id="form" onkeydown="if(event.keyCode==13){return false;}">
                         <input class="ipt" type="text" placeholder="请输入项目名称" id="keyword" name="keyword">
 						<input type="hidden" id="type" name="type" value="0"/>
                         <input class="btn" type="button" value="创建"><span id="tipwords"></span>
@@ -97,6 +97,7 @@
 				$("#tipwords").text("请填写项目名称！");
 				return false;
 			}
+            $("#type").val("0");
             $.ajax({
                 cache: true,
                 type: "POST",
@@ -113,6 +114,7 @@
 				  if(data.length>0){
 					  $("#item1").empty();
 					  $(".step2").hide();
+                      $(".tips").html("您要申报的项目已存在，请勿重复申报");
 					  var html="";
 					  $.each(data,function(index,item){
 
@@ -149,8 +151,6 @@
     });
 	
 	function blurSelect(){
-	
-	
 		 $.ajax({
                 cache: true,
                 type: "POST",
