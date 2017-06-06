@@ -9,21 +9,21 @@ var renderHhtml = {
             <a class="logo" href=""></a>
             <div class="nav">
                 <ul>
-                    <li class="active"><a href="../page/index.html">首页</a></li>
-                    <li><a href="#">非遗名录</a></li>
-                    <li><a href="../page/masters.html">非遗大师</a></li>
-                    <li><a href="../page/selected_content.html">精选内容</a></li>
-                    <li><a href="../page/information.html">非遗资讯</a></li>
-                    <li><a href="../page/official_service.html">官方服务</a></li>
-                    <li><a href="../page/declare.html">我要申报</a></li>
+                    <li class="active"><a href="../page/index.html">Home</a></li>
+                    <li><a href="#">ICH List</a></li>
+                    <li><a href="../page/masters.html">ICH Master</a></li>
+                    <li><a href="../page/selected_content.html">Selected Content</a></li>
+                    <li><a href="../page/information.html">Information</a></li>
+                    <li><a href="../page/official_service.html">Official Service</a></li>
+                    <li><a href="../page/declare.html">Project Declare</a></li>
                 </ul>
             </div>
             <div class="info">
                 <ul>
-                    <li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em>登录</em></a></li>
+                    <li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em>sign in</em></a></li>
                     <li class="language">
-                        <a class="zh active" href="javascript:;"><em>中文</em></a>
-                        <a class="en" href="../page/index_en.html"><em>EN</em></a>
+                        <a class="zh" href="../page/index.html"><em>中文</em></a>
+                        <a class="en active" href="#"><em>EN</em></a>
                     </li>
                     <li class="search">
                         <i class="icon"></i>
