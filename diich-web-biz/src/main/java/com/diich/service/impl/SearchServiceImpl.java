@@ -64,11 +64,6 @@ public class SearchServiceImpl implements SearchService {
 
         List<ContentFragment> ls = contentFragmentMapper.queryForSearchPage(map);
 
-        if(lsCount>1){
-            return null;
-        }
-
-
         for (int i=0;i<ls.size();i++){
             List<ContentFragment> sea = contentFragmentMapper.queryByTargetIDAndType(ls.get(i));
             SearchVO s = new SearchVO();
