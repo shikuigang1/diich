@@ -2,20 +2,20 @@ var renderHhtml = {
     init: function() {
         this.header();
         this.footer();
-        //this.filter();
+        this.filter();
     },
     header: function() { //导航
-       var htmlStr = `<div class="content">
+        var htmlStr = `<div class="content">
             <a class="logo" href=""></a>
             <div class="nav">
                 <ul>
                     <li class="active"><a href="../page/index.html">首页</a></li>
-                    <li><a href="#">非遗名录</a></li>
+                    <li><a href="../page/非遗名录.html">非遗名录</a></li>
                     <li><a href="../page/masters.html">非遗大师</a></li>
-                    <li><a href="../page/selected_content.html">精选内容</a></li>
-                    <li><a href="../page/information.html">非遗资讯</a></li>
-                    <li><a href="../page/official_service.html">官方服务</a></li>
-                    <li><a href="../page/declare.html">我要申报</a></li>
+                    <li><a href="../page/精选内容.html">精选内容</a></li>
+                    <li><a href="../page/非遗资讯.html">非遗资讯</a></li>
+                    <li><a href="../page/官方服务.html">官方服务</a></li>
+                    <li><a href="declare.html">我要申报</a></li>
                 </ul>
             </div>
             <div class="info">
@@ -23,7 +23,7 @@ var renderHhtml = {
                     <li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em>登录</em></a></li>
                     <li class="language">
                         <a class="zh active" href="javascript:;"><em>中文</em></a>
-                        <a class="en" href="../page/index_en.html"><em>EN</em></a>
+                        <a class="en" href="javascript:;"><em>EN</em></a>
                     </li>
                     <li class="search">
                         <i class="icon"></i>
@@ -31,7 +31,7 @@ var renderHhtml = {
                 </ul>
             </div>
         </div>
-        <!--//End content-->
+        <!--//End content-->
         <div class="drop_menu">
             <div class="content">
                 <div class="item">
@@ -142,10 +142,10 @@ var renderHhtml = {
     <div class="main">
         <div class="hd">
             <div class="lbox">
-                <div><em>tel：400-876-8766</em></div>
-                <div><em>email：efeiyi@efeiyi.com</em></div>
-                <div><em>地址：北京市东城区前门大街72&74号二层</em></div>
-                <div><em>add：2Floor，72&74,Qian Men ST.Dongcheng District,Beijing,China</em></div>
+                <div><span>项目概况</span><em>tel：400-876-8766</em></div>
+                <div><span>重大活动</span><em>email：efeiyi@efeiyi.com</em></div>
+                <div><span>合作资源</span><em>地址：北京市东城区前门大街72&74号二层</em></div>
+                <div><span>业务体系</span><em>add：2Floor，72&74,Qian Men ST.Dongcheng District,Beijing,China</em></div>
             </div>
             <!--//End lbox-->
             <div class="rbox">
@@ -154,7 +154,7 @@ var renderHhtml = {
                     <a href="" class="twitter" title="twitter"></a>
                     <a href="" class="instagram" title="instagram"></a>
                     <a href="" class="linkedin" title="linkedin"></a>
-                    <span class="code"><img src="../assets/images/footer_code.png" alt=""></span>
+                    <span class="code"><img src="assets/images/footer_code.png" alt=""></span>
                 </div>
             </div>
         </div>
@@ -350,12 +350,13 @@ var common = {
         var imgLi = parent.find('ul.img li');
         var imgLen = imgLi.length;
         var numLi = parent.find('ul.num li');
-        var form = $('.form');
+        var form = parent.find('.form');
         var ipt = form.find('input.ipt');
         var textP = form.find('div.text p');
         var cur = 0;
         var speed = 5000;
         var timer = null;
+        var _value=['京剧','昆曲','苏绣','中药'];
 
         numLi.mousedown(function() {
             clearInterval(timer);
@@ -363,6 +364,7 @@ var common = {
             $(this).addClass('active').siblings('li').removeClass('active');
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
+            ipt.val(_value[cur]);
         });
 
         numLi.mouseup(function() {
@@ -381,6 +383,7 @@ var common = {
             numLi.eq(cur).addClass('active').siblings('li').removeClass('active');
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
+            ipt.val(_value[cur]);
         }
 
 
@@ -539,7 +542,208 @@ var header = {
 var homePage = {
     init: function() {
         common.slide(); //轮播图
+        this.map();
     },
+    data:function () {
+        var dataMap=[
+            {
+                name:'克罗地亚',
+                en:'Croatia',
+                style:'top:120px;left:512px;',
+                count:14,
+                desc:'克罗地亚北部的姜饼制作技艺、奥耶康卲演唱方式、锡尼斯卡圆环骑士竞赛'
+            },
+            {
+                name:'希腊',
+                en:'Greece',
+                style:'top:162px;left:490px;',
+                count:3,
+                desc:'希俄斯岛玛蒂脂制作工艺、提尼安岛大理石工艺'
+            },
+            {
+                name:'墨西哥',
+                en:'Mexico',
+                count:9,
+                style:'top: 206px;left: 158px',
+                desc:'土著亡灵节、飞人典礼'
+            },
+            {
+                name:'巴西',
+                en:'Brazil',
+                style:'top: 322px;left: 302px',
+                count:8,
+                desc:'巴亥瑞康卡乌的圆圈桑巴舞、瓦雅皮人的口头和图画表达形式'
+            },
+            {
+                name:'阿根廷',
+                en:'Argentina',
+                style:'top: 390px;left: 256px',
+                count:1,
+                desc:'布宜诺斯艾利斯的传统装饰画绘画技巧'
+            },
+            {
+                name:'比利时',
+                en:'Belgium',
+                style:'top:76px;left:472px',
+                count:11,
+                desc:'比利时啤酒文化、东戴恩克尔克骑马捕虾、班什狂欢节'
+            },
+            {
+                name:'匈牙利',
+                en:'Hungary',
+                style:'top: 102px;left: 502px;',
+                count:4,
+                desc:'莫哈奇的冬末面具狂欢节、保护传统民俗音乐的柯达伊概念'
+            },
+            {
+                name:'法国',
+                en:'France',
+                style:'top: 102px;left: 459px;',
+                count:14,
+                desc:'法国美食大餐、法国传统马术、奥布松挂毯'
+            },
+            {
+                name:'德国',
+                en:'Germany',
+                style:'top:82px;left:484px;',
+                count:1,
+                desc:'合作社组织共同分享利益的理念和方法'
+            },
+            {
+                name:'意大利',
+                en:'Italy',
+                style:'top: 119px;left: 471px;',
+                count:5,
+                desc:'克雷莫纳的传统小提琴工艺、西西里木偶剧'
+            },
+            {
+                name:'土耳其',
+                en:'Turkey',
+                style:'top: 179px;left: 513px;',
+                count:13,
+                desc:'土耳其咖啡、土耳其水拓画、科萨克传统仪式'
+            },
+            {
+                name:'沙特阿拉伯',
+                en:'Saudi Arabia',
+                style:'top: 222px;left: 552px;',
+                count:2,
+                desc:'Almezmar,应和鼓点节奏的棍舞、Alardah Alnajdiyah,沙特阿拉伯的舞蹈、鼓乐和诗歌'
+            },
+            {
+                name:'印度',
+                en:'India',
+                style:'top: 224px;left: 640px;',
+                count:11,
+                desc:'瑜伽、拉达克的佛经诵读，在印度查谟和克什米尔地区跨喜马拉雅的拉达克诵读神圣的佛教经文'
+            },
+            {
+                name:'蒙古',
+                en:'Mongolia',
+                style:'top: 124px;left: 666px;',
+                count:11,
+                desc:'马头琴传统音乐、蒙古传统艺术呼麦、那达慕大会'
+            },
+            {
+                name:'中国',
+                en:'China',
+                style:'top: 177px;left: 734px;',
+                count:39,
+                desc:'京剧、中国书法、中医针灸、端午节',
+                link:'http://www.baidu.com'
+            },
+            {
+                name:'日本',
+                en:'Japan',
+                style:'top: 188px;left: 798px;',
+                count:21,
+                desc:'歌舞伎、和食，日本的传统饮食文化，常见于新年庆祝活动、和纸，日本的传统手工造纸工艺'
+            },
+            {
+                name:'韩国',
+                en:'Korea',
+                style:'top: 189px;left: 769px',
+                count:17,
+                desc:'韩国传统泡菜制作工艺、江陵端午祭'
+            },
+            {
+                name:'印度尼西亚',
+                en:'Indonesia',
+                style:'top: 298px;left: 744px',
+                count:8,
+                desc:'哇扬皮影偶戏、印度尼西亚的蜡染印花工艺'
+            },
+            {
+                name:'西班牙',
+                en:'Spain',
+                style:'top: 183px;left: 426px',
+                count:13,
+                desc:'弗拉明戈、叠人塔'
+            },
+            {
+                name:'越南',
+                en:'Vietnam',
+                style:'top: 246px;left: 709px',
+                count:11,
+                desc:'歌筹、雅乐——越南宫廷音乐'
+            }
+        ];
+        return dataMap;
+    },
+    map:function () {//地图
+        var data=this.data();
+        var map=$('#map');
+        var modal=map.find('.modal');
+        var zh=modal.find('.zh');
+        var en=modal.find('.en');
+        var count=modal.find('.count span');
+        var txt=modal.find('.content .txt');
+        var more=modal.find('.content .more');
+
+        var str='';
+        for (var i=0;i<data.length;i++){
+            str+='<span class="breathe item'+(i+1)+'" style="'+data[i].style+'" title="'+data[i].name+'"></span>';
+        }
+        map.append(str);
+        map.find('span').eq(15).addClass('active');
+        getData(14);
+
+
+        //
+        map.on('click','span',function (e) {
+            var index=$(this).index()-1;
+            //位置
+            var _top=$(this).position().top;
+            var _left=$(this).position().left;
+            //数据
+            getData(index);
+            $(this).addClass('active').siblings('span').removeClass('active');
+            modal.css({top:_top-27, left:_left+20}).fadeIn(100);
+            e.preventDefault();
+            e.stopPropagation();
+        });
+
+        //动态获取数据
+        function getData(index) {
+            zh.text(data[index].name);
+            en.text(data[index].en);
+            txt.text(data[index].desc);
+            count.text(data[index].count);
+            var isLink=data[index].link;
+            // if(isLink){
+            //     more.show().html('<a href="'+data[index].link+'" title="查看全部" target="_blank">查看全部</a>');
+            // }else {
+            //     more.hide();
+            // }
+
+        }
+
+
+        //点击页面关闭地图弹窗
+        $(document).on('click',function () {
+            modal.fadeOut(100);
+        });
+    }
 };
 
 //传承人详情页 ok
@@ -945,7 +1149,7 @@ var loginPage = {
                                     <div class="name">&nbsp;</div>
                                     <div class="area">
                                         <input class="btn" type="submit" value="登录">
-                                        <a class="arrow_right" href="regist.html">暂无账号，去注册</a>
+                                        <a class="arrow_right" href="">暂无账号，去注册</a>
                                     </div>
                                 </div>
                             </form>
