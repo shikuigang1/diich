@@ -142,7 +142,7 @@
 
     SELECT DISTINCT * FROM (
 
-    SELECT  target_id, target_type
+    SELECT  target_id as targetId, target_type as targetType
     FROM
     (
     (SELECT DISTINCT a.priority,a.target_type, c.target_id
@@ -171,7 +171,7 @@
     WHEN c.content = #{keyword,jdbcType=VARCHAR} THEN a.priority - 0.5
     ELSE a.priority
     END priority,
-    a.target_type, c.target_id
+    a.target_type as targetType, c.target_id as targetId
     from content_fragment c
     LEFT JOIN attribute a on c.attribute_id = a.id
     LEFT JOIN ich_project ip on a.target_type = 0 AND ip.id = c.target_id
@@ -250,11 +250,11 @@
 
   </select>
 
-  <select id="queryByTargetIDAndType" resultType="com.diich.core.model.ContentFragment" parameterType="com.diich.core.model.ContentFragment">
+  <select id="queryByTargetIDAndType" resultType="BaseResultMap" parameterType="com.diich.core.model.ContentFragment">
     select
     <include refid="Base_Column_List" />
     from content_fragment
-    where target_type = #{target_type,jdbcType=BIGINT} AND target_id = #{target_id,jdbcType=BIGINT}
+    where target_type = #{targetType,jdbcType=BIGINT} AND target_id = #{targetId,jdbcType=BIGINT}
   </select>
 
   <select id="queryListByTargetId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
