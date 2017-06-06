@@ -4,13 +4,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>搜索结果</title>
-    <link rel="stylesheet" href="http://192.168.1.111/assets/css/common.css">
-    <link rel="stylesheet" href="http://192.168.1.111/assets/css/layout.css">
-    <script src="http://192.168.1.111/assets/js/jquery.min.js"></script>
-    <script src="http://192.168.1.111/category.js"></script>
-    <script src="http://192.168.1.111/citys.js"></script>
-    <script src="http://192.168.1.111/keyword.js"></script>
-    <script src="http://192.168.1.111/assets/js/doT.js"></script>
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../js/category.js"></script>
+    <script src="../js/citys.js"></script>
+    <script src="../data/keyword.js"></script>
+    <script src="../assets/js/doT.js"></script>
     <!--<script src="assets/js/system.js"></script>-->
 
     <script id="interpolationtmpl" type="text/x-dot-template">
@@ -23,7 +23,7 @@
                 {{?it[i].img}}
                 <img src="{{= it[i].img }}" alt="">
                 {{??}}
-                <img src="http://192.168.1.111/headsmall.png" alt="">
+                <img src="../assets/images/headsmall.png" alt="">
                 {{?}}
             </a>
 
@@ -50,7 +50,7 @@
                 {{?it[i].img}}
                 <img src="{{= it[i].img }}" alt="">
                 {{??}}
-                <img src="http://192.168.1.111/headsmall.png" alt="">
+                <img src="../assets/images/headsmall.png" alt="">
                 {{?}}
             </a>
             <div class="context">
@@ -79,7 +79,7 @@
                 {{?it[i].img}}
                 <img src="{{= it[i].img }}" alt="">
                 {{??}}
-                <img src="http://192.168.1.111/headsmall.png" alt="">
+                <img src="../assets/images/headsmall.png" alt="">
                 {{?}}
             </a>
             <div class="context">
@@ -111,7 +111,7 @@
             $.ajax({
                 cache: true,
                 type: "POST",
-                url: "http://192.168.1.112:8080/s",
+                url: "/s",
                 data: $('#form').serialize(), // 你的formid
                 dataType: "json",
                 async: false,
@@ -140,7 +140,7 @@
             $.ajax({
                 cache: true,
                 type: "POST",
-                url: "http://192.168.1.112:8080/s",
+                url: "/s",
                 data: $('#form').serialize(), // 你的formid
                 dataType: "json",
                 async: false,
@@ -165,7 +165,7 @@
             $.ajax({
                 cache: true,
                 type: "POST",
-                url: "http://192.168.1.112:8080/s",
+                url: "/s",
                 data: $('#form').serialize(), // 你的formid
                 dataType: "json",
                 async: false,
@@ -743,7 +743,7 @@
                 //    searchData_();
                 //});
                 resetForm();
-                window.location = "search1.html?keyword=" + $("#keyword").val();
+                window.location = "../page/search.html?keyword=" + $("#keyword").val();
 
             }
         })
