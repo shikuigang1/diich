@@ -8,6 +8,7 @@
     <result column="target_type" property="targetType" jdbcType="INTEGER" />
     <result column="field_type" property="fieldType" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
+
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.diich.core.model.ContentFragment" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
@@ -250,9 +251,9 @@
 
   </select>
 
-  <select id="queryByTargetIDAndType" resultMap="BaseResultMap" parameterType="com.diich.core.model.ContentFragment">
+  <select id="queryByTargetIDAndType" resultMap="ResultMapWithBLOBs" parameterType="com.diich.core.model.ContentFragment">
     select
-    <include refid="Base_Column_List" />
+    *
     from content_fragment
     where target_type = #{targetType,jdbcType=BIGINT} AND target_id = #{targetId,jdbcType=BIGINT}
   </select>
