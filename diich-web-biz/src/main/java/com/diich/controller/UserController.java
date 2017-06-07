@@ -87,12 +87,17 @@ public class UserController extends BaseController<User> {
      */
     @RequestMapping("register")
     @ResponseBody
-    public Map<String, Object> register(HttpServletRequest request,HttpServletResponse response) throws Exception {
+    public Map<String, Object> register(HttpServletRequest request,HttpServletResponse response,User user) throws Exception {
         Map<String, Object> result = new HashMap<>();
         String params = request.getParameter("params");
         Map map = JSON.parseObject(params, Map.class);
-        String code = (String) map.get("code");
-        String phone = (String) map.get("phone");
+       // String code = (String) map.get("code");
+       // String phone = (String) map.get("phone");
+        String code = request.getParameter("code");
+        String phone = user.getPhone();
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
         if(phone==null){
             result.put("code",ApplicationException.PARAM_ERROR);
             result.put("msg","请输入手机号");
@@ -125,20 +130,20 @@ public class UserController extends BaseController<User> {
             result.put("msg","验证码不正确");
             return result;
         }
-        User user = null;
-        try {
+        //User user = null;
+       /* try {
             user = parseObject(params, User.class);
         } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return ae.toMap();
-        }
+        }*/
         try {
             userService.saveUser(user);
         } catch (Exception e) {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-        response.setHeader("Access-Control-Allow-Origin", "*");
+
         return putDataToMap(user);
     }
 
