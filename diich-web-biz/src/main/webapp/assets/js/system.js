@@ -23,7 +23,7 @@ var renderHhtml = {
                     <li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em>登陆</em></a></li>
                     <li class="language">
                         <a class="zh active" href="../page/index.html"><em>中文</em></a>
-                        <a class="en" href="#"><em>EN</em></a>
+                        <a class="en" href="../page/index_en."><em>EN</em></a>
                     </li>
                     <li class="search">
                         <i class="icon"></i>
@@ -154,7 +154,7 @@ var renderHhtml = {
                     <a href="" class="twitter" title="twitter"></a>
                     <a href="" class="instagram" title="instagram"></a>
                     <a href="" class="linkedin" title="linkedin"></a>
-                    <span class="code"><img src="../assets/images/footer_code.png" alt=""></span>
+                    <span class="code"><img src="assets/images/footer_code.png" alt=""></span>
                 </div>
             </div>
         </div>
@@ -710,7 +710,7 @@ var homePage = {
 
 
         //
-        map.hover(function (e) {
+        map.on('click','span',function (e) {
             var index=$(this).index()-1;
             //位置
             var _top=$(this).position().top;
