@@ -20,7 +20,7 @@ var renderHhtml = {
             </div>
             <div class="info">
                 <ul>
-                    <li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em>sign in</em></a></li>
+                    <li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em>Sign in</em></a></li>
                     <li class="language">
                         <a class="zh" href="../page/index.html"><em>中文</em></a>
                         <a class="en active" href="#"><em>EN</em></a>
