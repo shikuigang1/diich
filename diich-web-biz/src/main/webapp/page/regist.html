@@ -151,12 +151,16 @@
                 data: $('#form').serialize(), 
                 dataType: "json",
                 async: true,
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-
-
+                scriptCharset: 'utf-8',
+                error: function(ajaxobj) {
+                    alert(ajaxobj.responseText);
                 },
                 success: function(res) {
-					alert(JSON.stringify(res));
+                    if(rea.code==0){
+                        location.href="../page/index.html";
+                    }else{
+                        //alert("参数错误");
+                    }
 				}
 
             });
