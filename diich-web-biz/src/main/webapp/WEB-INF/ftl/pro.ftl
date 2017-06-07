@@ -21,8 +21,10 @@
       </#list>
     </#if>
     </title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo.png" media="screen" />
     <link rel="stylesheet" href="assets/css/common.css">
     <link rel="stylesheet" href="assets/css/layout.css">
+    <script src="./data/keyword.js"></script>
     <script src="./assets/js/jquery.min.js"></script>
         <#if (obj.lang == "chi")>
             <script src="./assets/js/system.js"></script>
@@ -32,6 +34,13 @@
         </#if>
 
     <script src="./assets/js/html5media.min.js"></script>
+    <script src="./js/category.js"></script>
+    <script src="./js/citys.js"></script>
+    <script src="./js/doT.js"></script>
+    <script src="./js/serverinfo.js"></script>
+    <script src="./js/masters.js"></script>
+    <script src="./data/master_data.js"></script>
+    <script src="./assets/js/inputs.js"></script>
     <script>
         $(function () {
             var btn=$('a[data-type="mediaLayer"]').on('click',function () {
@@ -44,72 +53,43 @@
 </head>
 
 <body>
+<#assign caturi="http://diich.efeiyi.com" />
 <div class="header header_detail"></div>
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
     <div class="content">
-        <form class="form" action="">
-            <input class="ipt" type="text" value="从这里搜索您感兴趣的...">
-            <input class="submit" type="submit" value="搜索">
+        <form class="form" action="${caturi}/page/search.html">
+            <input class="ipt" type="text" id="keyword" name="keyword" value="" autocomplete="off">
+            <input type="hidden" id="area_code" name="area_code" value="" />
+            <input type="hidden" id="gb_category_code" name="gb_category_code" value="" />
+            <input type="hidden" id="type" name="type" value="" />
+            <input class="submit" type="button" value="搜索" onclick="submit()">
             <div class="suggest" style="display: none;">
                 <ul>
-                    <li><a href=""><span>苏州</span>传承人</a></li>
-                    <li><a href=""><span>苏州</span>苏绣</a></li>
-                    <li><a href=""><span>苏州</span>苏绣</a></li>
-                    <li><a href=""><span>苏州</span>苏绣</a></li>
-                    <li><a href=""><span>苏州</span>苏绣</a></li>
-                    <li><a href=""><span>苏州</span>苏绣</a></li>
-                    <li><a href=""><span>苏州</span>苏绣</a></li>
-                    <li><a href=""><span>苏州</span>苏绣</a></li>
-                    <li><a href=""><span>苏州</span>苏绣</a></li>
+
                 </ul>
             </div>
         </form>
         <!--//End form-->
 
         <div class="attr">
-            <span>全部</span>
-            <span>所属类别</span>
-            <span>全球</span>
+            <span id="attr_text">所属类别</span>
+            <span id="area_text">全球</span>
         </div>
         <!--//End attribute-->
 
         <div class="dropbox" id="drag">
-            <div class="item">
-                <dl class="level">
-                    <dt>
-                    <div class="title">查看</div>
-                    </dt>
-                    <dd>
-                        <ul>
-                            <li class="active">全部<span>342</span></li>
-                            <li>项目<span>42</span></li>
-                            <li>传承人<span>42</span></li>
-                            <li>作品<span>42</span></li>
-                        </ul>
-                    </dd>
-                </dl>
-            </div>
             <!--//ENd 全部-->
 
-            <div class="item">
+            <div class="item" id="item_1">
                 <dl class="level">
                     <dt>
                     <div class="title">一级分类</div>
                     <div class="subtitle">所有分类</div>
                     </dt>
                     <dd>
-                        <ul>
-                            <li>口头传统和表述</li>
-                            <li>表演艺术</li>
-                            <li>社会风俗、礼仪、节庆</li>
-                            <li>有关自然界和宇宙的知识和实践</li>
-                            <li>传统的手工艺技能</li>
-                            <li>传统的手工艺技能</li>
-                            <li>传统的手工艺技能</li>
-                            <li>传统的手工艺技能</li>
-                            <li>传统的手工艺技能</li>
-                            <li>传统的手工艺技能</li>
+                        <ul id="mainCategory">
+
                         </ul>
                     </dd>
                 </dl>
@@ -119,17 +99,8 @@
                     <div class="subtitle">所有二级分类</div>
                     </dt>
                     <dd>
-                        <ul>
-                            <li>工具和机械制作</li>
-                            <li>家畜农林产品加工</li>
-                            <li>造纸、印刷及装裱</li>
-                            <li>烧造工艺</li>
-                            <li>锻冶工艺</li>
-                            <li>雕塑工艺</li>
-                            <li>雕塑工艺</li>
-                            <li>雕塑工艺</li>
-                            <li>雕塑工艺</li>
-                            <li>雕塑工艺</li>
+                        <ul id="catecontent">
+
                         </ul>
                     </dd>
                 </dl>
@@ -143,13 +114,7 @@
                     </dt>
                     <dd>
                         <ul>
-                            <li>全球</li>
                             <li>中国</li>
-                            <li>非洲</li>
-                            <li>阿拉伯地区</li>
-                            <li>亚太</li>
-                            <li>欧美</li>
-                            <li>拉美</li>
                         </ul>
                     </dd>
                 </dl>
@@ -158,7 +123,7 @@
                     <div class="title">按照字母顺序</div>
                     </dt>
                     <dd>
-                        <ul>
+                        <ul id="citycontent">
                             <li>安微</li>
                             <li>澳门</li>
                             <li>北京</li>
@@ -177,9 +142,8 @@
     </div>
 </div>
 <!--//End filter_search -->
-<#assign caturi="http://diich.efeiyi.com" />
-<#assign masterpage = "http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/"/>
-<#assign workspage = "http://diich-resource.oss-cn-beijing.aliyuncs.com/html/works/"/>
+<#assign masterpage = "http://resource.efeiyi.com/html/master/"/>
+<#assign workspage = "http://resource.efeiyi.com/html/works/"/>
 <#assign prouri="../../image/project/" />
 <#assign masteruri="../../image/master/" />
 <div class="container">
@@ -395,7 +359,11 @@
                             </em>
                         </span>
                     <span>
-                            <strong>
+
+                    <#if (obj.contentFragmentList?size>0)>
+                        <#list obj.contentFragmentList as cf>
+                            <#if cf.attributeId == 33 && cf.content??>
+                               <strong>
                                 <#if obj.lang == "chi">
                                     地区：
                                 </#if>
@@ -403,9 +371,6 @@
                                     district：
                                 </#if>
                             </strong>
-                    <#if (obj.contentFragmentList?size>0)>
-                        <#list obj.contentFragmentList as cf>
-                            <#if cf.attributeId == 33 && cf.content??>
                                 <#assign codeList = cf.content?split(";")>
                                 <#list codeList as s>
                                     <em>${s}</em>
@@ -1090,7 +1055,192 @@
         <#if !obj.version?? || (!obj.version.chiId??) || (!obj.version.engId??)>
             $(".language").hide();
         </#if>
+
+
+
+
+        var mainCategory = $('#mainCategory');
+
+        //初始化分类数据
+        $.each(category_all, function(index, content) {
+            mainCategory.append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
+        });
+
+        mainCategory.find('li').on('click', function() {
+            $("#attr_text").text($(this).html());
+            $("#gb_category_code").val($(this).attr("data-id"));
+            $("#item_1").hide();
+
+            //searchData_();
+        });
+
+
+
+        var searchPage = {
+            init: function() {
+                //$('.header_detail .content .info li.search').hide();
+                $('.header_detail .content .info li.login').addClass('line');
+                this.filterBar();
+                this.search();
+            },
+            filterBar: function() {
+                var obj = $('.filter_bar');
+                var linkTab = obj.find('a');
+                var iconTab = obj.find('.icon_tab');
+                var proColumn = $('.pro_column3'); //搜索列表
+
+                //筛选
+                linkTab.on('click', function() {
+                    $(this).addClass('active').siblings('a').removeClass('active');
+
+                    //刷新搜索结果页
+
+                    if ($(this).index() == 0) {
+                        $("#type").val("");
+                    }
+                    if ($(this).index() == 1) {
+                        $("#type").val("0");
+                    }
+                    if ($(this).index() == 2) {
+                        $("#type").val("1");
+                    }
+                    if ($(this).index() == 3) {
+                        $("#type").val("2");
+                    }
+
+                    searchData_();
+
+                    return false;
+                });
+
+                //切换图标
+                iconTab.on('click', function() {
+                    if ($(this).hasClass('active')) { //九宫格
+                        $(this).removeClass('active');
+                        proColumn.removeClass('active');
+                    } else { //横排
+                        $(this).addClass('active');
+                        proColumn.addClass('active');
+                    }
+                });
+            },
+            search: function() {
+                var filter = $('.filter_search'); //下拉搜索
+                var filterFixed = $('.filter_search_fixed');
+                var ipt = filter.find('.ipt');
+                var iptVal = ipt.val();
+                var filterAll = filter.find('.attr span'); //筛选项
+                var filterItem = filter.find('.item'); //筛选下来框
+                var suggest = filter.find('.suggest');
+                var body = $('body');
+                //获取焦点
+                ipt.focus(function() {
+                    $(this).val('');
+                    body.append('<div class="overbg" style="z-index:1;"></div>');
+                });
+
+                //失去焦点如果为空则显示原始值
+                ipt.blur(function() {
+                    var _val = $(this).val();
+                    if (_val == '') {
+                        $(this).val(iptVal);
+                    }
+                    $('.overbg').remove();
+                });
+
+                //2.点击筛选
+                filterAll.on('click', function() {
+                    var _this = $(this);
+                    var _index = _this.index();
+                    filterItem.eq(_index)
+                            .css('left', parseInt(_this.position().left) + 'px')
+                            .show()
+                            .siblings('.item')
+                            .hide();
+                });
+
+                filterItem.each(function() {
+                    var _this = $(this);
+                    var level = $(this).find('.level');
+                    var level2 = $(this).find('.level2');
+                    var _li = level.find('li'); //分类
+
+                    _li.hover(function() {
+                        $(this).addClass('active').siblings('li').removeClass('active');
+
+                        $("#catecontent").empty();
+                        $("#citycontent").empty();
+
+                        if (typeof(category_all[$(this).index()].children) != "undefined") {
+                            $.each(category_all[$(this).index()].children, function(index, content) {
+                                $("#catecontent").append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
+                            });
+
+                            //点击二级分类
+                            $("#catecontent").find('li').on('click', function() {
+                                filterAll.eq(0).text($(this).html());
+                                _this.hide();
+                                //$("#gb_category_code").val($(this).attr("data-id"));
+                                //searchData_();
+                            });
+                        }
+
+                        if (typeof(dic_arr) != "undefined") {
+                            $.each(dic_arr, function(index, content) {
+                                $("#citycontent").append("<li data-id=\"" + content.code + "\"  >" + content.name + "</li>");
+                            });
+
+                            //国家级
+                            $("#country").find('li').on('click', function() {
+                                filterAll.eq(1).text($(this).html());
+                                _this.hide();
+                                $("#area_code").val("");
+                                // searchData_();
+                            });
+
+                            //一级城市
+                            $("#citycontent").find('li').on('click', function() {
+                                filterAll.eq(1).text($(this).html());
+                                _this.hide();
+                                $("#area_code").val($(this).attr("data-id"));
+                                //searchData_();
+                            });
+                        }
+                        level2.show();
+                    });
+                });
+
+
+                //点击一级类别
+
+                //3.阻止点击自身关闭
+                filter.on('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+
+                //4.点击自身之外的地方关闭下拉框
+                $(document).on("click", function() {
+                    filterItem.hide();
+                    filterFixed.slideUp('fast');
+                });
+                //自动提示
+                body.find('.overbg').on('click', function() {
+                    filterItem.hide();
+                    filterFixed.slideUp('fast');
+                    suggest.hide();
+                    $(this).remove();
+                    body.css('overflow', '');
+                });
+
+            },
+        };
+        searchPage.init();
     });
+    function submit(){
+
+        $(".form").ajaxSubmit();
+    }
 </script>
 
 </html>

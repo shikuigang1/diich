@@ -43,8 +43,8 @@ public class UserController extends BaseController<User> {
         Map<String, Object> result=new HashMap<>();
         String phone = request.getParameter("phone");
         if(phone==null){
-            result.put("msg","请输入手机号");
-            return result;
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return ae.toMap();
         }
         HttpSession session = request.getSession();
         //验证码是否存在和是否超时
@@ -60,8 +60,8 @@ public class UserController extends BaseController<User> {
         }
         String  code = (String) session.getAttribute(phone);
         if(code !=null){
-            result.put("msg","验证码已发送,不能重复发送,请稍后再试");
-            return result;
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return ae.toMap();
         }
         String verifyCode = null;
         try{
@@ -87,15 +87,15 @@ public class UserController extends BaseController<User> {
      */
     @RequestMapping("register")
     @ResponseBody
-    public Map<String, Object> register(HttpServletRequest request,HttpServletResponse response) throws Exception {
+    public Map<String, Object> register(HttpServletRequest request,HttpServletResponse response,User user) throws Exception {
         Map<String, Object> result = new HashMap<>();
-        String params = request.getParameter("params");
-        Map map = JSON.parseObject(params, Map.class);
-        String code = (String) map.get("code");
-        String phone = (String) map.get("phone");
+        String code = request.getParameter("code");
+        String phone = user.getPhone();
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
         if(phone==null){
-            result.put("code",ApplicationException.PARAM_ERROR);
-            result.put("msg","请输入手机号");
+            result.put("code",2);
             return result;
         }
         HttpSession session = request.getSession();
@@ -108,29 +108,19 @@ public class UserController extends BaseController<User> {
             if(time>60){
                 session.removeAttribute(phone);
                 session.removeAttribute("begindate"+phone);
-                result.put("code",ApplicationException.PARAM_ERROR);
-                result.put("msg","验证码已经超时,请重新获取");
+                result.put("code",2);
                 return result;
             }
         }
         String verifyCode = (String) session.getAttribute(phone);
         //防止没有获取验证码直接点击注册
         if(verifyCode == null){
-            result.put("code",ApplicationException.PARAM_ERROR);
-            result.put("msg","你还没有获取验证码或者验证码超时,请获取验证码");
+            result.put("code",2);
             return result;
         }
         if(!verifyCode.equals(code)){
-            result.put("code",ApplicationException.PARAM_ERROR);
-            result.put("msg","验证码不正确");
+            result.put("code",2);
             return result;
-        }
-        User user = null;
-        try {
-            user = parseObject(params, User.class);
-        } catch (Exception e) {
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
         }
         try {
             userService.saveUser(user);
@@ -138,7 +128,7 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-        response.setHeader("Access-Control-Allow-Origin", "*");
+
         return putDataToMap(user);
     }
 

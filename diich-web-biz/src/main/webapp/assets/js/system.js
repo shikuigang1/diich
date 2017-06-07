@@ -9,21 +9,21 @@ var renderHhtml = {
             <a class="logo" href="../page/index.html"></a>
             <div class="nav">
                 <ul>
-                    <li class="active"><a href="../page/index.html">首页</a></li>
-                    <li><a href="#">非遗名录</a></li>
-                    <li><a href="../page/masters.html">非遗大师</a></li>
-                    <li><a href="../page/selected_content.html">精选内容</a></li>
-                    <li><a href="../page/information.html">非遗资讯</a></li>
-                    <li><a href="../page/official_service.html">官方服务</a></li>
-                    <li><a href="../page/declare.html">我要申报</a></li>
+                    <li class="active"><a href="../page/index.html" id="home">首页</a></li>
+                    <li><a href="#" id="ich_directory">非遗名录</a></li>
+                    <li><a href="../page/masters.html" id="ich_master">非遗大师</a></li>
+                    <li><a href="../page/selected_content.html" id="selected_content">精选内容</a></li>
+                    <li><a href="../page/information.html" id="information">非遗资讯</a></li>
+                    <li><a href="../page/official_service.html" id="official_service">官方服务</a></li>
+                    <li><a href="../page/declare.html" id="project_declare">我要申报</a></li>
                 </ul>
             </div>
             <div class="info">
                 <ul>
-                    <li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em>登陆</em></a></li>
+                    <li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em id="sign_in">登陆</em></a></li>
                     <li class="language">
-                        <a class="zh active" href="../page/index.html"><em>中文</em></a>
-                        <a class="en" href="../page/index_en."><em>EN</em></a>
+                        <a class="zh active" href="javascript:switchLanguage('zh-CN');"><em>中文</em></a>
+                        <a class="en" href="javascript:switchLanguage('en');"><em>EN</em></a>
                     </li>
                     <li class="search">
                         <i class="icon"></i>

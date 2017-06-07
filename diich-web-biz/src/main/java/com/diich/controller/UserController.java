@@ -75,7 +75,7 @@ public class UserController extends BaseController<User> {
             return ae.toMap();
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
-        return putDataToMap(verifyCode);
+        return putDataToMap(phone);
     }
 
     /**
@@ -89,10 +89,6 @@ public class UserController extends BaseController<User> {
     @ResponseBody
     public Map<String, Object> register(HttpServletRequest request,HttpServletResponse response,User user) throws Exception {
         Map<String, Object> result = new HashMap<>();
-        String params = request.getParameter("params");
-        Map map = JSON.parseObject(params, Map.class);
-       // String code = (String) map.get("code");
-       // String phone = (String) map.get("phone");
         String code = request.getParameter("code");
         String phone = user.getPhone();
 
@@ -126,13 +122,6 @@ public class UserController extends BaseController<User> {
             result.put("code",2);
             return result;
         }
-        //User user = null;
-       /* try {
-            user = parseObject(params, User.class);
-        } catch (Exception e) {
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
-        }*/
         try {
             userService.saveUser(user);
         } catch (Exception e) {
