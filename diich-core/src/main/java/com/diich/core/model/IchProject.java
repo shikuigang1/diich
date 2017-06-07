@@ -26,6 +26,8 @@ public class IchProject extends BaseModel {
 
     private User user;//最后编辑者
 
+    private Version version;//版本 中文版和英文版的中间表
+
     public List<ContentFragment> getContentFragmentList() {
         return contentFragmentList;
     }
@@ -134,5 +136,13 @@ public class IchProject extends BaseModel {
 
     public void setWorksList(List<Works> worksList) {
         this.worksList = worksList;
+    }
+
+    public Version getVersion() {
+        return version;
+    }
+
+    public void setVersion(Version version) {
+        this.version = version;
     }
 }

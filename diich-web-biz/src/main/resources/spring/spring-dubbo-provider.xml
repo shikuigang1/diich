@@ -15,6 +15,7 @@
     <bean id="dictionaryService" class="com.diich.service.impl.DictionaryServiceImpl" />
     <bean id="ichCategoryService" class="com.diich.service.impl.IchCategoryServiceImpl" />
     <bean id="workService" class="com.diich.service.impl.WorksServiceImpl" />
+    <bean id="versionService" class="com.diich.service.impl.VersionServiceImpl" />
 
     <!-- 提供方应用信息，用于计算依赖关系 -->
     <dubbo:application name="dubbo-provider"  />
@@ -30,5 +31,6 @@
     <dubbo:service interface="com.diich.core.service.DictionaryService" ref="dictionaryService" />
     <dubbo:service interface="com.diich.core.service.IchCategoryService" ref="ichCategoryService" />
     <dubbo:service interface="com.diich.core.service.WorksService" ref="workService" />
+    <dubbo:service interface="com.diich.core.service.VersionService" ref="versionService" />
 
 </beans>

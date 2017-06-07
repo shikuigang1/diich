@@ -63,7 +63,7 @@
                             <a class="avatar" href="">
                             <#if (obj.contentFragmentList?size>0)>
                                 <#list obj.contentFragmentList as cf>
-                                    <#if cf.attributeId == 10>
+                                    <#if cf.attributeId == 113>
                                         <#if (cf.resourceList??) &&(cf.resourceList?size>0)>
                                             <#list cf.resourceList as res>
                                                 <#if res.type==0 && res.status==0>
