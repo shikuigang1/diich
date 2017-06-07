@@ -3,18 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>我要申报-项目表单</title>
-    <link rel="stylesheet" href="/assets/css/common.css">
-    <link rel="stylesheet" href="/assets/css/inputs.css">
-    <script src="/assets/js/jquery.min.js"></script>
-    <script src="/assets/js/system.js"></script>
-	<script src="/assets/js/serverinfo.js"></script>
-    <script src="/assets/js/inputs.js"></script>
-	<script src="/assets/js/ajaxfileupload.js"></script>
-	
-	<script src="http://192.168.1.111/category.js"></script>
-    <script src="http://192.168.1.111/citys.js"></script>
-    <script src="http://192.168.1.111/keyword.js"></script>
+    <title>我要申报-项目基础信息</title>
+    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="assets/css/inputs.css">
+    <script src="./assets/js/jquery.min.js"></script>
+    <script src="./assets/js/laydate.js"></script>
+    <script src="./assets/js/system.js"></script>
+    <script src="./assets/js/inputs.js"></script>
 </head>
 
 <body style="background-color: rgb(245, 246, 247)">
@@ -79,24 +74,23 @@
             </div>
             <!--//End-->
             <form class="base" action="">
-				<input id="ichCategoryId" name="ichCategoryId" type="hidden" value=""/>
-				<input id="titu" name="titu" type="hidden" value=""/>
-				<input id="dis_code" name="dis_code" type="hidden" value=""/>
-				<input id="chiName" name="chiName" type="hidden" value=""/>
-
                 <div class="con">
 
                     <dl class="thematic">
                         <dt><em class="red">*</em>题图</dt>
                         <dd>
-                            <div class="file"><input id="previewImg" onchange="Image.previewImage(this)" type="file">上传题图<img id="imghead" src="assets/uploads/exp1.png" width="296" height="222" onclick="$('#previewImg').click();"></div>
+                            <div class="file">
+                                <input type="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
+                                <img src="assets/uploads/exp1.png" width="296" height="222">
+                                <span class="reupload">上传题图</span>
+                            </div>
                             <p class="ipt_tips">建议比例：x*x，不符合的图片将进行裁剪；格式：jpg\png</p>
                         </dd>
                     </dl>
                     <!--//End 题图z-->
                     <dl>
                         <dt><em class="red">*</em>分类</dt>
-                        <dd><a href="javascript:;" class="ipt" data-type="cate" id="categoryID">一级分类</a><i class="arrow_right"></i></dd>
+                        <dd><a href="javascript:;" class="ipt" data-type="cate">一级分类</a><i class="arrow_right"></i></dd>
                     </dl>
                     <!--//End 分类-->
                     <dl>
@@ -111,23 +105,23 @@
                         <dt><em class="red">*</em>是否为中国文化部认定的非遗项目？</dt>
                         <dd>
                             <div class="bd judge">
-                                <span><i class="radio" name="rz"  value="0"></i>是</span>
-                                <span><i class="radio" name="rz"  value="1"></i>否</span>
+                                <span><i class="radio"></i>是</span>
+                                <span><i class="radio"></i>否</span>
                             </div>
                             <div class="bd judge_drop">
                                 <div class="item">
-                                    <p>认证时间</p>
-                                    <input type="text" id="certTime" name="certTime" value="">
+                                    <p>别称</p>
+                                    <input id="calendar" value="">
                                 </div>
                                 <div class="item">
                                     <p>认定级别</p>
-                                    <select id="select">
-                                       
+                                    <select>
+                                        <option value="1" >1</option >
                                     </select>
                                 </div>
                                 <div class="item">
-                                    <p>认证编号</p>
-                                    <input type="text" value="" id="certCode" name="certCode">
+                                    <p>类别编号</p>
+                                    <input type="text" value="">
                                 </div>
                             </div>
                         </dd>
@@ -136,14 +130,14 @@
                     <dl class="brief">
                         <dt><em class="red">*</em>简介</dt>
                         <dd>
-                            <textarea name="summary" id="summary" cols="30" rows="10"></textarea>
+                            <textarea name="" id="" cols="30" rows="10"></textarea>
                         </dd>
                     </dl>
                     <!--//End 简介-->
-                    <div class="bd info" id="tagContent">
+                    <div class="bd info">
                         <dl>
                             <dt><em class="red">*</em>拼音</dt>
-                            <dd><input type="text" class="ipt" id="pinyin" name="pinyin"></dd>
+                            <dd><input type="text" class="ipt"></dd>
                         </dl>
                         <dl>
                             <dt>别称</dt>
@@ -151,7 +145,7 @@
                         </dl>
                         <dl>
                             <dt>英文名</dt>
-                            <dd><input type="text" class="ipt" id="engName" name="engName"></dd>
+                            <dd><input type="text" class="ipt"></dd>
                         </dl>
                         <dl>
                             <dt>&nbsp;</dt>
@@ -161,7 +155,7 @@
                     <!--//End 添加信息部分-->
                 </div>
                 <div class="bd save">
-                    <input type="button" id="button" name ="button" value="保存并下一步" onclick="save()">
+                    <input type="submit" value="保存并下一步">
                 </div>
             </form>
         </div>
@@ -190,7 +184,15 @@
         </div>
     </div>
 </div>
+<!---//End 点击一级分类弹出框-->
 
+<aside class="mask works-mask">
+    <div class="mask-content">
+        <p class="del-p">您确定要删除作品图片吗？</p>
+        <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
+    </div>
+</aside>
+<!--//End 上传图片确认删除提示框-->
 
 
 
@@ -199,277 +201,10 @@
     $(function () {
         $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
         projectFrom.init();
-		
-		//初始化认证级别 数据
-		
-		$.ajax({
-                cache: true,
-                type: "POST",
-                url: serverPath+"/dictionary/getCrtLevelList",
-                dataType: "json",
-                async: false,
-                error: function(request) {
-                    //alert("Connection error");
-                },
-                success: function(data) {
-				
-					if(data.msg=='SUCCESS'){
-						var html="";
-						$.each(data.data,function(index,item){
-							html+="<option value=\""+item.id+"\" >"+item.name+"</option >";
-						});
-					
-						$("#select").append(html);
-					
-					}else{
-						alert("加载认证级别数据失败！");
-					}
-                  
-                }
-            });
-		
     });
-	
-	function ajaxfileupload(fileid){
-	
-	
-		$.ajaxFileUpload({
-            url : '../user/uploadFile',
-            secureuri : false,
-            fileElementId : fileid,
-            dataType : 'json',
-            success : function(data) {
-                if(data.code != 0) {
-                    alert(data.msg);
-                    return;
-                }
-
-                var arr = data.data;
-                for(var i = 0; i < arr.length; i ++) {
-                    var $img = $('<img style="width: 50px;"/>');
-                    $img.attr('src', arr[i]);
-                    $('#img_block').append($img);
-                }
-            },
-            error : function(e) {
-                alert(e.responseText);
-            }
-        });
-		
-	}
-	
-	function save(){
-	
-
-		//组织json 数据 
-		//属性id
-		var ich={}; //主对象
-		var attr={};//contentFragment 内部属性对象
-		
-		var contentFragmentList=[];
-		var contentFragment={};
-		
-		
-		ich.ichCategoryId=$("#ichCategoryId").val(); //分类id
-
-		//整合 固定字段 
-		contentFragment.attributeId=1;//题图
-		contentFragment.content=$("#titu").val();//题图对应链接
-		
-		attr.dataType=0;
-		contentFragment.attribute=attr;
-		
-		contentFragmentList.push(contentFragment);
-		
-		//申报地区
-		contentFragment.attributeId=33;//申报地区
-		contentFragment.content=$("#dis_code").val();
-		attr.dataType=101;
-		
-		contentFragment.attribute=attr;
-		contentFragmentList.push(contentFragment);
-		
-		
-		contentFragment.attributeId=4;//中文名
-		contentFragment.content=$("#chiName").val();//中文名
-		
-		attr.dataType=0;
-		contentFragment.attribute=attr;
-		contentFragmentList.push(contentFragment);
-		
-		contentFragment.attributeId=9;//简介
-		contentFragment.content=$("#summary").val();
-		attr.dataType=1;//长文本
-		
-		contentFragment.attribute=attr;
-		contentFragmentList.push(contentFragment);
-		
-		contentFragment.attributeId=6;//拼音
-		contentFragment.content=$("#pinyin").val();
-		attr.dataType=0;//短文本
-		
-		contentFragment.attribute=attr;
-		contentFragmentList.push(contentFragment);
-		
-		
-		contentFragment.attributeId=5;//英文名
-		contentFragment.content=$("#engName").val();
-		attr.dataType=0;//短文本
-		
-		contentFragment.attribute=attr;
-		contentFragmentList.push(contentFragment);
-		
-		//判断是否 为已经认证项目
-
-		
-		
-		var val=$('input:radio[name="rz"]:checked').val();
-		
-		if(val=="0"){
-	
-			contentFragment.attributeId=116;//认证时间
-			contentFragment.content=$("#certTime").val();
-			attr.dataType=0;//短文本
-		
-			contentFragment.attribute=attr;
-			contentFragmentList.push(contentFragment);
-			
-			contentFragment.attributeId=41;//认证级别
-			contentFragment.content=$("#select").val();
-			attr.dataType=103;//字典码
-		
-			contentFragment.attribute=attr;
-			contentFragmentList.push(contentFragment);
-			
-			contentFragment.attributeId=108;//认证编号
-			contentFragment.content=$("#certCode").val();
-			attr.dataType=0;//短文本
-		
-			contentFragment.attribute=attr;
-			contentFragmentList.push(contentFragment);
-
-		}
-		
-	
-		//添加自定义 属性值
-		
-		var len =$("#tagContent").children("dl").length;
-		
-		if(len>4){
-		
-			$("#tagContent").children("dl").each(function(i,item){
-			
-				if(i>2&&i<len-1){
-					var attrName="";
-					var attrValue="";
-					$(this).find("input").each(function(index,obj){
-					
-					
-						if(index==0){
-						
-								if($(this).val()==""){
-									alert("自定义信息名称不能为空！"); 
-									$(this).focus();
-									return false;
-								}else{	
-									attrName=$(this).val();
-								}
-								
-						}else{
-							if($(this).val()==""){
-									alert("自定义信息值名称不能为空！"); 
-									$(this).focus();
-									return false;
-								}else{	
-									attrValue=$(this).val();
-								}
-						}	
-						
-					});
-					
-					contentFragment.attributeId=0;//认证级别
-					contentFragment.content=attrValue;
-					attr.dataType=0;//短字段
-					attr.cnName=attrName;
-			
-					contentFragment.attribute=attr;
-					contentFragmentList.push(contentFragment);
-					
-				}
-		
-			});
-		}
-
-		ich.contentFragmentList=contentFragmentList;
-		
-		
-		///console.log(JSON.stringify(ich)); return false;
-		
-		$.ajax({
-                type: "POST",
-                url: serverPath+"/ichProject/saveIchProject",
-                data:{params:JSON.stringify(ich)} ,
-                dataType: "text",
-                complete: function () { },
-                success: function (result) {
-				
-						alert("success");
-                },
-                error: function (result, status) { 
-				}
-        });
-		
-
-	}
-	//表单验证
-	function vaidateForm(){
-		if($("#chiName").val()==""){
-			alert("请返回 填写中文名！");
-			return false;
-		}
-		
-		if($("#titu").val()==""){
-			alert("请上传 图片！");
-			return false;
-		}
-
-		var category = $("#categoryID").attr("value");
-		
-		if(typeof(category)=="undefined"){
-			alert("请选择 项目分类！");
-			return false;
-		}else{
-			$("#ichCategoryId").val(category)
-		}
-
-		if($("#dis_code").val()==""){
-			alert("请填写申报地区！");
-			return false;
-		}
-		
-		if($("#summary").val()==""){
-			alert("请填写简介！");
-			return false;
-		}
-		
-		if($("#pinyin").val()==""){
-			alert("请填写拼音！");
-			return false;
-		}
-	
-		//判断是否选择 为已经认证项目
-		 var val=$('input:radio[name="rz"]:checked').val();
-            if(val==null){
-                alert("请选择 是否为已认证项目!");
-                return false;
-            }
-           
-			
-	}
-	
-	
-	
-	
+    !function(){
+        laydate.skin('molv');//切换皮肤，请查看skins下面皮肤库
+        laydate({elem: '#calendar'});//绑定元素
+    }();
 </script>
-
 </html>

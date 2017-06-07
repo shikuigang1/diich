@@ -45,7 +45,6 @@
 
             {{??it[i].type == 1 }}
 
-
             <a class="pic" href="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/{{=it[i].id }}.html">
                 {{?it[i].img}}
                 <img src="../../master/{{= it[i].img }}" alt="">
@@ -93,9 +92,7 @@
                     {{= it[i].content }}
                 </div>
             </div>
-
             {{?}}
-
         </li>
 
         {{ } }}
@@ -199,10 +196,6 @@
             $("#type").val("");
         }
 
-
-
-
-
     </script>
 </head>
 
@@ -212,7 +205,7 @@
         <a class="logo" href=""></a>
         <div class="nav">
             <ul>
-                <li class="active"><a href=../page/index.html">首页</a></li>
+                <li class="active"><a href="../page/index.html">首页</a></li>
                 <li><a href="#">非遗名录</a></li>
                 <li><a href="../page/masters.html">非遗大师</a></li>
                 <li><a href="../page/selected_content.html">精选内容</a></li>
@@ -682,6 +675,8 @@
                             $("#country").find('li').on('click', function() {
                                 filterAll.eq(1).text($(this).html());
                                 _this.hide();
+                                $("#area_code").val("");
+                                searchData_();
                             });
 
                             //一级城市
@@ -692,12 +687,8 @@
                                 searchData_();
                             });
                         }
-
                         level2.show();
-
                     });
-
-
                 });
 
 
@@ -714,10 +705,7 @@
                     filterItem.hide();
                     filterFixed.slideUp('fast');
                 });
-
                 //自动提示
-
-
                 body.find('.overbg').on('click', function() {
                     filterItem.hide();
                     filterFixed.slideUp('fast');
