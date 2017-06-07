@@ -359,7 +359,11 @@
                             </em>
                         </span>
                     <span>
-                            <strong>
+
+                    <#if (obj.contentFragmentList?size>0)>
+                        <#list obj.contentFragmentList as cf>
+                            <#if cf.attributeId == 33 && cf.content??>
+                               <strong>
                                 <#if obj.lang == "chi">
                                     地区：
                                 </#if>
@@ -367,9 +371,6 @@
                                     district：
                                 </#if>
                             </strong>
-                    <#if (obj.contentFragmentList?size>0)>
-                        <#list obj.contentFragmentList as cf>
-                            <#if cf.attributeId == 33 && cf.content??>
                                 <#assign codeList = cf.content?split(";")>
                                 <#list codeList as s>
                                     <em>${s}</em>
@@ -1054,6 +1055,10 @@
         <#if !obj.version?? || (!obj.version.chiId??) || (!obj.version.engId??)>
             $(".language").hide();
         </#if>
+
+
+
+
         var mainCategory = $('#mainCategory');
 
         //初始化分类数据

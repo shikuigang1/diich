@@ -283,10 +283,10 @@
 
                 <div class="bd subtxt">
                         <span>
-                            <strong>申报地区：</strong>
                             <em><#if (obj.contentFragmentList?size>0)>
                                 <#list obj.contentFragmentList as cf>
                                     <#if cf.attributeId == 23 && cf.content??>
+                                        <strong>申报地区：</strong>
                                         <#assign codeList = cf.content?split(";")>
                                         <#list codeList as s>
                                             <em>${s}</em>
