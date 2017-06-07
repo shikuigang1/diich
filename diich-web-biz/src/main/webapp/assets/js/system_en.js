@@ -6,7 +6,7 @@ var renderHhtml = {
     },
     header: function() { //导航
        var htmlStr = `<div class="content">
-            <a class="logo" href=""></a>
+            <a class="logo" href="../page/index.html"></a>
             <div class="nav">
                 <ul>
                     <li class="active"><a href="../page/index.html">Home</a></li>
