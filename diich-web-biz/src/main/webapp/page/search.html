@@ -111,7 +111,7 @@
                 url: "/s",
                 data: $('#form').serialize(), // 你的formid
                 dataType: "json",
-                async: false,
+                async: true,
                 error: function(request) {
                     //alert("Connection error");
                 },
@@ -140,7 +140,7 @@
                 url: "/s",
                 data: $('#form').serialize(), // 你的formid
                 dataType: "json",
-                async: false,
+                async: true,
                 error: function(request) {
                     //alert("Connection error");
                 },
@@ -168,7 +168,7 @@
                 url: "/s",
                 data: $('#form').serialize(), // 你的formid
                 dataType: "json",
-                async: false,
+                async: true,
                 error: function(request) {
                     //alert("Connection error");
                 },
@@ -602,8 +602,6 @@
                         proColumn.addClass('active');
                     }
                 });
-
-
             },
             search: function() {
                 var filter = $('.filter_search'); //下拉搜索
