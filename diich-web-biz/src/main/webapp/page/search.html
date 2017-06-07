@@ -45,8 +45,7 @@
             </div>
 
             {{??it[i].type == 1 }}
-
-            <a class="pic" href="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/{{=it[i].id }}.html">
+            <a class="pic" href="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/{{=it[i].id }}.html">
                 {{?it[i].img}}
                 <img src="../../master/{{= it[i].img }}" alt="">
                 {{??}}
@@ -75,7 +74,7 @@
             {{??}}
 
 
-            <a href="" class="pic">
+            <a href="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/works/{{=it[i].id }}.html" class="pic">
                 {{?it[i].img}}
                 <img src="../../works/{{= it[i].img }}" alt="">
                 {{??}}
@@ -85,8 +84,14 @@
             <div class="context">
                 <h4>{{= it[i].title }}<i class="icon_list_album"></i></h4>
                 <div class="info">
-                    <a href=""><img src="{{= it[i].masters.uri}}" alt=""></a>
-                    <span>{{= it[i].masters.name }}</span>
+
+                    {{?it[i].masters.uri}}
+                        <a href=""><img src="{{= it[i].masters.uri}}" alt=""></a>
+                    {{?}}
+
+                    {{?it[i].masters.name}}
+                        <span>{{= it[i].masters.name }}</span>
+                    {{?}}
                     <span class="name_project">{{= it[i].category }}</span>
                 </div>
                 <div class="brief">
@@ -536,7 +541,6 @@
                         }else{
                             html+=content.substring(key)+"</a></li>";
                         }
-
                         i--;
                         if(i==0){
                             $("#words").append(html);
@@ -765,48 +769,47 @@
         }
     }
 
-    //非遗名录js
-    //    ;(function () {
-    //        var drop = $('.drop_menu');
-    //        var item = drop.find('.item');
-    //        var _header = $('.header');
-    //        var _houer = _header.find('.nav li').eq(1);
-    //        var timer = null;
-    //        var speed = 200;
-    //
-    //
-    //        _houer.hover(function() {
-    //            clearInterval(timer);
-    //            var _height = _header.outerHeight(true);
-    //            drop.css('top', _height + 'px').slideDown('fast');
-    //        }, function() {
-    //            timer = setInterval(function() {
-    //                drop.slideUp();
-    //            }, speed);
-    //        });
-    //
-    //        drop.hover(function() {
-    //            clearInterval(timer);
-    //        }, function() {
-    //            timer = setInterval(function() {
-    //                drop.slideUp();
-    //            }, speed);
-    //        });
-    //
-    //
-    //        //去掉dd的左边距
-    //        item.eq(0).css('width', '86px');
-    //        item.eq(1).css('width', '143px');
-    //        item.eq(2).css('width', '100px');
-    //        item.eq(3).css('width', '240px');
-    //
-    //        item.eq(3).find('a:even').css('width', '72px');
-    //        item.eq(3).find('a:odd').css({ 'width': '129px', 'margin-left': '24px' });
-    //
-    //        item.eq(4).css('width', '210px');
-    //        item.eq(4).find('a:even').css('width', '115px');
-    //        item.eq(4).find('a:odd').css({ 'width': '66px', 'margin-left': '24px' });
-    //    })();
+        (function () {
+            var drop = $('.drop_menu');
+            var item = drop.find('.item');
+            var _header = $('.header');
+            var _houer = _header.find('.nav li').eq(1);
+            var timer = null;
+            var speed = 200;
+
+
+            _houer.hover(function() {
+                clearInterval(timer);
+                var _height = _header.outerHeight(true);
+                drop.css('top', _height + 'px').slideDown('fast');
+            }, function() {
+                timer = setInterval(function() {
+                    drop.slideUp();
+                }, speed);
+            });
+
+            drop.hover(function() {
+                clearInterval(timer);
+            }, function() {
+                timer = setInterval(function() {
+                    drop.slideUp();
+                }, speed);
+            });
+
+
+            //去掉dd的左边距
+            item.eq(0).css('width', '86px');
+            item.eq(1).css('width', '143px');
+            item.eq(2).css('width', '100px');
+            item.eq(3).css('width', '240px');
+
+            item.eq(3).find('a:even').css('width', '72px');
+            item.eq(3).find('a:odd').css({ 'width': '129px', 'margin-left': '24px' });
+
+            item.eq(4).css('width', '210px');
+            item.eq(4).find('a:even').css('width', '115px');
+            item.eq(4).find('a:odd').css({ 'width': '66px', 'margin-left': '24px' });
+        })();
 </script>
 
 </html>

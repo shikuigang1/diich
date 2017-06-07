@@ -54,14 +54,8 @@ public class SearchServiceImpl implements SearchService {
     {
 
         List<SearchVO> resultList = new ArrayList<SearchVO>();
-        try {
-            System.out.println(JSON.json(map));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //根据参数不同使用不同的 方法
         int lsCount = contentFragmentMapper.queryForSearchCount(map);
-
-
         List<ContentFragment> ls = contentFragmentMapper.queryForSearchPage(map);
 
         for (int i=0;i<ls.size();i++){
@@ -156,7 +150,7 @@ public class SearchServiceImpl implements SearchService {
                 }
 
             }
-            //��ʦ�����Ŀ ����
+            //
             if(ls.get(i).getTargetType()==1){
                 IchMaster master = ichMasterMapper.selectByPrimaryKey(ls.get(i).getTargetId());
 
@@ -187,12 +181,11 @@ public class SearchServiceImpl implements SearchService {
                 }
 
             }
-            //��Ʒ��� ��ʦ
+
             if(ls.get(i).getTargetType()==2){
 
                 Works works =worksMapper.selectByPrimaryKey(ls.get(i).getTargetId());
 
-                //�����Ŀ��
                 List<ContentFragment> ml = contentFragmentMapper.queryListByTargetId(works.getIchProjectId());
 
                 for(ContentFragment c:ml){
@@ -201,27 +194,28 @@ public class SearchServiceImpl implements SearchService {
                         break;
                     }
                 }
-                //��Ӵ�ʦ
+
                 IchMaster master = ichMasterMapper.selectByPrimaryKey(works.getIchMasterId());
-                List<ContentFragment> mastercontentList = contentFragmentMapper.queryListByTargetId(master.getId());
-                Map<String,String> mastermap = new HashMap<String,String>();
+                if(master != null){
+                    List<ContentFragment> mastercontentList = contentFragmentMapper.queryListByTargetId(master.getId());
+                    Map<String,String> mastermap = new HashMap<String,String>();
 
-                mastermap.put("uri",master.getUri());
+                    mastermap.put("uri",master.getUri());
 
-                for(ContentFragment c:mastercontentList){
-                    if(c.getAttributeId()==13){
-                        mastermap.put("name",c.getContent());
-                    }
-                    if(c.getAttributeId()==112){
-                        Resource r = resourceMapper.selectByContentFramentID(c.getId());
-                        if(null != r){
-                            mastermap.put("headimg",r.getUri());
+                    for(ContentFragment c:mastercontentList){
+                        if(c.getAttributeId()==13){
+                            mastermap.put("name",c.getContent());
+                        }
+                        if(c.getAttributeId()==112){
+                            Resource r = resourceMapper.selectByContentFramentID(c.getId());
+                            if(null != r){
+                                mastermap.put("headimg",r.getUri());
+                            }
                         }
                     }
+                    s.setMasters(mastermap);
                 }
-                s.setMasters(mastermap);
-                //�����Ʒ���ڷ���
-                //ͨ����Ŀ������Ʒ����
+
                 IchProject ichProject = ichProjectMapper.selectByPrimaryKey(works.getIchProjectId());
                 IchCategory ichCategory = ichCategoryMapper.selectByPrimaryKey(ichProject.getIchCategoryId());
 

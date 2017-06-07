@@ -245,7 +245,7 @@
                     </div>
                 </div>
                 <div class="part">
-                    <a href="../page/declare.html" class="declare">我要申報</a>
+                    <a href="javascript:void(0);" class="declare">我要申報</a>
                 </div>
             </div>
         </div>
@@ -308,7 +308,23 @@
  }
  
  function login(){
-	
+     $.ajax({
+         cache: true,
+         type: "POST",
+         url: "/user/login",
+         data: $('.form_area').serialize(), // 你的formid
+         dataType: "json",
+         async: true,
+         error: function(request) {
+              alert("Connection error");
+         },
+         success: function(data) {
+
+         }
+     });
  }
+
+
+
 </script>
 </html>

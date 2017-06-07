@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>注册</title>
-    <link rel="stylesheet" href="assets/css/common.css">
-    <link rel="stylesheet" href="assets/css/layout.css">
-    <script src="./assets/js/jquery.min.js"></script>
-    <script src="./assets/js/system.js"></script>
-	<script src="./assets/js/validate-1.14.0.min.js"></script>
-	<script src="./assets/js/jQuery.Form.js"></script>
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/system.js"></script>
+	<script src="../assets/js/validate-1.14.0.min.js"></script>
+	<script src="../assets/js/jQuery.Form.js"></script>
 	<style>
 	  p span {
         display: inline-block;
@@ -32,7 +32,7 @@
         height: 20px;
         border-left: 3px solid green;
     }
-    </style
+    </style>
 	
 </head>
 
@@ -116,7 +116,7 @@
 			 $.ajax({
                 cache: true,
                 type: "POST",
-                url: "http://localhost/user/getVerifycode",
+                url: "/user/getVerifycode",
                 data: {phone:$("#phone").val()}, 
                 dataType: "json",
                 async: true,
@@ -144,13 +144,13 @@
 		 $.ajax({
                 cache: true,
                 type: "POST",
-                url: "http://localhost/user/register",
+                url: "/user/register",
                 data: $('#form').serialize(), 
                 dataType: "json",
                 async: true,
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    
-					
+
+
                 },
                 success: function(res) {
 					alert(JSON.stringify(res));
