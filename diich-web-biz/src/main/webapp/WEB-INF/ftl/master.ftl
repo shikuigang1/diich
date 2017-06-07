@@ -127,7 +127,7 @@
 </div>
 <!--//End filter_search -->
 
-<#assign propage = "http://resource.efeiyi.com/html/master/"/>
+<#assign propage = "http://resource.efeiyi.com/html/project/"/>
 <#assign workspage = "http://resource.efeiyi.com/html/works/"/>
 <#assign prouri="../../image/project/" />
 <#assign masteruri="../../image/master/" />
@@ -691,7 +691,7 @@
                             $("#catecontent").find('li').on('click', function() {
                                 filterAll.eq(0).text($(this).html());
                                 _this.hide();
-                                //$("#gb_category_code").val($(this).attr("data-id"));
+                                $("#gb_category_code").val($(this).attr("data-id"));
                                 //searchData_();
                             });
                         }

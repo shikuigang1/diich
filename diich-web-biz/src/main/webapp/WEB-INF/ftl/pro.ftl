@@ -1180,7 +1180,7 @@
                             $("#catecontent").find('li').on('click', function() {
                                 filterAll.eq(0).text($(this).html());
                                 _this.hide();
-                                //$("#gb_category_code").val($(this).attr("data-id"));
+                               $("#gb_category_code").val($(this).attr("data-id"));
                                 //searchData_();
                             });
                         }
