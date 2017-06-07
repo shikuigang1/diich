@@ -164,7 +164,6 @@
     <if test="gb_category_code != null" >
       AND ic.gb_category LIKE CONCAT(#{gb_category_code,jdbcType=VARCHAR},'%')
     </if>
-
     )
     UNION
     (SELECT DISTINCT
@@ -191,7 +190,15 @@
     </if>
 
     )
-    ) u  ORDER BY priority ) u2 LIMIT #{pageBegin,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER};
+    ) u  ORDER BY priority ) u2
+
+    <if test="area_code != null" >
+      LEFT JOIN content_fragment cf ON (cf.attribute_id = 33 OR cf.attribute_id = 23) AND cf.target_id = u2.targetId AND cf.target_type = u2.targetType
+      WHERE  cf.content LIKE CONCAT(#{area_code,jdbcType=VARCHAR},'%')
+    </if>
+
+
+    LIMIT #{pageBegin,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER};
 
 
 
@@ -246,7 +253,12 @@
     </if>
 
     )
-    ) u) records
+    ) u) u2
+
+    <if test="area_code != null" >
+      LEFT JOIN content_fragment cf ON (cf.attribute_id = 33 OR cf.attribute_id = 23) AND cf.target_id = u2.target_id AND cf.target_type = u2.target_type
+      WHERE  cf.content LIKE CONCAT(#{area_code,jdbcType=VARCHAR},'%');
+    </if>
 
 
   </select>
@@ -267,6 +279,17 @@
 
   <select id="queryForSearch" resultType="com.diich.core.model.ContentFragment" parameterType="java.util.Map">
     {call search(#{keyword,jdbcType=VARCHAR,mode=IN}, #{type,jdbcType=INTEGER,mode=IN},NULL ,NULL )}
+  </select>
+
+
+  <select id="queryNoKeyWord" resultType="com.diich.core.model.ContentFragment" parameterType="java.util.Map">
+      SELECT * FROM  content_fragment
+
+      <if test="area_code != null" >
+      LEFT JOIN content_fragment cf ON (cf.attribute_id = 33 OR cf.attribute_id = 23) AND cf.target_id = u2.target_id AND cf.target_type = u2.target_type
+      WHERE  cf.content LIKE CONCAT(area_code,'%');
+    </if>
+
   </select>
 
 </mapper>
