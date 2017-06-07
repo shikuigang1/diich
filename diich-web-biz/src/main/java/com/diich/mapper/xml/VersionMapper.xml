@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.diich.mapper.VersionMapper" >
+  <resultMap id="BaseResultMap" type="com.diich.core.model.Version" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="target_type" property="targetType" jdbcType="INTEGER" />
+    <result column="eng_id" property="engId" jdbcType="BIGINT" />
+    <result column="chi_id" property="chiId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, target_type, eng_id, chi_id, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from version
+    where id = #{id,jdbcType=BIGINT} and status = 0
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from version
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.diich.core.model.Version" >
+    insert into version (id, target_type, eng_id, 
+      chi_id, status)
+    values (#{id,jdbcType=BIGINT}, #{targetType,jdbcType=INTEGER}, #{engId,jdbcType=BIGINT}, 
+      #{chiId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.diich.core.model.Version" >
+    insert into version
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="targetType != null" >
+        target_type,
+      </if>
+      <if test="engId != null" >
+        eng_id,
+      </if>
+      <if test="chiId != null" >
+        chi_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="targetType != null" >
+        #{targetType,jdbcType=INTEGER},
+      </if>
+      <if test="engId != null" >
+        #{engId,jdbcType=BIGINT},
+      </if>
+      <if test="chiId != null" >
+        #{chiId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.Version" >
+    update version
+    <set >
+      <if test="targetType != null" >
+        target_type = #{targetType,jdbcType=INTEGER},
+      </if>
+      <if test="engId != null" >
+        eng_id = #{engId,jdbcType=BIGINT},
+      </if>
+      <if test="chiId != null" >
+        chi_id = #{chiId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.diich.core.model.Version" >
+    update version
+    set target_type = #{targetType,jdbcType=INTEGER},
+      eng_id = #{engId,jdbcType=BIGINT},
+      chi_id = #{chiId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectVersionByLangIdAndTargetType" parameterType="com.diich.core.model.Version" resultMap="BaseResultMap">
+    select
+    *
+    from version where status =0
+    <if test="targetType != null" >
+     and  target_type = #{targetType,jdbcType=INTEGER}
+    </if>
+    <if test="engId != null" >
+      and eng_id = #{engId,jdbcType=BIGINT}
+    </if>
+    <if test="chiId != null" >
+     and  chi_id = #{chiId,jdbcType=BIGINT}
+    </if>
+  </select>
+</mapper>

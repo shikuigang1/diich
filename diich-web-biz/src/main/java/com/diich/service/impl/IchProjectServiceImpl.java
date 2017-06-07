@@ -53,6 +53,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     private DictionaryService dictionaryService;
     @Autowired
     private  ResourceMapper resourceMapper;
+    @Autowired
+    private VersionService versionService;
 
     /**
      * 根据id获取项目信息
@@ -92,7 +94,15 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             //获取项目的field
             List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
             ichProject.setContentFragmentList(contentFragmentList);
-
+            //根据id和targetType查询中间表看是否有对应的版本
+            Version version = null;
+            if("chi".equals(ichProject.getLang())){
+                version = versionService.getVersionByLangIdAndTargetType(Long.valueOf(id), null, 0);
+            }
+            if("eng".equals(ichProject.getLang())){
+                version = versionService.getVersionByLangIdAndTargetType(null, Long.valueOf(id),0);
+            }
+            ichProject.setVersion(version);
         } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }

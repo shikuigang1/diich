@@ -16,5 +16,6 @@
     <dubbo:reference id="dictionaryService" interface="com.diich.core.service.DictionaryService" timeout="120000" />
     <dubbo:reference id="ichCategoryService" interface="com.diich.core.service.IchCategoryService" timeout="120000" />
     <dubbo:reference id="workService" interface="com.diich.core.service.WorksService" timeout="120000" />
+    <dubbo:reference id="versionService" interface="com.diich.core.service.VersionService" timeout="120000" />
 
 </beans>

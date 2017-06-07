@@ -6,9 +6,17 @@
     <title>
     <#if (obj.contentFragmentList?size>0)>
        <#list obj.contentFragmentList as cf>
-        <#if cf.attributeId == 4>
-            <#assign proname = cf.content>
-        ${cf.content}
+        <#if (obj.lang == "chi")>
+            <#if cf.attributeId == 4>
+                <#assign proname = cf.content>
+            ${cf.content}
+            </#if>
+        </#if>
+        <#if (obj.lang == "eng")>
+            <#if cf.attributeId == 5>
+                <#assign proname = cf.content>
+            ${cf.content}
+            </#if>
         </#if>
       </#list>
     </#if>
@@ -16,7 +24,13 @@
     <link rel="stylesheet" href="assets/css/common.css">
     <link rel="stylesheet" href="assets/css/layout.css">
     <script src="./assets/js/jquery.min.js"></script>
-    <script src="./assets/js/system.js"></script>
+        <#if (obj.lang == "chi")>
+            <script src="./assets/js/system.js"></script>
+        </#if>
+        <#if (obj.lang == "eng")>
+            <script src="./assets/js/system_en.js"></script>
+        </#if>
+
     <script src="./assets/js/html5media.min.js"></script>
     <script>
         $(function () {
@@ -163,8 +177,9 @@
     </div>
 </div>
 <!--//End filter_search -->
-
-
+<#assign caturi="http://diich.efeiyi.com" />
+<#assign masterpage = "http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/"/>
+<#assign workspage = "http://diich-resource.oss-cn-beijing.aliyuncs.com/html/works/"/>
 <#assign prouri="../../image/project/" />
 <#assign masteruri="../../image/master/" />
 <div class="container">
@@ -204,20 +219,27 @@
         </div>
         <!--//End main-->
         <div class="crumbs">
-            <span>非遗名录</span>
+            <span>
+            <#if (obj.lang == "chi")>
+                非遗名录
+            </#if>
+            <#if (obj.lang == "eng")>
+                The heritage
+            </#if>
+            </span>
         <#--<i class="gt"></i>
         <span><a href="" title="口头传说和表述">口头传说和表述</a></span>-->
         <#if (obj.ichCategory.name)??>
             <i class="gt"></i>
-            <span><a href="" title="${obj.ichCategory.name}"> ${obj.ichCategory.name}</a></span>
+            <span><a href="${caturi}/page/search.html?gb_category_code=${obj.ichCategory.gbCategory}" data-id="${obj.ichCategory.gbCategory}" title="${obj.ichCategory.name}"> ${obj.ichCategory.name}</a></span>
             <#if (obj.ichCategory.children??) && (obj.ichCategory.children?size>0)>
                 <#list obj.ichCategory.children as ch>
                     <i class="gt"></i>
-                    <span><a href="" title="${ch.name}"> ${ch.name}</a></span>
+                    <span><a href="${caturi}/page/search.html?gb_category_code=${ch.gbCategory}" data-id="${ch.gbCategory}" title="${ch.name}"> ${ch.name}</a></span>
                     <#if (ch.children)?? && (ch.children?size>0)>
                         <#list ch.children as chh>
                             <i class="gt"></i>
-                            <span><a href="" title="${chh.name}"> ${chh.name}</a></span>
+                            <span><a href="${caturi}/page/search.html?gb_category_code=${chh.gbCategory}" data-id="${chh.gbCategory}" title="${chh.name}"> ${chh.name}</a></span>
                         </#list>
                     </#if>
                 </#list>
@@ -226,11 +248,17 @@
             <i class="gt"></i>
             <span class="last"><#if (obj.contentFragmentList?size>0)>
                                         <#list obj.contentFragmentList as cf>
-                <#if cf.attributeId == 4>
-                    <#assign proname = cf.content>
-                ${cf.content}
-                </#if>
-            </#list>
+                                            <#if (obj.lang == "chi")>
+                                                <#if cf.attributeId == 4>
+                                                     ${cf.content}
+                                                </#if>
+                                            </#if>
+                                            <#if (obj.lang == "eng")>
+                                                <#if cf.attributeId == 5>
+                                                     ${cf.content}
+                                                </#if>
+                                            </#if>
+                                        </#list>
                                     </#if>
                 </span>
         </div>
@@ -259,17 +287,32 @@
                 </#if>
                 <#if (numPic >0) && (numVed >0)>
                     <a class="album albums" onclick="show()" data-type="mediaLayer" datatype="0" data-id="0"><i class="play_sm"></i>
-                    ${numPic}张图片/${numVed}个视频
+                        <#if (obj.lang == "chi")>
+                            ${numPic}张图片/${numVed}个视频
+                        </#if>
+                        <#if (obj.lang == "eng")>
+                          ${numPic} piece of images/${numVed} video
+                        </#if>
                     </a>
                 </#if>
                 <#if (numPic >0) && (numVed =0)>
                     <a class="album albums"><i class="icon_img"></i>
-                    ${numPic}张图片
+                        <#if (obj.lang == "chi")>
+                            ${numPic}张图片
+                        </#if>
+                        <#if (obj.lang == "eng")>
+                            ${numPic} piece of images
+                        </#if>
                     </a>
                 </#if>
                 <#if (numPic =0) && (numVed >0)>
                     <a class="album albums"><i class="icon_img"></i>
-                    ${numVed}个视频
+                        <#if (obj.lang == "chi")>
+                              ${numVed}个视频
+                        </#if>
+                        <#if (obj.lang == "eng")>
+                             ${numVed}  video
+                        </#if>
                     </a>
                 </#if>
                 <#-- <a class="album" onclick="show()" data-type="mediaLayer"><i class="play_sm"></i>【视频】昆曲传承人讲述昆曲…(2个视频／9张图片)</a>-->
@@ -286,17 +329,32 @@
                 <div class="detail_title">
                     <h2><#if (obj.contentFragmentList?size>0)>
                                 <#list obj.contentFragmentList as cf>
-                        <#if cf.attributeId == 4>
-                        ${cf.content}
-                        </#if>
-                    </#list>
-                            </#if></h2>
+                                    <#if obj.lang == "chi">
+                                        <#if cf.attributeId == 4>
+                                        ${cf.content}
+                                        </#if>
+                                    </#if>
+                                    <#if obj.lang == "eng">
+                                        <#if cf.attributeId == 5>
+                                            ${cf.content}
+                                        </#if>
+                                    </#if>
+                                </#list>
+                         </#if>
+                    </h2>
                     <div class="doi_code">
                         <i class="icon">ID</i>
-                        <span>标识码：<#if (obj.contentFragmentList?size>0)>
+                        <span>
+                        <#if obj.lang == "chi">
+                            标识码：
+                        </#if>
+                         <#if obj.lang == "eng">
+                             Identification code：
+                         </#if>
+                            <#if (obj.contentFragmentList?size>0)>
                             <#list obj.contentFragmentList as cf>
                                 <#if cf.attributeId == 2>
-                                ${cf.content}
+                                    ${cf.content}
                                 </#if>
                             </#list>
                         </#if></span>
@@ -310,7 +368,14 @@
 
                 <div class="bd subtxt">
                         <span>
-                            <strong>类别：</strong>
+                            <strong>
+                                <#if obj.lang == "chi">
+                                    类别：
+                                </#if>
+                                <#if obj.lang == "eng">
+                                    category：
+                                </#if>
+                            </strong>
                             <em><#if (obj.ichCategory.name)??>
                             ${obj.ichCategory.name}
                                 <#if ((obj.ichCategory.children)?? && obj.ichCategory.children?size>0)>
@@ -330,7 +395,14 @@
                             </em>
                         </span>
                     <span>
-                            <strong>地区：</strong>
+                            <strong>
+                                <#if obj.lang == "chi">
+                                    地区：
+                                </#if>
+                                <#if obj.lang == "eng">
+                                    district：
+                                </#if>
+                            </strong>
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 33 && cf.content??>
@@ -351,17 +423,23 @@
             <#if obj.ichMasterList?? && (obj.ichMasterList?size > 0)>
                 <div class="bd inheritor">
 
-                    <div class="tname">代表性传承人</div>
+                    <div class="tname">
+                        <#if obj.lang == "chi">
+                            代表性传承人
+                        </#if>
+                        <#if obj.lang == "eng">
+                            representativeness
+                        </#if>
+                    </div>
                     <div class="master">
                         <ul>
-
                         <li>
                             <#list obj.ichMasterList as master>
                                 <#assign masterPic="assets/uploads/default_avatar2.png">
                                 <#if master.contentFragmentList??>
                                     <div class="item">
                                         <#list master.contentFragmentList as cf>
-                                            <#if cf.attributeId == 10 && cf.targetType == 1>
+                                            <#if cf.attributeId == 113 && cf.targetType == 1>
 
                                                 <#if cf.resourceList??>
                                                     <#list cf.resourceList as r>
@@ -374,16 +452,22 @@
                                             </#if>
 
                                         </#list>
-                                        <a href="<#if master.uri??>${master.uri}</#if>" class="avatar">
+                                        <a href="${masterpage}${master.id?c }.html" class="avatar">
                                             <img src="${masterPic}" alt=""/>
                                         </a>
 
                                         <span class="txt">
                                             <#list master.contentFragmentList as cf>
-                                                <#if cf.attributeId == 13 && cf.targetType == 1>
-                                                    <p class="name"><a href="<#if master.uri??>${master.uri}</#if>">${cf.content}</a></p>
+                                                <#if obj.lang == "chi">
+                                                    <#if cf.attributeId == 13 && cf.targetType == 1>
+                                                        <p class="name"><a href="${masterpage}${master.id?c }.html">${cf.content}</a></p>
+                                                    </#if>
                                                 </#if>
-
+                                                <#if obj.lang == "eng">
+                                                    <#if cf.attributeId == 14 && cf.targetType == 1>
+                                                        <p class="name"><a href="${masterpage}${master.id?c }.html">${cf.content}</a></p>
+                                                    </#if>
+                                                </#if>
                                                 <#if cf.attributeId == 50 && cf.targetType == 1>
                                                     <p >${cf.content}</p>
                                                 </#if>
@@ -406,7 +490,14 @@
 
                         </ul>
                         <div class="more">
-                            <a href="javascript:;"><span>其他<em></em>人</span><i class="gt_big"></i></a>
+                            <a href="javascript:;"><span>
+                                <#if obj.lang == "chi">
+                                    其他<em></em>人
+                                </#if>
+                                <#if obj.lang == "eng">
+                                    other<em></em>persons
+                                </#if>
+                            </span><i class="gt_big"></i></a>
                         </div>
                         <div class="prev"></div>
                         <div class="next"></div>
@@ -416,19 +507,42 @@
             </#if>
                 <!--//ENd-->
                 <div class="bd batch">
-                    <div class="tname">非遗在中国<i></i></div>
+                    <div class="tname">
+                    <#if obj.lang == "chi">
+                        非遗在中国
+                        <i></i>
+                    </#if>
+                    <#if obj.lang == "eng">
+                        The heritage in China
+                        <i></i>
+                    </#if>
+                </div>
                     <div class="subcon">
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 106 && cf.content??>
-                                <span>人类非物质文化遗产编号：${cf.content}</span>
+                                <span>
+                                     <#if obj.lang == "chi">
+                                         人类非物质文化遗产编号：
+                                     </#if>
+                                    <#if obj.lang == "eng">
+                                        Human intangible cultural heritage number：
+                                    </#if>
+                                   ${cf.content}</span>
                             </#if>
                         </#list>
                     </#if>
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 41 &&  cf.content??>
-                                <span>级别： ${cf.content} </span>
+                                <span>
+                                     <#if obj.lang == "chi">
+                                         级别
+                                     </#if>
+                                    <#if obj.lang == "eng">
+                                        rank
+                                    </#if>
+                                    ： ${cf.content} </span>
                             </#if>
                         </#list>
                     </#if>
@@ -436,7 +550,14 @@
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 7 && cf.content??>
-                                <span>批次： ${cf.content} </span>
+                                <span>
+                                    <#if obj.lang == "chi">
+                                        批次
+                                    </#if>
+                                    <#if obj.lang == "eng">
+                                        batch
+                                    </#if>
+                                    ： ${cf.content} </span>
                             </#if>
                         </#list>
                     </#if>
@@ -449,7 +570,14 @@
 
             <div class="card_base">
                 <duv class="detail_title">
-                    <h2>基礎信息</h2>
+                    <h2>
+                        <#if obj.lang == "chi">
+                            基礎信息
+                        </#if>
+                        <#if obj.lang == "eng">
+                            Basic information
+                        </#if>
+                    </h2>
                 </duv>
                 <div class="info">
                     <ul>
@@ -457,7 +585,14 @@
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attribute?? && cf.attribute.dataType==0 && cf.content?? && cf.attributeId != 106 && cf.attributeId != 7 && cf.attributeId != 8>
                                 <li>
-                                    <span class="key">${cf.attribute.cnName}：</span>
+                                    <span class="key">
+                                        <#if obj.lang == "chi">
+                                            ${cf.attribute.cnName}
+                                        </#if>
+                                        <#if obj.lang == "eng">
+                                             ${cf.attribute.enName}
+                                        </#if>
+                                        ：</span>
                                     <span class="value">${cf.content}</span>
                                 </li>
                             </#if>
@@ -473,7 +608,28 @@
     <#if obj.worksList?? && (obj.worksList?size>0)>
         <section class="bd floor odd">
             <div class="card">
-                <header><h4>代表作品 </h4><em>共${obj.worksList?size}项</em></header>
+                <header><h4>
+                    <#if obj.lang == "chi">
+                        代表作品
+                    </#if>
+                    <#if obj.lang == "eng">
+                        Representative works
+                    </#if>
+                </h4><em>
+                    <#if obj.lang == "chi">
+                        共
+                    </#if>
+                    <#if obj.lang == "eng">
+                        total
+                    </#if>
+                         ${obj.worksList?size}
+                    <#if obj.lang == "chi">
+                        项
+                    </#if>
+                    <#if obj.lang == "eng">
+                        item
+                    </#if>
+                   </em></header>
                 <article class="product_list">
                     <ul>
                         <#list obj.worksList as work>
@@ -484,16 +640,24 @@
                                         <#if c.attributeId==25>
                                             <#if c.resourceList??>
                                                 <#list c.resourceList as p>
-                                                    <a href=""><img src="${p.uri}" alt=""></a>
+                                                    <a href="${workspage}${work.id?c}.html"><img src="${p.uri}" alt=""></a>
                                                 </#list>
                                             </#if>
                                         </#if>
                                     </#list>
 
                                     <#list work.contentFragmentList as c>
-                                        <#if c.attributeId==28>
+                                        <#if obj.lang == "chi">
+                                            <#if c.attributeId==28>
                                             <p class="name">${c.content} </p
+                                            </#if>
                                         </#if>
+                                        <#if obj.lang == "eng">
+                                            <#if c.attributeId==29>
+                                                <p class="name">${c.content} </p
+                                            </#if>
+                                        </#if>
+
                                     </#list>
                                     <#list work.contentFragmentList as c>
                                         <#if c.attributeId==25>
@@ -524,7 +688,14 @@
             <#if (cf.attribute.dataType == 5 && cf.resourceList?? && cf.resourceList?size>0)>
                 <section name="tuwen" class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
                     <div class="card">
-                        <header><h4>${cf.attribute.cnName} </h4></header>
+                        <header><h4>
+                            <#if obj.lang == "chi">
+                                 ${cf.attribute.cnName}
+                            </#if>
+                            <#if obj.lang == "eng">
+                                 ${cf.attribute.enName}
+                            </#if>
+                        </h4></header>
                         <article class="text_img">
                             <div class="side">
                                 <div class="item">
@@ -563,7 +734,14 @@
 
                                 <#if (cf.resourceList?size > 2) >
                                     <div class="more">
-                                        <a class="albums" data-type="mediaLayer" datatype="0" data-id="0" href="javascript:;">查看完整图集<i class="arrow_right"></i></a>
+                                        <a class="albums" data-type="mediaLayer" datatype="0" data-id="0" href="javascript:;">
+                                            <#if obj.lang == "chi">
+                                                查看完整图集
+                                            </#if>
+                                            <#if obj.lang == "eng">
+                                                View the complete set of images
+                                            </#if>
+                                            <i class="arrow_right"></i></a>
                                     </div>
                                 </#if>
                             </div>
@@ -577,7 +755,14 @@
 
                 <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
                     <div class="card">
-                        <header><h4>${cf.attribute.cnName}  </h4></header>
+                        <header><h4>
+                            <#if obj.lang == "chi">
+                                ${cf.attribute.cnName}
+                            </#if>
+                            <#if obj.lang == "eng">
+                                ${cf.attribute.enName}
+                            </#if>
+                        </h4></header>
                         <article class="plain_text">
                             <p>
                             ${cf.content?replace("\n", "</p><p>")}
@@ -593,89 +778,6 @@
 
         </#list>
     </#if>
-    <#-- <#if (obj.contentFragmentList?size>0)>
-        <#list obj.contentFragmentList as cf>
-            <#if cf.attribute.dataType == 5 >
-
-                <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
-                    <div class="card">
-                        <header><h4>${cf.attribute.cnName} </h4></header>
-                        <article class="text_img">
-                            <div class="side">
-                                <div class="item">
-                                    <p>${cf.content?replace("\n","</p><p>")}</p>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <ul>
-                                        <#list cf.resourceList as r>
-                                        <li>
-                                            <#if r.type ==0>
-                                                <img src="${r.uri}" alt="">
-
-                                                <#if r.description??>
-                                                    <span>${r.description}</span>
-                                                </#if>
-
-                                            </#if>
-
-                                                <#if r.type ==1>
-                                                    <div class="card_video">
-                                                        <div class="time">30:24</div>
-                                                        <div class="play"></div>
-                                                        <video poster="assets/uploads/exp2.png">
-                                                            <source style="width: 100%;" src="${r.uri}" type="video/mp4">
-                                                        </video>
-                                                    </div>
-                                                    <#if r.description??>
-                                                        <span>${r.description}</span>
-                                                    </#if>
-                                                </#if>
-                                            <#if (r_index == 1)>
-                                                <#break />
-                                            </#if>
-
-                                            </li>
-                                        </#list>
-
-
-                                </ul>
-
-                                <#if (cf.resourceList?size > 2) >
-                                    <div class="more">
-                                        <a href="">查看完整图集<i class="arrow_right"></i></a>
-                                    </div>
-                                </#if>
-                            </div>
-                        </article>
-                    </div>
-                </section>
-
-                <#assign odd_even = odd_even+1 />
-            </#if>
-
-            <#if cf.attribute.dataType == 1>
-
-                <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
-                    <div class="card">
-                        <header><h4>${cf.attribute.cnName}  </h4></header>
-                        <article class="plain_text">
-                        <p>
-                        ${cf.content?replace("\n", "</p><p>")}
-                        </p>
-                            &lt;#&ndash;${cf.content?replace("\n","</p></p>")}&ndash;&gt;
-
-                        </article>
-                    </div>
-                </section>
-
-                <#assign odd_even = odd_even+1 />
-            </#if>
-
-        </#list>
-    </#if>-->
-
-
 
         <!--//ENd-->
     </div>
@@ -698,7 +800,14 @@
     <div class="content">
         <div class="head">
             <div class="menu">
-                <span class="active">图片</span>
+                <span class="active">
+                     <#if obj.lang == "chi">
+                         图片
+                     </#if>
+                     <#if obj.lang == "eng">
+                         picture
+                     </#if>
+                </span>
 
             <#if (obj.contentFragmentList?size>0)>
                 <#assign breaklop=0>
@@ -707,7 +816,14 @@
                         <#if cf.resourceList??>
                             <#list cf.resourceList as r>
                                 <#if r.type ==1>
-                                    <span>视频</span>
+                                    <span>
+                                        <#if obj.lang == "chi">
+                                            视频
+                                        </#if>
+                                        <#if obj.lang == "eng">
+                                            video
+                                        </#if>
+                                    </span>
                                     <#assign breaklop=1>
                                     <#break>
                                 </#if>
@@ -746,12 +862,55 @@
                    <li>《5555-名称示意最多显示20字…》</li>
                    <li>《6666-名称示意最多显示20字…》</li>-->
                 </ul>
-                <a href="" class="more">查看详情</a>
+                <a href="" class="more">
+                    <#if obj.lang == "chi">
+                        查看详情
+                    </#if>
+                    <#if obj.lang == "eng">
+                        Check the details
+                    </#if>
+                </a>
                 <div class="master">
                     <div class="item">
-                        <a class="avatar" href=""><img src="assets/uploads/master1.jpg" alt=""></a>
-                        <span>林为林</span>
-                        <span class="auth">UNESCO认证传承人</span>
+                        <a class="avatar" href="">
+                            <#if (obj.contentFragmentList?size>0)>
+                                <#list obj.contentFragmentList as cf>
+                                    <#if cf.attributeId == 1>
+                                        <#if (cf.resourceList??) &&(cf.resourceList?size>0)>
+                                            <#list cf.resourceList as res>
+                                                <#if res.type==0 && res.status==0>
+                                                    <img src="<#if res.uri??>${prouri}${res.uri}</#if>" alt="" width="94" height="70">
+                                                </#if>
+                                            </#list>
+                                        </#if>
+                                    </#if>
+                                </#list>
+                            </#if>
+                        </a>
+                        <span>
+                            <#if (obj.contentFragmentList?size>0)>
+                                <#list obj.contentFragmentList as cf>
+                                    <#if obj.lang == "chi">
+                                        <#if cf.attributeId == 4>
+                                             ${cf.content}
+                                        </#if>
+                                    </#if>
+                                    <#if obj.lang == "eng">
+                                        <#if cf.attributeId == 5>
+                                            ${cf.content}
+                                        </#if>
+                                    </#if>
+                                </#list>
+                            </#if>
+                        </span>
+                        <span class="auth">
+                            <#if obj.lang == "chi">
+                                UNESCO认证非遗项目
+                            </#if>
+                            <#if obj.lang == "eng">
+                                UNESCO certification of non-legacy projects
+                            </#if>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -913,6 +1072,24 @@
                 });
             });
         });
+
+        //控制header中英文显示
+        <#if obj.version?? && (obj.version.chiId??) && (obj.version.engId??)>
+            $(".language").show();
+            <#if obj.lang == "eng">
+                $(".en").addClass("active");
+                $(".zh").removeClass("active");
+                $(".zh").attr('href',${obj.version.chiId} + ".html");
+            </#if>
+            <#if obj.lang == "chi">
+                $(".zh").addClass("active");
+                $(".en").removeClass("active");
+                $(".en").attr('href',${obj.version.engId} + ".html");
+            </#if>
+        </#if>
+        <#if !obj.version?? || (!obj.version.chiId??) || (!obj.version.engId??)>
+            $(".language").hide();
+        </#if>
     });
 </script>
 

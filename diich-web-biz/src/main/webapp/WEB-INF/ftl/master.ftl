@@ -3,7 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>传承人详情页</title>
+    <title>
+    <#if (obj.contentFragmentList?size>0)>
+               <#list obj.contentFragmentList as cf>
+                    <#if cf.attributeId == 13>
+                        ${cf.content}
+                    </#if>
+                </#list>
+     </#if>
+    </title>
     <link rel="stylesheet" href="assets/css/common.css">
     <link rel="stylesheet" href="assets/css/layout.css">
     <script src="./assets/js/jquery.min.js"></script>
@@ -154,7 +162,8 @@
     </div>
 </div>
 <!--//End filter_search -->
-
+<#assign propage = "http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/"/>
+<#assign workspage = "http://diich-resource.oss-cn-beijing.aliyuncs.com/html/works/"/>
 <#assign prouri="../../image/project/" />
 <#assign masteruri="../../image/master/" />
 <div class="container">
@@ -348,14 +357,14 @@
                                     </#if>
                                 </#list>
                             </#if>
-                            <img src="${proPic}" width="94" height="70" alt="">
+                            <a href="${propage}${obj.ichProject.id}.html"><img src="${proPic}" width="94" height="70" alt=""></a>
                         </div>
                         <div class="txt">
                             <p class="t">
                                 <#if (obj.ichProject.contentFragmentList?size>0)>
                                     <#list (obj.ichProject.contentFragmentList) as cf>
                                         <#if cf.attributeId == 4>
-                                            ${cf.content}
+                                        <a href="${propage}${obj.ichProject.id}.html">${cf.content}</a>
                                         </#if>
                                     </#list>
                                 </#if>
@@ -458,7 +467,7 @@
                                         <#if c.attributeId==25>
                                             <#if c.resourceList??>
                                                 <#list c.resourceList as p>
-                                                    <a href=""><img src="${p.uri}" alt=""></a>
+                                                    <a href="${workspage}${work.id?c}.html"><img src="${p.uri}" alt=""></a>
                                                 </#list>
                                             </#if>
                                         </#if>
@@ -466,7 +475,7 @@
 
                                     <#list work.contentFragmentList as c>
                                         <#if c.attributeId==28>
-                                            <p class="name">${c.content} </p
+                                            <p class="name"><a href="${workspage}${work.id?c}.html">${c.content}</a> </p>
                                         </#if>
                                   <#--  <#if c.attributeId==25>
                                         <p class="master">${c.content}</p>

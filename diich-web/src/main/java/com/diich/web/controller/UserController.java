@@ -75,7 +75,7 @@ public class UserController extends BaseController<User> {
             return ae.toMap();
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
-        return putDataToMap(verifyCode);
+        return putDataToMap(phone);
     }
 
     /**
