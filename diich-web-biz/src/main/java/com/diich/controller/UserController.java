@@ -99,8 +99,8 @@ public class UserController extends BaseController<User> {
         response.setHeader("Access-Control-Allow-Origin", "*");
 
         if(phone==null){
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            result.put("code",2);
+            return result;
         }
         HttpSession session = request.getSession();
         //判断验证码是否超时
@@ -112,19 +112,19 @@ public class UserController extends BaseController<User> {
             if(time>60){
                 session.removeAttribute(phone);
                 session.removeAttribute("begindate"+phone);
-                ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-                return ae.toMap();
+                result.put("code",2);
+                return result;
             }
         }
         String verifyCode = (String) session.getAttribute(phone);
         //防止没有获取验证码直接点击注册
         if(verifyCode == null){
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            result.put("code",2);
+            return result;
         }
         if(!verifyCode.equals(code)){
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            result.put("code",2);
+            return result;
         }
         //User user = null;
        /* try {
