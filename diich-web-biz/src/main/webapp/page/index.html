@@ -306,8 +306,9 @@
 	//window.location = "../page/search.html?keyword=" + $("#span_"+index).text();
      window.location = "../page/search.html";
  }
- 
+
  function login(){
+
      $.ajax({
          cache: true,
          type: "POST",
@@ -316,9 +317,15 @@
          dataType: "json",
          async: true,
          error: function(request) {
-              alert("Connection error");
+             //alert("Connection error");
          },
          success: function(data) {
+
+             if(data.code==2){
+                alert("用户名 密码错误!");
+             }else{
+                 $('.box_layer').hide();
+             }
 
          }
      });
