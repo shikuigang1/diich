@@ -10,20 +10,20 @@ var renderHhtml = {
             <div class="nav">
                 <ul>
                     <li class="active"><a href="../page/index.html">首页</a></li>
-                    <li><a href="../page/非遗名录.html">非遗名录</a></li>
+                    <li><a href="#">非遗名录</a></li>
                     <li><a href="../page/masters.html">非遗大师</a></li>
-                    <li><a href="../page/精选内容.html">精选内容</a></li>
-                    <li><a href="../page/非遗资讯.html">非遗资讯</a></li>
-                    <li><a href="../page/官方服务.html">官方服务</a></li>
-                    <li><a href="declare.html">我要申报</a></li>
+                    <li><a href="../page/selected_content.html">精选内容</a></li>
+                    <li><a href="../page/information.html">非遗资讯</a></li>
+                    <li><a href="../page/official_service.html">官方服务</a></li>
+                    <li><a href="../page/declare.html">我要申报</a></li>
                 </ul>
             </div>
             <div class="info">
                 <ul>
-                    <li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em>登录</em></a></li>
+                    <li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em>登陆</em></a></li>
                     <li class="language">
-                        <a class="zh active" href="javascript:;"><em>中文</em></a>
-                        <a class="en" href="javascript:;"><em>EN</em></a>
+                        <a class="zh active" href="../page/index.html"><em>中文</em></a>
+                        <a class="en" href="#"><em>EN</em></a>
                     </li>
                     <li class="search">
                         <i class="icon"></i>
@@ -31,7 +31,7 @@ var renderHhtml = {
                 </ul>
             </div>
         </div>
-        <!--//End content-->
+        <!--//End content-->
         <div class="drop_menu">
             <div class="content">
                 <div class="item">
@@ -154,7 +154,7 @@ var renderHhtml = {
                     <a href="" class="twitter" title="twitter"></a>
                     <a href="" class="instagram" title="instagram"></a>
                     <a href="" class="linkedin" title="linkedin"></a>
-                    <span class="code"><img src="assets/images/footer_code.png" alt=""></span>
+                    <span class="code"><img src="../assets/images/footer_code.png" alt=""></span>
                 </div>
             </div>
         </div>
@@ -710,7 +710,7 @@ var homePage = {
 
 
         //
-        map.on('click','span',function (e) {
+        map.hover(function (e) {
             var index=$(this).index()-1;
             //位置
             var _top=$(this).position().top;
