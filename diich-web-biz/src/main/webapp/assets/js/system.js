@@ -6,7 +6,7 @@ var renderHhtml = {
     },
     header: function() { //导航
         var htmlStr = `<div class="content">
-            <a class="logo" href=""></a>
+            <a class="logo" href="../page/index.html"></a>
             <div class="nav">
                 <ul>
                     <li class="active"><a href="../page/index.html">首页</a></li>
@@ -142,10 +142,10 @@ var renderHhtml = {
     <div class="main">
         <div class="hd">
             <div class="lbox">
-                <div><span>项目概况</span><em>tel：400-876-8766</em></div>
-                <div><span>重大活动</span><em>email：efeiyi@efeiyi.com</em></div>
-                <div><span>合作资源</span><em>地址：北京市东城区前门大街72&74号二层</em></div>
-                <div><span>业务体系</span><em>add：2Floor，72&74,Qian Men ST.Dongcheng District,Beijing,China</em></div>
+                <div><em>tel：400-876-8766</em></div>
+                <div><em>email：efeiyi@efeiyi.com</em></div>
+                <div><em>地址：北京市东城区前门大街72&74号二层</em></div>
+                <div><em>add：2Floor，72&74,Qian Men ST.Dongcheng District,Beijing,China</em></div>
             </div>
             <!--//End lbox-->
             <div class="rbox">
@@ -154,7 +154,7 @@ var renderHhtml = {
                     <a href="" class="twitter" title="twitter"></a>
                     <a href="" class="instagram" title="instagram"></a>
                     <a href="" class="linkedin" title="linkedin"></a>
-                    <span class="code"><img src="assets/images/footer_code.png" alt=""></span>
+                    <span class="code"><img src="../assets/images/footer_code.png" alt=""></span>
                 </div>
             </div>
         </div>
