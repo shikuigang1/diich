@@ -174,6 +174,15 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     List<Works> worksList =worksService.getWorksByIchProjectId(ichProject.getId());
 
                     ichProject.setWorksList(worksList);
+                    //根据id和targetType查询中间表看是否有对应的版本
+                    Version version = null;
+                    if("chi".equals(ichProject.getLang())){
+                        version = versionService.getVersionByLangIdAndTargetType(ichProject.getId(), null, 0);
+                    }
+                    if("eng".equals(ichProject.getLang())){
+                        version = versionService.getVersionByLangIdAndTargetType(null, ichProject.getId(),0);
+                    }
+                    ichProject.setVersion(version);
                 }
 
                 //获取项目的field
