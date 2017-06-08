@@ -1,138 +1,133 @@
 var renderHhtml = {
+    uri: 'http://diich.efeiyi.com',
     init: function() {
         this.header();
         this.footer();
         this.filter();
     },
     header: function() { //导航
-        var htmlStr = `<div class="content">
-            <a class="logo" href="../page/index.html"></a>
-            <div class="nav">
-                <ul>
-                    <li class="active"><a href="../page/index.html" id="home">首页</a></li>
-                    <li><a href="#" id="ich_directory">非遗名录</a></li>
-                    <li><a href="../page/masters.html" id="ich_master">非遗大师</a></li>
-                    <li><a href="../page/selected_content.html" id="selected_content">精选内容</a></li>
-                    <li><a href="../page/information.html" id="information">非遗资讯</a></li>
-                    <li><a href="../page/official_service.html" id="official_service">官方服务</a></li>
-                    <li><a href="../page/declare.html" id="project_declare">我要申报</a></li>
-                </ul>
+            var htmlStr = `<div class="content">
+                <a class="logo" href="${renderHhtml.uri}/page/index.html"></a>
+                <div class="nav">
+                    <ul>
+                        <li class="active"><a href="${renderHhtml.uri}/page/index.html" id="home">首页</a></li>
+                        <li><a href="#" id="ich_directory">非遗名录</a></li>
+                        <li><a href="${renderHhtml.uri}/page/masters.html" id="ich_master">非遗大师</a></li>
+                        <li><a href="${renderHhtml.uri}/page/selected_content.html" id="selected_content">精选内容</a></li>
+                        <li><a href="${renderHhtml.uri}/page/news.html" id="information">非遗资讯</a></li>
+                        <li><a href="${renderHhtml.uri}/page/official_service.html" id="official_service">官方服务</a></li>
+                        <li><a href="${renderHhtml.uri}/page/declare.html" id="project_declare">我要申报</a></li>
+                    </ul>
+                </div>
+                <div class="info">
+                    <ul>
+                        <li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em id="sign_in">登陆</em></a></li>
+                        <li class="language">
+                            <a class="zh active" href="javascript:switchLanguage('zh-CN');"><em>中文</em></a>
+                            <a class="en" href="javascript:switchLanguage('en');"><em>EN</em></a>
+                        </li>
+                        <li class="search">
+                            <i class="icon"></i>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="info">
-                <ul>
-                    <li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em id="sign_in">登陆</em></a></li>
-                    <li class="language">
-                        <a class="zh active" href="javascript:switchLanguage('zh-CN');"><em>中文</em></a>
-                        <a class="en" href="javascript:switchLanguage('en');"><em>EN</em></a>
-                    </li>
-                    <li class="search">
-                        <i class="icon"></i>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!--//End content-->
-        <div class="drop_menu">
-            <div class="content">
-                <div class="item">
-                    <dl>
-                        <dt data-id="A">口头传说和表述</dt>
-                        <dd>
-                            <a href="../page/search.html?gb_category_code=A01" data-id="A01" >语言</a>
-                            <a href="../page/search.html?gb_category_code=A02" data-id="A02">文字</a>
-                            <a href="../page/search.html?gb_category_code=A03" data-id="A03">口述</a>
-                            <a href="../page/search.html?gb_category_code=A04" data-id="A04">其他口头传统<br>及表述</a>
-                        </dd>
-                    </dl>
+            <!--//End content-->
+            <div class="drop_menu">
+                <div class="content">
+                    <div class="item">
+                        <dl>
+                            <dt data-id="A">口头传说和表述</dt>
+                            <dd>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A01" data-id="A01" >语言</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A02" data-id="A02">文字</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A03" data-id="A03">口述</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A04" data-id="A04">其他口头传统<br>及表述</a>
+                            </dd>
+                        </dl>
+                    </div>
+                    <!--//End-->
+    
+                    <div class="item">
+                        <dl>
+                            <dt data-id="B">表演艺术</dt>
+                            <dd>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B01" data-id="B01">音乐演奏</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B02" data-id="B02">舞蹈</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B03" data-id="B03">民歌</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B04" data-id="B04">传统戏剧</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B05" data-id="B05">曲艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B06" data-id="B06">传统体育、游艺与杂技</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B99" data-id="B99">其他表演艺术</a>
+                            </dd>
+                        </dl>
+                    </div>
+                    <!--//End-->
+    
+                    <div class="item">
+                        <dl>
+                            <dt data-id="C">社会风俗<br>礼仪、节庆</dt>
+                            <dd>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C01" data-id="C01">生产商贸习俗</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C02" data-id="C02">生活习俗</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C03" data-id="C03">人生仪式</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C04" data-id="C04">节日庆典</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C99" data-id="C99">其他仪式及庆典</a>
+                            </dd>
+                        </dl>
+                    </div>
+                    <!--//End-->
+    
+                    <div class="item">
+                        <dl>
+                            <dt data-id="D">有关自然界和<br>宇宙的知识和实践</dt>
+                            <dd>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D01" data-id="D01">农林牧畜渔</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D02" data-id="D02">服装</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D03" data-id="D03">食品</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D04" data-id="D04">住房与建筑</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D05" data-id="D05">交通,旅行</a>
+                               
+                                <!--</dd>-->
+                                <!--<dd>-->
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D06" data-id="D06">医、药</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D07" data-id="D07">军事防御</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D08" data-id="D08">商贸</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D09" data-id="D09">工业、工程</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D10" data-id="D10">天文、地理、水文等</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D99" data-id="D99">其他自然知识和实践</a>
+                            </dd>
+                        </dl>
+                    </div>
+                    <!--//End-->
+    
+                    <div class="item">
+                        <dl>
+                            <dt data-id="E">传统的手工艺技能</dt>
+                            <dd>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E01" data-id="E01">工具及机械制作</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E02" data-id="E02">髹饰工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E03" data-id="E03">家畜农林产品加工</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E04" data-id="E04">织染工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E05" data-id="E05">造纸、印刷机装裱</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E06" data-id="E06">编扎工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E07" data-id="E07">字画工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E08" data-id="E08">锻冶工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E09" data-id="E09">剪刻工艺</a>
+    
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E10" data-id="E10">雕塑工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E11" data-id="E11">烧造工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E12" data-id="E12">木作工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E99" data-id="E99">其他类</a>
+                            </dd>
+                        </dl>
+                    </div>
                 </div>
-                <!--//End-->
-
-                <div class="item">
-                    <dl>
-                        <dt data-id="B">表演艺术</dt>
-                        <dd>
-                            <a href="../page/search.html?gb_category_code=B01" data-id="B01">音乐演奏</a>
-                            <a href="../page/search.html?gb_category_code=B02" data-id="B02">舞蹈</a>
-                            <a href="../page/search.html?gb_category_code=B03" data-id="B03">民歌</a>
-                            <a href="../page/search.html?gb_category_code=B04" data-id="B04">传统戏剧</a>
-                            <a href="../page/search.html?gb_category_code=B05" data-id="B05">曲艺</a>
-                            <a href="../page/search.html?gb_category_code=B06" data-id="B06">传统体育、游艺与杂技</a>
-                            <a href="../page/search.html?gb_category_code=B99" data-id="B99">其他表演艺术</a>
-                        </dd>
-                    </dl>
-                </div>
-                <!--//End-->
-
-                <div class="item">
-                    <dl>
-                        <dt data-id="C">社会风俗<br>礼仪、节庆</dt>
-                        <dd>
-                            <a href="../page/search.html?gb_category_code=C01" data-id="C01">生产商贸习俗</a>
-                            <a href="../page/search.html?gb_category_code=C02" data-id="C02">生活习俗</a>
-                            <a href="../page/search.html?gb_category_code=C03" data-id="C03">人生仪式</a>
-                            <a href="../page/search.html?gb_category_code=C04" data-id="C04">节日庆典</a>
-                            <a href="../page/search.html?gb_category_code=C99" data-id="C99">其他仪式及庆典</a>
-                        </dd>
-                    </dl>
-                </div>
-                <!--//End-->
-
-                <div class="item">
-                    <dl>
-                        <dt data-id="D">有关自然界和<br>宇宙的知识和实践</dt>
-                        <dd>
-                            <a href="../page/search.html?gb_category_code=D01" data-id="D01">农林牧畜渔</a>
-                            <a href="../page/search.html?gb_category_code=D02" data-id="D02">服装</a>
-                            <a href="../page/search.html?gb_category_code=D03" data-id="D03">食品</a>
-                            <a href="../page/search.html?gb_category_code=D04" data-id="D04">住房与建筑</a>
-                            <a href="../page/search.html?gb_category_code=D05" data-id="D05">交通,旅行</a>
-                           
-                            <!--</dd>-->
-                            <!--<dd>-->
-                            <a href="../page/search.html?gb_category_code=D06" data-id="D06">医、药</a>
-                            <a href="../page/search.html?gb_category_code=D07" data-id="D07">军事防御</a>
-                            <a href="../page/search.html?gb_category_code=D08" data-id="D08">商贸</a>
-                            <a href="../page/search.html?gb_category_code=D09" data-id="D09">工业、工程</a>
-                            <a href="../page/search.html?gb_category_code=D10" data-id="D10">天文、地理、水文等</a>
-                            <a href="../page/search.html?gb_category_code=D99" data-id="D99">其他自然知识和实践</a>
-                        </dd>
-                    </dl>
-                </div>
-                <!--//End-->
-
-                <div class="item">
-                    <dl>
-                        <dt data-id="E">传统的手工艺技能</dt>
-                        <dd>
-                            <a href="../page/search.html?gb_category_code=E01" data-id="E01">工具及机械制作</a>
-                            <a href="../page/search.html?gb_category_code=E02" data-id="E02">髹饰工艺</a>
-                            <a href="../page/search.html?gb_category_code=E03" data-id="E03">家畜农林产品加工</a>
-                            <a href="../page/search.html?gb_category_code=E04" data-id="E04">织染工艺</a>
-                            <a href="../page/search.html?gb_category_code=E05" data-id="E05">造纸、印刷机装裱</a>
-                            <a href="../page/search.html?gb_category_code=E06" data-id="E06">编扎工艺</a>
-                            <a href="../page/search.html?gb_category_code=E07" data-id="E07">字画工艺</a>
-                            <a href="../page/search.html?gb_category_code=E08" data-id="E08">锻冶工艺</a>
-                            <a href="../page/search.html?gb_category_code=E09" data-id="E09">剪刻工艺</a>
-
-                            <a href="../page/search.html?gb_category_code=E10" data-id="E10">雕塑工艺</a>
-                            <a href="../page/search.html?gb_category_code=E11" data-id="E11">烧造工艺</a>
-                            <a href="../page/search.html?gb_category_code=E12" data-id="E12">木作工艺</a>
-                            <a href="../page/search.html?gb_category_code=E99" data-id="E99">其他类</a>
-
-
-                        </dd>
-                    </dl>
-                </div>
-
-
-            </div>
-        </div>
-   
-        `;
-        this.base('.header', htmlStr);
-    },
-    footer: function() { //底部
-        var htmlStr = `<div class="diich">
+            </div>`;
+            this.base('.header', htmlStr);
+        },
+        footer: function() { //底部
+            var htmlStr = `<div class="diich">
         <div class="hd">
             <p class="name"><span style="font-weight:bolder;">DIICH</span><em>&nbsp;非遺國際</em></p>
             <p class="subname">2017 © EFeiYi. All rights reserved</p>
@@ -142,10 +137,10 @@ var renderHhtml = {
     <div class="main">
         <div class="hd">
             <div class="lbox">
-                <div><em>tel：400-876-8766</em></div>
-                <div><em>email：efeiyi@efeiyi.com</em></div>
+                <div><em>TEL：400-876-8766</em></div>
+                <div><em>EMAIL：efeiyi@efeiyi.com</em></div>
                 <div><em>地址：北京市东城区前门大街72&74号二层</em></div>
-                <div><em>add：2Floor，72&74,Qian Men ST.Dongcheng District,Beijing,China</em></div>
+                <div><em>ADD：2Floor，72&74,Qian Men ST.Dongcheng District,Beijing,China</em></div>
             </div>
             <!--//End lbox-->
             <div class="rbox">
@@ -154,16 +149,16 @@ var renderHhtml = {
                     <a href="" class="twitter" title="twitter"></a>
                     <a href="" class="instagram" title="instagram"></a>
                     <a href="" class="linkedin" title="linkedin"></a>
-                    <span class="code"><img src="assets/images/footer_code.png" alt=""></span>
+                    <span class="code"><img src="../assets/images/footer_code.png" alt=""></span>
                 </div>
             </div>
         </div>
     </div>
     <!--//ENd main-->`;
-        this.base('.footer', htmlStr);
-    },
-    filter: function() {
-        var htmlStr = `<div class="content">
+            this.base('.footer', htmlStr);
+        },
+        filter: function() {
+            var htmlStr = `<div class="content">
         <form class="form" action="">
             <input class="ipt" type="text" value="从这里搜索您感兴趣的...">
             <input class="submit" type="submit" value="搜索">
@@ -271,13 +266,13 @@ var renderHhtml = {
         </div>
         <!--//End attribute-->
     </div>`;
-        this.base('.filter_search', htmlStr);
-    },
-    base: function(obj, html) {
-        var _el = $(obj);
-        _el.html(html);
-    }
-};
+            this.base('.filter_search', htmlStr);
+        },
+        base: function(obj, html) {
+            var _el = $(obj);
+            _el.html(html);
+        }
+    };
 
 //工具
 var utils = {
@@ -1135,21 +1130,21 @@ var loginPage = {
                                 <div class="group">
                                     <div class="name"><em>*</em><span>昵称</span></div>
                                     <div class="area">
-                                        <input class="ipt" type="text" value="请输入昵称">
+                                        <input class="ipt" name="loginName" type="text" value="请输入昵称">
                                     </div>
                                 </div>
                                 <div class="group">
                                     <div class="name"><em>*</em><span>密码</span></div>
                                     <div class="area">
-                                        <input class="ipt" type="text" value="请输入密码">
-                                        <a class="forget" href="">忘记登录密码</a>
+                                        <input class="ipt" type="text" value="请输入密码" name="password">
+                                        <a class="forget" href="#">忘记登录密码</a>
                                     </div>
                                 </div>
                                 <div class="group">
                                     <div class="name">&nbsp;</div>
                                     <div class="area">
-                                        <input class="btn" type="submit" value="登录">
-                                        <a class="arrow_right" href="">暂无账号，去注册</a>
+                                        <input class="btn" type="button" value="登录" onclick="login()">
+                                        <a class="arrow_right" href="../page/regist.html">暂无账号，去注册</a>
                                     </div>
                                 </div>
                             </form>

@@ -1,5 +1,6 @@
 package com.diich.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.diich.core.base.BaseController;
 import com.diich.core.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,10 @@ public class SearchController extends BaseController {
         response.setHeader("Access-Control-Allow-Origin", "*");
         map.put("pageBegin",((Integer)map.get("pageNum")-1)*(Integer)map.get("pageSize"));
 
+        //System.out.println(JSON.toJSONString(searchSerice.searchText(map)));
+
         return  searchSerice.searchText(map);
+
 
     }
 
@@ -107,7 +111,7 @@ public class SearchController extends BaseController {
         // mav.addObject("map", map);
         //mav.addObject("CREATE_HTML", false);
         response.setHeader("Access-Control-Allow-Origin", "*");
-        return "search1";
+        return "search";
     }
 
 

@@ -183,6 +183,9 @@ textarea{resize:none}
     position: relative;
     margin: 0 auto;
 }
+#home-header a {
+    color: #fff;
+}
 
 .header {
     width: 100%;
@@ -213,8 +216,7 @@ textarea{resize:none}
     height: 44px;
     line-height: 44px;
     font-size: 12px;
-    color: #fff;
-    opacity: 0.5;
+    color: #949494;
     float: left;
     -webkit-transition: all .3s;
     transition: all .3s;
@@ -253,8 +255,8 @@ textarea{resize:none}
     float: left;
 }
 
+.header .content .nav li:hover a,
 .header .content .nav li.active a {
-    font-weight: bold;
     opacity: 1;
 }
 
@@ -665,7 +667,7 @@ textarea{resize:none}
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, .6);
-    z-index: 10;
+    z-index: 1;
 }
 
 
@@ -705,10 +707,11 @@ textarea{resize:none}
     font-size: 30px;
     display: inline-block;
     margin-right: 5px;
+    letter-spacing: 2px;
 }
 
 .footer .diich .name em {
-    letter-spacing: 5px;
+    letter-spacing: 8px;
 }
 
 .footer .diich .subname {

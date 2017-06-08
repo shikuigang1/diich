@@ -9,8 +9,61 @@
     <link rel="stylesheet" href="../assets/css/layout.css">
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/js/system.js"></script>
-    <script type="text/javascript" src="/js/jquery.i18n.properties-1.0.9.js"></script>
+    <script src="../js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="../js/i18n.js"></script>
+    <style>
+        .wonderful .slider {
+            height:500px;
+        }
+        .wonderful .slider ul.img li {
+            display: none;
+        }
+        .wonderful .slider ul.img img {
+            width:1200px;
+            position: absolute;
+            top:0;
+            left:50%;
+            margin-left:-600px;
+        }
+        .modal_video {
+            position: fixed;
+            top:0;
+            right:0;
+            bottom:0;
+            left:0;
+            z-index:20;
+        }
+        .modal_video .video {
+            padding:30px;
+            position: absolute;
+            top:50%;
+            left:50%;
+            z-index:20;
+            background: #fff;
+        }
+        .modal_video .overbg0 {
+            background: rgba(0,0,0,.85);
+            position: fixed;
+            top:0;
+            right:0;
+            bottom:0;
+            left:0;
+            z-index:10;
+        }
+        .directory .pro_column3 .context .avatar img {
+            line-height:36px;
+            float: left;
+            margin-right:10px;
+        }
+        .directory .pro_column3 .context .avatar span {
+            float: left;
+        }
+        .directory .pro_column3 .pic {
+            display: -webkit-flex;
+            -webkit-justify-content: center;
+            -webkit-align-items: center;
+        }
+    </style>
 </head>
 
 <body style="background-color: rgb(245, 246, 247)">
@@ -23,63 +76,59 @@
         <div class="bd slider">
             <ul class="img">
                 <li class="bd" style="display: block;">
-                    <a href="#1"><img src="../assets/images/hero-bg1@2x.jpg" height="600" alt=""></a>
+                    <span class="play_big" data-id="0"></span>
+                    <img src="../assets/uploads/content/banner1.jpg" alt="">
                 </li>
                 <li class="bd">
-                    <a href="#2"><img src="../assets/images/hero-bg2@2x.jpg" height="600" alt=""></a>
+                    <span class="play_big" data-id="1"></span>
+                    <img src="../assets/uploads/content/banner2.jpg" alt="">
                 </li>
-                <li class="bd">
-                    <a href="#3"><img src="../assets/images/hero-bg3@2x.jpg" height="600" alt=""></a>
-                </li>
-                <li class="bd">
-                    <a href="#4"><img src="../assets/images/hero-bg4@2x.jpg" height="600" alt=""></a>
-                </li>
+                <!--<li class="bd">-->
+                <!--<span class="play_big" data-id="2"></span>-->
+                <!--<img src="assets/uploads/content/banner3.jpg" alt="">-->
+                <!--</li>-->
+                <!--<li class="bd">-->
+                <!--<span class="play_big" data-id="3"></span>-->
+                <!--<img src="assets/uploads/content/banner4.jpg" alt="">-->
+                <!--</li>-->
             </ul>
             <!--//End img -->
             <ul class="num">
                 <li class="active">01</li>
                 <li>02</li>
-                <li>03</li>
-                <li>04</li>
             </ul>
         </div>
         <!--//End slider -->
         <div class="conbox">
             <div class="content">
                 <div class="head">
-                    <h1>弗拉明戈舞者巴塞罗那演出</h1>
-                    <div class="desc">弗拉明戈舞（Flamenco Dance），作为当今世界最富感染力的流行舞种，是吉普赛文化和西班牙<br>的安达卢西亚民间文化的结合。</div>
+                    <h1>中国昆曲</h1>
+                    <div class="desc">昆曲，原名“昆山腔”、“昆腔”，是中国古老的戏曲声腔、剧种，清代以来被称为“昆曲”，现又被称为“昆剧”。昆曲是中国传统戏曲中最古老的剧种之一，也是中国传统文化艺术，特别是戏曲艺术中的珍品，被称为百花园中的一朵“兰花”。昆曲早在元朝末期（14世纪中叶）即产生于苏州昆山一带，它与起源于浙江的海盐腔、余姚腔和起源于江西的弋阳腔，被称为明代四大声腔，同属南戏系统。</div>
                     <div class="avatar">
-                        <span class="name">弗拉明戈舞</span>
+                        <span class="name">口头传统和表述</span>
                         <span class="imgs">
-                           <a href=""><img src="../assets/uploads/Bitmap1.png" alt=""></a>
-                           <a href=""><img src="../assets/uploads/Bitmap2.png" alt=""></a>
-                           <a href=""><img src="../assets/uploads/Bitmap3.png" alt=""></a>
-                           <a href=""><img src="../assets/uploads/Bitmap4.png" alt=""></a>
-                           <a href=""><img src="../assets/uploads/Bitmap1.png" alt=""></a>
+                           <a href="javascript:;" style="cursor:text;"><img src="../assets/uploads/zhouxuehua.jpg" alt=""></a>
                        </span>
 
-                        <span class="inheritor_num">等5位传承人</span>
+                        <span class="inheritor_num">相关传承人 · 周雪华</span>
                     </div>
                 </div>
                 <!--//End-->
 
                 <div class="main">
                     <div class="lbox">
-                        <div class="name">啊啊是巨大可适当阿克苏的好看了深空灰</div>
-                        <div class="desc">弗拉明戈舞（Flamenco Dance），作为当今世界最富感染力的流行舞种，是吉普赛文化和西班牙的安达卢西亚民间文化的结合。</div>
-                        <div class="info">
-                            <span class="name">弗拉明戈舞</span>
+                        <div class="name">中国苏绣</div>
+                        <div class="desc">苏绣是苏州地区刺绣产品的总称，汉族优秀的民族传统工艺之一，以苏州刺绣研究所的高新区的镇湖镇（现改为街道）刺绣最为有名。刺绣与养蚕，缫丝分不开，所以刺绣，又称丝绣。苏绣的发源地在苏州吴县一带，现已遍布很多地区，至今已有2000余年的历史，清代是苏绣的全盛时期，可谓流派繁衍，名手竞秀。苏绣具有图案秀丽、构思巧妙、绣工细致、针法活泼、色彩清雅的独特风格，地方特色浓郁；绣技具有“平、齐、和、光、顺、匀”的特点。</div>
+                        <div class="info" style="margin-top:20px;">
+                            <span class="name">口头传统和表述</span>
                             <div class="avatar">
-                                <a href=""><img src="../assets/uploads/Bitmap1.png" alt=""></a>
-                                <a href=""><img src="../assets/uploads/Bitmap2.png" alt=""></a>
-                                <a href=""><img src="../assets/uploads/Bitmap3.png" alt=""></a>
-                                <span class="num">等3位传承人</span>
+                                <a href=""><img src="../assets/uploads/yaohuifen.png" alt=""></a>
+                                <span class="num">相关传承人 · 姚慧芬</span>
                             </div>
                         </div>
                     </div>
                     <div class="rbox">
-                        <img src="../assets/uploads/jingcaizixun1.png" alt="">
+                        <img width="770" src="../assets/uploads/content/pic1.jpg" alt="">
 
                     </div>
                 </div>
@@ -88,172 +137,11 @@
                 <div class="directory">
                     <div class="section">
                         <div class="pro_column3">
-                            <ul>
-                                <li>
-                                    <a class="pic"><img src="../assets/uploads/Group 6.jpg" alt=""></a>
-                                    <div class="context">
-                                        <h4>嵊州竹编</h4>
-                                        <div class="tag">
-                                            <span class="name_project">弗拉明戈舞</span>
-                                        </div>
-                                        <div class="avatar">
-                                            <a href=""><img src="../assets/uploads/Bitmap1.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap2.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap3.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap4.png" alt=""></a>
-                                            <span>4位传承人</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="pic"><img src="../assets/uploads/Group 6.jpg" alt=""></a>
-                                    <div class="context">
-                                        <h4>嵊州竹编</h4>
-                                        <div class="tag">
-                                            <span class="name_project">弗拉明戈舞</span>
-                                        </div>
-                                        <div class="avatar">
-                                            <a href=""><img src="../assets/uploads/Bitmap1.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap2.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap3.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap4.png" alt=""></a>
-                                            <span>4位传承人</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="pic"><img src="../assets/uploads/Group 6.jpg" alt=""></a>
-                                    <div class="context">
-                                        <h4>嵊州竹编</h4>
-                                        <div class="tag">
-                                            <span class="name_project">弗拉明戈舞</span>
-                                        </div>
-                                        <div class="avatar">
-                                            <a href=""><img src="../assets/uploads/Bitmap1.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap2.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap3.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap4.png" alt=""></a>
-                                            <span>4位传承人</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="pic"><img src="../assets/uploads/Group 6.jpg" alt=""></a>
-                                    <div class="context">
-                                        <h4>嵊州竹编</h4>
-                                        <div class="tag">
-                                            <span class="name_project">弗拉明戈舞</span>
-                                        </div>
-                                        <div class="avatar">
-                                            <a href=""><img src="../assets/uploads/Bitmap1.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap2.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap3.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap4.png" alt=""></a>
-                                            <span>4位传承人</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="pic"><img src="../assets/uploads/Group 6.jpg" alt=""></a>
-                                    <div class="context">
-                                        <h4>嵊州竹编</h4>
-                                        <div class="tag">
-                                            <span class="name_project">弗拉明戈舞</span>
-                                        </div>
-                                        <div class="avatar">
-                                            <a href=""><img src="../assets/uploads/Bitmap1.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap2.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap3.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap4.png" alt=""></a>
-                                            <span>4位传承人</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="pic"><img src="../assets/uploads/Group 6.jpg" alt=""></a>
-                                    <div class="context">
-                                        <h4>嵊州竹编</h4>
-                                        <div class="tag">
-                                            <span class="name_project">弗拉明戈舞</span>
-                                        </div>
-                                        <div class="avatar">
-                                            <a href=""><img src="../assets/uploads/Bitmap1.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap2.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap3.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap4.png" alt=""></a>
-                                            <span>4位传承人</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="pic"><img src="../assets/uploads/Group 6.jpg" alt=""></a>
-                                    <div class="context">
-                                        <h4>嵊州竹编</h4>
-                                        <div class="tag">
-                                            <span class="name_project">弗拉明戈舞</span>
-                                        </div>
-                                        <div class="avatar">
-                                            <a href=""><img src="../assets/uploads/Bitmap1.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap2.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap3.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap4.png" alt=""></a>
-                                            <span>4位传承人</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="pic"><img src="../assets/uploads/Group 6.jpg" alt=""></a>
-                                    <div class="context">
-                                        <h4>嵊州竹编</h4>
-                                        <div class="tag">
-                                            <span class="name_project">弗拉明戈舞</span>
-                                        </div>
-                                        <div class="avatar">
-                                            <a href=""><img src="../assets/uploads/Bitmap1.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap2.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap3.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap4.png" alt=""></a>
-                                            <span>4位传承人</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="pic"><img src="../assets/uploads/Group 6.jpg" alt=""></a>
-                                    <div class="context">
-                                        <h4>嵊州竹编</h4>
-                                        <div class="tag">
-                                            <span class="name_project">弗拉明戈舞</span>
-                                        </div>
-                                        <div class="avatar">
-                                            <a href=""><img src="../assets/uploads/Bitmap1.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap2.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap3.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap4.png" alt=""></a>
-                                            <span>4位传承人</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="pic"><img src="../assets/uploads/Group 6.jpg" alt=""></a>
-                                    <div class="context">
-                                        <h4>嵊州竹编</h4>
-                                        <div class="tag">
-                                            <span class="name_project">弗拉明戈舞</span>
-                                        </div>
-                                        <div class="avatar">
-                                            <a href=""><img src="../assets/uploads/Bitmap1.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap2.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap3.png" alt=""></a>
-                                            <a href=""><img src="../assets/uploads/Bitmap4.png" alt=""></a>
-                                            <span>4位传承人</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+                            <ul id="products"></ul>
                         </div>
-                        <div class="load_more">
-                            <a href="javascript:;">Load More</a>
-                        </div>
+                        <!--<div class="load_more">-->
+                        <!--<a href="javascript:;">Load More</a>-->
+                        <!--</div>-->
                     </div>
                     <!-- 项目 end -->
                 </div>
@@ -266,6 +154,14 @@
 
     <div class="bd footer"></div>
     <!--//End--footer-->
+
+    <div class="modal_video" style="display: none;">
+        <div class="content">
+
+        </div>
+        <div class="overbg0"></div>
+    </div>
+
 </div>
 
 
@@ -273,7 +169,85 @@
 <script>
     $(function () {
         $('.header .content .nav li').eq(3).addClass('active').siblings('li').removeClass('active');
-        wonderfulPage.init();
+        //精选页面
+        common.slide(); //轮播图
+        (function () {
+            var modal=$('.modal_video');
+            var el=$('.play_big');
+            var content=modal.find('.content');
+            var arr=[
+                '<video class="video" style="margin-top:-210px;margin-left:-270px" src="http://diich-resource.oss-cn-beijing.aliyuncs.com/video/banner1.mp4" controls></video>',
+                '<video class="video" style="margin-top:-318px;margin-left:-414px" src="http://diich-resource.oss-cn-beijing.aliyuncs.com/video/banner2.mp4" controls></video>',
+            ];
+
+            el.on('click',function () {
+                var index=$(this).attr('data-id');
+                content.append(arr[index]);
+                modal.fadeIn(200);
+            });
+            $('.overbg0').on('click',function(){
+                modal.fadeOut();
+                content.html('');
+            });
+            return false;
+        })();
+
+        //产品列表
+        (function () {
+            var data=[
+                {"name":"闹天宫","master":"蔡水况","pic":"400000015001.jpg","avatar":"caishuikuang.png"},
+                {"name":"南瓜套盘","master":"蔡云娣","pic":"400000015003.JPG","avatar":"caiyunti.png"},
+                {"name":"早生贵子壶","master":"蔡云娣","pic":"400000015005.jpg","avatar":"caiyunti.png"},
+                {"name":"叶上金蝉","master":"程淑美","pic":"400000015008.jpg","avatar":"chengshumei.png"},
+                {"name":"金扣红斑犀皮漆碗","master":"甘而可","pic":"400000015010.jpg","avatar":"ganerke.png"},
+                {"name":"绿金斑犀皮漆茶具一套","master":"甘而可","pic":"400000015011.JPG","avatar":"ganerke.png"},
+                {"name":"地动仪","master":"甘而可","pic":"400000015012.jpg","avatar":"ganerke.png"},
+                {"name":"丝绸之路","master":"高水旺","pic":"400000015014.jpg","avatar":"gaoshuiwang.png"},
+                {"name":"连年有余","master":"霍庆顺","pic":"400000015019.JPG","avatar":"huoqingshun.png"},
+                {"name":"吕尧臣作品小石冷泉","master":"吕尧臣","pic":"400000015022.JPG","avatar":"lvxiaochen.png"},
+                {"name":"阴阳太极壶","master":"吕尧臣","pic":"400000015023.JPG","avatar":"lvxiaochen.png"},
+                {"name":"宋世义翡翠西厢记","master":"宋世义","pic":"400000015024.jpg","avatar":"songshiyi.png"},
+                {"name":"翡翠敦煌伎乐天","master":"宋世义","pic":"400000015025.jpg","avatar":"songshiyi.png"},
+                {"name":"女王","master":"孙燕云","pic":"400000015027.jpg","avatar":"sunyanyun.png"},
+                {"name":"钱学森","master":"孙燕云","pic":"400000015028.jpg","avatar":"sunyanyun.png"},
+                {"name":"道德经","master":"王芝文","pic":"400000015030.jpg","avatar":"wangzhiwen.png"},
+                {"name":"百鸟朝凤","master":"魏国秋","pic":"400000015033.jpg","avatar":"weiguoqiu.png"},
+                {"name":"水乡小品","master":"姚惠芬","pic":"400000015036.JPG","avatar":"yaohuifen.png"},
+                {"name":"写意牡丹","master":"姚惠芬","pic":"400000015037.JPG","avatar":"yaohuifen.png"},
+                {"name":"花冠万年灯","master":"张同禄","pic":"400000015039.jpg","avatar":"zhangtonglu.png"},
+                {"name":"百花齐放","master":"朱炳仁","pic":"400000015042.jpg","avatar":"zhubingren.png"},
+                {"name":"圆明园之魂","master":"朱炳仁","pic":"400000015044.jpg","avatar":"zhubingren.png"},
+                {"name":"将军罐","master":"何俊明","pic":"400000015047.jpg","avatar":"kejunming.png"},
+                {"name":"岁朝清供","master":"康惠芳","pic":"400000015048.jpg","avatar":"kanghuifang.png"},
+                {"name":"金龙鱼","master":"康惠芳","pic":"400000015050.jpg","avatar":"kanghuifang.png"},
+                {"name":"莲华","master":"吕俊杰","pic":"400000015052.JPG","avatar":"lvjunjie.png"},
+                {"name":"《富春山居图》之二","master":"魏立中","pic":"400000015054.jpg","avatar":"weilizhong.png"},
+                {"name":"宋徽宗赵佶五色鹦鹉图","master":"魏立中","pic":"400000015055.jpg","avatar":"weilizhong.png"},
+                {"name":"鱼桌旗","master":"吴元新","pic":"400000015059.jpg","avatar":"wuyuanxin.png"}
+            ];
+
+
+            var product=$('#products');
+            var str='';
+            for (var i=0;i<data.length;i++){
+                str+='<li>'+
+                        '<p class="pic"><img src="../assets/uploads/content/products/'+ data[i].pic +'" alt=""></p>'+
+                        '<div class="context">'+
+                        '<h4>'+data[i].name+'</h4>'+
+                        '<div class="tag">'+
+                        '<span class="name_project">传统手工艺</span>'+
+                        '</div>'+
+                        '<div class="avatar">'+
+                        '<img src="../assets/uploads/content/products/'+data[i].avatar+'" alt="">'+
+                        '<span>'+data[i].master+'</span>'+
+                        '</div>'+
+                        '</div>'+
+                        '</li>';
+            }
+            product.append(str);
+        })();
+
+
     })
 </script>
 

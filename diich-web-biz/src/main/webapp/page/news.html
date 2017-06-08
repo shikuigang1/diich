@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>非遗资讯</title>
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <style>
+        .information .card ul {
+            margin-top:0;
+        }
+        .information .card h2 {
+            margin-bottom:60px;
+        }
+        .cover_img {
+            width:370px;
+            height:277px;
+            background: #000;
+            float: left;
+            overflow: hidden;
+        }
+        .cover_img img {
+            -webkit-transition: all .3s;
+            transition: all .3s;
+
+        }
+        .cover_img:hover img {
+            transform: scale(1.1);
+            opacity:.8;
+        }
+    </style>
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/vue.js"></script>
+    <script src="../assets/js/system.js"></script>
+</head>
+
+<body style="background-color: rgb(245, 246, 247)">
+    <div class="header header_detail"></div>
+    <!--//End header -->
+
+
+
+    <div class="container" id="app">
+        <div class="slide_img"><img :src="bannerUri" alt=""></div>
+        <!--//End-->
+
+        <div class="information">
+            <div class="card">
+                <h2>新闻</h2>
+                <ul v-for="item in list">
+                    <li>
+                        <a :href="item.link" class="cover_img"><img :src="'http://diich-resource.oss-cn-beijing.aliyuncs.com/image/news/'+item.thumb" alt=""></a>
+                        <div class="context" style="padding-bottom:0;">
+                            <h3 data-type="title" style="height: 72px;overflow: hidden;"><a :href="item.link">{{item.title}}</a></h3>
+                            <span data-type="time">{{item.time}}</span>
+                            <p data-type="brief" style="width: 100%;height: 94px; margin-top: 35px;overflow: hidden;">{{item.brief}}</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="bd footer"></div>
+    <!--//End--footer-->
+</body>
+<script>
+    $(function() {
+        $('.header .content .nav li').eq(4).addClass('active').siblings('li').removeClass('active');
+
+        var app=new Vue({
+            el:'#app',
+            data:{
+                bannerUri:'../assets/uploads/news_banner.jpg',
+                list:[{
+                    id:1,
+                    title:'联合国教科文组织国际非遗大数据库第一阶段成果会议',
+                    time:'2017.05.18',
+                    brief:'近日，联合国教科文组织非遗大数据库第一阶段成果验收会议在中国科学技术信息研究所召开，永新华韵大数据主要团队、中国科学技术信息研究所、夸克项目负责人参加会议。',
+                    thumb:'thumb_01.jpg',
+                    link:'news1.html'
+                },
+                    {
+                        id:2,
+                        title:'【世界非物质文化遗产·端午节】纪念伟大诗人 传承民族精神',
+                        time:'2017年05月29日',
+                        brief:'端午节蕴含着中华民族深厚的传统文化精神。2009年9月，联合国教科文组织正式审议批准中国端午节列入世界非物质文化遗产，成为中国首个选入世界非物质文化遗产的节日。',
+                        thumb:'thumb_02.jpg',
+                        link:'news2.html'
+                    },
+                    {
+                        id:3,
+                        title:'非遗百匠|因刺绣而生，为刺绣而梦——朱寿珍',
+                        time:'2017.05.24',
+                        brief:'朱寿珍，女，中国工艺美术协会会员，永新华韵入驻大师。1969出生于太湖之滨，自幼研习苏绣，师承世家祖艺，绣艺精湛，方圆闻名，被誉为“四大名绣”之一。已荣获“国家高级工艺美术师”，“江苏省工艺美术名人”等殊荣。朱寿珍刺绣题材众多，有人物、动物，也有绣品仿油画、国画、书法等风格。作品逼真，线条自然生动，具有独特的艺术韵味。绣品，乱针齐绣相融，针法细腻，色丰形真，精品长出，获国内外诸多奖项。多副肖像作品分别被英国皇家博物馆、爱尔兰、印尼、哈萨克斯坦总统府收藏；经苏绣再创作的世界名画《蒙娜丽莎》、《海边少女》、《针尖上的法国印象》引起轰动；《非洲雄狮》、《金香炉》、《满瓶红花》等在全国工艺大师精品博览会荣获金奖。',
+                        thumb:'thumb_03.jpg',
+                        link:'news3.html'
+                    },
+                    {
+                        id:4,
+                        title:'文化部确定2017年文化和自然遗产日宣传口号： 保护非遗—在生活中弘扬，在实践中振兴',
+                        time:'2017-05-24',
+                        brief:'第六届国际非遗节继续由文化部、四川省人民政府、联合国教科文组织和中国联合国教科文组织全国委员会主办，成都市人民政府、四川省文化厅、中国非物质文化遗产保护中心和联合国教科文组织亚太地区非物质文化遗产国际培训中心、文化部民族民间文艺发展中心承办。',
+                        thumb:'thumb_04.jpg',
+                        link:'news4.html'
+                    },
+                    {
+                        id:5,
+                        title:'非遗纪录片《风情中国》展现少数民族非遗风情',
+                        time:'2017-05-19',
+                        brief:'国家出版基金支持的国家级文化战略工程项目大型少数民族文化系列、 纪录片《风情中国》第二季目前已在湘西开拍。该纪录片旨在保护和宣传中国少数民族非物质文化遗产，内容涵盖了中国少数民族最主要、最典型的文化、习俗、信仰等内容，记录中国少数民族的人文风貌，展示中国少数民族非物质文化遗产的传承和发展。',
+                        thumb:'thumb_05.jpg',
+                        link:'news5.html'
+                    },
+                    {
+                        id:6,
+                        title:'非遗百科|千年技艺 沉淀莞香——莞香制作技艺',
+                        time:'2017-05-10',
+                        brief:'莞香是东莞最负盛名的特产和城市名片之一，莞人种香的历史悠久而厚重，在国内甚至国际上都有较高的知名度。近些年来，东莞在传承莞香文化的同时，也不忘努力创新，复兴布局东莞莞香产业发展。东莞已出台莞香文化产业发展相关方案，引导布局莞香产业全发展，未来将构建起集种植、营销、旅游、医药、养生、文化于一体的全产业链，形成千亿莞香产业集群，打造“东方香都”。',
+                        thumb:'thumb_06.jpg',
+                        link:'news6.html'
+                    }]
+            }
+        });
+    })
+</script>
+
+</html>

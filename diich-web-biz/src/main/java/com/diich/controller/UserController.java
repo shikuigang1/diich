@@ -114,6 +114,8 @@ public class UserController extends BaseController<User> {
         }
         String verifyCode = (String) session.getAttribute(phone);
         //防止没有获取验证码直接点击注册
+
+        result.put("msg","中文");
         if(verifyCode == null){
             result.put("code",2);
             return result;
@@ -199,6 +201,8 @@ public class UserController extends BaseController<User> {
     @ResponseBody
     public Map<String, Object> uploadFile(HttpServletRequest request,HttpServletResponse response) {
         List<String> list = null;
+
+        System.out.println("1111111");
 
         try {
             list = OperateFileUtil.uplaodFile(request);

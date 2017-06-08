@@ -138,7 +138,6 @@
             <artifactId>spring-data-redis</artifactId>
             <version>${spring-data-redis.version}</version>
         </dependency>
-
         <!-- spring-jackson -->
 
         <dependency>
