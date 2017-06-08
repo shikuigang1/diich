@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>传承人详情页</title>
+    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/system.js"></script>
+</head>
+
+<body>
+    <div class="header header_detail"></div>
+    <!--//End header -->
+
+    <div class="filter_search filter_search_fixed">
+        <div class="content">
+            <form class="form" action="">
+                <input class="ipt" type="text" value="从这里搜索您感兴趣的...">
+                <input class="submit" type="submit" value="搜索">
+                <div class="suggest" style="display: none;">
+                    <ul>
+                        <li><a href=""><span>苏州</span>传承人</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                    </ul>
+                </div>
+            </form>
+            <!--//End form-->
+
+            <div class="attr">
+                <span>全部</span>
+                <span>所属类别</span>
+                <span>全球</span>
+            </div>
+            <!--//End attribute-->
+
+            <div class="dropbox" id="drag">
+                <div class="item">
+                    <dl class="level">
+                        <dt>
+                    <div class="title">查看</div>
+                    </dt>
+                        <dd>
+                            <ul>
+                                <li class="active">全部<span>342</span></li>
+                                <li>项目<span>42</span></li>
+                                <li>传承人<span>42</span></li>
+                                <li>作品<span>42</span></li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <!--//ENd 全部-->
+
+                <div class="item">
+                    <dl class="level">
+                        <dt>
+                    <div class="title">一级分类</div>
+                    <div class="subtitle">所有分类</div>
+                    </dt>
+                        <dd>
+                            <ul>
+                                <li>口头传统和表述</li>
+                                <li>表演艺术</li>
+                                <li>社会风俗、礼仪、节庆</li>
+                                <li>有关自然界和宇宙的知识和实践</li>
+                                <li>传统的手工艺技能</li>
+                                <li>传统的手工艺技能</li>
+                                <li>传统的手工艺技能</li>
+                                <li>传统的手工艺技能</li>
+                                <li>传统的手工艺技能</li>
+                                <li>传统的手工艺技能</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <dl class="level2">
+                        <dt>
+                    <div class="title">二级分类</div>
+                    <div class="subtitle">所有二级分类</div>
+                    </dt>
+                        <dd>
+                            <ul>
+                                <li>工具和机械制作</li>
+                                <li>家畜农林产品加工</li>
+                                <li>造纸、印刷及装裱</li>
+                                <li>烧造工艺</li>
+                                <li>锻冶工艺</li>
+                                <li>雕塑工艺</li>
+                                <li>雕塑工艺</li>
+                                <li>雕塑工艺</li>
+                                <li>雕塑工艺</li>
+                                <li>雕塑工艺</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <!--//End 所属分类-->
+
+                <div class="item">
+                    <dl class="level">
+                        <dt>
+                    <div class="title">位置</div>
+                    </dt>
+                        <dd>
+                            <ul>
+                                <li>全球</li>
+                                <li>中国</li>
+                                <li>非洲</li>
+                                <li>阿拉伯地区</li>
+                                <li>亚太</li>
+                                <li>欧美</li>
+                                <li>拉美</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <dl class="level2">
+                        <dt>
+                    <div class="title">按照字母顺序</div>
+                    </dt>
+                        <dd>
+                            <ul>
+                                <li>安微</li>
+                                <li>澳门</li>
+                                <li>北京</li>
+                                <li>上海</li>
+                                <li>福建</li>
+                                <li>甘肃</li>
+                                <li>广东</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <!--//End 位置-->
+
+            </div>
+            <!--//End attribute-->
+        </div>
+    </div>
+    <!--//End filter_search -->
+
+
+    <div class="container">
+        <div class="bd detail">
+            <div class="mainbg">
+                <img src="assets/uploads/detail_bg_01.jpg" alt="">
+            </div>
+            <!--//End main-->
+
+            <div class="crumbs">
+                <span>非遗名录</span>
+                <i class="gt"></i>
+                <span><a href="" title="口头传说和表述">口头传说和表述</a></span>
+                <i class="gt"></i>
+                <span class="last">昆曲</span>
+            </div>
+            <!--//End crumbs-->
+
+            <div class="card">
+                <div class="card_main">
+                    <div class="floor">
+                        <a class="share" title="分享"></a>
+                        <a class="praise active" title="点赞" style="position: relative;"></a>
+                        <a class="album"><i class="icon_img"></i>9张图片</a>
+                        <div class="share_box">
+                            <div class="icons">
+                                <a href="" class="sina"></a>
+                                <a href="" class="facebook"></a>
+                                <a href="" class="twitter"></a>
+                            </div>
+                            <img class="qrcode" src="assets/images/code.png" alt="">
+                        </div>
+                    </div>
+                    <!--//End -->
+                    <div class="detail_title">
+                        <h2>林为林</h2>
+                        <div class="doi_code">
+                            <i class="icon"></i>
+                            <span>标识码：37232519870103004383</span>
+                            <em class="icon"></em>
+                            <div class="drop">
+                                <img src="assets/images/code.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <!--//End title-->
+
+                    <div class="bd subtxt">
+                        <span>
+                            <strong>申报地区：</strong>
+                            <em>中国北京市</em>
+                        </span>
+                    </div>
+                    <!--//End-->
+
+
+                    <div class="bd inheritor">
+                        <div class="tname">传承项目</div>
+                        <div class="pro">
+                            <div class="img"><img src="assets/uploads/detail_01.jpg" width="94" height="70" alt="">
+                            </div>
+                            <div class="txt">
+                                <p class="t">昆曲</p>
+                                <p>类别：B04 表演艺术-传统戏剧 | 地域：中国</p>
+                                <p>DOI ：37232519870103004383005768</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--//ENd-->
+
+                    <div class="bd batch">
+                        <div class="tname">非遗在中国<i></i></div>
+                        <div class="subcon">
+                            <span>人类非物质文化遗产编号：Ⅳ-1</span>
+                            <span>级别：世界级</span>
+                            <span>批次：第一批</span>
+                        </div>
+                    </div>
+                    <!--//ENd-->
+
+                </div>
+
+                <div class="card_base">
+                    <duv class="detail_title">
+                        <h2>基礎信息</h2>
+                    </duv>
+                    <div class="info">
+                        <ul>
+                            <li>
+                                <span class="key">出生日期：</span>
+                                <span class="value">1961年12月</span>
+                            </li>
+                            <li>
+                                <span class="key">主要成就：</span>
+                                <span class="value">中国戏剧梅花奖“二度梅”得主</span>
+                            </li>
+                            <li>
+                                <span class="key">民族：</span>
+                                <span class="value">汉族</span>
+                            </li>
+                            <li>
+                                <span class="key">代表作品：</span>
+                                <span class="value">《界牌关》、《挑滑车》、《夜奔》、《探庄》</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--//End 基本信息-->
+            </div>
+            <!--//主内容-->
+
+            <section class="bd floor odd">
+                <div class="card">
+                    <header>
+                        <h4>简介</h4>
+                    </header>
+                    <article class="plain_text">
+                        <ul>
+                            <li>
+                                <p>
+                                    昆曲又称昆腔、昆山腔、昆剧，是元末明初南戏发展到昆山一带，与当地的音乐、歌舞、语言结合而生成的一个新的声腔剧种。明代初年在昆山地区形成了“昆山腔”，嘉靖年间经过魏良辅等人的革新，昆山腔吸收北曲及海盐腔、弋阳腔的长处，形成委婉细腻、流丽悠长的“水磨调”风格，昆曲至此基本成型。梁辰鱼将传奇《浣纱记》以昆曲形式搬上舞台，使原</p>
+                            </li>
+                            <li>
+                                <p>
+                                    来主要用于清唱的昆曲正式进入戏剧表演领域，进一步扩大了影响。万历年间，昆曲从江浙一带逐渐流播到全国各地。明代天启初年到清代康熙末年的一百多年是昆曲蓬勃兴盛的时期。清代乾隆年以后，昆曲逐渐衰落下去。新中国诞生以来，昆曲艺术出现了转机，国家先后建立了7个有独立建制的专业昆曲院团。目前昆曲主要由专业昆曲院团演出，有关演出活</p>
+                            </li>
+                            <li>
+                                <p>动多集中在江苏、浙江、上海、北京、湖南等地。 清末，昆曲就逐渐没落。中华人民共和国成立后，曾得到一度的振兴。近年来，随着传统戏曲演出在城市中的衰微，昆曲正面临着生存的困境，演员和观众队伍不断缩减。昆曲要生存发展，有许多迫在眉睫的问题亟待解决。
+
+                                </p>
+                            </li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+            <!--//End plain_text-->
+
+            <section class="bd floor even">
+                <div class="card">
+                    <header>
+                        <h4>代表作品</h4><em>共5项</em>
+                    </header>
+                    <article class="product_list">
+                        <ul>
+                            <li>
+                                <a href=""><img src="assets/uploads/detail_02.jpg" alt=""></a>
+                                <p class="name">《界牌关》选段</p>
+                                <p class="master">CCTV1 空中剧院演出 2001年</p>
+                            </li>
+                            <li>
+                                <a href=""><img src="assets/uploads/detail_03.jpg" alt=""></a>
+                                <p class="name">《界牌关》选段</p>
+                                <p class="master">CCTV1 空中剧院演出 2001年</p>
+                            </li>
+                            <li>
+                                <a href=""><img src="assets/uploads/detail_04.jpg" alt=""></a>
+                                <p class="name">《界牌关》选段</p>
+                                <p class="master">CCTV1 空中剧院演出 2001年</p>
+                            </li>
+                            <li>
+                                <a href=""><img src="assets/uploads/detail_05.jpg" alt=""></a>
+                                <p class="name">《界牌关》选段</p>
+                                <p class="master">CCTV1 空中剧院演出 2001年</p>
+                            </li>
+                            <li>
+                                <a href=""><img src="assets/uploads/detail_02.jpg" alt=""></a>
+                                <p class="name">《界牌关》选段</p>
+                                <p class="master">CCTV1 空中剧院演出 2001年</p>
+                            </li>
+                        </ul>
+                        <div class="page"></div>
+                    </article>
+                </div>
+            </section>
+            <!--//End product_list-->
+
+            <section class="bd floor odd">
+                <div class="card">
+                    <header>
+                        <h4>個人藝術特點</h4>
+                    </header>
+                    <article class="plain_text">
+                        <ul>
+                            <li>
+                                <p>
+                                    他九岁学艺，1978年入浙江昆剧团。师承张正堃、邱唤、沈斌、曲永春、魏克玉等京昆名家。受益于著名昆剧表演艺术家周传瑛和京剧表演艺术家历慧良的指导。林为林是浙江昆剧团第四代“秀”字辈演员，他扮相英武，台风沉稳，功底扎实，以长靠、短打武生戏见长，腿功尤为叫绝，享有“江南一条腿”之美誉。其代表作有《界牌关》、《挑滑车》、《夜奔》、</p>
+                            </li>
+                            <li>
+                                <p>《探庄》、《试马》、《钟馗嫁妹》，及新编历史剧《暗箭记》、《吕布与貂蝉》等。曾多次赴香港、台湾、日本、泰国等地讲学、演出，享有声誉。 他九岁学艺，1978年入浙江昆剧团。师承张正堃、邱唤、沈斌、曲永春、魏克玉等京昆名家。受益于著名昆剧表演艺术家周传瑛和京剧表演艺术家历慧良的
+
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    指导。林为林是浙江昆剧团第四代“秀”字辈演员，他扮相英武，台风沉稳，功底扎实，以长靠、短打武生戏见长，腿功尤为叫绝，享有“江南一条腿”之美誉。其代表作有《界牌关》、《挑滑车》、《夜奔》、《探庄》、《试马》、《钟馗嫁妹》，及新编历史剧《暗箭记》、《吕布与貂蝉》等。曾多次赴香港、台湾、日本、泰国等地讲学、演出，享有声誉。</p>
+                            </li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+            <!--//End plain_text-->
+
+            <section class="bd floor even">
+                <div class="card">
+                    <header>
+                        <h4>學習與實踐經歷</h4>
+                    </header>
+                    <article class="time_axis">
+                        <ul>
+                            <li>
+                                <span class="icon"></span>
+                                <span class="time">1974年4月</span>
+                                <span class="txt">被沈阳京剧院学员班选入开始学习京剧，接受杨元咏、黄云鹏等名师的精心培育。</span>
+                            </li>
+                            <li>
+                                <span class="icon"></span>
+                                <span class="time">1978年</span>
+                                <span class="txt">在沈阳的现代京戏《大鲁歌》中担任主角，连演百余场，在沈阳获得“戏剧神童”称号。</span>
+                            </li>
+                            <li>
+                                <span class="icon"></span>
+                                <span class="time">1982年</span>
+                                <span class="txt">考入中国戏曲学院表演系，毕业后分到中国京剧院。</span>
+                            </li>
+                            <li>
+                                <span class="icon"></span>
+                                <span class="time">1982年</span>
+                                <span class="txt">毕业后进入中国京剧院工作至今。</span>
+                            </li>
+                            <li>
+                                <span class="icon"></span>
+                                <span class="time">2001年-2010年</span>
+                                <span class="txt">任国家京剧院一团团长。</span>
+                            </li>
+                            <li>
+                                <span class="icon"></span>
+                                <span class="time">2010年3月至今</span>
+                                <span class="txt">任国家京剧院副院长、艺术指导。</span>
+                            </li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+            <!--//End time-->
+
+            <section class="bd floor odd">
+                <div class="card">
+                    <header>
+                        <h4>傳承脈絡</h4>
+                    </header>
+                    <article>
+                        <div class="plain_text">
+                            <ul>
+                                <li>
+                                    <p>
+                                        师承张正堃、邱唤、沈斌、曲永春、魏克玉等京昆名家。受益于著名昆剧表演艺术家周传瑛和京剧表演艺术家历慧良的指导。林为林是浙江昆剧团第四代“秀”字辈演员，他扮相英武，台风沉稳，功底扎实，以长靠、短打武生戏见长，腿功尤为叫绝，享有</p>
+                                </li>
+                                <li>
+                                    <p>林为林是浙江昆剧团第四代“秀”字辈演员，他扮相英武，台风沉稳，功底扎实，以长靠、短打武生戏见长，腿功尤为叫绝，享有“江南一条腿”之美誉。师承张正堃、<a href="">沈斌</a>、<a href="">曲永春</a> 、<a href="">周传瑛</a>等京昆名家。受益于著名昆剧表演艺术家周传瑛和京剧表演艺术家</p>
+                                </li>
+                                <li>
+                                    <p>魏克玉等京昆名家。 1985年荣获第三届中国戏剧“梅花奖”，2007年荣获第十届中国戏剧“梅花奖”，成为“二度梅”得主。
+
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="master_avatar">
+                            <ul>
+                                <li>
+                                    <a href="" class="avatar"><img src="assets/uploads/master_1.jpg" alt=""></a>
+                                    <span class="txt">
+                                    <p class="name"><a href="">周雪华</a><i class="tag">老师</i></p>
+                                    <p>国家级非遗传承人</p>
+                                    <p>昆曲杰出代表人</p>
+                                </span>
+                                </li>
+                                <li>
+                                    <a href="" class="avatar"><img src="assets/uploads/master_2.jpg" alt=""></a>
+                                    <span class="txt">
+                                    <p class="name"><a href="">曲永春</a><i class="tag">老师</i></p>
+                                    <p>昆曲杰出代表人物之一</p>
+                                </span>
+                                </li>
+                                <li>
+                                    <a href="" class="avatar"><img src="assets/uploads/master_3.jpg" alt=""></a>
+                                    <span class="txt">
+                                    <p class="name"><a href="">周传瑛</a><i class="tag">老师</i></p>
+                                    <p>建国后昆剧界的杰出代表人物之一</p>
+                                    <p>国家一级演员</p>
+                                </span>
+                                </li>
+                                <li>
+                                    <a href="" class="avatar"><img src="assets/uploads/master_4.jpg" alt=""></a>
+                                    <span class="txt">
+                                    <p class="name"><a href="">周云亮</a><i class="tag">学生</i></p>
+                                    <p>新时代昆曲杰出代表人物之一</p>
+                                    <p>国家一级演员</p>
+                                </span>
+                                </li>
+                                <li>
+                                    <a href="" class="avatar"><img src="assets/uploads/master_5.jpg" alt=""></a>
+                                    <span class="txt">
+                                    <p class="name"><a href="">沈福存</a><i class="tag">学生</i></p>
+                                    <p>国家级非物质文化遗产传承人</p>
+                                    <p>国家一级演员</p>
+                                </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </section>
+            <!--//End plain_text-->
+
+            <section class="bd floor even">
+                <div class="card">
+                    <header>
+                        <h4>個人成就</h4>
+                    </header>
+                    <article class="text_img">
+                        <div class="side">
+                            <div class="item">
+                                <div class="name">奖项</div>
+                                <p>1985年荣获第三届中国戏剧“梅花奖”，</p>
+                                <p>2007年荣获第十届中国戏剧“梅花奖”，成为“二度梅”得主。</p>
+                                <p>2002年度参加全国昆曲评比展演，一举荣获由联合国科教文组织和文化部颁发的“昆曲艺术促进奖”，名列榜首。</p>
+                                <p>2005年荣获第九届中国戏剧节“优秀演员奖”</p>
+                            </div>
+
+                            <div class="item">
+                                <div class="name">演出</div>
+                                <div>由他领衔主演的新编昆剧历史剧《公孙子都》自2007年荣获第八届中国艺术节“文华优秀剧目奖”后，又于2008年初，摘得“2006—2007年度国家舞台艺术十大精品剧目工程”精品剧目奖榜首的桂冠。是2002年浙江省城市报喜鸟杯“新绅士”荣誉称号文艺界唯一获得者。</div>
+                                <div>1994年开始任浙江戏曲会演评委，浙江省高级职称艺术类评委。现为中国戏剧家协会会员，浙江省戏剧家协会副主席，浙江省院团长管理委员会主席，浙江省艺术职业学院客座教授，台湾国立艺术大学客座教授，香港城市中文大学驻校艺术家，浙江省分会常务理事，中国昆曲研究会常务理事，浙江昆研会副会长，中国表演学会常务理事。《中国艺术词典》、《当代戏曲艺术家名录》皆收有小传和介绍。</div>
+                                <div>其代表作有《界牌关》、《挑滑车》、《夜奔》、《探庄》、《试马》、《钟馗嫁妹》，及新编历史剧《暗箭记》、《吕布与貂蝉》等。曾多次赴香港、台湾、日本、泰国等地讲学、演出，享有声誉。</div>
+                            </div>
+
+                        </div>
+                        <!--//End side-->
+
+                        <div class="media">
+                            <ul>
+                                <li>
+                                    <div class="card_video">
+                                        <div class="time">30:24</div>
+                                        <div class="play"></div>
+                                        <video poster="assets/uploads/exp2.png">
+                                        <source style="width: 100%;" src="assets/uploads/video.mp4" type="video/mp4">
+                                    </video>
+                                    </div>
+                                    <span>鼓锣</span>
+                                </li>
+                                <li>
+                                    <img src="assets/uploads/exp3.png" alt="">
+                                    <span>建国后昆剧界的杰出代表人物之一周传瑛</span>
+                                </li>
+                            </ul>
+                            <div class="more">
+                                <a class="arrow_right" href="">查看完整图集</a>
+                            </div>
+                        </div>
+
+                    </article>
+                </div>
+            </section>
+            <!--//End-->
+
+        </div>
+        <!--//End detail -->
+    </div>
+
+    <div class="bd footer"></div>
+    <!--//End--footer-->
+
+    <div class="side_fixed">
+        <ul></ul>
+        <a class="gotop" href="javascript:void(0)" title="返回顶部"></a>
+    </div>
+    <!--//End 右侧悬浮-->
+
+</body>
+<script>
+    $(function() {
+        //初始化
+        detaiInheritorlPage.init();
+    });
+</script>
+
+</html>

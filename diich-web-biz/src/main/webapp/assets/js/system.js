@@ -1142,7 +1142,7 @@ var loginPage = {
                                     <div class="name"><em>*</em><span>密码</span></div>
                                     <div class="area">
                                         <input class="ipt" type="text" value="请输入密码" name="password">
-                                        <a class="forget" href="">忘记登录密码</a>
+                                        <a class="forget" href="#">忘记登录密码</a>
                                     </div>
                                 </div>
                                 <div class="group">

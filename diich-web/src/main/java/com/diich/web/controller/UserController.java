@@ -41,10 +41,11 @@ public class UserController extends BaseController<User> {
     @ResponseBody
     public Map<String, Object> getVerifyCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> result=new HashMap<>();
+
         String phone = request.getParameter("phone");
         if(phone==null){
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            result.put("msg","请输入手机号");
+            return result;
         }
         HttpSession session = request.getSession();
         //验证码是否存在和是否超时
@@ -60,8 +61,8 @@ public class UserController extends BaseController<User> {
         }
         String  code = (String) session.getAttribute(phone);
         if(code !=null){
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            result.put("msg","验证码已发送,不能重复发送,请稍后再试");
+            return result;
         }
         String verifyCode = null;
         try{
@@ -89,13 +90,13 @@ public class UserController extends BaseController<User> {
     @ResponseBody
     public Map<String, Object> register(HttpServletRequest request,HttpServletResponse response,User user) throws Exception {
         Map<String, Object> result = new HashMap<>();
-        String code = request.getParameter("code");
-        String phone = user.getPhone();
 
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        String code = (String) request.getParameter("code");
+        String phone = (String) request.getParameter("phone");
 
         if(phone==null){
-            result.put("code",2);
+            result.put("code",ApplicationException.PARAM_ERROR);
+            result.put("msg","请输入手机号");
             return result;
         }
         HttpSession session = request.getSession();
@@ -108,28 +109,35 @@ public class UserController extends BaseController<User> {
             if(time>60){
                 session.removeAttribute(phone);
                 session.removeAttribute("begindate"+phone);
-                result.put("code",2);
+                result.put("code",ApplicationException.PARAM_ERROR);
+                result.put("msg","验证码已经超时,请重新获取");
                 return result;
             }
         }
         String verifyCode = (String) session.getAttribute(phone);
         //防止没有获取验证码直接点击注册
         if(verifyCode == null){
-            result.put("code",2);
+            result.put("code",ApplicationException.PARAM_ERROR);
+            result.put("msg","你还没有获取验证码或者验证码超时,请获取验证码");
+
             return result;
         }
         if(!verifyCode.equals(code)){
-            result.put("code",2);
+            result.put("code",ApplicationException.PARAM_ERROR);
+            result.put("msg","验证码不正确");
             return result;
         }
+
         try {
             userService.saveUser(user);
         } catch (Exception e) {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        Map<String, Object> map = putDataToMap(user);
 
-        return putDataToMap(user);
+        return map;
     }
 
     /**
