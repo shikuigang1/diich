@@ -510,6 +510,28 @@
 
         $("#keyword").val(getQueryString("keyword"));
         $("#gb_category_code").val(getQueryString("gb_category_code"));
+
+        if( $("#gb_category_code").val() != ""){
+            // 循环 categoryall
+            $.each(category_all, function(index, content) {
+
+                if(content.gbCategory==$("#gb_category_code").val()){
+                    $("#attr_text").text(content.name);
+                    return false;
+                }
+
+                if(typeof(content.children)!="undefined"){
+                    $.each(content.children, function(i, c) {
+                        if(c.gbCategory==$("#gb_category_code").val()){
+                            $("#attr_text").text(c.name);
+                            return false;
+                        }
+                    });
+                }
+
+            });
+        }
+
         searchData_();
 
         //
