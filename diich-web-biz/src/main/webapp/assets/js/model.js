@@ -155,7 +155,7 @@ var renderHhtml = {
                     <a href="" class="twitter" title="twitter"></a>
                     <a href="" class="instagram" title="instagram"></a>
                     <a href="" class="linkedin" title="linkedin"></a>
-                    <span class="code"><img src="../assets/images/footer_code.png" alt=""></span>
+                    <span class="code"><img src="assets/images/footer_code.png" alt=""></span>
                 </div>
             </div>
         </div>

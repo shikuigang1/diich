@@ -386,7 +386,6 @@ var projectFrom = {
                 if (objUrl) {
                     $(this).parents('.file').addClass('active');
                     img.attr("src", objUrl).show();
-                    filechange($(this).attr('id'));
                     reupload.text('重新上传');
                 }
             } else {

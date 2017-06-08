@@ -5,7 +5,8 @@ var renderHhtml = {
         this.filter();
     },
     header: function() { //导航
-        var htmlStr = `<div class="content">
+        header: function() { //导航
+            var htmlStr = `<div class="content">
             <a class="logo" href="../page/index.html"></a>
             <div class="nav">
                 <ul>
@@ -129,10 +130,10 @@ var renderHhtml = {
         </div>
    
         `;
-        this.base('.header', htmlStr);
-    },
-    footer: function() { //底部
-        var htmlStr = `<div class="diich">
+            this.base('.header', htmlStr);
+        },
+        footer: function() { //底部
+            var htmlStr = `<div class="diich">
         <div class="hd">
             <p class="name"><span style="font-weight:bolder;">DIICH</span><em>&nbsp;非遺國際</em></p>
             <p class="subname">2017 © EFeiYi. All rights reserved</p>
@@ -154,16 +155,16 @@ var renderHhtml = {
                     <a href="" class="twitter" title="twitter"></a>
                     <a href="" class="instagram" title="instagram"></a>
                     <a href="" class="linkedin" title="linkedin"></a>
-                    <span class="code"><img src="assets/images/footer_code.png" alt=""></span>
+                    <span class="code"><img src="../assets/images/footer_code.png" alt=""></span>
                 </div>
             </div>
         </div>
     </div>
     <!--//ENd main-->`;
-        this.base('.footer', htmlStr);
-    },
-    filter: function() {
-        var htmlStr = `<div class="content">
+            this.base('.footer', htmlStr);
+        },
+        filter: function() {
+            var htmlStr = `<div class="content">
         <form class="form" action="">
             <input class="ipt" type="text" value="从这里搜索您感兴趣的...">
             <input class="submit" type="submit" value="搜索">
@@ -271,13 +272,13 @@ var renderHhtml = {
         </div>
         <!--//End attribute-->
     </div>`;
-        this.base('.filter_search', htmlStr);
-    },
-    base: function(obj, html) {
-        var _el = $(obj);
-        _el.html(html);
-    }
-};
+            this.base('.filter_search', htmlStr);
+        },
+        base: function(obj, html) {
+            var _el = $(obj);
+            _el.html(html);
+        }
+    };
 
 //工具
 var utils = {

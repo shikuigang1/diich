@@ -284,7 +284,7 @@
                                         <#if r.type == 1>
                                             <div class="item" data-type="1">
                                                 <span class="play play120"><i></i></span>
-                                                <video src="assets/uploads/video1.mp4"></video>
+                                                <video src="http://diich-resource.oss-cn-beijing.aliyuncs.com/video/video1.mp4"></video>
                                             </div>
                                         </#if>
                                     </#list>
