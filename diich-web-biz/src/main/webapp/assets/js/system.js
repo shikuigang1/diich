@@ -1135,7 +1135,7 @@ var loginPage = {
                                 <div class="group">
                                     <div class="name"><em>*</em><span>昵称</span></div>
                                     <div class="area">
-                                        <input class="ipt" type="text" value="请输入昵称">
+                                        <input class="ipt" name="loginName" type="text" value="请输入昵称">
                                     </div>
                                 </div>
                                 <div class="group">
@@ -1148,8 +1148,8 @@ var loginPage = {
                                 <div class="group">
                                     <div class="name">&nbsp;</div>
                                     <div class="area">
-                                        <input class="btn" type="submit" value="登录">
-                                        <a class="arrow_right" href="">暂无账号，去注册</a>
+                                        <input class="btn" type="button" value="登录" onclick="login()">
+                                        <a class="arrow_right" href="../page/regist.html">暂无账号，去注册</a>
                                     </div>
                                 </div>
                             </form>
