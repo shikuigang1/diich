@@ -1055,7 +1055,7 @@
         <#if !obj.version?? || (!obj.version.chiId??) || (!obj.version.engId??)>
             $(".language").hide();
         </#if>
-
+        $(".login").hide();
 
 
 

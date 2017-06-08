@@ -569,6 +569,7 @@
     $(function() {
         //初始化
         detaiInheritorlPage.init();
+        $(".login").hide();
 
         var mainCategory = $('#mainCategory');
 
