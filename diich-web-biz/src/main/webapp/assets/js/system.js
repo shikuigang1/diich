@@ -134,7 +134,7 @@ var renderHhtml = {
     footer: function() { //底部
         var htmlStr = `<div class="diich">
         <div class="hd">
-            <p class="name"><span>DIICH</span><em>非遺國際</em></p>
+            <p class="name"><span style="font-weight:bolder;">DIICH</span><em>&nbsp;非遺國際</em></p>
             <p class="subname">2017 © EFeiYi. All rights reserved</p>
         </div>
     </div>
@@ -154,7 +154,7 @@ var renderHhtml = {
                     <a href="" class="twitter" title="twitter"></a>
                     <a href="" class="instagram" title="instagram"></a>
                     <a href="" class="linkedin" title="linkedin"></a>
-                    <span class="code"><img src="../assets/images/footer_code.png" alt=""></span>
+                    <span class="code"><img src="assets/images/footer_code.png" alt=""></span>
                 </div>
             </div>
         </div>
@@ -708,20 +708,28 @@ var homePage = {
         map.find('span').eq(15).addClass('active');
         getData(14);
 
-
-        //
-        map.on('click','span',function (e) {
+        map.find('span').hover(function () {
             var index=$(this).index()-1;
-            //位置
+            //     //位置
             var _top=$(this).position().top;
             var _left=$(this).position().left;
             //数据
             getData(index);
             $(this).addClass('active').siblings('span').removeClass('active');
             modal.css({top:_top-27, left:_left+20}).fadeIn(100);
-            e.preventDefault();
-            e.stopPropagation();
         });
+
+        // map.on('hover','span',function () {
+        //     var index=$(this).index()-1;
+        //     //位置
+        //     var _top=$(this).position().top;
+        //     var _left=$(this).position().left;
+        //     //数据
+        //     getData(index);
+        //     $(this).addClass('active').siblings('span').removeClass('active');
+        //     modal.css({top:_top-27, left:_left+20}).fadeIn(100);
+        //
+        // });
 
         //动态获取数据
         function getData(index) {
@@ -740,9 +748,9 @@ var homePage = {
 
 
         //点击页面关闭地图弹窗
-        $(document).on('click',function () {
-            modal.fadeOut(100);
-        });
+        // $(document).on('click',function () {
+        //     modal.fadeOut(100);
+        // });
     }
 };
 
@@ -1085,14 +1093,6 @@ var searchPage = {
     }
 };
 
-//精选页面
-var wonderfulPage = {
-    init: function() {
-        common.slide(); //轮播图
-    }
-};
-
-
 //登录注册
 var loginPage = {
     init: function() {
@@ -1135,21 +1135,21 @@ var loginPage = {
                                 <div class="group">
                                     <div class="name"><em>*</em><span>昵称</span></div>
                                     <div class="area">
-                                        <input class="ipt" name="loginName" type="text" value="请输入昵称">
+                                        <input class="ipt" type="text" value="请输入昵称">
                                     </div>
                                 </div>
                                 <div class="group">
                                     <div class="name"><em>*</em><span>密码</span></div>
                                     <div class="area">
-                                        <input class="ipt" type="text" value="请输入密码" name="password">
+                                        <input class="ipt" type="text" value="请输入密码">
                                         <a class="forget" href="">忘记登录密码</a>
                                     </div>
                                 </div>
                                 <div class="group">
                                     <div class="name">&nbsp;</div>
                                     <div class="area">
-                                        <input class="btn" type="button" value="登录" onclick="login()">
-                                        <a class="arrow_right" href="../page/regist.html">暂无账号，去注册</a>
+                                        <input class="btn" type="submit" value="登录">
+                                        <a class="arrow_right" href="">暂无账号，去注册</a>
                                     </div>
                                 </div>
                             </form>
@@ -1431,7 +1431,7 @@ var detailCommon = { //详情页用到的效果
                 prev.addClass('active');
             }
             if(cur==liLen-1){
-               next.addClass('active');
+                next.addClass('active');
             }
 
             videoPlay(val);
