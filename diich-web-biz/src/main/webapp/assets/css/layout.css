@@ -2340,12 +2340,14 @@ section.odd {
     padding: 24px 30px;
 }
 
-.information .card ul li .context h3 {
+.information .card ul li .context h3 a {
     font-size: 36px;
     color: #1B1B1B;
     letter-spacing: 1.2px;
 }
-
+.information .card ul li .context h3 a:hover {
+    text-decoration: underline;
+}
 .information .card ul li .context span {
     font-size: 16px;
     color: #777777;
@@ -2369,11 +2371,17 @@ section.odd {
     margin: 0 auto;
 }
 
+.information .info_detail .crumb {
+    margin:40px 0;
+}
+.information .info_detail .crumb em {
+    color: #999;
+}
+
 .information .info_detail .title {
     width: 100%;
     float: left;
-    margin-top: 100px;
-    margin-bottom: 60px;
+    margin:60px 0;
 }
 
 .information .info_detail .title h2 {
@@ -2397,7 +2405,7 @@ section.odd {
 
 .information .info_detail .info p.img {
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 30px;
     color: #949494;
 }

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/vue.js"></script>
+    <script src="../assets/js/system.js"></script>
+</head>
+
+<body style="background-color: rgb(245, 246, 247)">
+    <div class="header header_detail"></div>
+    <!--//End header -->
+    <div class="filter_search filter_search_fixed">
+        <div class="content">
+            <form class="form" action="">
+                <input class="ipt" type="text" value="从这里搜索您感兴趣的...">
+                <input class="submit" type="submit" value="搜索">
+                <div class="suggest" style="display: none;">
+                    <ul>
+                        <li><a href=""><span>苏州</span>传承人</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                        <li><a href=""><span>苏州</span>苏绣</a></li>
+                    </ul>
+                </div>
+            </form>
+            <!--//End form-->
+
+            <div class="attr">
+                <span>全部</span>
+                <span>所属类别</span>
+                <span>全球</span>
+            </div>
+            <!--//End attribute-->
+
+            <div class="dropbox" id="drag">
+                <div class="item">
+                    <dl class="level">
+                        <dt>
+                    <div class="title">查看</div>
+                    </dt>
+                        <dd>
+                            <ul>
+                                <li class="active">全部<span>342</span></li>
+                                <li>项目<span>42</span></li>
+                                <li>传承人<span>42</span></li>
+                                <li>作品<span>42</span></li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <!--//ENd 全部-->
+
+                <div class="item">
+                    <dl class="level">
+                        <dt>
+                    <div class="title">一级分类</div>
+                    <div class="subtitle">所有分类</div>
+                    </dt>
+                        <dd>
+                            <ul>
+                                <li>口头传统和表述</li>
+                                <li>表演艺术</li>
+                                <li>社会风俗、礼仪、节庆</li>
+                                <li>有关自然界和宇宙的知识和实践</li>
+                                <li>传统的手工艺技能</li>
+                                <li>传统的手工艺技能</li>
+                                <li>传统的手工艺技能</li>
+                                <li>传统的手工艺技能</li>
+                                <li>传统的手工艺技能</li>
+                                <li>传统的手工艺技能</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <dl class="level2">
+                        <dt>
+                    <div class="title">二级分类</div>
+                    <div class="subtitle">所有二级分类</div>
+                    </dt>
+                        <dd>
+                            <ul>
+                                <li>工具和机械制作</li>
+                                <li>家畜农林产品加工</li>
+                                <li>造纸、印刷及装裱</li>
+                                <li>烧造工艺</li>
+                                <li>锻冶工艺</li>
+                                <li>雕塑工艺</li>
+                                <li>雕塑工艺</li>
+                                <li>雕塑工艺</li>
+                                <li>雕塑工艺</li>
+                                <li>雕塑工艺</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <!--//End 所属分类-->
+
+                <div class="item">
+                    <dl class="level">
+                        <dt>
+                    <div class="title">位置</div>
+                    </dt>
+                        <dd>
+                            <ul>
+                                <li>全球</li>
+                                <li>中国</li>
+                                <li>非洲</li>
+                                <li>阿拉伯地区</li>
+                                <li>亚太</li>
+                                <li>欧美</li>
+                                <li>拉美</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <dl class="level2">
+                        <dt>
+                    <div class="title">按照字母顺序</div>
+                    </dt>
+                        <dd>
+                            <ul>
+                                <li>安微</li>
+                                <li>澳门</li>
+                                <li>北京</li>
+                                <li>上海</li>
+                                <li>福建</li>
+                                <li>甘肃</li>
+                                <li>广东</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <!--//End 位置-->
+
+            </div>
+            <!--//End attribute-->
+        </div>
+    </div>
+    <!--//End filter_search -->
+
+    <div class="container" id="app">
+        <div class="information">
+            <div class="info_detail">
+                <div class="bd crumb">
+                    <a href="/" title="首页">首页</a> &gt; <a href="" title="新闻资讯">新闻资讯</a> &gt; <em v-text="details.title"></em>
+                </div>
+                <!--//End-->
+                <div class="title">
+                    <h2 v-text="details.title"></h2>
+                    <div class="time">2017.05.18</div>
+                </div>
+                <div class="info" v-html="details.content"></div>
+            </div>
+        </div>
+        <!--//End information-->
+
+
+    </div>
+
+    <div class="bd footer"></div>
+    <!--//End--footer-->
+</body>
+<script>
+    $(function() {
+        $('.header .content .nav li').eq(4).addClass('active').siblings('li').removeClass('active');
+        var app=new Vue({
+           el:'#app',
+            data:{
+               details:{
+                   title:'联合国教科文组织国际非遗大数据库第一阶段成果会议',
+                   time:'2017.05.18',
+                   content:'<p class="img"><img src="http://diich-resource.oss-cn-beijing.aliyuncs.com/image/news/imgs/id1_01.jpg" alt=""></p>' +
+                   '<p>近日，联合国教科文组织非遗大数据库第一阶段成果验收会议在中国科学技术信息研究所召开，永新华韵总裁林涛、副总裁罗勇、技术总监姚阳、运营负责人何坤、联合国教科文组织全民信息计划副主任段黎萍、中国科学技术信息研究所大数据库项目技术人员张英杰、徐教授、清华专家、大数据库项目首席产品设计师兼夸克实验室CEO颜显进   、大数据库项目用户研究经理李鹏等相关人士参加会议。</p>' +
+                   '<p class="img"><img src="http://diich-resource.oss-cn-beijing.aliyuncs.com/image/news/imgs/id1_02.jpg" alt=""></p>' +
+                   '<p>会议上，永新华韵副总裁、大数据项目负责人罗勇对大数据库项目进行介绍，联合国教科文组织全民信息计划副主任段黎萍对大数据库的基础建设包括：分类标准、元数据、DOI等工作进行汇报。清华学院的专家针对大数据第一阶段的成果进行点评。</p>' +
+                   '<p class="img"><img src="http://diich-resource.oss-cn-beijing.aliyuncs.com/image/news/imgs/id1_03.jpg" alt=""></p>' +
+                   '<p>随后，夸克团队对大数据库产品设计的成果进行汇报，大数据项目产品设计目前在交互设计阶段，各专家针对产品设计提供了专业意见，表明大数据项目是高标准、高质量、高价值的项目，大数据库项目在未来应用上形成更多机会。</p>' +
+                   '<p class="img"><img src="http://diich-resource.oss-cn-beijing.aliyuncs.com/image/news/imgs/id1_04.jpg" alt=""></p>' +
+                   '<p>联合国教科文组织国际非遗大数据库第一阶段成果会议取得圆满成功，在接下来的项目进度中我们还有很多的问题需要解决，但我们相信，联合国教科文组织与永新华韵一起打造的国际首个以非物质文化遗产为主要内容的大数据库项目，将为促进国际文化交流、促进国际间非物质文化遗产的传承发展做出重大贡献。</p>'
+               }
+            },
+            mounted:function () {
+                document.title=this.details.title;
+            }
+        });
+    })
+</script>
+
+</html>

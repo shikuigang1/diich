@@ -183,6 +183,9 @@ textarea{resize:none}
     position: relative;
     margin: 0 auto;
 }
+#home-header a {
+    color: #fff;
+}
 
 .header {
     width: 100%;
@@ -254,7 +257,6 @@ textarea{resize:none}
 
 .header .content .nav li:hover a,
 .header .content .nav li.active a {
-    font-weight: bold;
     opacity: 1;
 }
 
