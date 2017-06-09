@@ -5,10 +5,13 @@
     <meta charset="UTF-8">
     <title>精选内容</title>
     <link rel="shortcut icon" type="image/x-icon" href="../assets/images/logo.png" media="screen" />
-    <link rel="stylesheet" href="../assets/css/common.css">
-    <link rel="stylesheet" href="../assets/css/layout.css">
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/js/system.js"></script>
+    <link rel="stylesheet" href="http://diich.efeiyi.com/assets/css/common.css">
+    <link rel="stylesheet" href="http://diich.efeiyi.com/assets/css/layout.css">
+    <script src="http://diich.efeiyi.com/assets/js/jquery.min.js"></script>
+    <script src="http://diich.efeiyi.com/assets/js/category.js"></script>
+    <script src="http://diich.efeiyi.com/assets/js/citys.js"></script>
+    <script src="http://diich.efeiyi.com/assets/js/vue.js"></script>
+    <script src="http://diich.efeiyi.com/assets/js/system.js"></script>
     <script src="../js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="../js/i18n.js"></script>
     <style>
@@ -33,13 +36,19 @@
             left:0;
             z-index:20;
         }
-        .modal_video .video {
-            padding:30px;
+        .modal_video .content {
+            width:800px;
+            height:400px;
             position: absolute;
             top:50%;
             left:50%;
+            margin-top:-200px;
+            margin-left:-400px;
             z-index:20;
             background: #fff;
+        }
+        .modal_video .content video {
+            width:100%;
         }
         .modal_video .overbg0 {
             background: rgba(0,0,0,.85);
@@ -71,26 +80,104 @@
 <div class="container">
     <div class="header header_detail"></div>
     <!--//End header -->
+    <div class="filter_search filter_search_fixed">
+        <div class="content">
+            <form class="form" action="http://diich.efeiyi.com/page/search.html">
+                <input class="ipt" type="text" id="keyword" name="keyword" value="" autocomplete="off">
+                <input type="hidden" id="area_code" name="area_code" value="" />
+                <input type="hidden" id="gb_category_code" name="gb_category_code" value="" />
+                <input type="hidden" id="type" name="type" value="" />
+                <input class="submit" type="button" value="搜索" onclick="submit()">
+                <div class="suggest" style="display: none;">
+                    <ul>
+
+                    </ul>
+                </div>
+            </form>
+            <!--//End form-->
+
+            <div class="attr">
+                <span id="attr_text">所属类别</span>
+                <span id="area_text">全球</span>
+            </div>
+            <!--//End attribute-->
+
+            <div class="dropbox" id="drag">
+                <!--//ENd 全部-->
+
+                <div class="item" id="item_1">
+                    <dl class="level">
+                        <dt>
+                        <div class="title">一级分类</div>
+                        <div class="subtitle">所有分类</div>
+                        </dt>
+                        <dd>
+                            <ul id="mainCategory">
+
+                            </ul>
+                        </dd>
+                    </dl>
+                    <dl class="level2">
+                        <dt>
+                        <div class="title">二级分类</div>
+                        <div class="subtitle">所有二级分类</div>
+                        </dt>
+                        <dd>
+                            <ul id="catecontent">
+
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <!--//End 所属分类-->
+
+                <div class="item">
+                    <dl class="level">
+                        <dt>
+                        <div class="title">位置</div>
+                        </dt>
+                        <dd>
+                            <ul>
+                                <li>中国</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <dl class="level2">
+                        <dt>
+                        <div class="title">按照字母顺序</div>
+                        </dt>
+                        <dd>
+                            <ul id="citycontent">
+                                <li>安微</li>
+                                <li>澳门</li>
+                                <li>北京</li>
+                                <li>上海</li>
+                                <li>福建</li>
+                                <li>甘肃</li>
+                                <li>广东</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <!--//End 位置-->
+
+            </div>
+            <!--//End attribute-->
+        </div>
+    </div>
+    <!--//End filter_search -->
 
     <div class="wonderful">
         <div class="bd slider">
             <ul class="img">
                 <li class="bd" style="display: block;">
                     <span class="play_big" data-id="0"></span>
-                    <img src="../assets/uploads/content/banner1.jpg" alt="">
+                    <img src="http://diich-resource.oss-cn-beijing.aliyuncs.com/image/content/banner1.jpg" alt="">
                 </li>
                 <li class="bd">
                     <span class="play_big" data-id="1"></span>
-                    <img src="../assets/uploads/content/banner2.jpg" alt="">
+                    <img src="http://diich-resource.oss-cn-beijing.aliyuncs.com/image/content/banner2.jpg" alt="">
                 </li>
-                <!--<li class="bd">-->
-                <!--<span class="play_big" data-id="2"></span>-->
-                <!--<img src="assets/uploads/content/banner3.jpg" alt="">-->
-                <!--</li>-->
-                <!--<li class="bd">-->
-                <!--<span class="play_big" data-id="3"></span>-->
-                <!--<img src="assets/uploads/content/banner4.jpg" alt="">-->
-                <!--</li>-->
             </ul>
             <!--//End img -->
             <ul class="num">
@@ -102,15 +189,15 @@
         <div class="conbox">
             <div class="content">
                 <div class="head">
-                    <h1>中国昆曲</h1>
-                    <div class="desc">昆曲，原名“昆山腔”、“昆腔”，是中国古老的戏曲声腔、剧种，清代以来被称为“昆曲”，现又被称为“昆剧”。昆曲是中国传统戏曲中最古老的剧种之一，也是中国传统文化艺术，特别是戏曲艺术中的珍品，被称为百花园中的一朵“兰花”。昆曲早在元朝末期（14世纪中叶）即产生于苏州昆山一带，它与起源于浙江的海盐腔、余姚腔和起源于江西的弋阳腔，被称为明代四大声腔，同属南戏系统。</div>
+                    <h1>青花瓷</h1>
+                    <div class="desc">青花瓷，简称“青花”，是中国瓷器的主流品种之一，名列景德镇四大名瓷之首。以钴矿为原料，用色料在坯体上描绘纹饰，施釉后经高温还原焰一次烧成，釉色晶莹、透彻、雅致。</div>
                     <div class="avatar">
-                        <span class="name">口头传统和表述</span>
+                        <span class="name">传统的手工艺技能</span>
                         <span class="imgs">
-                           <a href="javascript:;" style="cursor:text;"><img src="../assets/uploads/zhouxuehua.jpg" alt=""></a>
+                           <a href="javascript:;" style="cursor:text;"><img src="http://diich-resource.oss-cn-beijing.aliyuncs.com/image/content/huangguojun.jpg" alt=""></a>
                        </span>
 
-                        <span class="inheritor_num">相关传承人 · 周雪华</span>
+                        <span class="inheritor_num">中国传统工艺大师黄国军</span>
                     </div>
                 </div>
                 <!--//End-->
@@ -122,13 +209,13 @@
                         <div class="info" style="margin-top:20px;">
                             <span class="name">口头传统和表述</span>
                             <div class="avatar">
-                                <a href=""><img src="../assets/uploads/yaohuifen.png" alt=""></a>
+                                <a href=""><img src="http://resource.efeiyi.com/image/uploads/yaohuifen.png" alt=""></a>
                                 <span class="num">相关传承人 · 姚慧芬</span>
                             </div>
                         </div>
                     </div>
                     <div class="rbox">
-                        <img width="770" src="../assets/uploads/content/pic1.jpg" alt="">
+                        <img width="770" src="http://resource.efeiyi.com/image/uploads/content/pic1.jpg" alt="">
 
                     </div>
                 </div>
@@ -176,8 +263,8 @@
             var el=$('.play_big');
             var content=modal.find('.content');
             var arr=[
-                '<video class="video" style="margin-top:-210px;margin-left:-270px" src="http://diich-resource.oss-cn-beijing.aliyuncs.com/video/banner1.mp4" controls></video>',
-                '<video class="video" style="margin-top:-318px;margin-left:-414px" src="http://diich-resource.oss-cn-beijing.aliyuncs.com/video/banner2.mp4" controls></video>',
+                '<video class="video" src="http://diich-resource.oss-cn-beijing.aliyuncs.com/video/qinghuaci.mp4" controls></video>',
+                '<video class="video" src="http://diich-resource.oss-cn-beijing.aliyuncs.com/video/taohuawu.mp4" controls></video>',
             ];
 
             el.on('click',function () {
@@ -231,14 +318,14 @@
             var str='';
             for (var i=0;i<data.length;i++){
                 str+='<li>'+
-                        '<p class="pic"><img src="../assets/uploads/content/products/'+ data[i].pic +'" alt=""></p>'+
+                        '<p class="pic"><img src="http://resource.efeiyi.com/image/uploads/content/products/'+ data[i].pic +'" alt=""></p>'+
                         '<div class="context">'+
                         '<h4>'+data[i].name+'</h4>'+
                         '<div class="tag">'+
                         '<span class="name_project">传统手工艺</span>'+
                         '</div>'+
                         '<div class="avatar">'+
-                        '<img src="../assets/uploads/content/products/'+data[i].avatar+'" alt="">'+
+                        '<img src="http://resource.efeiyi.com/image/uploads/content/products/'+data[i].avatar+'" alt="">'+
                         '<span>'+data[i].master+'</span>'+
                         '</div>'+
                         '</div>'+
