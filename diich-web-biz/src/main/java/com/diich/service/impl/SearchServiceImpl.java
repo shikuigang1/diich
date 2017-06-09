@@ -81,7 +81,7 @@ public class SearchServiceImpl implements SearchService {
 
                     }
                     //�����ͼ
-                    if(cf.getAttributeId()==1){
+                    if(cf.getAttributeId()==112){
                         Resource r = resourceMapper.selectByContentFramentID(cf.getId());
                         if(null != r){
                             s.setImg(r.getUri());
@@ -100,7 +100,7 @@ public class SearchServiceImpl implements SearchService {
                         }
                     }
                     //�����ͼ
-                    if(cf.getAttributeId()==10){
+                    if(cf.getAttributeId()==113){
                         Resource r = resourceMapper.selectByContentFramentID(cf.getId());
                         if(null != r){
                             s.setImg(r.getUri());
@@ -119,7 +119,7 @@ public class SearchServiceImpl implements SearchService {
                         }
                     }
                     //�����ͼ
-                    if(cf.getAttributeId()==25){
+                    if(cf.getAttributeId()==114){
                         Resource r = resourceMapper.selectByContentFramentID(cf.getId());
                         if(null != r){
                             s.setImg(r.getUri());
@@ -206,7 +206,7 @@ public class SearchServiceImpl implements SearchService {
                         if(c.getAttributeId()==13){
                             mastermap.put("name",c.getContent());
                         }
-                        if(c.getAttributeId()==112){
+                        if(c.getAttributeId()==113){
                             Resource r = resourceMapper.selectByContentFramentID(c.getId());
                             if(null != r){
                                 mastermap.put("headimg",r.getUri());
