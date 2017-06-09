@@ -36,12 +36,12 @@ var renderHhtml = {
                 <div class="content">
                     <div class="item">
                         <dl>
-                            <dt data-id="A">口头传说和表述</dt>
+                            <dt data-id="A" id="legend">口头传说和表述</dt>
                             <dd>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A01" data-id="A01" >语言</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A02" data-id="A02">文字</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A03" data-id="A03">口述</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A04" data-id="A04">其他口头传统<br>及表述</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A01" data-id="A01" id="language" >语言</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A02" data-id="A02" id="text">文字</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A03" data-id="A03" id="oral">口述</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A04" data-id="A04" id="other_oral">其他口头传统<br>及表述</a>
                             </dd>
                         </dl>
                     </div>
@@ -49,15 +49,15 @@ var renderHhtml = {
     
                     <div class="item">
                         <dl>
-                            <dt data-id="B">表演艺术</dt>
+                            <dt data-id="B" id="perform">表演艺术</dt>
                             <dd>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B01" data-id="B01">音乐演奏</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B02" data-id="B02">舞蹈</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B03" data-id="B03">民歌</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B04" data-id="B04">传统戏剧</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B05" data-id="B05">曲艺</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B06" data-id="B06">传统体育、游艺与杂技</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B99" data-id="B99">其他表演艺术</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B01" data-id="B01"  id="music" >音乐演奏</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B02" data-id="B02" id="dance">舞蹈</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B03" data-id="B03" id="folk_song">民歌</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B04" data-id="B04" id="traditional_drama">传统戏剧</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B05" data-id="B05"  id="quyi">曲艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B06" data-id="B06" id="sport">传统体育、游艺与杂技</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B99" data-id="B99" id="other_perform">其他表演艺术</a>
                             </dd>
                         </dl>
                     </div>
@@ -65,13 +65,13 @@ var renderHhtml = {
     
                     <div class="item">
                         <dl>
-                            <dt data-id="C">社会风俗<br>礼仪、节庆</dt>
+                            <dt data-id="C" id="custom_etiquette">社会风俗<br>礼仪、节庆</dt>
                             <dd>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C01" data-id="C01">生产商贸习俗</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C02" data-id="C02">生活习俗</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C03" data-id="C03">人生仪式</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C04" data-id="C04">节日庆典</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C99" data-id="C99">其他仪式及庆典</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C01" data-id="C01" id="business_custom">生产商贸习俗</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C02" data-id="C02" id="life_customs">生活习俗</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C03" data-id="C03" id="life_ritual">人生仪式</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C04" data-id="C04" id="festival_celebration">节日庆典</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C99" data-id="C99" id="other_celebration">其他仪式及庆典</a>
                             </dd>
                         </dl>
                     </div>
@@ -79,22 +79,22 @@ var renderHhtml = {
     
                     <div class="item">
                         <dl>
-                            <dt data-id="D">有关自然界和<br>宇宙的知识和实践</dt>
+                            <dt data-id="D" id="practice_nature">有关自然界和<br>宇宙的知识和实践</dt>
                             <dd>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D01" data-id="D01">农林牧畜渔</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D02" data-id="D02">服装</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D03" data-id="D03">食品</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D04" data-id="D04">住房与建筑</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D05" data-id="D05">交通,旅行</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D01" data-id="D01" id="df_fishery">农林牧畜渔</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D02" data-id="D02" id="clothing">服装</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D03" data-id="D03" id="food">食品</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D04" data-id="D04" id="h_construction">住房与建筑</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D05" data-id="D05" id="traffic">交通,旅行</a>
                                
                                 <!--</dd>-->
                                 <!--<dd>-->
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D06" data-id="D06">医、药</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D07" data-id="D07">军事防御</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D08" data-id="D08">商贸</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D09" data-id="D09">工业、工程</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D10" data-id="D10">天文、地理、水文等</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D99" data-id="D99">其他自然知识和实践</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D06" data-id="D06" id="medicine">医、药</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D07" data-id="D07" id="military">军事防御</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D08" data-id="D08" id="business">商贸</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D09" data-id="D09" id="project">工业、工程</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D10" data-id="D10" id="ag_irrigation">天文、地理、水文等</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D99" data-id="D99" id="on_knowledge">其他自然知识和实践</a>
                             </dd>
                         </dl>
                     </div>
@@ -102,22 +102,22 @@ var renderHhtml = {
     
                     <div class="item">
                         <dl>
-                            <dt data-id="E">传统的手工艺技能</dt>
+                            <dt data-id="E" id="tt_handmade">传统的手工艺技能</dt>
                             <dd>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E01" data-id="E01">工具及机械制作</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E02" data-id="E02">髹饰工艺</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E03" data-id="E03">家畜农林产品加工</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E04" data-id="E04">织染工艺</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E05" data-id="E05">造纸、印刷机装裱</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E06" data-id="E06">编扎工艺</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E07" data-id="E07">字画工艺</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E08" data-id="E08">锻冶工艺</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E09" data-id="E09">剪刻工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E01" data-id="E01"  id="tm_manufacture">工具及机械制作</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E02" data-id="E02" id="p_techniques">髹饰工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E03" data-id="E03" id="daa_products">家畜农林产品加工</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E04" data-id="E04" id="d_process">织染工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E05" data-id="E05" id="p_paperhanging">造纸、印刷机装裱</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E06" data-id="E06" id="k_techniques">编扎工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E07" data-id="E07" id="cp_craft">字画工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E08" data-id="E08" id="s_techniques">锻冶工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E09" data-id="E09" id="pc_technics">剪刻工艺</a>
     
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E10" data-id="E10">雕塑工艺</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E11" data-id="E11">烧造工艺</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E12" data-id="E12">木作工艺</a>
-                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E99" data-id="E99">其他类</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E10" data-id="E10" id="sc_techniques">雕塑工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E11" data-id="E11" id="b_technics">烧造工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E12" data-id="E12" id="w_techniques">木作工艺</a>
+                                <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E99" data-id="E99" id="o_kind">其他类</a>
                             </dd>
                         </dl>
                     </div>
@@ -684,9 +684,159 @@ var homePage = {
         ];
         return dataMap;
     },
+    endata:function () {
+        var dataMap=[
+            {
+                name:'克罗地亚',
+                en:'Croatia',
+                style:'top:120px;left:512px;',
+                count:14,
+                desc:'Northern Gingerbread Production Techniques, Oyekan Kung Concert Mode, Sini Card Rings Knights Competition'
+            },
+            {
+                name:'希腊',
+                en:'Greece',
+                style:'top:162px;left:490px;',
+                count:3,
+                desc:'Chios Island Marti Fat Making Craft, Tienan Island Marble Crafts'
+            },
+            {
+                name:'墨西哥',
+                en:'Mexico',
+                count:9,
+                style:'top: 206px;left: 158px',
+                desc:'Aboriginal Scourge, Flying'
+            },
+            {
+                name:'巴西',
+                en:'Brazil',
+                style:'top: 322px;left: 302px',
+                count:8,
+                desc:'Baji Rikangkawu\'s Circle Samba, Ouya Pei\'s oral and pictorial forms of expression'
+            },
+            {
+                name:'阿根廷',
+                en:'Argentina',
+                style:'top: 390px;left: 256px',
+                count:1,
+                desc:'Buenos Aires\'s traditional decorative painting techniques'
+            },
+            {
+                name:'比利时',
+                en:'Belgium',
+                style:'top:76px;left:472px',
+                count:11,
+                desc:'Belgian Beer Culture, East Dyke Kirk Riding Shrimp, Bans Carnival'
+            },
+            {
+                name:'匈牙利',
+                en:'Hungary',
+                style:'top: 102px;left: 502px;',
+                count:4,
+                desc:'Mohach\'s Winter Carnival, Carnival to Protect Traditional Folk Music'
+            },
+            {
+                name:'法国',
+                en:'France',
+                style:'top: 102px;left: 459px;',
+                count:14,
+                desc:'French cuisine, French traditional equestrian, Aubuxong tapestry'
+            },
+            {
+                name:'德国',
+                en:'Germany',
+                style:'top:82px;left:484px;',
+                count:1,
+                desc:'Cooperative organization to share the interests of the concept and method'
+            },
+            {
+                name:'意大利',
+                en:'Italy',
+                style:'top: 119px;left: 471px;',
+                count:5,
+                desc:'Cremona\'s traditional violin craft, Sicilian puppet show'
+            },
+            {
+                name:'土耳其',
+                en:'Turkey',
+                style:'top: 179px;left: 513px;',
+                count:13,
+                desc:'Turkish coffee, Turkish water painting, Korsak traditional ceremony'
+            },
+            {
+                name:'沙特阿拉伯',
+                en:'Saudi Arabia',
+                style:'top: 222px;left: 552px;',
+                count:2,
+                desc:'Almezmar, should dance with rhythm of the drums, Alardah Alnajdiyah, Saudi Arabia\'s dance, drums and poetry'
+            },
+            {
+                name:'印度',
+                en:'India',
+                style:'top: 224px;left: 640px;',
+                count:11,
+                desc:'Yoga, Ladakh\'s Buddhist scriptures, recitation of the holy Buddhist scriptures across the Himalayan Ladakh in the Jammu and Kashmir regions of India'
+            },
+            {
+                name:'蒙古',
+                en:'Mongolia',
+                style:'top: 124px;left: 666px;',
+                count:11,
+                desc:'Ma Touqin traditional music, Mongolian traditional art call wheat, that Dammam meeting'
+            },
+            {
+                name:'中国',
+                en:'China',
+                style:'top: 177px;left: 734px;',
+                count:39,
+                desc:'Peking Opera, Chinese calligraphy, Chinese acupuncture, Dragon Boat Festival',
+                link:'http://www.baidu.com'
+            },
+            {
+                name:'日本',
+                en:'Japan',
+                style:'top: 188px;left: 798px;',
+                count:21,
+                desc:'Kabuki, and food, the traditional Japanese food culture, common in the New Year celebration, and paper, Japan\'s traditional handmade papermaking craft'
+            },
+            {
+                name:'韩国',
+                en:'Korea',
+                style:'top: 189px;left: 769px',
+                count:17,
+                desc:'Korean traditional kimchi making process, Jiangling Dragon Boat Festival'
+            },
+            {
+                name:'印度尼西亚',
+                en:'Indonesia',
+                style:'top: 298px;left: 744px',
+                count:8,
+                desc:'Wo yang puppet show, Indonesian batik printing process'
+            },
+            {
+                name:'西班牙',
+                en:'Spain',
+                style:'top: 183px;left: 426px',
+                count:13,
+                desc:'Flamingo, stacked tower'
+            },
+            {
+                name:'越南',
+                en:'Vietnam',
+                style:'top: 246px;left: 709px',
+                count:11,
+                desc:'Song music, music - Vietnamese court music'
+            }
+
+        ];
+        return dataMap;
+    },
+
     map:function () {//地图
         var data=this.data();
         var map=$('#map');
+
+        map.find('span').remove();
         var modal=map.find('.modal');
         var zh=modal.find('.zh');
         var en=modal.find('.en');
