@@ -3,7 +3,7 @@ var renderHhtml = {
     init: function() {
         this.header();
         this.footer();
-        this.filter();
+        //this.filter();
     },
     header: function() { //导航
             var htmlStr = `<div class="content">
@@ -352,6 +352,7 @@ var common = {
         var speed = 5000;
         var timer = null;
         var _value=['京剧','昆曲','苏绣','中药'];
+        var _value_en=['Beijing opera','Kunqu','Embroidery','Chinese Medicine'];
 
         numLi.mousedown(function() {
             clearInterval(timer);
@@ -359,7 +360,11 @@ var common = {
             $(this).addClass('active').siblings('li').removeClass('active');
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
-            ipt.val(_value[cur]);
+            if(window.localStorage.language == 'en') {
+                ipt.val(_value_en[cur]);
+            } else {
+                ipt.val(_value[cur]);
+            }
         });
 
         numLi.mouseup(function() {
@@ -378,7 +383,11 @@ var common = {
             numLi.eq(cur).addClass('active').siblings('li').removeClass('active');
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
-            ipt.val(_value[cur]);
+            if(window.localStorage.language == 'en') {
+                ipt.val(_value_en[cur]);
+            } else {
+                ipt.val(_value[cur]);
+            }
         }
 
 
