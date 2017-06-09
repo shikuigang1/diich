@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+<#assign caturi="http://diich.efeiyi.com" />
     <meta charset="UTF-8">
     <title>
     <#if (obj.contentFragmentList?size>0)>
@@ -12,19 +13,19 @@
                 </#list>
      </#if>
     </title>
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo.png" media="screen" />
-    <link rel="stylesheet" href="assets/css/common.css">
-    <link rel="stylesheet" href="assets/css/layout.css">
-    <script src="./assets/js/jquery.min.js"></script>
-    <script src="./assets/js/system.js"></script>
-    <script src="./data/keyword.js"></script>
-    <script src="./js/category.js"></script>
-    <script src="./js/citys.js"></script>
-    <script src="./js/doT.js"></script>
-    <script src="./js/serverinfo.js"></script>
-    <script src="./js/masters.js"></script>
-    <script src="./data/master_data.js"></script>
-    <script src="./assets/js/inputs.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="${caturi}/assets/images/logo.png" media="screen" />
+    <link rel="stylesheet" href="${caturi}/assets/css/common.css">
+    <link rel="stylesheet" href="${caturi}/assets/css/layout.css">
+    <script src="${caturi}/assets/js/jquery.min.js"></script>
+    <script src="${caturi}/assets/js/system.js"></script>
+    <script src="${caturi}/data/keyword.js"></script>
+    <script src="${caturi}/js/category.js"></script>
+    <script src="${caturi}/js/citys.js"></script>
+    <script src="${caturi}/js/doT.js"></script>
+    <script src="${caturi}/js/serverinfo.js"></script>
+    <script src="${caturi}/js/masters.js"></script>
+    <script src="${caturi}/data/master_data.js"></script>
+    <script src="${caturi}/assets/js/inputs.js"></script>
     <script>
         $(function () {
             var btn=$('a[data-type="mediaLayer"]').on('click',function () {
@@ -39,7 +40,6 @@
 <body>
 <div class="header header_detail"></div>
 <!--//End header -->
-<#assign caturi="http://diich.efeiyi.com" />
 <div class="filter_search filter_search_fixed">
     <div class="content">
         <form class="form" action="${caturi}/page/search.html">
@@ -135,7 +135,7 @@
     <div class="bd detail">
         <div class="mainbg">
 
-       <#assign backImgUrl="assets/uploads/head.png">
+       <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/head.png">
         <#if (obj.contentFragmentList?size>0)>
             <#list obj.contentFragmentList as cf>
                 <#if cf.attributeId == 10>
@@ -251,7 +251,7 @@
                             <a href="" class="facebook"></a>
                             <a href="" class="twitter"></a>
                         </div>
-                        <img class="qrcode" src="assets/images/code.png" alt="">
+                        <img class="qrcode" src="${caturi}/assets/images/code.png" alt="">
                     </div>
                 </div>
                 <!--//End -->
@@ -275,7 +275,7 @@
                         </#if></span>
                         <em class="icon"></em>
                         <div class="drop">
-                            <img src="assets/images/code.png" alt="">
+                            <img src="${caturi}/assets/images/code.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -307,14 +307,14 @@
                     <div class="pro">
                         <div class="img">
                             <#if (obj.ichProject.contentFragmentList?size>0)>
-                                <#assign proPic="assets/uploads/head.png"/>
+                                <#assign proPic="http://resource.efeiyi.com/image/uploads/head.png"/>
                                 <#list (obj.ichProject.contentFragmentList) as cf>
-                                    <#if cf.attributeId == 1>
+                                    <#if cf.attributeId == 112>
                                         <#if (cf.resourceList??)&&(cf.resourceList?size>0)>
                                             <#list cf.resourceList as r>
                                                 <#if r.type==0 && r.status==0>
                                                     <#if r.uri??>
-                                                        <#assign proPic="${prouri}${r.uri}" />
+                                                        <#assign proPic="${prouri}${r.uri}?x-oss-process=style/head-image-style" />
                                                     </#if>
                                                 </#if>
                                             </#list>
@@ -432,7 +432,7 @@
                                         <#if c.attributeId==25>
                                             <#if c.resourceList??>
                                                 <#list c.resourceList as p>
-                                                    <a href="${workspage}${work.id?c}.html"><img src="${p.uri}" alt=""></a>
+                                                    <a href="${workspage}${work.id?c}.html"><img src="${p.uri}?x-oss-process=style/head-image-style" alt=""></a>
                                                 </#list>
                                             </#if>
                                         </#if>
@@ -499,7 +499,7 @@
                                                 <div class="card_video">
                                                     <div class="time">30:24</div>
                                                     <div class="play"></div>
-                                                    <video poster="assets/uploads/exp2.png">
+                                                    <video poster="http://resource.efeiyi.com/image/uploads/exp2.png">
                                                         <source style="width: 100%;" src="${masteruri}${r.uri}" type="video/mp4">
                                                     </video>
                                                 </div>
