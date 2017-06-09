@@ -554,143 +554,164 @@ var homePage = {
                 name:'克罗地亚',
                 en:'Croatia',
                 style:'top:120px;left:512px;',
-                count:14,
-                desc:'克罗地亚北部的姜饼制作技艺、奥耶康卲演唱方式、锡尼斯卡圆环骑士竞赛'
+                count:'共计14项非遗项目',
+                desc:'克罗地亚北部的姜饼制作技艺、奥耶康卲演唱方式、锡尼斯卡圆环骑士竞赛',
+                present:'具有代表性项目有：'
             },
             {
                 name:'希腊',
                 en:'Greece',
                 style:'top:162px;left:490px;',
-                count:3,
-                desc:'希俄斯岛玛蒂脂制作工艺、提尼安岛大理石工艺'
+                count:'共计3项非遗项目',
+                desc:'希俄斯岛玛蒂脂制作工艺、提尼安岛大理石工艺',
+                present:'具有代表性项目有：'
             },
             {
                 name:'墨西哥',
                 en:'Mexico',
-                count:9,
+                count:'共计9项非遗项目',
                 style:'top: 206px;left: 158px',
-                desc:'土著亡灵节、飞人典礼'
+                desc:'土著亡灵节、飞人典礼',
+                present:'具有代表性项目有：'
             },
             {
                 name:'巴西',
                 en:'Brazil',
                 style:'top: 322px;left: 302px',
-                count:8,
-                desc:'巴亥瑞康卡乌的圆圈桑巴舞、瓦雅皮人的口头和图画表达形式'
+                count:'共计8项非遗项目',
+                desc:'巴亥瑞康卡乌的圆圈桑巴舞、瓦雅皮人的口头和图画表达形式',
+                present:'具有代表性项目有：'
             },
             {
                 name:'阿根廷',
                 en:'Argentina',
                 style:'top: 390px;left: 256px',
-                count:1,
-                desc:'布宜诺斯艾利斯的传统装饰画绘画技巧'
+                count:'共计1项非遗项目',
+                desc:'布宜诺斯艾利斯的传统装饰画绘画技巧',
+                present:'具有代表性项目有：'
             },
             {
                 name:'比利时',
                 en:'Belgium',
                 style:'top:76px;left:472px',
-                count:11,
-                desc:'比利时啤酒文化、东戴恩克尔克骑马捕虾、班什狂欢节'
+                count:'共计11项非遗项目',
+                desc:'比利时啤酒文化、东戴恩克尔克骑马捕虾、班什狂欢节',
+                present:'具有代表性项目有：'
             },
             {
                 name:'匈牙利',
                 en:'Hungary',
                 style:'top: 102px;left: 502px;',
-                count:4,
-                desc:'莫哈奇的冬末面具狂欢节、保护传统民俗音乐的柯达伊概念'
+                count:'共计4项非遗项目',
+                desc:'莫哈奇的冬末面具狂欢节、保护传统民俗音乐的柯达伊概念',
+                present:'具有代表性项目有：'
             },
             {
                 name:'法国',
                 en:'France',
                 style:'top: 102px;left: 459px;',
-                count:14,
-                desc:'法国美食大餐、法国传统马术、奥布松挂毯'
+                count:'共计14项非遗项目',
+                desc:'法国美食大餐、法国传统马术、奥布松挂毯',
+                present:'具有代表性项目有：'
             },
             {
                 name:'德国',
                 en:'Germany',
                 style:'top:82px;left:484px;',
-                count:1,
-                desc:'合作社组织共同分享利益的理念和方法'
+                count:'共计1项非遗项目',
+                desc:'合作社组织共同分享利益的理念和方法',
+                present:'具有代表性项目有：'
             },
             {
                 name:'意大利',
                 en:'Italy',
                 style:'top: 119px;left: 471px;',
-                count:5,
-                desc:'克雷莫纳的传统小提琴工艺、西西里木偶剧'
+                count:'共计5项非遗项目',
+                desc:'克雷莫纳的传统小提琴工艺、西西里木偶剧',
+                present:'具有代表性项目有：'
             },
             {
                 name:'土耳其',
                 en:'Turkey',
                 style:'top: 179px;left: 513px;',
-                count:13,
-                desc:'土耳其咖啡、土耳其水拓画、科萨克传统仪式'
+                count:'共计13项非遗项目',
+                desc:'土耳其咖啡、土耳其水拓画、科萨克传统仪式',
+                present:'具有代表性项目有：'
             },
             {
                 name:'沙特阿拉伯',
                 en:'Saudi Arabia',
                 style:'top: 222px;left: 552px;',
-                count:2,
-                desc:'Almezmar,应和鼓点节奏的棍舞、Alardah Alnajdiyah,沙特阿拉伯的舞蹈、鼓乐和诗歌'
+                count:'共计2项非遗项目',
+                desc:'Almezmar,应和鼓点节奏的棍舞、Alardah Alnajdiyah,沙特阿拉伯的舞蹈、鼓乐和诗歌',
+                present:'具有代表性项目有：'
             },
             {
                 name:'印度',
                 en:'India',
                 style:'top: 224px;left: 640px;',
-                count:11,
-                desc:'瑜伽、拉达克的佛经诵读，在印度查谟和克什米尔地区跨喜马拉雅的拉达克诵读神圣的佛教经文'
+                count:'共计11项非遗项目',
+                desc:'瑜伽、拉达克的佛经诵读，在印度查谟和克什米尔地区跨喜马拉雅的拉达克诵读神圣的佛教经文',
+                present:'具有代表性项目有：'
             },
             {
                 name:'蒙古',
                 en:'Mongolia',
                 style:'top: 124px;left: 666px;',
-                count:11,
-                desc:'马头琴传统音乐、蒙古传统艺术呼麦、那达慕大会'
+                count:'共计11项非遗项目',
+                desc:'马头琴传统音乐、蒙古传统艺术呼麦、那达慕大会',
+                present:'具有代表性项目有：'
             },
             {
                 name:'中国',
                 en:'China',
                 style:'top: 177px;left: 734px;',
-                count:39,
+                count:'共计39项非遗项目',
                 desc:'京剧、中国书法、中医针灸、端午节',
-                link:'http://www.baidu.com'
+                present:'具有代表性项目有：'
+
             },
             {
                 name:'日本',
                 en:'Japan',
                 style:'top: 188px;left: 798px;',
-                count:21,
-                desc:'歌舞伎、和食，日本的传统饮食文化，常见于新年庆祝活动、和纸，日本的传统手工造纸工艺'
+                count:'共计21项非遗项目',
+                desc:'歌舞伎、和食，日本的传统饮食文化，常见于新年庆祝活动、和纸，日本的传统手工造纸工艺',
+                present:'具有代表性项目有：'
             },
             {
                 name:'韩国',
                 en:'Korea',
                 style:'top: 189px;left: 769px',
-                count:17,
-                desc:'韩国传统泡菜制作工艺、江陵端午祭'
+                count:'共计17项非遗项目',
+                desc:'韩国传统泡菜制作工艺、江陵端午祭',
+                present:'具有代表性项目有：'
             },
             {
                 name:'印度尼西亚',
                 en:'Indonesia',
                 style:'top: 298px;left: 744px',
-                count:8,
-                desc:'哇扬皮影偶戏、印度尼西亚的蜡染印花工艺'
+                count:'共计8项非遗项目',
+                desc:'哇扬皮影偶戏、印度尼西亚的蜡染印花工艺',
+                present:'具有代表性项目有：'
             },
             {
                 name:'西班牙',
                 en:'Spain',
                 style:'top: 183px;left: 426px',
-                count:13,
-                desc:'弗拉明戈、叠人塔'
+                count:'共计13项非遗项目',
+                desc:'弗拉明戈、叠人塔',
+                present:'具有代表性项目有：'
             },
             {
                 name:'越南',
                 en:'Vietnam',
                 style:'top: 246px;left: 709px',
-                count:11,
-                desc:'歌筹、雅乐——越南宫廷音乐'
+                count:'共计11项非遗项目',
+                desc:'歌筹、雅乐——越南宫廷音乐',
+                present:'具有代表性项目有：'
             }
+
         ];
         return dataMap;
     },
@@ -700,160 +721,186 @@ var homePage = {
                 name:'克罗地亚',
                 en:'Croatia',
                 style:'top:120px;left:512px;',
-                count:14,
-                desc:'Northern Gingerbread Production Techniques, Oyekan Kung Concert Mode, Sini Card Rings Knights Competition'
+                count:'A total of 9 projects',
+                desc:'Northern Gingerbread Production Techniques, Oyekan Kung Concert Mode, Sini Card Rings Knights Competition',
+                present:'Represent projects：'
             },
             {
                 name:'希腊',
                 en:'Greece',
                 style:'top:162px;left:490px;',
-                count:3,
-                desc:'Chios Island Marti Fat Making Craft, Tienan Island Marble Crafts'
+                count:'A total of 3 projects',
+                desc:'Chios Island Marti Fat Making Craft, Tienan Island Marble Crafts',
+                present:'Represent projects：'
             },
             {
                 name:'墨西哥',
                 en:'Mexico',
-                count:9,
+                count:'A total of 9 projects',
                 style:'top: 206px;left: 158px',
-                desc:'Aboriginal Scourge, Flying'
+                desc:'Aboriginal Scourge, Flying',
+                present:'Represent projects：'
             },
             {
                 name:'巴西',
                 en:'Brazil',
                 style:'top: 322px;left: 302px',
-                count:8,
-                desc:'Baji Rikangkawu\'s Circle Samba, Ouya Pei\'s oral and pictorial forms of expression'
+                count:'A total of 8 projects',
+                desc:'Baji Rikangkawu\'s Circle Samba, Ouya Pei\'s oral and pictorial forms of expression',
+                present:'Represent projects：'
             },
             {
                 name:'阿根廷',
                 en:'Argentina',
                 style:'top: 390px;left: 256px',
-                count:1,
-                desc:'Buenos Aires\'s traditional decorative painting techniques'
+                count:'1 project',
+                desc:'Buenos Aires\'s traditional decorative painting techniques',
+                present:'Represent projects：'
             },
             {
                 name:'比利时',
                 en:'Belgium',
                 style:'top:76px;left:472px',
-                count:11,
-                desc:'Belgian Beer Culture, East Dyke Kirk Riding Shrimp, Bans Carnival'
+                count:'A total of 11 projects',
+                desc:'Belgian Beer Culture, East Dyke Kirk Riding Shrimp, Bans Carnival',
+                present:'Represent projects：'
             },
             {
                 name:'匈牙利',
                 en:'Hungary',
                 style:'top: 102px;left: 502px;',
-                count:4,
-                desc:'Mohach\'s Winter Carnival, Carnival to Protect Traditional Folk Music'
+                count:'A total of 4 projects',
+                desc:'Mohach\'s Winter Carnival, Carnival to Protect Traditional Folk Music',
+                present:'Represent projects：'
             },
             {
                 name:'法国',
                 en:'France',
                 style:'top: 102px;left: 459px;',
-                count:14,
-                desc:'French cuisine, French traditional equestrian, Aubuxong tapestry'
+                count:'A total of 14 projects',
+                desc:'French cuisine, French traditional equestrian, Aubuxong tapestry',
+                present:'Represent projects：'
             },
             {
                 name:'德国',
                 en:'Germany',
                 style:'top:82px;left:484px;',
-                count:1,
-                desc:'Cooperative organization to share the interests of the concept and method'
+                count:'A total of 9 projects',
+                desc:'Cooperative organization to share the interests of the concept and method',
+                present:'Represent projects：'
             },
             {
                 name:'意大利',
                 en:'Italy',
                 style:'top: 119px;left: 471px;',
-                count:5,
-                desc:'Cremona\'s traditional violin craft, Sicilian puppet show'
+                count:'A total of 9 projects',
+                desc:'Cremona\'s traditional violin craft, Sicilian puppet show',
+                present:'Represent projects：'
             },
             {
                 name:'土耳其',
                 en:'Turkey',
                 style:'top: 179px;left: 513px;',
-                count:13,
-                desc:'Turkish coffee, Turkish water painting, Korsak traditional ceremony'
+                count:'A total of 9 projects',
+                desc:'Turkish coffee, Turkish water painting, Korsak traditional ceremony',
+                present:'Represent projects：'
             },
             {
                 name:'沙特阿拉伯',
                 en:'Saudi Arabia',
                 style:'top: 222px;left: 552px;',
-                count:2,
-                desc:'Almezmar, should dance with rhythm of the drums, Alardah Alnajdiyah, Saudi Arabia\'s dance, drums and poetry'
+                count:'A total of 9 projects',
+                desc:'Almezmar, should dance with rhythm of the drums, Alardah Alnajdiyah, Saudi Arabia\'s dance, drums and poetry',
+                present:'Represent projects：'
             },
             {
                 name:'印度',
                 en:'India',
                 style:'top: 224px;left: 640px;',
-                count:11,
-                desc:'Yoga, Ladakh\'s Buddhist scriptures, recitation of the holy Buddhist scriptures across the Himalayan Ladakh in the Jammu and Kashmir regions of India'
+                count:'A total of 9 projects',
+                desc:'Yoga, Ladakh\'s Buddhist scriptures, recitation of the holy Buddhist scriptures across the Himalayan Ladakh in the Jammu and Kashmir regions of India',
+                present:'Represent projects：'
             },
             {
                 name:'蒙古',
                 en:'Mongolia',
                 style:'top: 124px;left: 666px;',
-                count:11,
-                desc:'Ma Touqin traditional music, Mongolian traditional art call wheat, that Dammam meeting'
+                count:'A total of 9 projects',
+                desc:'Ma Touqin traditional music, Mongolian traditional art call wheat, that Dammam meeting',
+                present:'Represent projects：'
             },
             {
                 name:'中国',
                 en:'China',
                 style:'top: 177px;left: 734px;',
-                count:39,
+                count:'A total of 39 projects',
                 desc:'Peking Opera, Chinese calligraphy, Chinese acupuncture, Dragon Boat Festival',
-                link:'http://www.baidu.com'
+                present:'Represent projects：'
             },
             {
                 name:'日本',
                 en:'Japan',
                 style:'top: 188px;left: 798px;',
-                count:21,
-                desc:'Kabuki, and food, the traditional Japanese food culture, common in the New Year celebration, and paper, Japan\'s traditional handmade papermaking craft'
+                count:'A total of 21 projects',
+                desc:'Kabuki, and food, the traditional Japanese food culture, common in the New Year celebration, and paper, Japan\'s traditional handmade papermaking craft',
+                present:'Represent projects：'
             },
             {
                 name:'韩国',
                 en:'Korea',
                 style:'top: 189px;left: 769px',
-                count:17,
-                desc:'Korean traditional kimchi making process, Jiangling Dragon Boat Festival'
+                count:'A total of 17 projects',
+                desc:'Korean traditional kimchi making process, Jiangling Dragon Boat Festival',
+                present:'Represent projects：'
             },
             {
                 name:'印度尼西亚',
                 en:'Indonesia',
                 style:'top: 298px;left: 744px',
-                count:8,
-                desc:'Wo yang puppet show, Indonesian batik printing process'
+                count:'A total of 8 projects',
+                desc:'Wo yang puppet show, Indonesian batik printing process',
+                present:'Represent projects：'
             },
             {
                 name:'西班牙',
                 en:'Spain',
                 style:'top: 183px;left: 426px',
-                count:13,
-                desc:'Flamingo, stacked tower'
+                count:'A total of 18 projects',
+                desc:'Flamingo, stacked tower',
+                present:'Represent projects：'
             },
             {
                 name:'越南',
                 en:'Vietnam',
                 style:'top: 246px;left: 709px',
-                count:11,
-                desc:'Song music, music - Vietnamese court music'
+                count:'A total of 11 projects',
+                desc:'Song music, music - Vietnamese court music',
+                present:'Represent projects：'
             }
 
         ];
         return dataMap;
     },
 
-    map:function () {//地图
-        var data=this.data();
-        var map=$('#map');
 
+    map:function (lang) {//地图
+
+        if(lang=='en'){
+            var data=this.endata();
+        }else{
+            var data=this.data();
+        }
+
+        var map=$('#map');
         map.find('span').remove();
         var modal=map.find('.modal');
         var zh=modal.find('.zh');
         var en=modal.find('.en');
-        var count=modal.find('.count span');
+        //var count=modal.find('.count span');
+        var count=modal.find('.count');
+        var name=modal.find('.name');
         var txt=modal.find('.content .txt');
         var more=modal.find('.content .more');
-
         var str='';
         for (var i=0;i<data.length;i++){
             str+='<span class="breathe item'+(i+1)+'" style="'+data[i].style+'" title="'+data[i].name+'"></span>';
@@ -864,7 +911,7 @@ var homePage = {
 
         map.find('span').hover(function () {
             var index=$(this).index()-1;
-            //     //位置
+            //位置
             var _top=$(this).position().top;
             var _left=$(this).position().left;
             //数据
@@ -891,6 +938,7 @@ var homePage = {
             en.text(data[index].en);
             txt.text(data[index].desc);
             count.text(data[index].count);
+            name.text(data[index].present);
             var isLink=data[index].link;
             // if(isLink){
             //     more.show().html('<a href="'+data[index].link+'" title="查看全部" target="_blank">查看全部</a>');
