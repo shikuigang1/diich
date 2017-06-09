@@ -4,10 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>视频图片预览</title>
-    <link rel="stylesheet" href="assets/css/common.css">
-    <link rel="stylesheet" href="assets/css/layout.css">
-    <script src="./assets/js/jquery.min.js"></script>
-    <script src="./assets/js/system.js"></script>
 </head>
 
 <body>

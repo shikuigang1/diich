@@ -131,7 +131,7 @@
                 success: function(data) {
 
                     $("#totalCount").text(data.totalCount);
-                    $("#totalCount_").text(data.totalCount);
+                   // $("#totalCount_").text(data.totalCount);
                     var evalText = doT.template($("#interpolationtmpl").text());
                     $("#content").html(evalText(data.res));
                     $(".load_more").show();
@@ -166,7 +166,7 @@
                 success: function(data) {
                     //alert(JSON.stringify(data.res));
                     $("#totalCount").text(data.totalCount);
-                    $("#totalCount_").text(data.totalCount);
+                   // $("#totalCount_").text(data.totalCount);
                     var evalText = doT.template($("#interpolationtmpl").text());
                     $("#content").html(evalText(data.res));
                     $(".load_more").show();
