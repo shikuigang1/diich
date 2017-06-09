@@ -196,7 +196,7 @@
                     $("#content").append(evalText(data.res));
 
                     //判定 加载页面 是否可以再点击
-                    if (parseInt($("#pageNum").val()) * parseInt($("#pageSize").val()) >= data.res.totalCount) {
+                    if (parseInt($("#pageNum").val()) * parseInt($("#pageSize").val()) >= data.totalCount) {
                         $(".load_more").hide();
                         $("#loadmore").text("load more");
                     }else{
