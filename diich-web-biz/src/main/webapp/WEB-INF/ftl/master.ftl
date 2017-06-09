@@ -397,7 +397,7 @@
 
             <div class="card_base">
                 <duv class="detail_title">
-                    <h2>基礎信息</h2>
+                    <h2>基础信息</h2>
                 </duv>
                 <div class="info">
                     <ul>
@@ -429,7 +429,7 @@
                                 <li>
                                     <!-- 保证图片在上面-->
                                     <#list work.contentFragmentList as c>
-                                        <#if c.attributeId==25>
+                                        <#if c.attributeId==114>
                                             <#if c.resourceList??>
                                                 <#list c.resourceList as p>
                                                     <a href="${workspage}${work.id?c}.html"><img src="${p.uri}?x-oss-process=style/head-image-style" alt=""></a>
@@ -447,7 +447,7 @@
                                     </#if>-->
                                     </#list>
                                     <#list work.contentFragmentList as c>
-                                        <#if c.attributeId==25>
+                                        <#if c.attributeId==114>
                                             <#if c.resourceList??>
                                                 <#list c.resourceList as p>
                                                     <p class="master"><#if p.description??>${p.description}</#if></p>
@@ -748,6 +748,8 @@
             },
         };
         searchPage.init();
+        //给logo加首页链接
+        $('.logo').attr('href','http://diich.efeiyi.com/page/index.html');
     });
     function submit(){
 
