@@ -127,6 +127,7 @@ function switchLanguage(lang){
 
 
             $('#d_id').text($.i18n.prop('d_id'));
+            $('#apply_id').text($.i18n.prop('apply_id'));
 
 
 
