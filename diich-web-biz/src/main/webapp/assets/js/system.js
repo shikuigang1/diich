@@ -37,7 +37,7 @@ var renderHhtml = {
                 <div class="content">
                     <div class="item">
                         <dl>
-                            <dt id="legend"><a href="${renderHhtml.uri}/page/search.html?gb_category_code=A" data-id="A">口头传说和表述</a></dt>
+                            <dt ><a href="${renderHhtml.uri}/page/search.html?gb_category_code=A" data-id="A" id="legend">口头传说和表述</a></dt>
                             <dd>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A01" data-id="A01" id="language" >语言</a>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A02" data-id="A02" id="text">文字</a>
@@ -50,7 +50,7 @@ var renderHhtml = {
     
                     <div class="item">
                         <dl>
-                            <dt id="perform"><a href="${renderHhtml.uri}/page/search.html?gb_category_code=B" data-id="B">表演艺术</a></dt>
+                            <dt ><a id="perform" href="${renderHhtml.uri}/page/search.html?gb_category_code=B" data-id="B">表演艺术</a></dt>
                             <dd>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B01" data-id="B01"  id="music" >音乐演奏</a>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B02" data-id="B02" id="dance">舞蹈</a>
@@ -66,7 +66,7 @@ var renderHhtml = {
     
                     <div class="item">
                         <dl>
-                            <dt id="custom_etiquette"><a href="${renderHhtml.uri}/page/search.html?gb_category_code=C" data-id="C">社会风俗<br>礼仪、节庆</a></dt>
+                            <dt ><a id="custom_etiquette" href="${renderHhtml.uri}/page/search.html?gb_category_code=C" data-id="C">社会风俗<br>礼仪、节庆</a></dt>
                             <dd>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C01" data-id="C01" id="business_custom">生产商贸习俗</a>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C02" data-id="C02" id="life_customs">生活习俗</a>
@@ -80,7 +80,7 @@ var renderHhtml = {
     
                     <div class="item">
                         <dl>
-                            <dt id="practice_nature"><a href="${renderHhtml.uri}/page/search.html?gb_category_code=D" data-id="D">有关自然界和<br>宇宙的知识和实践</a></dt>
+                            <dt><a  id="practice_nature" href="${renderHhtml.uri}/page/search.html?gb_category_code=D" data-id="D">有关自然界和<br>宇宙的知识和实践</a></dt>
                             <dd>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D01" data-id="D01" id="df_fishery">农林牧畜渔</a>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D02" data-id="D02" id="clothing">服装</a>
@@ -103,7 +103,7 @@ var renderHhtml = {
     
                     <div class="item">
                         <dl>
-                            <dt id="tt_handmade"><a href="${renderHhtml.uri}/page/search.html?gb_category_code=E" data-id="E">传统的手工艺技能></a></dt>
+                            <dt ><a  id="tt_handmade" href="${renderHhtml.uri}/page/search.html?gb_category_code=E" data-id="E">传统手工艺技能</a></dt>
                             <dd>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E01" data-id="E01"  id="tm_manufacture">工具及机械制作</a>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E02" data-id="E02" id="p_techniques">髹饰工艺</a>
@@ -361,9 +361,9 @@ var common = {
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
             if(window.localStorage.language == 'en') {
-                ipt.attr('placeholder', _value_en[cur]);
+                ipt.attr('value', _value_en[cur]);
             } else {
-                ipt.attr('placeholder', _value[cur]);
+                ipt.attr('value', _value[cur]);
             }
         });
 
@@ -384,9 +384,9 @@ var common = {
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
             if(window.localStorage.language == 'en') {
-                ipt.attr('placeholder', _value_en[cur]);
+                ipt.attr('value', _value_en[cur]);
             } else {
-                ipt.attr('placeholder', _value[cur]);
+                ipt.attr('value', _value[cur]);
             }
         }
 
@@ -462,12 +462,12 @@ var header = {
         item.eq(2).css('width', '100px');
         item.eq(3).css('width', '240px');
 
-        item.eq(3).find('a:even').css('width', '72px');
-        item.eq(3).find('a:odd').css({ 'width': '129px', 'margin-left': '24px' });
+        item.eq(3).find('dd a:even').css('width', '72px');
+        item.eq(3).find('dd a:odd').css({ 'width': '129px', 'margin-left': '24px' });
 
         item.eq(4).css('width', '210px');
-        item.eq(4).find('a:even').css('width', '115px');
-        item.eq(4).find('a:odd').css({ 'width': '66px', 'margin-left': '24px' });
+        item.eq(4).find('dd a:even').css('width', '115px');
+        item.eq(4).find('dd a:odd').css({ 'width': '66px', 'margin-left': '24px' });
     },
     search: function() {
         var _header = $('.header');
