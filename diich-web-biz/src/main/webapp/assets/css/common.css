@@ -1,7 +1,4 @@
-@font-face {
-    font-family: DINPro;
-    src: url('../font/DINPro-Regular.otf');
-}
+
 
 html,
 body,
@@ -465,6 +462,10 @@ textarea{resize:none}
     margin-bottom: 40px;
     display: block;
 }
+.drop_menu .content .item dt  a{
+    font-size: 16px;
+    line-height: 28px;
+}
 
 .drop_menu .content .item dd {
     display: block;
@@ -667,7 +668,7 @@ textarea{resize:none}
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, .6);
-    z-index: 2;
+    z-index: 1;
 }
 
 
