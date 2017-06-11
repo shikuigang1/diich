@@ -14,7 +14,7 @@
     <script src="../data/keyword.js"></script>
     <script src="../js/doT.js"></script>
     <script src="../js/serverinfo.js"></script>
-    <!-- <script src="../assets/js/system.js"></script>-->
+    <script src="../assets/js/system.js"></script>
     <script type="text/javascript" src="/js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="../js/i18n.js"></script>
 
@@ -38,10 +38,14 @@
                     <span>标识码</span>
                     <span>{{= it[i].id }}</span>
                 </div>
+
+                {{?it[i].category}}
                 <div class="cate">
                     <span>类别</span>
                     <span>{{= it[i].category }}</span>
                 </div>
+                {{?}}
+
                 <div class="brief">
                     {{= it[i].content }}
                 </div>
@@ -57,13 +61,17 @@
             </a>
             <div class="context">
                 <h4><a href="http://resource.efeiyi.com/html/master/{{=it[i].id }}.html">{{= it[i].title }}</a><i class="icon_list_user"></i></h4>
+
+                {{?it[i].projjectName}}
                 <div class="cate">
                     <a href="" class="icon_inter"><i></i>UNESCO认证</a>
                     {{?it[i].projjectName}}
                     <span class="name_project">{{= it[i].projjectName }}</span>
                     {{?}}
-
                 </div>
+
+                {{?}}
+
                 <div class="doi">
                     <span class="tag">ID</span>
                     <span>标识码</span>
@@ -112,6 +120,10 @@
 
         function searchData_() {
 
+            if($("#keyword").val()=="" && $("#gb_category_code").val()==""){
+                return false;
+            }
+
             $("#pageNum").val("1"); //把页面回执到1
             $.ajax({
                 cache: true,
@@ -153,6 +165,11 @@
 
         function searchData() {
 
+            if($("#keyword").val()=="" && $("#gb_category_code").val()==""){
+                return false;
+            }
+
+
             $.ajax({
                 cache: true,
                 type: "POST",
@@ -175,6 +192,10 @@
         }
 
         function loadmore() {
+
+            if($("#keyword").val()=="" && $("#gb_category_code").val()==""){
+                return false;
+            }
 
             $("#loadmore").text("loading...");
 
@@ -223,7 +244,7 @@
 <div id="maskOfProgressImage" class="mask" style="display:none"></div>
 <div class="header header_detail">
     <div class="content">
-        <a class="logo" href=""></a>
+        <a class="logo" href="../page/index.html"></a>
         <div class="nav">
             <ul>
                 <li class="active"><a href="../page/index.html">首页</a></li>
@@ -255,7 +276,7 @@
         <div class="content">
             <div class="item">
                 <dl>
-                    <dt data-id="A">口头传说和表述</dt>
+                    <dt data-id="A"><a href="../page/search.html?gb_category_code=A">口头传说和表述</a></dt>
                     <dd>
                         <a href="../page/search.html?gb_category_code=A01" data-id="A01" >语言</a>
                         <a href="../page/search.html?gb_category_code=A02" data-id="A02">文字</a>
@@ -268,7 +289,7 @@
 
             <div class="item">
                 <dl>
-                    <dt data-id="B">表演艺术</dt>
+                    <dt data-id="B"><a href="../page/search.html?gb_category_code=B">表演艺术</a></dt>
                     <dd>
                         <a href="../page/search.html?gb_category_code=B01" data-id="B01">音乐演奏</a>
                         <a href="../page/search.html?gb_category_code=B02" data-id="B02">舞蹈</a>
@@ -284,7 +305,7 @@
 
             <div class="item">
                 <dl>
-                    <dt data-id="C">社会风俗<br>礼仪、节庆</dt>
+                    <a data-id="C"><a href="../page/search.html?gb_category_code=C"></a>社会风俗<br>礼仪、节庆</a></dt>
                     <dd>
                         <a href="../page/search.html?gb_category_code=C01" data-id="C01">生产商贸习俗</a>
                         <a href="../page/search.html?gb_category_code=C02" data-id="C02">生活习俗</a>
@@ -298,7 +319,7 @@
 
             <div class="item">
                 <dl>
-                    <dt data-id="D">有关自然界和<br>宇宙的知识和实践</dt>
+                    <dt data-id="D"><a href="../page/search.html?gb_category_code=D">有关自然界和<br>宇宙的知识和实践</a></dt>
                     <dd>
                         <a href="../page/search.html?gb_category_code=D01" data-id="D01">农林牧畜渔</a>
                         <a href="../page/search.html?gb_category_code=D02" data-id="D02">服装</a>
@@ -321,7 +342,7 @@
 
             <div class="item">
                 <dl>
-                    <dt data-id="E">传统的手工艺技能</dt>
+                    <dt data-id="E"><a href="../page/search.html?gb_category_code=E">传统的手工艺技能</a></dt>
                     <dd>
                         <a href="../page/search.html?gb_category_code=E01" data-id="E01">工具及机械制作</a>
                         <a href="../page/search.html?gb_category_code=E02" data-id="E02">髹饰工艺</a>
@@ -392,7 +413,6 @@
                 <dl class="level2">
                     <dt>
                     <div class="title">二级分类</div>
-                    <div class="subtitle" >所有二级分类</div>
                     </dt>
                     <dd>
                         <ul id="catecontent">
@@ -519,7 +539,7 @@
     }
 
     $(function() {
-
+        $('.header .content .nav li').eq(1).addClass('active').siblings('li').removeClass('active');
         $("#ahover").hover(function(){
             $(".drop_menu").show();
         },function(){
@@ -565,7 +585,7 @@
 
         });
 
-        $("#keyword").keyup(function(){
+       /* $("#keyword").keyup(function(){
             $(".suggest").hide();
             if($("#keyword").val()!=""){
                 //查询匹配字符串
@@ -598,7 +618,72 @@
                     $(".suggest").show();
                 }
             }
+        });*/
+
+
+
+        var cur = 0;
+        $("#keyword").keyup(function(e) {
+            var _this = $(this);
+            var _li = $('#words').find('li');
+
+            $(".suggest").hide();
+
+            //查询匹配字符串
+            var html = "";
+            var i = 3; //满足数据条数
+            var key = _this.val().length;
+
+
+            if (e.keyCode == 40) {
+                $(".suggest").show();
+                $("#words").append(html);
+
+                if (cur < _li.length) {
+                    cur++;
+                } else {
+                    cur = 1;
+                }
+                _this.val(_li.eq(cur - 1).text());
+                _li.eq(cur - 1).addClass('hover').siblings('li').removeClass('hover');
+
+            } else if (e.keyCode == 38) {
+                $(".suggest").show();
+                var _text = _li.eq(cur).text();
+
+                if (cur > 1) {
+                    cur--;
+                } else {
+                    cur = _li.length;
+                }
+
+                $("#words").append(html);
+                _this.val(_li.eq(cur - 1).text());
+                _li.eq(cur - 1).addClass('hover').siblings('li').removeClass('hover');
+            } else {
+
+                $("#words").empty();
+                $.each(keywords, function(index, content) {
+                    if (content.substring(0, key) == $("#keyword").val()) {
+                        html += "<li><a href=\"javascript:void(0)\" id=\"span_" + index + "\" onclick=\"submitForm(" + index + ")\"><span >" + $("#keyword").val() + "</span>";
+                        if (content.length == key) {
+                            html += "</a></li>";
+                        } else {
+                            html += content.substring(key) + "</a></li>";
+                        }
+                        i--;
+                        if (i == 0) {
+                            $("#words").append(html);
+                            $(".suggest").show();
+                            return false;
+                        }
+                    }
+
+                });
+            }
+
         });
+
         var mainCategory = $('#mainCategory');
 
         //初始化分类数据
