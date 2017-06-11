@@ -145,10 +145,10 @@ var renderHhtml = {
             <!--//End lbox-->
             <div class="rbox">
                 <div class="share">
-                    <a href="" class="facebook" title="facebook"></a>
+                   <!-- <a href="" class="facebook" title="facebook"></a>
                     <a href="" class="twitter" title="twitter"></a>
                     <a href="" class="instagram" title="instagram"></a>
-                    <a href="" class="linkedin" title="linkedin"></a>
+                    <a href="" class="linkedin" title="linkedin"></a>-->
                     <span class="code"><img src="../assets/images/footer_code.png" alt=""></span>
                 </div>
             </div>
