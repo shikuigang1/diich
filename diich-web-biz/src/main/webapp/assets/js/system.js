@@ -21,7 +21,7 @@ var renderHhtml = {
                 </div>
                 <div class="info">
                     <ul>
-                        <li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em id="sign_in">登陆</em></a></li>
+                        <li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em id="sign_in">登录</em></a></li>
                         <li class="language">
                             <a class="zh active" href="javascript:switchLanguage('zh-CN');"><em>中文</em></a>
                             <a class="en" href="javascript:switchLanguage('en');"><em>EN</em></a>
@@ -352,7 +352,7 @@ var common = {
         var speed = 5000;
         var timer = null;
         var _value=['京剧','昆曲','苏绣','中药'];
-        var _value_en=['Beijing opera','Kunqu','Embroidery','Chinese Medicine'];
+        var _value_en=['Tango','Yoga','Equitation','Taekkyeon'];
 
         numLi.mousedown(function() {
             clearInterval(timer);
@@ -361,9 +361,9 @@ var common = {
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
             if(window.localStorage.language == 'en') {
-                ipt.val(_value_en[cur]);
+                ipt.attr('placeholder', _value_en[cur]);
             } else {
-                ipt.val(_value[cur]);
+                ipt.attr('placeholder', _value[cur]);
             }
         });
 
@@ -384,9 +384,9 @@ var common = {
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
             if(window.localStorage.language == 'en') {
-                ipt.val(_value_en[cur]);
+                ipt.attr('placeholder', _value_en[cur]);
             } else {
-                ipt.val(_value[cur]);
+                ipt.attr('placeholder', _value[cur]);
             }
         }
 

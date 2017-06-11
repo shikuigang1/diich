@@ -6,13 +6,13 @@
     <title>首页</title>
     <link rel="stylesheet" href="../assets/css/common.css">
     <link rel="stylesheet" href="../assets/css/layout.css">
-	
 	<link rel="shortcut icon" type="image/x-icon" href="http://resource.efeiyi.com/other/assets/images/logo.png" media="screen" />
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../data/keyword.js"></script>
 	<script src="../assets/js/system.js"></script>
     <script src="../js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="../js/i18n.js"></script>
+    <script src="../js/index.js"></script>
 </head>
 
 <body>
@@ -25,7 +25,7 @@
     <div class="home">
         <div class="bd slider">
             <form class="form" action="../page/search.html" id="form">
-                <input input class="ipt" id="keyword" name="keyword"  type="text" value="京剧" autocomplete="off">
+                <input input class="ipt" id="keyword" name="keyword" placeholder="京剧" type="text" autocomplete="off">
                 <input class="btn" type="submit">
                 <div class="text">
                     <p style="display:block" id="b_opera">京剧是十九世纪中期，融合了徽剧、和汉剧、，并吸收了秦腔、、昆曲、、梆子、弋阳腔、等艺术的优点，在北京形成的。京剧的腔调以西皮和二黄为主，主要用胡琴和锣鼓等伴奏，被视为中国国粹。</p>
@@ -41,16 +41,16 @@
             </form>
             <ul class="img">
                <li class="bd" style="display: block;">
-                    <a href="#1"><img src="../assets/images/hero-bg1@2x.jpg" alt=""></a>
+                    <a href="javascript:0;"><img src="../assets/images/hero-bg1@2x.jpg" alt="" id="carousel_01"></a>
                 </li>
                 <li class="bd">
-                    <a href="http://resource.efeiyi.com/html/project/2.html"><img src="../assets/images/kq.jpg" alt=""></a>
+                    <a href="javascript:0;"><img src="../assets/images/kq.jpg" alt="" id="carousel_02"></a>
                 </li>
                 <li class="bd">
-                    <a href="http://resource.efeiyi.com/html/project/1.html "><img src="../assets/images/sx.jpg" alt=""></a>
+                    <a href="javascript:0;"><img src="../assets/images/sx.jpg" alt="" id="carousel_03"></a>
                 </li>
                 <li class="bd">
-                    <a href="#4"><img src="../assets/images/zyy.jpg" alt=""></a>
+                    <a href="javascript:0;"><img src="../assets/images/zyy.jpg" alt="" id="carousel_04"></a>
                 </li>
             </ul>
             <!--//End img -->
@@ -199,12 +199,12 @@
 
         <div class="bd information">
             <div class="home_title">
-                <h3>非遗资讯</h3>
+                <h3 id="zixun_title">非遗资讯</h3>
             </div>
             <ul class="bd">
                 <li>
                     <a href="javascript:0;">
-                        <div class="pic"><img src="../assets/uploads/zixun01.jpg" alt=""></div>
+                        <div class="pic"><img id="img_1" src="http://resource.efeiyi.com/image/uploads/zixun01.jpg" alt=""></div>
                         <div class="name">
                             <p id="info_1">联合国教科文组织国际非遗大数据库第一阶段成果会议</p>
                             <!--<p>—《木卡姆印象》在京演出侧记</p>-->
@@ -214,7 +214,7 @@
                 </li>
                 <li>
                     <a href="javascript:0;">
-                        <div class="pic"><img src="../assets/uploads/zixun02.jpg" alt=""></div>
+                        <div class="pic"><img id="img_2" src="http://resource.efeiyi.com/image/uploads/zixun02.jpg" alt=""></div>
                         <div class="name">
                             <p id="info_2">【世界非物质文化遗产·端午节】纪念伟大诗人 传承民族精神</p>
                             <!--<p>—《木卡姆印象》在京演出侧记</p>-->
@@ -224,7 +224,7 @@
                 </li>
                 <li>
                     <a href="javascript:0;">
-                        <div class="pic"><img src="../assets/uploads/zixun03.jpg" alt=""></div>
+                        <div class="pic"><img id="img_3" src="http://resource.efeiyi.com/image/uploads/zixun03.jpg" alt=""></div>
                         <div class="name">
                             <p id="info_3">非遗百匠|因刺绣而生，为刺绣而梦——朱寿珍</p>
                             <!--<p>—《木卡姆印象》在京演出侧记</p>-->
@@ -233,6 +233,7 @@
                     </a>
                 </li>
             </ul>
+
         </div>
         <!--//End--非遗资讯-->
 
@@ -242,8 +243,7 @@
                     <a class="certificate" href="" title="证书"></a>
                 </div>
                 <div class="part">
-                    <div class="txt">数字对象识别码（英语：Digital Object
-                        Identifier，简称DOI）也称数字对象识别号、数字对象识别符、数字对象标识符、数字对象唯一标识符等。申报成功后，将获得有联合国教科文组织颁发的国际认证体系编码（即DIO编码），编码为全球唯一编码，全球范围可查询。
+                    <div class="txt" id="d_id">数字对象识别码也称数字对象识别号、数字对象识别符、数字对象标识符、数字对象唯一标识符等。申报成功后，将获得有联合国教科文组织颁发的国际认证体系编码，编码为全球唯一编码，全球范围可查询。
                     </div>
                 </div>
                 <div class="part">
@@ -265,6 +265,8 @@
 
 </body>
 <script>
+
+
  $(function () {
      homePage.init();
 	 	$("#keyword").keyup(function(){
@@ -286,6 +288,7 @@
 					}else{
 						html+=content.substring(key)+"</a></li>";
 					}
+					
 					i--;
 					if(i==0){
 						$("#words").append(html);

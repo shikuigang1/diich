@@ -82,6 +82,12 @@ function switchLanguage(lang){
 			$('#k_opera').text($.i18n.prop('k_opera'));
 			$('#c_embroidery').text($.i18n.prop('c_embroidery'));
 			$('#j_medicine').text($.i18n.prop('j_medicine'));
+
+			$('#carousel_01').attr('src', $.i18n.prop('carousel_01'));
+			$('#carousel_02').attr('src', $.i18n.prop('carousel_02'));
+			$('#carousel_03').attr('src', $.i18n.prop('carousel_03'));
+			$('#carousel_04').attr('src', $.i18n.prop('carousel_04'));
+
             //非遗在全球
 			$('#t_total').text($.i18n.prop('t_total'));
 			$('#ic_pro').text($.i18n.prop('ic_pro'));
@@ -89,36 +95,43 @@ function switchLanguage(lang){
 			$('#s_world').text($.i18n.prop('s_world'));
 			$('#r_pro').text($.i18n.prop('r_pro'));
 
-			$('#src_id').text($.i18n.prop('src_id'));
+			$('#src_id').attr('src',$.i18n.prop('src_id'));
 			$('#tg_id').text($.i18n.prop('tg_id'));
 			$('#china_id').text($.i18n.prop('china_id'));
 			$('#k_id').text($.i18n.prop('k_id'));
 			$('#ko_id').text($.i18n.prop('ko_id'));
 			$('#zhou_id').text($.i18n.prop('zhou_id'));
-			$('#zsrc_id').text($.i18n.prop('zsrc_id'));
+			$('#zsrc_id').attr('src',$.i18n.prop('zsrc_id'));
 			$('#In_id').text($.i18n.prop('In_id'));
 			$('#india_id').text($.i18n.prop('india_id'));
 			$('#su_id').text($.i18n.prop('su_id'));
 			$('#suxiu_id').text($.i18n.prop('suxiu_id'));
 			$('#yao_id').text($.i18n.prop('yao_id'));
 			$('#ya_id').text($.i18n.prop('ya_id'));
-			$('#ysrc_id').text($.i18n.prop('ysrc_id'));
-
+			$('#yao_id').attr('src',$.i18n.prop('yao_id'));
+			$('#ysrc_id').attr('src',$.i18n.prop('ysrc_id'));
 
 
             //非遗资讯
             $('#info_1').text($.i18n.prop('info_1'));
             $('#info_1_time').text($.i18n.prop('info_1_time'));
+			$('#img_1').attr("src",$.i18n.prop('img_1'));
             $('#info_2').text($.i18n.prop('info_2'));
             $('#info_2_time').text($.i18n.prop('info_2_time'));
+			$('#img_2').attr("src",$.i18n.prop('img_2'));
             $('#info_3').text($.i18n.prop('info_3'));
             $('#info_3_time').text($.i18n.prop('info_1_time'));
+			$('#img_3').attr("src",$.i18n.prop('img_3'));
+            $('#zixun_title').text($.i18n.prop('zixun_title'));
+
+
+
+            $('#d_id').text($.i18n.prop('d_id'));
+
 
 
             //渲染地图
-
             homePage.map(lang);
-
 
 
         }
