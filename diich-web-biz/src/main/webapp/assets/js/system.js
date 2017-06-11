@@ -7,16 +7,16 @@ var renderHhtml = {
     },
     header: function() { //导航
         var htmlStr = '<div class="content">'+
-            '<a class="logo" href="${renderHhtml.uri}/page/index.html"></a>'+
+            '<a class="logo" href="'+renderHhtml.uri+'/page/index.html"></a>'+
             '<div class="nav">'+
             '<ul>'+
-            '<li class="active"><a href="${renderHhtml.uri}/page/index.html" id="home">首页</a></li>'+
+            '<li class="active"><a href="'+renderHhtml.uri+'/page/index.html" id="home">首页</a></li>'+
             '<li><a href="#" id="ich_directory">非遗名录</a></li>'+
-            '<li><a href="${renderHhtml.uri}/page/masters.html" id="ich_master">非遗大师</a></li>'+
-            '<li><a href="${renderHhtml.uri}/page/selected_content.html" id="selected_content">精选内容</a></li>'+
-            '<li><a href="${renderHhtml.uri}/page/news.html" id="information">非遗资讯</a></li>'+
-            '<li><a href="${renderHhtml.uri}/page/official_service.html" id="official_service">官方服务</a></li>'+
-            '<li><a href="${renderHhtml.uri}/page/declare.html" id="project_declare">我要申报</a></li>'+
+            '<li><a href="'+renderHhtml.uri+'/page/masters.html" id="ich_master">非遗大师</a></li>'+
+            '<li><a href="'+renderHhtml.uri+'/page/selected_content.html" id="selected_content">精选内容</a></li>'+
+            '<li><a href="'+renderHhtml.uri+'/page/news.html" id="information">非遗资讯</a></li>'+
+            '<li><a href="'+renderHhtml.uri+'/page/official_service.html" id="official_service">官方服务</a></li>'+
+            '<li><a href="'+renderHhtml.uri+'/page/declare.html" id="project_declare">我要申报</a></li>'+
             '</ul>'+
             '</div>'+
             '<div class="info">'+
@@ -35,40 +35,40 @@ var renderHhtml = {
             '<div class="content">'+
             '<div class="item">'+
             '<dl>'+
-            '<dt ><a href="${renderHhtml.uri}/page/search.html?gb_category_code=A" data-id="A" id="legend">口头传说和表述</a></dt>'+
+            '<dt ><a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A" data-id="A" id="legend">口头传说和表述</a></dt>'+
             '<dd>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=A01" data-id="A01" id="language" >语言</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=A02" data-id="A02" id="text">文字</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=A03" data-id="A03" id="oral">口述</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=A04" data-id="A04" id="other_oral">其他口头传统<br>及表述</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A01" data-id="A01" id="language" >语言</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A02" data-id="A02" id="text">文字</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A03" data-id="A03" id="oral">口述</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A04" data-id="A04" id="other_oral">其他口头传统<br>及表述</a>'+
             '</dd>'+
             ' </dl>'+
             '</div>'+
             '<!--//End-->'+
             '<div class="item">'+
             '<dl>'+
-            '<dt ><a id="perform" href="${renderHhtml.uri}/page/search.html?gb_category_code=B" data-id="B">表演艺术</a></dt>'+
+            '<dt ><a id="perform" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B" data-id="B">表演艺术</a></dt>'+
             '<dd>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=B01" data-id="B01"  id="music" >音乐演奏</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=B02" data-id="B02" id="dance">舞蹈</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=B03" data-id="B03" id="folk_song">民歌</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=B04" data-id="B04" id="traditional_drama">传统戏剧</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=B05" data-id="B05"  id="quyi">曲艺</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=B06" data-id="B06" id="sport">传统体育、游艺与杂技</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=B99" data-id="B99" id="other_perform">其他表演艺术</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B01" data-id="B01"  id="music" >音乐演奏</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B02" data-id="B02" id="dance">舞蹈</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B03" data-id="B03" id="folk_song">民歌</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B04" data-id="B04" id="traditional_drama">传统戏剧</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B05" data-id="B05"  id="quyi">曲艺</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B06" data-id="B06" id="sport">传统体育、游艺与杂技</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B99" data-id="B99" id="other_perform">其他表演艺术</a>'+
             '</dd>'+
             '</dl>'+
             '</div>'+
             '<!--//End-->'+
             '<div class="item">'+
             '<dl>'+
-            '<dt ><a id="custom_etiquette" href="${renderHhtml.uri}/page/search.html?gb_category_code=C" data-id="C">社会风俗<br>礼仪、节庆</a></dt>'+
+            '<dt ><a id="custom_etiquette" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C" data-id="C">社会风俗<br>礼仪、节庆</a></dt>'+
             '<dd>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=C01" data-id="C01" id="business_custom">生产商贸习俗</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=C02" data-id="C02" id="life_customs">生活习俗</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=C03" data-id="C03" id="life_ritual">人生仪式</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=C04" data-id="C04" id="festival_celebration">节日庆典</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=C99" data-id="C99" id="other_celebration">其他仪式及庆典</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C01" data-id="C01" id="business_custom">生产商贸习俗</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C02" data-id="C02" id="life_customs">生活习俗</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C03" data-id="C03" id="life_ritual">人生仪式</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C04" data-id="C04" id="festival_celebration">节日庆典</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C99" data-id="C99" id="other_celebration">其他仪式及庆典</a>'+
             '</dd>'+
             '</dl>'+
             '</div>'+
@@ -76,40 +76,40 @@ var renderHhtml = {
 
             '<div class="item">'+
             '<dl>'+
-            '<dt><a  id="practice_nature" href="${renderHhtml.uri}/page/search.html?gb_category_code=D" data-id="D">有关自然界和<br>宇宙的知识和实践</a></dt>'+
+            '<dt><a  id="practice_nature" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D" data-id="D">有关自然界和<br>宇宙的知识和实践</a></dt>'+
             '<dd>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=D01" data-id="D01" id="df_fishery">农林牧畜渔</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=D02" data-id="D02" id="clothing">服装</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=D03" data-id="D03" id="food">食品</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=D04" data-id="D04" id="h_construction">住房与建筑</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=D05" data-id="D05" id="traffic">交通,旅行</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=D06" data-id="D06" id="medicine">医、药</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=D07" data-id="D07" id="military">军事防御</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=D08" data-id="D08" id="business">商贸</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=D09" data-id="D09" id="project">工业、工程</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=D10" data-id="D10" id="ag_irrigation">天文、地理、水文等</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=D99" data-id="D99" id="on_knowledge">其他自然知识和实践</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D01" data-id="D01" id="df_fishery">农林牧畜渔</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D02" data-id="D02" id="clothing">服装</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D03" data-id="D03" id="food">食品</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D04" data-id="D04" id="h_construction">住房与建筑</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D05" data-id="D05" id="traffic">交通,旅行</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D06" data-id="D06" id="medicine">医、药</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D07" data-id="D07" id="military">军事防御</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D08" data-id="D08" id="business">商贸</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D09" data-id="D09" id="project">工业、工程</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D10" data-id="D10" id="ag_irrigation">天文、地理、水文等</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D99" data-id="D99" id="on_knowledge">其他自然知识和实践</a>'+
             '</dd>'+
             '</dl>'+
             '</div>'+
             '<!--//End-->'+
             '<div class="item">'+
             '<dl>'+
-            '<dt ><a id="tt_handmade" href="${renderHhtml.uri}/page/search.html?gb_category_code=E" data-id="E">传统手工艺技能</a></dt>'+
+            '<dt ><a id="tt_handmade" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E" data-id="E">传统手工艺技能</a></dt>'+
             '<dd>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=E01" data-id="E01"  id="tm_manufacture">工具及机械制作</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=E02" data-id="E02" id="p_techniques">髹饰工艺</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=E03" data-id="E03" id="daa_products">家畜农林产品加工</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=E04" data-id="E04" id="d_process">织染工艺</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=E05" data-id="E05" id="p_paperhanging">造纸、印刷机装裱</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=E06" data-id="E06" id="k_techniques">编扎工艺</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=E07" data-id="E07" id="cp_craft">字画工艺</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=E08" data-id="E08" id="s_techniques">锻冶工艺</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=E09" data-id="E09" id="pc_technics">剪刻工艺</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=E10" data-id="E10" id="sc_techniques">雕塑工艺</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=E11" data-id="E11" id="b_technics">烧造工艺</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=E12" data-id="E12" id="w_techniques">木作工艺</a>'+
-            '<a href="${renderHhtml.uri}/page/search.html?gb_category_code=E99" data-id="E99" id="o_kind">其他类</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E01" data-id="E01"  id="tm_manufacture">工具及机械制作</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E02" data-id="E02" id="p_techniques">髹饰工艺</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E03" data-id="E03" id="daa_products">家畜农林产品加工</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E04" data-id="E04" id="d_process">织染工艺</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E05" data-id="E05" id="p_paperhanging">造纸、印刷机装裱</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E06" data-id="E06" id="k_techniques">编扎工艺</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E07" data-id="E07" id="cp_craft">字画工艺</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E08" data-id="E08" id="s_techniques">锻冶工艺</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E09" data-id="E09" id="pc_technics">剪刻工艺</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E10" data-id="E10" id="sc_techniques">雕塑工艺</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E11" data-id="E11" id="b_technics">烧造工艺</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E12" data-id="E12" id="w_techniques">木作工艺</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E99" data-id="E99" id="o_kind">其他类</a>'+
             '</dd>'+
             '</dl>'+
             '</div>'+
@@ -137,7 +137,7 @@ var renderHhtml = {
             '<a href="" class="twitter" title="twitter"></a>'+
             '<a href="" class="instagram" title="instagram"></a>'+
             '<a href="" class="linkedin" title="linkedin"></a>-->'+
-            '<span class="code"><img src="${renderHhtml.uri}/assets/images/footer_code.png" alt=""></span>'+
+            '<span class="code"><img src="'+renderHhtml.uri+'/assets/images/footer_code.png" alt=""></span>'+
             '</div>'+
             '</div>'+
             '</div>'+
