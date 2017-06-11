@@ -1,4 +1,7 @@
-
+@font-face {
+    font-family: DINPro;
+    src: url('../font/DINPro-Regular.otf');
+}
 
 html,
 body,
@@ -195,13 +198,15 @@ textarea{resize:none}
 }
 
 .header .icon {
-    background-image: url(../images/icon@1x.png);
+    background-image: url(../images/icon@2x.png);
+    -webkit-background-size:37px auto;
+    background-size:37px auto;
     width: 19px;
-    height: 19px;
+    height: 24px;
     opacity: 1;
     display: inline-block;
     position: relative;
-    top: 13px;
+    top: 10px;
 }
 
 .header .content {
@@ -224,7 +229,9 @@ textarea{resize:none}
 }
 
 .header .content .logo {
-    background: url(../images/logo@1x.png) no-repeat;
+    background: url(../images/logo@2x.png) no-repeat;
+    -webkit-background-size:100% auto;
+    background-size:100% auto;
     width: 220px;
     height: 102px;
     opacity: 1;
@@ -305,7 +312,7 @@ textarea{resize:none}
 }
 
 .header .content .info li.login i {
-    background-position: 0 -19px;
+    background-position: 0 -23px;
     float: left;
     margin-right: 6px;
 }
@@ -343,7 +350,7 @@ textarea{resize:none}
 }
 
 .header.active .content a {
-    color: #1b1b1b;
+    color: #1b1b1b!important;
 }
 
 .header.active .content .logo {
@@ -358,7 +365,7 @@ textarea{resize:none}
 }
 
 .header.active .content .info li.login i {
-    background-position: -19px -19px;
+    background-position: -18px -23px;
 }
 
 .header.active .content .info li.login em {
@@ -462,11 +469,11 @@ textarea{resize:none}
     margin-bottom: 40px;
     display: block;
 }
-.drop_menu .content .item dt  a{
-    font-size: 16px;
-    line-height: 28px;
+.drop_menu .content .item dt a {
+    font-size:16px;
+    line-height:28px;
+    color: #fff;
 }
-
 .drop_menu .content .item dd {
     display: block;
 }
@@ -476,7 +483,7 @@ textarea{resize:none}
     font-size: 14px;
     height: 28px;
     line-height: 28px;
-    color: #fff;
+    color: #fff!important;
     opacity: .5;
     float: left;
 }
@@ -668,7 +675,7 @@ textarea{resize:none}
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, .6);
-    z-index: 1;
+    z-index: 2;
 }
 
 
@@ -697,27 +704,18 @@ textarea{resize:none}
     color: #fff;
     opacity: .5;
 }
-
-.footer .diich .name {
-    line-height: 32px;
-    opacity: .9;
-    margin-bottom: 12px;
+.footer .diich .logo {
+    background: url(../images/footer_logo@2x.png) 0 0 no-repeat;
+    -webkit-background-size:178px auto;
+    background-size:178px auto;
+    width:178px;
+    height:46px;
+    float: left;
 }
-
-.footer .diich .name span {
-    font-size: 30px;
-    display: inline-block;
-    margin-right: 5px;
-    letter-spacing: 2px;
-}
-
-.footer .diich .name em {
-    letter-spacing: 8px;
-}
-
-.footer .diich .subname {
-    font-size: 14px;
-    line-height: 17px;
+.footer .diich .logo a {
+    width:178px;
+    height:46px;
+    float: left;
 }
 
 .footer .main {
@@ -1213,7 +1211,8 @@ a.arrow_right:hover:after {
     width: 100%;
     height: 120px;
     float: left;
-    overflow-y: auto;
+    /*overflow-y: auto;*/
+    overflow: hidden;
 }
 
 .suggest li {
@@ -1236,7 +1235,10 @@ a.arrow_right:hover:after {
     color: #949494;
 }
 
-
+.suggest li.hover a,
+.suggest li.hover a span{
+    color:#4990E2
+}
 /*--//End suggest--*/
 
 .doi {
