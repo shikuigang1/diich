@@ -82,6 +82,12 @@ function switchLanguage(lang){
 			$('#k_opera').text($.i18n.prop('k_opera'));
 			$('#c_embroidery').text($.i18n.prop('c_embroidery'));
 			$('#j_medicine').text($.i18n.prop('j_medicine'));
+
+			$('#carousel_01').attr('src', $.i18n.prop('carousel_01'));
+			$('#carousel_02').attr('src', $.i18n.prop('carousel_02'));
+			$('#carousel_03').attr('src', $.i18n.prop('carousel_03'));
+			$('#carousel_04').attr('src', $.i18n.prop('carousel_04'));
+
             //非遗在全球
 			$('#t_total').text($.i18n.prop('t_total'));
 			$('#ic_pro').text($.i18n.prop('ic_pro'));
@@ -126,8 +132,6 @@ function switchLanguage(lang){
 
             //渲染地图
             homePage.map(lang);
-
-
 
 
         }
