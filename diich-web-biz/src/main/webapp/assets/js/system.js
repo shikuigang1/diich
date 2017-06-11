@@ -37,7 +37,7 @@ var renderHhtml = {
                 <div class="content">
                     <div class="item">
                         <dl>
-                            <dt data-id="A" id="legend">口头传说和表述</dt>
+                            <dt id="legend"><a href="${renderHhtml.uri}/page/search.html?gb_category_code=A" data-id="A">口头传说和表述</a></dt>
                             <dd>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A01" data-id="A01" id="language" >语言</a>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=A02" data-id="A02" id="text">文字</a>
@@ -50,7 +50,7 @@ var renderHhtml = {
     
                     <div class="item">
                         <dl>
-                            <dt data-id="B" id="perform">表演艺术</dt>
+                            <dt id="perform"><a href="${renderHhtml.uri}/page/search.html?gb_category_code=B" data-id="B">表演艺术</a></dt>
                             <dd>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B01" data-id="B01"  id="music" >音乐演奏</a>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=B02" data-id="B02" id="dance">舞蹈</a>
@@ -66,7 +66,7 @@ var renderHhtml = {
     
                     <div class="item">
                         <dl>
-                            <dt data-id="C" id="custom_etiquette">社会风俗<br>礼仪、节庆</dt>
+                            <dt id="custom_etiquette"><a href="${renderHhtml.uri}/page/search.html?gb_category_code=C" data-id="C">社会风俗<br>礼仪、节庆</a></dt>
                             <dd>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C01" data-id="C01" id="business_custom">生产商贸习俗</a>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=C02" data-id="C02" id="life_customs">生活习俗</a>
@@ -80,7 +80,7 @@ var renderHhtml = {
     
                     <div class="item">
                         <dl>
-                            <dt data-id="D" id="practice_nature">有关自然界和<br>宇宙的知识和实践</dt>
+                            <dt id="practice_nature"><a href="${renderHhtml.uri}/page/search.html?gb_category_code=D" data-id="D">有关自然界和<br>宇宙的知识和实践</a></dt>
                             <dd>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D01" data-id="D01" id="df_fishery">农林牧畜渔</a>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=D02" data-id="D02" id="clothing">服装</a>
@@ -103,7 +103,7 @@ var renderHhtml = {
     
                     <div class="item">
                         <dl>
-                            <dt data-id="E" id="tt_handmade">传统的手工艺技能</dt>
+                            <dt id="tt_handmade"><a href="${renderHhtml.uri}/page/search.html?gb_category_code=E" data-id="E">传统的手工艺技能></a></dt>
                             <dd>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E01" data-id="E01"  id="tm_manufacture">工具及机械制作</a>
                                 <a href="${renderHhtml.uri}/page/search.html?gb_category_code=E02" data-id="E02" id="p_techniques">髹饰工艺</a>
@@ -145,11 +145,11 @@ var renderHhtml = {
             <!--//End lbox-->
             <div class="rbox">
                 <div class="share">
-                    <a href="" class="facebook" title="facebook"></a>
+                   <!-- <a href="" class="facebook" title="facebook"></a>
                     <a href="" class="twitter" title="twitter"></a>
                     <a href="" class="instagram" title="instagram"></a>
-                    <a href="" class="linkedin" title="linkedin"></a>
-                    <span class="code"><img src="../assets/images/footer_code.png" alt=""></span>
+                    <a href="" class="linkedin" title="linkedin"></a>-->
+                    <span class="code"><img src="${renderHhtml.uri}/assets/images/footer_code.png" alt=""></span>
                 </div>
             </div>
         </div>
