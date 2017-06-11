@@ -413,7 +413,6 @@
                 <dl class="level2">
                     <dt>
                     <div class="title">二级分类</div>
-                    <div class="subtitle" >所有二级分类</div>
                     </dt>
                     <dd>
                         <ul id="catecontent">
@@ -540,7 +539,7 @@
     }
 
     $(function() {
-
+        $('.header .content .nav li').eq(1).addClass('active').siblings('li').removeClass('active');
         $("#ahover").hover(function(){
             $(".drop_menu").show();
         },function(){
