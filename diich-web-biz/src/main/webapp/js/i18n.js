@@ -95,30 +95,39 @@ function switchLanguage(lang){
 			$('#s_world').text($.i18n.prop('s_world'));
 			$('#r_pro').text($.i18n.prop('r_pro'));
 
+			$('#lhref1_id').attr('href',$.i18n.prop('lhref1_id'));
 			$('#src_id').attr('src',$.i18n.prop('src_id'));
 			$('#tg_id').text($.i18n.prop('tg_id'));
+            $('#lhref2_id').attr('href',$.i18n.prop('lhref2_id'));
 			$('#china_id').text($.i18n.prop('china_id'));
 			$('#k_id').text($.i18n.prop('k_id'));
 			$('#ko_id').text($.i18n.prop('ko_id'));
 			$('#zhou_id').text($.i18n.prop('zhou_id'));
+            $('#lhref3_id').attr('href',$.i18n.prop('lhref3_id'));
 			$('#zsrc_id').attr('src',$.i18n.prop('zsrc_id'));
 			$('#In_id').text($.i18n.prop('In_id'));
+            $('#lhref_id1').attr('href',$.i18n.prop('lhref_id1'));
 			$('#india_id').text($.i18n.prop('india_id'));
 			$('#su_id').text($.i18n.prop('su_id'));
+            $('#lhref_id2').attr('href',$.i18n.prop('lhref_id2'));
 			$('#suxiu_id').text($.i18n.prop('suxiu_id'));
 			$('#yao_id').text($.i18n.prop('yao_id'));
 			$('#ya_id').text($.i18n.prop('ya_id'));
 			$('#yao_id').attr('src',$.i18n.prop('yao_id'));
+            $('#lhref_id3').attr('href',$.i18n.prop('lhref_id3'));
 			$('#ysrc_id').attr('src',$.i18n.prop('ysrc_id'));
 
 
             //非遗资讯
             $('#info_1').text($.i18n.prop('info_1'));
+            $('#href1_id').attr('href',$.i18n.prop('href1_id'));
             $('#info_1_time').text($.i18n.prop('info_1_time'));
 			$('#img_1').attr("src",$.i18n.prop('img_1'));
+            $('#href2_id').attr('href',$.i18n.prop('href2_id'));
             $('#info_2').text($.i18n.prop('info_2'));
             $('#info_2_time').text($.i18n.prop('info_2_time'));
 			$('#img_2').attr("src",$.i18n.prop('img_2'));
+            $('#href3_id').attr('href',$.i18n.prop('href3_id'));
             $('#info_3').text($.i18n.prop('info_3'));
             $('#info_3_time').text($.i18n.prop('info_1_time'));
 			$('#img_3').attr("src",$.i18n.prop('img_3'));
