@@ -1,4 +1,5 @@
 var current_master = null;
+var tmp_master = null;
 var aliyun_img_uri = 'http://diich-resource.oss-cn-beijing.aliyuncs.com/image/20masterImage/';
 
 $(function () {
@@ -14,7 +15,6 @@ function buildMasterUi() {
         buildTemplate($container, masters[i]);
     }
 }
-
 
 function buildTemplate($container, master) {
     var $li = $('<li></li>');
@@ -70,15 +70,6 @@ function addLiListener() {
 
     $li.hover(
         function() {
-            $default.hide();
-            $item.show();
-
-            $li.off('click');
-
-            if(current_master != null) {
-                $(this).parent().find('.active img').attr('src', aliyun_img_uri + current_master.photo.split(',')[0]);
-            }
-
             var data_no = $(this).attr('data-no');
             var master = null;
             for(var i = 0; i < masters.length; i ++) {
@@ -88,11 +79,44 @@ function addLiListener() {
                 }
             }
 
+            tmp_master = master;
+
             $(this).find('img').attr('src', aliyun_img_uri + master.photo.split(',')[1]);
             $(this).addClass('active').siblings('li').removeClass('active');
 
-            current_master = master;
-            buildItemUi(master);
+            if(current_master != null) {
+                $(this).parent().find('.curr').find('img').attr('src', aliyun_img_uri + current_master.photo.split(',')[1]);
+                $(this).parent().find('.curr').addClass('active');
+            }
+        }, 
+        function () {
+            if(current_master == tmp_master) {
+                return;
+            }
+
+            $(this).find('img').attr('src', aliyun_img_uri + tmp_master.photo.split(',')[0]);
+            $(this).removeClass('active');
+            tmp_master = null;
         }
     );
+
+    $li.click(function () {
+        $default.hide();
+        $item.show();
+
+        var data_no = $(this).attr('data-no');
+        var master = null;
+        for(var i = 0; i < masters.length; i ++) {
+            if(masters[i].no == data_no) {
+                master = masters[i];
+                break;
+            }
+        }
+
+        $(this).find('img').attr('src', aliyun_img_uri + master.photo.split(',')[1]);
+        $(this).addClass('active').addClass('curr').siblings('li').removeClass('active curr').removeClass('curr');
+
+        current_master = master;
+        buildItemUi(master);
+    });
 }
