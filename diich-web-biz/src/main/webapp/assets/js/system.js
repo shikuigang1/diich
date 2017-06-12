@@ -431,11 +431,16 @@ var header = {
             clearInterval(timer);
         }, function () {
             timer = setInterval(function () {
-
                 drop.slideUp();
             }, speed);
         });
-
+        dropEn.hover(function () {
+            clearInterval(timer);
+        }, function () {
+            timer = setInterval(function () {
+                dropEn.slideUp();
+            }, speed);
+        });
 
 
 
