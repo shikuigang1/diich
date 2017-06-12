@@ -87,6 +87,11 @@ public class SearchServiceImpl implements SearchService {
                             s.setImg(r.getUri());
                         }
                     }
+
+                    if(cf.getAttributeId()==2){
+                       s.setDoi(cf.getContent());
+                    }
+
                 }else if(ls.get(i).getTargetType()==1){//��װ��ʦ����
 
                     //���������
@@ -106,6 +111,9 @@ public class SearchServiceImpl implements SearchService {
                             s.setImg(r.getUri());
                         }
                     }
+                    if(cf.getAttributeId()==11){
+                        s.setDoi(cf.getContent());
+                    }
                 }
                 if(ls.get(i).getTargetType()==2){//��װ��Ʒ����
                     //���������
@@ -124,6 +132,10 @@ public class SearchServiceImpl implements SearchService {
                         if(null != r){
                             s.setImg(r.getUri());
                         }
+                    }
+
+                    if(cf.getAttributeId()==26){
+                        s.setDoi(cf.getContent());
                     }
                 }
             }
@@ -154,7 +166,7 @@ public class SearchServiceImpl implements SearchService {
             if(ls.get(i).getTargetType()==1){
                 IchMaster master = ichMasterMapper.selectByPrimaryKey(ls.get(i).getTargetId());
 
-                if(master.getIchProjectId() != null){
+                if(master!=null && master.getIchProjectId() != null){
                     List<ContentFragment> ml = contentFragmentMapper.queryListByTargetId(master.getIchProjectId());
 
                     for(ContentFragment c:ml){
