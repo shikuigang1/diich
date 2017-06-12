@@ -180,7 +180,6 @@ textarea {
 
 .container {
     min-width: 1200px;
-    height: 100%;
     position: relative;
     margin: 0 auto;
 }
@@ -506,7 +505,7 @@ textarea {
 
 .filter_search {
     width: 100%;
-    height: 380px;
+    height: 300px;
     background: #fff;
     -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
     box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
@@ -526,7 +525,7 @@ textarea {
     padding: 27px 0;
     border-bottom: 2px solid #1B1B1B;
     position: relative;
-    margin: 60px auto 130px auto;
+    margin: 60px auto 80px auto;
 }
 
 .filter_search .content form .ipt {
@@ -590,7 +589,7 @@ textarea {
     width: 100%;
     float: left;
     position: relative;
-    top: 90px;
+    top: 60px;
 }
 
 .filter_search .content .dropbox .item {
