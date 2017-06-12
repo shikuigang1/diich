@@ -126,12 +126,16 @@ div:after,
 div:before {
     content: '';
 }
-input,textarea,select {
-    outline:none;
-}
-textarea{resize:none}
-/*--//End--reset--*/
 
+input, textarea, select {
+    outline: none;
+}
+
+textarea {
+    resize: none
+}
+
+/*--//End--reset--*/
 
 /*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
 
@@ -142,26 +146,23 @@ textarea{resize:none}
     height: 5px;
 }
 
-
 /*定义滚动条的轨道，内阴影及圆角*/
 
 .filter_search .content .dropbox .item dd::-webkit-scrollbar-track,
 .suggest ul::-webkit-scrollbar-track,
-.scrollbar::-webkit-scrollbar-track{
+.scrollbar::-webkit-scrollbar-track {
     -webkit-box-shadow: none;
     background-color: #fff;
 }
-
 
 /*定义滑块，内阴影及圆角*/
 
 .filter_search .content .dropbox .item dd::-webkit-scrollbar-thumb,
 .suggest ul::-webkit-scrollbar-thumb,
-.scrollbar::-webkit-scrollbar-thumb{
+.scrollbar::-webkit-scrollbar-thumb {
     border-radius: 5px;
     background-color: rgba(148, 148, 148, .5);
 }
-
 
 /*--//End 自定义滚动条--*/
 
@@ -174,15 +175,15 @@ textarea{resize:none}
     position: fixed;
     top: 0;
     left: 0;
-    z-index:9;
+    z-index: 9;
 }
 
 .container {
     min-width: 1200px;
-    height: 100%;
     position: relative;
     margin: 0 auto;
 }
+
 #home-header a {
     color: #fff;
 }
@@ -193,14 +194,14 @@ textarea{resize:none}
     height: 44px;
     padding: 48px 0;
     z-index: 10;
-    background-image: -webkit-linear-gradient( 90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6));
+    background-image: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6));
 
 }
 
 .header .icon {
     background-image: url(../images/icon@2x.png);
-    -webkit-background-size:37px auto;
-    background-size:37px auto;
+    -webkit-background-size: 37px auto;
+    background-size: 37px auto;
     width: 19px;
     height: 24px;
     opacity: 1;
@@ -230,8 +231,8 @@ textarea{resize:none}
 
 .header .content .logo {
     background: url(../images/logo@2x.png) no-repeat;
-    -webkit-background-size:100% auto;
-    background-size:100% auto;
+    -webkit-background-size: 100% auto;
+    background-size: 100% auto;
     width: 220px;
     height: 102px;
     opacity: 1;
@@ -350,7 +351,7 @@ textarea{resize:none}
 }
 
 .header.active .content a {
-    color: #1b1b1b!important;
+    color: #1b1b1b !important;
 }
 
 .header.active .content .logo {
@@ -428,9 +429,8 @@ textarea{resize:none}
 }
 
 .header_detail .content .info li.login i {
-    background-position: -19px -19px
+    background-position: -19px -24px
 }
-
 
 /*--//End header 基本--*/
 
@@ -469,11 +469,13 @@ textarea{resize:none}
     margin-bottom: 40px;
     display: block;
 }
+
 .drop_menu .content .item dt a {
-    font-size:16px;
-    line-height:28px;
+    font-size: 16px;
+    line-height: 28px;
     color: #fff;
 }
+
 .drop_menu .content .item dd {
     display: block;
 }
@@ -483,7 +485,7 @@ textarea{resize:none}
     font-size: 14px;
     height: 28px;
     line-height: 28px;
-    color: #fff!important;
+    color: #fff !important;
     opacity: .5;
     float: left;
 }
@@ -491,7 +493,6 @@ textarea{resize:none}
 .drop_menu .content .item dd a:hover {
     opacity: 1;
 }
-
 
 /*--//ENd 导航二级菜单*/
 
@@ -504,7 +505,7 @@ textarea{resize:none}
 
 .filter_search {
     width: 100%;
-    height: 380px;
+    height: 300px;
     background: #fff;
     -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
     box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
@@ -524,7 +525,7 @@ textarea{resize:none}
     padding: 27px 0;
     border-bottom: 2px solid #1B1B1B;
     position: relative;
-    margin: 60px auto 130px auto;
+    margin: 60px auto 80px auto;
 }
 
 .filter_search .content form .ipt {
@@ -588,7 +589,7 @@ textarea{resize:none}
     width: 100%;
     float: left;
     position: relative;
-    top: 90px;
+    top: 60px;
 }
 
 .filter_search .content .dropbox .item {
@@ -665,7 +666,6 @@ textarea{resize:none}
     padding-left: 38px;
 }
 
-
 /*--//End header --*/
 
 .overbg {
@@ -677,7 +677,6 @@ textarea{resize:none}
     background: rgba(0, 0, 0, .6);
     z-index: 2;
 }
-
 
 /*--//End 遮罩层--*/
 
@@ -704,17 +703,19 @@ textarea{resize:none}
     color: #fff;
     opacity: .5;
 }
+
 .footer .diich .logo {
     background: url(../images/footer_logo@2x.png) 0 0 no-repeat;
-    -webkit-background-size:178px auto;
-    background-size:178px auto;
-    width:178px;
-    height:46px;
+    -webkit-background-size: 178px auto;
+    background-size: 178px auto;
+    width: 178px;
+    height: 46px;
     float: left;
 }
+
 .footer .diich .logo a {
-    width:178px;
-    height:46px;
+    width: 178px;
+    height: 46px;
     float: left;
 }
 
@@ -782,7 +783,6 @@ textarea{resize:none}
     right: 0;
 }
 
-
 /*--//ENd footer--*/
 
 .play_big {
@@ -790,12 +790,12 @@ textarea{resize:none}
     width: 120px;
     height: 120px;
     position: absolute;
-    top:50%;
-    left:50%;
-    margin-top:-60px;
-    margin-left:-60px;
+    top: 50%;
+    left: 50%;
+    margin-top: -60px;
+    margin-left: -60px;
     cursor: pointer;
-    z-index:2;
+    z-index: 2;
 }
 
 .play_big:hover {
@@ -807,7 +807,6 @@ textarea{resize:none}
     width: 24px;
     height: 24px;
 }
-
 
 /*--//End 播放按钮组件*/
 
@@ -906,7 +905,6 @@ textarea{resize:none}
     opacity: .5;
 }
 
-
 /*--//End 返回顶部*/
 
 .crumbs {
@@ -941,7 +939,6 @@ textarea{resize:none}
     float: left;
     margin: 1px 8px;
 }
-
 
 /*--//End crumbs--*/
 
@@ -982,9 +979,8 @@ textarea{resize:none}
     margin-top: -40px;
     margin-left: -40px;
     cursor: pointer;
-    z-index:2;
+    z-index: 2;
 }
-
 
 /*--//End card_video--*/
 
@@ -994,7 +990,6 @@ textarea{resize:none}
     height: 28px;
     display: inline-block;
 }
-
 
 /*--//End--*/
 
@@ -1082,7 +1077,6 @@ textarea{resize:none}
     right: 12px;
 }
 
-
 /*--//ENd 详情title*/
 
 .avatar {
@@ -1095,7 +1089,6 @@ textarea{resize:none}
     -webikt-border-radius: 50%;
     border-radius: 50%;
 }
-
 
 /*--//End 圆角头像--*/
 
@@ -1148,7 +1141,6 @@ textarea{resize:none}
     right: 10px;
 }
 
-
 /*--//End 视频相关*/
 
 .slide_img {
@@ -1166,7 +1158,6 @@ textarea{resize:none}
     left: 50%;
     margin-left: -1400px;
 }
-
 
 /*--//End 通屏图片--*/
 
@@ -1195,7 +1186,6 @@ a.arrow_right:hover {
 a.arrow_right:hover:after {
     background-position: -28px -144px;
 }
-
 
 /*--//End--*/
 
@@ -1236,9 +1226,10 @@ a.arrow_right:hover:after {
 }
 
 .suggest li.hover a,
-.suggest li.hover a span{
-    color:#4990E2
+.suggest li.hover a span {
+    color: #4990E2
 }
+
 /*--//End suggest--*/
 
 .doi {
@@ -1289,6 +1280,7 @@ a.arrow_right:hover:after {
 .icon_list_album {
     background-position: 0 -44px;
 }
+
 /*--//End */
 .box_layer {
     width: 606px;
@@ -1402,3 +1394,31 @@ a.arrow_right:hover:after {
 }
 
 /*--//End 表单相关--*/
+.progress {
+    background: #000;
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    top:0;
+    left:0;
+}
+.progress span {
+    background: #4283ea;
+    height:2px;
+    position: absolute;
+    top:0;
+    left:0;
+}
+.refresh {
+    width:100%;
+    height:2px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 20;
+}
+.filter_search .progress {
+    top:92px
+}
+/*--//End 刷新页面/搜索--进度条*/
+

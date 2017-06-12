@@ -3360,3 +3360,90 @@ section.odd {
     background-position: 0 -96px;
 }
 /*--//End 搜索结果--*/
+.modal_video {
+    position: fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:20;
+}
+.modal_video .video,
+.modal_video .main{
+    position: absolute;
+    top:50%;
+    left:50%;
+    z-index:20;
+    background: #fff;
+}
+.modal_video .overbg0 {
+    background: rgba(0,0,0,.85);
+    position: fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:10;
+}
+/*--//End 单个图片或视频弹出框--*/
+
+.search_lose {
+    width:100%;
+    float: left;
+    padding-bottom:160px;
+}
+.search_lose .main {
+    width:1200px;
+    margin:0 auto;
+}
+.search_lose .main .icon {
+    width:100%;
+    text-align: center;
+    float: left;
+    margin-bottom:45px;
+}
+.search_lose .main .icon .icon_search_lose {
+    background: url(../images/search_lose.png) no-repeat 0 0;
+    width:140px;
+    height:140px;
+    display: inline-block;
+}
+.search_lose .main .name {
+    width:100%;
+    line-height:20px;
+    font-size: 20px;
+    color: #1b1b1b;
+    text-align: center;
+    float: left;
+    margin-bottom: 20px;
+}
+.search_lose .main .desc {
+    width:100%;
+    color: #949494;
+    line-height:16px;
+    text-align: center;
+    float: left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
