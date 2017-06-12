@@ -3360,3 +3360,28 @@ section.odd {
     background-position: 0 -96px;
 }
 /*--//End 搜索结果--*/
+.modal_video {
+    position: fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:20;
+}
+.modal_video .video,
+.modal_video .main{
+    position: absolute;
+    top:50%;
+    left:50%;
+    z-index:20;
+    background: #fff;
+}
+.modal_video .overbg0 {
+    background: rgba(0,0,0,.85);
+    position: fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:10;
+}
