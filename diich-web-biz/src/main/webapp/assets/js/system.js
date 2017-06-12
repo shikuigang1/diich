@@ -422,11 +422,8 @@ var header = {
             }
         }, function () {
             timer = setInterval(function () {
-                if($(this).text()=='ICH Directory'){
-                    dropEn.slideUp('fast');
-                }else {
-                    drop.slideUp('fast');
-                }
+                dropEn.slideUp();
+                drop.slideUp();
             }, speed);
         });
 
@@ -434,6 +431,7 @@ var header = {
             clearInterval(timer);
         }, function () {
             timer = setInterval(function () {
+
                 drop.slideUp();
             }, speed);
         });
