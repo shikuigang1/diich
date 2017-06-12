@@ -1124,11 +1124,11 @@ var masterPage = {
 
 
         _li.on('click', function() {
-            var index = $(this).index();
+            /*var index = $(this).index();
             _default.hide();
             _item.show();
             $(this).addClass('active').siblings('li').removeClass('active');
-            _h1.text(_oldText + index);
+            _h1.text(_oldText + index);*/
         });
     }
 };
