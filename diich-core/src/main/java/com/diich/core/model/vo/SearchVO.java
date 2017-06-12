@@ -80,6 +80,16 @@ public class SearchVO {
     private String uri;//对应链接地址
     private String img;//项目题图 图片
 
+    public String getDoi() {
+        return doi;
+    }
+
+    public void setDoi(String doi) {
+        this.doi = doi;
+    }
+
+    private String doi;//对应的doi 编码
+
     private Map<String,String> masters;//作品  作者
 
     public long getId() {
