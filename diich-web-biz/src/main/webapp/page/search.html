@@ -36,7 +36,7 @@
                 <div class="doi">
                     <span class="tag">ID</span>
                     <span>标识码</span>
-                    <span>{{= it[i].id }}</span>
+                    <span>{{= it[i].doi }}</span>
                 </div>
 
                 {{?it[i].category}}
@@ -75,7 +75,7 @@
                 <div class="doi">
                     <span class="tag">ID</span>
                     <span>标识码</span>
-                    <span>{{= it[i].id }}</span>
+                    <span>{{= it[i].doi }}</span>
                 </div>
                 <div class="brief">
                     {{= it[i].content }}
@@ -133,9 +133,9 @@
                 dataType: "json",
                 async: true,
                 beforeSend:function(xhr){
-                    $('#loading').show();
-                    $('body').css({'overflow':'hidden'});
-
+                    //$('#loading').show();
+                    //$('body').css({'overflow':'hidden'});
+                    progress.search();
                 },
                 error: function(request) {
                     //alert("Connection error");
@@ -156,9 +156,9 @@
                     }
                 },
                 complete:function(xhr){
-                    $('#loading').hide();
-                    $('body').css({'overflow':''});
-
+                    //$('#loading').hide();
+                    //$('body').css({'overflow':''});
+                    progress.close('#search-progress');
                 }
             });
         }
@@ -168,7 +168,7 @@
             if($("#keyword").val()=="" && $("#gb_category_code").val()==""){
                 return false;
             }
-
+            progress.search();
 
             $.ajax({
                 cache: true,
@@ -187,6 +187,7 @@
                     var evalText = doT.template($("#interpolationtmpl").text());
                     $("#content").html(evalText(data.res));
                     $(".load_more").show();
+                    progress.close('#search-progress');
                 }
             });
         }
@@ -388,6 +389,11 @@
                     <!-- <li><a href=""><span>苏州</span>传承人</a></li>-->
                 </ul>
             </div>
+            <div id="search-progress">
+                <div class="progress">
+                    <span></span>
+                </div>
+            </div>
         </form>
         <!--//End form-->
 
@@ -487,6 +493,15 @@
             </div>
         </div>
         <!-- 项目 end -->
+
+        <div class="search_lose" style="display: none">
+            <div class="main">
+                <div class="icon"><i class="icon_search_lose"></i></div>
+                <div class="name">很抱歉，您的搜索没有结果！</div>
+                <div class="desc">请尝试一些别的关键词，使用一些规词，比如苏州，刺绣...</div>
+            </div>
+        </div>
+    <!--//End 搜索失败-->
 
     </div>
 </div>
@@ -952,6 +967,34 @@
         item.eq(4).find('a:even').css('width', '115px');
         item.eq(4).find('a:odd').css({ 'width': '66px', 'margin-left': '24px' });
     })();
+
+    //进度条
+    var progress = {
+        refresh:function () {//刷新页面
+            this.base('#refresh-progress');
+        },
+        search:function () {//搜索进度条
+            this.base('#search-progress');
+        },
+        base:function (obj) {
+            var el = $(obj);
+            var _progress = el.find('.progress');
+            var _span = _progress.find('span');
+            var speed = 2000;
+            _span.animate({'width': '98%'}, speed);
+        },
+        close:function (obj) {//关闭
+            $(obj).remove();
+        }
+    };
+
+    //progress.refresh(); //页面刷新进度条
+    //progress.search();  //搜索进度条
+
+    //progress.close('#refresh-progress');//关闭页面刷新进度条
+    //progress.close('#search-progress');//关闭页面刷新进度条
+
+
 </script>
 
 </html>

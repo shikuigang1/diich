@@ -304,6 +304,25 @@
 			}
 		  }
 	});
+
+     $('.certificate').on('click', function () {
+         var str = '<div class="modal_video" style="display: none;">' +
+             '<div class="content">' +
+             '<div class="main"><img style="margin-left:-400px;margin-top:-342px;" src="http://diich-resource.oss-cn-beijing.aliyuncs.com/image/index/20170612.jpg" alt=""></div>' +
+             '</div>' +
+             '<div class="overbg0"></div>' +
+             '</div>';
+         var body = $('body');
+         body.append(str).css('overflow','hidden');
+         var modal=$('.modal_video');
+         modal.fadeIn(100);
+         body.on('click', '.overbg0', function () {
+             modal.fadeOut(200).remove();
+             body.css('overflow','');
+         });
+         return false;
+     });
+
  });
  
  function submitForm(index){

@@ -31,7 +31,7 @@ var renderHhtml = {
             '</div>'+
             '</div>'+
             '<!--//End content-->'+
-            '<div class="drop_menu">'+
+            '<div class="drop_menu" id="drop_menu">'+
             '<div class="content">'+
             '<div class="item">'+
             '<dl>'+
@@ -113,6 +113,88 @@ var renderHhtml = {
             '</dd>'+
             '</dl>'+
             '</div>'+
+            '</div>'+
+            '</div>'+
+            '<div id="drop_menu_en" class="drop_menu drop_menu_en">'+
+            '<div class="content">'+
+            '<div class="item" style="width:320px;">'+
+            '<dl>'+
+            '<dt><a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A" data-id="A" id="legend">legend</a></dt>'+
+            '<dd>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A01" data-id="A01" id="language">language</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A02" data-id="A02" id="text">written language</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A03" data-id="A03" id="oral">oral account</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A04" data-id="A04" id="other_oral">other oral account</a>'+
+            '</dd>'+
+            '</dl>'+
+            '<dl>'+
+            '<dt><a id="custom_etiquette" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C" data-id="C">custom and etiquette</a></dt>'+
+            '<dd>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C01" data-id="C01" id="business_custom">business custom</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C02" data-id="C02" id="life_customs">Life customs</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C03" data-id="C03" id="life_ritual">Life ritual</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C04" data-id="C04" id="festival_celebration">Festival celebration</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C99" data-id="C99" id="other_celebration">other celebration</a>'+
+            '</dd>'+
+            '</dl>'+
+            '</div>'+
+            '<!--//End-->'+
+            '<div class="item" style="width: 350px;">'+
+            '<dl>'+
+            '<dt><a id="practice_nature" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D" data-id="D">The practice of nature and universe</a></dt>'+
+            '<dd>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D01" data-id="D01" id="df_fishery">Dense forest and fishery</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D02" data-id="D02" id="clothing">clothing</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D03" data-id="D03" id="food">Food</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D04" data-id="D04" id="h_construction">Housing and construction</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D05" data-id="D05" id="traffic">Traffic</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D06" data-id="D06" id="medicine">Medicine</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D07" data-id="D07" id="military">Military</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D08" data-id="D08" id="business">business</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D09" data-id="D09" id="project">Project</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D10" data-id="D10" id="ag_irrigation">astronomy  geography  irrigation</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D99" data-id="D99" id="on_knowledge">Other natural knowledge</a>'+
+            '</dd>'+
+            '</dl>'+
+            '</div>'+
+            '<!--//End-->'+
+            '<div class="item" style="width:360px;">'+
+            '<dl>'+
+            '<dt><a id="tt_handmade" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E" data-id="E">the technical of tradition handmade</a>'+
+            '</dt>'+
+            '<dd>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E01" data-id="E01" id="tm_manufacture">tool and mechanical manufacture</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E02" data-id="E02" id="p_techniques">Painting techniques</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E03" data-id="E03"  id="daa_products">domestic animal agriculture and forestry products</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E04" data-id="E04" id="d_process">Dyeing process</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E05" data-id="E05" id="p_paperhanging">Paper printing and paperhanging</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E06" data-id="E06" id="k_techniques">knit  techniques</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E07" data-id="E07" id="cp_craft">Calligraphy and painting craft</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E08" data-id="E08" id="s_techniques">smithing  techniques</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E09" data-id="E09" id="pc_technics">paper-cut and carve technics</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E10" data-id="E10" id="sc_techniques">sculpture  techniques</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E11" data-id="E11" id="b_technics">barbecue technics</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E12" data-id="E12" id="w_techniques">wooden  techniques</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E99" data-id="E99" id="o_kind">other kind</a>'+
+            '</dd>'+
+            '</dl>'+
+            '</div>'+
+            '<!--//End-->'+
+            '<div class="item" style="width:170px;">'+
+            '<dl>'+
+            '<dt><a id="perform" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B" data-id="B">perform</a></dt>'+
+            '<dd>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B01" data-id="B01" id="music">music</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B02" data-id="B02" id="dance">dance</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B03" data-id="B03" id="folk_song">folk song</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B04" data-id="B04" id="traditional_drama">Traditional drama</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B05" data-id="B05" id="quyi">Chinese folk art forms</a>'+
+            '<a style="height: 51px;" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B06" data-id="B06" id="sport">Traditional sports,<br>entertainment and<br>acrobatics</a>'+
+            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B99" data-id="B99" id="other_perform">other   perform</a>'+
+            '</dd>'+
+            '</dl>'+
+            '</div>'+
+            '<!--//End-->'+
             '</div>'+
             '</div>';
         this.base('.header', htmlStr);
@@ -276,7 +358,7 @@ var header = {
     init: function() {
         this.scroll();
         this.search();
-        this.drop();
+        this.drop("zh");
         this.bind();
         loginPage.init();
     },
@@ -305,46 +387,63 @@ var header = {
         }
 
     },
-    drop: function() { //非遗名录 二级导航
-        var drop = $('.drop_menu');
+    drop: function (language) { //非遗名录 二级导航
+        var drop = $('#drop_menu');
+        var dropEn = $('#drop_menu_en');
         var item = drop.find('.item');
         var _header = $('.header');
         var _houer = _header.find('.nav li').eq(1);
         var timer = null;
         var speed = 200;
 
+        //中文
+        if(language || language=='zh'){
+            //去掉dd的左边距
+            item.eq(0).css('width', '86px');
+            item.eq(1).css('width', '143px');
+            item.eq(2).css('width', '100px');
+            item.eq(3).css('width', '240px');
+            item.eq(3).find('dd a:even').css('width', '72px');
+            item.eq(3).find('dd a:odd').css({'width': '129px', 'margin-left': '24px'});
+            item.eq(4).css('width', '210px');
+            item.eq(4).find('dd a:even').css('width', '115px');
+            item.eq(4).find('dd a:odd').css({'width': '66px', 'margin-left': '24px'});
+        }
 
-        _houer.hover(function() {
+
+
+        _houer.hover(function () {
             clearInterval(timer);
             var _height = _header.outerHeight(true);
-            drop.css('top', _height + 'px').slideDown('fast');
-        }, function() {
-            timer = setInterval(function() {
+            if($(this).text()=='ICH Directory'){
+                dropEn.css('top', _height + 'px').slideDown('fast');
+            }else {
+                drop.css('top', _height + 'px').slideDown('fast');
+            }
+        }, function () {
+            timer = setInterval(function () {
+                dropEn.slideUp();
                 drop.slideUp();
             }, speed);
         });
 
-        drop.hover(function() {
+        drop.hover(function () {
             clearInterval(timer);
-        }, function() {
-            timer = setInterval(function() {
+        }, function () {
+            timer = setInterval(function () {
                 drop.slideUp();
+            }, speed);
+        });
+        dropEn.hover(function () {
+            clearInterval(timer);
+        }, function () {
+            timer = setInterval(function () {
+                dropEn.slideUp();
             }, speed);
         });
 
 
-        //去掉dd的左边距
-        item.eq(0).css('width', '86px');
-        item.eq(1).css('width', '143px');
-        item.eq(2).css('width', '100px');
-        item.eq(3).css('width', '240px');
 
-        item.eq(3).find('dd a:even').css('width', '72px');
-        item.eq(3).find('dd a:odd').css({ 'width': '129px', 'margin-left': '24px' });
-
-        item.eq(4).css('width', '210px');
-        item.eq(4).find('dd a:even').css('width', '115px');
-        item.eq(4).find('dd a:odd').css({ 'width': '66px', 'margin-left': '24px' });
     },
     search: function() {
         var _header = $('.header');

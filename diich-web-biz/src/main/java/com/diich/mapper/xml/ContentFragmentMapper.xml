@@ -6,7 +6,7 @@
     <result column="attribute_id" property="attributeId" jdbcType="BIGINT" />
     <result column="target_id" property="targetId" jdbcType="BIGINT" />
     <result column="target_type" property="targetType" jdbcType="INTEGER" />
-    <result column="field_type" property="fieldType" jdbcType="INTEGER" />
+
     <result column="status" property="status" jdbcType="INTEGER" />
 
   </resultMap>
@@ -14,7 +14,7 @@
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, attribute_id, target_id, target_type, field_type, status
+    id, attribute_id, target_id, target_type, status
   </sql>
   <sql id="Blob_Column_List" >
     content
@@ -35,10 +35,10 @@
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.ContentFragment" >
     insert into content_fragment (id, attribute_id, target_id,
-    target_type, field_type, status,
+    target_type,  status,
     content)
     values (#{id,jdbcType=BIGINT}, #{attributeId,jdbcType=BIGINT}, #{targetId,jdbcType=BIGINT},
-    #{targetType,jdbcType=INTEGER}, #{fieldType,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+    #{targetType,jdbcType=INTEGER},  #{status,jdbcType=INTEGER},
     #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.ContentFragment" >
@@ -56,9 +56,7 @@
       <if test="targetType != null" >
         target_type,
       </if>
-      <if test="fieldType != null" >
-        field_type,
-      </if>
+
       <if test="status != null" >
         status,
       </if>
@@ -79,9 +77,7 @@
       <if test="targetType != null" >
         #{targetType,jdbcType=INTEGER},
       </if>
-      <if test="fieldType != null" >
-        #{fieldType,jdbcType=INTEGER},
-      </if>
+
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
@@ -102,9 +98,7 @@
       <if test="targetType != null" >
         target_type = #{targetType,jdbcType=INTEGER},
       </if>
-      <if test="fieldType != null" >
-        field_type = #{fieldType,jdbcType=INTEGER},
-      </if>
+
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
@@ -119,7 +113,7 @@
     set attribute_id = #{attributeId,jdbcType=BIGINT},
     target_id = #{targetId,jdbcType=BIGINT},
     target_type = #{targetType,jdbcType=INTEGER},
-    field_type = #{fieldType,jdbcType=INTEGER},
+
     status = #{status,jdbcType=INTEGER},
     content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
@@ -129,7 +123,6 @@
     set attribute_id = #{attributeId,jdbcType=BIGINT},
       target_id = #{targetId,jdbcType=BIGINT},
       target_type = #{targetType,jdbcType=INTEGER},
-      field_type = #{fieldType,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
