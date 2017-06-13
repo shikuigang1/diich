@@ -17,6 +17,8 @@ public class Dictionary extends BaseModel {
 
     private Integer status;
 
+    private String lang;
+
     private List<Dictionary> children;
 
     public Long getId() {
@@ -73,5 +75,13 @@ public class Dictionary extends BaseModel {
 
     public void setChildren(List<Dictionary> children) {
         this.children = children;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 }

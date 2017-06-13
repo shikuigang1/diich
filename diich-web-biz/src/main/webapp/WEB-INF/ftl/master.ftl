@@ -166,13 +166,10 @@
                </#if>
            </#list>
        </#if>
-        <#--<img src="${backImgUrl}" alt="">
-            <video poster="${backImgUrl}" src="http://192.168.1.111/video.mp4"> </video>
-            <span class="play_big"></span>-->
         </div>
         <!--//End main-->
 
-        <div class="crumbs">
+       <#-- <div class="crumbs">
             <span>非遗名录</span>
             <#if (obj.ichProject.ichCategory.name)??>
                 <i class="gt"></i>
@@ -201,7 +198,7 @@
                </#list>
              </#if>
             </span>
-        </div>
+        </div>-->
         <!--//End crumbs-->
 
         <div class="card">
@@ -322,14 +319,14 @@
                                     </#if>
                                 </#list>
                             </#if>
-                            <a href="${propage}${obj.ichProject.id}.html"><img src="${proPic}" width="94" height="70" alt=""></a>
+                            <a href="${propage}${obj.ichProject.id?c}.html"><img src="${proPic}" width="94" height="70" alt=""></a>
                         </div>
                         <div class="txt">
                             <p class="t">
                                 <#if (obj.ichProject.contentFragmentList?size>0)>
                                     <#list (obj.ichProject.contentFragmentList) as cf>
                                         <#if cf.attributeId == 4>
-                                        <a href="${propage}${obj.ichProject.id}.html">${cf.content}</a>
+                                        <a href="${propage}${obj.ichProject.id?c}.html">${cf.content}</a>
                                         </#if>
                                     </#list>
                                 </#if>
@@ -338,10 +335,10 @@
                                 类别： ${obj.ichProject.ichCategory.name}
                                 <#if ((obj.ichProject.ichCategory.children)?? && obj.ichProject.ichCategory.children?size>0)>
                                     <#list obj.ichProject.ichCategory.children as ch>
-                                        -${ch.name}
+                                        - ${ch.name}
                                         <#if (ch.children)?? && (ch.children?size>0)>
                                             <#list ch.children as chh>
-                                                -${chh.name}
+                                                - ${chh.name}
                                             </#list>
                                         </#if>
                                     </#list>
@@ -535,7 +532,9 @@
                         <header><h4>${cf.attribute.cnName}  </h4></header>
                         <article class="plain_text">
                             <p>
-                            ${cf.content?replace("\n", "</p><p>")}
+                                <#if cf.content??>
+                                   ${cf.content?replace("\n", "</p><p>")}
+                                </#if>
                             </p>
                         <#--${cf.content?replace("\n","</p></p>")}-->
 
@@ -748,6 +747,7 @@
             },
         };
         searchPage.init();
+        $(".header .content .nav li").eq(0).removeClass("active");
         //给logo加首页链接
         $('.logo').attr('href','http://diich.efeiyi.com/page/index.html');
     });

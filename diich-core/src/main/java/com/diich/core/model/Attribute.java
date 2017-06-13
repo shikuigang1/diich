@@ -21,6 +21,8 @@ public class Attribute extends BaseModel {
 
     private Integer isOpen;
 
+    private Integer order;
+
     public String getValue() {
         return value;
     }
@@ -101,5 +103,13 @@ public class Attribute extends BaseModel {
 
     public void setIsOpen(Integer isOpen) {
         this.isOpen = isOpen;
+    }
+
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
     }
 }

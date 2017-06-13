@@ -274,7 +274,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             Long attrId = contentFragment.getAttributeId();
             Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
             contentFragment.setAttribute(attribute);//添加属性
-            if(attribute.getDataType() > 100) {
+            if( attribute != null && attribute.getDataType() > 100) {
                 if(contentFragment.getContent() == null){
                     continue;
                 }
@@ -285,13 +285,20 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                     name +=";";
                 }
                 name = name.substring(0,name.length()-1);
-                contentFragment.setContent(name);
+                if("".equals(name) || null == name){
+                    contentFragment.setContent(contentFragment.getContent());
+                }else{
+                    contentFragment.setContent(name);
+                }
             }
             List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
             List<Resource> resourceList = new ArrayList<>();
             for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
                 Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
-                resourceList.add(resource);
+                if(resource !=null){
+                    resourceList.add(resource);
+                }
+
             }
             contentFragment.setResourceList(resourceList);
         }
