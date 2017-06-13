@@ -89,10 +89,12 @@
     </bean>-->
 
     <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+<!--
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.efeiyi.search.dao" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
     </bean>
+-->
 
     <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
     <bean id="transactionManager"
@@ -112,6 +114,8 @@
             <tx:method name="query*" read-only="true" />
             <tx:method name="search*" read-only="true" />
             <tx:method name="select*" read-only="true" />
+            <tx:method name="search*" read-only="true" />
+            <tx:method name="query*" read-only="true" />
         </tx:attributes>
     </tx:advice>
 
@@ -120,6 +124,9 @@
         <!--把事务控制在Service层-->
         <aop:advisor pointcut-ref="pc" advice-ref="tx" />
     </aop:config>
+
+    <!-- 事务控制   -->
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
     <!--ssm 集成 dubbo -->
     <!--<import resource="spring/dubbo.xml"/>-->
