@@ -341,7 +341,7 @@
                     <duv class="detail_title">
                         <h2>基础信息</h2>
                     </duv>
-                    <div class="info">
+                    <div class="info" id="info">
                         <ul>
                             <#if (obj.contentFragmentList?size>0)>
                                 <#list obj.contentFragmentList as cf>
@@ -467,5 +467,5 @@
         $(".header .content .nav li").eq(0).removeClass("active");
     });
 </script>
-
+<script	src="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/assets/js/static.js"></script>
 </html>

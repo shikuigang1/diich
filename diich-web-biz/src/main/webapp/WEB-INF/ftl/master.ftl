@@ -396,7 +396,7 @@
                 <duv class="detail_title">
                     <h2>基础信息</h2>
                 </duv>
-                <div class="info">
+                <div class="info" id="info">
                     <ul>
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
@@ -568,7 +568,6 @@
     $(function() {
         //初始化
         detaiInheritorlPage.init();
-        $(".login").hide();
 
         var mainCategory = $('#mainCategory');
 
@@ -756,5 +755,5 @@
         $(".form").ajaxSubmit();
     }
 </script>
-
+<script	src="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/assets/js/static.js"></script>
 </html>

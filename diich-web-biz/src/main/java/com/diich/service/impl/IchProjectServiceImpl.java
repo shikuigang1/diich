@@ -27,6 +27,7 @@ import java.util.Map;
  * Created by Administrator on 2017/5/9.
  */
 @Service("ichProjectService")
+@Transactional
 public class IchProjectServiceImpl extends BaseService<IchProject> implements IchProjectService {
 
     @Autowired

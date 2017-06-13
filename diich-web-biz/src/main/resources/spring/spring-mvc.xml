@@ -13,7 +13,7 @@
 
     <!-- 开启注解 -->
    <mvc:annotation-driven/>
-    <context:component-scan base-package="com.diich"/>
+    <context:component-scan base-package="com.diich.controller"/>
     <!-- 设置组件扫描的基础包 -->
     <!--<context:component-scan base-package="com.diich.controller">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>

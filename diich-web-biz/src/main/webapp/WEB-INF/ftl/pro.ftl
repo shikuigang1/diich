@@ -27,13 +27,7 @@
     <link rel="stylesheet" href="${caturi}/assets/css/layout.css">
     <script src="${caturi}/data/keyword.js"></script>
     <script src="${caturi}/assets/js/jquery.min.js"></script>
-        <#if (obj.lang == "chi")>
-            <script src="${caturi}/assets/js/system.js"></script>
-        </#if>
-        <#if (obj.lang == "eng")>
-            <script src="./assets/js/system_en.js"></script>
-        </#if>
-
+    <script src="${caturi}/assets/js/system.js"></script>
     <script src="${caturi}/js/category.js"></script>
     <script src="${caturi}/js/citys.js"></script>
     <script src="${caturi}/js/doT.js"></script>
@@ -50,6 +44,26 @@
             })
         })
     </script>
+    <style>
+        .trans_lang {
+            width:100%;
+            text-align:left;
+        }
+        .trans_lang>a {
+            text-align: center;
+            color: #fff;
+            background: #1B1B1B;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+            display: inline-block;
+            letter-spacing: 1px;
+            margin-top: 30px;
+            -webkit-transition: all .3s;
+            transition: all .3s;
+            padding:16px 24px;
+
+        }
+    </style>
 </head>
 
 <body>
@@ -541,11 +555,11 @@
                         </#if>
                     </h2>
                 </duv>
-                <div class="info">
+                <div class="info" id="info">
                     <ul>
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
-                            <#if cf.attribute?? && cf.attribute.dataType==0 && cf.content?? && cf.attributeId != 106 && cf.attributeId != 7 && cf.attributeId != 8>
+                            <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.attributeId != 106 && cf.attributeId != 7 && cf.attributeId != 8 && cf.attributeId != 2 && cf.attributeId != 41 && cf.attributeId != 33>
                                 <li>
                                     <span class="key">
                                         <#if obj.lang == "chi">
@@ -562,6 +576,9 @@
                     </#if>
 
                     </ul>
+                </div>
+                <div class="trans_lang">
+                    <a href="" class="declare" id="trans"></a>
                 </div>
             </div>
             <!--//End 基本信息-->
@@ -1038,24 +1055,35 @@
         });
 
         //控制header中英文显示
+        <#--<#if obj.version?? && (obj.version.chiId??) && (obj.version.engId??)>-->
+            <#--$(".language").show();-->
+            <#--<#if obj.lang == "eng">-->
+                <#--$(".en").addClass("active");-->
+                <#--$(".zh").removeClass("active");-->
+                <#--$(".zh").attr('href',${obj.version.chiId?c} + ".html");-->
+            <#--</#if>-->
+            <#--<#if obj.lang == "chi">-->
+                <#--$(".zh").addClass("active");-->
+                <#--$(".en").removeClass("active");-->
+                <#--$(".en").attr('href',${obj.version.engId?c} + ".html");-->
+            <#--</#if>-->
+        <#--</#if>-->
+        <#--<#if !obj.version?? || (!obj.version.chiId??) || (!obj.version.engId??)>-->
+            <#--$(".language").hide();-->
+        <#--</#if>-->
         <#if obj.version?? && (obj.version.chiId??) && (obj.version.engId??)>
-            $(".language").show();
             <#if obj.lang == "eng">
-                $(".en").addClass("active");
-                $(".zh").removeClass("active");
-                $(".zh").attr('href',${obj.version.chiId?c} + ".html");
+                $("#trans").text("查看本条目中文版");
+                $("#trans").attr('href',${obj.version.chiId?c}+ ".html");
             </#if>
             <#if obj.lang == "chi">
-                $(".zh").addClass("active");
-                $(".en").removeClass("active");
-                $(".en").attr('href',${obj.version.engId?c} + ".html");
+                $("#trans").text("查看本条目英文版");
+                $("#trans").attr('href',${obj.version.engId?c}+ ".html");
             </#if>
         </#if>
         <#if !obj.version?? || (!obj.version.chiId??) || (!obj.version.engId??)>
-            $(".language").hide();
+                $("#trans").hide();
         </#if>
-        $(".login").hide();
-
 
 
         var mainCategory = $('#mainCategory');
@@ -1244,7 +1272,6 @@
         $(".form").ajaxSubmit();
     }
 
-
 </script>
-
+<script	src="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/assets/js/static.js"></script>
 </html>
