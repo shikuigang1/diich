@@ -63,7 +63,7 @@
                                         <#if (cf.resourceList??) &&(cf.resourceList?size>0)>
                                             <#list cf.resourceList as res>
                                                 <#if res.type==0 && res.status==0>
-                                                    <img src="<#if res.uri??>${masteruri}${res.uri}</#if>" alt="" width="94" height="70">
+                                                    <img src="<#if res.uri??>${masteruri}${res.uri}?x-oss-process=style/head-image-style</#if>" alt="" width="94" height="70">
                                                 </#if>
                                             </#list>
                                         </#if>
@@ -93,7 +93,7 @@
                             <#if (cf.resourceList??)&&(cf.resourceList?size>0)>
                                 <#list cf.resourceList as res>
                                     <#if res.type==0 && res.status==0>
-                                        <li><a href=""><img src="<#if res.uri??>${masteruri}${res.uri}?x-oss-process=style/head-image-style</#if>" alt="" data-type="0" data-id="${idx}"></a></li>
+                                        <li><a href=""><img src="<#if res.uri??>${masteruri}${res.uri}</#if>" alt="" data-type="0" data-id="${idx}"></a></li>
                                         <#assign idx=idx+1 />
                                     </#if>
                                 </#list>

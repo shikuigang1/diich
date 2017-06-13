@@ -7,10 +7,11 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="lang" property="lang" jdbcType="CHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, code, name, type, parent_id, status
+    id, code, name, type, parent_id, lang, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
@@ -24,9 +25,11 @@
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.Dictionary" >
     insert into dictionary (id, code, name,
-      type, parent_id, status)
+    type, parent_id, lang, status
+    )
     values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
-      #{type,jdbcType=INTEGER}, #{parentId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER})
+    #{type,jdbcType=INTEGER}, #{parentId,jdbcType=BIGINT}, #{lang,jdbcType=CHAR}, #{status,jdbcType=INTEGER}
+    )
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.Dictionary" >
     insert into dictionary
@@ -45,6 +48,9 @@
       </if>
       <if test="parentId != null" >
         parent_id,
+      </if>
+      <if test="lang != null" >
+        lang,
       </if>
       <if test="status != null" >
         status,
@@ -66,9 +72,12 @@
       <if test="parentId != null" >
         #{parentId,jdbcType=BIGINT},
       </if>
+      <if test="lang != null" >
+        #{lang,jdbcType=CHAR},
+      </if>
       <if test="status != null" >
-      #{status,jdbcType=INTEGER},
-    </if>
+        #{status,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.Dictionary" >
@@ -84,10 +93,13 @@
         type = #{type,jdbcType=INTEGER},
       </if>
       <if test="parentId != null" >
-        type = #{parentId,jdbcType=BIGINT},
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="lang != null" >
+        lang = #{lang,jdbcType=CHAR},
       </if>
       <if test="status != null" >
-        type = #{status,jdbcType=INTEGER},
+        status = #{status,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -97,8 +109,9 @@
     set code = #{code,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
-      type = #{parentId,jdbcType=BIGINT},
-      type = #{status,jdbcType=INTEGER}
+      parent_id = #{parentId,jdbcType=BIGINT},
+      lang = #{lang,jdbcType=CHAR},
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 
