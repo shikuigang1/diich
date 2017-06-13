@@ -12,6 +12,7 @@ import com.diich.core.util.FileType;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
@@ -55,6 +56,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     private  ResourceMapper resourceMapper;
     @Autowired
     private VersionService versionService;
+    @Autowired
+    private SqlSessionFactory sqlSessionFactory;
 
     /**
      * 根据id获取项目信息
@@ -228,7 +231,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                         saveContentFragment(c,proID);
                     }
                     //将datatype>100的将content中的code转换为name
-                    List<ContentFragment> contentFragmentList = getContentFragment(ls);
+                    List<ContentFragment> contentFragmentList = getContentFragment(ls,ichProject.getLang());
                     ichProject.setContentFragmentList(contentFragmentList);
                 }
 
@@ -269,7 +272,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                         }
                     }
                     //将content中的code转换为name
-                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
+                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList,ichProject.getLang());
                     ichProject.setContentFragmentList(contentFragments);
                 }
 
@@ -375,7 +378,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                if(a.getDataType()==101){
                    String content = c.getContent();
                    if(content!= null){
-                       String dis =  dictionaryService.getTextByTypeAndCode(a.getDataType(),c.getContent());
+                       String dis =  dictionaryService.getTextByTypeAndCode(a.getDataType(),c.getContent(),null);
                        resultMap.put("dis",dis);
                    }
                }
@@ -403,7 +406,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 String[] arrs= ls.get(i).getContent().split(",");
                 String name ="";
                 for (String arr: arrs) {
-                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr);
+                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr,ichProject.getLang());
                     name +=";";
                 }
                 name = name.substring(0,name.length()-1);
@@ -433,7 +436,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      * @param cfList
      * @return
      */
-    private List<ContentFragment> getContentFragment(List<ContentFragment> cfList) throws Exception {
+    private List<ContentFragment> getContentFragment(List<ContentFragment> cfList,String lang) throws Exception {
         for (ContentFragment contentFragment : cfList) {
             Attribute attribute = contentFragment.getAttribute();
             if(attribute.getDataType()>100){
@@ -443,7 +446,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 String[] arrs= contentFragment.getContent().split(",");
                 String name ="";
                 for (String arr: arrs) {
-                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr);
+                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr,lang);
                     name +=";";
                 }
                 name = name.substring(0,name.length()-1);

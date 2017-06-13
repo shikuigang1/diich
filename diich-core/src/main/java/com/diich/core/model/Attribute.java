@@ -21,7 +21,7 @@ public class Attribute extends BaseModel {
 
     private Integer isOpen;
 
-    private Integer order;
+    private Integer seq;
 
     public String getValue() {
         return value;
@@ -105,11 +105,11 @@ public class Attribute extends BaseModel {
         this.isOpen = isOpen;
     }
 
-    public Integer getOrder() {
-        return order;
+    public Integer getSeq() {
+        return seq;
     }
 
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setSeq(Integer seq) {
+        this.seq = seq;
     }
 }

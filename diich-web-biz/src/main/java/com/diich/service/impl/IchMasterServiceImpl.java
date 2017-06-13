@@ -180,7 +180,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                         saveContentFragment(contentFragment,id);
                     }
                     //将code替换为name用于生成静态页面
-                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
+                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList,ichMaster.getLang());
                     ichMaster.setContentFragmentList(contentFragments);
                 }
 
@@ -211,7 +211,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                         }
                     }
                     //将code替换为name用于生成静态页面
-                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
+                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList,ichMaster.getLang());
                     ichMaster.setContentFragmentList(contentFragments);
                 }
 
@@ -298,7 +298,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 String[] arrs= contentFragment.getContent().split(",");
                 String name ="";
                 for (String arr: arrs) {
-                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr);
+                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr,ichMaster.getLang());
                     name +=";";
                 }
                 name = name.substring(0,name.length()-1);
@@ -385,7 +385,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
      * @param cfList
      * @return
      */
-    private List<ContentFragment> getContentFragment(List<ContentFragment> cfList) throws Exception {
+    private List<ContentFragment> getContentFragment(List<ContentFragment> cfList,String lang) throws Exception {
         for (ContentFragment contentFragment : cfList) {
             Attribute attribute = contentFragment.getAttribute();
             if(attribute.getDataType()>100){
@@ -395,7 +395,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 String[] arrs= contentFragment.getContent().split(",");
                 String name ="";
                 for (String arr: arrs) {
-                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr);
+                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr,lang);
                     name +=";";
                 }
                 name = name.substring(0,name.length()-1);
