@@ -157,7 +157,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                         saveContentFragment(contentFragment,worksId);
                     }
                     //把code转换为name
-                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
+                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList,works.getLang());
                     works.setContentFragmentList(contentFragments);
                 }
             }else{
@@ -187,7 +187,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                         }
                     }
                     //把code转换为name
-                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList);
+                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList,works.getLang());
                     works.setContentFragmentList(contentFragments);
                 }
             }
@@ -281,7 +281,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 String[] arrs= contentFragment.getContent().split(",");
                 String name ="";
                 for (String arr: arrs) {
-                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr);
+                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr,works.getLang());
                     name +=";";
                 }
                 name = name.substring(0,name.length()-1);
@@ -368,7 +368,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
      * @param cfList
      * @return
      */
-    private List<ContentFragment> getContentFragment(List<ContentFragment> cfList) throws Exception {
+    private List<ContentFragment> getContentFragment(List<ContentFragment> cfList,String lang) throws Exception {
         for (ContentFragment contentFragment : cfList) {
             Attribute attribute = contentFragment.getAttribute();
             if(attribute.getDataType()>100){
@@ -378,7 +378,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 String[] arrs= contentFragment.getContent().split(",");
                 String name ="";
                 for (String arr: arrs) {
-                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr);
+                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr,lang);
                     name +=";";
                 }
                 name = name.substring(0,name.length()-1);
