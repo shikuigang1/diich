@@ -123,7 +123,6 @@
             if($("#keyword").val()=="" && $("#gb_category_code").val()==""){
                 return false;
             }
-
             $("#pageNum").val("1"); //把页面回执到1
             $.ajax({
                 cache: true,
@@ -148,7 +147,6 @@
                     $("#content").html(evalText(data.res));
                     $(".load_more").show();
 
-
                     if (parseInt($("#pageNum").val()) * parseInt($("#pageSize").val()) >= data.totalCount) {
                         $(".load_more").hide();
                     }else{
@@ -169,6 +167,7 @@
                 return false;
             }
             progress.search();
+
 
             $.ajax({
                 cache: true,
@@ -984,7 +983,10 @@
             _span.animate({'width': '98%'}, speed);
         },
         close:function (obj) {//关闭
-            $(obj).remove();
+            var el = $(obj);
+            var _progress = el.find('.progress');
+            var _span = _progress.find('span');
+            _span.animate({'width': '0'}, 0);
         }
     };
 
