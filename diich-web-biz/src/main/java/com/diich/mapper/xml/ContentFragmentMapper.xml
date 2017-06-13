@@ -25,7 +25,9 @@
     ,
     <include refid="Blob_Column_List" />
     from content_fragment
+    left JOIN  attribute on content_fragment.attribute_id = attribute.id
     where id = #{id,jdbcType=BIGINT} and status = 0
+    order by attribute.order
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from content_fragment

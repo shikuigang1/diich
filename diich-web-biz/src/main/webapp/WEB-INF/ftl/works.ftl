@@ -6,6 +6,11 @@
     <title>作品详情页</title>
     <link rel="stylesheet" href="assets/css/common.css">
     <link rel="stylesheet" href="assets/css/layout.css">
+    <style>
+        .header .content .nav a:after {
+            display: none;
+        }
+    </style>
     <script src="./assets/js/jquery.min.js"></script>
     <script src="./assets/js/system.js"></script>
 </head>
@@ -334,7 +339,7 @@
 
                 <div class="card_base">
                     <duv class="detail_title">
-                        <h2>基礎信息</h2>
+                        <h2>基础信息</h2>
                     </duv>
                     <div class="info">
                         <ul>
@@ -458,6 +463,8 @@
     $(function() {
         //初始化
         detailProductPage.init();
+        //去掉head的定位
+        $(".header .content .nav li").eq(0).removeClass("active");
     });
 </script>
 

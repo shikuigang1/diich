@@ -34,7 +34,6 @@
             <script src="./assets/js/system_en.js"></script>
         </#if>
 
-    <script src="${caturi}/assets/js/html5media.min.js"></script>
     <script src="${caturi}/js/category.js"></script>
     <script src="${caturi}/js/citys.js"></script>
     <script src="${caturi}/js/doT.js"></script>
@@ -182,7 +181,7 @@
 
         </div>
         <!--//End main-->
-        <div class="crumbs">
+       <#-- <div class="crumbs">
             <span>
             <#if (obj.lang == "chi")>
                 非遗名录
@@ -191,8 +190,8 @@
                 The heritage
             </#if>
             </span>
-        <#--<i class="gt"></i>
-        <span><a href="" title="口头传说和表述">口头传说和表述</a></span>-->
+        &lt;#&ndash;<i class="gt"></i>
+        <span><a href="" title="口头传说和表述">口头传说和表述</a></span>&ndash;&gt;
         <#if (obj.ichCategory.name)??>
             <i class="gt"></i>
             <span><a href="${caturi}/page/search.html?gb_category_code=${obj.ichCategory.gbCategory}" data-id="${obj.ichCategory.gbCategory}" title="${obj.ichCategory.name}"> ${obj.ichCategory.name}</a></span>
@@ -225,7 +224,7 @@
                                         </#list>
                                     </#if>
                 </span>
-        </div>
+        </div>-->
         <!--//End crumbs-->
 
         <div class="card">
@@ -279,7 +278,6 @@
                         </#if>
                     </a>
                 </#if>
-                <#-- <a class="album" onclick="show()" data-type="mediaLayer"><i class="play_sm"></i>【视频】昆曲传承人讲述昆曲…(2个视频／9张图片)</a>-->
                     <div class="share_box">
                         <div class="icons">
                             <a href="" class="sina"></a>
@@ -315,10 +313,12 @@
                          <#if obj.lang == "eng">
                              Identification code：
                          </#if>
-                            <#if (obj.contentFragmentList?size>0)>
+                            <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                             <#list obj.contentFragmentList as cf>
                                 <#if cf.attributeId == 2>
-                                    ${cf.content}
+                                    <#if cf.content??>
+                                         ${cf.content}
+                                    </#if >
                                 </#if>
                             </#list>
                         </#if></span>
@@ -344,18 +344,15 @@
                             ${obj.ichCategory.name}
                                 <#if ((obj.ichCategory.children)?? && obj.ichCategory.children?size>0)>
                                     <#list obj.ichCategory.children as ch>
-                                        -${ch.name}
+                                        - ${ch.name}
                                         <#if (ch.children)?? && (ch.children?size>0)>
                                             <#list ch.children as chh>
-                                                -${chh.name}
+                                                - ${chh.name}
                                             </#list>
                                         </#if>
                                     </#list>
                                 </#if>
                             </#if>
-                            <#--<#if type??>
-                                                ${type.name}
-                               </#if>-->
                             </em>
                         </span>
                     <span>
@@ -406,9 +403,9 @@
                                         <#list master.contentFragmentList as cf>
                                             <#if cf.attributeId == 113 && cf.targetType == 1>
 
-                                                <#if cf.resourceList??>
+                                                <#if (cf.resourceList??) && (cf.resourceList?size>0)>
                                                     <#list cf.resourceList as r>
-                                                        <#if r.uri??>
+                                                        <#if r?? &&(r.uri??)>
                                                             <#assign masterPic="${masteruri}${r.uri}?x-oss-process=style/head-image-style">
                                                         </#if>
                                                     </#list>
@@ -457,10 +454,10 @@
                         <div class="more">
                             <a href="javascript:;"><span>
                                 <#if obj.lang == "chi">
-                                    其他<em></em>人
+                                    全部<em></em>人
                                 </#if>
                                 <#if obj.lang == "eng">
-                                    other<em></em>persons
+                                    all<em></em>persons
                                 </#if>
                             </span><i class="gt_big"></i></a>
                         </div>
@@ -614,12 +611,12 @@
                                     <#list work.contentFragmentList as c>
                                         <#if obj.lang == "chi">
                                             <#if c.attributeId==28>
-                                            <p class="name">${c.content} </p
+                                            <p class="name">${c.content} </p>
                                             </#if>
                                         </#if>
                                         <#if obj.lang == "eng">
                                             <#if c.attributeId==29>
-                                                <p class="name">${c.content} </p
+                                                <p class="name">${c.content} </p>
                                             </#if>
                                         </#if>
 
@@ -730,7 +727,9 @@
                         </h4></header>
                         <article class="plain_text">
                             <p>
-                            ${cf.content?replace("\n", "</p><p>")}
+                                <#if cf.content??>
+                                    ${cf.content?replace("\n", "</p><p>")}
+                                </#if>
                             </p>
                         <#--${cf.content?replace("\n","</p></p>")}-->
 
@@ -1044,12 +1043,12 @@
             <#if obj.lang == "eng">
                 $(".en").addClass("active");
                 $(".zh").removeClass("active");
-                $(".zh").attr('href',${obj.version.chiId} + ".html");
+                $(".zh").attr('href',${obj.version.chiId?c} + ".html");
             </#if>
             <#if obj.lang == "chi">
                 $(".zh").addClass("active");
                 $(".en").removeClass("active");
-                $(".en").attr('href',${obj.version.engId} + ".html");
+                $(".en").attr('href',${obj.version.engId?c} + ".html");
             </#if>
         </#if>
         <#if !obj.version?? || (!obj.version.chiId??) || (!obj.version.engId??)>
@@ -1236,7 +1235,7 @@
             },
         };
         searchPage.init();
-
+        $(".header .content .nav li").eq(0).removeClass("active");
         //给logo加首页链接
         $('.logo').attr('href','http://diich.efeiyi.com/page/index.html');
 
