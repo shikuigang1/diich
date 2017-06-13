@@ -348,6 +348,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
            Long id= (Long)ls.get(i).get("id");
            resultMap.put("id",id);
            resultMap.put("name",ls.get(i).get("name"));
+           String lang = ls.get(i).get("lang").toString();
+
+
             //获取项目分类
            Long categoryID = (Long)ls.get(i).get("ichCategoryId");
            if(categoryID != null){
@@ -378,7 +381,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                if(a.getDataType()==101){
                    String content = c.getContent();
                    if(content!= null){
-                       String dis =  dictionaryService.getTextByTypeAndCode(a.getDataType(),c.getContent(),null);
+                       String dis =  dictionaryService.getTextByTypeAndCode(a.getDataType(),c.getContent(),lang);
                        resultMap.put("dis",dis);
                    }
                }
