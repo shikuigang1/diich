@@ -410,8 +410,6 @@ var header = {
             item.eq(4).find('dd a:odd').css({'width': '66px', 'margin-left': '24px'});
         }
 
-
-
         _houer.hover(function () {
             clearInterval(timer);
             var _height = _header.outerHeight(true);
@@ -859,51 +857,76 @@ var homePage = {
     },
 
 
-    map:function (lang) {//地图
-
-        if(lang=='en'){
-            var data=this.endata();
-        }else{
-            var data=this.data();
+    map: function (lang) {//地图
+        if (lang == 'en') {
+            var data = this.endata();
+        } else {
+            var data = this.data();
         }
 
-        var map=$('#map');
+        var map = $('#map');
         map.find('span').remove();
-        var modal=map.find('.modal');
-        var zh=modal.find('.zh');
-        var en=modal.find('.en');
-        //var count=modal.find('.count span');
-        var count=modal.find('.count');
-        var name=modal.find('.name');
-        var txt=modal.find('.content .txt');
-        var more=modal.find('.content .more');
-        var str='';
-        var active='';
-        for (var i=0;i<data.length;i++){
-            if(i==14){
-                active=' active';
-            }else {
-                active='';
+        var broWidth = document.documentElement.clientWidth;  //浏览器可视宽度
+        var modal = map.find('.modal');
+        var zh = modal.find('.zh');
+        var en = modal.find('.en');
+        var count = modal.find('.count');
+        var name = modal.find('.name');
+        var txt = modal.find('.content .txt');
+        var more = modal.find('.content .more');
+        var str = '';
+        var active = '';
+        for (var i = 0; i < data.length; i++) {
+            if (i == 14) {
+                active = ' active';
+            } else {
+                active = '';
             }
-            str+='<span class="breathe item'+(i+1)+ active +'" style="'+data[i].style+'" title="'+data[i].name+'"></span>';
+            str += '<span class="breathe item' + (i + 1) + active + '" style="' + data[i].style + '" title="' + data[i].name + '"></span>';
         }
         map.append(str);
 
 
-
         getData(14);
-        // map.find('span').eq(15).addClass('active');
+        var _span = map.find('span');
 
-        map.find('span').hover(function () {
-            var index=$(this).index()-1;
+        //初始化计算
+        var leftOffset = _span.eq(14).offset().left+380+31;
+
+
+        if(broWidth-leftOffset < 10){
+            modal.addClass('less');
+            modal.css({top: 150, left: 334}).fadeIn(100);
+        }else{
+            modal.removeClass('less');
+            modal.css({top: 150, left: 765}).fadeIn(100);
+        }
+
+
+        // computeScreen();
+        _span.hover(function () {
+            var index = $(this).index() - 1;
             //位置
-            var _top=$(this).position().top;
-            var _left=$(this).position().left;
+            var _top = $(this).position().top;
+            var _left = $(this).position().left;
+            var _leftOffset = $(this).offset().left + 380 + 31;
             //数据
             getData(index);
+
+            //判断浮层距离右侧间距
+
+            if(broWidth-_leftOffset < 10){
+                modal.addClass('less');
+                modal.css({top: _top-27, left: _left-400}).fadeIn(100);
+            }else {
+                modal.removeClass('less');
+                modal.css({top: _top-27, left: _left+31}).fadeIn(100);
+            }
+
+
             $(this).addClass('active').siblings('span').removeClass('active');
-            modal.css({top:_top-27, left:_left+31}).fadeIn(100);
         });
+
         //动态获取数据
         function getData(index) {
             zh.text(data[index].name);
@@ -911,7 +934,7 @@ var homePage = {
             txt.text(data[index].desc);
             count.text(data[index].count);
             name.text(data[index].present);
-            var isLink=data[index].link;
+            //var isLink = data[index].link;
             // if(isLink){
             //     more.show().html('<a href="'+data[index].link+'" title="查看全部" target="_blank">查看全部</a>');
             // }else {
@@ -920,11 +943,6 @@ var homePage = {
 
         }
 
-
-        //点击页面关闭地图弹窗
-        // $(document).on('click',function () {
-        //     modal.fadeOut(100);
-        // });
     }
 };
 

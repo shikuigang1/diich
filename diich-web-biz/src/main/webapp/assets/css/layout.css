@@ -290,11 +290,9 @@
 }
 .home .global .map .dots .modal {
     background: #4f84ed url(../images/uinited.png) no-repeat 230px 50px;
-    width:340px;
+    width:300px;
     padding:40px;
     position: absolute;
-    top: 150px;
-    left: 765px;
     z-index:9;
 }
 .home .global .map .dots .modal .icon {
@@ -306,7 +304,7 @@
     left:-8px;
 }
 .home .global .map .dots .modal .title {
-    width:190px;
+    width:150px;
     float: left;
 }
 .home .global .map .dots .modal .title .zh {
@@ -346,6 +344,17 @@
     color: #fff;
     text-decoration: underline;
 }
+.home .global .map .dots .modal.less .icon {
+    background: url(../images/arrow-right2.png) 0 0 no-repeat;
+    width:8px;
+    height:18px;
+    position: absolute;
+    top:22px;
+    left:auto;
+    right:-8px;
+}
+
+
 @keyframes breath {
     from {
         transform: scale(1)
@@ -1863,7 +1872,7 @@ section.odd {
     width: auto;
     height: 100%;
     -webkit-filter: grayscale(100%);
-    ;
+;
     filter: grayscale(100%);
 }
 

@@ -355,7 +355,9 @@ textarea {
 }
 
 .header.active .content .logo {
-    background: url(../images/logo_fixed.png) no-repeat 0 0;
+    background: url(../images/logo_fixed@2x.png) no-repeat 0 0;
+    -webkit-background-size:210px auto;
+    background-size:210px auto;
     width: 210px;
     height: 80px;
     margin-top: -18px;

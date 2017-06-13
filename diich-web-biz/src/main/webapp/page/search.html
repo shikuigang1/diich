@@ -152,11 +152,12 @@
                     }else{
                         $(".load_more").show();
                     }
+                    progress.close('#search-progress');
                 },
                 complete:function(xhr){
                     //$('#loading').hide();
                     //$('body').css({'overflow':''});
-                    progress.close('#search-progress');
+                    //progress.close('#search-progress');
                 }
             });
         }
@@ -407,11 +408,11 @@
                 <dl class="level">
                     <dt>
                     <div class="title">一级分类</div>
-                    <div class="subtitle" >所有分类</div>
+                    <!--<div class="subtitle" >所有分类</div>-->
                     </dt>
                     <dd>
                         <ul id="mainCategory">
-
+                            <li data-id="0" > 所有分类 </li>
                         </ul>
                     </dd>
                 </dl>
@@ -823,8 +824,8 @@
                         $("#catecontent").empty();
                         $("#citycontent").empty();
 
-                        if (typeof(category_all[$(this).index()].children) != "undefined") {
-                            $.each(category_all[$(this).index()].children, function(index, content) {
+                        if ($(this).index() !=0 && typeof(category_all[$(this).index()-1].children) != "undefined") {
+                            $.each(category_all[$(this).index()-1].children, function(index, content) {
                                 $("#catecontent").append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
                             });
 
