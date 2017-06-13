@@ -112,6 +112,9 @@
     select *
     from dictionary
     where type = #{params.type,jdbcType=INTEGER} and code = #{params.code,jdbcType=VARCHAR} and status = 0
+    <if test="params.language != null">
+      and lang = #{params.language,jdbcType=VARCHAR}
+    </if>
   </select>
 
   <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.util.Map">
@@ -126,6 +129,9 @@
         parent_id is null
       </otherwise>
     </choose>
+    <if test="params.language != null">
+      and lang = #{params.languge,jdbcType=VARCHAR}
+    </if>
   </select>
 
   <select id="selectAllDictionary" resultMap="BaseResultMap">

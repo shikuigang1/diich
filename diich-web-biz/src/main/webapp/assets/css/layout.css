@@ -52,7 +52,7 @@
 
 .home .slider form .ipt {
     width: 630px;
-    height: 50px;
+    height: 57px;
     margin: 29px 0;
     font-size: 44px;
     background: transparent;
@@ -1863,7 +1863,7 @@ section.odd {
     width: auto;
     height: 100%;
     -webkit-filter: grayscale(100%);
-;
+    ;
     filter: grayscale(100%);
 }
 

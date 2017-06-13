@@ -22,11 +22,11 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
     private DictionaryMapper dictionaryMapper;
 
 
-    public List<Dictionary> getDictionaryListByType(Integer type) throws Exception {
+    public List<Dictionary> getDictionaryListByType(Integer type, String language) throws Exception {
         List<Dictionary> dictionaryList = null;
 
         try {
-            dictionaryList = getDictionaryListByParentId(type, null);
+            dictionaryList = getDictionaryListByParentId(type, language, null);
         } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
@@ -34,15 +34,16 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
         return dictionaryList;
     }
 
-    private List<Dictionary> getDictionaryListByParentId(Integer type, Long parentId) throws Exception {
+    private List<Dictionary> getDictionaryListByParentId(Integer type, String language, Long parentId) throws Exception {
         Map<String, Object> params = new HashMap<>();
         params.put("type", type);
         params.put("parentId", parentId);
+        params.put("language", language);
 
         List<Dictionary> dictionaryList = dictionaryMapper.selectByParentId(params);
 
         for(Dictionary dictionary : dictionaryList) {
-            List<Dictionary> list = getDictionaryListByParentId(dictionary.getType(), dictionary.getId());
+            List<Dictionary> list = getDictionaryListByParentId(dictionary.getType(), null, dictionary.getId());
 
             if(list.size() == 0) {
                 continue;
@@ -54,10 +55,11 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
         return dictionaryList;
     }
 
-    public String getTextByTypeAndCode(Integer type, String code) throws Exception {
+    public String getTextByTypeAndCode(Integer type, String code, String language) throws Exception {
         Map<String, Object> params = new HashMap<>();
         params.put("type", type);
         params.put("code", code);
+        params.put("language", language);
 
         List<Dictionary> dictionaryList = null;
         String name = null;
