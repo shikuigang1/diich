@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.DeflaterInputStream;
 
 /**
  * Created by Administrator on 2017/5/22.
@@ -43,7 +44,7 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
         List<Dictionary> dictionaryList = dictionaryMapper.selectByParentId(params);
 
         for(Dictionary dictionary : dictionaryList) {
-            List<Dictionary> list = getDictionaryListByParentId(dictionary.getType(), null, dictionary.getId());
+            List<Dictionary> list = getDictionaryListByParentId(dictionary.getType(), dictionary.getLang(), dictionary.getId());
 
             if(list.size() == 0) {
                 continue;
