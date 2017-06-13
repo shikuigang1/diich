@@ -50,7 +50,7 @@ public class SearchController extends BaseController {
         }else{
             map.put("area_code",area_code);
         }
-        if(StringUtils.isEmpty(gb_category_code)){
+        if(StringUtils.isEmpty(gb_category_code)||gb_category_code.equals("0")){
             map.put("gb_category_code",null);
         }else{
             map.put("gb_category_code",gb_category_code);
