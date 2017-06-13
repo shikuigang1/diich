@@ -143,7 +143,7 @@
       </otherwise>
     </choose>
     <if test="params.language != null">
-      and lang = #{params.languge,jdbcType=CHAR}
+      and lang = #{params.language,jdbcType=CHAR}
     </if>
   </select>
 

@@ -67,6 +67,10 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
 
         try {
             dictionaryList = dictionaryMapper.selectByTypeAndCode(params);
+            if("eng".equals(language) && dictionaryList.size()==0){
+                params.put("language","chi");
+                dictionaryList = dictionaryMapper.selectByTypeAndCode(params);
+            }
         } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
