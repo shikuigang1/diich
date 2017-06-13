@@ -25,9 +25,7 @@
     ,
     <include refid="Blob_Column_List" />
     from content_fragment
-    left JOIN  attribute on content_fragment.attribute_id = attribute.id
     where id = #{id,jdbcType=BIGINT} and status = 0
-    order by attribute.order
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from content_fragment
@@ -127,7 +125,10 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByTargetIdAndType" parameterType="com.diich.core.model.ContentFragment" resultMap="BaseResultMap">
-    select * from content_fragment where target_id = #{targetId} and target_type =#{targetType} and status = 0
+    select * from content_fragment
+    left JOIN  attribute on content_fragment.attribute_id = attribute.id
+    where content_fragment.target_id = #{targetId} and content_fragment.target_type =#{targetType} and content_fragment.status = 0
+    order by attribute.seq
   </select>
 
   <select id="selectByProjectId" parameterType="java.lang.Long" resultMap="BaseResultMap">
