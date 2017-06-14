@@ -1441,9 +1441,9 @@ var widget = {
 
     },
     doiCode: function() { //doi鼠标滑过显示二维码
-        $('.doi_code').hover(function() {
-            $(this).find('.drop').stop(true).fadeToggle(true);
-        });
+        // $('.doi_code').hover(function() {
+        //     $(this).find('.drop').stop(true).fadeToggle(true);
+        // });
     }
 };
 
