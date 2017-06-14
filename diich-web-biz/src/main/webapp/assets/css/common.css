@@ -1063,10 +1063,12 @@ textarea {
     background: url(../images/qrcode.png) no-repeat 0 -28px;
     float: right;
     margin-left: 5px;
+    display: none;
 }
 
 .detail_title .doi_code span {
-    float: left
+    padding-right:7px;
+    float: left;
 }
 
 .detail_title .doi_code .drop {

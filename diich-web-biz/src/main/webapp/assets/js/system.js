@@ -1184,6 +1184,7 @@ var detailProductPage = {
     }
 };
 
+/*
 //大师页面 ok
 var masterPage = {
     init: function() {
@@ -1241,14 +1242,15 @@ var masterPage = {
 
 
         _li.on('click', function() {
-            /*var index = $(this).index();
+            /!*var index = $(this).index();
             _default.hide();
             _item.show();
             $(this).addClass('active').siblings('li').removeClass('active');
-            _h1.text(_oldText + index);*/
+            _h1.text(_oldText + index);*!/
         });
     }
 };
+*/
 
 //非遗名录 && 搜索结果页
 var searchPage = {
@@ -1439,9 +1441,9 @@ var widget = {
 
     },
     doiCode: function() { //doi鼠标滑过显示二维码
-        $('.doi_code').hover(function() {
-            $(this).find('.drop').stop(true).fadeToggle(true);
-        });
+        // $('.doi_code').hover(function() {
+        //     $(this).find('.drop').stop(true).fadeToggle(true);
+        // });
     }
 };
 
