@@ -7,6 +7,7 @@ import com.diich.core.service.DictionaryService;
 import com.diich.mapper.DictionaryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.zip.DeflaterInputStream;
  * Created by Administrator on 2017/5/22.
  */
 @Service("dictionaryService")
+@Transactional
 public class DictionaryServiceImpl extends BaseService<Dictionary> implements DictionaryService{
 
     @Autowired
@@ -44,6 +46,7 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
         List<Dictionary> dictionaryList = dictionaryMapper.selectByParentId(params);
 
         for(Dictionary dictionary : dictionaryList) {
+
             List<Dictionary> list = getDictionaryListByParentId(dictionary.getType(), dictionary.getLang(), dictionary.getId());
 
             if(list.size() == 0) {
