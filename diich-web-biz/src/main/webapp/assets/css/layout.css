@@ -835,10 +835,10 @@ section.odd {
 }
 
 .card .plain_text.column3 {
-    -webkit-column-count: 3;
-    column-count: 3;
-    -webkit-column-gap: 30px;
-    column-gap: 30px;
+    /*-webkit-column-count: 1;*/
+    /*column-count: 1;*/
+    /*-webkit-column-gap: 30px;*/
+    /*column-gap: 30px;*/
 }
 
 /*--//End 纯文本 三列--*/
@@ -1141,7 +1141,7 @@ section.odd {
 
 .card_main .subtxt strong {
     font-size: 12px;
-    line-height: 12px;
+    line-height: 28px;
     color: #777;
     float: left;
     font-weight: normal;
@@ -1149,7 +1149,7 @@ section.odd {
 
 .card_main .subtxt em {
     font-size: 12px;
-    line-height: 12px;
+    line-height: 28px;
     color: #777;
 }
 
@@ -1163,6 +1163,22 @@ section.odd {
 .card_main .subtxt em {
     float: left;
 }
+
+.card_main .subtxt .language em {
+    max-width:200px;
+    padding:0 10px;
+    height:26px;
+    line-height:28px;
+    border: 1px solid #4283e9;
+    color: #4283e9;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+}
+
+
+
 
 .card_main .inheritor {
     margin-bottom: 50px;
