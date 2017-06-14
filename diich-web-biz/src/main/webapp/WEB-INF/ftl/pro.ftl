@@ -678,7 +678,11 @@
                         <article class="text_img">
                             <div class="side">
                                 <div class="item">
-                                    <p>${cf.content?replace("\n","</p><p>")}</p>
+                                    <p>
+                                        <#if cf.content??>
+                                             ${cf.content?replace("\n", "</p><p>")}
+                                        </#if>
+                                    </p>
                                 </div>
                             </div>
                             <div class="media">
@@ -947,11 +951,6 @@
                         </#if>
                     </#list>
                 </#if>
-                <#-- <li>111111</li>
-                 <li>222222</li>
-                 <li>333333</li>
-                 <li>444444</li>
-                 <li>555555</li>-->
                 </ul>
             </div>
             <div class="main">
@@ -971,27 +970,7 @@
                     </#list>
                 </#if>
 
-                <#--   <li><video src="assets/uploads/video1.mp4" controls></video></li>
-                   <li>
-                       <video src="assets/uploads/video1.mp4" controls></video>
-                   </li>
-                   <li>
-                       <video src="assets/uploads/video1.mp4" controls></video>
-                   </li>
-                   <li>
-                       <video src="assets/uploads/video1.mp4" controls></video>
-                   </li>
-                   <li>
-                       <video src="assets/uploads/video1.mp4" controls></video>
-                   </li>-->
                 </ul>
-            <#-- <ul class="num">
-                 <li class="active v-active">01_<span>鼓罗</span>(30:20)</li>
-                 <li>02_<span>建国后昆剧杰出的英才</span>(60:00)</li>
-                 <li>03_<span>水调歌头</span>(90:30)</li>
-                 <li>04_<span>吕布与貂蝉</span>(45:15)</li>
-                 <li>05_<span>三国演义</span>(45:15)</li>
-             </ul>-->
             </div>
             <!--//End-->
 
@@ -1055,22 +1034,6 @@
         });
 
         //控制header中英文显示
-        <#--<#if obj.version?? && (obj.version.chiId??) && (obj.version.engId??)>-->
-            <#--$(".language").show();-->
-            <#--<#if obj.lang == "eng">-->
-                <#--$(".en").addClass("active");-->
-                <#--$(".zh").removeClass("active");-->
-                <#--$(".zh").attr('href',${obj.version.chiId?c} + ".html");-->
-            <#--</#if>-->
-            <#--<#if obj.lang == "chi">-->
-                <#--$(".zh").addClass("active");-->
-                <#--$(".en").removeClass("active");-->
-                <#--$(".en").attr('href',${obj.version.engId?c} + ".html");-->
-            <#--</#if>-->
-        <#--</#if>-->
-        <#--<#if !obj.version?? || (!obj.version.chiId??) || (!obj.version.engId??)>-->
-            <#--$(".language").hide();-->
-        <#--</#if>-->
         <#if obj.version?? && (obj.version.chiId??) && (obj.version.engId??)>
             <#if obj.lang == "eng">
                 $("#trans").text("查看本条目中文版");
@@ -1267,6 +1230,15 @@
         //给logo加首页链接
         $('.logo').attr('href','http://diich.efeiyi.com/page/index.html');
 
+        <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
+            <#list obj.contentFragmentList as cf>
+                <#if cf.attributeId == 2>
+                    <#if !cf.content??>
+                        $(".doi_code").hide();
+                    </#if>
+                </#if>
+            </#list>
+        </#if>
     });
     function submit(){
         $(".form").ajaxSubmit();
