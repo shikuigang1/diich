@@ -1015,13 +1015,13 @@ textarea {
 /*--//End--*/
 
 .detail_title {
-    height: 44px;
     position: relative;
 }
 
 .detail_title h2 {
+    padding-right:340px;
     font-size: 44px;
-    line-height: 44px;
+    line-height: 50px;
     color: #333;
 }
 
@@ -1039,7 +1039,9 @@ textarea {
     border-radius: 2px;
     cursor: pointer;
 }
-
+.detail_title .doi_code {
+    top:26px
+}
 .detail_title .doi_code .icon {
     width: 28px;
     height: 28px;

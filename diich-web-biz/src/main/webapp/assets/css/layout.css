@@ -1077,19 +1077,27 @@ section.odd {
 }
 
 .card_base .info li {
-    width: 50%;
-    height: 36px;
+    width: 520px;
+    padding-right:20px;
+    line-height: 36px;
     float: left;
+    position: relative;
 }
 
 .card_base .info li span {
     line-height: 36px;
     font-size: 16px;
-    color: #83858E;
-}
-
-.card_base .info li span.value {
     color: #4A4A4A;
+    float: left;
+}
+.card_base .info li span.key {
+    color: #83858E;
+    position: absolute;
+    top:0;
+    left:0;
+}
+.card_base .info li span.value {
+    width:100%;
 }
 
 
@@ -1112,13 +1120,11 @@ section.odd {
 .card_main .tname {
     font-size: 16px;
 }
-
 .card_main .subtxt {
     height: 12px;
     margin-top: 20px;
     margin-bottom: 58px;
 }
-
 .card_main .subtxt span {
     font-size: 12px;
     line-height: 12px;
@@ -1126,7 +1132,6 @@ section.odd {
     float: left;
     margin-right: 30px;
 }
-
 .card_main .subtxt strong {
     font-size: 12px;
     line-height: 12px;
@@ -1872,7 +1877,7 @@ section.odd {
     width: auto;
     height: 100%;
     -webkit-filter: grayscale(100%);
-;
+    ;
     filter: grayscale(100%);
 }
 
