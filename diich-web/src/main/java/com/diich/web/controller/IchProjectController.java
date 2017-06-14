@@ -7,14 +7,22 @@ import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.IchProject;
 import com.diich.core.model.User;
 import com.diich.core.service.IchProjectService;
+import com.diich.core.util.QRCodeGenerator;
 import com.diich.core.util.WebUtil;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,6 +134,24 @@ public class IchProjectController extends BaseController<IchProject> {
 
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(ls);
+    }
+
+    @RequestMapping("/getImage")
+    @ResponseBody
+    public ResponseEntity<byte[]> exportQRCode(HttpServletRequest request) throws Exception {
+        String id=request.getParameter("id");
+        String url = "http://resource.efeiyi.com/html/project/"+ id +".html";
+        QRCodeGenerator qrCode = new QRCodeGenerator(url);
+        qrCode.createQRCode(127, 127);
+        File imageFile = new File(id +".jpg");
+        ImageIO.write(qrCode.getImageResult(), "jpg", imageFile);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", id +".jpg");
+
+        byte[] bytes = FileUtils.readFileToByteArray(imageFile);
+        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
     }
 
 }
