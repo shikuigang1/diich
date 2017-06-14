@@ -435,7 +435,7 @@
                     </dt>
                     <dd>
                         <ul id="country">
-                            <li>中国</li>
+
                         </ul>
                     </dd>
                 </dl>
@@ -715,6 +715,24 @@
         });
 
 
+        //初始化国家数据country
+
+        var country = $('#country');
+
+        //初始化分类数据
+        $.each(dic_arr, function(index, content) {
+            country.append("<li data-id=\"" + content.code + "\" >" + content.name + "</li>");
+        });
+
+        country.find('li').on('click', function() {
+            $("#area_text").text($(this).html());
+            $("#area_code").val($(this).attr("data-id"));
+            $("#item_2").hide();
+
+            searchData_();
+        });
+
+
         var searchPage = {
             init: function() {
                 $('.header_detail .content .info li.search').hide();
@@ -818,13 +836,16 @@
                     var level2 = $(this).find('.level2');
                     var _li = level.find('li'); //分类
 
+
                     _li.hover(function() {
                         $(this).addClass('active').siblings('li').removeClass('active');
 
                         $("#catecontent").empty();
                         $("#citycontent").empty();
 
-                        if ($(this).index() !=0 && typeof(category_all[$(this).index()-1].children) != "undefined") {
+
+
+                        if ($(this).parent().attr("id")=='mainCategory'&& $(this).index() !=0 && typeof(category_all[$(this).index()-1].children) != "undefined") {
                             $.each(category_all[$(this).index()-1].children, function(index, content) {
                                 $("#catecontent").append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
                             });
@@ -838,18 +859,22 @@
                             });
                         }
 
-                        if (typeof(dic_arr) != "undefined") {
-                            $.each(dic_arr, function(index, content) {
+                        if (typeof(dic_arr) != "undefined" && $(this).parent().attr("id")=='country') {
+                          /*  $.each(dic_arr, function(index, content) {
                                 $("#citycontent").append("<li data-id=\"" + content.code + "\"  >" + content.name + "</li>");
                             });
+*/
+                            $.each(dic_arr[$(this).index()].children, function(index, content) {
+                                $("#citycontent").append("<li data-id=\"" + content.code + "\" >" + content.name + "</li>");
+                            });
 
-                            //国家级
+                           /* //国家级
                             $("#country").find('li').on('click', function() {
                                 filterAll.eq(1).text($(this).html());
                                 _this.hide();
                                 $("#area_code").val("");
                                 searchData_();
-                            });
+                            });*/
 
                             //一级城市
                             $("#citycontent").find('li').on('click', function() {
