@@ -66,24 +66,23 @@ public class SearchServiceImpl implements SearchService {
             SearchVO s = new SearchVO();
             s.setType(ls.get(i).getTargetType());
             s.setId(ls.get(i).getTargetId());
-            //��װ��������
+            //
             for(int j = 0;j<sea.size();j++){
                 ContentFragment cf = sea.get(j);
 
-                if(ls.get(i).getTargetType()==0){//��װ��Ŀ����
-                    //���������
+                if(ls.get(i).getTargetType()==0){//
+
                     if(cf.getAttributeId()==4){
                         s.setTitle(cf.getContent());
                     }
 
-                    //��Ӽ��
                     if(cf.getAttributeId()==9){
                         if(cf.getContent()!=null && cf.getContent().length()>100){
                             s.setContent(cf.getContent().substring(0,99)+"...");
                         }
 
                     }
-                    //�����ͼ
+                    //
                     if(cf.getAttributeId()==112){
                         Resource r = resourceMapper.selectByContentFramentID(cf.getId());
                         if(null != r){
@@ -95,19 +94,19 @@ public class SearchServiceImpl implements SearchService {
                        s.setDoi(cf.getContent());
                     }
 
-                }else if(ls.get(i).getTargetType()==1){//��װ��ʦ����
+                }else if(ls.get(i).getTargetType()==1){//
 
-                    //���������
+                    //
                     if(cf.getAttributeId()==13){
                         s.setTitle(cf.getContent());
                     }
-                    //��Ӽ��
+                    //
                     if(cf.getAttributeId()==24){
-                        if(cf.getContent().length()>100){
+                        if(cf.getContent()!=null && cf.getContent().length()>100){
                             s.setContent(cf.getContent().substring(0,99)+"...");
                         }
                     }
-                    //�����ͼ
+                    //
                     if(cf.getAttributeId()==113){
                         Resource r = resourceMapper.selectByContentFramentID(cf.getId());
                         if(null != r){
@@ -118,18 +117,18 @@ public class SearchServiceImpl implements SearchService {
                         s.setDoi(cf.getContent());
                     }
                 }
-                if(ls.get(i).getTargetType()==2){//��װ��Ʒ����
-                    //���������
+                if(ls.get(i).getTargetType()==2){//
+                    //
                     if(cf.getAttributeId()==28){
                         s.setTitle(cf.getContent());
                     }
-                    //��Ӽ��
+                    //
                     if(cf.getAttributeId()==31){
-                        if(cf.getContent().length()>100){
+                        if(cf.getContent()!=null && cf.getContent().length()>100){
                             s.setContent(cf.getContent().substring(0,99)+"...");
                         }
                     }
-                    //�����ͼ
+                    //
                     if(cf.getAttributeId()==114){
                         Resource r = resourceMapper.selectByContentFramentID(cf.getId());
                         if(null != r){
@@ -142,7 +141,7 @@ public class SearchServiceImpl implements SearchService {
                     }
                 }
             }
-            //��Ŀͳһ��ӷ���
+            //
             if(ls.get(i).getTargetType()==0){
 
                 IchProject ichProject = ichProjectMapper.selectByPrimaryKey(ls.get(i).getTargetId());
@@ -179,7 +178,6 @@ public class SearchServiceImpl implements SearchService {
                         }
                     }
 
-                    //ͨ����Ŀ���Ҵ�ʦ����
                     IchProject ichProject = ichProjectMapper.selectByPrimaryKey(master.getIchProjectId());
                     IchCategory ichCategory=null;
 
