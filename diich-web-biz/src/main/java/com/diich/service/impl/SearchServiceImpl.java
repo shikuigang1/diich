@@ -4,6 +4,7 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.diich.core.model.*;
 import com.diich.core.model.vo.SearchVO;
 import com.diich.core.service.SearchService;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.diich.mapper.ContentFragmentMapper;
@@ -12,6 +13,8 @@ import com.diich.mapper.IchCategoryMapper;
 import com.diich.mapper.IchProjectMapper;
 import com.diich.mapper.IchMasterMapper;
 import com.diich.mapper.WorksMapper;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ import java.util.Map;
  */
 
 @Service("searchService")
+@Transactional
 public class SearchServiceImpl implements SearchService {
 
 
@@ -52,7 +56,6 @@ public class SearchServiceImpl implements SearchService {
 
     public Map searchText(Map<String, Object> map)
     {
-
         List<SearchVO> resultList = new ArrayList<SearchVO>();
         //根据参数不同使用不同的 方法
         int lsCount = contentFragmentMapper.queryForSearchCount(map);
@@ -75,7 +78,7 @@ public class SearchServiceImpl implements SearchService {
 
                     //��Ӽ��
                     if(cf.getAttributeId()==9){
-                        if(cf.getContent().length()>100){
+                        if(cf.getContent()!=null && cf.getContent().length()>100){
                             s.setContent(cf.getContent().substring(0,99)+"...");
                         }
 
