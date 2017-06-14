@@ -680,8 +680,8 @@
                                 <div class="item">
                                     <p>
                                         <#if cf.content??>
-                                             <#assign content =cf.content?replace("。\n", "</p><p>") />
-                                             <#assign content =content?replace("?\n", "</p><p>") />
+                                             <#assign content =cf.content?replace("。\n", "。</p><p>") />
+                                             <#assign content =content?replace("?\n", "?</p><p>") />
                                              ${content}
                                         </#if>
                                     </p>
@@ -751,8 +751,8 @@
                         <article class="plain_text">
                             <p>
                                 <#if cf.content??>
-                                     <#assign content =cf.content?replace("。\n", "</p><p>") />
-                                             <#assign content =content?replace("?\n", "</p><p>") />
+                                     <#assign content =cf.content?replace("。\n", "。</p><p>") />
+                                             <#assign content =content?replace("?\n", "?</p><p>") />
                                              ${content}
 
                                 </#if>
