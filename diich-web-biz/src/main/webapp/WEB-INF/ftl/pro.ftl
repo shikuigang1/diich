@@ -44,7 +44,7 @@
             })
         })
     </script>
-    <style>
+   <#-- <style>
         .trans_lang {
             width:100%;
             text-align:left;
@@ -63,7 +63,7 @@
             padding:16px 24px;
 
         }
-    </style>
+    </style>-->
 </head>
 
 <body>
@@ -393,6 +393,9 @@
                         </#list>
                     </#if>
                         </span>
+                    <span class="language">
+                            <em style="line-height: 25px;height:25px;margin-top: 1px;"><a href="" id="trans" style="font-size:12px;line-height:25px;color:#4283e9"></a></em>
+                    </span>
                 </div>
                 <!--//End-->
 
@@ -576,9 +579,6 @@
                     </#if>
 
                     </ul>
-                </div>
-                <div class="trans_lang">
-                    <a href="" class="declare" id="trans"></a>
                 </div>
             </div>
             <!--//End 基本信息-->
@@ -1080,11 +1080,11 @@
         //控制header中英文显示
         <#if obj.version?? && (obj.version.chiId??) && (obj.version.engId??)>
             <#if obj.lang == "eng">
-                $("#trans").text("查看本条目中文版");
+                $("#trans").text("该词条中文版");
                 $("#trans").attr('href',${obj.version.chiId?c}+ ".html");
             </#if>
             <#if obj.lang == "chi">
-                $("#trans").text("查看本条目英文版");
+                $("#trans").text("English edition");
                 $("#trans").attr('href',${obj.version.engId?c}+ ".html");
             </#if>
         </#if>
