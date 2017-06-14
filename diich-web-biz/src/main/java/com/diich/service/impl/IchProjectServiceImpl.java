@@ -156,7 +156,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             ichItemList = ichProjectMapper.selectIchProjectList(page,condition);
 //            System.out.println("size:"+ichItemList.size());
             for (IchProject ichProject:ichItemList) {
-
                 if(ichProject != null) {
 //                    Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
                     Long ichCategoryId = Long.valueOf(0);
@@ -404,6 +403,22 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             Attribute attribute = attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId());
             ls.get(i).setAttribute(attribute);
             if( attribute !=null && attribute.getDataType()>100){
+                if(ls.get(i).getContent() == null ){
+                    continue;
+                }
+                String[] arrs= ls.get(i).getContent().split(",");
+                String name ="";
+                for (String arr: arrs) {
+                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr,ichProject.getLang());
+                    name +=";";
+                }
+                name = name.substring(0,name.length()-1);
+                if("".equals(name) || null == name){
+                    ls.get(i).setContent(ls.get(i).getContent());
+                }else{
+                    ls.get(i).setContent(name);
+                }
+            } if( attribute !=null && attribute.getDataType()>100){
                 if(ls.get(i).getContent() == null ){
                     continue;
                 }

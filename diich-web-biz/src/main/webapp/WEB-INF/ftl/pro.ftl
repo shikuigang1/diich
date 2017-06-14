@@ -338,7 +338,7 @@
                         </#if></span>
                         <em class="icon"></em>
                         <div class="drop">
-                            <img src="${caturi}/assets/images/code.png" alt="">
+                            <img src="${caturi}/ichProject/getImage?id=${obj.id?c}" alt="">
                         </div>
                     </div>
                 </div>
