@@ -52,7 +52,7 @@
             </div>
 
             {{??it[i].type == 1 }}
-            <a class="pic" href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/project/{{=it[i].id }}.html')">
+            <a class="pic" href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/master/{{=it[i].id }}.html')">
                 {{?it[i].img}}
                 <img src="http://resource.efeiyi.com/image/master/{{= it[i].img }}?x-oss-process=style/search-result-list-image" alt="">
                 {{??}}
@@ -60,7 +60,7 @@
                 {{?}}
             </a>
             <div class="context">
-                <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/project/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_user"></i></h4>
+                <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/master/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_user"></i></h4>
 
                 {{?it[i].projjectName}}
                 <div class="cate">
@@ -84,7 +84,7 @@
 
             {{??}}
 
-            <a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/project/{{=it[i].id }}.html')" class="pic">
+            <a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/works/{{=it[i].id }}.html')" class="pic">
                 {{?it[i].img}}
                 <img src="http://resource.efeiyi.com/image/works/{{= it[i].img }}?x-oss-process=style/search-result-list-image" alt="">
                 {{??}}
@@ -92,7 +92,7 @@
                 {{?}}
             </a>
             <div class="context">
-                <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/project/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_album"></i></h4>
+                <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/works/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_album"></i></h4>
                 <div class="info">
 
                     {{?it[i].masters.uri}}
