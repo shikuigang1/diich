@@ -418,22 +418,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }else{
                     ls.get(i).setContent(name);
                 }
-            } if( attribute !=null && attribute.getDataType()>100){
-                if(ls.get(i).getContent() == null ){
-                    continue;
-                }
-                String[] arrs= ls.get(i).getContent().split(",");
-                String name ="";
-                for (String arr: arrs) {
-                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr,ichProject.getLang());
-                    name +=";";
-                }
-                name = name.substring(0,name.length()-1);
-                if("".equals(name) || null == name){
-                    ls.get(i).setContent(ls.get(i).getContent());
-                }else{
-                    ls.get(i).setContent(name);
-                }
             }
             Long contentFragmentId = ls.get(i).getId();
             List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
