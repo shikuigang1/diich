@@ -10,6 +10,7 @@
 
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../js/category.js"></script>
+
     <script src="../js/citys.js"></script>
     <script src="../data/keyword.js"></script>
     <script src="../js/doT.js"></script>
@@ -52,7 +53,7 @@
             </div>
 
             {{??it[i].type == 1 }}
-            <a class="pic" href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/project/{{=it[i].id }}.html')">
+            <a class="pic" href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/master/{{=it[i].id }}.html')">
                 {{?it[i].img}}
                 <img src="http://resource.efeiyi.com/image/master/{{= it[i].img }}?x-oss-process=style/search-result-list-image" alt="">
                 {{??}}
@@ -60,7 +61,7 @@
                 {{?}}
             </a>
             <div class="context">
-                <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/project/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_user"></i></h4>
+                <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/master/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_user"></i></h4>
 
                 {{?it[i].projjectName}}
                 <div class="cate">
@@ -84,7 +85,7 @@
 
             {{??}}
 
-            <a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/project/{{=it[i].id }}.html')" class="pic">
+            <a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/work/{{=it[i].id }}.html')" class="pic">
                 {{?it[i].img}}
                 <img src="http://resource.efeiyi.com/image/works/{{= it[i].img }}?x-oss-process=style/search-result-list-image" alt="">
                 {{??}}
@@ -92,7 +93,7 @@
                 {{?}}
             </a>
             <div class="context">
-                <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/project/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_album"></i></h4>
+                <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/work/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_album"></i></h4>
                 <div class="info">
 
                     {{?it[i].masters.uri}}
@@ -172,7 +173,6 @@
                 return false;
             }
             progress.search();
-
 
             $.ajax({
                 cache: true,
@@ -391,6 +391,7 @@
             <input type="hidden" id="area_code" name="area_code" value="" />
             <input type="hidden" id="gb_category_code" name="gb_category_code" value="" />
             <input type="hidden" id="type" name="type" value="" />
+            <input type="hidden"  id="lang" name="lang" value="chi" />
             <input class="submit" type="button" value="搜索" onclick="searchData()">
             <div class="suggest" style="display: none;">
                 <ul id="words">
@@ -420,7 +421,7 @@
                     </dt>
                     <dd>
                         <ul id="mainCategory">
-                            <li data-id="0" > 所有分类 </li>
+
                         </ul>
                     </dd>
                 </dl>
@@ -551,6 +552,14 @@
 <script>
     //进度条
 
+    var lang = localStorage.getItem("language");
+
+    if(lang=='ch-CN'){
+        $("#lang").val('chi');
+    }else{
+        $("#lang").val('eng');
+    }
+
     //点击联想框 触发
     function submitForm(index){
         //$("#keyword").val($("#span_"+index).text());
@@ -584,7 +593,13 @@
                 if(typeof(content.children)!="undefined"){
                     $.each(content.children, function(i, c) {
                         if(c.gbCategory==$("#gb_category_code").val()){
-                            $("#attr_text").text(c.name);
+
+                            if(lang=='zh-CN'){
+                                $("#attr_text").text(c.name);
+                            }else{
+                                $("#attr_text").text(c.eNname);
+                            }
+
                             return false;
                         }
                     });
@@ -711,7 +726,13 @@
 
         //初始化分类数据
         $.each(category_all, function(index, content) {
-            mainCategory.append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
+
+            if(lang=='zh-CN'){
+                mainCategory.append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
+            }else {
+                mainCategory.append("<li data-id=\"" + content.gbCategory + "\" >" + content.eNname + "</li>");
+            }
+
         });
 
         mainCategory.find('li').on('click', function() {
@@ -721,15 +742,23 @@
 
             searchData_();
         });
-
-
         //初始化国家数据country
 
         var country = $('#country');
-
+        //var dic_arr_temp =getDictionaryArrayByType(101,lang);
         //初始化分类数据
         $.each(dic_arr, function(index, content) {
-            country.append("<li data-id=\"" + content.code + "\" >" + content.name + "</li>");
+            if(lang=='zh-CN'){
+                country.append("<li data-id=\"" + content.code + "\" >" + content.name + "</li>");
+            }else{
+
+                if(typeof (content.eNname)=='undefined'){
+                    country.append("<li data-id=\"" + content.code + "\" >" + content.name + "</li>");
+                }else{
+                    country.append("<li data-id=\"" + content.code + "\" >" + content.eNname + "</li>");
+                }
+            }
+
         });
 
         country.find('li').on('click', function() {
@@ -739,7 +768,6 @@
 
             searchData_();
         });
-
 
         var searchPage = {
             init: function() {
@@ -757,7 +785,6 @@
                 //筛选
                 linkTab.on('click', function() {
                     $(this).addClass('active').siblings('a').removeClass('active');
-
                     //刷新搜索结果页
 
                     if ($(this).index() == 0) {
@@ -783,7 +810,6 @@
                     if ($(this).hasClass('active')) { //九宫格
                         $(this).removeClass('active');
                         proColumn.removeClass('active');
-
 
                         $("#content").find("img").each(function (){
                             var aa = $(this).attr("src");
@@ -853,9 +879,15 @@
 
 
 
-                        if ($(this).parent().attr("id")=='mainCategory'&& $(this).index() !=0 && typeof(category_all[$(this).index()-1].children) != "undefined") {
-                            $.each(category_all[$(this).index()-1].children, function(index, content) {
-                                $("#catecontent").append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
+                        if ($(this).parent().attr("id")=='mainCategory'&& typeof(category_all[$(this).index()].children) != "undefined") {
+                            $.each(category_all[$(this).index()].children, function(index, content) {
+
+                                if(lang=='zh-CN'){
+                                    $("#catecontent").append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
+                                }else{
+                                    $("#catecontent").append("<li data-id=\"" + content.gbCategory + "\" >" + content.eNname + "</li>");
+                                }
+
                             });
 
                             //点击二级分类
@@ -873,7 +905,13 @@
                             });
 */
                             $.each(dic_arr[$(this).index()].children, function(index, content) {
-                                $("#citycontent").append("<li data-id=\"" + content.code + "\" >" + content.name + "</li>");
+
+                                if(lang=='zh-CN'){
+                                    $("#citycontent").append("<li data-id=\"" + content.code + "\" >" + content.name + "</li>");
+                                }else{
+                                    $("#citycontent").append("<li data-id=\"" + content.code + "\" >" + content.eNname + "</li>");
+                                }
+
                             });
 
                            /* //国家级
