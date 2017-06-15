@@ -3,13 +3,18 @@ $(function(){
 	var language = getQueryString('lang');
 
 	if(language == null) {
-		language = 'zh-CN';
+		language = localStorage.getItem("language") ? localStorage.getItem("language") : 'zh-CN';
 	}
 
-	switchLanguage(language);//中文->zh-CN   英文->en
+	loadProperties(language);//中文->zh-CN   英文->en
 });
 
-function switchLanguage(language){
+function switchLanguage(language) {
+	window.location.reload();
+	loadProperties(language);
+}
+
+function loadProperties(language){
 	localStorage.setItem('language', language);
 
 	$('.language .active').removeClass('active');
@@ -80,15 +85,6 @@ function switchLanguage(language){
 			$('#b_technics').text($.i18n.prop('b_technics'));
 			$('#w_techniques').text($.i18n.prop('w_techniques'));
 			$('#o_kind').text($.i18n.prop('o_kind'));
-			$('#b_opera').text($.i18n.prop('b_opera'));
-			$('#k_opera').text($.i18n.prop('k_opera'));
-			$('#c_embroidery').text($.i18n.prop('c_embroidery'));
-			$('#j_medicine').text($.i18n.prop('j_medicine'));
-
-			$('#carousel_01').attr('src', $.i18n.prop('carousel_01'));
-			$('#carousel_02').attr('src', $.i18n.prop('carousel_02'));
-			$('#carousel_03').attr('src', $.i18n.prop('carousel_03'));
-			$('#carousel_04').attr('src', $.i18n.prop('carousel_04'));
 
             //非遗在全球
 			$('#t_total').text($.i18n.prop('t_total'));

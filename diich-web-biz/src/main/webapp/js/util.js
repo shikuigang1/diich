@@ -26,7 +26,7 @@ function getTextByTypeAndCode(type, code, lang) {
         }
     }
 
-    return text;
+    return text != ''? text : code;
 }
 
 /**
