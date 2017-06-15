@@ -26,6 +26,10 @@
     <script src="${caturi}/js/masters.js"></script>
     <script src="${caturi}/data/master_data.js"></script>
     <script src="${caturi}/assets/js/inputs.js"></script>
+    <script src="${caturi}/js/jquery.i18n.properties-1.0.9.js"></script>
+    <script src="${caturi}/js/i18n.js"></script>
+    <script src="${caturi}/data/dictionary.js"></script>
+    <script src="${caturi}/js/util.js"></script>
     <script>
         $(function () {
             var btn=$('a[data-type="mediaLayer"]').on('click',function () {
@@ -169,36 +173,6 @@
         </div>
         <!--//End main-->
 
-       <#-- <div class="crumbs">
-            <span>非遗名录</span>
-            <#if (obj.ichProject.ichCategory.name)??>
-                <i class="gt"></i>
-                <span><a href="${caturi}/page/search.html?gb_category_code=${obj.ichProject.ichCategory.gbCategory}" data-id="${obj.ichProject.ichCategory.gbCategory}" title="${obj.ichProject.ichCategory.name}"> ${obj.ichProject.ichCategory.name}</a></span>
-                <#if (obj.ichProject.ichCategory.children??) && (obj.ichProject.ichCategory.children?size>0)>
-                    <#list obj.ichProject.ichCategory.children as ch>
-                        <i class="gt"></i>
-                        <span><a href="${caturi}/page/search.html?gb_category_code=${ch.gbCategory}" data-id="${ch.gbCategory}" title="${ch.name}"> ${ch.name}</a></span>
-                        <#if (ch.children)?? && (ch.children?size>0)>
-                            <#list ch.children as chh>
-                                <i class="gt"></i>
-                                <span><a href="${caturi}/page/search.html?gb_category_code=${chh.gbCategory}" data-id="${chh.gbCategory}" title="${chh.name}"> ${chh.name}</a></span>
-                            </#list>
-                        </#if>
-                    </#list>
-                </#if>
-            </#if>
-            <i class="gt"></i>
-            <span class="last">
-            <#if (obj.contentFragmentList?size>0)>
-               <#list obj.contentFragmentList as cf>
-                <#if cf.attributeId == 13>
-                    <#assign mastername = cf.content>
-                ${cf.content}
-                </#if>
-               </#list>
-             </#if>
-            </span>
-        </div>-->
         <!--//End crumbs-->
 
         <div class="card">
@@ -237,18 +211,17 @@
                             ${numVed}个视频
                         </a>
                     </#if>
-                   <#-- <#if (numPic ==0) && (numVed ==0)>
-                    <a class="album"><i class="icon_img"></i>
-                            ${numPic}张图片/${numVed}个视频
-                      </a>
-                    </#if>-->
                     <div class="share_box">
                         <div class="icons">
                             <a href="" class="sina"></a>
-                            <a href="" class="facebook"></a>
-                            <a href="" class="twitter"></a>
+                            <!--<a href="" class="facebook"></a>-->
+                            <!--<a href="" class="twitter"></a>-->
+                            <a href="" class="weixin active"></a>
                         </div>
-                        <img class="qrcode" src="${caturi}/assets/images/code.png" alt="">
+                        <div class="qrcode">
+                            <img src="${caturi}/ichMaster/getImage?id=${obj.id?c}&type=sina" alt="新浪">
+                            <img src="${caturi}/ichMaster/getImage?id=${obj.id?c}&type=weixin" alt="微信">
+                        </div>
                     </div>
                 </div>
                 <!--//End -->
@@ -286,7 +259,7 @@
                                         <strong>申报地区：</strong>
                                         <#assign codeList = cf.content?split(";")>
                                         <#list codeList as s>
-                                            <em>${s}</em>
+                                            <em class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${s}</em>
                                             <#if s_index+1 < (codeList?size)>
                                                 <i>|</i>
                                             </#if>
@@ -347,7 +320,7 @@
                                  <#if (obj.ichProject.contentFragmentList?size>0)>
                                                  <#list (obj.ichProject.contentFragmentList) as cf>
                                                             <#if cf.attributeId == 33 && cf.content?? && cf.content !="" >
-                                                                | 地域： ${cf.content}
+                                                                | 地域： <em class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em>
                                                             </#if>
                                                 </#list>
                                             </#if>
@@ -382,7 +355,7 @@
                                     <span>人类非物质文化遗产编号：${cf.content}</span>
                                 </#if>
                                 <#if cf.attributeId == 111 && cf.content??>
-                                    <span>级别：${cf.content}</span>
+                                    <span>级别：<em class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em></span>
                                 </#if>
                             </#list>
                     </div>
@@ -402,8 +375,13 @@
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.content !="" && cf.attributeId != 11 && cf.attributeId != 12 && cf.attributeId != 111 && cf.attributeId != 23 && cf.attribute.isOpen == 1>
                                 <li>
-                                    <span class="key">${cf.attribute.cnName}：</span>
-                                    <span class="value">${cf.content}</span>
+
+                                        <span class="key">${cf.attribute.cnName}：</span>
+                                        <span class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
+                                   <#-- <#else>
+                                        <span class="key">${cf.attribute.cnName}：</span>
+                                        <span class="value">${cf.content}</span>
+                                    </#if>-->
                                 </li>
                             </#if>
                         </#list>
@@ -802,6 +780,22 @@
 
         $(".form").ajaxSubmit();
     }
+</script>
+<script>
+    $(function(){
+
+        var code_arr = $('.dic');
+        for(var i = 0; i < code_arr.length; i ++) {
+            var _code = $(code_arr[i]).text();
+            var _type = $(code_arr[i]).attr('dic-type');
+            if(_type<100){
+                $(code_arr[i]).text(_code);
+            }
+            var _lang = $(code_arr[i]).attr('lang');
+            var _value = getTextByTypeAndCode(_type, _code, _lang);
+            $(code_arr[i]).text(_value);
+        }
+    });
 </script>
 <script	src="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/assets/js/static.js"></script>
 </html>

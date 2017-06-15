@@ -122,7 +122,8 @@
   </select>
 
   <select id="selectByTypeAndCode" resultMap="BaseResultMap" parameterType="java.util.Map">
-    select *
+    select
+    <include refid="Base_Column_List" />
     from dictionary
     where type = #{params.type,jdbcType=INTEGER} and code = #{params.code,jdbcType=VARCHAR} and status = 0
     <if test="params.language != null">
@@ -131,7 +132,8 @@
   </select>
 
   <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.util.Map">
-    select *
+    select
+    <include refid="Base_Column_List" />
     FROM dictionary
     where type = #{params.type,jdbcType=INTEGER} and  status = 0 and
     <choose>
@@ -148,7 +150,8 @@
   </select>
 
   <select id="selectAllDictionary" resultMap="BaseResultMap">
-    select *
+    select
+    <include refid="Base_Column_List" />
     from dictionary where status = 0
   </select>
 </mapper>

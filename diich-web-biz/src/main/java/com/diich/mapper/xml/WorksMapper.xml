@@ -151,7 +151,9 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectWorks" parameterType="com.diich.core.model.Works" resultMap="BaseResultMap">
-  select * from works where status = 0
+  select
+    <include refid="Base_Column_List" />
+    from works where status = 0
     <if test="ichProjectId != null" >
     and ich_project_id = #{ichProjectId,jdbcType=BIGINT}
     </if>
@@ -163,7 +165,9 @@
     </if>
   </select>
   <select id="selectWorksList" parameterType="java.util.Map" resultMap="BaseResultMap">
-    select * from works where status = 0
+    select
+    <include refid="Base_Column_List" />
+    from works where status = 0
     <if test="params.lastEditorId != null" >
       last_editor_id = #{params.lastEditorId,jdbcType=BIGINT}
     </if>
