@@ -33,6 +33,7 @@ function getTextByTypeAndCode(type, code, lang) {
  * 获取同一类型的字典数据
  * @param type 数据类型
  * @param lang 语言，默认为中文（不传lang参数）
+ * @return {array}
  */
 function getDictionaryArrayByType(type, lang) {
     if(typeof dic_arr == 'undefined') {

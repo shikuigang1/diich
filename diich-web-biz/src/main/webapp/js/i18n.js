@@ -1,19 +1,21 @@
 
 $(function(){
-	if(!window.localStorage.language) {
-		window.localStorage.language = 'zh-CN';
+	var language = getQueryString('lang');
+
+	if(language == null) {
+		language = 'zh-CN';
 	}
 
-	switchLanguage(window.localStorage.language);//中文->zh-CN   英文->en
+	switchLanguage(language);//中文->zh-CN   英文->en
 });
 
-function switchLanguage(lang){
-	window.localStorage.language = lang;
+function switchLanguage(language){
+	localStorage.setItem('language', language);
 
 	$('.language .active').removeClass('active');
-	if(window.localStorage.language == 'zh-CN') {
+	if(language == 'zh-CN') {
 		$('.zh').addClass('active');
-	} else if(window.localStorage.language == 'en') {
+	} else if(language == 'en') {
 		$('.en').addClass('active');
 	}
 
@@ -21,7 +23,7 @@ function switchLanguage(lang){
 		name:'strings', //资源文件名称
 		path:'/i18n/', //资源文件路径
 		mode:'map', //用Map的方式使用资源文件中的值
-		language:window.localStorage.language,//中文->zh-CN   英文->en
+		language:language,//中文->zh-CN   英文->en
 		callback: function() {//加载成功后设置显示内容
 			$('#home').text($.i18n.prop('home'));
 			$('#ich_directory').text($.i18n.prop('ich_directory'));
@@ -141,7 +143,7 @@ function switchLanguage(lang){
 
 
             //渲染地图
-            homePage.map(lang);
+            homePage.map(language);
 
 
         }

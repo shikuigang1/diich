@@ -1141,7 +1141,7 @@ section.odd {
 
 .card_main .subtxt strong {
     font-size: 12px;
-    line-height: 28px;
+    line-height: 27px;
     color: #777;
     float: left;
     font-weight: normal;
@@ -1149,7 +1149,7 @@ section.odd {
 
 .card_main .subtxt em {
     font-size: 12px;
-    line-height: 28px;
+    line-height: 27px;
     color: #777;
 }
 
@@ -1164,21 +1164,26 @@ section.odd {
     float: left;
 }
 
-.card_main .subtxt .language em {
+.card_main .subtxt .language a {
     max-width:200px;
     padding:0 10px;
-    height:26px;
-    line-height:28px;
+    height:25px;
+    line-height:25px;
+    font-size:12px;
     border: 1px solid #4283e9;
     color: #4283e9;
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space:nowrap;
+    float: left;
+    -webkit-transition: all .3s;
+    transition: all .3s;
 }
-
-
-
+.card_main .subtxt .language a:hover {
+    background: #4283e9;
+    color: #fff;
+}
 
 .card_main .inheritor {
     margin-bottom: 50px;
@@ -1457,6 +1462,7 @@ section.odd {
 .card_main .floor .share_box .icons {
     width: 46px;
     float: left;
+    margin-top: 18px;
 }
 
 .card_main .floor .share_box .icons a {
@@ -1474,8 +1480,8 @@ section.odd {
     width: 17px;
     height: 15px;
     display: inline-block;
-    -webkit-transition: all .3s;
-    transition: all .3s;
+    /*-webkit-transition: all .3s;*/
+    /*transition: all .3s;*/
 }
 
 .card_main .floor .share_box .icons a.sina:after {
@@ -1489,17 +1495,23 @@ section.odd {
 .card_main .floor .share_box .icons a.twitter:after {
     background-position: 0 -30px;
 }
-
-.card_main .floor .share_box .icons a.sina:hover:after {
-    background-position: -17px 0;
+.card_main .floor .share_box .icons a.weixin:after {
+    background-position: 0 -47px;
 }
 
+.card_main .floor .share_box .icons a.sina:hover:after,
+.card_main .floor .share_box .icons a.sina.active:after{
+    background-position: -17px 0;
+}
 .card_main .floor .share_box .icons a:hover.facebook:after {
     background-position: -17px -15px;
 }
-
 .card_main .floor .share_box .icons a:hover.twitter:after {
     background-position: -17px -30px;
+}
+.card_main .floor .share_box .icons a.weixin:hover:after,
+.card_main .floor .share_box .icons a.weixin.active:after{
+    background-position: -17px -47px;
 }
 
 .card_main .floor .share_box .qrcode {
@@ -1507,7 +1519,9 @@ section.odd {
     height: 108px;
     float: right;
 }
-
+.card_main .floor .share_box .qrcode img {
+    display: none;
+}
 .card_main .floor a.praise {
     background-position: 0 -20px;
     margin-left: 30px;

@@ -12,7 +12,7 @@ var renderHhtml = {
             '<ul>'+
             '<li class="active"><a href="'+renderHhtml.uri+'/page/index.html" id="home">首页</a></li>'+
             '<li><a href="#" id="ich_directory">非遗名录</a></li>'+
-            '<li><a href="'+renderHhtml.uri+'/page/masters.html" id="ich_master">非遗大师</a></li>'+
+            '<li><a href="http://resource.efeiyi.com/html/masters/index.html" id="ich_master">非遗大师</a></li>'+
             '<li><a href="'+renderHhtml.uri+'/page/selected_content.html" id="selected_content">精选内容</a></li>'+
             '<li><a href="'+renderHhtml.uri+'/page/news.html" id="information">非遗资讯</a></li>'+
             '<li><a href="'+renderHhtml.uri+'/page/official_service.html" id="official_service">官方服务</a></li>'+
@@ -319,7 +319,8 @@ var common = {
             $(this).addClass('active').siblings('li').removeClass('active');
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
-            if(window.localStorage.language == 'en') {
+
+            if(localStorage.getItem('language') == 'en') {
                 ipt.attr('value', _value_en[cur]);
             } else {
                 ipt.attr('value', _value[cur]);
@@ -342,7 +343,7 @@ var common = {
             numLi.eq(cur).addClass('active').siblings('li').removeClass('active');
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
-            if(window.localStorage.language == 'en') {
+            if(localStorage.getItem('language') == 'en') {
                 ipt.attr('value', _value_en[cur]);
             } else {
                 ipt.attr('value', _value[cur]);
@@ -1385,22 +1386,31 @@ var textHandle = {
 
 //小组件
 var widget = {
-    share: function(obj) { //分享
-        obj.each(function() {
+    share: function (obj) { //分享
+        obj.each(function () {
             var _share = $(this).find('a.share');
             var _shareBox = $(this).find('.share_box');
+            var _el=_shareBox.find('.icons a');
+            var _img=_shareBox.find('.qrcode img');
             //弹出框
-            _share.on('click', function() {
+            _share.on('click', function () {
+                _img.eq(1).show();
                 _shareBox.stop(true).fadeToggle();
                 return false;
             });
 
-            _shareBox.on('click', function(e) {
+            //点击分享图标
+            _el.on('click', function () {
+                $(this).addClass('active').siblings('a').removeClass('active');
+                _img.eq($(this).index()).show().siblings('img').hide();
+            });
+
+            _shareBox.on('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
             });
 
-            $(document).on("click", function() {
+            $(document).on("click", function () {
                 _shareBox.fadeOut();
             });
         });
@@ -1806,3 +1816,9 @@ $(function() {
         detailCommon.mediaShow(type, index);
     })
 });
+
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return decodeURI(r[2]); return null;
+}
