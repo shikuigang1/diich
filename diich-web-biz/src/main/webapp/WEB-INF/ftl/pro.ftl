@@ -304,8 +304,8 @@
                             <a href="" class="weixin active"></a>
                         </div>
                         <div class="qrcode">
-                            <img src="${caturi}/ichProject/getImage?id=${obj.id?c}&type=sina" alt="新浪">
-                            <img src="${caturi}/ichProject/getImage?id=${obj.id?c}&type=weixin" alt="微信">
+                            <img  width="108" src="${caturi}/ichProject/getImage?id=${obj.id?c}&type=sina" alt="新浪">
+                            <img width="108" src="${caturi}/ichProject/getImage?id=${obj.id?c}&type=weixin" alt="微信">
                         </div>
                     </div>
                 </div>
