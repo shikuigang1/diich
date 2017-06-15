@@ -92,7 +92,7 @@
   </update>
   <select id="selectVersionByLangIdAndTargetType" parameterType="com.diich.core.model.Version" resultMap="BaseResultMap">
     select
-    *
+    <include refid="Base_Column_List" />
     from version where status =0
     <if test="targetType != null" >
      and  target_type = #{targetType,jdbcType=INTEGER}

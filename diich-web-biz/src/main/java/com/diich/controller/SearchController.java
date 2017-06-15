@@ -30,7 +30,7 @@ public class SearchController extends BaseController {
 
     @RequestMapping("s")
     @ResponseBody
-    public Map searchText(String keyword,String type,Integer pageNum,Integer pageSize,String area_code,String gb_category_code, HttpServletResponse response) throws Exception{
+    public Map searchText(String keyword,String type,Integer pageNum,Integer pageSize,String area_code,String gb_category_code,String lang, HttpServletResponse response) throws Exception{
 
         Map<String,Object> map = new HashMap<String,Object>();
 
@@ -44,6 +44,13 @@ public class SearchController extends BaseController {
         }else{
             map.put("type",type);
         }
+
+        if(StringUtils.isEmpty(lang)){
+            map.put("lang",null);
+        }else{
+            map.put("lang",lang);
+        }
+
 
         if(StringUtils.isEmpty(area_code)){
             map.put("area_code",null);

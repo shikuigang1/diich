@@ -274,23 +274,23 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             Long attrId = contentFragment.getAttributeId();
             Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
             contentFragment.setAttribute(attribute);//添加属性
-            if( attribute != null && attribute.getDataType() > 100) {
-                if(contentFragment.getContent() == null){
-                    continue;
-                }
-                String[] arrs= contentFragment.getContent().split(",");
-                String name ="";
-                for (String arr: arrs) {
-                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr,works.getLang());
-                    name +=";";
-                }
-                name = name.substring(0,name.length()-1);
-                if("".equals(name) || null == name){
-                    contentFragment.setContent(contentFragment.getContent());
-                }else{
-                    contentFragment.setContent(name);
-                }
-            }
+//            if( attribute != null && attribute.getDataType() > 100) {
+//                if(contentFragment.getContent() == null){
+//                    continue;
+//                }
+//                String[] arrs= contentFragment.getContent().split(",");
+//                String name ="";
+//                for (String arr: arrs) {
+//                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr,works.getLang());
+//                    name +=";";
+//                }
+//                name = name.substring(0,name.length()-1);
+//                if("".equals(name) || null == name){
+//                    contentFragment.setContent(contentFragment.getContent());
+//                }else{
+//                    contentFragment.setContent(name);
+//                }
+//            }
             List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
             List<Resource> resourceList = new ArrayList<>();
             for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {

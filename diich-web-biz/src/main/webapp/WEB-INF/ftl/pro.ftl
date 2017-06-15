@@ -35,6 +35,10 @@
     <script src="${caturi}/js/masters.js"></script>
     <script src="${caturi}/data/master_data.js"></script>
     <script src="${caturi}/assets/js/inputs.js"></script>
+    <script src="${caturi}/js/jquery.i18n.properties-1.0.9.js"></script>
+    <script src="${caturi}/js/i18n.js"></script>
+    <script src="${caturi}/data/dictionary.js"></script>
+    <script src="${caturi}/js/util.js"></script>
     <script>
         $(function () {
             var btn=$('a[data-type="mediaLayer"]').on('click',function () {
@@ -295,10 +299,14 @@
                     <div class="share_box">
                         <div class="icons">
                             <a href="" class="sina"></a>
-                            <a href="" class="facebook"></a>
-                            <a href="" class="twitter"></a>
+                            <!--<a href="" class="facebook"></a>-->
+                            <!--<a href="" class="twitter"></a>-->
+                            <a href="" class="weixin active"></a>
                         </div>
-                        <img class="qrcode" src="${caturi}/assets/images/code.png" alt="">
+                        <div class="qrcode">
+                            <img src="${caturi}/ichProject/getImage?id=${obj.id?c}&type=sina" alt="新浪">
+                            <img src="${caturi}/ichProject/getImage?id=${obj.id?c}&type=weixin" alt="微信">
+                        </div>
                     </div>
                 </div>
                 <!--//End -->
@@ -327,7 +335,7 @@
                          <#if obj.lang == "eng">
                              Identification code：
                          </#if>
-                            <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
+                        <em id="doi_code"> <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                             <#list obj.contentFragmentList as cf>
                                 <#if cf.attributeId == 2>
                                     <#if cf.content??>
@@ -335,7 +343,8 @@
                                     </#if >
                                 </#if>
                             </#list>
-                        </#if></span>
+                        </#if>
+                        </em></span>
                         <em class="icon"></em>
                         <div class="drop">
                             <img src="${caturi}/ichProject/getImage?id=${obj.id?c}" alt="">
@@ -351,7 +360,7 @@
                                     类别：
                                 </#if>
                                 <#if obj.lang == "eng">
-                                    category：
+                                    Category：
                                 </#if>
                             </strong>
                             <em><#if (obj.ichCategory.name)??>
@@ -379,12 +388,12 @@
                                     地区：
                                 </#if>
                                 <#if obj.lang == "eng">
-                                    district：
+                                    District：
                                 </#if>
                             </strong>
                                 <#assign codeList = cf.content?split(";")>
                                 <#list codeList as s>
-                                    <em>${s}</em>
+                                    <em class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${s}</em>
                                     <#if s_index+1 < (codeList?size)>
                                         <i>|</i>
                                     </#if>
@@ -393,8 +402,8 @@
                         </#list>
                     </#if>
                         </span>
-                    <span class="language">
-                            <em style="line-height: 25px;height:25px;margin-top: 1px;"><a href="" id="trans" style="font-size:12px;line-height:25px;color:#4283e9"></a></em>
+                    <span class="language" id="trans_lang">
+                            <a href="" id="trans"></a>
                     </span>
                 </div>
                 <!--//End-->
@@ -407,7 +416,7 @@
                             代表性传承人
                         </#if>
                         <#if obj.lang == "eng">
-                            representativeness
+                            Representativeness
                         </#if>
                     </div>
                     <div class="master">
@@ -474,7 +483,7 @@
                                     全部<em></em>人
                                 </#if>
                                 <#if obj.lang == "eng">
-                                    all<em></em>persons
+                                    All<em></em>persons
                                 </#if>
                             </span><i class="gt_big"></i></a>
                         </div>
@@ -507,7 +516,7 @@
                                     <#if obj.lang == "eng">
                                         Human intangible cultural heritage number：
                                     </#if>
-                                   ${cf.content}</span>
+                                  <em class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em> </span>
                             </#if>
                         </#list>
                     </#if>
@@ -519,14 +528,14 @@
                                          级别
                                      </#if>
                                     <#if obj.lang == "eng">
-                                        rank
+                                        Rank
                                     </#if>
-                                    ： ${cf.content} </span>
+                                    ： <em class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em> </span>
                             </#if>
                         </#list>
                     </#if>
 
-                    <#if (obj.contentFragmentList?size>0)>
+                   <#-- <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 7 && cf.content??>
                                 <span>
@@ -534,12 +543,12 @@
                                         批次
                                     </#if>
                                     <#if obj.lang == "eng">
-                                        batch
+                                        Batch
                                     </#if>
-                                    ： ${cf.content} </span>
+                                    ： <em>${cf.content}</em> </span>
                             </#if>
                         </#list>
-                    </#if>
+                    </#if>-->
 
                     </div>
                 </div>
@@ -562,7 +571,7 @@
                     <ul>
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
-                            <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.attributeId != 106 && cf.attributeId != 7 && cf.attributeId != 8 && cf.attributeId != 2 && cf.attributeId != 41 && cf.attributeId != 33>
+                            <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.attributeId != 106 && cf.attributeId != 2 && cf.attributeId != 41 && cf.attributeId != 33>
                                 <li>
                                     <span class="key">
                                         <#if obj.lang == "chi">
@@ -572,7 +581,7 @@
                                              ${cf.attribute.enName}
                                         </#if>
                                         ：</span>
-                                    <span class="value">${cf.content}</span>
+                                    <span class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
                                 </li>
                             </#if>
                         </#list>
@@ -599,7 +608,7 @@
                         共
                     </#if>
                     <#if obj.lang == "eng">
-                        total
+                        Total
                     </#if>
                          ${obj.worksList?size}
                     <#if obj.lang == "chi">
@@ -834,7 +843,7 @@
                          图片
                      </#if>
                      <#if obj.lang == "eng">
-                         picture
+                         Picture
                      </#if>
                 </span>
 
@@ -850,7 +859,7 @@
                                             视频
                                         </#if>
                                         <#if obj.lang == "eng">
-                                            video
+                                            Video
                                         </#if>
                                     </span>
                                     <#assign breaklop=1>
@@ -1084,15 +1093,17 @@
                 $("#trans").attr('href',${obj.version.chiId?c}+ ".html");
             </#if>
             <#if obj.lang == "chi">
-                $("#trans").text("English edition");
+                $("#trans").text("English version");
                 $("#trans").attr('href',${obj.version.engId?c}+ ".html");
             </#if>
         </#if>
         <#if !obj.version?? || (!obj.version.chiId??) || (!obj.version.engId??)>
-                $("#trans").hide();
+                $("#trans_lang").hide();
         </#if>
 
 
+
+        //分类
         var mainCategory = $('#mainCategory');
 
         //初始化分类数据
@@ -1270,24 +1281,43 @@
             },
         };
         searchPage.init();
+
+        //去掉头部标记
         $(".header .content .nav li").eq(0).removeClass("active");
         //给logo加首页链接
         $('.logo').attr('href','http://diich.efeiyi.com/page/index.html');
 
-        <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
-            <#list obj.contentFragmentList as cf>
-                <#if cf.attributeId == 2>
-                    <#if !cf.content??>
-                        $(".doi_code").hide();
-                    </#if>
-                </#if>
-            </#list>
-        </#if>
+        doi_code();
     });
     function submit(){
         $(".form").ajaxSubmit();
     }
+    //当doi编码不存在时隐藏div
+    function doi_code(){
 
+        var doi_code = $("#doi_code").text().trim(" ");
+        if(doi_code == null || doi_code == ""){
+            $(".doi_code").hide();
+        }
+    }
 </script>
 <script	src="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/assets/js/static.js"></script>
+<script>
+    $(function(){
+
+        var code_arr = $('.dic');
+        for(var i = 0; i < code_arr.length; i ++) {
+            var _code = $(code_arr[i]).text();
+            var _type = $(code_arr[i]).attr('dic-type');
+            if(_type<100){
+                $(code_arr[i]).text(_code);
+            }
+            var _lang = $(code_arr[i]).attr('lang');
+            var _value = getTextByTypeAndCode(_type, _code, _lang);
+            $(code_arr[i]).text(_value);
+        }
+    });
+
+
+</script>
 </html>

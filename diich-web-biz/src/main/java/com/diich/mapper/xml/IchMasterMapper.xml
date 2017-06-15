@@ -147,6 +147,8 @@
     </if>
   </select>
   <select id="selectByIchProjectId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-  select * from ich_master where ich_project_id = #{ichProjectId,jdbcType=BIGINT} and status = 0
+  select
+    <include refid="Base_Column_List" />
+   from ich_master where ich_project_id = #{ichProjectId,jdbcType=BIGINT} and status = 0
   </select>
 </mapper>

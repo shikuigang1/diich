@@ -116,7 +116,14 @@ public class IchMasterController extends BaseController<IchMaster>{
         String id=request.getParameter("id");
         String url = "http://resource.efeiyi.com/html/master/"+ id +".html";
         QRCodeGenerator qrCode = new QRCodeGenerator(url);
-        qrCode.createQRCode(127, 127);
+        qrCode.createQRCode(108, 108);
+        String type = request.getParameter("type");
+//        if("sina".equals(type)){
+//            qrCode.assembleLogo("http://m.315cheng.com/images/cpb_black.png");
+//        }
+//        if("weixin".equals(type)){
+//            qrCode.assembleLogo("http://m.315cheng.com/images/cpb_black.png");
+//        }
         File imageFile = new File(id +".jpg");
         ImageIO.write(qrCode.getImageResult(), "jpg", imageFile);
 
