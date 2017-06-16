@@ -86,6 +86,10 @@ function loadProperties(language){
 			$('#w_techniques').text($.i18n.prop('w_techniques'));
 			$('#o_kind').text($.i18n.prop('o_kind'));
 
+			//首页轮播
+			$('#b_opera').text($.i18n.prop('b_opera'));
+			$('#keyword').attr('value',$.i18n.prop('keyword'));
+
             //非遗在全球
 			$('#t_total').text($.i18n.prop('t_total'));
 			$('#ic_pro').text($.i18n.prop('ic_pro'));
