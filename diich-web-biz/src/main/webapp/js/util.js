@@ -26,6 +26,17 @@ function getTextByTypeAndCode(type, code, lang) {
         }
     }
 
+    if(text == '' && lang == 'eng') {
+        for(var i = 0; i < dic_arr.length; i ++) {
+            var dic_obj = dic_arr[i];
+            if(dic_obj.type == type && dic_obj.code == code
+                && dic_obj.lang == 'chi') {
+                text = dic_obj.name;
+                break;
+            }
+        }
+    }
+
     return text != ''? text : code;
 }
 
