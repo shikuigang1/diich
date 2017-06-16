@@ -882,7 +882,7 @@
                         if ($(this).parent().attr("id")=='mainCategory'&& typeof(category_all[$(this).index()].children) != "undefined") {
                             $.each(category_all[$(this).index()].children, function(index, content) {
 
-                                if(lang=='zh-CN'){
+                                if(lang=='zh-CN' ){
                                     $("#catecontent").append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
                                 }else{
                                     $("#catecontent").append("<li data-id=\"" + content.gbCategory + "\" >" + content.eNname + "</li>");
@@ -907,10 +907,27 @@
                             $.each(dic_arr[$(this).index()].children, function(index, content) {
 
                                 if(lang=='zh-CN'){
-                                    $("#citycontent").append("<li data-id=\"" + content.code + "\" >" + content.name + "</li>");
-                                }else{
-                                    $("#citycontent").append("<li data-id=\"" + content.code + "\" >" + content.eNname + "</li>");
+
+                                    if(typeof (content.name ) != 'undefined'){
+                                        $("#citycontent").append("<li data-id=\"" + content.code + "\" >" + content.name + "</li>");
+                                    }else if(typeof (content.eNname ) != 'undefined'){
+                                        $("#citycontent").append("<li data-id=\"" + content.code + "\" >" + content.eNname + "</li>");
+                                    }else{}
+
                                 }
+
+                                if(lang=='en'){
+
+                                    if(typeof (content.eNname ) != 'undefined'){
+                                        $("#citycontent").append("<li data-id=\"" + content.code + "\" >" + content.eNname + "</li>");
+                                    }else if(typeof (content.name ) != 'undefined') {
+                                        $("#citycontent").append("<li data-id=\"" + content.code + "\" >" + content.name + "</li>");
+                                    }else{
+                                                                                //do nothing
+                                    }
+                                }
+
+
 
                             });
 
