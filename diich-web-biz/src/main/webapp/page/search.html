@@ -10,7 +10,6 @@
 
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../js/category.js"></script>
-
     <script src="../js/citys.js"></script>
     <script src="../data/keyword.js"></script>
     <script src="../js/doT.js"></script>
@@ -85,7 +84,7 @@
 
             {{??}}
 
-            <a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/work/{{=it[i].id }}.html')" class="pic">
+            <a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/works/{{=it[i].id }}.html')" class="pic">
                 {{?it[i].img}}
                 <img src="http://resource.efeiyi.com/image/works/{{= it[i].img }}?x-oss-process=style/search-result-list-image" alt="">
                 {{??}}
@@ -93,7 +92,7 @@
                 {{?}}
             </a>
             <div class="context">
-                <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/work/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_album"></i></h4>
+                <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/works/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_album"></i></h4>
                 <div class="info">
 
                     {{?it[i].masters.uri}}
@@ -173,6 +172,7 @@
                 return false;
             }
             progress.search();
+
 
             $.ajax({
                 cache: true,

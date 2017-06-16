@@ -6,13 +6,15 @@ var renderHhtml = {
         //this.filter();
     },
     header: function() { //导航
+        var language = localStorage.getItem('language') != null ? localStorage.getItem('language') : 'zh-CN';
+
         var htmlStr = '<div class="content">'+
             '<a class="logo" href="'+renderHhtml.uri+'/page/index.html"></a>'+
             '<div class="nav">'+
             '<ul>'+
             '<li class="active"><a href="'+renderHhtml.uri+'/page/index.html" id="home">首页</a></li>'+
             '<li><a href="#" id="ich_directory">非遗名录</a></li>'+
-            '<li><a href="http://resource.efeiyi.com/html/masters/index.html" id="ich_master">非遗大师</a></li>'+
+            '<li><a href="http://resource.efeiyi.com/html/masters/index.html?lang=' + language + '\" id=\"ich_master\">非遗大师</a></li>'+
             '<li><a href="'+renderHhtml.uri+'/page/selected_content.html" id="selected_content">精选内容</a></li>'+
             '<li><a href="'+renderHhtml.uri+'/page/news.html" id="information">非遗资讯</a></li>'+
             '<li><a href="'+renderHhtml.uri+'/page/official_service.html" id="official_service">官方服务</a></li>'+
@@ -310,8 +312,7 @@ var common = {
         var cur = 0;
         var speed = 5000;
         var timer = null;
-        var _value=['京剧','昆曲','苏绣','中药'];
-        var _value_en=['Tango','Yoga','Equitation','Taekkyeon'];
+        var _value=['苏绣','Tango','Yoga','Equitation'];
 
         numLi.mousedown(function() {
             clearInterval(timer);
@@ -320,11 +321,7 @@ var common = {
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
 
-            if(localStorage.getItem('language') == 'en') {
-                ipt.attr('value', _value_en[cur]);
-            } else {
-                ipt.attr('value', _value[cur]);
-            }
+            ipt.attr('value', _value[cur]);
         });
 
         numLi.mouseup(function() {
@@ -343,11 +340,8 @@ var common = {
             numLi.eq(cur).addClass('active').siblings('li').removeClass('active');
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
-            if(localStorage.getItem('language') == 'en') {
-                ipt.attr('value', _value_en[cur]);
-            } else {
-                ipt.attr('value', _value[cur]);
-            }
+
+            ipt.attr('value', _value[cur]);
         }
 
 

@@ -9,6 +9,8 @@ import com.diich.core.model.User;
 import com.diich.core.service.IchProjectService;
 import com.diich.core.util.QRCodeGenerator;
 import com.diich.core.util.WebUtil;
+import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,8 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -137,21 +142,27 @@ public class IchProjectController extends BaseController<IchProject> {
     }
 
     @RequestMapping("/getImage")
-    @ResponseBody
-    public ResponseEntity<byte[]> exportQRCode(HttpServletRequest request) throws Exception {
+    public void exportQRCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String id=request.getParameter("id");
         String url = "http://resource.efeiyi.com/html/project/"+ id +".html";
         QRCodeGenerator qrCode = new QRCodeGenerator(url);
-        qrCode.createQRCode(127, 127);
-        File imageFile = new File(id +".jpg");
-        ImageIO.write(qrCode.getImageResult(), "jpg", imageFile);
+        qrCode.createQRCode(108, 108);
+        BufferedImage bufferedImage = qrCode.getImageResult();
+        ServletOutputStream stream = response.getOutputStream();
+        byte[] buffer = getBuffer(bufferedImage);
+        stream.write(buffer);
+    }
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", id +".jpg");
-
-        byte[] bytes = FileUtils.readFileToByteArray(imageFile);
-        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+    public byte[] getBuffer(BufferedImage image){
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(bos);
+        try {
+            encoder.encode(image);
+        } catch(Exception e) {
+            return new byte[]{};
+        }
+        byte[] imageBts = bos.toByteArray();
+        return imageBts;
     }
 
 }

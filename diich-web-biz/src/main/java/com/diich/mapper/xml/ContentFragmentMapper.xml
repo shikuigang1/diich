@@ -14,10 +14,10 @@
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, attribute_id, target_id, target_type, status
+    content_fragment.id, content_fragment.attribute_id, content_fragment.target_id, content_fragment.target_type, content_fragment.status
   </sql>
   <sql id="Blob_Column_List" >
-    content
+    content_fragment.content
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
     select
@@ -125,14 +125,22 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByTargetIdAndType" parameterType="com.diich.core.model.ContentFragment" resultMap="BaseResultMap">
-    select * from content_fragment
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from content_fragment
     left JOIN  attribute on content_fragment.attribute_id = attribute.id
     where content_fragment.target_id = #{targetId} and content_fragment.target_type =#{targetType} and content_fragment.status = 0
     order by attribute.seq
   </select>
 
   <select id="selectByProjectId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select * from content_fragment where target_id = #{projectID,jdbcType=BIGINT} and status = 0
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+     from content_fragment where target_id = #{projectID,jdbcType=BIGINT} and status = 0
   </select>
 
   <select id="queryForSearchPage" resultType="com.diich.core.model.ContentFragment" parameterType="java.util.Map">

@@ -152,6 +152,8 @@
   </update>
 
   <select id="selectAttrListByCategory" resultMap="BaseResultMap" parameterType="java.lang.Long">
-      SELECT * FROM attribute WHERE status = 0 and  ich_category_id = #{ichCategoryId,jdbcType=BIGINT}
+      SELECT
+        <include refid="Base_Column_List" />
+     FROM attribute WHERE status = 0 and  ich_category_id = #{ichCategoryId,jdbcType=BIGINT}
   </select>
 </mapper>
