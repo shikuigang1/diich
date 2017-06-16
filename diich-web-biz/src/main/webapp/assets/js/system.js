@@ -15,9 +15,9 @@ var renderHhtml = {
             '<li class="active"><a href="'+renderHhtml.uri+'/page/index.html" id="home">首页</a></li>'+
             '<li><a href="#" id="ich_directory">非遗名录</a></li>'+
             '<li><a href="http://resource.efeiyi.com/html/masters/index.html?lang=' + language + '\" id=\"ich_master\">非遗大师</a></li>'+
-            '<li><a href="'+renderHhtml.uri+'/page/selected_content.html" id="selected_content">精选内容</a></li>'+
+            '<li><a href="http://resource.efeiyi.com/html/content/index.html?lang=' + language + '\" id=\"selected_content\">精选内容</a></li>'+
             '<li><a href="http://resource.efeiyi.com/html/news/index.html?lang='+ language +'\" id=\"information\">非遗资讯</a></li>'+
-            '<li><a href="'+renderHhtml.uri+'/page/official_service.html" id="official_service">官方服务</a></li>'+
+            '<li><a href="http://resource.efeiyi.com/html/official/index.html?lang='+ language +'\" id=\"official_service\">官方服务</a></li>'+
             '<li><a href="'+renderHhtml.uri+'/page/declare.html" id="project_declare">我要申报</a></li>'+
             '</ul>'+
             '</div>'+
@@ -312,7 +312,8 @@ var common = {
         var cur = 0;
         var speed = 5000;
         var timer = null;
-        var _value=['苏绣','Tango','Yoga','Equitation'];
+        var _value=['苏州刺绣工艺','Tango','Yoga','Equitation'];
+        var _value_en=['Embroidery','Tango','Yoga','Equitation'];
 
         numLi.mousedown(function() {
             clearInterval(timer);
@@ -320,8 +321,13 @@ var common = {
             $(this).addClass('active').siblings('li').removeClass('active');
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
+            var language = localStorage.getItem("language") ? localStorage.getItem("language") : 'zh-CN';
+            if(language == 'zh-CN'){
+                ipt.attr('value', _value[cur]);
+            }else if(language == 'en'){
+                ipt.attr('value', _value_en[cur]);
+            }
 
-            ipt.attr('value', _value[cur]);
         });
 
         numLi.mouseup(function() {
