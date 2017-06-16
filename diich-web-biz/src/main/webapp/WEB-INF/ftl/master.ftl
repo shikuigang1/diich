@@ -219,8 +219,8 @@
                             <a href="" class="weixin active"></a>
                         </div>
                         <div class="qrcode">
-                            <img src="${caturi}/ichMaster/getImage?id=${obj.id?c}&type=sina" alt="新浪">
-                            <img src="${caturi}/ichMaster/getImage?id=${obj.id?c}&type=weixin" alt="微信">
+                            <img width="108" src="${caturi}/ichMaster/getImage?id=${obj.id?c}&type=sina" alt="新浪">
+                            <img width="108" src="${caturi}/ichMaster/getImage?id=${obj.id?c}&type=weixin" alt="微信">
                         </div>
                     </div>
                 </div>
@@ -236,7 +236,7 @@
                 </#if>
                     <div class="doi_code">
                         <i class="icon">ID</i>
-                        <span>标识码：<#if (obj.contentFragmentList?size>0)>
+                        <span id="doi_code">标识码：<#if (obj.contentFragmentList?size>0)>
                                         <#list obj.contentFragmentList as cf>
                                             <#if cf.attributeId == 11>
                                                 ${cf.content}
@@ -772,6 +772,8 @@
             },
         };
         searchPage.init();
+        doi_code();
+
         $(".header .content .nav li").eq(0).removeClass("active");
         //给logo加首页链接
         $('.logo').attr('href','http://diich.efeiyi.com/page/index.html');
@@ -796,6 +798,15 @@
             $(code_arr[i]).text(_value);
         }
     });
+
+    //当doi编码不存在时隐藏div
+    function doi_code(){
+
+        var doi_code = $("#doi_code").text().trim(" ");
+        if(doi_code == null || doi_code == ""){
+            $(".doi_code").hide();
+        }
+    }
 </script>
 <script	src="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/assets/js/static.js"></script>
 </html>
