@@ -16,7 +16,7 @@ var renderHhtml = {
             '<li><a href="#" id="ich_directory">非遗名录</a></li>'+
             '<li><a href="http://resource.efeiyi.com/html/masters/index.html?lang=' + language + '\" id=\"ich_master\">非遗大师</a></li>'+
             '<li><a href="'+renderHhtml.uri+'/page/selected_content.html" id="selected_content">精选内容</a></li>'+
-            '<li><a href="'+renderHhtml.uri+'/page/news.html" id="information">非遗资讯</a></li>'+
+            '<li><a href="http://resource.efeiyi.com/html/news/index.html?lang='+ language +'\" id=\"information\">非遗资讯</a></li>'+
             '<li><a href="'+renderHhtml.uri+'/page/official_service.html" id="official_service">官方服务</a></li>'+
             '<li><a href="'+renderHhtml.uri+'/page/declare.html" id="project_declare">我要申报</a></li>'+
             '</ul>'+
