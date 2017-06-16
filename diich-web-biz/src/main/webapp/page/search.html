@@ -483,9 +483,9 @@
             <div class="filter_bar">
                 <div class="links">
                     <a class="active" href="" id="totalCount_">全部</a>
-                    <a href="">项目</a>
-                    <a href="">传承人</a>
-                    <a href="">作品</a>
+                    <a href="" id="project_s">项目</a>
+                    <a href="" id="master">传承人</a>
+                    <a href="" id="work">作品</a>
                 </div>
                 <div class="icon_tab active"><i></i></div>
             </div>
@@ -558,8 +558,14 @@
         $("#lang").val('chi');
     }else{
         $("#lang").val('eng');
-    }
+        $("#project_s").text('Project');
+        $("#attr_text").text('All Category');
+        $("#area_text").text('The Whole World');
+        $("#totalCount_").text('Whole');
+        $("#master").text('Master');
+        $("#work").text('Work');
 
+    }
     //点击联想框 触发
     function submitForm(index){
         //$("#keyword").val($("#span_"+index).text());
