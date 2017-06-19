@@ -382,7 +382,7 @@
             <input type="hidden" id="area_code" name="area_code" value="" />
             <input type="hidden" id="gb_category_code" name="gb_category_code" value="" />
             <input type="hidden" id="type" name="type" value="" />
-            <input type="hidden"  id="lang" name="lang" value="chi" />
+            <input type="hidden"  id="lang" name="lang" value="zh-CN" />
             <input class="submit" type="button" value="搜索" onclick="searchData()">
             <div class="suggest" style="display: none;">
                 <ul id="words">
@@ -546,9 +546,9 @@
     var lang = localStorage.getItem("language");
 
     if(lang=='zh-CN'){
-        $("#lang").val('chi');
+        //$("#lang").val('zh-CN');
     }else{
-        $("#lang").val('eng');
+        //$("#lang").val('eng');
 
         $("#project_s").text('Project');
         $("#attr_text").text('All Category');
