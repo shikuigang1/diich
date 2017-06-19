@@ -347,7 +347,7 @@
                         </em></span>
                         <em class="icon"></em>
                         <div class="drop">
-                            <img src="${caturi}/ichProject/getImage?id=${obj.id?c}" alt="">
+                            <img src="" alt="">
                         </div>
                     </div>
                 </div>
@@ -494,7 +494,7 @@
                 </div>
             </#if>
                 <!--//ENd-->
-                <div class="bd batch">
+                <div class="bd batch" id="mas">
                     <div class="tname">
                     <#if obj.lang == "chi">
                         非遗在中国
@@ -505,7 +505,7 @@
                         <i></i>
                     </#if>
                 </div>
-                    <div class="subcon">
+                    <div class="subcon" id="subcon">
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 106 && cf.content??>
@@ -530,25 +530,10 @@
                                     <#if obj.lang == "eng">
                                         Rank
                                     </#if>
-                                    ： <em class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em> </span>
+                                    ： <em style="font-size: 12px" class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em> </span>
                             </#if>
                         </#list>
                     </#if>
-
-                   <#-- <#if (obj.contentFragmentList?size>0)>
-                        <#list obj.contentFragmentList as cf>
-                            <#if cf.attributeId == 7 && cf.content??>
-                                <span>
-                                    <#if obj.lang == "chi">
-                                        批次
-                                    </#if>
-                                    <#if obj.lang == "eng">
-                                        Batch
-                                    </#if>
-                                    ： <em>${cf.content}</em> </span>
-                            </#if>
-                        </#list>
-                    </#if>-->
 
                     </div>
                 </div>
@@ -1319,5 +1304,14 @@
     });
 
 
+</script>
+<script>
+    //非遗在中国如果没有内容  就隐藏这个div
+    $(function(){
+        if($("#subcon").find("span").length==0){
+            $("#mas").css("display","none");
+        }
+
+    })
 </script>
 </html>

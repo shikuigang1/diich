@@ -27,8 +27,13 @@ public class DictionaryController extends BaseController<Dictionary> {
     @RequestMapping("getDictionariesByType")
     @ResponseBody
     public Map<String, Object> getDictionariesByType(HttpServletRequest request,HttpServletResponse response) {
+        String language = request.getParameter("language");
         Integer type = null;
         List<Dictionary> dictionaryList = null;
+
+        if(language == null) {
+            language = "chi";
+        }
 
         try {
             type = Integer.parseInt(request.getParameter("type"));
@@ -38,7 +43,7 @@ public class DictionaryController extends BaseController<Dictionary> {
         }
 
         try {
-            dictionaryList = dictionaryService.getDictionaryListByType(type);
+            dictionaryList = dictionaryService.getDictionaryListByType(type, language);
         } catch (Exception e) {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
@@ -51,8 +56,13 @@ public class DictionaryController extends BaseController<Dictionary> {
     @ResponseBody
     public Map<String, Object> getDictionaryByCode(HttpServletRequest request,HttpServletResponse response) {
         String code = request.getParameter("code");
+        String language = request.getParameter("language");
         Integer type = null;
         String name = null;
+
+        if(language == null) {
+            language = "chi";
+        }
 
         try {
             type = Integer.parseInt(request.getParameter("type"));
@@ -67,7 +77,7 @@ public class DictionaryController extends BaseController<Dictionary> {
         }
 
         try {
-            name = dictionaryService.getTextByTypeAndCode(type, code);
+            name = dictionaryService.getTextByTypeAndCode(type, code, language);
         } catch (Exception e) {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
@@ -89,22 +99,5 @@ public class DictionaryController extends BaseController<Dictionary> {
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(dictionaryList);
-    }
-    //获取人认证级别列表的接口
-    @RequestMapping("getCrtLevelList")
-    @ResponseBody
-    public Map<String,Object> getCrtLevel(HttpServletRequest request,HttpServletResponse response){
-        Integer type = 103;
-        List<Dictionary> list = null;
-        try {
-            list = dictionaryService.getDictionaryListByType(type);
-
-        } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
-        }
-
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        return putDataToMap(list);
     }
 }
