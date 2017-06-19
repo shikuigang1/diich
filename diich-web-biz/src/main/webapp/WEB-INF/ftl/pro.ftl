@@ -1090,11 +1090,11 @@
         <#if obj.version?? && (obj.version.chiId??) && (obj.version.engId??)>
             <#if obj.lang == "eng">
                 $("#trans").text("该词条中文版");
-                $("#trans").attr('href',${obj.version.chiId?c}+ ".html");
+                $("#trans").attr('href',${obj.version.chiId?c}+ ".html?lang=zh-CN");
             </#if>
             <#if obj.lang == "chi">
                 $("#trans").text("English version");
-                $("#trans").attr('href',${obj.version.engId?c}+ ".html");
+                $("#trans").attr('href',${obj.version.engId?c}+ ".html?lang=en");
             </#if>
         </#if>
         <#if !obj.version?? || (!obj.version.chiId??) || (!obj.version.engId??)>

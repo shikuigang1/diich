@@ -74,9 +74,6 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         }catch(Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-
-        buildHTML("works.ftl", works, works.getId() + "");
-
         return works;
     }
 
@@ -149,16 +146,13 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 fileName = PropertiesUtil.getString("freemarker.worksfilepath")+"/"+worksId;
                 works.setStatus(0);
                 works.setIsRepresent(1);
-                works.setUri(fileName + ".html");
+                works.setUri(worksId + ".html");
                 worksMapper.insertSelective(works);
                 List<ContentFragment> contentFragmentList = works.getContentFragmentList();
                 if(contentFragmentList != null && contentFragmentList.size()>0){
                     for (ContentFragment contentFragment:contentFragmentList) {
                         saveContentFragment(contentFragment,worksId);
                     }
-                    //把code转换为name
-                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList,works.getLang());
-                    works.setContentFragmentList(contentFragments);
                 }
             }else{
                 //更新
@@ -186,9 +180,6 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                             }
                         }
                     }
-                    //把code转换为name
-                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList,works.getLang());
-                    works.setContentFragmentList(contentFragments);
                 }
             }
             //获取项目信息
@@ -274,23 +265,6 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             Long attrId = contentFragment.getAttributeId();
             Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
             contentFragment.setAttribute(attribute);//添加属性
-//            if( attribute != null && attribute.getDataType() > 100) {
-//                if(contentFragment.getContent() == null){
-//                    continue;
-//                }
-//                String[] arrs= contentFragment.getContent().split(",");
-//                String name ="";
-//                for (String arr: arrs) {
-//                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr,works.getLang());
-//                    name +=";";
-//                }
-//                name = name.substring(0,name.length()-1);
-//                if("".equals(name) || null == name){
-//                    contentFragment.setContent(contentFragment.getContent());
-//                }else{
-//                    contentFragment.setContent(name);
-//                }
-//            }
             List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
             List<Resource> resourceList = new ArrayList<>();
             for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {

@@ -73,10 +73,10 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
                 ichMaster.setIchProject(ichProject);
                 //最后编辑者
-                User user = userMapper.selectByPrimaryKey(ichMaster.getLastEditorId());
-                if(user !=null){
-                    ichMaster.setUser(user);
-                }
+//                User user = userMapper.selectByPrimaryKey(ichMaster.getLastEditorId());
+//                if(user !=null){
+//                    ichMaster.setUser(user);
+//                }
                 //作品列表
                 List<Works> worksList =worksService.getWorksByIchMasterId(ichMaster.getId());
                 ichMaster.setWorksList(worksList);
@@ -137,10 +137,10 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 IchProject ichProject =ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
                 ichMaster.setIchProject(ichProject);
                 //最后编辑者
-                User user = userMapper.selectByPrimaryKey(ichMaster.getLastEditorId());
-                if(user !=null){
-                    ichMaster.setUser(user);
-                }
+//                User user = userMapper.selectByPrimaryKey(ichMaster.getLastEditorId());
+//                if(user !=null){
+//                    ichMaster.setUser(user);
+//                }
                 //作品列表
                 List<Works> worksList =worksService.getWorksByIchMasterId(ichMaster.getId());
                 ichMaster.setWorksList(worksList);
@@ -171,7 +171,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 ichMaster.setId(id);
                 filename = PropertiesUtil.getString("freemarker.masterfilepath") +"/"+ id;
                 ichMaster.setStatus(0);
-                ichMaster.setUri(filename + ".html");
+                ichMaster.setUri(id + ".html");
                 ichMasterMapper.insertSelective(ichMaster);
                 List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
                 if(contentFragmentList != null && contentFragmentList.size()>0){
@@ -180,12 +180,12 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                         saveContentFragment(contentFragment,id);
                     }
                     //将code替换为name用于生成静态页面
-                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList,ichMaster.getLang());
-                    ichMaster.setContentFragmentList(contentFragments);
+//                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList,ichMaster.getLang());
+//                    ichMaster.setContentFragmentList(contentFragments);
                 }
 
             } else {
-                ichMaster.setUri(filename +".html");
+                ichMaster.setUri(ichMaster.getId() +".html");
                 ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
                 List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
                 if(contentFragmentList != null && contentFragmentList.size()>0){
@@ -211,8 +211,8 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                         }
                     }
                     //将code替换为name用于生成静态页面
-                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList,ichMaster.getLang());
-                    ichMaster.setContentFragmentList(contentFragments);
+//                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList,ichMaster.getLang());
+//                    ichMaster.setContentFragmentList(contentFragments);
                 }
 
             }
@@ -380,6 +380,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         //保存中间表
         contentFragmentResourceMapper.insertSelective(cfr);
     }
+
     /**
      * 将content的code转换为name
      * @param cfList
