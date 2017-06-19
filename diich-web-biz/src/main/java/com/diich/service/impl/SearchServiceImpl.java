@@ -268,7 +268,13 @@ public class SearchServiceImpl implements SearchService {
             s.setId(st.getId());
             s.setDoi(st.getDoi());
             s.setCategory(st.getCategory_name());
-            s.setContent(st.getSummary());
+
+            if(st.getSummary()!=null && st.getSummary().length()>100){
+                s.setContent(st.getSummary().substring(0,99)+"...");
+            }else{
+                s.setContent(st.getSummary());
+            }
+;
             s.setTitle(st.getTitle());
             s.setImg(st.getImgUrl());
             if(st.getType()==1){
