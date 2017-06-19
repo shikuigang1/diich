@@ -213,7 +213,7 @@
     </if>
 
     <if test="area_code != null" >
-      AND instr (s.area_code,#{area_code,jdbcType=VARCHAR})
+      AND s.area_code LIKE CONCAT('',#{area_code,jdbcType=VARCHAR},'%')
     </if>
 
    <!-- <if test="lang != null" >
@@ -252,11 +252,11 @@
     </if>
 
    <!-- <if test="lang != null" >
-      AND lang = #{lang,jdbcType=VARCHAR}
+      AND lang = #{lang,jdbcType=VARCHAR} AND find_in_set (s.area_code,#{area_code,jdbcType=VARCHAR})
     </if>-->
 
     <if test="area_code != null" >
-      AND instr (s.area_code,#{area_code,jdbcType=VARCHAR})
+      AND s.area_code LIKE CONCAT('',#{area_code,jdbcType=VARCHAR},'%')
     </if>
 
     <if test="keyword != null">
