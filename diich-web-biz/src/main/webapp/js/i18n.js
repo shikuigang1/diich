@@ -1,4 +1,3 @@
-
 $(function(){
 	var language = getQueryString('lang');
 
@@ -10,13 +9,11 @@ $(function(){
 });
 
 function switchLanguage(language) {
+	localStorage.setItem('language', language);
 	window.location.reload();
-	loadProperties(language);
 }
 
 function loadProperties(language){
-	localStorage.setItem('language', language);
-
 	$('.language .active').removeClass('active');
 	if(language == 'zh-CN') {
 		$('.zh').addClass('active');
@@ -113,7 +110,7 @@ function loadProperties(language){
 			$('#su_id').text($.i18n.prop('su_id'));
             $('#lhref_id2').attr('href',$.i18n.prop('lhref_id2'));
 			$('#suxiu_id').text($.i18n.prop('suxiu_id'));
-			$('#yao_id').text($.i18n.prop('yao_id'));
+			/*$('#yao_id').text($.i18n.prop('yao_id'));*/
 			$('#ya_id').text($.i18n.prop('ya_id'));
 			$('#yao_id').attr('src',$.i18n.prop('yao_id'));
             $('#lhref_id3').attr('href',$.i18n.prop('lhref_id3'));

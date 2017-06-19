@@ -76,7 +76,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
 
             if(ichProject != null) {
-//                Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
                 Long ichCategoryId = Long.valueOf(0);
                 if(ichProject.getIchCategoryId()!=null){
                     ichCategoryId = ichProject.getIchCategoryId();
@@ -154,10 +153,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 condition = new HashMap<>();
             }
             ichItemList = ichProjectMapper.selectIchProjectList(page,condition);
-//            System.out.println("size:"+ichItemList.size());
             for (IchProject ichProject:ichItemList) {
                 if(ichProject != null) {
-//                    Long ichCategoryId = ichProject.getIchCategoryId() == null ? ichProject.getIchCategoryId() : 0;
                     Long ichCategoryId = Long.valueOf(0);
                     if(ichProject.getIchCategoryId()!=null){
                         ichCategoryId = ichProject.getIchCategoryId();
@@ -221,18 +218,14 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 ichProject.setId(proID);
                 fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+proID;
                 ichProject.setStatus(0);
-                ichProject.setUri(fileName +".html");
+                ichProject.setUri(proID +".html");
                 ichProjectMapper.insertSelective(ichProject);
-//                System.out.println(proID);
                 List<ContentFragment> ls = ichProject.getContentFragmentList();
                 if(ls !=null && ls.size()>0){
                     for(int i=0;i<ls.size();i++){
                         ContentFragment c = ls.get(i);
                         saveContentFragment(c,proID);
                     }
-                    //将datatype>100的将content中的code转换为name
-                    List<ContentFragment> contentFragmentList = getContentFragment(ls,ichProject.getLang());
-                    ichProject.setContentFragmentList(contentFragmentList);
                 }
 
             } else {
@@ -240,7 +233,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 //                  ichProject.setStatus(1);//假删
 //
 //                }
-                ichProject.setUri(fileName +".html");
+                ichProject.setUri(ichProject.getId() +".html");
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
                 List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
                 if (contentFragmentList !=null && contentFragmentList.size()>0){
@@ -271,9 +264,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                             }
                         }
                     }
-                    //将content中的code转换为name
-                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList,ichProject.getLang());
-                    ichProject.setContentFragmentList(contentFragments);
                 }
 
             }
@@ -398,27 +388,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         c.setTargetId(ichProject.getId());
         c.setTargetType(0);//标示项目
         List<ContentFragment> ls =  contentFragmentMapper.selectByTargetIdAndType(c);
-        //List<ContentFragment> ls_ = new ArrayList<ContentFragment>();
         for(int i=0;i<ls.size();i++) {
             Attribute attribute = attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId());
             ls.get(i).setAttribute(attribute);
-//            if( attribute !=null && attribute.getDataType()>100){
-//                if(ls.get(i).getContent() == null ){
-//                    continue;
-//                }
-//                String[] arrs= ls.get(i).getContent().split(",");
-//                String name ="";
-//                for (String arr: arrs) {
-//                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr,ichProject.getLang());
-//                    name +=";";
-//                }
-//                name = name.substring(0,name.length()-1);
-//                if("".equals(name) || null == name){
-//                    ls.get(i).setContent(ls.get(i).getContent());
-//                }else{
-//                    ls.get(i).setContent(name);
-//                }
-//            }
             Long contentFragmentId = ls.get(i).getId();
             List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
             List<Resource> resourceList = new ArrayList<>();
