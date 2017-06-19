@@ -554,10 +554,11 @@
 
     var lang = localStorage.getItem("language");
 
-    if(lang=='ch-CN'){
+    if(lang=='zh-CN'){
         $("#lang").val('chi');
     }else{
         $("#lang").val('eng');
+
         $("#project_s").text('Project');
         $("#attr_text").text('All Category');
         $("#area_text").text('The Whole World');
@@ -592,7 +593,12 @@
             $.each(category_all, function(index, content) {
 
                 if(content.gbCategory==$("#gb_category_code").val()){
-                    $("#attr_text").text(content.name);
+
+                    if(lang=='zh-CN'){
+                        $("#attr_text").text(content.name);
+                    }else{
+                        $("#attr_text").text(content.eNname);
+                    }
                     return false;
                 }
 
