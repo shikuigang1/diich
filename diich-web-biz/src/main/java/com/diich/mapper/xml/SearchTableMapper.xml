@@ -216,9 +216,9 @@
       AND instr (s.area_code,#{area_code,jdbcType=VARCHAR})
     </if>
 
-    <if test="lang != null" >
+   <!-- <if test="lang != null" >
       AND lang = #{lang,jdbcType=VARCHAR}
-    </if>
+    </if>-->
 
     <if test="keyword != null">
     AND (s.title LIKE CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
@@ -251,9 +251,9 @@
       AND instr (s.category_code,#{gb_category_code,jdbcType=VARCHAR})
     </if>
 
-    <if test="lang != null" >
+   <!-- <if test="lang != null" >
       AND lang = #{lang,jdbcType=VARCHAR}
-    </if>
+    </if>-->
 
     <if test="area_code != null" >
       AND instr (s.area_code,#{area_code,jdbcType=VARCHAR})
