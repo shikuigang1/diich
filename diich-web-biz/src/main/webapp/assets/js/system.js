@@ -859,6 +859,7 @@ var homePage = {
 
 
     map: function (lang) {//地图
+        lang = localStorage.getItem("language");
         if (lang == 'en') {
             var data = this.endata();
         } else {
@@ -1815,6 +1816,9 @@ $(function() {
         var index = parseInt($(this).attr('data-id'));
         detailCommon.mediaShow(type, index);
     })
+
+    //
+
 });
 
 function getQueryString(name) {
