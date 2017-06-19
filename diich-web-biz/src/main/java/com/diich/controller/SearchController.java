@@ -79,8 +79,8 @@ public class SearchController extends BaseController {
 
         //System.out.println(JSON.toJSONString(searchSerice.searchText(map)));
 
-       // return  searchSerice.searchText(map);
-        return  searchSerice.searchTextNew(map);
+        return  searchSerice.searchText(map);
+        //return  searchSerice.searchTextNew(map);
 
     }
 
