@@ -188,7 +188,7 @@
 
   -->
 
-  <select id="queryByMap" resultType="BaseResultMap" parameterType="java.util.Map">
+  <select id="queryByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
 
     select
     <if test="keyword != null">
