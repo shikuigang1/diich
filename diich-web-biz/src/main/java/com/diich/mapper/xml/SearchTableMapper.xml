@@ -200,7 +200,7 @@
       ELSE  0
       END  AS orderkey,
     </if>
-    s.title,s.summary,s.category_name,s.imgUrl,s.doi,s.type
+    s.title,s.summary,s.category_name,s.imgUrl,s.doi,s.type,s.id
 
     FROM  search_table s WHERE 1=1
     <if test="type != null" >
@@ -213,6 +213,10 @@
 
     <if test="area_code != null" >
      AND #{area_code,jdbcType=VARCHAR} in (s.area_code)
+    </if>
+
+    <if test="lang != null" >
+      AND lang = #{lang,jdbcType=VARCHAR}
     </if>
 
     <if test="keyword != null">
@@ -244,6 +248,10 @@
 
     <if test="gb_category_code != null" >
       AND #{gb_category_code,jdbcType=VARCHAR} in (s.category_code)
+    </if>
+
+    <if test="lang != null" >
+      AND lang = #{lang,jdbcType=VARCHAR}
     </if>
 
     <if test="area_code != null" >
