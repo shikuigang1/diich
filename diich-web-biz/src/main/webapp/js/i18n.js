@@ -1,4 +1,3 @@
-
 $(function(){
 	var language = getQueryString('lang');
 
@@ -10,13 +9,11 @@ $(function(){
 });
 
 function switchLanguage(language) {
+	localStorage.setItem('language', language);
 	window.location.reload();
-	loadProperties(language);
 }
 
 function loadProperties(language){
-	localStorage.setItem('language', language);
-
 	$('.language .active').removeClass('active');
 	if(language == 'zh-CN') {
 		$('.zh').addClass('active');
