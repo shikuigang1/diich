@@ -4,15 +4,10 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.diich.core.model.*;
 import com.diich.core.model.vo.SearchVO;
 import com.diich.core.service.SearchService;
+import com.diich.mapper.*;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.diich.mapper.ContentFragmentMapper;
-import com.diich.mapper.ResourceMapper;
-import com.diich.mapper.IchCategoryMapper;
-import com.diich.mapper.IchProjectMapper;
-import com.diich.mapper.IchMasterMapper;
-import com.diich.mapper.WorksMapper;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +43,9 @@ public class SearchServiceImpl implements SearchService {
 
     @Autowired
     private WorksMapper worksMapper;
+
+    @Autowired
+    private SearchTableMapper searchTableMapper;
 
 
     public List<String> searchText(String keyword, int size) {
@@ -242,16 +240,54 @@ public class SearchServiceImpl implements SearchService {
 
             resultList.add(s);
         }
-
         map.put("res",resultList);
         map.put("totalCount",lsCount);
         return map;
     }
+
 
     @Override
     public Map searchTextByProcedure(Map<String, Object> map) {
 
         contentFragmentMapper.queryForSearch(map);
         return null;
+    }
+
+    @Override
+    public Map searchTextNew(Map<String, Object> map) {
+
+        List<SearchTable> ls = searchTableMapper.queryByMap(map);
+        int lsCount = searchTableMapper.queryByMapCount(map);
+
+        //translate SearchTable to SearchVo
+        List<SearchVO> resultList = new ArrayList<SearchVO>();
+        for(int i=0;i<ls.size();i++){
+            SearchTable st = ls.get(i);
+            SearchVO s = new SearchVO();
+            s.setType(st.getType());
+            s.setId(st.getId());
+            s.setDoi(st.getDoi());
+            s.setCategory(st.getCategory_name());
+
+            if(st.getSummary()!=null && st.getSummary().length()>100){
+                s.setContent(st.getSummary().substring(0,99)+"...");
+            }else{
+                s.setContent(st.getSummary());
+            }
+;
+            s.setTitle(st.getTitle());
+            s.setImg(st.getImgUrl());
+            if(st.getType()==1){
+                s.setProjjectName(st.getTitle());
+            }
+            if(st.getType()==2){
+                //作品数据暂无 特殊情况不处理
+            }
+            resultList.add(s);
+        }
+
+        map.put("res",resultList);
+        map.put("totalCount",lsCount);
+        return map;
     }
 }
