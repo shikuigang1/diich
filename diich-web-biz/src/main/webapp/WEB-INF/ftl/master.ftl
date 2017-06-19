@@ -245,7 +245,7 @@
                         </#if></span>
                         <em class="icon"></em>
                         <div class="drop">
-                            <img src="${caturi}/ichMaster/getImage?id=${obj.id?c}" alt="">
+                            <img src="" alt="">
                         </div>
                     </div>
                 </div>
@@ -320,7 +320,7 @@
                                  <#if (obj.ichProject.contentFragmentList?size>0)>
                                                  <#list (obj.ichProject.contentFragmentList) as cf>
                                                             <#if cf.attributeId == 33 && cf.content?? && cf.content !="" >
-                                                                | 地域： <em class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em>
+                                                                | 地域： <em style="font-size: 12px" class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em>
                                                             </#if>
                                                 </#list>
                                             </#if>
@@ -338,14 +338,6 @@
                 </div>
         </#if>
                 <!--//ENd-->
-            <script>
-                $(function(){
-                    if($("#subcon").find("span").length==0){
-                        $("#mas").css("display","none");;
-                    }
-
-                })
-            </script>
             <#if (obj.contentFragmentList??) &&(obj.contentFragmentList?size>0)>
                 <div class="bd batch" id="mas">
                     <div class="tname">非遗在中国<i></i></div>
@@ -355,7 +347,7 @@
                                     <span>人类非物质文化遗产编号：${cf.content}</span>
                                 </#if>
                                 <#if cf.attributeId == 111 && cf.content??>
-                                    <span>级别：<em class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em></span>
+                                    <span>级别：<em  style="font-size: 12px" class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em></span>
                                 </#if>
                             </#list>
                     </div>
@@ -375,13 +367,8 @@
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.content !="" && cf.attributeId != 11 && cf.attributeId != 12 && cf.attributeId != 111 && cf.attributeId != 23 && cf.attribute.isOpen == 1>
                                 <li>
-
                                         <span class="key">${cf.attribute.cnName}：</span>
                                         <span class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
-                                   <#-- <#else>
-                                        <span class="key">${cf.attribute.cnName}：</span>
-                                        <span class="value">${cf.content}</span>
-                                    </#if>-->
                                 </li>
                             </#if>
                         </#list>
@@ -417,9 +404,6 @@
                                         <#if c.attributeId==28>
                                             <p class="name"><a href="${workspage}${work.id?c}.html">${c.content}</a> </p>
                                         </#if>
-                                  <#--  <#if c.attributeId==25>
-                                        <p class="master">${c.content}</p>
-                                    </#if>-->
                                     </#list>
                                     <#list work.contentFragmentList as c>
                                         <#if c.attributeId==114>
@@ -807,6 +791,15 @@
             $(".doi_code").hide();
         }
     }
+</script>
+<script>
+    //非遗在中国如果没有内容  就隐藏这个div
+    $(function(){
+        if($("#subcon").find("span").length==0){
+            $("#mas").css("display","none");
+        }
+
+    })
 </script>
 <script	src="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/assets/js/static.js"></script>
 </html>

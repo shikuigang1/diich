@@ -1003,7 +1003,7 @@ var projectPage = {
         if(item.length<=3){
             more.hide();
         }
-        more.find('em').html(totalItem.length-3);  //其他多少人
+        more.find('em').html(totalItem.length);  //全部多少人
 
         //查看其它
         more.on('click',function () {
