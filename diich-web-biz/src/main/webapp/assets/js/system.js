@@ -6,7 +6,13 @@ var renderHhtml = {
         //this.filter();
     },
     header: function() { //导航
-        var language = localStorage.getItem('language') != null ? localStorage.getItem('language') : 'zh-CN';
+        var language = getQueryString('lang');
+
+        if(language == null) {
+            language = localStorage.getItem("language") != null ? localStorage.getItem("language") : 'zh-CN';
+        } else {
+            localStorage.setItem('language', language);
+        }
 
         var htmlStr = '<div class="content">'+
             '<a class="logo" href="'+renderHhtml.uri+'/page/index.html"></a>'+
