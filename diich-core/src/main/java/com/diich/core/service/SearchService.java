@@ -19,4 +19,8 @@ public interface SearchService {
     Map searchTextByProcedure(Map<String,Object> map );
 
 
+    //搜索结果菜单使用
+    Map searchTextNew(Map<String,Object> map );
+
+
 }
