@@ -2,7 +2,9 @@ $(function(){
 	var language = getQueryString('lang');
 
 	if(language == null) {
-		language = localStorage.getItem("language") ? localStorage.getItem("language") : 'zh-CN';
+		language = localStorage.getItem("language") != null ? localStorage.getItem("language") : 'zh-CN';
+	} else {
+		localStorage.setItem('language', language);
 	}
 
 	loadProperties(language);//中文->zh-CN   英文->en

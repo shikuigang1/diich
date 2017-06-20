@@ -193,6 +193,7 @@
     select
     <if test="keyword != null">
       CASE
+      WHEN  s.title LIKE CONCAT('',#{keyword,jdbcType=VARCHAR},'%')  THEN 150
       WHEN  s.title LIKE CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')  THEN 100
       WHEN  s.category_name LIKE CONCAT('%',#{keyword,jdbcType=VARCHAR},'%') OR s.category_code LIKE CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')  THEN 50
       WHEN  s.summary LIKE CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')  THEN 30
@@ -200,7 +201,7 @@
       ELSE  0
       END  AS orderkey,
     </if>
-    s.title,s.summary,s.category_name,s.imgUrl,s.doi,s.type
+    s.title,s.summary,s.category_name,s.imgUrl,s.doi,s.type,s.id
 
     FROM  search_table s WHERE 1=1
     <if test="type != null" >
@@ -208,12 +209,16 @@
     </if>
 
     <if test="gb_category_code != null" >
-      AND #{gb_category_code,jdbcType=VARCHAR} in (s.category_code)
+      AND  instr (s.category_code,#{gb_category_code,jdbcType=VARCHAR})
     </if>
 
     <if test="area_code != null" >
-     AND #{area_code,jdbcType=VARCHAR} in (s.area_code)
+      AND s.area_code LIKE CONCAT('',#{area_code,jdbcType=VARCHAR},'%')
     </if>
+
+   <!-- <if test="lang != null" >
+      AND lang = #{lang,jdbcType=VARCHAR}
+    </if>-->
 
     <if test="keyword != null">
     AND (s.title LIKE CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
@@ -243,11 +248,15 @@
     </if>
 
     <if test="gb_category_code != null" >
-      AND #{gb_category_code,jdbcType=VARCHAR} in (s.category_code)
+      AND instr (s.category_code,#{gb_category_code,jdbcType=VARCHAR})
     </if>
 
+   <!-- <if test="lang != null" >
+      AND lang = #{lang,jdbcType=VARCHAR} AND find_in_set (s.area_code,#{area_code,jdbcType=VARCHAR})
+    </if>-->
+
     <if test="area_code != null" >
-      AND #{area_code,jdbcType=VARCHAR} in (s.area_code)
+      AND s.area_code LIKE CONCAT('',#{area_code,jdbcType=VARCHAR},'%')
     </if>
 
     <if test="keyword != null">
