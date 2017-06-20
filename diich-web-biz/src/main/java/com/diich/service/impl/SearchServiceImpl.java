@@ -47,6 +47,9 @@ public class SearchServiceImpl implements SearchService {
     @Autowired
     private SearchTableMapper searchTableMapper;
 
+    @Autowired
+    private DictionaryMapper dictionaryMapper;
+
 
     public List<String> searchText(String keyword, int size) {
         return null;
@@ -258,7 +261,6 @@ public class SearchServiceImpl implements SearchService {
 
         List<SearchTable> ls = searchTableMapper.queryByMap(map);
         int lsCount = searchTableMapper.queryByMapCount(map);
-
         //translate SearchTable to SearchVo
         List<SearchVO> resultList = new ArrayList<SearchVO>();
         for(int i=0;i<ls.size();i++){
@@ -267,7 +269,14 @@ public class SearchServiceImpl implements SearchService {
             s.setType(st.getType());
             s.setId(st.getId());
             s.setDoi(st.getDoi());
-            s.setCategory(st.getCategory_name());
+
+            if(st.getCategory_name()!=null&&st.getCategory_name().length()>17){
+                s.setCategory(st.getCategory_name().substring(0,17)+"...");
+            }else{
+                s.setCategory(st.getCategory_name());
+            }
+
+
 
             if(st.getSummary()!=null && st.getSummary().length()>100){
                 s.setContent(st.getSummary().substring(0,99)+"...");
@@ -275,10 +284,22 @@ public class SearchServiceImpl implements SearchService {
                 s.setContent(st.getSummary());
             }
 ;
-            s.setTitle(st.getTitle());
+            if(st.getTitle()!=null&&st.getTitle().length()>30 ){
+                s.setTitle(st.getTitle().substring(0,29)+"...");
+            }else{
+                s.setTitle(st.getTitle());
+            }
+
+
             s.setImg(st.getImgUrl());
             if(st.getType()==1){
-                s.setProjjectName(st.getTitle());
+
+                if(st.getCategory_name()!=null&&st.getCategory_name().length()>17){
+                    s.setProjjectName(st.getCategory_name().substring(0,17)+"...");
+                }else{
+                    s.setProjjectName(st.getCategory_name());
+                }
+
             }
             if(st.getType()==2){
                 //作品数据暂无 特殊情况不处理
