@@ -209,11 +209,11 @@
     </if>
 
     <if test="gb_category_code != null" >
-      AND  instr (s.category_code,#{gb_category_code,jdbcType=VARCHAR})
+      AND  FIND_IN_SET(#{gb_category_code,jdbcType=VARCHAR},s.category_code)
     </if>
 
     <if test="area_code != null" >
-      AND s.area_code LIKE CONCAT('',#{area_code,jdbcType=VARCHAR},'%')
+      AND FIND_IN_SET(#{area_code,jdbcType=VARCHAR},s.area_code)
     </if>
 
    <!-- <if test="lang != null" >
@@ -248,7 +248,7 @@
     </if>
 
     <if test="gb_category_code != null" >
-      AND instr (s.category_code,#{gb_category_code,jdbcType=VARCHAR})
+      AND FIND_IN_SET(#{gb_category_code,jdbcType=VARCHAR},s.category_code)
     </if>
 
    <!-- <if test="lang != null" >
@@ -256,7 +256,7 @@
     </if>-->
 
     <if test="area_code != null" >
-      AND s.area_code LIKE CONCAT('',#{area_code,jdbcType=VARCHAR},'%')
+      AND FIND_IN_SET(#{area_code,jdbcType=VARCHAR},s.area_code)
     </if>
 
     <if test="keyword != null">
