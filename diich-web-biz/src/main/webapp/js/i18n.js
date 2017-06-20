@@ -1,18 +1,32 @@
 $(function(){
-	var language = getQueryString('lang');
-
-	if(language == null) {
-		language = localStorage.getItem("language") != null ? localStorage.getItem("language") : 'zh-CN';
-	} else {
-		localStorage.setItem('language', language);
-	}
-
-	loadProperties(language);//中文->zh-CN   英文->en
+	loadProperties(getCurrentLanguage());//中文->zh-CN   英文->en
 });
 
 function switchLanguage(language) {
 	localStorage.setItem('language', language);
 	window.location.reload();
+}
+
+function getCurrentLanguage() {
+	var language = getQueryString('lang');
+
+	if(language == null) {
+		language = localStorage.getItem("language") != null ? localStorage.getItem("language") : getBrowserLanguage();
+	} else {
+		localStorage.setItem('language', language);
+	}
+
+	return language;
+}
+
+function getBrowserLanguage() {
+	var _default = $.i18n.browserLang();
+	if(_default.indexOf('zh') > -1) {
+		_default = 'zh-CN';
+	} else if(_default.indexOf('en') > -1) {
+		_default = 'en';
+	}
+	return _default;
 }
 
 function loadProperties(language){
