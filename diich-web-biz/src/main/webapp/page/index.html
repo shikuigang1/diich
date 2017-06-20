@@ -24,9 +24,9 @@
 <div class="container">
     <div class="home">
         <div class="bd slider">
-            <form class="form" action="../page/search.html" id="form">
-                <input  class="ipt" id="keyword" name="keyword" value=""  type="text" autocomplete="off">
-                <input class="btn" type="submit">
+            <form class="form"  id="form" onkeydown="if(event.keyCode==13)return false;" >
+                <input  class="ipt" id="keyword" name="keyword" value=""  type="text" placeholder="苏州刺绣技艺" autocomplete="off">
+                <input class="btn" type="button" onclick="submitForm()">
                 <div class="text">
                     <p style="display:block" id="b_opera">苏绣是苏州地区刺绣产品的总称，汉族优秀的民族传统工艺之一，以苏州刺绣研究所的高新区的镇湖镇（现改为街道）刺绣最为有名。刺绣与养蚕，缫丝分不开，所以刺绣，又称丝绣。苏绣的发源地在苏州吴县一带，现已遍布很多地区，至今已有2000余年的历史，清代是苏绣的全盛时期，可谓流派繁衍，名手竞秀。苏绣具有图案秀丽、构思巧妙、绣工细致、针法活泼、色彩清雅的独特风格，地方特色浓郁；绣技具有“平、齐、和、光、顺、匀”的特点。</p>
                     <p id="k_opera">The Argentinian and Uruguayan tradition of the Tango,now familiar around the world,was developed by the urban lower classes in Buenos Aires and Montevideo in the Rio de la Plata basin.Among this mix of European immigrants to the region,descendents of African slaves and the natives of the region known as"criollos",a wide range of customs.</p>
@@ -62,7 +62,6 @@
             </ul>
         </div>
         <!--//End slider -->
-
         <div class="bd cate">
             <ul>
                 <li>
@@ -282,13 +281,11 @@
 				if(content.substring(0,key)==$("#keyword").val()){
 	
 					html+="<li><a href=\"javascript:void(0)\" id=\"span_"+index+"\" onclick=\"submitForm("+index+")\"><span >"+$("#keyword").val()+"</span>";
-					
 					if(content.length==key){
 						html+="</a></li>";
 					}else{
 						html+=content.substring(key)+"</a></li>";
 					}
-					
 					i--;
 					if(i==0){
 						$("#words").append(html);
@@ -328,7 +325,13 @@
  
  function submitForm(index){
 	//window.location = "../page/search.html?keyword=" + $("#span_"+index).text();
-     window.location = "../page/search.html";
+     if($("#keyword").val()==""){
+
+         window.location = "../page/search.html?keyword="+$("#keyword").attr("placeholder");
+     }else{
+         window.location = "../page/search.html?keyword="+$("#keyword").val();
+     }
+
  }
 
  function login(){
