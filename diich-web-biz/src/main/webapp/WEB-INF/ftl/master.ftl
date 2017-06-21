@@ -135,42 +135,57 @@
 <#assign workspage = "http://resource.efeiyi.com/html/works/"/>
 <#assign prouri="../../image/project/" />
 <#assign masteruri="../../image/master/" />
+<#assign str="http:" />
+<#assign strs="https:" />
 <div class="container">
     <div class="bd detail">
         <div class="mainbg">
-
-       <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/head.png">
-        <#if (obj.contentFragmentList?size>0)>
-            <#list obj.contentFragmentList as cf>
-                <#if cf.attributeId == 10>
-                    <#if (cf.resourceList?size>0)>
-                        <#list cf.resourceList as res>
-                            <#if res.type==0 && res.status==0>
-                                <#if res.uri??>
-                                <#assign backImgUrl="${masteruri}${res.uri}">
+            <div class="content" id="detailContent">
+                <div class="mask_left"></div>
+                   <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/head.png">
+                    <#if (obj.contentFragmentList?size>0)>
+                        <#list obj.contentFragmentList as cf>
+                            <#if cf.attributeId == 10>
+                                <#if (cf.resourceList?size>0)>
+                                    <#list cf.resourceList as res>
+                                        <#if res.type==0 && res.status==0>
+                                            <#if res.uri??>
+                                                <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
+                                                    <#assign backImgUrl="${masteruri}${res.uri}">
+                                                </#if>
+                                                <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
+                                                    <#assign backImgUrl="${res.uri}">
+                                                </#if>
+                                            </#if>
+                                        </#if>
+                                    </#list>
                                 </#if>
                             </#if>
                         </#list>
                     </#if>
-                </#if>
-            </#list>
-        </#if>
-           <img src="${backImgUrl}" alt="">
-       <#if (obj.contentFragmentList?size>0)>
-           <#list obj.contentFragmentList as cf>
-               <#if cf.attributeId == 10>
-                   <#if (cf.resourceList?size>0)>
-                       <#list cf.resourceList as res>
-                           <#if res.type==1 && res.status==0>
-                               <video poster="${backImgUrl}" src="${masteruri}${res.uri}"> </video>
-                               <span data-type="1" class="play_big"> </span>
+                   <img src="${backImgUrl}" alt="" id="detailTopic">
+                   <#if (obj.contentFragmentList?size>0)>
+                       <#list obj.contentFragmentList as cf>
+                           <#if cf.attributeId == 10>
+                               <#if (cf.resourceList?size>0)>
+                                   <#list cf.resourceList as res>
+                                       <#if res.type==1 && res.status==0>
+                                           <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
+                                               <video poster="${backImgUrl}" src="${masteruri}${res.uri}"> </video>
+                                           </#if>
+                                           <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
+                                               <video poster="${backImgUrl}" src="${res.uri}"> </video>
+                                           </#if>
+                                           <span data-type="1" class="play_big"> </span>
+                                       </#if>
+                                   </#list>
+                               </#if>
                            </#if>
                        </#list>
                    </#if>
-               </#if>
-           </#list>
-       </#if>
+            <div class="mask_right"></div>
         </div>
+         </div>
         <!--//End main-->
 
         <!--//End crumbs-->
@@ -236,13 +251,13 @@
                 </#if>
                     <div class="doi_code">
                         <i class="icon">ID</i>
-                        <span id="doi_code">标识码：<#if (obj.contentFragmentList?size>0)>
+                        <span>标识码：<em id="doi_code"><#if (obj.contentFragmentList?size>0)>
                                         <#list obj.contentFragmentList as cf>
                                             <#if cf.attributeId == 11>
                                                 ${cf.content}
                                             </#if>
                                         </#list>
-                        </#if></span>
+                        </#if></em></span>
                         <em class="icon"></em>
                         <div class="drop">
                             <img src="" alt="">
@@ -799,7 +814,19 @@
             $("#mas").css("display","none");
         }
 
-    })
+    });
+    (function () {
+        var img = document.getElementById('detailTopic');
+        var content = document.getElementById('detailContent');
+        img.onload = function () {
+            // 加载完成
+            var imgW = this.width;
+            img.style.marginLeft = -imgW / 2 + 'px';
+            content.style.marginTop = '0px';
+            content.style.width = imgW + 'px';
+        };
+    })();
+
 </script>
 <script	src="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/assets/js/static.js"></script>
 </html>
