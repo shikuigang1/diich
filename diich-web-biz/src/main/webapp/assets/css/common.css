@@ -73,6 +73,9 @@ video {
 body {
     line-height: 1;
 }
+br {
+    line-height: 60px;
+}
 
 html,
 body {
@@ -1270,6 +1273,8 @@ a.arrow_right:hover:after {
 .suggest li.hover a span {
     color: #4990E2
 }
+
+
 
 /*--//End suggest--*/
 
