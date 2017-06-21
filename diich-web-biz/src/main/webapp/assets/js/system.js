@@ -1,234 +1,236 @@
 var renderHhtml = {
     uri: 'http://diich.efeiyi.com',
-    init: function() {
+    init: function () {
         this.header();
         this.footer();
     },
-    header: function() { //导航
+    header: function () { //导航
         var language = getCurrentLanguage();
 
-        var htmlStr = '<div class="content">'+
-            '<a class="logo" href="'+renderHhtml.uri+'/page/index.html"></a>'+
-            '<div class="nav">'+
-            '<ul>'+
-            '<li class="active"><a href="'+renderHhtml.uri+'/page/index.html" id="home">首页</a></li>'+
-            '<li><a href="#" id="ich_directory">非遗名录</a></li>'+
-            '<li><a href="http://resource.efeiyi.com/html/masters/index.html?lang=' + language + '\" id=\"ich_master\">非遗大师</a></li>'+
-            '<li><a href="http://resource.efeiyi.com/html/content/index.html?lang=' + language + '\" id=\"selected_content\">精选内容</a></li>'+
-            '<li><a href="http://resource.efeiyi.com/html/news/index.html?lang='+ language +'\" id=\"information\">非遗资讯</a></li>'+
-            '<li><a href="http://resource.efeiyi.com/html/official/index.html?lang='+ language +'\" id=\"official_service\">官方服务</a></li>'+
-            '<li><a href="'+renderHhtml.uri+'/page/declare.html" id="project_declare">我要申报</a></li>'+
-            '</ul>'+
-            '</div>'+
-            '<div class="info">'+
-            '<ul>'+
-            '<li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em id="sign_in">登录</em></a></li>'+
-            '<li class="language">'+
-            '<a class="zh active" href="javascript:switchLanguage(\'zh-CN\');"><em>中文</em></a>'+
-            '<a class="en" href="javascript:switchLanguage(\'en\');"><em>EN</em></a>'+
-            '</li>'+
-            '<li class="search"><i class="icon"></i></li>'+
-            '</ul>'+
-            '</div>'+
-            '</div>'+
-            '<!--//End content-->'+
-            '<div class="drop_menu" id="drop_menu">'+
-            '<div class="content">'+
-            '<div class="item">'+
-            '<dl>'+
-            '<dt ><a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A" data-id="A" id="legend">口头传说和表述</a></dt>'+
-            '<dd>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A01" data-id="A01" id="language" >语言</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A02" data-id="A02" id="text">文字</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A03" data-id="A03" id="oral">口述</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A04" data-id="A04" id="other_oral">其他口头传统<br>及表述</a>'+
-            '</dd>'+
-            ' </dl>'+
-            '</div>'+
-            '<!--//End-->'+
-            '<div class="item">'+
-            '<dl>'+
-            '<dt ><a id="perform" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B" data-id="B">表演艺术</a></dt>'+
-            '<dd>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B01" data-id="B01"  id="music" >音乐演奏</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B02" data-id="B02" id="dance">舞蹈</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B03" data-id="B03" id="folk_song">民歌</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B04" data-id="B04" id="traditional_drama">传统戏剧</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B05" data-id="B05"  id="quyi">曲艺</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B06" data-id="B06" id="sport">传统体育、游艺与杂技</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B99" data-id="B99" id="other_perform">其他表演艺术</a>'+
-            '</dd>'+
-            '</dl>'+
-            '</div>'+
-            '<!--//End-->'+
-            '<div class="item">'+
-            '<dl>'+
-            '<dt ><a id="custom_etiquette" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C" data-id="C">社会风俗<br>礼仪、节庆</a></dt>'+
-            '<dd>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C01" data-id="C01" id="business_custom">生产商贸习俗</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C02" data-id="C02" id="life_customs">生活习俗</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C03" data-id="C03" id="life_ritual">人生仪式</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C04" data-id="C04" id="festival_celebration">节日庆典</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C99" data-id="C99" id="other_celebration">其他仪式及庆典</a>'+
-            '</dd>'+
-            '</dl>'+
-            '</div>'+
-            '<!--//End-->'+
+        var htmlStr = '<div class="content">' +
+            '<a class="logo" href="' + renderHhtml.uri + '/page/index.html"></a>' +
+            '<div class="nav">' +
+            '<ul>' +
+            '<li class="logined"><a></a></li>'+
+            '<li class="active"><a href="' + renderHhtml.uri + '/page/index.html" id="home">首页</a></li>' +
+            '<li><a href="#" id="ich_directory">非遗名录</a></li>' +
+            '<li><a href="http://resource.efeiyi.com/html/masters/index.html?lang=' + language + '\" id=\"ich_master\">非遗大师</a></li>' +
+            '<li><a href="http://resource.efeiyi.com/html/content/index.html?lang=' + language + '\" id=\"selected_content\">精选内容</a></li>' +
+            '<li><a href="http://resource.efeiyi.com/html/news/index.html?lang=' + language + '\" id=\"information\">非遗资讯</a></li>' +
+            '<li><a href="http://resource.efeiyi.com/html/official/index.html?lang=' + language + '\" id=\"official_service\">官方服务</a></li>' +
+            '<li><a href="' + renderHhtml.uri + '/page/declare.html" id="project_declare">我要申报</a></li>' +
+            '</ul>' +
+            '</div>' +
+            '<div class="info">' +
+            '<ul>' +
+            '<li class="logined"><a></a></li>'+
+            '<li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em id="sign_in">登录</em></a></li>' +
+            '<li class="language">' +
+            '<a class="zh active" href="javascript:switchLanguage(\'zh-CN\');"><em>中文</em></a>' +
+            '<a class="en" href="javascript:switchLanguage(\'en\');"><em>EN</em></a>' +
+            '</li>' +
+            '<li class="search"><i class="icon"></i></li>' +
+            '</ul>' +
+            '</div>' +
+            '</div>' +
+            '<!--//End content-->' +
+            '<div class="drop_menu" id="drop_menu">' +
+            '<div class="content">' +
+            '<div class="item">' +
+            '<dl>' +
+            '<dt ><a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=A" data-id="A" id="legend">口头传说和表述</a></dt>' +
+            '<dd>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=A01" data-id="A01" id="language" >语言</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=A02" data-id="A02" id="text">文字</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=A03" data-id="A03" id="oral">口述</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=A04" data-id="A04" id="other_oral">其他口头传统<br>及表述</a>' +
+            '</dd>' +
+            ' </dl>' +
+            '</div>' +
+            '<!--//End-->' +
+            '<div class="item">' +
+            '<dl>' +
+            '<dt ><a id="perform" href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B" data-id="B">表演艺术</a></dt>' +
+            '<dd>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B01" data-id="B01"  id="music" >音乐演奏</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B02" data-id="B02" id="dance">舞蹈</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B03" data-id="B03" id="folk_song">民歌</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B04" data-id="B04" id="traditional_drama">传统戏剧</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B05" data-id="B05"  id="quyi">曲艺</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B06" data-id="B06" id="sport">传统体育、游艺与杂技</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B99" data-id="B99" id="other_perform">其他表演艺术</a>' +
+            '</dd>' +
+            '</dl>' +
+            '</div>' +
+            '<!--//End-->' +
+            '<div class="item">' +
+            '<dl>' +
+            '<dt ><a id="custom_etiquette" href="' + renderHhtml.uri + '/page/search.html?gb_category_code=C" data-id="C">社会风俗<br>礼仪、节庆</a></dt>' +
+            '<dd>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=C01" data-id="C01" id="business_custom">生产商贸习俗</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=C02" data-id="C02" id="life_customs">生活习俗</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=C03" data-id="C03" id="life_ritual">人生仪式</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=C04" data-id="C04" id="festival_celebration">节日庆典</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=C99" data-id="C99" id="other_celebration">其他仪式及庆典</a>' +
+            '</dd>' +
+            '</dl>' +
+            '</div>' +
+            '<!--//End-->' +
 
-            '<div class="item">'+
-            '<dl>'+
-            '<dt><a  id="practice_nature" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D" data-id="D">有关自然界和<br>宇宙的知识和实践</a></dt>'+
-            '<dd>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D01" data-id="D01" id="df_fishery">农林牧畜渔</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D02" data-id="D02" id="clothing">服装</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D03" data-id="D03" id="food">食品</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D04" data-id="D04" id="h_construction">住房与建筑</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D05" data-id="D05" id="traffic">交通,旅行</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D06" data-id="D06" id="medicine">医、药</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D07" data-id="D07" id="military">军事防御</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D08" data-id="D08" id="business">商贸</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D09" data-id="D09" id="project">工业、工程</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D10" data-id="D10" id="ag_irrigation">天文、地理、水文等</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D99" data-id="D99" id="on_knowledge">其他自然知识和实践</a>'+
-            '</dd>'+
-            '</dl>'+
-            '</div>'+
-            '<!--//End-->'+
-            '<div class="item">'+
-            '<dl>'+
-            '<dt ><a id="tt_handmade" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E" data-id="E">传统手工艺技能</a></dt>'+
-            '<dd>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E01" data-id="E01"  id="tm_manufacture">工具及机械制作</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E02" data-id="E02" id="p_techniques">髹饰工艺</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E03" data-id="E03" id="daa_products">家畜农林产品加工</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E04" data-id="E04" id="d_process">织染工艺</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E05" data-id="E05" id="p_paperhanging">造纸、印刷机装裱</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E06" data-id="E06" id="k_techniques">编扎工艺</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E07" data-id="E07" id="cp_craft">字画工艺</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E08" data-id="E08" id="s_techniques">锻冶工艺</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E09" data-id="E09" id="pc_technics">剪刻工艺</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E10" data-id="E10" id="sc_techniques">雕塑工艺</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E11" data-id="E11" id="b_technics">烧造工艺</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E12" data-id="E12" id="w_techniques">木作工艺</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E99" data-id="E99" id="o_kind">其他类</a>'+
-            '</dd>'+
-            '</dl>'+
-            '</div>'+
-            '</div>'+
-            '</div>'+
-            '<div id="drop_menu_en" class="drop_menu drop_menu_en">'+
-            '<div class="content">'+
-            '<div class="item" style="width:320px;">'+
-            '<dl>'+
-            '<dt><a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A" data-id="A" id="legend">legend</a></dt>'+
-            '<dd>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A01" data-id="A01" id="language">language</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A02" data-id="A02" id="text">written language</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A03" data-id="A03" id="oral">oral account</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=A04" data-id="A04" id="other_oral">other oral account</a>'+
-            '</dd>'+
-            '</dl>'+
-            '<dl>'+
-            '<dt><a id="custom_etiquette" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C" data-id="C">custom and etiquette</a></dt>'+
-            '<dd>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C01" data-id="C01" id="business_custom">business custom</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C02" data-id="C02" id="life_customs">Life customs</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C03" data-id="C03" id="life_ritual">Life ritual</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C04" data-id="C04" id="festival_celebration">Festival celebration</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=C99" data-id="C99" id="other_celebration">other celebration</a>'+
-            '</dd>'+
-            '</dl>'+
-            '</div>'+
-            '<!--//End-->'+
-            '<div class="item" style="width: 350px;">'+
-            '<dl>'+
-            '<dt><a id="practice_nature" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D" data-id="D">The practice of nature and universe</a></dt>'+
-            '<dd>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D01" data-id="D01" id="df_fishery">Dense forest and fishery</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D02" data-id="D02" id="clothing">clothing</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D03" data-id="D03" id="food">Food</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D04" data-id="D04" id="h_construction">Housing and construction</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D05" data-id="D05" id="traffic">Traffic</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D06" data-id="D06" id="medicine">Medicine</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D07" data-id="D07" id="military">Military</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D08" data-id="D08" id="business">business</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D09" data-id="D09" id="project">Project</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D10" data-id="D10" id="ag_irrigation">astronomy  geography  irrigation</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=D99" data-id="D99" id="on_knowledge">Other natural knowledge</a>'+
-            '</dd>'+
-            '</dl>'+
-            '</div>'+
-            '<!--//End-->'+
-            '<div class="item" style="width:360px;">'+
-            '<dl>'+
-            '<dt><a id="tt_handmade" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E" data-id="E">the technical of tradition handmade</a>'+
-            '</dt>'+
-            '<dd>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E01" data-id="E01" id="tm_manufacture">tool and mechanical manufacture</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E02" data-id="E02" id="p_techniques">Painting techniques</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E03" data-id="E03"  id="daa_products">domestic animal agriculture and forestry products</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E04" data-id="E04" id="d_process">Dyeing process</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E05" data-id="E05" id="p_paperhanging">Paper printing and paperhanging</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E06" data-id="E06" id="k_techniques">knit  techniques</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E07" data-id="E07" id="cp_craft">Calligraphy and painting craft</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E08" data-id="E08" id="s_techniques">smithing  techniques</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E09" data-id="E09" id="pc_technics">paper-cut and carve technics</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E10" data-id="E10" id="sc_techniques">sculpture  techniques</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E11" data-id="E11" id="b_technics">barbecue technics</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E12" data-id="E12" id="w_techniques">wooden  techniques</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=E99" data-id="E99" id="o_kind">other kind</a>'+
-            '</dd>'+
-            '</dl>'+
-            '</div>'+
-            '<!--//End-->'+
-            '<div class="item" style="width:170px;">'+
-            '<dl>'+
-            '<dt><a id="perform" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B" data-id="B">perform</a></dt>'+
-            '<dd>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B01" data-id="B01" id="music">music</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B02" data-id="B02" id="dance">dance</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B03" data-id="B03" id="folk_song">folk song</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B04" data-id="B04" id="traditional_drama">Traditional drama</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B05" data-id="B05" id="quyi">Chinese folk art forms</a>'+
-            '<a style="height: 51px;" href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B06" data-id="B06" id="sport">Traditional sports,<br>entertainment and<br>acrobatics</a>'+
-            '<a href="'+renderHhtml.uri+'/page/search.html?gb_category_code=B99" data-id="B99" id="other_perform">other   perform</a>'+
-            '</dd>'+
-            '</dl>'+
-            '</div>'+
-            '<!--//End-->'+
-            '</div>'+
+            '<div class="item">' +
+            '<dl>' +
+            '<dt><a  id="practice_nature" href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D" data-id="D">有关自然界和<br>宇宙的知识和实践</a></dt>' +
+            '<dd>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D01" data-id="D01" id="df_fishery">农林牧畜渔</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D02" data-id="D02" id="clothing">服装</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D03" data-id="D03" id="food">食品</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D04" data-id="D04" id="h_construction">住房与建筑</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D05" data-id="D05" id="traffic">交通,旅行</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D06" data-id="D06" id="medicine">医、药</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D07" data-id="D07" id="military">军事防御</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D08" data-id="D08" id="business">商贸</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D09" data-id="D09" id="project">工业、工程</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D10" data-id="D10" id="ag_irrigation">天文、地理、水文等</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D99" data-id="D99" id="on_knowledge">其他自然知识和实践</a>' +
+            '</dd>' +
+            '</dl>' +
+            '</div>' +
+            '<!--//End-->' +
+            '<div class="item">' +
+            '<dl>' +
+            '<dt ><a id="tt_handmade" href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E" data-id="E">传统手工艺技能</a></dt>' +
+            '<dd>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E01" data-id="E01"  id="tm_manufacture">工具及机械制作</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E02" data-id="E02" id="p_techniques">髹饰工艺</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E03" data-id="E03" id="daa_products">家畜农林产品加工</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E04" data-id="E04" id="d_process">织染工艺</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E05" data-id="E05" id="p_paperhanging">造纸、印刷机装裱</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E06" data-id="E06" id="k_techniques">编扎工艺</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E07" data-id="E07" id="cp_craft">字画工艺</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E08" data-id="E08" id="s_techniques">锻冶工艺</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E09" data-id="E09" id="pc_technics">剪刻工艺</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E10" data-id="E10" id="sc_techniques">雕塑工艺</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E11" data-id="E11" id="b_technics">烧造工艺</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E12" data-id="E12" id="w_techniques">木作工艺</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E99" data-id="E99" id="o_kind">其他类</a>' +
+            '</dd>' +
+            '</dl>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div id="drop_menu_en" class="drop_menu drop_menu_en">' +
+            '<div class="content">' +
+            '<div class="item" style="width:320px;">' +
+            '<dl>' +
+            '<dt><a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=A" data-id="A" id="legend">legend</a></dt>' +
+            '<dd>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=A01" data-id="A01" id="language">language</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=A02" data-id="A02" id="text">written language</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=A03" data-id="A03" id="oral">oral account</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=A04" data-id="A04" id="other_oral">other oral account</a>' +
+            '</dd>' +
+            '</dl>' +
+            '<dl>' +
+            '<dt><a id="custom_etiquette" href="' + renderHhtml.uri + '/page/search.html?gb_category_code=C" data-id="C">custom and etiquette</a></dt>' +
+            '<dd>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=C01" data-id="C01" id="business_custom">business custom</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=C02" data-id="C02" id="life_customs">Life customs</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=C03" data-id="C03" id="life_ritual">Life ritual</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=C04" data-id="C04" id="festival_celebration">Festival celebration</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=C99" data-id="C99" id="other_celebration">other celebration</a>' +
+            '</dd>' +
+            '</dl>' +
+            '</div>' +
+            '<!--//End-->' +
+            '<div class="item" style="width: 350px;">' +
+            '<dl>' +
+            '<dt><a id="practice_nature" href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D" data-id="D">The practice of nature and universe</a></dt>' +
+            '<dd>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D01" data-id="D01" id="df_fishery">Dense forest and fishery</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D02" data-id="D02" id="clothing">clothing</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D03" data-id="D03" id="food">Food</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D04" data-id="D04" id="h_construction">Housing and construction</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D05" data-id="D05" id="traffic">Traffic</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D06" data-id="D06" id="medicine">Medicine</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D07" data-id="D07" id="military">Military</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D08" data-id="D08" id="business">business</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D09" data-id="D09" id="project">Project</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D10" data-id="D10" id="ag_irrigation">astronomy  geography  irrigation</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=D99" data-id="D99" id="on_knowledge">Other natural knowledge</a>' +
+            '</dd>' +
+            '</dl>' +
+            '</div>' +
+            '<!--//End-->' +
+            '<div class="item" style="width:360px;">' +
+            '<dl>' +
+            '<dt><a id="tt_handmade" href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E" data-id="E">the technical of tradition handmade</a>' +
+            '</dt>' +
+            '<dd>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E01" data-id="E01" id="tm_manufacture">tool and mechanical manufacture</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E02" data-id="E02" id="p_techniques">Painting techniques</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E03" data-id="E03"  id="daa_products">domestic animal agriculture and forestry products</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E04" data-id="E04" id="d_process">Dyeing process</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E05" data-id="E05" id="p_paperhanging">Paper printing and paperhanging</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E06" data-id="E06" id="k_techniques">knit  techniques</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E07" data-id="E07" id="cp_craft">Calligraphy and painting craft</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E08" data-id="E08" id="s_techniques">smithing  techniques</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E09" data-id="E09" id="pc_technics">paper-cut and carve technics</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E10" data-id="E10" id="sc_techniques">sculpture  techniques</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E11" data-id="E11" id="b_technics">barbecue technics</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E12" data-id="E12" id="w_techniques">wooden  techniques</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=E99" data-id="E99" id="o_kind">other kind</a>' +
+            '</dd>' +
+            '</dl>' +
+            '</div>' +
+            '<!--//End-->' +
+            '<div class="item" style="width:170px;">' +
+            '<dl>' +
+            '<dt><a id="perform" href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B" data-id="B">perform</a></dt>' +
+            '<dd>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B01" data-id="B01" id="music">music</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B02" data-id="B02" id="dance">dance</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B03" data-id="B03" id="folk_song">folk song</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B04" data-id="B04" id="traditional_drama">Traditional drama</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B05" data-id="B05" id="quyi">Chinese folk art forms</a>' +
+            '<a style="height: 51px;" href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B06" data-id="B06" id="sport">Traditional sports,<br>entertainment and<br>acrobatics</a>' +
+            '<a href="' + renderHhtml.uri + '/page/search.html?gb_category_code=B99" data-id="B99" id="other_perform">other   perform</a>' +
+            '</dd>' +
+            '</dl>' +
+            '</div>' +
+            '<!--//End-->' +
+            '</div>' +
             '</div>';
         this.base('.header', htmlStr);
     },
-    footer: function() { //底部
-        var htmlStr = '<div class="diich">'+
-            '<div class="hd">'+
-            '<div class="logo"><a href="http://diich.efeiyi.com/page/index.html"></a></div>'+
-            '</div>'+
-            '</div>'+
-            '<div class="main">'+
-            '<div class="hd">'+
-            '<div class="lbox">'+
-            '<div><em>TEL：400-876-8766</em></div>'+
-            '<div><em>EMAIL：efeiyi@efeiyi.com</em></div>'+
-            '<div><em>地址：北京市东城区前门大街72&74号二层</em></div>'+
-            '<div><em>ADD：2Floor，72&74,Qian Men ST.Dongcheng District,Beijing,China</em></div>'+
-            '</div>'+
-            '<div class="rbox">'+
-            '<div class="share">'+
-            '<!-- <a href="" class="facebook" title="facebook"></a>'+
-            '<a href="" class="twitter" title="twitter"></a>'+
-            '<a href="" class="instagram" title="instagram"></a>'+
-            '<a href="" class="linkedin" title="linkedin"></a>-->'+
-            '<span class="code"><img src="'+renderHhtml.uri+'/assets/images/footer_code.png" alt=""></span>'+
-            '</div>'+
-            '</div>'+
-            '</div>'+
+    footer: function () { //底部
+        var htmlStr = '<div class="diich">' +
+            '<div class="hd">' +
+            '<div class="logo"><a href="http://diich.efeiyi.com/page/index.html"></a></div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="main">' +
+            '<div class="hd">' +
+            '<div class="lbox">' +
+            '<div><em>TEL：400-876-8766</em></div>' +
+            '<div><em>EMAIL：efeiyi@efeiyi.com</em></div>' +
+            '<div><em>地址：北京市东城区前门大街72&74号二层</em></div>' +
+            '<div><em>ADD：2Floor，72&74,Qian Men ST.Dongcheng District,Beijing,China</em></div>' +
+            '</div>' +
+            '<div class="rbox">' +
+            '<div class="share">' +
+            '<!-- <a href="" class="facebook" title="facebook"></a>' +
+            '<a href="" class="twitter" title="twitter"></a>' +
+            '<a href="" class="instagram" title="instagram"></a>' +
+            '<a href="" class="linkedin" title="linkedin"></a>-->' +
+            '<span class="code"><img src="' + renderHhtml.uri + '/assets/images/footer_code.png" alt=""></span>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
             '</div>';
         this.base('.footer', htmlStr);
     },
 
-    base: function(obj, html) {
+    base: function (obj, html) {
         var _el = $(obj);
         _el.html(html);
     }
@@ -236,7 +238,7 @@ var renderHhtml = {
 
 //工具
 var utils = {
-    getStr: function(str) { //计算长度 汉字是2
+    getStr: function (str) { //计算长度 汉字是2
         var real = 0;
         var len = str.length;
         var charCode = -1;
@@ -254,21 +256,21 @@ var utils = {
 
 //公共
 var common = {
-    init: function() {
+    init: function () {
         this.input();
         this.top();
         header.init();
     },
-    top: function() { //返回顶部
-        $('.gotop').click(function() {
-            $("html,body").animate({ scrollTop: 0 }, 500);
+    top: function () { //返回顶部
+        $('.gotop').click(function () {
+            $("html,body").animate({scrollTop: 0}, 500);
         });
     },
-    input: function() {
+    input: function () {
         //输入框特效
         var _form = $('.form');
         var _input = _form.find('input.ipt');
-        _input.each(function() {
+        _input.each(function () {
             var _this = $(this);
 
             //初始化val值
@@ -281,7 +283,7 @@ var common = {
              });*/
 
             //失去焦点
-            _this.blur(function() {
+            _this.blur(function () {
                 // clearInterval(timer);
 
                 var newVal = $(this).val();
@@ -294,13 +296,13 @@ var common = {
 
         });
     },
-    pad: function(num, length) { //个位数补零
+    pad: function (num, length) { //个位数补零
         if (!length) {
             length = 10;
         }
         return ("0" + num).substr(-length);
     },
-    slide: function() { //轮播图
+    slide: function () { //轮播图
         var parent = $('.slider');
         var imgLi = parent.find('ul.img li');
         var imgLen = imgLi.length;
@@ -311,25 +313,25 @@ var common = {
         var cur = 0;
         var speed = 5000;
         var timer = null;
-        var _value=['苏州刺绣技艺','Tango','Yoga','Equitation'];
-        var _value_en=['Embroidery','Tango','Yoga','Equitation'];
+        var _value = ['苏州刺绣技艺', 'Tango', 'Yoga', 'Equitation'];
+        var _value_en = ['Embroidery', 'Tango', 'Yoga', 'Equitation'];
 
-        numLi.mousedown(function() {
+        numLi.mousedown(function () {
             clearInterval(timer);
             cur = $(this).index();
             $(this).addClass('active').siblings('li').removeClass('active');
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
             var language = localStorage.getItem("language") ? localStorage.getItem("language") : 'zh-CN';
-            if(language == 'zh-CN'){
-                ipt.attr('placeholder', _value[cur]);
-            }else if(language == 'en'){
-                ipt.attr('placeholder', _value_en[cur]);
+            if (language == 'zh-CN') {
+                ipt.attr('value', _value[cur]);
+            } else if (language == 'en') {
+                ipt.attr('value', _value_en[cur]);
             }
 
         });
 
-        numLi.mouseup(function() {
+        numLi.mouseup(function () {
             timer = setInterval(slider, speed);
         });
 
@@ -346,12 +348,7 @@ var common = {
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
 
-            var language = localStorage.getItem("language") ? localStorage.getItem("language") : 'zh-CN';
-            if(language == 'zh-CN'){
-                ipt.attr('placeholder', _value[cur]);
-            }else if(language == 'en'){
-                ipt.attr('placeholder', _value_en[cur]);
-            }
+            ipt.attr('value', _value[cur]);
         }
 
 
@@ -360,26 +357,18 @@ var common = {
 
 //导航部分
 var header = {
-    init: function() {
+    init: function () {
         this.scroll();
         this.search();
         this.drop("zh");
-        this.bind();
-        loginPage.init();
     },
-    bind: function() { //点击状态
-        $('.header .content .info li.login').on('click', function() {
-            header.loginLayer();
-            return false;
-        });
-    },
-    scroll: function() { //页面滚动导航悬浮
+    scroll: function () { //页面滚动导航悬浮
         var _header = $('#home-header');
         var _top = $('.gotop');
         var _filter = $('.filter_search_fixed');
 
         if (_header) {
-            $(window).scroll(function() {
+            $(window).scroll(function () {
                 if ($(window).scrollTop() > 630) {
                     _header.addClass('active');
                     _top.css('opacity', '1');
@@ -402,7 +391,7 @@ var header = {
         var speed = 200;
 
         //中文
-        if(language || language=='zh'){
+        if (language || language == 'zh') {
             //去掉dd的左边距
             item.eq(0).css('width', '86px');
             item.eq(1).css('width', '143px');
@@ -418,9 +407,9 @@ var header = {
         _houer.hover(function () {
             clearInterval(timer);
             var _height = _header.outerHeight(true);
-            if($(this).text()=='ICH Directory'){
+            if ($(this).text() == 'ICH Directory') {
                 dropEn.css('top', _height + 'px').slideDown('fast');
-            }else {
+            } else {
                 drop.css('top', _height + 'px').slideDown('fast');
             }
         }, function () {
@@ -446,9 +435,8 @@ var header = {
         });
 
 
-
     },
-    search: function() {
+    search: function () {
         var _header = $('.header');
         var search = _header.find('li.search'); //搜索图标
         var filter = $('.filter_search'); //下拉搜索
@@ -459,14 +447,14 @@ var header = {
         var body = $('body');
 
         //1.导航上的搜索图标
-        search.on('click', function(e) {
+        search.on('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
             filter.css('top', _header.outerHeight(true) + 'px').slideDown('fast');
         });
 
         //2.点击筛选
-        filterAll.on('click', function() {
+        filterAll.on('click', function () {
             var _this = $(this);
             var _index = _this.index();
             filterItem.eq(_index)
@@ -477,13 +465,13 @@ var header = {
         });
 
         //3.阻止点击自身关闭
-        filter.on('click', function(e) {
+        filter.on('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
         });
 
         //4.点击自身之外的地方关闭下拉框
-        $(document).on("click", function() {
+        $(document).on("click", function () {
             filterItem.hide();
             filterFixed.slideUp('fast');
         });
@@ -496,7 +484,7 @@ var header = {
             body.css('overflow', '');
         }
 
-        body.find('.overbg').on('click', function() {
+        body.find('.overbg').on('click', function () {
             filterItem.hide();
             filterFixed.slideUp('fast');
             suggest.hide();
@@ -504,357 +492,343 @@ var header = {
             body.css('overflow', '');
         });
 
-    },
-    loginLayer: function() { //登录弹出框
-        var _layer = $('.box_layer');
-        var _speed = 300;
-
-        //弹出框显示
-        _layer.show().animate({ 'top': '50%' }, _speed);
-        $('body').append('<div class="overbg"></div>');
-
-        //弹出框隐藏
-        $('.overbg').on('click', function() {
-            _layer.animate({ 'top': '-50%' }, _speed);
-            $(this).remove();
-        })
     }
 };
 
 //首页 ok
 var homePage = {
-    init: function() {
+    init: function () {
         common.slide(); //轮播图
         this.map();
     },
-    data:function () {
-        var dataMap=[
+    data: function () {
+        var dataMap = [
             {
-                name:'克罗地亚',
-                en:'Croatia',
-                style:'top:120px;left:512px;',
-                count:'共计14项非遗项目',
-                desc:'克罗地亚北部的姜饼制作技艺、奥耶康卲演唱方式、锡尼斯卡圆环骑士竞赛',
-                present:'具有代表性项目有：'
+                name: '克罗地亚',
+                en: 'Croatia',
+                style: 'top:120px;left:512px;',
+                count: '共计14项非遗项目',
+                desc: '克罗地亚北部的姜饼制作技艺、奥耶康卲演唱方式、锡尼斯卡圆环骑士竞赛',
+                present: '具有代表性项目有：'
             },
             {
-                name:'希腊',
-                en:'Greece',
-                style:'top:162px;left:490px;',
-                count:'共计3项非遗项目',
-                desc:'希俄斯岛玛蒂脂制作工艺、提尼安岛大理石工艺',
-                present:'具有代表性项目有：'
+                name: '希腊',
+                en: 'Greece',
+                style: 'top:162px;left:490px;',
+                count: '共计3项非遗项目',
+                desc: '希俄斯岛玛蒂脂制作工艺、提尼安岛大理石工艺',
+                present: '具有代表性项目有：'
             },
             {
-                name:'墨西哥',
-                en:'Mexico',
-                count:'共计9项非遗项目',
-                style:'top: 206px;left: 158px',
-                desc:'土著亡灵节、飞人典礼',
-                present:'具有代表性项目有：'
+                name: '墨西哥',
+                en: 'Mexico',
+                count: '共计9项非遗项目',
+                style: 'top: 206px;left: 158px',
+                desc: '土著亡灵节、飞人典礼',
+                present: '具有代表性项目有：'
             },
             {
-                name:'巴西',
-                en:'Brazil',
-                style:'top: 322px;left: 302px',
-                count:'共计8项非遗项目',
-                desc:'巴亥瑞康卡乌的圆圈桑巴舞、瓦雅皮人的口头和图画表达形式',
-                present:'具有代表性项目有：'
+                name: '巴西',
+                en: 'Brazil',
+                style: 'top: 322px;left: 302px',
+                count: '共计8项非遗项目',
+                desc: '巴亥瑞康卡乌的圆圈桑巴舞、瓦雅皮人的口头和图画表达形式',
+                present: '具有代表性项目有：'
             },
             {
-                name:'阿根廷',
-                en:'Argentina',
-                style:'top: 390px;left: 256px',
-                count:'共计1项非遗项目',
-                desc:'布宜诺斯艾利斯的传统装饰画绘画技巧',
-                present:'具有代表性项目有：'
+                name: '阿根廷',
+                en: 'Argentina',
+                style: 'top: 390px;left: 256px',
+                count: '共计1项非遗项目',
+                desc: '布宜诺斯艾利斯的传统装饰画绘画技巧',
+                present: '具有代表性项目有：'
             },
             {
-                name:'比利时',
-                en:'Belgium',
-                style:'top:76px;left:472px',
-                count:'共计11项非遗项目',
-                desc:'比利时啤酒文化、东戴恩克尔克骑马捕虾、班什狂欢节',
-                present:'具有代表性项目有：'
+                name: '比利时',
+                en: 'Belgium',
+                style: 'top:76px;left:472px',
+                count: '共计11项非遗项目',
+                desc: '比利时啤酒文化、东戴恩克尔克骑马捕虾、班什狂欢节',
+                present: '具有代表性项目有：'
             },
             {
-                name:'匈牙利',
-                en:'Hungary',
-                style:'top: 102px;left: 502px;',
-                count:'共计4项非遗项目',
-                desc:'莫哈奇的冬末面具狂欢节、保护传统民俗音乐的柯达伊概念',
-                present:'具有代表性项目有：'
+                name: '匈牙利',
+                en: 'Hungary',
+                style: 'top: 102px;left: 502px;',
+                count: '共计4项非遗项目',
+                desc: '莫哈奇的冬末面具狂欢节、保护传统民俗音乐的柯达伊概念',
+                present: '具有代表性项目有：'
             },
             {
-                name:'法国',
-                en:'France',
-                style:'top: 102px;left: 459px;',
-                count:'共计14项非遗项目',
-                desc:'法国美食大餐、法国传统马术、奥布松挂毯',
-                present:'具有代表性项目有：'
+                name: '法国',
+                en: 'France',
+                style: 'top: 102px;left: 459px;',
+                count: '共计14项非遗项目',
+                desc: '法国美食大餐、法国传统马术、奥布松挂毯',
+                present: '具有代表性项目有：'
             },
             {
-                name:'德国',
-                en:'Germany',
-                style:'top:82px;left:484px;',
-                count:'共计1项非遗项目',
-                desc:'合作社组织共同分享利益的理念和方法',
-                present:'具有代表性项目有：'
+                name: '德国',
+                en: 'Germany',
+                style: 'top:82px;left:484px;',
+                count: '共计1项非遗项目',
+                desc: '合作社组织共同分享利益的理念和方法',
+                present: '具有代表性项目有：'
             },
             {
-                name:'意大利',
-                en:'Italy',
-                style:'top: 119px;left: 471px;',
-                count:'共计5项非遗项目',
-                desc:'克雷莫纳的传统小提琴工艺、西西里木偶剧',
-                present:'具有代表性项目有：'
+                name: '意大利',
+                en: 'Italy',
+                style: 'top: 119px;left: 471px;',
+                count: '共计5项非遗项目',
+                desc: '克雷莫纳的传统小提琴工艺、西西里木偶剧',
+                present: '具有代表性项目有：'
             },
             {
-                name:'土耳其',
-                en:'Turkey',
-                style:'top: 179px;left: 513px;',
-                count:'共计13项非遗项目',
-                desc:'土耳其咖啡、土耳其水拓画、科萨克传统仪式',
-                present:'具有代表性项目有：'
+                name: '土耳其',
+                en: 'Turkey',
+                style: 'top: 179px;left: 513px;',
+                count: '共计13项非遗项目',
+                desc: '土耳其咖啡、土耳其水拓画、科萨克传统仪式',
+                present: '具有代表性项目有：'
             },
             {
-                name:'沙特阿拉伯',
-                en:'Saudi Arabia',
-                style:'top: 222px;left: 552px;',
-                count:'共计2项非遗项目',
-                desc:'Almezmar,应和鼓点节奏的棍舞、Alardah Alnajdiyah,沙特阿拉伯的舞蹈、鼓乐和诗歌',
-                present:'具有代表性项目有：'
+                name: '沙特阿拉伯',
+                en: 'Saudi Arabia',
+                style: 'top: 222px;left: 552px;',
+                count: '共计2项非遗项目',
+                desc: 'Almezmar,应和鼓点节奏的棍舞、Alardah Alnajdiyah,沙特阿拉伯的舞蹈、鼓乐和诗歌',
+                present: '具有代表性项目有：'
             },
             {
-                name:'印度',
-                en:'India',
-                style:'top: 224px;left: 640px;',
-                count:'共计11项非遗项目',
-                desc:'瑜伽、拉达克的佛经诵读，在印度查谟和克什米尔地区跨喜马拉雅的拉达克诵读神圣的佛教经文',
-                present:'具有代表性项目有：'
+                name: '印度',
+                en: 'India',
+                style: 'top: 224px;left: 640px;',
+                count: '共计11项非遗项目',
+                desc: '瑜伽、拉达克的佛经诵读，在印度查谟和克什米尔地区跨喜马拉雅的拉达克诵读神圣的佛教经文',
+                present: '具有代表性项目有：'
             },
             {
-                name:'蒙古',
-                en:'Mongolia',
-                style:'top: 124px;left: 666px;',
-                count:'共计11项非遗项目',
-                desc:'马头琴传统音乐、蒙古传统艺术呼麦、那达慕大会',
-                present:'具有代表性项目有：'
+                name: '蒙古',
+                en: 'Mongolia',
+                style: 'top: 124px;left: 666px;',
+                count: '共计11项非遗项目',
+                desc: '马头琴传统音乐、蒙古传统艺术呼麦、那达慕大会',
+                present: '具有代表性项目有：'
             },
             {
-                name:'中国',
-                en:'China',
-                style:'top: 177px;left: 734px;',
-                count:'共计39项非遗项目',
-                desc:'京剧、中国书法、中医针灸、端午节',
-                present:'具有代表性项目有：'
+                name: '中国',
+                en: 'China',
+                style: 'top: 177px;left: 734px;',
+                count: '共计39项非遗项目',
+                desc: '京剧、中国书法、中医针灸、端午节',
+                present: '具有代表性项目有：'
 
             },
             {
-                name:'日本',
-                en:'Japan',
-                style:'top: 188px;left: 798px;',
-                count:'共计21项非遗项目',
-                desc:'歌舞伎、和食，日本的传统饮食文化，常见于新年庆祝活动、和纸，日本的传统手工造纸工艺',
-                present:'具有代表性项目有：'
+                name: '日本',
+                en: 'Japan',
+                style: 'top: 188px;left: 798px;',
+                count: '共计21项非遗项目',
+                desc: '歌舞伎、和食，日本的传统饮食文化，常见于新年庆祝活动、和纸，日本的传统手工造纸工艺',
+                present: '具有代表性项目有：'
             },
             {
-                name:'韩国',
-                en:'Korea',
-                style:'top: 189px;left: 769px',
-                count:'共计17项非遗项目',
-                desc:'韩国传统泡菜制作工艺、江陵端午祭',
-                present:'具有代表性项目有：'
+                name: '韩国',
+                en: 'Korea',
+                style: 'top: 189px;left: 769px',
+                count: '共计17项非遗项目',
+                desc: '韩国传统泡菜制作工艺、江陵端午祭',
+                present: '具有代表性项目有：'
             },
             {
-                name:'印度尼西亚',
-                en:'Indonesia',
-                style:'top: 298px;left: 744px',
-                count:'共计8项非遗项目',
-                desc:'哇扬皮影偶戏、印度尼西亚的蜡染印花工艺',
-                present:'具有代表性项目有：'
+                name: '印度尼西亚',
+                en: 'Indonesia',
+                style: 'top: 298px;left: 744px',
+                count: '共计8项非遗项目',
+                desc: '哇扬皮影偶戏、印度尼西亚的蜡染印花工艺',
+                present: '具有代表性项目有：'
             },
             {
-                name:'西班牙',
-                en:'Spain',
-                style:'top: 183px;left: 426px',
-                count:'共计13项非遗项目',
-                desc:'弗拉明戈、叠人塔',
-                present:'具有代表性项目有：'
+                name: '西班牙',
+                en: 'Spain',
+                style: 'top: 183px;left: 426px',
+                count: '共计13项非遗项目',
+                desc: '弗拉明戈、叠人塔',
+                present: '具有代表性项目有：'
             },
             {
-                name:'越南',
-                en:'Vietnam',
-                style:'top: 246px;left: 709px',
-                count:'共计11项非遗项目',
-                desc:'歌筹、雅乐——越南宫廷音乐',
-                present:'具有代表性项目有：'
+                name: '越南',
+                en: 'Vietnam',
+                style: 'top: 246px;left: 709px',
+                count: '共计11项非遗项目',
+                desc: '歌筹、雅乐——越南宫廷音乐',
+                present: '具有代表性项目有：'
             }
 
         ];
         return dataMap;
     },
-    endata:function () {
-        var dataMap=[
+    endata: function () {
+        var dataMap = [
             {
-                name:'克罗地亚',
-                en:'Croatia',
-                style:'top:120px;left:512px;',
-                count:'A total of 9 projects',
-                desc:'Northern Gingerbread Production Techniques, Oyekan Kung Concert Mode, Sini Card Rings Knights Competition',
-                present:'Represent projects：'
+                name: '克罗地亚',
+                en: 'Croatia',
+                style: 'top:120px;left:512px;',
+                count: 'A total of 9 projects',
+                desc: 'Northern Gingerbread Production Techniques, Oyekan Kung Concert Mode, Sini Card Rings Knights Competition',
+                present: 'Represent projects：'
             },
             {
-                name:'希腊',
-                en:'Greece',
-                style:'top:162px;left:490px;',
-                count:'A total of 3 projects',
-                desc:'Chios Island Marti Fat Making Craft, Tienan Island Marble Crafts',
-                present:'Represent projects：'
+                name: '希腊',
+                en: 'Greece',
+                style: 'top:162px;left:490px;',
+                count: 'A total of 3 projects',
+                desc: 'Chios Island Marti Fat Making Craft, Tienan Island Marble Crafts',
+                present: 'Represent projects：'
             },
             {
-                name:'墨西哥',
-                en:'Mexico',
-                count:'A total of 9 projects',
-                style:'top: 206px;left: 158px',
-                desc:'Aboriginal Scourge, Flying',
-                present:'Represent projects：'
+                name: '墨西哥',
+                en: 'Mexico',
+                count: 'A total of 9 projects',
+                style: 'top: 206px;left: 158px',
+                desc: 'Aboriginal Scourge, Flying',
+                present: 'Represent projects：'
             },
             {
-                name:'巴西',
-                en:'Brazil',
-                style:'top: 322px;left: 302px',
-                count:'A total of 8 projects',
-                desc:'Baji Rikangkawu\'s Circle Samba, Ouya Pei\'s oral and pictorial forms of expression',
-                present:'Represent projects：'
+                name: '巴西',
+                en: 'Brazil',
+                style: 'top: 322px;left: 302px',
+                count: 'A total of 8 projects',
+                desc: 'Baji Rikangkawu\'s Circle Samba, Ouya Pei\'s oral and pictorial forms of expression',
+                present: 'Represent projects：'
             },
             {
-                name:'阿根廷',
-                en:'Argentina',
-                style:'top: 390px;left: 256px',
-                count:'1 project',
-                desc:'Buenos Aires\'s traditional decorative painting techniques',
-                present:'Represent projects：'
+                name: '阿根廷',
+                en: 'Argentina',
+                style: 'top: 390px;left: 256px',
+                count: '1 project',
+                desc: 'Buenos Aires\'s traditional decorative painting techniques',
+                present: 'Represent projects：'
             },
             {
-                name:'比利时',
-                en:'Belgium',
-                style:'top:76px;left:472px',
-                count:'A total of 11 projects',
-                desc:'Belgian Beer Culture, East Dyke Kirk Riding Shrimp, Bans Carnival',
-                present:'Represent projects：'
+                name: '比利时',
+                en: 'Belgium',
+                style: 'top:76px;left:472px',
+                count: 'A total of 11 projects',
+                desc: 'Belgian Beer Culture, East Dyke Kirk Riding Shrimp, Bans Carnival',
+                present: 'Represent projects：'
             },
             {
-                name:'匈牙利',
-                en:'Hungary',
-                style:'top: 102px;left: 502px;',
-                count:'A total of 4 projects',
-                desc:'Mohach\'s Winter Carnival, Carnival to Protect Traditional Folk Music',
-                present:'Represent projects：'
+                name: '匈牙利',
+                en: 'Hungary',
+                style: 'top: 102px;left: 502px;',
+                count: 'A total of 4 projects',
+                desc: 'Mohach\'s Winter Carnival, Carnival to Protect Traditional Folk Music',
+                present: 'Represent projects：'
             },
             {
-                name:'法国',
-                en:'France',
-                style:'top: 102px;left: 459px;',
-                count:'A total of 14 projects',
-                desc:'French cuisine, French traditional equestrian, Aubuxong tapestry',
-                present:'Represent projects：'
+                name: '法国',
+                en: 'France',
+                style: 'top: 102px;left: 459px;',
+                count: 'A total of 14 projects',
+                desc: 'French cuisine, French traditional equestrian, Aubuxong tapestry',
+                present: 'Represent projects：'
             },
             {
-                name:'德国',
-                en:'Germany',
-                style:'top:82px;left:484px;',
-                count:'A total of 9 projects',
-                desc:'Cooperative organization to share the interests of the concept and method',
-                present:'Represent projects：'
+                name: '德国',
+                en: 'Germany',
+                style: 'top:82px;left:484px;',
+                count: 'A total of 9 projects',
+                desc: 'Cooperative organization to share the interests of the concept and method',
+                present: 'Represent projects：'
             },
             {
-                name:'意大利',
-                en:'Italy',
-                style:'top: 119px;left: 471px;',
-                count:'A total of 9 projects',
-                desc:'Cremona\'s traditional violin craft, Sicilian puppet show',
-                present:'Represent projects：'
+                name: '意大利',
+                en: 'Italy',
+                style: 'top: 119px;left: 471px;',
+                count: 'A total of 9 projects',
+                desc: 'Cremona\'s traditional violin craft, Sicilian puppet show',
+                present: 'Represent projects：'
             },
             {
-                name:'土耳其',
-                en:'Turkey',
-                style:'top: 179px;left: 513px;',
-                count:'A total of 9 projects',
-                desc:'Turkish coffee, Turkish water painting, Korsak traditional ceremony',
-                present:'Represent projects：'
+                name: '土耳其',
+                en: 'Turkey',
+                style: 'top: 179px;left: 513px;',
+                count: 'A total of 9 projects',
+                desc: 'Turkish coffee, Turkish water painting, Korsak traditional ceremony',
+                present: 'Represent projects：'
             },
             {
-                name:'沙特阿拉伯',
-                en:'Saudi Arabia',
-                style:'top: 222px;left: 552px;',
-                count:'A total of 9 projects',
-                desc:'Almezmar, should dance with rhythm of the drums, Alardah Alnajdiyah, Saudi Arabia\'s dance, drums and poetry',
-                present:'Represent projects：'
+                name: '沙特阿拉伯',
+                en: 'Saudi Arabia',
+                style: 'top: 222px;left: 552px;',
+                count: 'A total of 9 projects',
+                desc: 'Almezmar, should dance with rhythm of the drums, Alardah Alnajdiyah, Saudi Arabia\'s dance, drums and poetry',
+                present: 'Represent projects：'
             },
             {
-                name:'印度',
-                en:'India',
-                style:'top: 224px;left: 640px;',
-                count:'A total of 9 projects',
-                desc:'Yoga, Ladakh\'s Buddhist scriptures, recitation of the holy Buddhist scriptures across the Himalayan Ladakh in the Jammu and Kashmir regions of India',
-                present:'Represent projects：'
+                name: '印度',
+                en: 'India',
+                style: 'top: 224px;left: 640px;',
+                count: 'A total of 9 projects',
+                desc: 'Yoga, Ladakh\'s Buddhist scriptures, recitation of the holy Buddhist scriptures across the Himalayan Ladakh in the Jammu and Kashmir regions of India',
+                present: 'Represent projects：'
             },
             {
-                name:'蒙古',
-                en:'Mongolia',
-                style:'top: 124px;left: 666px;',
-                count:'A total of 9 projects',
-                desc:'Ma Touqin traditional music, Mongolian traditional art call wheat, that Dammam meeting',
-                present:'Represent projects：'
+                name: '蒙古',
+                en: 'Mongolia',
+                style: 'top: 124px;left: 666px;',
+                count: 'A total of 9 projects',
+                desc: 'Ma Touqin traditional music, Mongolian traditional art call wheat, that Dammam meeting',
+                present: 'Represent projects：'
             },
             {
-                name:'中国',
-                en:'China',
-                style:'top: 177px;left: 734px;',
-                count:'A total of 39 projects',
-                desc:'Peking Opera, Chinese calligraphy, Chinese acupuncture, Dragon Boat Festival',
-                present:'Represent projects：'
+                name: '中国',
+                en: 'China',
+                style: 'top: 177px;left: 734px;',
+                count: 'A total of 39 projects',
+                desc: 'Peking Opera, Chinese calligraphy, Chinese acupuncture, Dragon Boat Festival',
+                present: 'Represent projects：'
             },
             {
-                name:'日本',
-                en:'Japan',
-                style:'top: 188px;left: 798px;',
-                count:'A total of 21 projects',
-                desc:'Kabuki, and food, the traditional Japanese food culture, common in the New Year celebration, and paper, Japan\'s traditional handmade papermaking craft',
-                present:'Represent projects：'
+                name: '日本',
+                en: 'Japan',
+                style: 'top: 188px;left: 798px;',
+                count: 'A total of 21 projects',
+                desc: 'Kabuki, and food, the traditional Japanese food culture, common in the New Year celebration, and paper, Japan\'s traditional handmade papermaking craft',
+                present: 'Represent projects：'
             },
             {
-                name:'韩国',
-                en:'Korea',
-                style:'top: 189px;left: 769px',
-                count:'A total of 17 projects',
-                desc:'Korean traditional kimchi making process, Jiangling Dragon Boat Festival',
-                present:'Represent projects：'
+                name: '韩国',
+                en: 'Korea',
+                style: 'top: 189px;left: 769px',
+                count: 'A total of 17 projects',
+                desc: 'Korean traditional kimchi making process, Jiangling Dragon Boat Festival',
+                present: 'Represent projects：'
             },
             {
-                name:'印度尼西亚',
-                en:'Indonesia',
-                style:'top: 298px;left: 744px',
-                count:'A total of 8 projects',
-                desc:'Wo yang puppet show, Indonesian batik printing process',
-                present:'Represent projects：'
+                name: '印度尼西亚',
+                en: 'Indonesia',
+                style: 'top: 298px;left: 744px',
+                count: 'A total of 8 projects',
+                desc: 'Wo yang puppet show, Indonesian batik printing process',
+                present: 'Represent projects：'
             },
             {
-                name:'西班牙',
-                en:'Spain',
-                style:'top: 183px;left: 426px',
-                count:'A total of 18 projects',
-                desc:'Flamingo, stacked tower',
-                present:'Represent projects：'
+                name: '西班牙',
+                en: 'Spain',
+                style: 'top: 183px;left: 426px',
+                count: 'A total of 18 projects',
+                desc: 'Flamingo, stacked tower',
+                present: 'Represent projects：'
             },
             {
-                name:'越南',
-                en:'Vietnam',
-                style:'top: 246px;left: 709px',
-                count:'A total of 11 projects',
-                desc:'Song music, music - Vietnamese court music',
-                present:'Represent projects：'
+                name: '越南',
+                en: 'Vietnam',
+                style: 'top: 246px;left: 709px',
+                count: 'A total of 11 projects',
+                desc: 'Song music, music - Vietnamese court music',
+                present: 'Represent projects：'
             }
 
         ];
@@ -897,13 +871,13 @@ var homePage = {
         var _span = map.find('span');
 
         //初始化计算
-        var leftOffset = _span.eq(14).offset().left+380+31;
+        var leftOffset = _span.eq(14).offset().left + 380 + 31;
 
 
-        if(broWidth-leftOffset < 10){
+        if (broWidth - leftOffset < 10) {
             modal.addClass('less');
             modal.css({top: 150, left: 334}).fadeIn(100);
-        }else{
+        } else {
             modal.removeClass('less');
             modal.css({top: 150, left: 765}).fadeIn(100);
         }
@@ -921,12 +895,12 @@ var homePage = {
 
             //判断浮层距离右侧间距
 
-            if(broWidth-_leftOffset < 10){
+            if (broWidth - _leftOffset < 10) {
                 modal.addClass('less');
-                modal.css({top: _top-27, left: _left-400}).fadeIn(100);
-            }else {
+                modal.css({top: _top - 27, left: _left - 400}).fadeIn(100);
+            } else {
                 modal.removeClass('less');
-                modal.css({top: _top-27, left: _left+31}).fadeIn(100);
+                modal.css({top: _top - 27, left: _left + 31}).fadeIn(100);
             }
 
 
@@ -954,7 +928,7 @@ var homePage = {
 
 //传承人详情页 ok
 var detaiInheritorlPage = {
-    init: function() {
+    init: function () {
         var _detail = $('.detail');
         widget.share(_detail); //分享
         widget.praise(_detail); //点赞
@@ -967,7 +941,7 @@ var detaiInheritorlPage = {
 
 //项目详情页 ok
 var projectPage = {
-    init: function() {
+    init: function () {
         var _detail = $('.detail');
         this.setAttr();
         this.masterMore();
@@ -979,46 +953,46 @@ var projectPage = {
         detailCommon.mainBg();
         detailCommon.cutText();
     },
-    setAttr: function() {
+    setAttr: function () {
         //设置文本内容为三列
         textHandle.set('.plain_text');
     },
-    masterMore:function () {
-        var master=$('.card_main .inheritor .master');
-        var oldHeight=master.height()-50;
+    masterMore: function () {
+        var master = $('.card_main .inheritor .master');
+        var oldHeight = master.height() - 50;
         var ul = master.find('ul');
         var li = ul.find('li');
         var totalItem = ul.find('.item');
         var item = li.find('.item');
-        var liLen=li.length;
+        var liLen = li.length;
         var page = master.find('.page');
 
         var prev = master.find('.prev');
         var next = master.find('.next');
         var more = master.find('.more');
 
-        var cur=0;
+        var cur = 0;
 
         //初始化
         li.hide();
         li.eq(0).show();
 
 
-        if(item.length<=3){
+        if (item.length <= 3) {
             more.hide();
         }
         more.find('em').html(totalItem.length);  //全部多少人
 
         //查看其它
-        more.on('click',function () {
-            ul.addClass('active').animate({'height':oldHeight+'px'},100);
+        more.on('click', function () {
+            ul.addClass('active').animate({'height': oldHeight + 'px'}, 100);
             $(this).hide();
             li.show();
             prev.show();
             next.show();
             page.show();
             li.find('.item:gt(0)').show();
-            if(liLen<2){
+            if (liLen < 2) {
                 prev.hide();
                 next.hide();
             }
@@ -1028,64 +1002,64 @@ var projectPage = {
         prev.hide();
         next.hide();
 
-        ul.animate({'height':'70px'},100);
+        ul.animate({'height': '70px'}, 100);
         page.hide();
         prev.hide();
         next.hide();
 
         li.find('.item:gt(2)').hide();
-        if(liLen>2){
-            for (var i = 0;i<liLen;i++) {
+        if (liLen > 2) {
+            for (var i = 0; i < liLen; i++) {
                 page.append('<span>' + common.pad(i + 1) + '</span>')
             }
         }
 
-        var _span=page.find('span');
+        var _span = page.find('span');
         _span.eq(0).addClass('active');
-        _span.on('click',function () {
-            cur=$(this).index();
+        _span.on('click', function () {
+            cur = $(this).index();
             $(this).addClass('active').siblings('span').removeClass('active');
-            ul.stop(true).animate({'margin-left':-cur*li.outerWidth(true)+'px'},300);
+            ul.stop(true).animate({'margin-left': -cur * li.outerWidth(true) + 'px'}, 300);
 
-            if(cur==0){
+            if (cur == 0) {
                 prev.addClass('active');
-            }else {
+            } else {
                 prev.removeClass('active');
             }
-            if(cur==liLen-1){
+            if (cur == liLen - 1) {
                 next.addClass('active');
-            }else {
+            } else {
                 next.removeClass('active');
             }
 
         });
         prev.addClass('active');
         //下一页
-        next.on('click',function () {
+        next.on('click', function () {
             prev.removeClass('active');
-            if(cur<liLen-1){
+            if (cur < liLen - 1) {
                 cur++;
             }
             _span.eq(cur).addClass('active').siblings('span').removeClass('active');
-            ul.stop(true).animate({'margin-left':-cur*li.outerWidth(true)+'px'},300);
+            ul.stop(true).animate({'margin-left': -cur * li.outerWidth(true) + 'px'}, 300);
             console.log(cur)
         });
         //上一页
-        prev.on('click',function () {
+        prev.on('click', function () {
             next.removeClass('active');
-            if(cur > 0){
+            if (cur > 0) {
                 cur--;
             }
-            if(cur==0){
+            if (cur == 0) {
                 $(this).addClass('active');
             }
             _span.eq(cur).addClass('active').siblings('span').removeClass('active');
-            ul.stop(true).animate({'margin-left':-cur*li.outerWidth(true)+'px'},300);
+            ul.stop(true).animate({'margin-left': -cur * li.outerWidth(true) + 'px'}, 300);
         });
-        if(cur==liLen-1){
+        if (cur == liLen - 1) {
             next.addClass('active');
         }
-        if(cur==0){
+        if (cur == 0) {
             prev.addClass('active')
         }
     }
@@ -1093,14 +1067,14 @@ var projectPage = {
 
 //作品详情页 ok
 var detailProductPage = {
-    init: function() {
+    init: function () {
         $('.card .plain_text li:last-child').css('margin-right', 0);
         this.thumbTab();
         detailCommon.scrollFloor();
         widget.doiCode();
         this.paly();
     },
-    thumbTab: function() { //视频相册轮播
+    thumbTab: function () { //视频相册轮播
         var parent = $('.media_box');
         var item = parent.find('.pic .item'); //主内容
         var _play = item.find('.play_big');
@@ -1130,22 +1104,22 @@ var detailProductPage = {
         }
 
         //点击缩略图
-        _li.on('click', function() {
+        _li.on('click', function () {
             cur = $(this).index();
             item.eq(cur).show().siblings('.item').hide();
             $(this).addClass('active').siblings('li').removeClass('active');
             em.eq(0).text(common.pad(cur + 1));
 
-            var type= $(this).attr('data-type');
+            var type = $(this).attr('data-type');
             videoPlay(type, cur);
         });
 
         //2.点击下一页
-        next.on('click', function() {
+        next.on('click', function () {
             if (cur < _liLen - 1) {
                 cur++;
                 if (cur > 4 && cur < _liLen - 1) {
-                    _ul.animate({ 'margin-left': -(cur - 4) * _liWidth + 'px' }, 300)
+                    _ul.animate({'margin-left': -(cur - 4) * _liWidth + 'px'}, 300)
                 }
             }
             item.eq(cur).show().siblings('.item').hide();
@@ -1154,11 +1128,11 @@ var detailProductPage = {
         });
 
         //3.点击上一页
-        prev.on('click', function() {
+        prev.on('click', function () {
             if (cur > 0) {
                 cur--;
                 if (cur > 4 && cur < _liLen - 1) {
-                    _ul.animate({ 'margin-left': -(cur - 5) * _liWidth + 'px' }, 300)
+                    _ul.animate({'margin-left': -(cur - 5) * _liWidth + 'px'}, 300)
                 }
             }
             item.eq(cur).show().siblings('.item').hide();
@@ -1169,117 +1143,49 @@ var detailProductPage = {
 
         //视频播放
         function videoPlay(type, val) {
-            var video=item.find('video').get(0);
-            if(video){
+            var video = item.find('video').get(0);
+            if (video) {
                 video.pause();
-                if(video.paused){
+                if (video.paused) {
                     _play.show();
                 }
             }
         }
 
     },
-    paly:function () {
-        var play=$('.play_big');
-        var video= play.siblings('video');
-        play.on('click',function () {
+    paly: function () {
+        var play = $('.play_big');
+        var video = play.siblings('video');
+        play.on('click', function () {
             $(this).hide();
             video.get(0).play();
-            video.attr('controls','controls')
+            video.attr('controls', 'controls')
         });
     }
 };
-
-/*
-//大师页面 ok
-var masterPage = {
-    init: function() {
-        this.getScreen();
-        this.selectMaster();
-        $(window).resize(function() {
-            masterPage.getScreen();
-        })
-    },
-    getScreen: function() { //获取浏览器分辨率
-        var headerHeight = $('.header').outerHeight(true); //导航高度
-        var clientWidth = $(window).width(); //浏览器宽度
-        var clientHeight = $(window).height(); //浏览器宽度
-        var mainHeight = clientHeight - headerHeight; //内容的高度
-
-        var parent=$('.master_page');
-        var lbox = parent.find('.lbox');
-        var rbox = parent.find('.rbox');
-        var rboxDefaultContextP = rbox.find('.context p');
-        var li = lbox.find('li');
-        var liHeight = parseInt(mainHeight / 4) < 150 ? 150 : parseInt(mainHeight / 4); //单个li的高度,最小宽度为150px;
-
-        var lboxWidth = liHeight * 5; //左侧宽度
-        var lboxHeight = liHeight * 4; //左侧高度
-        var rboxWidth = clientWidth - lboxWidth; //右侧宽度
-
-        if (clientWidth < 1200) {
-            clientWidth = 1200;
-        }
-
-
-        //左侧
-        lbox.css('width', lboxWidth + 'px'); //左侧赋值
-        li.css({ 'width': liHeight + 'px', 'height': liHeight + 'px' });
-
-        //右侧
-        rbox.css({ 'width': rboxWidth + 'px', 'height': lboxHeight + 'px' });
-
-        if (mainHeight <= 760) {
-            rboxDefaultContextP.css('height', '70px');
-            $('.master_page .rbox .more').css('bottom', '110px')
-        } else {
-            rboxDefaultContextP.css('height', '');
-            $('.master_page .rbox .more').css('bottom', '110px')
-        }
-
-
-    },
-    selectMaster: function() { //选中大师
-        var _li = $('.master_avatar li');
-        var _default = $('.master_page .rbox .default');
-        var _item = $('.master_page .rbox .item');
-        var _h1 = $('.master_page .rbox .item .title h1');
-        var _oldText = _h1.text();
-
-
-        _li.on('click', function() {
-            /!*var index = $(this).index();
-            _default.hide();
-            _item.show();
-            $(this).addClass('active').siblings('li').removeClass('active');
-            _h1.text(_oldText + index);*!/
-        });
-    }
-};
-*/
 
 //非遗名录 && 搜索结果页
 var searchPage = {
-    init: function() {
+    init: function () {
         $('.header_detail .content .info li.search').hide();
         $('.header_detail .content .info li.login').addClass('line');
         // $('.directory .section li:nth-child(2n+1)').css('margin-right', '0');
         this.filterBar();
     },
-    filterBar: function() {
+    filterBar: function () {
         var obj = $('.filter_bar');
         var linkTab = obj.find('a');
         var iconTab = obj.find('.icon_tab');
         var proColumn = $('.pro_column3'); //搜索列表
 
         //筛选
-        linkTab.on('click', function() {
+        linkTab.on('click', function () {
             $(this).addClass('active').siblings('a').removeClass('active');
             return false;
         });
 
         //切换图标
-        iconTab.on('click', function() {
+        iconTab.on('click', function () {
             if ($(this).hasClass('active')) { //九宫格
                 $(this).removeClass('active');
                 proColumn.removeClass('active');
@@ -1293,76 +1199,9 @@ var searchPage = {
     }
 };
 
-//登录注册
-var loginPage = {
-    init: function() {
-        //去除表单最后一组的下边距
-        $('.form_area .group:last-child').css('margin-bottom', 0);
-
-        this.code();
-    },
-    code: function() { //验证码
-        this.html();
-
-        var _form = $('.form_area');
-        var _span = _form.find('.code span');
-        var _oldSpan = _span.text();
-        var time = 60;
-        _span.on('click', function() {
-            var _this = $(this);
-
-            if (!_this.hasClass('active')) {
-                _this.addClass('active').text(time + 's后重新发送');
-                var timer = setInterval(function() {
-                    time--;
-                    _this.text(time + 's后重新发送');
-
-                    if (time == 0) {
-                        clearInterval(timer);
-                        time = 60;
-                        _this.removeClass('active').text(_oldSpan);
-                    }
-                }, 1000);
-            }
-
-        });
-
-    },
-    html: function() {
-        var str = `<div class="box_layer">
-                            <form class="form_area" action="">
-                                <div class="title">登录</div>
-                                <div class="group">
-                                    <div class="name"><em>*</em><span>昵称</span></div>
-                                    <div class="area">
-                                        <input class="ipt" name="loginName" type="text" value="请输入昵称">
-                                    </div>
-                                </div>
-                                <div class="group">
-                                    <div class="name"><em>*</em><span>密码</span></div>
-                                    <div class="area">
-                                        <input class="ipt" type="text" value="请输入密码" name="password">
-                                        <a class="forget" href="#">忘记登录密码</a>
-                                    </div>
-                                </div>
-                                <div class="group">
-                                    <div class="name">&nbsp;</div>
-                                    <div class="area">
-                                        <input class="btn" type="button" value="登录" onclick="login()">
-                                        <a class="arrow_right" href="../page/regist.html">暂无账号，去注册</a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <!--//End 登录弹层-->`;
-        $('body').append(str);
-    }
-
-};
-
 //文本处理相关
 var textHandle = {
-    getLength: function(str) { //获取字符串长度   汉字是2
+    getLength: function (str) { //获取字符串长度   汉字是2
         var real = 0;
         var len = str.length;
         var charCode = -1;
@@ -1376,10 +1215,10 @@ var textHandle = {
         }
         return real;
     },
-    set: function(el) {
+    set: function (el) {
         var _this = this; //存储当前this
         var obj = $(el); //获取目标元素
-        obj.each(function() {
+        obj.each(function () {
             var _text = $(this).text(); //目标元素的内容
             var _len = _this.getLength(_text) / 2; //计算目标元素内容的长度
             if (_len >= 200 && _len <= 1200) {
@@ -1395,8 +1234,8 @@ var widget = {
         obj.each(function () {
             var _share = $(this).find('a.share');
             var _shareBox = $(this).find('.share_box');
-            var _el=_shareBox.find('.icons a');
-            var _img=_shareBox.find('.qrcode img');
+            var _el = _shareBox.find('.icons a');
+            var _img = _shareBox.find('.qrcode img');
             //弹出框
             _share.on('click', function () {
                 _img.eq(1).show();
@@ -1420,9 +1259,9 @@ var widget = {
             });
         });
     },
-    praise: function(obj) { //点赞功能
+    praise: function (obj) { //点赞功能
         var praise = obj.find('.praise');
-        praise.on('click', function() {
+        praise.on('click', function () {
             var _this = $(this);
 
             //创建动画数字
@@ -1447,7 +1286,7 @@ var widget = {
                 }).animate({
                     left: 15,
                     top: -30
-                }, 'slow', function() {
+                }, 'slow', function () {
                     $(this).fadeIn('fast').remove();
                 });
             }
@@ -1455,7 +1294,7 @@ var widget = {
         });
 
     },
-    doiCode: function() { //doi鼠标滑过显示二维码
+    doiCode: function () { //doi鼠标滑过显示二维码
         // $('.doi_code').hover(function() {
         //     $(this).find('.drop').stop(true).fadeToggle(true);
         // });
@@ -1464,9 +1303,9 @@ var widget = {
 
 //详情页相关
 var detailCommon = { //详情页用到的效果
-    productsTab: function() { //作品分页
+    productsTab: function () { //作品分页
         var _products = $('.product_list');
-        _products.each(function() {
+        _products.each(function () {
             //列表相关属性
             var _ul = _products.find('ul'); //获取列表ul
             var _li = _ul.find('li'); //获取列表li
@@ -1486,22 +1325,22 @@ var detailCommon = { //详情页用到的效果
                 _pageSpan.eq(0).addClass('active');
 
                 //计算列表滚动
-                _pageSpan.on('click', function() {
+                _pageSpan.on('click', function () {
                     var index = $(this).index();
-                    _ul.animate({ 'margin-left': -index * 1170 + 'px' }, 300);
+                    _ul.animate({'margin-left': -index * 1170 + 'px'}, 300);
                     $(this).addClass('active').siblings('span').removeClass('active');
                 });
             }
         });
     },
-    mediaShow: function(type, index) { //浮层弹出
+    mediaShow: function (type, index) { //浮层弹出
         if (type === '0') {
             this.mediaTab(type, index);
         } else {
             this.mediaTab(type, index);
         }
     },
-    mediaTab: function(type, index) { //相册和视频切换  type:0位相册,1为视频
+    mediaTab: function (type, index) { //相册和视频切换  type:0位相册,1为视频
         var mediaLayer = $('.media_layer');
         var head = mediaLayer.find('.head');
         var close = head.find('a.icon_close');
@@ -1516,7 +1355,7 @@ var detailCommon = { //详情页用到的效果
         //
         if (!mediaLayer.hasClass('active')) {
             firstShow(type, index);
-            albumNum.each(function() {
+            albumNum.each(function () {
                 $(this).find('.active').text(common.pad(1));
                 $(this).find('.total').text(common.pad(albumLi.length));
             });
@@ -1525,11 +1364,11 @@ var detailCommon = { //详情页用到的效果
         }
 
         //点击
-        span.on('click', function() {
+        span.on('click', function () {
             var _type = $(this).index();
             headTab(_type);
             videoPlay();
-            if(_type==1) {
+            if (_type == 1) {
                 videoPlay(1);
             }
         });
@@ -1583,13 +1422,13 @@ var detailCommon = { //详情页用到的效果
 
             li.eq(cur).show().siblings('li').hide();
             title.eq(cur).show().siblings('li').hide();
-            num.each(function() {
+            num.each(function () {
                 $(this).find('.active').text(common.pad(cur + 1));
                 $(this).find('.total').text(common.pad(liLen));
             });
 
             //下一页
-            next.on('click', function() {
+            next.on('click', function () {
                 prev.removeClass('active');
                 if (cur < liLen - 1) {
                     cur++;
@@ -1603,7 +1442,7 @@ var detailCommon = { //详情页用到的效果
             });
 
             //上一页
-            prev.on('click', function() {
+            prev.on('click', function () {
                 next.removeClass('active');
                 if (cur > 0) {
                     cur--;
@@ -1636,10 +1475,10 @@ var detailCommon = { //详情页用到的效果
                 next.hide();
             }
 
-            if(cur==0){
+            if (cur == 0) {
                 prev.addClass('active');
             }
-            if(cur==liLen-1){
+            if (cur == liLen - 1) {
                 next.addClass('active');
             }
 
@@ -1649,7 +1488,7 @@ var detailCommon = { //详情页用到的效果
             numLi.eq(cur).addClass('active').siblings('li').removeClass('active');
 
             //下一页
-            next.on('click', function() {
+            next.on('click', function () {
                 prev.removeClass('active');
                 if (cur < liLen - 1) {
                     cur++;
@@ -1666,7 +1505,7 @@ var detailCommon = { //详情页用到的效果
             });
 
             //上一页
-            prev.on('click', function() {
+            prev.on('click', function () {
                 next.removeClass('active');
                 if (cur > 0) {
                     cur--;
@@ -1681,7 +1520,7 @@ var detailCommon = { //详情页用到的效果
             });
 
             //角标点击效果
-            numLi.on('click', function() {
+            numLi.on('click', function () {
                 cur = $(this).index();
                 videoPlay(cur);
                 $(this).addClass('active').siblings('li').removeClass('active');
@@ -1702,7 +1541,7 @@ var detailCommon = { //详情页用到的效果
         function videoPlay(val) {
             videoLi.each(function () {
                 $(this).find('video').get(0).pause();
-                if(val || $(this).index()==val){
+                if (val || $(this).index() == val) {
                     $(this).find('video').get(0).play();
                 }
             });
@@ -1710,14 +1549,14 @@ var detailCommon = { //详情页用到的效果
         }
 
         //关闭浮层
-        close.on('click', function() {
+        close.on('click', function () {
             mediaLayer.addClass('active').fadeOut('fast');
             videoPlay();
             return false;
         });
 
     },
-    mainBg: function() { //首屏图片 视频
+    mainBg: function () { //首屏图片 视频
         var _img = $('.mainbg img');
         var imgW = _img.width();
         var imgH = _img.height();
@@ -1728,33 +1567,33 @@ var detailCommon = { //详情页用到的效果
         });
 
     },
-    cutText: function() { //截取长文本 大于3000
+    cutText: function () { //截取长文本 大于3000
         var lgText = $('div[data-type=lgText]');
         var textMore = $('.text_more');
         var _span = textMore.find('span');
         var oldH = lgText.height();
         var newH = 600; //基本高度
         if (lgText.height() >= newH) {
-            lgText.animate({ 'height': newH + 'px' }, 0);
+            lgText.animate({'height': newH + 'px'}, 0);
         }
         _span.eq(1).hide();
-        _span.on('click', function() {
+        _span.on('click', function () {
             var _this = $(this);
             if (_this.hasClass('show')) {
-                lgText.animate({ 'height': oldH + 'px' }, 100);
-                setTimeout(function() {
+                lgText.animate({'height': oldH + 'px'}, 100);
+                setTimeout(function () {
                     _this.hide().siblings('span').show();
                 }, 100);
             } else {
-                lgText.animate({ 'height': newH + 'px' }, 100);
-                setTimeout(function() {
+                lgText.animate({'height': newH + 'px'}, 100);
+                setTimeout(function () {
                     _this.hide().siblings('span').show();
                 }, 100);
             }
         })
 
     },
-    scrollFloor: function() { //楼层
+    scrollFloor: function () { //楼层
         var parent = $('.side_fixed')
         var _ul = parent.find('ul'); //导航
         var _floor = $('section.floor'); //楼层
@@ -1762,20 +1601,20 @@ var detailCommon = { //详情页用到的效果
         var arr = []; //把pros对应的几个位置标示出来
 
         //获取所有楼层标题
-        _nav.each(function(i) { //给右侧悬浮添加标题
+        _nav.each(function (i) { //给右侧悬浮添加标题
             _ul.append('<li><span>' + $(this).text() + '</span><strong>0' + (i + 1) + '</strong></li>');
         });
         var _li = _ul.find('li');
 
         //滚动
-        _floor.each(function() { //标记所有楼层导航的高度
+        _floor.each(function () { //标记所有楼层导航的高度
             var offsettop = $(this).offset().top;
             arr.push(parseInt(offsettop)); //火狐有半个像素的情况，故取整
         });
 
         var firstFloor = arr[0];
         //滚动鼠标
-        $(window).scroll(function() {
+        $(window).scroll(function () {
             var d = $(document).scrollTop();
 
             if (d > firstFloor - 20) {
@@ -1801,21 +1640,21 @@ var detailCommon = { //详情页用到的效果
         });
 
         //点击回到当前楼层
-        _ul.on('click', 'li', function() {
+        _ul.on('click', 'li', function () {
             var _index = $(this).index();
             var _top = _floor.eq(_index).offset().top;
             $(this).addClass('active').siblings('li').removeClass('active');
-            $('html,body').stop(true).animate({ 'scrollTop': _top + 'px' }, 500);
+            $('html,body').stop(true).animate({'scrollTop': _top + 'px'}, 500);
         });
     },
 };
 
 
-$(function() {
+$(function () {
     renderHhtml.init();
     common.init();
 
-    $('.play_big,.play,.albums').on('click', function() {
+    $('.play_big,.play,.albums').on('click', function () {
         var type = $(this).attr('data-type');
         var index = parseInt($(this).attr('data-id'));
         detailCommon.mediaShow(type, index);
@@ -1828,5 +1667,6 @@ $(function() {
 function getQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);
-    if (r != null) return decodeURI(r[2]); return null;
+    if (r != null) return decodeURI(r[2]);
+    return null;
 }
