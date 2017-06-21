@@ -48,26 +48,6 @@
             })
         })
     </script>
-   <#-- <style>
-        .trans_lang {
-            width:100%;
-            text-align:left;
-        }
-        .trans_lang>a {
-            text-align: center;
-            color: #fff;
-            background: #1B1B1B;
-            -webkit-border-radius: 2px;
-            border-radius: 2px;
-            display: inline-block;
-            letter-spacing: 1px;
-            margin-top: 30px;
-            -webkit-transition: all .3s;
-            transition: all .3s;
-            padding:16px 24px;
-
-        }
-    </style>-->
 </head>
 
 <body>
@@ -163,86 +143,59 @@
 <#assign workspage = "http://resource.efeiyi.com/html/works/"/>
 <#assign prouri="../../image/project/" />
 <#assign masteruri="../../image/master/" />
+<#assign str="http:" />
+<#assign strs="https:" />
 <div class="container">
     <div class="bd detail">
         <div class="mainbg">
-        <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/head.png">
-        <#if (obj.contentFragmentList?size>0)>
-            <#list obj.contentFragmentList as cf>
-                <#if cf.attributeId == 1>
-                    <#if (cf.resourceList?size>0)>
-                        <#list cf.resourceList as res>
-                            <#if res.type==0 && res.status==0>
-                                <#assign backImgUrl="${prouri}${res.uri}">
-                            </#if>
-                        </#list>
-                    </#if>
-                </#if>
-            </#list>
-        </#if>
-            <img src="${backImgUrl}" alt="">
-        <#if (obj.contentFragmentList?size>0)>
-            <#list obj.contentFragmentList as cf>
-                <#if cf.attributeId == 1>
-                    <#if (cf.resourceList?size>0)>
-                        <#list cf.resourceList as res>
-                            <#if res.type==1 && res.status==0>
-                                <video poster="${backImgUrl}" src="${prouri}${res.uri}"> </video>
-                                <span data-type="1"  class="play_big"> </span>
-                            </#if>
-                        </#list>
-                    </#if>
-                </#if>
-            </#list>
-        </#if>
+            <div class="content">
+                <div class="mask_left"></div>
 
+                <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/head.png">
+                <#if (obj.contentFragmentList?size>0)>
+                    <#list obj.contentFragmentList as cf>
+                        <#if cf.attributeId == 1>
+                            <#if (cf.resourceList?size>0)>
+                                <#list cf.resourceList as res>
+                                    <#if res.type==0 && res.status==0>
+                                        <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
+                                            <#assign backImgUrl="${prouri}${res.uri}">
+                                        </#if>
+                                        <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
+                                            <#assign backImgUrl="${res.uri}">
+                                        </#if>
+                                    </#if>
+                                </#list>
+                            </#if>
+                        </#if>
+                    </#list>
+                </#if>
+            <img src="${backImgUrl}" alt="">
+                <#if (obj.contentFragmentList?size>0)>
+                    <#list obj.contentFragmentList as cf>
+                        <#if cf.attributeId == 1>
+                            <#if (cf.resourceList?size>0)>
+                                <#list cf.resourceList as res>
+                                    <#if res.type==1 && res.status==0>
+                                        <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
+                                            <video poster="${backImgUrl}" src="${prouri}${res.uri}"> </video>
+                                        </#if>
+                                        <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
+                                            <video poster="${backImgUrl}" src="${res.uri}"> </video>
+                                        </#if>
+                                        <span data-type="1"  class="play_big"> </span>
+                                    </#if>
+                                </#list>
+                            </#if>
+                        </#if>
+                    </#list>
+                </#if>
+                <div class="mask_right"></div>
+            </div>
 
         </div>
         <!--//End main-->
-       <#-- <div class="crumbs">
-            <span>
-            <#if (obj.lang == "chi")>
-                非遗名录
-            </#if>
-            <#if (obj.lang == "eng")>
-                The heritage
-            </#if>
-            </span>
-        &lt;#&ndash;<i class="gt"></i>
-        <span><a href="" title="口头传说和表述">口头传说和表述</a></span>&ndash;&gt;
-        <#if (obj.ichCategory.name)??>
-            <i class="gt"></i>
-            <span><a href="${caturi}/page/search.html?gb_category_code=${obj.ichCategory.gbCategory}" data-id="${obj.ichCategory.gbCategory}" title="${obj.ichCategory.name}"> ${obj.ichCategory.name}</a></span>
-            <#if (obj.ichCategory.children??) && (obj.ichCategory.children?size>0)>
-                <#list obj.ichCategory.children as ch>
-                    <i class="gt"></i>
-                    <span><a href="${caturi}/page/search.html?gb_category_code=${ch.gbCategory}" data-id="${ch.gbCategory}" title="${ch.name}"> ${ch.name}</a></span>
-                    <#if (ch.children)?? && (ch.children?size>0)>
-                        <#list ch.children as chh>
-                            <i class="gt"></i>
-                            <span><a href="${caturi}/page/search.html?gb_category_code=${chh.gbCategory}" data-id="${chh.gbCategory}" title="${chh.name}"> ${chh.name}</a></span>
-                        </#list>
-                    </#if>
-                </#list>
-            </#if>
-        </#if>
-            <i class="gt"></i>
-            <span class="last"><#if (obj.contentFragmentList?size>0)>
-                                        <#list obj.contentFragmentList as cf>
-                                            <#if (obj.lang == "chi")>
-                                                <#if cf.attributeId == 4>
-                                                     ${cf.content}
-                                                </#if>
-                                            </#if>
-                                            <#if (obj.lang == "eng")>
-                                                <#if cf.attributeId == 5>
-                                                     ${cf.content}
-                                                </#if>
-                                            </#if>
-                                        </#list>
-                                    </#if>
-                </span>
-        </div>-->
+
         <!--//End crumbs-->
 
         <div class="card">
@@ -690,7 +643,13 @@
                                     <#list cf.resourceList as r>
                                         <li>
                                             <#if r.type ==0>
-                                                <img src="${prouri}${r.uri}" alt="">
+                                                <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
+                                                    <img src="${prouri}${r.uri}" alt="">
+                                                </#if>
+                                                <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
+                                                    <img src="${r.uri}" alt="">
+                                                </#if>
+
                                                 <#if r.description??>
                                                     <span>${r.description}</span>
                                                 </#if>
@@ -700,9 +659,16 @@
                                                 <div class="card_video">
                                                     <div class="time">30:24</div>
                                                     <div class="play" data-type="1" data-id="1" ></div>
-                                                    <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${prouri}${r.uri}" type="video/mp4" style="width: 100%;">
+                                                    <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
+                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${prouri}${r.uri}" type="video/mp4" style="width: 100%;">
+                                                        </video>
+                                                    </#if>
+                                                    <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
+                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${r.uri}" type="video/mp4" style="width: 100%;">
+                                                        </video>
+                                                    </#if>
 
-                                                    </video>
+
                                                 </div>
                                                 <#if r.description??>
                                                     <span>${r.description}</span>
@@ -902,7 +868,12 @@
                                         <#if (cf.resourceList??) &&(cf.resourceList?size>0)>
                                             <#list cf.resourceList as res>
                                                 <#if res.type==0 && res.status==0>
-                                                    <img src="<#if res.uri??>${prouri}${res.uri}?x-oss-process=style/head-image-style</#if>" alt="" width="94" height="70">
+                                                    <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
+                                                        <img src="<#if res.uri??>${prouri}${res.uri}?x-oss-process=style/head-image-style</#if>" alt="" width="94" height="70">
+                                                    </#if>
+                                                    <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
+                                                        <img src="<#if res.uri??>${res.uri}?x-oss-process=style/head-image-style</#if>" alt="" width="94" height="70">
+                                                    </#if>
                                                 </#if>
                                             </#list>
                                         </#if>
@@ -947,7 +918,12 @@
                         <#if cf.resourceList??>
                         <#list cf.resourceList as r>
                             <#if r.type ==0>
-                                <li><a href=""><img src="${prouri}${r.uri}" alt="" data-type="0" data-id="${idx}"></a></li>
+                                <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
+                                    <li><a href=""><img src="${prouri}${r.uri}" alt="" data-type="0" data-id="${idx}"></a></li>
+                                </#if>
+                                <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
+                                    <li><a href=""><img src="${r.uri}" alt="" data-type="0" data-id="${idx}"></a></li>
+                                </#if>
                                 <#assign idx=idx+1 />
                             </#if>
                         </#list>
@@ -1000,7 +976,12 @@
                         <#if cf.resourceList??>
                         <#list cf.resourceList as r>
                             <#if r.type ==1>
-                                <li><video src="${prouri}${r.uri}" controls  data-type="1" data-id="${idx}"></video></li>
+                                <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
+                                    <li><video src="${prouri}${r.uri}" controls  data-type="1" data-id="${idx}"></video></li>
+                                </#if>
+                                <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
+                                    <li><video src="${r.uri}" controls  data-type="1" data-id="${idx}"></video></li>
+                                </#if>
                                 <#assign idx=idx+1 />
                             </#if>
                         </#list>
@@ -1312,6 +1293,49 @@
             $("#mas").css("display","none");
         }
 
-    })
+    });
+    //详情页题图居中遮罩
+    (function () {
+        var t_img; // 定时器
+        var isLoad = true; // 控制变量
+
+        // 判断图片加载状况，加载完成后回调
+        isImgLoad(function () {
+            // 加载完成
+            var content = $('.detail .mainbg .content');
+            $('#detailTopic').each(function () {
+                var imgW = $(this).width();
+                console.log(imgW)
+                $(this).css('margin-left', -imgW/2);
+                content.css('width', imgW);
+            });
+        });
+
+        // 判断图片加载的函数
+        function isImgLoad(callback) {
+            // 注意我的图片类名都是cover，因为我只需要处理cover。其它图片可以不管。
+            // 查找所有封面图，迭代处理
+            $('#detailTopic').each(function () {
+                // 找到为0就将isLoad设为false，并退出each
+                if (this.height === 0) {
+                    isLoad = false;
+                    return false;
+                }
+            });
+            // 为true，没有发现为0的。加载完毕
+            if (isLoad) {
+                clearTimeout(t_img); // 清除定时器
+                // 回调函数
+                callback();
+                // 为false，因为找到了没有加载完成的图，将调用定时器递归
+            } else {
+                isLoad = true;
+                t_img = setTimeout(function () {
+                    isImgLoad(callback); // 递归扫描
+                }, 500); // 我这里设置的是500毫秒就扫描一次，可以自己调整
+            }
+        }
+    })();
+
 </script>
 </html>
