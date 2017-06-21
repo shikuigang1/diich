@@ -68,6 +68,43 @@ function getDictionaryArrayByType(type, lang) {
     return array;
 }
 
+function getCategoryTextById(id) {
+    if(typeof id == 'undefined' || id == null || id == '') {
+        return '非遗项目';
+    }
+
+    var text = getCategoryById(id);
+    text = text.substr(0, text.length - 3);
+
+
+    if(text.length > 4) {
+        text = text.substr(7, text.length - 1);
+    }
+
+    return text;
+}
+
+function getCategoryById(id) {
+    var text = '';
+
+    for(var i = 0; i < ich_category.length; i ++) {
+        var category = ich_category[i];
+        if(category.id != id) {
+            continue;
+        }
+
+        text = category.name + ' - ' + text;
+
+        if(category.parent_id == null) {
+            break;
+        } else {
+            var parent_text = getCategoryById(category.parent_id);
+            text = parent_text + text;
+        }
+    }
+    return text;
+}
+
 function uploadFile(uri) {
     $.ajaxFileUpload({
         url : uri,
