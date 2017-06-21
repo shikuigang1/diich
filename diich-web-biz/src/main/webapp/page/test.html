@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="/js/jquery.min.js"></script>
+    <script src="/data/dictionary.js"></script>
+    <script src="/data/category.js"></script>
+    <script src="/js/util.js"></script>
     <script src="/js/ajaxfileupload.js"></script>
 </head>
 <body>
@@ -42,6 +45,12 @@
         });
     });
 
+    //getTemplateUi('declare.html');
+
+    //getDictionaryArrayByType(103, 'eng');
+
+    var text = getCategoryTextById(2);
+    console.log(text);
 
 </script>
 </html>
