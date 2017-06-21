@@ -157,6 +157,16 @@ public class UserController extends BaseController<User> {
         return putDataToMap(user);
     }
 
+    @RequestMapping("userinfo")
+    @ResponseBody
+    public  Map<String, Object> userinfo(HttpServletRequest request,HttpServletResponse response) {
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(request.getSession().getAttribute("CURRENT_USER"));
+    }
+
+
+
     /**
      * 登出
      * @param request
