@@ -148,8 +148,8 @@
 <div class="container">
     <div class="bd detail">
         <div class="mainbg">
-            <div class="content">
-                <div class="mask_left" id="detailContent"></div>
+            <div class="content" id="detailContent">
+                <div class="mask_left"></div>
 
                 <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/head.png">
                 <#if (obj.contentFragmentList?size>0)>
@@ -171,8 +171,6 @@
                     </#list>
                 </#if>
                <#-- 默认图-->
-                <img src="" alt="" id="back_img" style="margin-top: -600px; margin-left: -1400px;">
-
             <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
                         <#if cf.attributeId == 1>
@@ -324,19 +322,6 @@
                             <#if (!obj.ichCategoryId??)>
                                 <em id="category" category-id=""></em>
                             </#if>
-                            <#--<#if (obj.ichCategory.name)??>
-                            ${obj.ichCategory.name}
-                                <#if ((obj.ichCategory.children)?? && obj.ichCategory.children?size>0)>
-                                    <#list obj.ichCategory.children as ch>
-                                        - ${ch.name}
-                                        <#if (ch.children)?? && (ch.children?size>0)>
-                                            <#list ch.children as chh>
-                                                - ${chh.name}
-                                            </#list>
-                                        </#if>
-                                    </#list>
-                                </#if>
-                            </#if>-->
 
                         </span>
                     <span>
@@ -1050,13 +1035,11 @@
 
 </body>
 <script>
-    //题图如果没有就是用默认图片  有就不使用
+    //题图如果没有就动态创建默认图片  有就不创建
     $(function(){
         var _src = $("#detailTopic").attr('src');
         if(_src=="" || _src ==null || typeof _src == 'undefined'){
-            $("#back_img").attr('src',"${backImgUrl}");
-        }else{
-            $("#back_img").hide();
+            $('#detailContent').append('<img src="${backImgUrl}" alt="" id="back_img" style="margin-top: -600px; margin-left: -1400px;">')
         }
     })
 </script>
