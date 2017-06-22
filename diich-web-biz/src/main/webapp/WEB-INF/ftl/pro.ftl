@@ -635,12 +635,12 @@
                                 <div class="item">
                                     <p>
                                         <#if cf.content??>
-                                             <#assign content =cf.content?replace("。\n", "。</p><p>") />
-                                           <#--  <#assign content =content?replace("\n", "?</p><p>") />-->
-                                              <#assign content =content?replace("\n 1、", "</p><p>1、") />
-                                              <#assign content =content?replace("\n 2、", "</p><p>2、") />
-                                              <#assign content =content?replace("\n 3、", "</p><p>3、") />
-                                                <#assign content =content?replace("\n 4、", "</p><p>4、") />
+                                             <#assign content =cf.content?replace("。\n", "。<br/>") />
+                                           <#--  <#assign content =content?replace("\n", "?<br/>") />-->
+                                              <#assign content =content?replace("\n 1、", "<br/>1、") />
+                                              <#assign content =content?replace("\n 2、", "<br/>2、") />
+                                              <#assign content =content?replace("\n 3、", "<br/>3、") />
+                                                <#assign content =content?replace("\n 4、", "<br/>4、") />
                                              ${content}
                                         </#if>
                                     </p>
@@ -723,36 +723,36 @@
                         <article class="plain_text">
                             <p>
                                 <#if cf.content??>
-                                    <#-- <#assign content =cf.content?replace("。\n", "。</p><p>") />-->
+                                    <#-- <#assign content =cf.content?replace("。\n", "。<br/>") />-->
                                     <#assign content =cf.content />
 
 
 
 
 
-                                      <#assign content =content?replace("（1）、", "</p><p>（1）、") />
-                                     <#assign content =content?replace("（2）、", "</p><p>（2）、") />
-                                      <#assign content =content?replace("（3）、", "</p><p>（3）、") />
-                                     <#assign content =content?replace("（4）、", "</p><p>（4）、") />
-                                      <#assign content =content?replace("（5）、", "</p><p>（5）、") />
-                                     <#assign content =content?replace("（6）、", "</p><p>（6）、") />
+                                      <#assign content =content?replace("（1）、", "<br/>（1）、") />
+                                     <#assign content =content?replace("（2）、", "<br/>（2）、") />
+                                      <#assign content =content?replace("（3）、", "<br/>（3）、") />
+                                     <#assign content =content?replace("（4）、", "<br/>（4）、") />
+                                      <#assign content =content?replace("（5）、", "<br/>（5）、") />
+                                     <#assign content =content?replace("（6）、", "<br/>（6）、") />
 
-                                     <#assign content =content?replace("（1）", "</p><p>（1）") />
-                                     <#assign content =content?replace("（2）", "</p><p>（2）") />
-                                     <#assign content =content?replace("（3）", "</p><p>（3）") />
-                                     <#assign content =content?replace("（4）", "</p><p>（4）") />
-                                     <#assign content =content?replace("（5）", "</p><p>（5）") />
-                                     <#assign content =content?replace("（6）", "</p><p>（6）") />
+                                     <#assign content =content?replace("（1）", "<br/>（1）") />
+                                     <#assign content =content?replace("（2）", "<br/>（2）") />
+                                     <#assign content =content?replace("（3）", "<br/>（3）") />
+                                     <#assign content =content?replace("（4）", "<br/>（4）") />
+                                     <#assign content =content?replace("（5）", "<br/>（5）") />
+                                     <#assign content =content?replace("（6）", "<br/>（6）") />
 
-                                        <#assign content =content?replace("（一）", "</p><p>（一）") />
-                                        <#assign content =content?replace("（二）", "</p><p>（二）") />
-                                        <#assign content =content?replace("（三）", "</p><p>（三）") />
-                                        <#assign content =content?replace("（四）", "</p><p>（四）") />
-                                        <#assign content =content?replace("（五）", "</p><p>（五）") />
-                                        <#assign content =content?replace("（六）", "</p><p>（六）") />
-                                        <#assign content =content?replace("（七）", "</p><p>（七）") />
-                                        <#assign content =content?replace("（八）", "</p><p>（八）") />
-                                        <#assign content =content?replace("（九）", "</p><p>（九）") />
+                                        <#assign content =content?replace("（一）", "<br/>（一）") />
+                                        <#assign content =content?replace("（二）", "<br/>（二）") />
+                                        <#assign content =content?replace("（三）", "<br/>（三）") />
+                                        <#assign content =content?replace("（四）", "<br/>（四）") />
+                                        <#assign content =content?replace("（五）", "<br/>（五）") />
+                                        <#assign content =content?replace("（六）", "<br/>（六）") />
+                                        <#assign content =content?replace("（七）", "<br/>（七）") />
+                                        <#assign content =content?replace("（八）", "<br/>（八）") />
+                                        <#assign content =content?replace("（九）", "<br/>（九）") />
 
 
 
@@ -766,7 +766,7 @@
                                       <#assign content =content?replace(" 8、", "<br/>7、") />
                                       <#assign content =content?replace(" 9、", "<br/>7、") />
 
-                                    <#--  <#assign content =content?replace("\n", "</p><p>") />-->
+                                    <#--  <#assign content =content?replace("\n", "<br/>") />-->
                                      <#assign content =content?replace("\n1、", " <br/>1、") />
                                      <#assign content =content?replace("\n2、", "<br/>2、") />
                                      <#assign content =content?replace("\n3、", "<br/>3、") />
@@ -788,15 +788,17 @@
                                         <#assign content =content?replace("\n19、", "<br/>19、") />
                                         <#assign content =content?replace("\n20、", "<br/>20、") />
                                         <#assign content =content?replace("\n21、", "<br/>21、") />
-                                        <#assign content =content?replace("\n一、", " <br/>一、") />
-                                        <#assign content =content?replace("\n二、", "<br/>二、") />
-                                        <#assign content =content?replace("\n三、", "<br/>三、") />
-                                        <#assign content =content?replace("\n四、", "<br/>四、") />
-                                        <#assign content =content?replace("\n五、", "<br/>五、") />
-                                        <#assign content =content?replace("\n六、", "<br/>六、") />
-                                        <#assign content =content?replace("\n七、", "<br/>七、") />
-                                       <#assign content =content?replace("\n八、", "<br/>八、") />
-                                        <#assign content =content?replace("\n九、", "<br/>九、") />
+                                        <#assign content =content?replace("一、", " <br/>一、") />
+                                        <#assign content =content?replace("二、", "<br/>二、") />
+                                        <#assign content =content?replace("三、", "<br/>三、") />
+                                        <#assign content =content?replace("四、", "<br/>四、") />
+                                        <#assign content =content?replace("五、", "<br/>五、") />
+                                        <#assign content =content?replace("六、", "<br/>六、") />
+                                        <#assign content =content?replace("七、", "<br/>七、") />
+                                       <#assign content =content?replace("八、", "<br/>八、") />
+                                        <#assign content =content?replace("九、", "<br/>九、") />
+
+
 
                                     ${content}
 
