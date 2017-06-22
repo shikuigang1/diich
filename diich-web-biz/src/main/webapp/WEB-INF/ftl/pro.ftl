@@ -748,8 +748,8 @@
                                      <#assign content =content?replace(" 5、", "<br/>5、") />
                                      <#assign content =content?replace(" 6、", "<br/>6、") />
                                       <#assign content =content?replace(" 7、", "<br/>7、") />
-                                      <#assign content =content?replace(" 8、", "<br/>7、") />
-                                      <#assign content =content?replace(" 9、", "<br/>7、") />
+                                      <#assign content =content?replace(" 8、", "<br/>8、") />
+                                      <#assign content =content?replace(" 9、", "<br/>9、") />
 
                                     <#--  <#assign content =content?replace("\n", "<br/>") />-->
                                      <#assign content =content?replace("\n1、", " <br/>1、") />
