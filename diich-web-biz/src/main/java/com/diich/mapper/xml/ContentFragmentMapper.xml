@@ -131,7 +131,7 @@
     <include refid="Blob_Column_List" />
     from content_fragment
     left JOIN  attribute on content_fragment.attribute_id = attribute.id
-    where content_fragment.target_id = #{targetId} and content_fragment.target_type =#{targetType} and content_fragment.status = 0
+    where content_fragment.target_id = #{targetId} and content_fragment.target_type =#{targetType} and content_fragment.status = 0 and attribute.is_open = 1
     order by attribute.seq
   </select>
 
