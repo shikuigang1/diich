@@ -149,7 +149,7 @@
     <div class="bd detail">
         <div class="mainbg">
             <div class="content">
-                <div class="mask_left"></div>
+                <div class="mask_left" id="detailContent"></div>
 
                 <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/head.png">
                 <#if (obj.contentFragmentList?size>0)>
@@ -170,7 +170,7 @@
                         </#if>
                     </#list>
                 </#if>
-            <img src="${backImgUrl}" alt="">
+            <img src="${backImgUrl}" alt="" id="detailTopic">
                 <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
                         <#if cf.attributeId == 1>
@@ -419,8 +419,8 @@
                                                     <p >${cf.content}</p>
                                                 </#if>
 
-                                                <#if cf.attributeId == 48 && cf.targetType == 1>
-                                                    <p >${cf.content}</p>
+                                                <#if cf.attributeId == 111 && cf.targetType == 1>
+                                                    <p class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</p>
                                                 </#if>
                                             </#list>
 
@@ -1348,46 +1348,15 @@
     });
     //详情页题图居中遮罩
     (function () {
-        var t_img; // 定时器
-        var isLoad = true; // 控制变量
-
-        // 判断图片加载状况，加载完成后回调
-        isImgLoad(function () {
+        var img = document.getElementById('detailTopic');
+        var content = document.getElementById('detailContent');
+        img.onload = function () {
             // 加载完成
-            var content = $('.detail .mainbg .content');
-            $('#detailTopic').each(function () {
-                var imgW = $(this).width();
-                console.log(imgW)
-                $(this).css('margin-left', -imgW/2);
-                content.css('width', imgW);
-            });
-        });
-
-        // 判断图片加载的函数
-        function isImgLoad(callback) {
-            // 注意我的图片类名都是cover，因为我只需要处理cover。其它图片可以不管。
-            // 查找所有封面图，迭代处理
-            $('#detailTopic').each(function () {
-                // 找到为0就将isLoad设为false，并退出each
-                if (this.height === 0) {
-                    isLoad = false;
-                    return false;
-                }
-            });
-            // 为true，没有发现为0的。加载完毕
-            if (isLoad) {
-                clearTimeout(t_img); // 清除定时器
-                // 回调函数
-                callback();
-                // 为false，因为找到了没有加载完成的图，将调用定时器递归
-            } else {
-                isLoad = true;
-                t_img = setTimeout(function () {
-                    isImgLoad(callback); // 递归扫描
-                }, 500); // 我这里设置的是500毫秒就扫描一次，可以自己调整
-            }
-        }
+            var imgW = this.width;
+            img.style.marginLeft = -imgW / 2 + 'px';
+            content.style.marginTop = '0px';
+            content.style.width = imgW + 'px';
+        };
     })();
-
 </script>
 </html>
