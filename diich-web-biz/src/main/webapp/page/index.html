@@ -13,8 +13,10 @@
     <script src="../js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="../js/i18n.js"></script>
     <script src="../js/index.js"></script>
+    <script src="../assets/js/login.js"></script>
+</head>
     <style>
-        ::-moz-placeholder { color: #fff; }
+        ::-moz-placeholder { color: #CCC; }
         ::-webkit-input-placeholder { color:#fff; }
         :-ms-input-placeholder { color:#fff; }
     </style>
@@ -339,29 +341,6 @@
 
  }
 
- function login(){
-
-     $.ajax({
-         cache: true,
-         type: "POST",
-         url: "/user/login",
-         data: $('.form_area').serialize(), // 你的formid
-         dataType: "json",
-         async: true,
-         error: function(request) {
-             //alert("Connection error");
-         },
-         success: function(data) {
-
-             if(data.code==2){
-                alert("用户名 密码错误!");
-             }else{
-                 $('.box_layer').hide();
-             }
-
-         }
-     });
- }
 
 function lang_en(){
     var _src=$(".avatar").attr('src');
