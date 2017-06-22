@@ -323,10 +323,10 @@ var common = {
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
             var language = localStorage.getItem("language") ? localStorage.getItem("language") : 'zh-CN';
-            if (language == 'zh-CN') {
-                ipt.attr('value', _value[cur]);
-            } else if (language == 'en') {
-                ipt.attr('value', _value_en[cur]);
+            if(language == 'zh-CN'){
+                ipt.attr('placeholder', _value[cur]);
+            }else if(language == 'en'){
+                ipt.attr('placeholder', _value_en[cur]);
             }
 
         });
@@ -348,7 +348,12 @@ var common = {
             imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
             textP.eq(cur).stop(true).fadeIn().siblings('p').fadeOut();
 
-            ipt.attr('value', _value[cur]);
+            var language = localStorage.getItem("language") ? localStorage.getItem("language") : 'zh-CN';
+            if(language == 'zh-CN'){
+                ipt.attr('placeholder', _value[cur]);
+            }else if(language == 'en'){
+                ipt.attr('placeholder', _value_en[cur]);
+            }
         }
 
 
