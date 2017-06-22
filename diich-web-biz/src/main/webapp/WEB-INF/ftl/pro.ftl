@@ -28,7 +28,7 @@
     <script src="${caturi}/data/keyword.js"></script>
     <script src="${caturi}/assets/js/jquery.min.js"></script>
     <script src="${caturi}/assets/js/system.js"></script>
-    <script src="${caturi}/js/category.js"></script>
+    <script src="${caturi}/data/category.js"></script>
     <script src="${caturi}/js/citys.js"></script>
     <script src="${caturi}/js/doT.js"></script>
     <script src="${caturi}/js/serverinfo.js"></script>
@@ -316,7 +316,13 @@
                                     Category：
                                 </#if>
                             </strong>
-                            <em><#if (obj.ichCategory.name)??>
+                            <#if (obj.ichCategoryId??)>
+                            <em id="category" category-id="${obj.ichCategoryId}"></em>
+                            </#if>
+                            <#if (!obj.ichCategoryId??)>
+                                <em id="category" category-id=""></em>
+                            </#if>
+                            <#--<#if (obj.ichCategory.name)??>
                             ${obj.ichCategory.name}
                                 <#if ((obj.ichCategory.children)?? && obj.ichCategory.children?size>0)>
                                     <#list obj.ichCategory.children as ch>
@@ -328,8 +334,8 @@
                                         </#if>
                                     </#list>
                                 </#if>
-                            </#if>
-                            </em>
+                            </#if>-->
+
                         </span>
                     <span>
 
@@ -1282,8 +1288,16 @@
             var _value = getTextByTypeAndCode(_type, _code, _lang);
             $(code_arr[i]).text(_value);
         }
+
+        //查询分类
+        catgary();
     });
 
+    function catgary(){
+        var _catId = $("#category").attr("category-id");
+        var text = getCategoryTextById(_catId);
+        $("#category").text(text);
+    }
 
 </script>
 <script>
