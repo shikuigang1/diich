@@ -11,7 +11,6 @@ var renderHhtml = {
             '<a class="logo" href="' + renderHhtml.uri + '/page/index.html"></a>' +
             '<div class="nav">' +
             '<ul>' +
-            '<li class="logined"><a></a></li>'+
             '<li class="active"><a href="' + renderHhtml.uri + '/page/index.html" id="home">首页</a></li>' +
             '<li><a href="#" id="ich_directory">非遗名录</a></li>' +
             '<li><a href="http://resource.efeiyi.com/html/masters/index.html?lang=' + language + '\" id=\"ich_master\">非遗大师</a></li>' +
