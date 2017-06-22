@@ -136,11 +136,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 //所属项目
                 IchProject ichProject =ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
                 ichMaster.setIchProject(ichProject);
-                //最后编辑者
-//                User user = userMapper.selectByPrimaryKey(ichMaster.getLastEditorId());
-//                if(user !=null){
-//                    ichMaster.setUser(user);
-//                }
                 //作品列表
                 List<Works> worksList =worksService.getWorksByIchMasterId(ichMaster.getId());
                 ichMaster.setWorksList(worksList);
@@ -179,9 +174,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                         //添加内容片断
                         saveContentFragment(contentFragment,id);
                     }
-                    //将code替换为name用于生成静态页面
-//                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList,ichMaster.getLang());
-//                    ichMaster.setContentFragmentList(contentFragments);
                 }
 
             } else {
@@ -210,9 +202,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                             }
                         }
                     }
-                    //将code替换为name用于生成静态页面
-//                    List<ContentFragment> contentFragments = getContentFragment(contentFragmentList,ichMaster.getLang());
-//                    ichMaster.setContentFragmentList(contentFragments);
                 }
 
             }
@@ -290,24 +279,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             Long attrId = contentFragment.getAttributeId();
             Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
             contentFragment.setAttribute(attribute);//添加属性
-
-//            if( attribute != null && attribute.getDataType() > 100) {
-//                if(contentFragment.getContent() == null){
-//                    continue;
-//                }
-//                String[] arrs= contentFragment.getContent().split(",");
-//                String name ="";
-//                for (String arr: arrs) {
-//                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr,ichMaster.getLang());
-//                    name +=";";
-//                }
-//                name = name.substring(0,name.length()-1);
-//                if("".equals(name) || null == name){
-//                    contentFragment.setContent(contentFragment.getContent());
-//                }else{
-//                    contentFragment.setContent(name);
-//                }
-//            }
             List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
             List<Resource> resourceList = new ArrayList<>();
             for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
