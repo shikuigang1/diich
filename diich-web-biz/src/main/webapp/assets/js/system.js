@@ -1561,14 +1561,14 @@ var detailCommon = { //详情页用到的效果
 
     },
     mainBg: function () { //首屏图片 视频
-        var _img = $('.mainbg img');
-        var imgW = _img.width();
-        var imgH = _img.height();
-
-        _img.css({
-            'margin-top': -parseInt(imgH / 2) + 'px',
-            'margin-left': -parseInt(imgW / 2) + 'px',
-        });
+        // var _img = $('.mainbg img');
+        // var imgW = _img.width();
+        // var imgH = _img.height();
+        //
+        // _img.css({
+        //     'margin-top': -parseInt(imgH / 2) + 'px',
+        //     'margin-left': -parseInt(imgW / 2) + 'px',
+        // });
 
     },
     cutText: function () { //截取长文本 大于3000
