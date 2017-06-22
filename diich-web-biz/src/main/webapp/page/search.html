@@ -18,6 +18,7 @@
     <script type="text/javascript" src="/js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="../js/i18n.js"></script>
 
+
     <script id="interpolationtmpl" type="text/x-dot-template">
 
         {{ for(var i=0, catlen=it.length; i<catlen; i++) { }} <li>
@@ -34,7 +35,7 @@
             <div class="context">
                 <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/project/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_cate"></i></h4>
                 <div class="doi">
-                    <span class="tag">ID</span>
+                    <span class="tag">DOI</span>
                     <span>标识码</span>
                     <span>{{= it[i].doi }}</span>
                 </div>
@@ -42,7 +43,7 @@
                 {{?it[i].category}}
                 <div class="cate">
                     <span>类别</span>
-                    <span>{{= it[i].category }}</span>
+                    <span >{{= it[i].category }}</span>
                 </div>
                 {{?}}
 
@@ -59,6 +60,7 @@
                 <img src="../assets/images/headsmall.png" alt="">
                 {{?}}
             </a>
+
             <div class="context">
                 <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/master/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_user"></i></h4>
 
@@ -73,7 +75,7 @@
                 {{?}}
 
                 <div class="doi">
-                    <span class="tag">ID</span>
+                    <span class="tag">DOI</span>
                     <span>标识码</span>
                     <span>{{= it[i].doi }}</span>
                 </div>
@@ -602,7 +604,6 @@
                             }else{
                                 $("#attr_text").text(c.eNname);
                             }
-
                             return false;
                         }
                     });
@@ -660,9 +661,6 @@
                 }
             }
         });*/
-
-
-
         var cur = 0;
         $("#keyword").keyup(function(e) {
             var _this = $(this);
@@ -843,8 +841,8 @@
                 var body = $('body');
                 //获取焦点
                 ipt.focus(function() {
-                    $(this).val('');
-                    body.append('<div class="overbg" style="z-index:1;"></div>');
+                   /* $(this).val('');
+                    body.append('<div class="overbg" style="z-index:1;"></div>');*/
                 });
 
                 //失去焦点如果为空则显示原始值
@@ -879,8 +877,6 @@
 
                         $("#catecontent").empty();
                         $("#citycontent").empty();
-
-
 
                         if ($(this).parent().attr("id")=='mainCategory'&& typeof(category_all[$(this).index()].children) != "undefined") {
                             $.each(category_all[$(this).index()].children, function(index, content) {
@@ -929,8 +925,6 @@
                                                                                 //do nothing
                                     }
                                 }
-
-
 
                             });
 
