@@ -18,6 +18,7 @@ import com.diich.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -25,6 +26,7 @@ import java.util.*;
  * Created by Administrator on 2017/5/9.
  */
 @Service("ichMasterService")
+@Transactional
 public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchMasterService {
 
     @Autowired
