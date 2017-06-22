@@ -661,7 +661,7 @@
                                                 </#if>
                                             </#if>
 
-                                            <#if r.type ==1>9866
+                                            <#if r.type ==1>
                                                 <div class="card_video">
                                                     <div class="time">30:24</div>
                                                     <div class="play" data-type="1" data-id="1" ></div>
