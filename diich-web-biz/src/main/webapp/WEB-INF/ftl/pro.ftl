@@ -723,15 +723,9 @@
                                 <#if cf.content??>
                                     <#-- <#assign content =cf.content?replace("。\n", "。</p><p>") />-->
                                     <#assign content =cf.content />
-                                    <#assign content =content?replace("1、", "</p><p>1、") />
-                                     <#assign content =content?replace("2、", "</p><p>2、") />
-                                     <#assign content =content?replace("3、", "</p><p>3、") />
-                                     <#assign content =content?replace("4、", "</p><p>4、") />
-                                     <#assign content =content?replace("5、", "</p><p>5、") />
-                                     <#assign content =content?replace("6、", "</p><p>6、") />
-                                     <#assign content =content?replace("7、", "</p><p>7、") />
-                                     <#assign content =content?replace("8、", "</p><p>8、") />
-                                    <#assign content =content?replace("9、", "</p><p>9、") />
+
+
+
 
 
                                       <#assign content =content?replace("（1）、", "</p><p>（1）、") />
@@ -757,6 +751,45 @@
                                      <#assign content =content?replace("（七）", "</p><p>（七）") />
                                      <#assign content =content?replace("（八）", "</p><p>（八）") />
                                      <#assign content =content?replace("（九）", "</p><p>（九）") />
+
+
+                                    <#--  <#assign content =content?replace("\n", "</p><p>") />-->
+                                    <#assign content =content?replace("\n1、", " <br/>1、") />
+                                     <#assign content =content?replace("\n2、", "<br/>2、") />
+                                     <#assign content =content?replace("\n3、", "<br/>3、") />
+                                     <#assign content =content?replace("\n4、", "<br/>4、") />
+                                    <#assign content =content?replace("\n5、", "<br/>5、") />
+                                     <#assign content =content?replace("\n6、", "<br/>6、") />
+                                      <#assign content =content?replace("\n7、", "<br/>7、") />
+                                        <#assign content =content?replace("\n8、", "<br/>8、") />
+                                       <#assign content =content?replace("\n9、", "<br/>9、") />
+                                        <#assign content =content?replace("\n10、", "<br/>10、") />
+                                         <#assign content =content?replace("\n11、", "<br/>11、") />
+                                        <#assign content =content?replace("\n12、", "<br/>12、") />
+                                          <#assign content =content?replace("\n13、", "<br/>13、") />
+                                        <#assign content =content?replace("\n14、", "<br/>14、") />
+                                           <#assign content =content?replace("\n15、", "<br/>15、") />
+                                             <#assign content =content?replace("\n16、", "<br/>16、") />
+                                         <#assign content =content?replace("\n17、", "<br/>17、") />
+                                        <#assign content =content?replace("\n18、", "<br/>18、") />
+                                          <#assign content =content?replace("\n19、", "<br/>19、") />
+                                        <#assign content =content?replace("\n20、", "<br/>20、") />
+                                           <#assign content =content?replace("\n21、", "<br/>21、") />
+
+
+
+                                    <#assign content =content?replace("\n一、", " <br/>一、") />
+                                     <#assign content =content?replace("\n二、", "<br/>二、") />
+                                     <#assign content =content?replace("\n三、", "<br/>三、") />
+                                     <#assign content =content?replace("\n四、", "<br/>四、") />
+                                    <#assign content =content?replace("\n五、", "<br/>五、") />
+                                     <#assign content =content?replace("\n六、", "<br/>六、") />
+                                      <#assign content =content?replace("\n七、", "<br/>七、") />
+                                       <#assign content =content?replace("\n八、", "<br/>八、") />
+                                        <#assign content =content?replace("\n九、", "<br/>九、") />
+
+
+
 
                                     ${content}
 
