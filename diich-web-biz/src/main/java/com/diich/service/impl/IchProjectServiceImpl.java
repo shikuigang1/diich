@@ -76,14 +76,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
 
             if(ichProject != null) {
-                Long ichCategoryId = Long.valueOf(0);
-                if(ichProject.getIchCategoryId()!=null){
-                    ichCategoryId = ichProject.getIchCategoryId();
-                }
-                IchCategory ichCategory = ichCategoryService.getCategoryById(ichCategoryId);
-                if(ichCategory != null) {
-                    ichProject.setIchCategory(ichCategory);
-                }
                  // User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
                 //获取传承人列表
                 List<IchMaster> ichMasterList = ichMasterService.getIchMasterByIchProjectId(Long.parseLong(id));
@@ -146,58 +138,45 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     public List<IchProject> getIchProjectList(Page<IchProject> page) throws Exception{
 
-        List<IchProject> ichItemList = null;
+        List<IchProject> ichProjectList = null;
         try {
             Map<String, Object> condition = page.getCondition();
             if(condition == null){
                 condition = new HashMap<>();
             }
-            ichItemList = ichProjectMapper.selectIchProjectList(page,condition);
-            for (IchProject ichProject:ichItemList) {
-                if(ichProject != null) {
-                    Long ichCategoryId = Long.valueOf(0);
-                    if(ichProject.getIchCategoryId()!=null){
-                        ichCategoryId = ichProject.getIchCategoryId();
-                    }
+            ichProjectList = ichProjectMapper.selectIchProjectList(page,condition);
 
-                    IchCategory ichCategory = ichCategoryService.getCategoryById(ichCategoryId);
+            for (IchProject ichProject:ichProjectList) {
 
-                    if(ichCategory != null) {
-                        ichProject.setIchCategory(ichCategory);
-                    }
-                    // User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
-                    //获取传承人列表
-                    List<IchMaster> ichMasterList = ichMasterService.getIchMasterByIchProjectId(ichProject.getId());
+                //获取传承人列表
+                List<IchMaster> ichMasterList = ichMasterService.getIchMasterByIchProjectId(ichProject.getId());
 
-                    ichProject.setIchMasterList(ichMasterList);
-                    //代表作品列表
-                    List<Works> worksList =worksService.getWorksByIchProjectId(ichProject.getId());
+                ichProject.setIchMasterList(ichMasterList);
+                //代表作品列表
+                List<Works> worksList =worksService.getWorksByIchProjectId(ichProject.getId());
 
-                    ichProject.setWorksList(worksList);
-                    //根据id和targetType查询中间表看是否有对应的版本
-                    Version version = null;
-                    if("chi".equals(ichProject.getLang())){
-                        version = versionService.getVersionByLangIdAndTargetType(ichProject.getId(), null, 0);
-                    }
-                    if("eng".equals(ichProject.getLang())){
-                        version = versionService.getVersionByLangIdAndTargetType(null, ichProject.getId(),0);
-                    }
-                    ichProject.setVersion(version);
+                ichProject.setWorksList(worksList);
+                //根据id和targetType查询中间表看是否有对应的版本
+                Version version = null;
+                if("chi".equals(ichProject.getLang())){
+                    version = versionService.getVersionByLangIdAndTargetType(ichProject.getId(), null, 0);
                 }
+                if("eng".equals(ichProject.getLang())){
+                    version = versionService.getVersionByLangIdAndTargetType(null, ichProject.getId(),0);
+                }
+                ichProject.setVersion(version);
 
                 //获取项目的field
                 List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
                 ichProject.setContentFragmentList(contentFragmentList);
 
             }
-
+            return ichProjectList;
         } catch (Exception e) {
             e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
 
         }
-
-        return ichItemList;
     }
 
 
@@ -298,12 +277,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         //所属项目
         IchProject ichProject = ichProjectMapper.selectByPrimaryKey(id);
         if (ichProject != null) {
-            Long ichCategoryId = Long.valueOf(0);
-            if(ichProject.getIchCategoryId()!=null){
-                ichCategoryId = ichProject.getIchCategoryId();
-            }
-            IchCategory ichCategory = ichCategoryService.getCategoryById(ichCategoryId);
-            ichProject.setIchCategory(ichCategory);
             //内容片断列表
             List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
             ichProject.setContentFragmentList(contentFragmentList);
