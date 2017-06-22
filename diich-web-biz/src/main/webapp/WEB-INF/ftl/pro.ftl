@@ -159,10 +159,10 @@
                                 <#list cf.resourceList as res>
                                     <#if res.type==0 && res.status==0>
                                         <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                            <#assign backImgUrl="${prouri}${res.uri}">
+                                            <img src="${prouri}${res.uri}" alt="" id="detailTopic">
                                         </#if>
                                         <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
-                                            <#assign backImgUrl="${res.uri}">
+                                            <img src="${res.uri}" alt="" id="detailTopic">
                                         </#if>
                                     </#if>
                                 </#list>
@@ -170,8 +170,10 @@
                         </#if>
                     </#list>
                 </#if>
-            <img src="${backImgUrl}" alt="" id="detailTopic">
-                <#if (obj.contentFragmentList?size>0)>
+               <#-- 默认图-->
+                <img src="" alt="" id="back_img" style="margin-top: -600px; margin-left: -1400px;">
+
+            <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
                         <#if cf.attributeId == 1>
                             <#if (cf.resourceList?size>0)>
@@ -1047,6 +1049,17 @@
 
 
 </body>
+<script>
+    //题图如果没有就是用默认图片  有就不使用
+    $(function(){
+        var _src = $("#detailTopic").attr('src');
+        if(_src=="" || _src ==null || typeof _src == 'undefined'){
+            $("#back_img").attr('src',"${backImgUrl}");
+        }else{
+            $("#back_img").hide();
+        }
+    })
+</script>
 <script>
     $(function() {
         //初始化
