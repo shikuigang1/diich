@@ -754,7 +754,7 @@
 
 
 
-                                       <#assign content =content?replace(" 1、", " <br/>1、") />
+                                     <#assign content =content?replace(" 1、", "<br/>1、") />
                                      <#assign content =content?replace(" 2、", "<br/>2、") />
                                      <#assign content =content?replace(" 3、", "<br/>3、") />
                                      <#assign content =content?replace(" 4、", "<br/>4、") />
