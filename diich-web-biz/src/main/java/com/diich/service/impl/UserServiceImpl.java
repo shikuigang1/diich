@@ -31,7 +31,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         String code =null;
         try{
             code = IdGenerator.gensalt_num(4);
-            String text="您的手机验证码为："+code+"，60秒之内有效。请不要把验证码泄漏给其他人，如非本人操作请忽略。【非遗国际】";
+            String text="您的手机验证码为："+code+"，60秒之内有效。请不要把验证码泄漏给其他人，如非本人操作请忽略。【e飞蚁一非遗国际】";
             //发送信息
             SendMsgUtil.sendSms(text,phone);
            }catch(Exception e){

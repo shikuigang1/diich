@@ -199,13 +199,16 @@ public class UserController extends BaseController<User> {
     }
 
     /**
-     * 验证手机号是否已经被使用
-     * @param phone
+     *
+     * @param request
+     * @param response
      * @return
      */
+
     @RequestMapping("checkUserByPhone")
     @ResponseBody
-    public Map<String, Object> checkPhone(String phone){
+    public Map<String, Object> checkPhone(HttpServletRequest request,HttpServletResponse response){
+        String phone = request.getParameter("phone");
         User user = null;
         try {
             List<User> userList = userService.checkUserByPhone(phone);
@@ -217,6 +220,7 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
+        response.setHeader("Access-Control-Allow-Origin", "*");
        return putDataToMap(user);
     }
     /**

@@ -359,10 +359,10 @@
 
                     <div class="tname">
                         <#if obj.lang == "chi">
-                            非遗传承人
+                            代表性传承人
                         </#if>
                         <#if obj.lang == "eng">
-                            IchMaster
+                            Representativeness
                         </#if>
                     </div>
                     <div class="master">
