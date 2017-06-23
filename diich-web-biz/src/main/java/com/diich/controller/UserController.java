@@ -6,8 +6,10 @@ import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.User;
 import com.diich.core.service.UserService;
 import com.diich.core.util.OperateFileUtil;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -42,9 +44,17 @@ public class UserController extends BaseController<User> {
     public Map<String, Object> getVerifyCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> result=new HashMap<>();
         String phone = request.getParameter("phone");
-        if(phone==null){
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+        if(StringUtils.isEmpty(phone)){
+            result.put("code",2);
+            result.put("msg","请输入手机号");
+            return result;
+        }
+        //检查手机号是否被占用
+        List<User> userList = userService.checkUserByPhone(phone);
+        if(userList.size()>0){
+            result.put("code",2);
+            result.put("msg","此手机号已经被占用");
+            return result;
         }
         HttpSession session = request.getSession();
         //验证码是否存在和是否超时
@@ -60,8 +70,9 @@ public class UserController extends BaseController<User> {
         }
         String  code = (String) session.getAttribute(phone);
         if(code !=null){
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            result.put("code",2);
+            result.put("msg","验证码已发送,请稍后再试...");
+            return result;
         }
         String verifyCode = null;
         try{
@@ -94,35 +105,15 @@ public class UserController extends BaseController<User> {
 
         response.setHeader("Access-Control-Allow-Origin", "*");
 
-        if(phone==null){
+        if(StringUtils.isEmpty(phone)){
             result.put("code",2);
             return result;
         }
         HttpSession session = request.getSession();
-        //判断验证码是否超时
-        String begindate = (String) session.getAttribute("begindate"+phone);
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if(begindate !=null){
-            Date bdate = df.parse(begindate);
-            long time = (new Date().getTime() - bdate.getTime())/1000;
-            if(time>60){
-                session.removeAttribute(phone);
-                session.removeAttribute("begindate"+phone);
-                result.put("code",2);
-                return result;
-            }
-        }
-        String verifyCode = (String) session.getAttribute(phone);
-        //防止没有获取验证码直接点击注册
-
-        result.put("msg","中文");
-        if(verifyCode == null){
-            result.put("code",2);
-            return result;
-        }
-        if(!verifyCode.equals(code)){
-            result.put("code",2);
-            return result;
+        //判断验证码是否超时和正确
+        Map<String, Object> checkResult = checkVerifyCode(session, phone, code);
+        if((int)checkResult.get("code")!= 0){
+            return checkResult;
         }
         try {
             userService.saveUser(user);
@@ -188,7 +179,7 @@ public class UserController extends BaseController<User> {
      * @param request
      * @return
      */
-    @RequestMapping("checkUser")
+    @RequestMapping("checkUserByName")
     @ResponseBody
     public Map<String, Object> checkUser(HttpServletRequest request,HttpServletResponse response) {
         String loginName = request.getParameter("loginName");
@@ -205,6 +196,106 @@ public class UserController extends BaseController<User> {
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(user);
+    }
+
+    /**
+     * 验证手机号是否已经被使用
+     * @param phone
+     * @return
+     */
+    @RequestMapping("checkUserByPhone")
+    @ResponseBody
+    public Map<String, Object> checkPhone(String phone){
+        User user = null;
+        try {
+            List<User> userList = userService.checkUserByPhone(phone);
+            if(userList.size()>0){
+                user = userList.get(0);
+                user.setPassword(null);
+            }
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
+       return putDataToMap(user);
+    }
+    /**
+     *  重置密码
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("resetPassword")
+    @ResponseBody
+    public Map<String, Object> resetPassword(HttpServletRequest request,HttpServletResponse response){
+        Map<String, Object> result = new HashMap<>();
+
+        String code = request.getParameter("code");//获取验证码
+        String phone = request.getParameter("phone");
+        String newPassword = request.getParameter("password");
+        try{
+            if(StringUtils.isEmpty(code) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(newPassword)){
+                result.put("code",2);
+                return result;
+            }
+            HttpSession session = request.getSession();
+            //判断验证码是否超时和正确
+            Map<String, Object> checkResult = checkVerifyCode(session, phone, code);
+            if((int)checkResult.get("code") != 0){
+                return checkResult;
+            }
+            //根据手机号查询用户信息
+            List<User> userList = userService.checkUserByPhone(phone);
+            if(userList.size() == 0){
+                result.put("code",2);
+                return result;
+            }
+            User user = userList.get(0);
+            user.setPassword(newPassword);
+            userService.saveUser(user);
+        }catch (Exception e){
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(phone);
+    }
+
+    /**
+     * 验证码是否正确
+     * @param session
+     * @param phone
+     * @param code
+     * @return
+     * @throws Exception
+     */
+    private  Map<String, Object> checkVerifyCode(HttpSession session,String phone,String code) throws Exception{
+        Map<String, Object> result = new HashMap();
+        //判断验证码是否超时
+        String begindate = (String) session.getAttribute("begindate"+phone);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(begindate !=null){
+            Date bdate = df.parse(begindate);
+            long time = (new Date().getTime() - bdate.getTime())/1000;
+            if(time>60){
+                session.removeAttribute(phone);
+                session.removeAttribute("begindate"+phone);
+                result.put("code",2);
+                return result;
+            }
+        }
+        String verifyCode = (String) session.getAttribute(phone);
+        //防止没有获取验证码直接点击注册
+        if(verifyCode == null){
+            result.put("code",2);
+            return result;
+        }
+        if(!verifyCode.equals(code)){
+            result.put("code",2);
+            return result;
+        }
+        result.put("code",0);
+        return result;
     }
 
     @RequestMapping("uploadFile")

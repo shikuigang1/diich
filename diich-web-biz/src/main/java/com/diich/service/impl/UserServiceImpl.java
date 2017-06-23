@@ -47,9 +47,10 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
 
         List<User> userList=null;
         try{
+            String mPassword = SecurityUtil.encryptMd5(password);
             User user = new User();
             user.setLoginName(loginName);
-            user.setPassword(password);
+            user.setPassword(mPassword);
             userList = userMapper.selectByLogNameAndPwd(user);
         }catch(Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
@@ -76,6 +77,24 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         return userList;
     }
 
+    /**
+     * 根据手机号查询用户信息
+     * @param phone
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<User> checkUserByPhone(String phone) throws Exception {
+        List<User> userList = null;
+        try{
+            userList = userMapper.selectByPhone(phone);
+        }catch(Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+
+        return userList;
+    }
+
 
     public void saveUser(User user) throws Exception {
         //获取当前事务状态
@@ -83,6 +102,11 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         //通过用户名校验用户是否存在
         List<User> userList = userMapper.selectByLogName(user.getLoginName());
         if(userList.size() >0){
+            throw new ApplicationException(ApplicationException.PARAM_ERROR);
+        }
+        //手机号是否被占用
+        List<User> users = userMapper.selectByPhone(user.getPhone());
+        if(users.size() > 0){
             throw new ApplicationException(ApplicationException.PARAM_ERROR);
         }
         try {
