@@ -30,10 +30,6 @@
     <script src="${caturi}/assets/js/system.js"></script>
     <script src="${caturi}/data/category.js"></script>
     <script src="${caturi}/js/citys.js"></script>
-    <script src="${caturi}/js/doT.js"></script>
-    <script src="${caturi}/js/serverinfo.js"></script>
-    <script src="${caturi}/js/masters.js"></script>
-    <script src="${caturi}/data/master_data.js"></script>
     <script src="${caturi}/assets/js/inputs.js"></script>
     <script src="${caturi}/js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="${caturi}/js/i18n.js"></script>

@@ -19,6 +19,9 @@ public interface UserService {
     //检查用户名是否存在
     List<User> checkUser(String loginName) throws Exception;
 
+    //检查手机是否被占用
+    List<User> checkUserByPhone(String phone) throws Exception;
+
     //保存用户信息
     void saveUser(User user) throws Exception;
 

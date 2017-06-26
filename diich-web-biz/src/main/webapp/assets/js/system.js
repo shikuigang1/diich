@@ -1674,8 +1674,8 @@ $(function () {
         detailCommon.mediaShow(type, index);
     })
 
-    //
-
+    //隐藏email
+    $('.main em').eq(1).hide();
 });
 
 function getQueryString(name) {
