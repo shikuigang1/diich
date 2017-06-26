@@ -7,7 +7,9 @@
         "outline": "蔡水况，男，1939年出生。国家级非物质文化遗产（厦门漆线雕技艺）代表性传承人，福建人，现居福建。1981年率领“蔡氏漆线雕”艺人设计、制作的厦门南普陀寺之“四大金刚”，体量之大、造型之美、装饰之精，为“八闽之最”。其中《波月洞悟空降妖》和《还我河山》二座作品于1994年被国家征为工艺美术珍品，收藏于中国工艺美术珍宝馆。1988年作品《民族英雄郑成功》为福建省工艺美术珍品馆保留。2008年作品《哪吒试法》和《龙之魂》被中国国家博物馆收藏。",
         "photo": "40000001123.png,400000011231.png",
         "number": "E0599",
-        "worksPic":"1.jpg,2.jpg,3.jpg"
+        "worksPic":"1.jpg,2.jpg,3.jpg",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/6307.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/10276.html"
     },
     {
         "no": "40000002",
@@ -17,7 +19,9 @@
         "outline": "蔡云娣，男， 1962年9月26日出生。高级工艺美术师、古建泰斗罗哲文的入室弟子，江苏人，现居江苏。2000年，新加坡内阁资政吴作栋参观蔡云娣工作室并收藏作品《岁寒三友》，2002年，泰国诗琳通公主接见蔡云娣，作品《寿桃套盘》被泰国皇宫永久收藏。2010年8月，联合国副秘书长沙祖康来苏参观蔡云娣工作室并收藏作品。2010年6月，受到台湾海协会会长江丙坤的亲切接见并赠送作品《祥龙献瑞砚》。2011年4月，英国威廉王子大婚之际，澄泥石雕作品《早生贵子》作为国礼赠予英国王室，目前被英国白金汉宫永久收藏。",
         "photo": "40000001124.png,400000011241.png",
         "number": "E0503",
-        "worksPic":"4.JPG,5.JPG,6.jpg"
+        "worksPic":"4.JPG,5.JPG,6.jpg",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/7042.html",
+        "project_uri":"javascript:void(0);"
     },
     {
         "no": "40000003",
@@ -27,7 +31,9 @@
         "outline": "程淑美，女，1945年生，北京市人。1989年获全国工艺美术评比百花奖、优秀创作设计一等奖； 2003年11月北京首届工艺美术节展评中获金奖； 2008年中国传统工艺美术精品展金奖； 2010年“天工艺苑•百花杯”精品奖金奖； 2011年西博会金奖； 2012年第十三届工艺美术“儒士儒家•百花杯”金奖；摆件“累丝提梁壶” 获得津冀非物质文化遗产展暨传统手工艺作品设计大赛金奖；",
         "photo": "40000001125.png,400000011251.png",
         "number": "E0503",
-        "worksPic":"7.jpg,8.png,9.jpg"
+        "worksPic":"7.jpg,8.png,9.jpg",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/7035.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/10918.html"
     },
     {
         "no": "40000004",
@@ -37,7 +43,9 @@
         "outline": "甘而可，男，1955年生，江西人。现居安微， 2010年红金斑犀皮漆大圆盒在第十一届中国工艺美术大师作品“天工艺苑•百花杯”中国工艺艺术精品奖中获得金奖；2011年红金斑犀皮漆大圆盒被故宫博物院永久性收藏； 2012年红金斑犀皮漆大梅瓶获中国首届（黄山）非遗大展传统技艺精品展金奖；2013年11月，原全国政协主席贾庆林也观看金斑犀皮漆作品后赞不绝口，并同非遗全体人员合影留念。",
         "photo": "40000001126.png,400000011261.png",
         "number": "E08",
-        "worksPic":"10.JPG,11.jpg,12.JPG"
+        "worksPic":"10.JPG,11.jpg,12.JPG",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/7036.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/10921.html"
     },
     {
         "no": "40000005",
@@ -47,7 +55,9 @@
         "outline": "高水旺，男，1958年生，河南省孟津县人。现居河南省洛阳市，毕业于北京大学。1998年，作品《女俑唐三彩》获“首届中国国家民间艺术博览会”金奖；2007年，作品《中国马》荣获第四届中国民间工艺品博览会金奖，2009年，作品《三彩啃蹄马》荣获中国民间文艺最高奖——“山花奖”金奖；2015年，作品《啃蹄马》荣获中国陶瓷行业最高奖——第五届“大地奖”陶瓷作品金奖；",
         "photo": "40000001127.png,400000011271.png",
         "number": "E06",
-        "worksPic":"13.jpg,14.jpg,15.jpg"
+        "worksPic":"13.jpg,14.jpg,15.jpg",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/7037.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/10859.html"
     },
     {
         "no": "40000006",
@@ -57,7 +67,9 @@
         "outline": "洪建华，男，1971年生，安徽人。现居安徽，16岁起投笔捉刀，秉承徽派传统雕刻工艺至今。成名作竹刻《竹林七贤》笔筒2006年被故宫博物院永久性收藏，是自上世纪50年代以来故宫收藏的第一件现代竹刻艺术品，故宫专家称其恢复了濒临绝迹的深浮雕竹刻技艺，并使其达到甚至超过明末清初雕刻巅峰时期的水平；黄杨朩笔筒《农家乐》与竹刻《徽乡行》四条屏被中国工艺美术馆有偿收藏。 2014年度被评为中国木（竹）雕展“金雕手”称号；",
         "photo": "40000001128.png,400000011281.png",
         "number": "E0502",
-        "worksPic":"16.jpg,17.jpg,18.jpg"
+        "worksPic":"16.jpg,17.jpg,18.jpg",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/7043.html",
+        "project_uri":"javascript:void(0);"
     },
     {
         "no": "40000007",
@@ -67,7 +79,9 @@
         "outline": "霍庆顺，天津市人，男，1952年出生于天津杨柳青年画作坊世家，著名年画艺术家霍玉棠之子，1994年，中国知识摇篮展团在欧洲“天津杨柳青木版彩绘年画”受到了热捧。2001年2月，中央电视台《东方时空》节目推出了霍庆顺和他的“玉成号画庄”专题。2002年获美国：“探索馆”表演“荣誉证书”。在2006年被中国列为首批“国家级非物质文化遗产名录”，排名美术类第一，而霍庆顺师傅也被授予“国家级非物质文化遗产代表性传承人”。",
         "photo": "40000001129.png,400000011291.png",
         "number": "E11",
-        "worksPic":"19.JPG,20.JPG,21.JPG"
+        "worksPic":"19.JPG,20.JPG,21.JPG",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/6057.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/10171.html"
     },
     {
         "no": "40000008",
@@ -77,7 +91,9 @@
         "outline": "吕尧臣，男，1940年生，江苏人。江苏，1979年，作品《八方凌云》、《银葵》、《碧波》等作品被故宫博物院收藏，设计的菊花双层保温杯获江苏省“四新产品”一等奖。1997年，设计创作《秦权壶》、《天际壶》获第四届中国工艺美术大师荣誉称号。2001年，入选中国宜兴国际陶艺研讨会论文选编。2006年，《阴阳太极壶》在“吴地风韵”大型展览中获金奖。2009年，获得中国民间文艺山花奖•民间文艺成就奖，《和谐壶》荣获中国人口文化奖评奖活动唯一的特别荣誉奖。",
         "photo": "400000011301.png,4000000113011.png",
         "number": "E0504",
-        "worksPic":"22.JPG,23.JPG,24.JPG"
+        "worksPic":"22.JPG,23.JPG,24.JPG",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/6228.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/11710.html"
     },
     {
         "no": "40000009",
@@ -87,7 +103,9 @@
         "outline": "宋世义， 1942 年12月22日生于北,1964年毕业于北京工艺美术学校，师从王树森等著名玉雕艺人。1987年设计制作的《松石黄道婆像》《玛瑙梦蝶》《玛瑙仙姿》等作品获全国玉器行业评比总分第一名。1984年－1989年，设计的《玛瑙版纳月》等7件作品在中国工艺美术品百花奖中获奖。1990年后设计的《丝绸古道》《长生殿》《四大佛教名山》等作品都是不可多得的精品。2008年-2011年，作品《翡翠香山九老图山子》获天工奖特别金奖，作品《玛瑙江南情怀》获神工奖创新金奖，作品《白玉花丝镶嵌普度众生》获中国百花奖金奖，作品《珊瑚天女散花》获神工奖金奖。",
         "photo": "400000011311.png,4000000113111.png",
         "number": "E0503",
-        "worksPic":"25.jpg,26.jpg,27.jpg"
+        "worksPic":"25.jpg,26.jpg,27.jpg",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/6875.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/10775.html"
     },
     {
         "no": "40000010",
@@ -97,7 +115,9 @@
         "outline": "孙燕云，女，1959年出生，江苏省常州市人，研究院级高级工艺美术师，江苏省工艺美术大师，省级非遗乱针绣代表性传承人。自幼师承母亲中国工艺美术大师陈亚先学习刺绣设计。1979年进入常州市工艺美术研究所，2000年创办“陈亚先乱针绣工作室”。现今创办“孙燕云乱针绣艺术创作中心。30多年来醉心于乱针绣的设计创作，作品远销海内外，极具珍藏价值。代表作品有：《椅中圣母》、《红衣男孩》、《汶川烛光》、《钱学森》、《雅克罗格》、《荷花》等。",
         "photo": "400000011321.png,4000000113211.png",
         "number": "E0902",
-        "worksPic":"28.jpg,29.jpg,30.jpg"
+        "worksPic":"28.jpg,29.jpg,30.jpg",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/7038.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/10200.html"
     },
     {
         "no": "40000011",
@@ -107,7 +127,9 @@
         "outline": "王芝文，男，1962年生，广东澄海人，国务院特殊津贴专家、中国工艺美术大师、高级工艺美术师。 2006年获“中国工艺美术大师”荣誉称号，获“第二届文博会”金奖。2009年，获“广东工艺美术精品奖” 金奖。2011年，获“全球金品奖年度文化人物奖”。2012年，获“中日议员公务员书法展”特等奖。2013年，获“中国工艺美术文化创意奖”特别金奖。2014年 在泰国曼谷中国文化中心获得中国工艺美术文化创意奖”特别金奖。2015年，在美国洛杉矶获 “中国工艺美术精品博览会国艺杯”金奖。",
         "photo": "400000011331.png,4000000113311.png",
         "number": "E0602",
-        "worksPic":"31.jpg,32.jpg,33.jpg,34.jpg"
+        "worksPic":"31.jpg,32.jpg,33.jpg,34.jpg",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/7039.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/11509.html"
     },
     {
         "no": "40000012",
@@ -117,7 +139,9 @@
         "outline": "魏国秋，男，1961年生，天津人。现居天津，1982年，获“全国风筝大赛”第一名； 1988年，在山东潍坊举行的全国风筝邀请赛上获金牌奖；1993年，魏国秋参加中华民间绝活博览会，获工艺表演一等奖；1994年，《蝶恋花》、《百眼蝴蝶》《雄鹰》《小蝴蝶》《松鹤延年》等作品入选中国文化部主办的“中国民间艺术一绝大展” ；2005年，被中国艺术研究院聘为艺术研究员；2007年，入选第一批国家级非物质文化遗产项目代表性传承人名录。",
         "photo": "400000011341.png,4000000113411.png",
         "number": "E10",
-        "worksPic":"35.jpg,36.jpg,37.jpg"
+        "worksPic":"35.jpg,36.jpg,37.jpg",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/6346.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/10317.html"
     },
     {
         "no": "40000013",
@@ -127,7 +151,9 @@
         "outline": "姚惠芬，女，1967年生，江苏人。现居江苏， 1995年，绣品《张大千肖像》获中国“首届中华巧女手工艺品大奖赛”一等奖，被誉为“中华巧女”。2000年，绣品《泼彩荷花》获“第二届中国国家级工艺美术大师精品展”金奖。2009年，绣品《素描少女肖像》获“第十届中国工艺美术大师精品展”金奖。2011年9月，绣品《水巷之晨》获“2011江苏省工艺美术精品博览会”金奖。2015年6月，姚惠芬首创的“简针绣”刺绣技艺获国家知识产权局发明专利证书。",
         "photo": "400000011351.png,4000000113511.png",
         "number": "E0902",
-        "worksPic":"38.JPG,39.JPG,40.JPG"
+        "worksPic":"38.JPG,39.JPG,40.JPG",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/6128.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/10200.html"
     },
     {
         "no": "40000014",
@@ -137,7 +163,9 @@
         "outline": "张同禄，男，生于1942年2月18日，祖籍河北省保定市曲阳县，现家住北京西城区西直门，著名景泰蓝大师，中国特级工艺美术大师，也是当今世界上唯一健在的精通景泰蓝设计制作全套工艺的艺术家。曾被国家轻工部授予“中国工艺美术大师”称号，擅长景泰蓝这项国家非物质文化遗产，在景泰蓝上所达到艺术成就为最高，以其细腻的描绘风格和高超的景泰蓝工艺而著称，被誉为中国景泰蓝第一人，并多次获得海内外各种荣誉。代表作：《鸟杯》，《圆满记时仪》，《座龙花薰》，《太平有象》，《凤舞九天》，《一帆风顺》。",
         "photo": "400000011361.png,4000000113611.png",
         "number": "E0603",
-        "worksPic":"41.jpg,42.jpg,43.jpg,44.jpg,45.jpg"
+        "worksPic":"41.jpg,42.jpg,43.jpg,44.jpg,45.jpg",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/6295.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/10264.html"
     },
     {
         "no": "40000015",
@@ -147,7 +175,9 @@
         "outline": "朱炳仁，男，1944年生，浙江人。现居浙江，熔铜艺术创始人。庚彩工艺发明者。与86岁的古文物专家罗哲文、94岁的古建筑专家郑孝燮一起，被称为“运河三老”，提出京杭大运河保护与申遗的倡议，催生了中国大运河保护与申遗热潮。作品被中国国家博物馆、北京人民大会堂、泰国、俄罗斯、法国、德国、西班牙、美国、印尼等国内外知名博物馆、美术馆、机构收藏。",
         "photo": "400000011371.png,4000000113711.png",
         "number": "E0402",
-        "worksPic":"46.jpg,47.jpg,48.jpg,49.jpg"
+        "worksPic":"46.jpg,47.jpg,48.jpg,49.jpg",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/7040.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/10904.html"
     },
     {
         "no": "40000016",
@@ -157,7 +187,9 @@
         "outline": "何俊明，男，1964年生，山西人。现居山西， 2008年获山西省工艺美术大师称号。2011年6月成为国家级非物质文化遗产剔犀技艺传承人。2005年3月1日中国民间文艺家协会授予《黄河锣鼓》作品荣誉证书； 2006年11月 荣获2006中国民族民间工艺美术博览会金奖。2009年10月 荣获中国（山西）特色农产品交易博览会 民间工艺金奖。2010年4月荣获第十一届中国工艺美术大师作品暨国际艺术博览会铜。2011年6月审批成功国家级非物质文化遗产。",
         "photo": "400000011381.png,4000000113811.png",
         "number": "E08",
-        "worksPic":"50.jpg,51.jpg,52.jpg,53.jpg"
+        "worksPic":"50.jpg,51.jpg,52.jpg,53.jpg",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/6942.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/10921.html"
     },
     {
         "no": "40000017",
@@ -167,7 +199,9 @@
         "outline": "康惠芳，女，1948年生，潮州人。现居潮州，1982年参与绣制的《九龙屏风》获全国工艺精品“百花奖”金杯奖；2005年双面绣《丹凤朝阳》获第三届广东省工艺美术精品展金奖；2008年双面绣《龙腾盛世》获第四届国际（深圳）文博会特别金奖；2010年双面绣《金色中华》作品获第二届中国工艺美术“百花奖”金奖。2012年垫绣《岁朝清供》获第八届中国工艺美术“百花奖”金奖。2013年立体垫绣《百子图》获中国工艺美术百花奖金奖。",
         "photo": "400000011391.png,4000000113911.png",
         "number": "E0902",
-        "worksPic":"54.jpg,55.jpg,56.jpg,57.JPG"
+        "worksPic":"54.jpg,55.jpg,56.jpg,57.JPG",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/6140.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/10202.html"
     },
     {
         "no": "40000018",
@@ -177,7 +211,9 @@
         "outline": "吕俊杰 ，男，1966年生， 是中国紫砂界中青代领军人物。作品充满原创精神，风格率性脱俗，既有学院派的含蓄雅致，又有西方印象画派的恣意流畅，屡获大奖，如中宣部、中国文联民间文艺家协会中国民间文艺“山花奖”、“当代十大名窑”创新奖，《渔歌》2002年获第七届全国陶瓷艺术设计创新评比金奖，《生生不息之团聚》2015年获第十届全国陶瓷艺术设计创新评比银奖，并多次被国务院中南海紫光阁、中国美术馆、中国国家博物馆收藏。2014全球汽车论坛——“紫砂杯”全球汽车造型设计大赛设计创作紫砂奖杯，是紫砂有史以来首次跨界汽车界参与世界级的设计活动。",
         "photo": "400000011401.png,4000000114011.png",
         "number": "E0503",
-        "worksPic":"58.JPG,59.JPG,60.JPG"
+        "worksPic":"58.JPG,59.JPG,60.JPG",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/7041.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/11710.html"
     },
     {
         "no": "40000019",
@@ -187,7 +223,9 @@
         "outline": "魏立中，男，1968年生，浙江人。现居浙江，版画家，下城区政协委员、杭州市民主建国会会员、十竹斋木版水印技艺非物质文化遗产代表性传承人、使业已消失数百年的明代印刷业老字号十竹斋重新恢复并焕发生机，成为杭州市文化产业传承创新的亮点。2012年荣获文化部中国非物质文化遗产生产性成果保护大展突出贡献奖，2014年荣获第三届“中华非物质文化遗产传承人薪传奖”，其作品《雷峰塔藏经卷》荣获金奖。 十竹斋艺术馆举办名家展览，推介艺坛新秀，开发衍生产品等方式推广艺术，传播文化。",
         "photo": "400000011411.png,4000000114111.png",
         "number": "E0904",
-        "worksPic":"61.jpg,62.jpg,63.jpg"
+        "worksPic":"61.jpg,62.jpg,63.jpg",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/7044.html",
+        "project_uri":"javascript:void(0);"
 
     },
     {
@@ -198,6 +236,8 @@
         "outline": "吴元新，男，1969年生，江苏人。现居江苏，2004年中国文联、中国民间文艺家协会授予吴元新第五届中国民间文艺“山花奖”。成为本次评选中江苏省唯一获奖的民间艺术家。2004年度荣获了全国优秀文艺奖项一等奖。2005年6月设计的“蓝印花布工艺系列”荣获金奖。2005年中国文联、民协授予吴元新第七届中国民间文艺最高奖“山花奖”成就奖（获此奖全国只有5位民间文艺家）。2006年作品《桌旗、靠垫系列》荣获第八届“山花奖”。",
         "photo": "400000011421.png,4000000114211.png",
         "number": "E0904",
-        "worksPic":"64.jpg,65.jpg,66.jpg"
+        "worksPic":"64.jpg,65.jpg,66.jpg",
+        "master_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/master/6270.html",
+        "project_uri":"http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/11740.html"
     }
 ];

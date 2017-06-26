@@ -76,7 +76,6 @@ function getCategoryTextById(id) {
     var text = getCategoryById(id);
     text = text.substr(0, text.length - 3);
 
-
     if(text.length > 4) {
         text = text.substr(7, text.length - 1);
     }
@@ -130,3 +129,4 @@ function getTemplateUi(fileName) {
         }
     });
 }
+

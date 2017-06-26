@@ -30,15 +30,13 @@ function getBrowserLanguage() {
 }
 
 function loadProperties(language){
-	$('.language .active').removeClass('active');
+	var propName = 'strings';
 	if(language == 'zh-CN') {
-		$('.zh').addClass('active');
-	} else if(language == 'en') {
-		$('.en').addClass('active');
+		propName = 'strings_zh-CN';
 	}
 
 	jQuery.i18n.properties({//加载资浏览器语言对应的资源文件
-		name:'strings', //资源文件名称
+		name:propName, //资源文件名称
 		path:'/i18n/', //资源文件路径
 		mode:'map', //用Map的方式使用资源文件中的值
 		language:language,//中文->zh-CN   英文->en
