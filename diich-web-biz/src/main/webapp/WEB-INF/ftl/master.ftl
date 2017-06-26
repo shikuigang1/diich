@@ -871,5 +871,5 @@
     })();
 
 </script>
-<script	src="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/project/assets/js/static.js"></script>
+<script	src="http://resource.efeiyi.com/html/project/assets/js/static.js"></script>
 </html>
