@@ -1234,8 +1234,8 @@
                             });
                         }
 
-                        if (typeof(dic_arr) != "undefined") {
-                            $.each(dic_arr, function(index, content) {
+                        if (typeof(dic_arr_city) != "undefined") {
+                            $.each(dic_arr_city, function(index, content) {
                                 $("#citycontent").append("<li data-id=\"" + content.code + "\"  >" + content.name + "</li>");
                             });
 

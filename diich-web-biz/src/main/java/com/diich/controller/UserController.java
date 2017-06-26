@@ -44,17 +44,22 @@ public class UserController extends BaseController<User> {
     public Map<String, Object> getVerifyCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> result=new HashMap<>();
         String phone = request.getParameter("phone");
+        String type = request.getParameter("type");
         if(StringUtils.isEmpty(phone)){
             result.put("code",2);
             result.put("msg","请输入手机号");
+            result.put("enMsg","Please enter phone number");
             return result;
         }
-        //检查手机号是否被占用
-        List<User> userList = userService.checkUserByPhone(phone);
-        if(userList.size()>0){
-            result.put("code",2);
-            result.put("msg","此手机号已经被占用");
-            return result;
+        if("0".equals(type)){//0 注册时获取验证码  1密码重置获取验证码
+            //检查手机号是否被占用
+            List<User> userList = userService.checkUserByPhone(phone);
+            if(userList.size()>0){
+                result.put("code",2);
+                result.put("msg","此手机号已经被占用");
+                result.put("enMsg","This phone number has been used");
+                return result;
+            }
         }
         HttpSession session = request.getSession();
         //验证码是否存在和是否超时
@@ -72,14 +77,13 @@ public class UserController extends BaseController<User> {
         if(code !=null){
             result.put("code",2);
             result.put("msg","验证码已发送,请稍后再试...");
+            result.put("enMsg","Verification code sent, please try again later ...");
             return result;
         }
         String verifyCode = null;
         try{
             //验证码不存在或者已经超时 重新获取
-            //verifyCode = userService.getVerifyCode(phone);
-            verifyCode="1234";
-            System.out.println(verifyCode);
+            verifyCode = userService.getVerifyCode(phone);
             //返回成功 将验证码和当前时间存入session
             session.setAttribute(phone,verifyCode);
             session.setAttribute("begindate"+phone,df.format(new Date()));
@@ -88,7 +92,7 @@ public class UserController extends BaseController<User> {
             return ae.toMap();
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
-//        response.getWriter().write();
+        response.setContentType("text/html;charset=UTF-8");
         return putDataToMap(phone);
     }
 
@@ -110,6 +114,8 @@ public class UserController extends BaseController<User> {
 
         if(StringUtils.isEmpty(phone)){
             result.put("code",2);
+            result.put("msg","请输入手机号");
+            result.put("enMsg","Please enter phone number");
             return result;
         }
         HttpSession session = request.getSession();
@@ -147,6 +153,7 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
+        response.setContentType("text/html;charset=UTF-8");
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(user);
     }
@@ -243,6 +250,8 @@ public class UserController extends BaseController<User> {
         try{
             if(StringUtils.isEmpty(code) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(newPassword)){
                 result.put("code",2);
+                result.put("msg","手机号,验证码,新密码不能为空");
+                result.put("enMsg","Phone number, verification code, new password can not be empty");
                 return result;
             }
             HttpSession session = request.getSession();
@@ -255,6 +264,8 @@ public class UserController extends BaseController<User> {
             List<User> userList = userService.checkUserByPhone(phone);
             if(userList.size() == 0){
                 result.put("code",2);
+                result.put("msg","该手机号对应的用户信息不存在");
+                result.put("enMsg","The user information corresponding to the mobile phone number does not exist");
                 return result;
             }
             User user = userList.get(0);
@@ -264,6 +275,7 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
+        response.setContentType("text/html;charset=UTF-8");
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(phone);
     }
@@ -288,6 +300,8 @@ public class UserController extends BaseController<User> {
                 session.removeAttribute(phone);
                 session.removeAttribute("begindate"+phone);
                 result.put("code",2);
+                result.put("msg","验证码超时,请重新获取");
+                result.put("enMsg","Verification code timed out,please try again");
                 return result;
             }
         }
@@ -295,10 +309,14 @@ public class UserController extends BaseController<User> {
         //防止没有获取验证码直接点击注册
         if(verifyCode == null){
             result.put("code",2);
+            result.put("msg","你还没有获取验证码,请获取验证码");
+            result.put("enMsg","You have not yet obtained a verification code. Please get a verification code");
             return result;
         }
         if(!verifyCode.equals(code)){
             result.put("code",2);
+            result.put("msg","验证码错误");
+            result.put("enMsg","Verification code error");
             return result;
         }
         result.put("code",0);
