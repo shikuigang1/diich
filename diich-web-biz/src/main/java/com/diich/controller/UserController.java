@@ -77,7 +77,9 @@ public class UserController extends BaseController<User> {
         String verifyCode = null;
         try{
             //验证码不存在或者已经超时 重新获取
-            verifyCode = userService.getVerifyCode(phone);
+            //verifyCode = userService.getVerifyCode(phone);
+            verifyCode="1234";
+            System.out.println(verifyCode);
             //返回成功 将验证码和当前时间存入session
             session.setAttribute(phone,verifyCode);
             session.setAttribute("begindate"+phone,df.format(new Date()));
@@ -86,6 +88,7 @@ public class UserController extends BaseController<User> {
             return ae.toMap();
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
+//        response.getWriter().write();
         return putDataToMap(phone);
     }
 
@@ -121,7 +124,7 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-
+        response.setContentType("text/html;charset=UTF-8");
         return putDataToMap(user);
     }
 
