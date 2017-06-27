@@ -253,11 +253,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     worksService.saveWorks(works);
                 }
             }
-            //根据分类id获取分类信息
-            if(ichProject.getIchCategoryId() != null){
-                IchCategory ichCategory = ichCategoryService.getCategoryById(ichProject.getIchCategoryId());
-                ichProject.setIchCategory(ichCategory);
-            }
             //生成静态页面
             String uri = buildHTML(templateName, ichProject, fileName);
             commit(transactionStatus);

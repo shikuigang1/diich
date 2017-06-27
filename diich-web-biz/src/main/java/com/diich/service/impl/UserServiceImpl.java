@@ -137,6 +137,8 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
            }
        }else{
            try{
+               String password = SecurityUtil.encryptMd5(user.getPassword());
+               user.setPassword(password);
                userMapper.updateByPrimaryKeySelective(user);
            }catch (Exception e){
                rollback(transactionStatus);//回滚事务

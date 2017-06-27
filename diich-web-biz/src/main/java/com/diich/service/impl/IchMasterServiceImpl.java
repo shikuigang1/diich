@@ -214,11 +214,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                     worksService.saveWorks(works);
                 }
             }
-            //根据项目id查询项目信息
-            if(ichMaster.getIchProjectId() != null){
-                IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
-                ichMaster.setIchProject(ichProject);
-            }
             //生成静态页面
             String uri = buildHTML(templateName, ichMaster, filename);
             commit(transactionStatus);
