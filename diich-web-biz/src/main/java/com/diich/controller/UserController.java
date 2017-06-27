@@ -42,10 +42,10 @@ public class UserController extends BaseController<User> {
     @RequestMapping("getVerifycode")
     @ResponseBody
     public Map<String, Object> getVerifyCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        response.setContentType("text/html;charset=UTF-8");
         Map<String, Object> result=new HashMap<>();
         String phone = request.getParameter("phone");
         String type = request.getParameter("type");
-        response.setContentType("text/html;charset=UTF-8");
         if(StringUtils.isEmpty(phone)){
             result.put("code",2);
             result.put("msg","请输入手机号");
@@ -84,8 +84,7 @@ public class UserController extends BaseController<User> {
         String verifyCode = null;
         try{
             //验证码不存在或者已经超时 重新获取
-           // verifyCode = userService.getVerifyCode(phone);
-            verifyCode = "1234";
+            verifyCode = userService.getVerifyCode(phone);
             //返回成功 将验证码和当前时间存入session
             session.setAttribute(phone,verifyCode);
             session.setAttribute("begindate"+phone,df.format(new Date()));
@@ -94,7 +93,6 @@ public class UserController extends BaseController<User> {
             return ae.toMap();
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
-
         return putDataToMap(phone);
     }
 
@@ -108,11 +106,11 @@ public class UserController extends BaseController<User> {
     @RequestMapping("register")
     @ResponseBody
     public Map<String, Object> register(HttpServletRequest request,HttpServletResponse response,User user) throws Exception {
+        response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> result = new HashMap<>();
         String code = request.getParameter("code");
         String phone = user.getPhone();
-
-        response.setHeader("Access-Control-Allow-Origin", "*");
 
         if(StringUtils.isEmpty(phone)){
             result.put("code",2);
@@ -132,7 +130,6 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-        response.setContentType("text/html;charset=UTF-8");
         return putDataToMap(user);
     }
 
@@ -144,6 +141,8 @@ public class UserController extends BaseController<User> {
     @RequestMapping("login")
     @ResponseBody
     public  Map<String, Object> login(HttpServletRequest request,HttpServletResponse response) {
+        response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         String loginName = request.getParameter("loginName");
         String password = request.getParameter("password");
         User user =null;
@@ -155,8 +154,6 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-        response.setContentType("text/html;charset=UTF-8");
-        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(user);
     }
 
@@ -194,6 +191,8 @@ public class UserController extends BaseController<User> {
     @RequestMapping("checkUserByName")
     @ResponseBody
     public Map<String, Object> checkUser(HttpServletRequest request,HttpServletResponse response) {
+        response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         String loginName = request.getParameter("loginName");
        User user = null;
         try {
@@ -206,7 +205,6 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(user);
     }
 
@@ -220,6 +218,8 @@ public class UserController extends BaseController<User> {
     @RequestMapping("checkUserByPhone")
     @ResponseBody
     public Map<String, Object> checkPhone(HttpServletRequest request,HttpServletResponse response){
+        response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         String phone = request.getParameter("phone");
         User user = null;
         try {
@@ -232,7 +232,6 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-        response.setHeader("Access-Control-Allow-Origin", "*");
        return putDataToMap(user);
     }
     /**
@@ -244,13 +243,13 @@ public class UserController extends BaseController<User> {
     @RequestMapping("resetPassword")
     @ResponseBody
     public Map<String, Object> resetPassword(HttpServletRequest request,HttpServletResponse response){
+        response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> result = new HashMap<>();
 
         String code = request.getParameter("code");//获取验证码
         String phone = request.getParameter("phone");
         String newPassword = request.getParameter("password");
-
-        response.setContentType("text/html;charset=UTF-8");
         try{
             if(StringUtils.isEmpty(code) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(newPassword)){
                 result.put("code",2);
@@ -279,8 +278,6 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-
-        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(phone);
     }
 
