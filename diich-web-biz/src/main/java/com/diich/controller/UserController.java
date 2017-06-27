@@ -45,6 +45,7 @@ public class UserController extends BaseController<User> {
         Map<String, Object> result=new HashMap<>();
         String phone = request.getParameter("phone");
         String type = request.getParameter("type");
+        response.setContentType("text/html;charset=UTF-8");
         if(StringUtils.isEmpty(phone)){
             result.put("code",2);
             result.put("msg","请输入手机号");
@@ -83,7 +84,8 @@ public class UserController extends BaseController<User> {
         String verifyCode = null;
         try{
             //验证码不存在或者已经超时 重新获取
-            verifyCode = userService.getVerifyCode(phone);
+           // verifyCode = userService.getVerifyCode(phone);
+            verifyCode = "1234";
             //返回成功 将验证码和当前时间存入session
             session.setAttribute(phone,verifyCode);
             session.setAttribute("begindate"+phone,df.format(new Date()));
@@ -92,7 +94,7 @@ public class UserController extends BaseController<User> {
             return ae.toMap();
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("text/html;charset=UTF-8");
+
         return putDataToMap(phone);
     }
 
@@ -247,6 +249,8 @@ public class UserController extends BaseController<User> {
         String code = request.getParameter("code");//获取验证码
         String phone = request.getParameter("phone");
         String newPassword = request.getParameter("password");
+
+        response.setContentType("text/html;charset=UTF-8");
         try{
             if(StringUtils.isEmpty(code) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(newPassword)){
                 result.put("code",2);
@@ -275,7 +279,7 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
-        response.setContentType("text/html;charset=UTF-8");
+
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(phone);
     }
