@@ -99,27 +99,51 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     public void saveUser(User user) throws Exception {
         //获取当前事务状态
         TransactionStatus transactionStatus = getTransactionStatus();
-        //通过用户名校验用户是否存在
-        List<User> userList = userMapper.selectByLogName(user.getLoginName());
-        if(userList.size() >0){
-            throw new ApplicationException(ApplicationException.PARAM_ERROR);
-        }
-        //手机号是否被占用
-        List<User> users = userMapper.selectByPhone(user.getPhone());
-        if(users.size() > 0){
-            throw new ApplicationException(ApplicationException.PARAM_ERROR);
-        }
-        try {
-            user.setId(IdWorker.getId());
-            user.setStatus(0);
-            String password = SecurityUtil.encryptMd5(user.getPassword());
-            user.setPassword(password);
-            userMapper.insertSelective(user);
-            commit(transactionStatus);//提交事务
-        } catch (Exception e) {
-            rollback(transactionStatus);//回滚事务
-            throw new ApplicationException(ApplicationException.INNER_ERROR);
-        }
+       if(user != null && user.getId() == null){
+           //通过用户名校验用户是否存在
+           List<User> userList = null;
+           List<User> users = null;
+           try{
+              userList = userMapper.selectByLogName(user.getLoginName());
+           }catch (Exception e){
+               throw new ApplicationException(ApplicationException.INNER_ERROR);
+           }
+
+           if(userList.size() >0){
+               throw new ApplicationException(ApplicationException.PARAM_ERROR);
+           }
+
+           try{
+               //手机号是否被占用
+               users = userMapper.selectByPhone(user.getPhone());
+           }catch (Exception e){
+               throw new ApplicationException(ApplicationException.INNER_ERROR);
+           }
+
+           if(users.size() > 0){
+               throw new ApplicationException(ApplicationException.PARAM_ERROR);
+           }
+
+           try {
+               user.setId(IdWorker.getId());
+               user.setStatus(0);
+               String password = SecurityUtil.encryptMd5(user.getPassword());
+               user.setPassword(password);
+               userMapper.insertSelective(user);
+               commit(transactionStatus);//提交事务
+           } catch (Exception e) {
+               rollback(transactionStatus);//回滚事务
+               throw new ApplicationException(ApplicationException.INNER_ERROR);
+           }
+       }else{
+           try{
+               userMapper.updateByPrimaryKeySelective(user);
+           }catch (Exception e){
+               rollback(transactionStatus);//回滚事务
+               throw new ApplicationException(ApplicationException.INNER_ERROR);
+           }
+       }
+
 
     }
 }
