@@ -85,6 +85,7 @@ public class UserController extends BaseController<User> {
         try{
             //验证码不存在或者已经超时 重新获取
             verifyCode = userService.getVerifyCode(phone);
+           // verifyCode="1234";
             //返回成功 将验证码和当前时间存入session
             session.setAttribute(phone,verifyCode);
             session.setAttribute("begindate"+phone,df.format(new Date()));
