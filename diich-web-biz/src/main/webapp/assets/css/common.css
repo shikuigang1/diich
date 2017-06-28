@@ -73,9 +73,11 @@ video {
 body {
     line-height: 1;
 }
+
 br {
     line-height: 60px;
 }
+
 
 html,
 body {
@@ -1274,8 +1276,6 @@ a.arrow_right:hover:after {
     color: #4990E2
 }
 
-
-
 /*--//End suggest--*/
 
 .doi {
@@ -1329,9 +1329,9 @@ a.arrow_right:hover:after {
 
 /*--//End */
 .box_layer .item {
-    width: 580px;
-    height: 490px;
-    padding: 0 100px;
+    width: 432px;
+    height: 440px;
+    padding: 0 74px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -1342,12 +1342,12 @@ a.arrow_right:hover:after {
 }
 
 .box_layer .register {
-    height: 760px;
+    height: 622px;
     margin-top: -380px;
 }
 
 .box_layer .reset {
-    height: 630px;
+    height: 500px;
     margin-top: -315px;
 }
 
@@ -1359,9 +1359,10 @@ a.arrow_right:hover:after {
     color: #1B1B1B;
     height: 44px;
     float: left;
-    margin-top: 60px;
-    margin-bottom: 48px;
+    margin-top: 50px;
+    margin-bottom: 30px;
     position: relative;
+    text-indent:64px;
 }
 
 .form_area .title .close {
@@ -1379,26 +1380,35 @@ a.arrow_right:hover:after {
     width: 100%;
     position: relative;
     float: left;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .form_area .group .area {
-    width: 482px;
+    width: 360px;
     float: left;
+    position: relative;
+}
+.form_area .group .area label {
+    font-size:14px;
+    color: #949494;
+}
+.form_area .group .area label input {
+    display: inline-block;
+    position: relative;
+    top:2px;
 }
 
 .form_area .group .ipt {
-    width: 440px;
-    height: 64px;
+    width: 318px;
+    height: 60px;
+    line-height:60px;
     padding: 0 20px;
-    font-size: 20px;
-    color: #949494;
     border: 1px solid #e5e5e5;
     float: left;
 }
 
 .form_area .group .name {
-    width: 95px;
+    width: 66px;
     height: 66px;
     line-height: 66px;
     color: #000;
@@ -1415,12 +1425,13 @@ a.arrow_right:hover:after {
 }
 
 .form_area .group .name span {
-    width: 74px;
-    font-size: 24px;
+    width: 50px;
     color: #000;
-    opacity: 0.7;
-    float: left;
     cursor: pointer;
+    text-align:justify;
+    text-align-last:justify;
+    float: left;
+    margin-right:14px;
 }
 
 .form_area .group .code {
@@ -1436,6 +1447,11 @@ a.arrow_right:hover:after {
     color: #9B9B9B;
 }
 
+.form_area .group.policy {
+    height:16px;
+    line-height:16px;
+    margin-bottom:40px;
+}
 .form_area .group .forget {
     color: #9B9B9B;
     float: right;
@@ -1455,10 +1471,20 @@ a.arrow_right:hover:after {
 }
 
 .form_area .group .arrow_right {
-    font-size: 20px;
     color: #949494;
     float: right;
     margin: 24px 0;
+}
+
+.form_area .group.error .ipt {
+    border: 1px solid #ed5731;
+}
+.form_area .group.error .error_txt {
+    font-size:12px;
+    color: #ed5731;
+    position: absolute;
+    top:68px;
+    left:20px;
 }
 
 /*--//End 表单相关--*/
