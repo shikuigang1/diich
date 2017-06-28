@@ -454,7 +454,13 @@ var header = {
         search.on('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
-            filter.css('top', _header.outerHeight(true) + 'px').slideDown('fast');
+            if($(this).hasClass('active')){
+                $(this).removeClass('active');
+                filter.slideUp('fast');
+            }else{
+                $(this).addClass('active');
+                filter.css('top', _header.outerHeight(true) + 'px').slideDown('fast');
+            }
         });
 
         //2.点击筛选
