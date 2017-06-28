@@ -74,11 +74,6 @@ body {
     line-height: 1;
 }
 
-br {
-    line-height: 60px;
-}
-
-
 html,
 body {
     height: 100%
@@ -312,16 +307,17 @@ textarea {
 }
 
 .header .content .info li.login,
-.header .content .info li.logined{
+.header .content .info li.logined {
     margin-right: 18px;
     padding-right: 18px;
     position: relative;
 }
+
 .header .content .info li.logined a {
-    width:84px;
+    width: 84px;
     text-overflow: ellipsis;
     overflow: hidden;
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
 .header .content .info li.login i {
@@ -331,7 +327,7 @@ textarea {
 }
 
 .header .content .info li.login:after,
-.header .content .info li.logined:after{
+.header .content .info li.logined:after {
     content: '';
     width: 1px;
     height: 8px;
@@ -430,6 +426,10 @@ textarea {
     background-position: -19px 0;
     cursor: pointer;
 }
+.header_detail .content .info li.search.active i {
+    background: url(../images/icon_search_close.png) 0 0 no-repeat;
+}
+
 
 .header_detail .content .info li.login:after {
     background: #D8D8D8;
@@ -1362,7 +1362,7 @@ a.arrow_right:hover:after {
     margin-top: 50px;
     margin-bottom: 30px;
     position: relative;
-    text-indent:64px;
+    text-indent: 64px;
 }
 
 .form_area .title .close {
@@ -1388,20 +1388,22 @@ a.arrow_right:hover:after {
     float: left;
     position: relative;
 }
+
 .form_area .group .area label {
-    font-size:14px;
+    font-size: 14px;
     color: #949494;
 }
+
 .form_area .group .area label input {
     display: inline-block;
     position: relative;
-    top:2px;
+    top: 2px;
 }
 
 .form_area .group .ipt {
     width: 318px;
     height: 60px;
-    line-height:60px;
+    line-height: 60px;
     padding: 0 20px;
     border: 1px solid #e5e5e5;
     float: left;
@@ -1428,10 +1430,10 @@ a.arrow_right:hover:after {
     width: 50px;
     color: #000;
     cursor: pointer;
-    text-align:justify;
-    text-align-last:justify;
+    text-align: justify;
+    text-align-last: justify;
     float: left;
-    margin-right:14px;
+    margin-right: 14px;
 }
 
 .form_area .group .code {
@@ -1448,10 +1450,11 @@ a.arrow_right:hover:after {
 }
 
 .form_area .group.policy {
-    height:16px;
-    line-height:16px;
-    margin-bottom:40px;
+    height: 16px;
+    line-height: 16px;
+    margin-bottom: 40px;
 }
+
 .form_area .group .forget {
     color: #9B9B9B;
     float: right;
@@ -1479,12 +1482,13 @@ a.arrow_right:hover:after {
 .form_area .group.error .ipt {
     border: 1px solid #ed5731;
 }
+
 .form_area .group.error .error_txt {
-    font-size:12px;
+    font-size: 12px;
     color: #ed5731;
     position: absolute;
-    top:68px;
-    left:20px;
+    top: 68px;
+    left: 20px;
 }
 
 /*--//End 表单相关--*/
