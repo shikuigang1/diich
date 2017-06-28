@@ -135,6 +135,10 @@ textarea {
     resize: none
 }
 
+br {
+    line-height: 60px;
+}
+
 /*--//End--reset--*/
 
 /*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
@@ -1491,6 +1495,21 @@ a.arrow_right:hover:after {
     left: 20px;
 }
 
+.box_layer_en .item {
+    width:500px;
+}
+.box_layer_en .form_area .group .area {
+    width:400px;
+}
+.box_layer_en .form_area .title {
+    text-indent: 100px;
+}
+.box_layer_en .form_area .name {
+    width:100px;
+}
+.box_layer_en .form_area .ipt {
+    width:356px;
+}
 /*--//End 表单相关--*/
 .progress {
     background: #000;
