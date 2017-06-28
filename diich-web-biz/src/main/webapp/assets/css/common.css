@@ -135,10 +135,6 @@ textarea {
     resize: none
 }
 
-br {
-    line-height: 60px;
-}
-
 /*--//End--reset--*/
 
 /*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
