@@ -35,6 +35,10 @@
             })
         })
     </script>
+    <style>
+        br{line-height:60px;}
+        .drop_menu .content .item dl br {line-height: 20px;}
+    </style>
 </head>
 
 <body>
@@ -445,12 +449,12 @@
                                 <div class="item">
                                     <p>
                                         <#if cf.content??>
-                                        <#assign content =cf.content?replace("。\n", "。</p><p>") />
-                                    <#--  <#assign content =content?replace("\n", "?</p><p>") />-->
-                                        <#assign content =content?replace("\n 1、", "</p><p>1、") />
-                                        <#assign content =content?replace("\n 2、", "</p><p>2、") />
-                                        <#assign content =content?replace("\n 3、", "</p><p>3、") />
-                                        <#assign content =content?replace("\n 4、", "</p><p>4、") />
+                                        <#assign content =cf.content?replace("。\n", "。<br/>") />
+                                    <#--  <#assign content =content?replace("\n", "?<br/>") />-->
+                                        <#assign content =content?replace("\n 1、", "<br/>1、") />
+                                        <#assign content =content?replace("\n 2、", "<br/>2、") />
+                                        <#assign content =content?replace("\n 3、", "<br/>3、") />
+                                        <#assign content =content?replace("\n 4、", "<br/>4、") />
                                         ${content}
                                         </#if>
                                     </p>
