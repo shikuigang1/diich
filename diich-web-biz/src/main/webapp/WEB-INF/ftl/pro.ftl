@@ -286,7 +286,7 @@
                             标识码：
                         </#if>
                          <#if obj.lang == "eng">
-                             Identification code：
+                             ID code：
                          </#if>
                         <em id="doi_code"> <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                             <#list obj.contentFragmentList as cf>
@@ -620,12 +620,12 @@
                                 <div class="item">
                                     <p>
                                         <#if cf.content??>
-                                             <#assign content =cf.content?replace("。\n", "。</span><span>") />
-                                           <#--  <#assign content =content?replace("\n", "?</span><span>") />-->
-                                              <#assign content =content?replace("\n 1、", "</span><span>1、") />
-                                              <#assign content =content?replace("\n 2、", "</span><span>2、") />
-                                              <#assign content =content?replace("\n 3、", "</span><span>3、") />
-                                                <#assign content =content?replace("\n 4、", "</span><span>4、") />
+                                             <#assign content =cf.content?replace("。\n", "。<br>") />
+                                           <#--  <#assign content =content?replace("\n", "?<br>") />-->
+                                              <#assign content =content?replace("\n 1、", "<br>1、") />
+                                              <#assign content =content?replace("\n 2、", "<br>2、") />
+                                              <#assign content =content?replace("\n 3、", "<br>3、") />
+                                                <#assign content =content?replace("\n 4、", "<br>4、") />
                                              ${content}
                                         </#if>
                                     </p>
