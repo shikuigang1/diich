@@ -286,7 +286,7 @@
                             标识码：
                         </#if>
                          <#if obj.lang == "eng">
-                             Identification code：
+                             ID code：
                          </#if>
                         <em id="doi_code"> <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                             <#list obj.contentFragmentList as cf>

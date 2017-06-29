@@ -424,6 +424,7 @@
     height: 100%;
     float: left;
     position: relative;
+    overflow: hidden;
 }
 
 .home .introduce .lbox {
