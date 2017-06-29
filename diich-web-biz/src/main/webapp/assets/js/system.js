@@ -287,7 +287,7 @@ var common = {
 
                 var newVal = $(this).val();
                 if (newVal == '') {
-                    $(this).val(oldVal);
+                    //$(this).val(oldVal);
                 }
 
                 // timer = setInterval(slider, speed);
