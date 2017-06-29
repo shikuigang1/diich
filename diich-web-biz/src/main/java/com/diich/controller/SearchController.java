@@ -80,7 +80,15 @@ public class SearchController extends BaseController {
         //System.out.println(JSON.toJSONString(searchSerice.searchText(map)));
 
        // return  searchSerice.searchText(map);
-        return  searchSerice.searchTextNew(map);
+
+
+        if(map.get("keyword")==null && map.get("area_code")==null && map.get("gb_category_code")==null){
+            map.put("res",null);
+            return map;
+        }else{
+            return  searchSerice.searchTextNew(map);
+        }
+
 
     }
 
