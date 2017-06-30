@@ -1041,7 +1041,9 @@
     $(function(){
         var _src = $("#detailTopic").attr('src');
         if(_src=="" || _src ==null || typeof _src == 'undefined'){
-            $('#detailContent').append('<img src="${backImgUrl}" alt="" id="back_img" style="margin-top: -600px; margin-left: -1400px;">')
+            $('#detailContent').append('<img src="http://resource.efeiyi.com/image/uploads/head.png" alt="" id="back_img" style="width:2800px;height:600px; margin-left: -1400px;">')
+            $('#detailContent').find('.mask_left').hide();
+            $('#detailContent').find('.mask_right').hide();
         }
     })
 </script>
@@ -1346,14 +1348,17 @@
     });
     //详情页题图居中遮罩
     (function () {
+        var $img = $('#detailTopic');
+        var $content = $('#detailContent');
         var img = document.getElementById('detailTopic');
-        var content = document.getElementById('detailContent');
+
+        img.style.display='none';
         img.onload = function () {
             // 加载完成
-            var imgW = this.width;
-            img.style.marginLeft = -imgW / 2 + 'px';
-            content.style.marginTop = '0px';
-            content.style.width = imgW + 'px';
+            var imgW = parseInt($img.width());
+            $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
+            $content.css({width:imgW+'px'});
+            $img.fadeIn(1000);
         };
     })();
 </script>

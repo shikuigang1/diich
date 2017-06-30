@@ -5,10 +5,11 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="content_fragment_id" property="contentFragmentId" jdbcType="BIGINT" />
     <result column="resource_id" property="resourceId" jdbcType="BIGINT" />
+    <result column="res_order" property="resOrder" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, content_fragment_id, resource_id, status
+    id, content_fragment_id, resource_id, res_order, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
@@ -21,10 +22,10 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.ContentFragmentResource" >
-    insert into content_fragment_resource (id, content_fragment_id, resource_id, 
-      status)
+    insert into content_fragment_resource (id, content_fragment_id, resource_id,
+    res_order, status)
     values (#{id,jdbcType=BIGINT}, #{contentFragmentId,jdbcType=BIGINT}, #{resourceId,jdbcType=BIGINT},
-      #{status,jdbcType=INTEGER})
+    #{resOrder,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.ContentFragmentResource" >
     insert into content_fragment_resource
@@ -37,6 +38,9 @@
       </if>
       <if test="resourceId != null" >
         resource_id,
+      </if>
+      <if test="resOrder != null" >
+        res_order,
       </if>
       <if test="status != null" >
         status,
@@ -52,6 +56,9 @@
       <if test="resourceId != null" >
         #{resourceId,jdbcType=BIGINT},
       </if>
+      <if test="resOrder != null" >
+        #{resOrder,jdbcType=INTEGER},
+      </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
@@ -66,6 +73,9 @@
       <if test="resourceId != null" >
         resource_id = #{resourceId,jdbcType=BIGINT},
       </if>
+      <if test="resOrder != null" >
+        res_order = #{resOrder,jdbcType=INTEGER},
+      </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
@@ -76,6 +86,7 @@
     update content_fragment_resource
     set content_fragment_id = #{contentFragmentId,jdbcType=BIGINT},
       resource_id = #{resourceId,jdbcType=BIGINT},
+      res_order = #{resOrder,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>

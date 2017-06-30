@@ -9,6 +9,8 @@ public class ContentFragmentResource extends BaseModel {
 
     private Long resourceId;
 
+    private Integer resOrder;
+
     private Integer status;
 
     public Long getId() {
@@ -33,6 +35,14 @@ public class ContentFragmentResource extends BaseModel {
 
     public void setResourceId(Long resourceId) {
         this.resourceId = resourceId;
+    }
+
+    public Integer getResOrder() {
+        return resOrder;
+    }
+
+    public void setResOrder(Integer resOrder) {
+        this.resOrder = resOrder;
     }
 
     public Integer getStatus() {
