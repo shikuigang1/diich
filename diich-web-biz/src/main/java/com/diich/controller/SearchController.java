@@ -26,7 +26,7 @@ import java.util.Map;
 public class SearchController extends BaseController {
 
     @Autowired
-    private SearchService searchSerice;
+    private SearchService searchService;
 
     @RequestMapping("s")
     @ResponseBody
@@ -86,7 +86,7 @@ public class SearchController extends BaseController {
             map.put("res",null);
             return map;
         }else{
-            return  searchSerice.searchTextNew(map);
+            return  searchService.searchTextNew(map);
         }
 
 
@@ -100,7 +100,7 @@ public class SearchController extends BaseController {
     @RequestMapping("sk")
     @ResponseBody
     public List<String> searchKeyWord(String keyword,int size){
-        List<String> ls  = searchSerice.searchText(keyword,size);
+        List<String> ls  = searchService.searchText(keyword,size);
         return ls;
     }
 
@@ -121,7 +121,7 @@ public class SearchController extends BaseController {
         map.put("pageSize",6);
         map.put("pageBegin",((Integer)map.get("pageNum")-1)*(Integer)map.get("pageSize"));
 
-        model.addAttribute("map",searchSerice.searchText(map));
+        model.addAttribute("map",searchService.searchText(map));
 
         // mav.addObject("map", map);
         //mav.addObject("CREATE_HTML", false);
