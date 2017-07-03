@@ -282,16 +282,16 @@ var common = {
              });*/
 
             //失去焦点
-            _this.blur(function () {
-                // clearInterval(timer);
-
-                var newVal = $(this).val();
-                if (newVal == '') {
-                    //$(this).val(oldVal);
-                }
-
-                // timer = setInterval(slider, speed);
-            });
+            // _this.blur(function () {
+            //     // clearInterval(timer);
+            //
+            //     var newVal = $(this).val();
+            //     if (newVal == '') {
+            //         $(this).val(oldVal);
+            //     }
+            //
+            //     // timer = setInterval(slider, speed);
+            // });
 
         });
     },
@@ -509,7 +509,7 @@ var header = {
 var homePage = {
     init: function () {
         common.slide(); //轮播图
-        this.map();
+
     },
     data: function () {
         var dataMap = [
@@ -847,6 +847,11 @@ var homePage = {
 
 
     map: function (lang) {//地图
+
+        if(!$('div').hasClass('map')){
+           return;
+        }
+
         lang = localStorage.getItem("language");
         if (lang == 'en') {
             var data = this.endata();
