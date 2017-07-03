@@ -192,20 +192,11 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                             contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
                             List<Resource> resourceList = contentFragment.getResourceList();
                             if(resourceList != null && resourceList.size()>0){
-                                for (Resource resource:resourceList) {
-                                    if(resource.getId() == null){
-                                        //添加
-                                        saveResource(resource,contentFragment.getId());
-                                    }else{
-                                        //更新
-                                        resourceMapper.updateByPrimaryKeySelective(resource);
-                                    }
-                                }
+                                saveResource(resourceList,contentFragment.getId());
                             }
                         }
                     }
                 }
-
             }
             List<Works> worksList = ichMaster.getWorksList();
             if(worksList !=null && worksList.size()>0){
@@ -283,7 +274,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 if(resource!=null){
                     resourceList.add(resource);
                 }
-
             }
             contentFragment.setResourceList(resourceList);
         }
@@ -315,62 +305,51 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         contentFragmentMapper.insertSelective(c);
         List<Resource> resourceList = c.getResourceList();
         if(resourceList != null && resourceList.size()>0){
-            for (Resource resource: resourceList ) {
-                saveResource(resource,c.getId());
-            }
+            saveResource(resourceList,c.getId());
         }
     }
     /**
      * 保存资源文件
-     * @param resource
+     * @param resList
      * @param cId
      */
-    private void saveResource(Resource resource,Long cId) throws Exception{
+    private void saveResource(List<Resource> resList,Long cId) throws Exception{
 
-        Long resourceId = IdWorker.getId();
-        resource.setId(resourceId);
-        resource.setStatus(0);
-        //判断上传的文件类型 0图片 1 视频 2 音频
-        String sType = FileType.fileType(resource.getUri());
-        if("图片".equals(sType)){
-            resource.setType(0);
-        }
-        if("视频".equals(sType)){
-            resource.setType(1);
-        }
-        //保存resource
-        resourceMapper.insertSelective(resource);
-        ContentFragmentResource cfr = new ContentFragmentResource();
-        cfr.setId(IdWorker.getId());
-        cfr.setContentFragmentId(cId);
-        cfr.setResourceId(resourceId);
-        cfr.setStatus(0);
-        //保存中间表
-        contentFragmentResourceMapper.insertSelective(cfr);
-    }
+        for(int i = 0; i<resList.size();i++){
+            Resource resource = resList.get(i);
+            Long resourceId = resource.getId();
+            if(resourceId == null){
+                resourceId = IdWorker.getId();
+                resource.setId(resourceId);
+                resource.setStatus(0);
+                //判断上传的文件类型 0图片 1 视频 2 音频
+                String sType = FileType.fileType(resource.getUri());
+                if("图片".equals(sType)){
+                    resource.setType(0);
+                }
+                if("视频".equals(sType)){
+                    resource.setType(1);
+                }
+                //保存resource
+                resourceMapper.insertSelective(resource);
+                ContentFragmentResource cfr = new ContentFragmentResource();
+                cfr.setId(IdWorker.getId());
+                cfr.setContentFragmentId(cId);
+                cfr.setResourceId(resourceId);
+                if(resource.getResOrder() !=null && !"".equals(resource.getResOrder())){
+                    cfr.setResOrder(resource.getResOrder());
+                }else{
+                    cfr.setResOrder(i+1);
+                }
+                cfr.setStatus(0);
+                //保存中间表
+                contentFragmentResourceMapper.insertSelective(cfr);
+            }else{
+                //更新资源文件
+                resourceMapper.updateByPrimaryKeySelective(resource);
 
-    /**
-     * 将content的code转换为name
-     * @param cfList
-     * @return
-     */
-    private List<ContentFragment> getContentFragment(List<ContentFragment> cfList,String lang) throws Exception {
-        for (ContentFragment contentFragment : cfList) {
-            Attribute attribute = contentFragment.getAttribute();
-            if(attribute.getDataType()>100){
-                if(contentFragment.getContent() == null ){
-                    continue;
-                }
-                String[] arrs= contentFragment.getContent().split(",");
-                String name ="";
-                for (String arr: arrs) {
-                    name = dictionaryService.getTextByTypeAndCode(attribute.getDataType(), arr,lang);
-                    name +=";";
-                }
-                name = name.substring(0,name.length()-1);
-                contentFragment.setContent(name);
             }
         }
-        return cfList;
+
     }
 }
