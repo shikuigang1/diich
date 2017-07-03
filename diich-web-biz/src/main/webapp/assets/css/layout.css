@@ -36,6 +36,7 @@
     font-size: 14px;
     position: relative;
     background: #000;
+    overflow: hidden;
 }
 
 .home .slider form {
@@ -122,13 +123,13 @@
 }
 
 .home .slider .img li img {
-    width: 100%;
+    width: 1920px;
     min-width: 1200px;
     min-height: 810px;
     position: absolute;
     top: 0;
     left: 50%;
-    margin-left: -50%;
+    margin-left: -960px;
 }
 
 .home .slider .num {
