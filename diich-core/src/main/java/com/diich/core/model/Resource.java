@@ -11,6 +11,8 @@ public class Resource extends BaseModel {
 
     private Integer status;
 
+    private Integer resOrder;
+
     private String description;
 
     public Long getId() {
@@ -43,6 +45,14 @@ public class Resource extends BaseModel {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getResOrder() {
+        return resOrder;
+    }
+
+    public void setResOrder(Integer resOrder) {
+        this.resOrder = resOrder;
     }
 
     public String getDescription() {
