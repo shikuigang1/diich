@@ -621,7 +621,9 @@ body,
     margin-right: 30px;
     cursor: pointer;
 }
-
+.ipt_base .content form.base .con dd .judge input[type=radio] {
+    opacity:0;
+}
 .ipt_base .content form.base .con dl.thematic {
     width: 296px;
     position: absolute;
