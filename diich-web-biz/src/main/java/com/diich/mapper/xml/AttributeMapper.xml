@@ -162,8 +162,8 @@
     <if test="cnName != null" >
       and a.cn_name= #{cnName,jdbcType=VARCHAR}
     </if>
-    <if test="proId != null" >
-      and c.target_id= #{proId,jdbcType=BIGINT}
+    <if test="targetId != null" >
+      and c.target_id= #{targetId,jdbcType=BIGINT}
     </if>
   </select>
 </mapper>
