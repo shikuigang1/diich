@@ -360,23 +360,32 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     private void checkAttributeByName(IchMaster ichMaster) throws Exception{
         Map map = new HashMap();
         List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
+        List<String> list = new ArrayList<>();
         for (ContentFragment contentFragment:contentFragmentList) {
             if(contentFragment.getAttributeId() !=0){
                 continue;
-            }else{
+            }else {
                 Attribute attribute = contentFragment.getAttribute();
-                //根据属性名称和项目id查询是否存在该属性
-                map.put("cnName",attribute.getCnName());
-                map.put("targetId",ichMaster.getId());
-                List<Attribute> attributeList = null;
-                try{
-                    attributeList = attributeMapper.selectAttrByNameAndProId(map);
-                }catch (Exception e){
-                    throw new ApplicationException(ApplicationException.INNER_ERROR);
-                }
-
-                if(attributeList.size()>0){
+                String cnName = attribute.getCnName();
+                //判断是否重名
+                if (list.contains(cnName)) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR);
+                }
+                list.add(cnName);
+                //根据属性名称和项目id查询是否存在该属性
+                if (ichMaster.getId() != null) {
+                    map.put("cnName", attribute.getCnName());
+                    map.put("targetId", ichMaster.getId());
+                    List<Attribute> attributeList = null;
+                    try {
+                        attributeList = attributeMapper.selectAttrByNameAndProId(map);
+                    } catch (Exception e) {
+                        throw new ApplicationException(ApplicationException.INNER_ERROR);
+                    }
+
+                    if (attributeList.size() > 0) {
+                        throw new ApplicationException(ApplicationException.PARAM_ERROR);
+                    }
                 }
             }
         }

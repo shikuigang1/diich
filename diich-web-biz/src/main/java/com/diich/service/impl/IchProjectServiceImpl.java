@@ -471,23 +471,32 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     private void checkAttributeByName(IchProject ichProject) throws Exception{
         Map map = new HashMap();
         List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
+        List<String> list = new ArrayList<>();
         for (ContentFragment contentFragment:contentFragmentList) {
             if(contentFragment.getAttributeId() !=0){
                 continue;
             }else{
                 Attribute attribute = contentFragment.getAttribute();
-                //根据属性名称和项目id查询是否存在该属性
-                map.put("cnName",attribute.getCnName());
-                map.put("targetId",ichProject.getId());
-                List<Attribute> attributeList = null;
-                try{
-                    attributeList = attributeMapper.selectAttrByNameAndProId(map);
-                }catch (Exception e){
-                    throw new ApplicationException(ApplicationException.INNER_ERROR);
-                }
-
-                if(attributeList.size()>0){
+                String cnName = attribute.getCnName();
+                //判断是否重名
+                if(list.contains(cnName)){
                     throw new ApplicationException(ApplicationException.PARAM_ERROR);
+                }
+                list .add(cnName);
+                //根据属性名称和项目id查询attribute表中是否存在该属性
+                if(ichProject.getId() != null){
+                    map.put("cnName",cnName);
+                    map.put("targetId",ichProject.getId());
+                    List<Attribute> attributeList = null;
+                    try{
+                        attributeList = attributeMapper.selectAttrByNameAndProId(map);
+                    }catch (Exception e){
+                        throw new ApplicationException(ApplicationException.INNER_ERROR);
+                    }
+
+                    if(attributeList.size()>0){
+                        throw new ApplicationException(ApplicationException.PARAM_ERROR);
+                    }
                 }
             }
         }
