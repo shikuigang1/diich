@@ -13,8 +13,6 @@ public class ContentFragment extends BaseModel {
 
     private Integer targetType;
 
-    private Integer fieldType;
-
     private Integer status;
 
     private String content;
@@ -53,14 +51,6 @@ public class ContentFragment extends BaseModel {
 
     public void setTargetType(Integer targetType) {
         this.targetType = targetType;
-    }
-
-    public Integer getFieldType() {
-        return fieldType;
-    }
-
-    public void setFieldType(Integer fieldType) {
-        this.fieldType = fieldType;
     }
 
     public Integer getStatus() {

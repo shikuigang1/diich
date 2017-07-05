@@ -34,7 +34,7 @@ public interface ContentFragmentMapper extends BaseMapper<ContentFragment> {
     List<ContentFragment> queryByTargetIDAndType(ContentFragment contentFragment);
     List<ContentFragment> queryListByTargetId(long target_id);
 
-
+    List<ContentFragment> selectByAttIdAndContent(ContentFragment record);
     //当关坚持为null使用
     List<ContentFragment> queryNoKeyWord(Map map);
 

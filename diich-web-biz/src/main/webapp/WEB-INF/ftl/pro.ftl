@@ -155,7 +155,7 @@
                 <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
                         <#if cf.attributeId == 1>
-                            <#if (cf.resourceList?size>0)>
+                            <#if (cf.resourceList??) && (cf.resourceList?size>0)>
                                 <#list cf.resourceList as res>
                                     <#if res.type==0 && res.status==0>
                                         <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
@@ -174,7 +174,7 @@
             <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
                         <#if cf.attributeId == 1>
-                            <#if (cf.resourceList?size>0)>
+                            <#if (cf.resourceList??) && (cf.resourceList?size>0)>
                                 <#list cf.resourceList as res>
                                     <#if res.type==1 && res.status==0>
                                         <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>

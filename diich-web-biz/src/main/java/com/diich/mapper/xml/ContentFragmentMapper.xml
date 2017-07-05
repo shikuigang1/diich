@@ -295,5 +295,7 @@
     </if>
 
   </select>
-
+<select id="selectByAttIdAndContent" resultMap="BaseResultMap" parameterType="com.diich.core.model.ContentFragment">
+  select * from content_fragment where content = #{content,jdbcType=LONGVARCHAR} and attribute_id = #{attributeId,jdbcType=BIGINT} and status = 0
+</select>
 </mapper>

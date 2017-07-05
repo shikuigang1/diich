@@ -188,7 +188,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Transactional
     public IchProject saveIchProject(IchProject ichProject) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
-
+        //根据项目名称查询项目是否存在
+        checkProjectByName(ichProject);
         try {
             String templateName ="pro.ftl";//模板名
             String fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId();//静态页面生成路径和名称
@@ -235,8 +236,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     worksService.saveWorks(works);
                 }
             }
+
             //生成静态页面
-            String uri = buildHTML(templateName, ichProject, fileName);
+//            String uri = buildHTML(templateName, ichProject, fileName);
             commit(transactionStatus);
         } catch (Exception e) {
             rollback(transactionStatus);
@@ -362,6 +364,10 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     private void saveContentFragment(ContentFragment c,Long proID) throws Exception{
         Long attributeId = c.getAttributeId();
+        if(attributeId !=0 && attributeId != null){
+            Attribute attribute = attributeMapper.selectByPrimaryKey(attributeId);
+            c.setAttribute(attribute);
+        }
         if(attributeId == 0 || attributeId == null){
             Attribute attribute = c.getAttribute();
             attributeId = IdWorker.getId();
@@ -422,10 +428,38 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 contentFragmentResourceMapper.insertSelective(cfr);
             }else{
                 //更新资源文件
-               resourceMapper.updateByPrimaryKeySelective(resource);
+                resourceMapper.updateByPrimaryKeySelective(resource);
 
             }
         }
 
+    }
+
+    /**
+     * 根据项目名称查询项目是否存在
+     * @param ichProject
+     * @throws Exception
+     */
+    private void checkProjectByName(IchProject ichProject) throws Exception{
+        List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
+        List<ContentFragment> contentFragments = null;
+        for (ContentFragment contentFragment:contentFragmentList) {
+            if(contentFragment.getAttributeId() !=4){
+                continue;
+            }
+           contentFragments = contentFragmentMapper.selectByAttIdAndContent(contentFragment);
+        }
+        if(ichProject.getId() == null){
+            if(contentFragments.size()>0){
+                throw new ApplicationException(ApplicationException.PARAM_ERROR);
+            }
+        }else{
+            if(contentFragments.size()>0){
+                Long targetId = contentFragments.get(0).getTargetId();
+                if(ichProject.getId()!=targetId){
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR);
+                }
+            }
+        }
     }
 }

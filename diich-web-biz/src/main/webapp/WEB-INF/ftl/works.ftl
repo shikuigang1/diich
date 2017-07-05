@@ -2,17 +2,27 @@
 <html lang="en">
 
 <head>
+<#assign caturi="http://diich.efeiyi.com" />
     <meta charset="UTF-8">
     <title>作品详情页</title>
-    <link rel="stylesheet" href="assets/css/common.css">
-    <link rel="stylesheet" href="assets/css/layout.css">
     <style>
         .header .content .nav a:after {
             display: none;
         }
     </style>
-    <script src="./assets/js/jquery.min.js"></script>
-    <script src="./assets/js/system.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="${caturi}/assets/images/logo.png" media="screen" />
+    <link rel="stylesheet" href="${caturi}/assets/css/common.css">
+    <link rel="stylesheet" href="${caturi}/assets/css/layout.css">
+    <script src="${caturi}/assets/js/jquery.min.js"></script>
+    <script src="${caturi}/assets/js/system.js"></script>
+    <script src="${caturi}/data/keyword.js"></script>
+    <script src="${caturi}/data/category.js"></script>
+    <script src="${caturi}/js/citys.js"></script>
+    <script src="${caturi}/assets/js/inputs.js"></script>
+    <script src="${caturi}/js/jquery.i18n.properties-1.0.9.js"></script>
+    <script src="${caturi}/js/i18n.js"></script>
+    <script src="${caturi}/data/dictionary.js"></script>
+    <script src="${caturi}/js/util.js"></script>
 </head>
 
 <body style="background:rgba(245,246,248,1);">
@@ -20,88 +30,49 @@
     <!--//End header -->
     <div class="filter_search filter_search_fixed">
         <div class="content">
-            <form class="form" action="">
-                <input class="ipt" type="text" value="从这里搜索您感兴趣的...">
-                <input class="submit" type="submit" value="搜索">
+            <form class="form" action="${caturi}/page/search.html">
+                <input class="ipt" type="text" id="keyword" name="keyword" value="" autocomplete="off">
+                <input type="hidden" id="area_code" name="area_code" value="" />
+                <input type="hidden" id="gb_category_code" name="gb_category_code" value="" />
+                <input type="hidden" id="type" name="type" value="" />
+                <input class="submit" type="button" value="搜索" onclick="submit()">
                 <div class="suggest" style="display: none;">
                     <ul>
-                        <li><a href=""><span>苏州</span>传承人</a></li>
-                        <li><a href=""><span>苏州</span>苏绣</a></li>
-                        <li><a href=""><span>苏州</span>苏绣</a></li>
-                        <li><a href=""><span>苏州</span>苏绣</a></li>
-                        <li><a href=""><span>苏州</span>苏绣</a></li>
-                        <li><a href=""><span>苏州</span>苏绣</a></li>
-                        <li><a href=""><span>苏州</span>苏绣</a></li>
-                        <li><a href=""><span>苏州</span>苏绣</a></li>
-                        <li><a href=""><span>苏州</span>苏绣</a></li>
+
                     </ul>
                 </div>
             </form>
             <!--//End form-->
 
             <div class="attr">
-                <span>全部</span>
-                <span>所属类别</span>
-                <span>全球</span>
+                <span id="attr_text">所属类别</span>
+                <span id="area_text">全球</span>
             </div>
             <!--//End attribute-->
 
             <div class="dropbox" id="drag">
-                <div class="item">
-                    <dl class="level">
-                        <dt>
-                    <div class="title">查看</div>
-                    </dt>
-                        <dd>
-                            <ul>
-                                <li class="active">全部<span>342</span></li>
-                                <li>项目<span>42</span></li>
-                                <li>传承人<span>42</span></li>
-                                <li>作品<span>42</span></li>
-                            </ul>
-                        </dd>
-                    </dl>
-                </div>
                 <!--//ENd 全部-->
 
-                <div class="item">
+                <div class="item" id="item_1">
                     <dl class="level">
                         <dt>
-                    <div class="title">一级分类</div>
-                    <div class="subtitle">所有分类</div>
-                    </dt>
+                        <div class="title">一级分类</div>
+                        <div class="subtitle">所有分类</div>
+                        </dt>
                         <dd>
-                            <ul>
-                                <li>口头传统和表述</li>
-                                <li>表演艺术</li>
-                                <li>社会风俗、礼仪、节庆</li>
-                                <li>有关自然界和宇宙的知识和实践</li>
-                                <li>传统的手工艺技能</li>
-                                <li>传统的手工艺技能</li>
-                                <li>传统的手工艺技能</li>
-                                <li>传统的手工艺技能</li>
-                                <li>传统的手工艺技能</li>
-                                <li>传统的手工艺技能</li>
+                            <ul id="mainCategory">
+
                             </ul>
                         </dd>
                     </dl>
                     <dl class="level2">
                         <dt>
-                    <div class="title">二级分类</div>
-                    <div class="subtitle">所有二级分类</div>
-                    </dt>
+                        <div class="title">二级分类</div>
+                        <div class="subtitle">所有二级分类</div>
+                        </dt>
                         <dd>
-                            <ul>
-                                <li>工具和机械制作</li>
-                                <li>家畜农林产品加工</li>
-                                <li>造纸、印刷及装裱</li>
-                                <li>烧造工艺</li>
-                                <li>锻冶工艺</li>
-                                <li>雕塑工艺</li>
-                                <li>雕塑工艺</li>
-                                <li>雕塑工艺</li>
-                                <li>雕塑工艺</li>
-                                <li>雕塑工艺</li>
+                            <ul id="catecontent">
+
                             </ul>
                         </dd>
                     </dl>
@@ -111,26 +82,20 @@
                 <div class="item">
                     <dl class="level">
                         <dt>
-                    <div class="title">位置</div>
-                    </dt>
+                        <div class="title">位置</div>
+                        </dt>
                         <dd>
                             <ul>
-                                <li>全球</li>
                                 <li>中国</li>
-                                <li>非洲</li>
-                                <li>阿拉伯地区</li>
-                                <li>亚太</li>
-                                <li>欧美</li>
-                                <li>拉美</li>
                             </ul>
                         </dd>
                     </dl>
                     <dl class="level2">
                         <dt>
-                    <div class="title">按照字母顺序</div>
-                    </dt>
+                        <div class="title">按照字母顺序</div>
+                        </dt>
                         <dd>
-                            <ul>
+                            <ul id="citycontent">
                                 <li>安微</li>
                                 <li>澳门</li>
                                 <li>北京</li>
@@ -154,7 +119,7 @@
         <div class="bd detail_product">
 
             <div class="crumbs">
-                <#if (obj.ichProject??)>
+               <#-- <#if (obj.ichProject??)>
                     <#if (obj.ichProject.ichCategory??)>
                         <span>${obj.ichProject.ichCategory.name}</span>
                         <#if (obj.ichProject.ichCategory.children?? && obj.ichProject.ichCategory.children?size>0)>
@@ -170,7 +135,7 @@
                             </#list>
                         </#if>
                     </#if>
-                </#if>
+                </#if>-->
                 <#--<span>非遗名录</span>
                 <i class="gt"></i>
                 <span><a href="" title="口头传说和表述">口头传说和表述</a></span>
