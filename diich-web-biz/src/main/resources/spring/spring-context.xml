@@ -29,7 +29,7 @@
     </bean>
 
     <!-- 扫描service、dao组件 -->
-    <context:component-scan base-package="com.diich.service,com.diich.mapper" />
+    <context:component-scan base-package="com.diich.service,com.diich.mapper,com.diich.core.support" />
 
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
           destroy-method="close" init-method="init" lazy-init="true">
