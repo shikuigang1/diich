@@ -4,6 +4,7 @@ import com.diich.core.base.BaseMapper;
 import com.diich.core.model.Attribute;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AttributeMapper extends BaseMapper<Attribute>{
     int deleteByPrimaryKey(Long id);
@@ -19,4 +20,6 @@ public interface AttributeMapper extends BaseMapper<Attribute>{
     int updateByPrimaryKey(Attribute record);
 
     List<Attribute> selectAttrListByCategory(Long ichCategoryId);
+
+    List<Attribute> selectAttrByNameAndProId(Map map);
 }
