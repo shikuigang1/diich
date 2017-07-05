@@ -311,21 +311,19 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }*/
                 //获取项目题图
                 if(c.getAttributeId()==1){
-                    String content = c.getContent();
-                    if(content!= null){
-                        Resource r = resourceMapper.selectByContentFramentID(Long.parseLong(content));
+
+                        Resource r = resourceMapper.selectByContentFramentID(c.getId());
                         resultMap.put("img",r.getUri());
-                    }
+
                 }
                 //获取区域地址
-               if(a.getDataType()==101){
+               if(a!=null && a.getDataType()==101){
                    String content = c.getContent();
                    if(content!= null){
                        String dis =  dictionaryService.getTextByTypeAndCode(a.getDataType(),c.getContent(),lang);
                        resultMap.put("dis",dis);
                    }
                }
-
            }
            result.add(resultMap);
        }
