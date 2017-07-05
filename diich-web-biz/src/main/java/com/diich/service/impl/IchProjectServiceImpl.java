@@ -478,7 +478,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 Attribute attribute = contentFragment.getAttribute();
                 //根据属性名称和项目id查询是否存在该属性
                 map.put("cnName",attribute.getCnName());
-                map.put("proId",ichProject.getId());
+                map.put("targetId",ichProject.getId());
                 List<Attribute> attributeList = null;
                 try{
                     attributeList = attributeMapper.selectAttrByNameAndProId(map);

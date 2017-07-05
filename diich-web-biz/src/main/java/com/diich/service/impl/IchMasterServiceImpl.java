@@ -157,9 +157,10 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
      * @return
      */
     @Override
-    public void saveIchMaster(IchMaster ichMaster) throws ApplicationException {
+    public void saveIchMaster(IchMaster ichMaster) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
-
+        //检查当前传承人自定义属性是否已存在
+        checkAttributeByName(ichMaster);
         try {
             String templateName = "master.ftl";//模板名
             String filename = PropertiesUtil.getString("freemarker.masterfilepath") +"/"+ ichMaster.getId();//生成静态页面的路径名称
@@ -206,7 +207,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 }
             }
             //生成静态页面
-            String uri = buildHTML(templateName, ichMaster, filename);
+//            String uri = buildHTML(templateName, ichMaster, filename);
             commit(transactionStatus);
         } catch (Exception e) {
             rollback(transactionStatus);
@@ -290,7 +291,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             Attribute attribute = c.getAttribute();
             attributeId = IdWorker.getId();
             attribute.setId(attributeId);
-            attribute.setDataType(5);
+//            attribute.setDataType(5);
             attribute.setTargetType(1);
             attribute.setStatus(0);
             attribute.setIsOpen(1);
@@ -351,5 +352,33 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             }
         }
 
+    }
+    /**
+     * 根据属性名称检查当前传承人自定义属性是否存在
+     * @param ichMaster
+     */
+    private void checkAttributeByName(IchMaster ichMaster) throws Exception{
+        Map map = new HashMap();
+        List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
+        for (ContentFragment contentFragment:contentFragmentList) {
+            if(contentFragment.getAttributeId() !=0){
+                continue;
+            }else{
+                Attribute attribute = contentFragment.getAttribute();
+                //根据属性名称和项目id查询是否存在该属性
+                map.put("cnName",attribute.getCnName());
+                map.put("targetId",ichMaster.getId());
+                List<Attribute> attributeList = null;
+                try{
+                    attributeList = attributeMapper.selectAttrByNameAndProId(map);
+                }catch (Exception e){
+                    throw new ApplicationException(ApplicationException.INNER_ERROR);
+                }
+
+                if(attributeList.size()>0){
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR);
+                }
+            }
+        }
     }
 }
