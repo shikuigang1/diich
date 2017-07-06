@@ -4,6 +4,7 @@ import com.diich.core.base.BaseModel;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class IchProject extends BaseModel {
     private Long id;
@@ -27,6 +28,12 @@ public class IchProject extends BaseModel {
     private User user;//最后编辑者
 
     private Version version;//版本 中文版和英文版的中间表
+
+    private String json;//按模块分所有的资源
+
+    private String jsonAll;//详情页查看所有图片和视频
+
+    private String jsonHead;//浮层页公用数据
 
     public List<ContentFragment> getContentFragmentList() {
         return contentFragmentList;
@@ -144,5 +151,29 @@ public class IchProject extends BaseModel {
 
     public void setVersion(Version version) {
         this.version = version;
+    }
+
+    public String getJson() {
+        return json;
+    }
+
+    public void setJson(String json) {
+        this.json = json;
+    }
+
+    public String getJsonAll() {
+        return jsonAll;
+    }
+
+    public void setJsonAll(String jsonAll) {
+        this.jsonAll = jsonAll;
+    }
+
+    public String getJsonHead() {
+        return jsonHead;
+    }
+
+    public void setJsonHead(String jsonHead) {
+        this.jsonHead = jsonHead;
     }
 }

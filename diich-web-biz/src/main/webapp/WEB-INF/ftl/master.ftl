@@ -34,6 +34,9 @@
                 detailCommon.mediaShow(type, index);
             })
         })
+        var json = ${obj.json};
+        var jsonAll = ${obj.jsonAll};
+        var jsonHead = ${obj.jsonHead};
     </script>
     <style>
         br{line-height:60px;}
@@ -41,7 +44,7 @@
     </style>
 </head>
 
-<body>
+<body class="master">
 <div class="header header_detail"></div>
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
