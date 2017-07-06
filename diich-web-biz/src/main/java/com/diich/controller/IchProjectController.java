@@ -88,9 +88,9 @@ public class IchProjectController extends BaseController<IchProject> {
     @RequestMapping("saveIchProject")
     @ResponseBody
     public Map<String, Object> saveIchProject(HttpServletRequest request,HttpServletResponse response) {
+        response.setContentType("text/html;charset=UTF-8");
         String params = request.getParameter("params");
         IchProject ichProject = null;
-
         try {
             ichProject = parseObject(params, IchProject.class);
         } catch (Exception e) {

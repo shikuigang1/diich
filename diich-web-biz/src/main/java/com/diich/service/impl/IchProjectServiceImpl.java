@@ -190,6 +190,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         TransactionStatus transactionStatus = getTransactionStatus();
         //根据项目名称查询项目是否存在
         checkProjectByName(ichProject);
+        //查询自定义字段是否在本项目存在
+        checkAttributeByName(ichProject);
         try {
             String templateName ="pro.ftl";//模板名
             String fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId();//静态页面生成路径和名称
@@ -362,15 +364,14 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     private void saveContentFragment(ContentFragment c,Long proID) throws Exception{
         Long attributeId = c.getAttributeId();
-        if(attributeId !=0 && attributeId != null){
-            Attribute attribute = attributeMapper.selectByPrimaryKey(attributeId);
-            c.setAttribute(attribute);
-        }
+//        if(attributeId !=0 && attributeId != null){
+//            Attribute attribute = attributeMapper.selectByPrimaryKey(attributeId);
+//            c.setAttribute(attribute);
+//        }
         if(attributeId == 0 || attributeId == null){
             Attribute attribute = c.getAttribute();
             attributeId = IdWorker.getId();
             attribute.setId(attributeId);
-            attribute.setDataType(5);
             attribute.setTargetType(0);
             attribute.setStatus(0);
             attribute.setIsOpen(1);
@@ -444,8 +445,10 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         for (ContentFragment contentFragment:contentFragmentList) {
             if(contentFragment.getAttributeId() !=4){
                 continue;
+            }else{
+                contentFragments = contentFragmentMapper.selectByAttIdAndContent(contentFragment);
+                break;
             }
-           contentFragments = contentFragmentMapper.selectByAttIdAndContent(contentFragment);
         }
         if(ichProject.getId() == null){
             if(contentFragments.size()>0){
@@ -456,6 +459,44 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 Long targetId = contentFragments.get(0).getTargetId();
                 if(ichProject.getId()!=targetId){
                     throw new ApplicationException(ApplicationException.PARAM_ERROR);
+                }
+            }
+        }
+    }
+
+    /**
+     * 根据属性名称检查当前项目自定义属性是否存在
+     * @param ichProject
+     */
+    private void checkAttributeByName(IchProject ichProject) throws Exception{
+        Map map = new HashMap();
+        List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
+        List<String> list = new ArrayList<>();
+        for (ContentFragment contentFragment:contentFragmentList) {
+            if(contentFragment.getAttributeId() !=0){
+                continue;
+            }else{
+                Attribute attribute = contentFragment.getAttribute();
+                String cnName = attribute.getCnName();
+                //判断是否重名
+                if(list.contains(cnName)){
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR);
+                }
+                list .add(cnName);
+                //根据属性名称和项目id查询attribute表中是否存在该属性
+                if(ichProject.getId() != null){
+                    map.put("cnName",cnName);
+                    map.put("targetId",ichProject.getId());
+                    List<Attribute> attributeList = null;
+                    try{
+                        attributeList = attributeMapper.selectAttrByNameAndProId(map);
+                    }catch (Exception e){
+                        throw new ApplicationException(ApplicationException.INNER_ERROR);
+                    }
+
+                    if(attributeList.size()>0){
+                        throw new ApplicationException(ApplicationException.PARAM_ERROR);
+                    }
                 }
             }
         }

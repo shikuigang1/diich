@@ -156,4 +156,14 @@
         <include refid="Base_Column_List" />
      FROM attribute WHERE status = 0 and  ich_category_id = #{ichCategoryId,jdbcType=BIGINT}
   </select>
+  <select id="selectAttrByNameAndProId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select a.cn_name from attribute a LEFT JOIN  content_fragment c on a.id = c.attribute_id
+    where a.status = 0
+    <if test="cnName != null" >
+      and a.cn_name= #{cnName,jdbcType=VARCHAR}
+    </if>
+    <if test="targetId != null" >
+      and c.target_id= #{targetId,jdbcType=BIGINT}
+    </if>
+  </select>
 </mapper>
