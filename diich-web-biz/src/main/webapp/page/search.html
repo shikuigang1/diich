@@ -15,6 +15,7 @@
     <script src="../js/doT.js"></script>
     <script src="../js/serverinfo.js"></script>
     <script src="../assets/js/system.js"></script>
+    <script src="../assets/js/login.js"></script>
     <script type="text/javascript" src="/js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="../js/i18n.js"></script>
 
@@ -35,7 +36,7 @@
             <div class="context">
                 <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/project/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_cate"></i></h4>
                 <div class="doi">
-                    <span class="tag">DOI</span>
+                    <span class="tag">ID</span>
                     <span>标识码</span>
                     <span>{{= it[i].doi }}</span>
                 </div>
@@ -75,7 +76,7 @@
                 {{?}}
 
                 <div class="doi">
-                    <span class="tag">DOI</span>
+                    <span class="tag">ID</span>
                     <span>标识码</span>
                     <span>{{= it[i].doi }}</span>
                 </div>
@@ -145,19 +146,30 @@
                 },
                 success: function(data) {
 
-                    $("#totalCount").text(data.totalCount);
-                   // $("#totalCount_").text(data.totalCount);
-                    var evalText = doT.template($("#interpolationtmpl").text());
-                    $("#content").html(evalText(data.res));
-                    $(".load_more").show();
-
-                    if (parseInt($("#pageNum").val()) * parseInt($("#pageSize").val()) >= data.totalCount) {
-                        $(".load_more").hide();
+                    if(data.res==null){
+                        $(".search_lose").show();
+                        $(".section").hide();
+                        progress.close('#search-progress');
                     }else{
+                        $(".search_lose").hide();
+                        $(".section").show();
+
+                        $("#totalCount").text(data.totalCount);
+                        // $("#totalCount_").text(data.totalCount);
+                        var evalText = doT.template($("#interpolationtmpl").text());
+                        $("#content").html(evalText(data.res));
                         $(".load_more").show();
+
+                        if (parseInt($("#pageNum").val()) * parseInt($("#pageSize").val()) >= data.totalCount) {
+                            $(".load_more").hide();
+                        }else{
+                            $(".load_more").show();
+                        }
+
+                        progress.close('#search-progress');
                     }
 
-                    progress.close('#search-progress');
+
                 },
                 complete:function(xhr){
                     //$('#loading').hide();
@@ -182,17 +194,29 @@
                     //alert("Connection error");
                 },
                 success: function(data) {
-                    //alert(JSON.stringify(data.res));
-                    $("#totalCount").text(data.totalCount);
-                   // $("#totalCount_").text(data.totalCount);
-                    var evalText = doT.template($("#interpolationtmpl").text());
-                    $("#content").html(evalText(data.res));
-                    if (parseInt($("#pageNum").val()) * parseInt($("#pageSize").val()) >= data.totalCount) {
-                        $(".load_more").hide();
+
+                    if(data.res==null){
+                        $(".search_lose").show();
+                        $(".section").hide();
+                        progress.close('#search-progress');
                     }else{
-                        $(".load_more").show();
+                        $(".search_lose").hide();
+                        $(".section").show();
+
+                        //alert(JSON.stringify(data.res));
+                        $("#totalCount").text(data.totalCount);
+                        // $("#totalCount_").text(data.totalCount);
+                        var evalText = doT.template($("#interpolationtmpl").text());
+                        $("#content").html(evalText(data.res));
+                        if (parseInt($("#pageNum").val()) * parseInt($("#pageSize").val()) >= data.totalCount) {
+                            $(".load_more").hide();
+                        }else{
+                            $(".load_more").show();
+                        }
+                        progress.close('#search-progress');
                     }
-                    progress.close('#search-progress');
+
+
                 }
             });
         }
@@ -507,7 +531,8 @@
 
     </div>
 </div>
-<!-- 找到项目 end -->
+
+
 
 <div class="bd footer">
     <div class="diich">
@@ -545,7 +570,7 @@
 <script>
     //进度条
 
-    var lang = localStorage.getItem("language");
+    var lang = getLang();
 
     if(lang=='zh-CN'){
         //$("#lang").val('zh-CN');
@@ -748,7 +773,7 @@
         var country = $('#country');
         //var dic_arr_temp =getDictionaryArrayByType(101,lang);
         //初始化分类数据
-        $.each(dic_arr, function(index, content) {
+        $.each(dic_arr_city, function(index, content) {
             if(lang=='zh-CN'){
                 country.append("<li data-id=\"" + content.code + "\" >" + content.name + "</li>");
             }else{
@@ -846,13 +871,13 @@
                 });
 
                 //失去焦点如果为空则显示原始值
-                ipt.blur(function() {
+                /*ipt.blur(function() {
                     var _val = $(this).val();
                     if (_val == '') {
                         $(this).val(iptVal);
                     }
                     $('.overbg').remove();
-                });
+                });*/
 
                 //2.点击筛选
                 filterAll.on('click', function() {
@@ -898,12 +923,12 @@
                             });
                         }
 
-                        if (typeof(dic_arr) != "undefined" && $(this).parent().attr("id")=='country') {
+                        if (typeof(dic_arr_city) != "undefined" && $(this).parent().attr("id")=='country') {
                           /*  $.each(dic_arr, function(index, content) {
                                 $("#citycontent").append("<li data-id=\"" + content.code + "\"  >" + content.name + "</li>");
                             });
 */
-                            $.each(dic_arr[$(this).index()].children, function(index, content) {
+                            $.each(dic_arr_city[$(this).index()].children, function(index, content) {
 
                                 if(lang=='zh-CN'){
 
@@ -1081,6 +1106,7 @@
 
     //progress.close('#refresh-progress');//关闭页面刷新进度条
     //progress.close('#search-progress');//关闭页面刷新进度条
+
 
 
 </script>
