@@ -120,9 +120,7 @@ public class IchProjectController extends BaseController<IchProject> {
     @ResponseBody
     public Map<String, Object> getProByName(HttpServletRequest request,HttpServletResponse response) {
 
-
         Map<String,Object> map = new HashMap<String,Object>();
-
 
         map.put("keyword",request.getParameter("keyword"));
         map.put("type",request.getParameter("type"));
