@@ -217,8 +217,7 @@ jQuery.extend({
         if ( type == "json" )
         // eval( "data = " + data );
         //data会被加<pre>导致AJAX不走success方法,改为如下形式
-        //eval("data = \" "+data+" \" ");
-            data = jQuery.parseJSON(jQuery(data).text());
+             data = jQuery.parseJSON(jQuery(data).text());
         // evaluate scripts within html
         if ( type == "html" )
             jQuery("<div>").html(data).evalScripts();
