@@ -3,6 +3,8 @@ package com.diich.controller;
 import com.alibaba.fastjson.JSON;
 import com.diich.core.base.BaseController;
 import com.diich.core.service.SearchService;
+import com.diich.core.util.SecurityUtil;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +39,7 @@ public class SearchController extends BaseController {
         if(StringUtils.isEmpty(keyword)){
             map.put("keyword",null);
         }else{
-            map.put("keyword",keyword);
+            map.put("keyword", SecurityUtil.escapeExprSpecialWord(keyword));
         }
         if(StringUtils.isEmpty(type)){
             map.put("type",null);
