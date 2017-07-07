@@ -43,6 +43,9 @@
                 detailCommon.mediaShow(type, index);
             })
         })
+        var json = ${obj.json};
+        var jsonAll = ${obj.jsonAll};
+        var jsonHead = ${obj.jsonHead};
     </script>
     <style>
         br{line-height:60px;}
@@ -50,7 +53,7 @@
     </style>
 </head>
 
-<body>
+<body class="project">
 <div class="header header_detail"></div>
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
@@ -203,24 +206,24 @@
                 <div class="floor">
                     <a class="share" title="分享"></a>
                     <a class="praise active" title="点赞" style="position: relative;"></a>
-                <#assign numPic = 0>
-                <#assign numVed = 0>
-                <#if (obj.contentFragmentList?size>0)>
-                    <#list obj.contentFragmentList as cf>
-                        <#if (cf.resourceList??) && (cf.resourceList?size>0)>
-                            <#list cf.resourceList as res>
-                                <#if res.type==0>
-                                    <#assign numPic = numPic+1>
-                                </#if>
-                                <#if res.type==1>
-                                    <#assign numVed = numVed +1>
-                                </#if>
-                            </#list>
-                        </#if>
-                    </#list>
-                </#if>
-                <#if (numPic >0) && (numVed >0)>
-                    <a class="album albums" onclick="show()" data-type="mediaLayer" datatype="0" data-id="0"><i class="play_sm"></i>
+                <#--<#assign numPic = 0>-->
+                <#--<#assign numVed = 0>-->
+                <#--<#if (obj.contentFragmentList?size>0)>-->
+                    <#--<#list obj.contentFragmentList as cf>-->
+                        <#--<#if (cf.resourceList??) && (cf.resourceList?size>0)>-->
+                            <#--<#list cf.resourceList as res>-->
+                                <#--<#if res.type==0>-->
+                                    <#--<#assign numPic = numPic+1>-->
+                                <#--</#if>-->
+                                <#--<#if res.type==1>-->
+                                    <#--<#assign numVed = numVed +1>-->
+                                <#--</#if>-->
+                            <#--</#list>-->
+                        <#--</#if>-->
+                    <#--</#list>-->
+                <#--</#if>-->
+               <#-- <#if (numPic >0) && (numVed >0)>
+                    <a class="album albums"  data-id="all"><i class="play_sm"></i>
                         <#if (obj.lang == "chi")>
                             ${numPic}张图片/${numVed}个视频
                         </#if>
@@ -230,7 +233,7 @@
                     </a>
                 </#if>
                 <#if (numPic >0) && (numVed =0)>
-                    <a class="album albums"><i class="icon_img"></i>
+                    <a class="album albums" data-id="all"><i class="icon_img"></i>
                         <#if (obj.lang == "chi")>
                             ${numPic}张图片
                         </#if>
@@ -238,22 +241,15 @@
                             ${numPic} piece of images
                         </#if>
                     </a>
-                </#if>
-                <#if (numPic =0) && (numVed >0)>
-                    <a class="album albums"><i class="icon_img"></i>
-                        <#if (obj.lang == "chi")>
-                              ${numVed}个视频
-                        </#if>
-                        <#if (obj.lang == "eng")>
-                             ${numVed}  video
-                        </#if>
+                </#if>-->
+
+                    <a class="album albums" data-id="all"><i class="icon_img"></i>
+
                     </a>
-                </#if>
+
                     <div class="share_box">
                         <div class="icons">
                             <a href="" class="sina"></a>
-                            <!--<a href="" class="facebook"></a>-->
-                            <!--<a href="" class="twitter"></a>-->
                             <a href="" class="weixin active"></a>
                         </div>
                         <div class="qrcode">
@@ -517,7 +513,6 @@
                             </#if>
                         </#list>
                     </#if>
-
                     </ul>
                 </div>
             </div>
@@ -586,9 +581,6 @@
                                                 </#list>
                                             </#if>
                                         </#if>
-                                    <#-- <#if c.attributeId==31>
-                                         <p class="master">${c.content}</p>
-                                     </#if>-->
                                     </#list>
                                 </li>
                             </#if>
@@ -604,7 +596,7 @@
 
     <#if (obj.contentFragmentList?size>0)>
         <#list obj.contentFragmentList as cf>
-            <#if (cf.attribute.dataType == 5 && cf.resourceList?? && cf.resourceList?size>0)>
+            <#if (cf.attribute.dataType == 5  && cf.resourceList?? && cf.resourceList?size>0)>
                 <section name="tuwen" class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
                     <div class="card">
                         <header><h4>
@@ -636,10 +628,10 @@
                                     <#list cf.resourceList as r>
                                         <li>
                                             <#if r.type ==0>
-                                                <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
+                                                <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
                                                     <img src="${prouri}${r.uri}" alt="">
                                                 </#if>
-                                                <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
+                                                <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
                                                     <img src="${r.uri}" alt="">
                                                 </#if>
 
@@ -652,11 +644,11 @@
                                                 <div class="card_video">
                                                     <div class="time">30:24</div>
                                                     <div class="play" data-type="1" data-id="1" ></div>
-                                                    <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
+                                                    <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
                                                         <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${prouri}${r.uri}" type="video/mp4" style="width: 100%;">
                                                         </video>
                                                     </#if>
-                                                    <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
+                                                    <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
                                                         <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${r.uri}" type="video/mp4" style="width: 100%;">
                                                         </video>
                                                     </#if>
@@ -676,7 +668,7 @@
 
                                 <#if (cf.resourceList?size > 2) >
                                     <div class="more">
-                                        <a class="albums" data-type="mediaLayer" datatype="0" data-id="0" href="javascript:;">
+                                        <a class="albums" data-id="${cf.id?c}" href="javascript:;">
                                             <#if obj.lang == "chi">
                                                 查看完整图集
                                             </#if>
@@ -817,224 +809,6 @@
 </div>
 <!--//End 右侧悬浮-->
 
-
-<div class="media_layer" style="display:none;">
-    <div class="content">
-        <div class="head">
-            <div class="menu">
-                <span class="active">
-                     <#if obj.lang == "chi">
-                         图片
-                     </#if>
-                     <#if obj.lang == "eng">
-                         Picture
-                     </#if>
-                </span>
-
-            <#if (obj.contentFragmentList?size>0)>
-                <#assign breaklop=0>
-                <#list obj.contentFragmentList as cf>
-                    <#if breaklop==1><#break ></#if>
-                        <#if cf.resourceList??>
-                            <#list cf.resourceList as r>
-                                <#if r.type ==1>
-                                    <span>
-                                        <#if obj.lang == "chi">
-                                            视频
-                                        </#if>
-                                        <#if obj.lang == "eng">
-                                            Video
-                                        </#if>
-                                    </span>
-                                    <#assign breaklop=1>
-                                    <#break>
-                                </#if>
-                            </#list>
-                        </#if>
-                </#list>
-            </#if>
-
-            </div>
-            <a href="" class="icon_close"></a>
-        </div>
-        <!--//End-->
-
-        <div class="items album" style="display: block">
-            <div class="title">
-                <ul class="dt">
-
-
-                <#if (obj.contentFragmentList?size>0)>
-                    <#list obj.contentFragmentList as cf>
-                        <#if cf.resourceList??>
-                            <#list cf.resourceList as r>
-                                <#if r.type ==0>
-                                    <#if r.description??>
-                                    <li>${r.description}</li>
-                                    </#if>
-                                </#if>
-                            </#list>
-                        </#if>
-                    </#list>
-                </#if>
-                <#--   <li>《1111-名称示意最多显示20字…》</li>
-                   <li>《2222-名称示意最多显示20字…》</li>
-                   <li>《3333-名称示意最多显示20字…》</li>
-                   <li>《4444-名称示意最多显示20字…》</li>
-                   <li>《5555-名称示意最多显示20字…》</li>
-                   <li>《6666-名称示意最多显示20字…》</li>-->
-                </ul>
-                <a href="" class="more">
-                    <#if obj.lang == "chi">
-                        查看详情
-                    </#if>
-                    <#if obj.lang == "eng">
-                        Check the details
-                    </#if>
-                </a>
-                <div class="master">
-                    <div class="item">
-                        <a class="avatar" href="">
-                            <#if (obj.contentFragmentList?size>0)>
-                                <#list obj.contentFragmentList as cf>
-                                    <#if cf.attributeId == 112>
-                                        <#if (cf.resourceList??) &&(cf.resourceList?size>0)>
-                                            <#list cf.resourceList as res>
-                                                <#if res.type==0 && res.status==0>
-                                                    <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                                        <img src="<#if res.uri??>${prouri}${res.uri}?x-oss-process=style/head-image-style</#if>" alt="" width="94" height="70">
-                                                    </#if>
-                                                    <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
-                                                        <img src="<#if res.uri??>${res.uri}?x-oss-process=style/head-image-style</#if>" alt="" width="94" height="70">
-                                                    </#if>
-                                                </#if>
-                                            </#list>
-                                        </#if>
-                                    </#if>
-                                </#list>
-                            </#if>
-                        </a>
-                        <span>
-                            <#if (obj.contentFragmentList?size>0)>
-                                <#list obj.contentFragmentList as cf>
-                                    <#if obj.lang == "chi">
-                                        <#if cf.attributeId == 4>
-                                             ${cf.content}
-                                        </#if>
-                                    </#if>
-                                    <#if obj.lang == "eng">
-                                        <#if cf.attributeId == 5>
-                                            ${cf.content}
-                                        </#if>
-                                    </#if>
-                                </#list>
-                            </#if>
-                        </span>
-                        <span class="auth">
-                            <#if obj.lang == "chi">
-                                UNESCO认证非遗项目
-                            </#if>
-                            <#if obj.lang == "eng">
-                                UNESCO certification of non-legacy projects
-                            </#if>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <!--//End-->
-            <div class="main">
-                <ul class="media" id="imgs">
-
-                <#if (obj.contentFragmentList?size>0)>
-                    <#assign idx=0 />
-                    <#list obj.contentFragmentList as cf>
-                        <#if cf.resourceList??>
-                        <#list cf.resourceList as r>
-                            <#if r.type ==0>
-                                <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                    <li><a href=""><img src="${prouri}${r.uri}" alt="" data-type="0" data-id="${idx}"></a></li>
-                                </#if>
-                                <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
-                                    <li><a href=""><img src="${r.uri}" alt="" data-type="0" data-id="${idx}"></a></li>
-                                </#if>
-                                <#assign idx=idx+1 />
-                            </#if>
-                        </#list>
-                        </#if>
-                    </#list>
-                </#if>
-
-                <#--
-                                        <li><a href=""><img src="assets/uploads/media_02.jpg" alt=""></a></li>
-                                        <li><a href=""><img src="assets/uploads/media_03.jpg" alt=""></a></li>
-                                        <li><a href=""><img src="assets/uploads/media_04.jpg" alt=""></a></li>
-                                        <li><a href=""><img src="assets/uploads/media_05.jpg" alt=""></a></li>
-                                        <li><a href=""><img src="assets/uploads/media_06.jpg" alt=""></a></li>-->
-                </ul>
-                <ul class="num">
-                    <li class="active a-active"></li>
-                    <li class="line">/</li>
-                    <li class="total"></li>
-                </ul>
-            </div>
-            <!--//End-->
-            <span class="prev"></span>
-            <span class="next"></span>
-        </div>
-        <!--//End 相册-->
-
-        <div class="items video">
-            <div class="title">
-                <ul class="dt">
-
-                <#if (obj.contentFragmentList?size>0)>
-                    <#list obj.contentFragmentList as cf>
-                        <#if cf.resourceList??>
-                        <#list cf.resourceList as r>
-                            <#if r.type == 1>
-                                <li>${r.description}</li>
-                            </#if>
-                        </#list>
-                        </#if>
-                    </#list>
-                </#if>
-                </ul>
-            </div>
-            <div class="main">
-                <ul class="media" id="videos">
-
-                <#if (obj.contentFragmentList?size>0)>
-                    <#assign idx=0 />
-                    <#list obj.contentFragmentList as cf>
-                        <#if cf.resourceList??>
-                        <#list cf.resourceList as r>
-                            <#if r.type ==1>
-                                <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                    <li><video src="${prouri}${r.uri}" controls  data-type="1" data-id="${idx}"></video></li>
-                                </#if>
-                                <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
-                                    <li><video src="${r.uri}" controls  data-type="1" data-id="${idx}"></video></li>
-                                </#if>
-                                <#assign idx=idx+1 />
-                            </#if>
-                        </#list>
-                    </#if>
-                    </#list>
-                </#if>
-
-                </ul>
-            </div>
-            <!--//End-->
-
-            <span class="prev"></span>
-            <span class="next"></span>
-        </div>
-        <!--//End 视频-->
-
-    </div>
-</div>
-
-
 </body>
 <script>
     //题图如果没有就动态创建默认图片  有就不创建
@@ -1051,50 +825,6 @@
     $(function() {
         //初始化
         projectPage.init();
-
-        //reset 视频 data-id
-        $("#imgs img").each(function(){
-            //alert($(this).attr("src")+"---"+$(this).attr("data-id"));
-            var obj=$(this);
-            if($(".mainbg img")){
-                if($(this).attr("src")==$(".mainbg img").attr("src")){
-                    $(".mainbg img").attr("data-id",$(this).attr("data-id"));
-                    $(".mainbg img").attr("data-type",$(this).attr("data-type"));
-                }
-
-            };
-            //section 代码块寻找
-            $("section[name='tuwen']").each(function(index,item){
-                $(this).find("img").each(function(){
-                    if(obj.attr("src")==$(this).attr("src")){
-                        $(this).attr("data-id",obj.attr("data-id"));
-                        $(this).attr("data-type",obj.attr("data-type"));
-                    }
-                });
-            });
-        });
-        //reset 视频 data-id
-        $("#videos video").each(function(){
-            //alert($(this).attr("src")+"---"+$(this).attr("data-id"));
-            var obj=$(this);
-            if($(".mainbg video")){
-                if($(this).attr("src")==$(".mainbg video").attr("src")){
-                    $(".mainbg video").attr("data-id",$(this).attr("data-id"));
-                    $(".mainbg video").attr("data-type",$(this).attr("data-type"));
-                }
-            };
-            //section 代码块寻找
-
-            $("section[name='tuwen']").each(function(index,item){
-                $(this).find("video").each(function(){
-                    if(obj.attr("src")==$(this).attr("src")){
-
-                        $(this).attr("data-id",obj.attr("data-id"));
-                        $(this).attr("data-type",obj.attr("data-type"));
-                    }
-                });
-            });
-        });
 
         //控制header中英文显示
         <#if obj.version?? && (obj.version.chiId??) && (obj.version.engId??)>

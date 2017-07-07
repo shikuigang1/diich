@@ -1,8 +1,10 @@
 package com.diich.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.baomidou.mybatisplus.toolkit.StringUtils;
 import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
@@ -15,6 +17,7 @@ import com.diich.core.util.BuildHTMLEngine;
 import com.diich.core.util.FileType;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
@@ -85,6 +88,9 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 //内容片断列表
                 List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
                 ichMaster.setContentFragmentList(contentFragmentList);
+
+                ichMaster = getIchMaster(ichMaster);//返回前端需要的特定数据
+
             }
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
@@ -144,6 +150,8 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 //内容片断列表
                 List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
                 ichMaster.setContentFragmentList(contentFragmentList);
+
+                ichMaster = getIchMaster(ichMaster);//返回前端需要的特定数据
             }
         } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
@@ -162,6 +170,9 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         //检查当前传承人自定义属性是否已存在
         checkAttributeByName(ichMaster);
         try {
+            if(StringUtils.isEmpty(ichMaster.getLang())){
+                ichMaster.setLang("chi");
+            }
             String templateName = "master.ftl";//模板名
             String filename = PropertiesUtil.getString("freemarker.masterfilepath") +"/"+ ichMaster.getId();//生成静态页面的路径名称
             if(ichMaster.getId() == null) {
@@ -280,7 +291,66 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         }
         return contentFragmentList;
     }
+    /**
+     * 获取前端所需要的资源数据
+     * @param ichMaster
+     * @return
+     */
+    private IchMaster getIchMaster(IchMaster ichMaster) throws Exception{
+        //list用于向前端传输按模块划分的图片资源   用于显示在详情页特定模块的资源
+        List<Map<String,Object>> list = new ArrayList<>();
+        //allMap 所有去除重复图片和视频后的资源容器  用于显示在详情页得查看所有图片
+        Map<String,Object> allMap = new HashedMap();
+        Map<String,Object> headMap = new HashedMap();           //放公共数据
+        Set<Resource> imgdist = new HashSet<>();                //去重后的所有图片集合
+        Set<Resource> vediodist = new HashSet<>();              //去重后的所有视频集合
+        List<ContentFragment> ContentFragmentList = ichMaster.getContentFragmentList();
+        for (ContentFragment contentFragment:ContentFragmentList) {
+            Map<String, Object> map = new HashMap<>();          //存放每个模块的图片和视频
+            List<Resource> img = new ArrayList<>();             //图片资源文件的集合
+            List<Resource> video = new ArrayList<>();           //视频资源文件的集合
+            Long contentFragmentId = contentFragment.getId();
+            List<Resource> resourceList = contentFragment.getResourceList();
+            if(resourceList !=null && resourceList.size()>0){
+                for (Resource resource:resourceList) {
+                    if (resource.getType() == 0) {
+                        img.add(resource);
+                        if(contentFragment.getAttributeId()!=113){//头图不放到所有图片中
+                            imgdist.addAll(img);
+                        }else{
+                            headMap.put("headImage",img);
+                        }
+                    }
+                    if (resource.getType() == 1) {
+                        video.add(resource);
+                        vediodist.addAll(video);
+                    }
+                }
+            }
+            map.put("contentFragmentId", contentFragmentId);
+            map.put("imgs", img);
+            map.put("videos", video);
+            if("chi".equals(ichMaster.getLang())){
+                if(contentFragment.getAttributeId()==13){
+                    headMap.put("masterName",contentFragment.getContent());
+                }
+            }
+            if("eng".equals(ichMaster.getLang())){
+                if(contentFragment.getAttributeId()==14){
+                    headMap.put("masterName",contentFragment.getContent());
+                }
+            }
 
+            list.add(map);
+        }
+        allMap.put("imgs",imgdist);
+        allMap.put("vedios",vediodist);
+        headMap.put("lang",ichMaster.getLang());
+        ichMaster.setJson(JSONObject.toJSON(list).toString());
+        ichMaster.setJsonAll(JSONObject.toJSON(allMap).toString());
+        ichMaster.setJsonHead(JSONObject.toJSON(headMap).toString());
+        return ichMaster;
+    }
     /**
      * 填加contentFragment
      * @param c
@@ -330,6 +400,12 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 }
                 if("视频".equals(sType)){
                     resource.setType(1);
+                }
+                if("音乐".equals(sType)){
+                    resource.setType(2);
+                }
+                if("文档".equals(sType)){
+                    resource.setType(3);
                 }
                 //保存resource
                 resourceMapper.insertSelective(resource);

@@ -216,8 +216,10 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         Works works = new Works();
         works.setIchProjectId(ichProjectId);
         works.setIsRepresent(1);
-        List<Works> getWorkList = worksMapper.selectWorks(works);
-        List<Works> worksList = getWorkList(getWorkList);
+        List<Works> worksList = worksMapper.selectWorks(works);
+        if(worksList.size()>0){
+            worksList = getWorkList(worksList);
+        }
         return worksList;
     }
 
@@ -321,6 +323,12 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 }
                 if("视频".equals(sType)){
                     resource.setType(1);
+                }
+                if("音乐".equals(sType)){
+                    resource.setType(2);
+                }
+                if("文档".equals(sType)){
+                    resource.setType(3);
                 }
                 //保存resource
                 resourceMapper.insertSelective(resource);

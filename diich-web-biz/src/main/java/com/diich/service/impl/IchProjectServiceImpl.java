@@ -1,7 +1,10 @@
 package com.diich.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.baomidou.mybatisplus.toolkit.StringUtils;
 import com.diich.core.base.BaseModel;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
@@ -18,10 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/5/9.
@@ -89,6 +89,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             //获取项目的field
             List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
             ichProject.setContentFragmentList(contentFragmentList);
+            getIchproject(ichProject);//返回前端需要的特定数据
             //根据id和targetType查询中间表看是否有对应的版本
             Version version = null;
             if("chi".equals(ichProject.getLang())){
@@ -169,7 +170,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 //获取项目的field
                 List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
                 ichProject.setContentFragmentList(contentFragmentList);
-
+                getIchproject(ichProject);//返回前端需要的特定数据
             }
             return ichProjectList;
         } catch (Exception e) {
@@ -193,6 +194,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         //查询自定义字段是否在本项目存在
         checkAttributeByName(ichProject);
         try {
+            if(StringUtils.isEmpty(ichProject.getLang())){
+                ichProject.setLang("chi");
+            }
             String templateName ="pro.ftl";//模板名
             String fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId();//静态页面生成路径和名称
             if(ichProject.getId() == null) {
@@ -346,18 +350,78 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             Long contentFragmentId = ls.get(i).getId();
             List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
             List<Resource> resourceList = new ArrayList<>();
-            for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
-                Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
-                if(resource !=null){
-                    resourceList.add(resource);
+                for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
+                    Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
+                    if (resource != null) {
+                        resourceList.add(resource);
+                    }
                 }
-
+                ls.get(i).setResourceList(resourceList);
             }
-            ls.get(i).setResourceList(resourceList);
-        }
         return ls;
     }
 
+    /**
+     * 获取前端所需要的资源数据
+     * @param ichProject
+     * @return
+     */
+    private IchProject getIchproject(IchProject ichProject) throws Exception{
+
+        //list用于向前端传输按模块划分的图片资源   用于显示在详情页特定模块的资源
+        List<Map<String,Object>> list = new ArrayList<>();
+        //allMap 所有去除重复图片和视频后的资源容器  用于显示在详情页得查看所有图片
+        Map<String,Object> allMap = new HashedMap();
+        Map<String,Object> headMap = new HashedMap();//放公共数据
+        Set<Resource> imgdist = new HashSet<>();//去重后的所有图片集合
+        Set<Resource> vediodist = new HashSet<>();//去重后的所有视频集合
+        List<ContentFragment> ContentFragmentList = ichProject.getContentFragmentList();
+        for (ContentFragment contentFragment:ContentFragmentList) {
+            Map<String, Object> map = new HashMap<>();//存放每个模块的图片和视频
+            List<Resource> img = new ArrayList<>();//图片资源文件的集合
+            List<Resource> video = new ArrayList<>();//视频资源文件的集合
+            Long contentFragmentId = contentFragment.getId();
+            List<Resource> resourceList = contentFragment.getResourceList();
+            if(resourceList !=null && resourceList.size()>0){
+                for (Resource resource:resourceList) {
+                    if (resource.getType() == 0) {
+                        img.add(resource);
+                        if(contentFragment.getAttributeId()!=112){//头图不放到所有图片中
+                            imgdist.addAll(img);
+                        }else{
+                            headMap.put("headImage",img);
+                        }
+                    }
+                    if (resource.getType() == 1) {
+                        video.add(resource);
+                        vediodist.addAll(video);
+                    }
+                }
+            }
+            map.put("contentFragmentId", contentFragmentId);
+            map.put("imgs", img);
+            map.put("videos", video);
+            if("chi".equals(ichProject.getLang())){
+                if(contentFragment.getAttributeId()==4){
+                    headMap.put("projectName",contentFragment.getContent());
+                }
+            }
+            if("eng".equals(ichProject.getLang())){
+                if(contentFragment.getAttributeId()==5){
+                    headMap.put("projectName",contentFragment.getContent());
+                }
+            }
+
+            list.add(map);
+        }
+        allMap.put("imgs",imgdist);
+        allMap.put("vedios",vediodist);
+        headMap.put("lang",ichProject.getLang());
+        ichProject.setJson(JSONObject.toJSON(list).toString());
+        ichProject.setJsonAll(JSONObject.toJSON(allMap).toString());
+        ichProject.setJsonHead(JSONObject.toJSON(headMap).toString());
+        return ichProject;
+    }
     /**
      * 增加contentFragment
      * @param c
@@ -410,6 +474,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
                 if("视频".equals(sType)){
                     resource.setType(1);
+                }
+                if("音乐".equals(sType)){
+                    resource.setType(2);
+                }
+                if("文档".equals(sType)){
+                    resource.setType(3);
                 }
                 //保存resource
                 resourceMapper.insertSelective(resource);
