@@ -8,6 +8,7 @@ import com.diich.core.support.security.coder.HmacCoder;
 import com.diich.core.support.security.coder.MDCoder;
 import com.diich.core.support.security.coder.RSACoder;
 import com.diich.core.support.security.coder.SHACoder;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * 数据加密辅助类(默认编码UTF-8)
@@ -232,6 +233,18 @@ public final class SecurityUtil {
 
 	public static String encryptPassword(String password) {
 		return encryptMd5(SecurityUtil.encryptSHA(password));
+	}
+
+	public static String escapeExprSpecialWord(String keyword) {
+		if (StringUtils.isNotBlank(keyword)) {
+			String[] fbsArr = { "\\", "$", "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}", "|","%","_" };
+			for (String key : fbsArr) {
+				if (keyword.contains(key)) {
+					keyword = keyword.replace(key, "\\" + key);
+				}
+			}
+		}
+		return keyword;
 	}
 
 	public static void main(String[] args) throws Exception {
