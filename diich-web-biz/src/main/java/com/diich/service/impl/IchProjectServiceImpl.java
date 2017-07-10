@@ -374,7 +374,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         Map<String,Object> allMap = new HashedMap();
         Map<String,Object> headMap = new HashedMap();//放公共数据
         Set<Resource> imgdist = new HashSet<>();//去重后的所有图片集合
-        Set<Resource> vediodist = new HashSet<>();//去重后的所有视频集合
+        Set<Resource> videosdist = new HashSet<>();//去重后的所有视频集合
         List<ContentFragment> ContentFragmentList = ichProject.getContentFragmentList();
         for (ContentFragment contentFragment:ContentFragmentList) {
             Map<String, Object> map = new HashMap<>();//存放每个模块的图片和视频
@@ -394,7 +394,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     }
                     if (resource.getType() == 1) {
                         video.add(resource);
-                        vediodist.addAll(video);
+                        videosdist.addAll(video);
                     }
                 }
             }
@@ -415,7 +415,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             list.add(map);
         }
         allMap.put("imgs",imgdist);
-        allMap.put("vedios",vediodist);
+        allMap.put("videos",videosdist);
         headMap.put("lang",ichProject.getLang());
         ichProject.setJson(JSONObject.toJSON(list).toString());
         ichProject.setJsonAll(JSONObject.toJSON(allMap).toString());

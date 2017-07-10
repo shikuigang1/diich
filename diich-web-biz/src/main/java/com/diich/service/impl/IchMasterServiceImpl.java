@@ -344,7 +344,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             list.add(map);
         }
         allMap.put("imgs",imgdist);
-        allMap.put("vedios",vediodist);
+        allMap.put("videos",vediodist);
         headMap.put("lang",ichMaster.getLang());
         ichMaster.setJson(JSONObject.toJSON(list).toString());
         ichMaster.setJsonAll(JSONObject.toJSON(allMap).toString());

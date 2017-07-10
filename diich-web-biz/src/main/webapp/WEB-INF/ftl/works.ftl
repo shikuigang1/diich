@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="${caturi}/assets/css/layout.css">
     <script src="${caturi}/assets/js/jquery.min.js"></script>
     <script src="${caturi}/assets/js/system.js"></script>
+    <script src="${caturi}/assets/js/utils.js"></script>
+    <script src="${caturi}/assets/js/detail-works.js"></script>
     <script src="${caturi}/data/keyword.js"></script>
     <script src="${caturi}/data/category.js"></script>
     <script src="${caturi}/js/citys.js"></script>
