@@ -5,23 +5,29 @@ import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.User;
 import com.diich.core.service.UserService;
+import com.diich.core.support.cache.JedisHelper;
+import com.diich.core.util.AliOssUtil;
 import com.diich.core.util.OperateFileUtil;
+import com.diich.core.util.PropertiesUtil;
+import com.diich.core.util.WebUtil;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/5/11.
@@ -32,6 +38,9 @@ public class UserController extends BaseController<User> {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JedisHelper jedisHelper;
 
     /**
      * 获取验证码
@@ -163,7 +172,13 @@ public class UserController extends BaseController<User> {
     public  Map<String, Object> userinfo(HttpServletRequest request,HttpServletResponse response) {
 
         response.setHeader("Access-Control-Allow-Origin", "*");
-        return putDataToMap(request.getSession().getAttribute("CURRENT_USER"));
+        User user = (User) WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return ae.toMap();
+        }else{
+            return putDataToMap(request.getSession().getAttribute("CURRENT_USER"));
+        }
     }
 
 
@@ -290,6 +305,7 @@ public class UserController extends BaseController<User> {
      * @return
      * @throws Exception
      */
+
     private  Map<String, Object> checkVerifyCode(HttpSession session,String phone,String code) throws Exception{
         Map<String, Object> result = new HashMap();
         //判断验证码是否超时
@@ -328,17 +344,100 @@ public class UserController extends BaseController<User> {
     @RequestMapping("uploadFile")
     @ResponseBody
     public Map<String, Object> uploadFile(HttpServletRequest request,HttpServletResponse response) {
+        response.setContentType("text/html;charset=UTF-8");
         List<String> list = null;
-
-        System.out.println("1111111");
-
         try {
             list = OperateFileUtil.uplaodFile(request);
         } catch (Exception e) {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
         }
+
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(list);
+    }
+
+    @RequestMapping("uploadProcessFile")
+    @ResponseBody
+    public void uploadProcessFile(HttpServletRequest request,HttpServletResponse response) {
+        response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        List<String> list = new ArrayList<>();;
+
+
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+
+        //判断 request 是否有文件上传,即多部分请求
+        if (multipartResolver.isMultipart(request)) {
+
+            List<MultipartFile> files = new ArrayList<MultipartFile>();
+            List<String> filenames= new ArrayList<String>();
+
+            //转换成多部分request
+            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+
+            MultiValueMap<String, MultipartFile> multiFileMap = multiRequest.getMultiFileMap();
+
+            String fileType = null;
+
+            for(String key : multiFileMap.keySet()) {
+                List<MultipartFile> fileList = multiFileMap.get(key);
+
+                for(final MultipartFile file : fileList) {
+                    String fileName = file.getOriginalFilename();
+
+                    StringBuilder url = new StringBuilder();
+
+                    String contentType = file.getContentType();
+
+                    if(contentType.indexOf("image") > -1) {
+                        fileType = "image";
+                    } else if(contentType.indexOf("audio") > -1) {
+                        fileType = "audio";
+                    } else if(contentType.indexOf("video") > -1) {
+                        fileType = "video";
+                    } else {
+                        fileType = "other";
+                    }
+
+                    url.append(fileType + "/" + new Date().getTime() + fileName.trim());
+
+                    System.out.println(PropertiesUtil.getString("img_Server_Path"));
+
+                    String fileUrl = PropertiesUtil.getString("img_Server_Path")+"/" + url.toString();
+                    String filename=url.toString();
+                    //将图片上传至阿里云
+
+                    list.add(filename);
+                    files.add(file);
+                }
+            }
+
+            try {
+                response.getWriter().write(JSON.toJSONString(putDataToMap(list)));
+                response.getWriter().flush();
+                response.getWriter().close();
+
+                AliOssUtil.uploadProcessFile(jedisHelper,files, PropertiesUtil.getString("img_bucketName"), list);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+    }
+
+    @RequestMapping("uploadFileProcess")
+    @ResponseBody
+    public Map<String, Object> uploadFileProcess(HttpServletRequest request,HttpServletResponse response,String  filename) {
+        response.setContentType("text/html;charset=UTF-8");
+        //Object process = request.getSession().getAttribute(filename);
+        Object process = jedisHelper.get(filename);
+        if(process != null){
+            process = Float.parseFloat(process.toString())*100+"%";
+        }
+
+        return putDataToMap(process);
     }
 }
