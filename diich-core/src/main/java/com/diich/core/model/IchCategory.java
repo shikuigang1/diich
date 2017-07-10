@@ -17,7 +17,7 @@ public class IchCategory extends BaseModel {
 
     private List<IchCategory> children;
 
-    //private List<Attribute> attributeList;
+    private List<Attribute> attributeList;
 
     public Long getId() {
         return id;
@@ -67,11 +67,11 @@ public class IchCategory extends BaseModel {
         this.children = children;
     }
 
-    /*public List<Attribute> getAttributeList() {
+    public List<Attribute> getAttributeList() {
         return attributeList;
     }
 
     public void setAttributeList(List<Attribute> attributeList) {
         this.attributeList = attributeList;
-    }*/
+    }
 }
