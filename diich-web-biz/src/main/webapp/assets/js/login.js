@@ -14,8 +14,12 @@ var loginPage = {
             }
            if(lang == 'zh-CN'){
                _this.template();
+               var $box_layer=$('.box_layer');
+               $box_layer.removeClass('box_layer_en');
            }else{
                _this.templateEn();
+               var $box_layer=$('.box_layer');
+               $box_layer.addClass('box_layer_en');
            }
 
             _this.close();
@@ -378,6 +382,7 @@ $(function () {
         },
         success: function(data) {
             var lang = getLang();
+            console.log(data);
             if(data.code==2){
                 $('.group').addClass('error')
 
@@ -396,13 +401,27 @@ $(function () {
                 //根据当前 语言环境判断
 
                 if(lang=='zh-CN'){
-                    $(".logined").find('a').text("你好，"+data.data.name);
+                    $(".logined").find('a').text("你好，"+data.data.loginName);
                 }else{
-                    $(".logined").find('a').text("hello，"+data.data.name);
+                    $(".logined").find('a').text("hello，"+data.data.loginName);
                 }
             }else{
                 $(".login").show();
                 $(".logined").hide();
+            }
+            //通过url 地址判断是否弹出登录框
+            if(data.code==3){
+                //获取url 地址 进行过滤
+                var url  = window.location.href;
+                var url = url.substring(0,url.indexOf("?"));
+                var path = url.substring(url.lastIndexOf("/"));
+
+                $.grep(filterpage, function(val, key) {
+                    if (filterpage[key] == path) {
+                        $('.header .content .info li.login').click();
+                        return false;
+                    }
+                });
             }
         }
     });
@@ -426,7 +445,7 @@ function login(){
 
         },
         success: function(data) {
-            var lang = localStorage.getItem("language");
+            var lang = getLang();
             if(data.code==2){
                 $('.group').addClass('error')
 
@@ -443,9 +462,9 @@ function login(){
                 //根据当前 语言环境判断   默认显示英文
 
                 if(lang=='zh-CN'){
-                    $(".logined").find('a').text("你好，"+$("#loginName").val());
+                    $(".logined").find('a').text("你好，"+ data.data.loginName);
                 }else{
-                    $(".logined").find('a').text("hello，"+$("#loginName").val());
+                    $(".logined").find('a').text("hello，"+data.data.loginName);
                 }
             }
 
@@ -554,14 +573,6 @@ function  resetPass(){
         }
 
     });
-
 }
-
-
-function  getLang() {
-    var lang = localStorage.getItem("language");
-    if(lang==null ||  typeof(lang)=='undefined' ){
-        lang = (navigator.systemLanguage?navigator.systemLanguage:navigator.language);
-    }
-    return lang;
-}
+//系统过滤页面  这些页面 未登录 需要弹出登录窗口
+var filterpage= ['/declare.html','/ichpro.html','/ichProForm.html'];
