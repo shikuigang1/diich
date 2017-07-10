@@ -487,7 +487,7 @@ textarea {
 
 .drop_menu .content .item dt a {
     font-size: 16px;
-    line-height: 28px;
+    line-height: 18px;
     color: #fff;
 }
 
@@ -499,7 +499,7 @@ textarea {
     width: 100%;
     font-size: 14px;
     height: 28px;
-    line-height: 28px;
+    line-height: 17px;
     color: #fff !important;
     opacity: .5;
     float: left;
