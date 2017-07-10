@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="${caturi}/assets/css/layout.css">
     <script src="${caturi}/assets/js/jquery.min.js"></script>
     <script src="${caturi}/assets/js/system.js"></script>
+    <script src="${caturi}/assets/js/utils.js"></script>
+    <script src="${caturi}/assets/js/detail-master.js"></script>
     <script src="${caturi}/data/keyword.js"></script>
     <script src="${caturi}/data/category.js"></script>
     <script src="${caturi}/js/citys.js"></script>
@@ -27,13 +29,6 @@
     <script src="${caturi}/data/dictionary.js"></script>
     <script src="${caturi}/js/util.js"></script>
     <script>
-        $(function () {
-            var btn=$('a[data-type="mediaLayer"]').on('click',function () {
-                var type = $(this).attr('data-type');
-                var index = parseInt($(this).attr('data-id'));
-                detailCommon.mediaShow(type, index);
-            })
-        })
         var json = ${obj.json};
         var jsonAll = ${obj.jsonAll};
         var jsonHead = ${obj.jsonHead};
@@ -44,7 +39,7 @@
     </style>
 </head>
 
-<body class="master">
+<body class="js-master">
 <div class="header header_detail"></div>
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
@@ -154,10 +149,10 @@
                                         <#if res.type==0 && res.status==0>
                                             <#if res.uri??>
                                                 <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                                    <img src="${masteruri}${res.uri}" alt="" id="detailTopic">
+                                                    <img src="${masteruri}${res.uri}" alt="" id="detailTopic" style="display:none">
                                                 </#if>
                                                 <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
-                                                    <img src="${res.uri}" alt="" id="detailTopic">
+                                                    <img src="${res.uri}" alt="" id="detailTopic" style="display:none">
                                                 </#if>
                                             </#if>
                                         </#if>
@@ -197,37 +192,9 @@
                 <div class="floor">
                     <a class="share" title="分享"></a>
                     <a class="praise active" title="点赞" style="position: relative;"></a>
-                <#assign numPic = 0>
-                <#assign numVed = 0>
-                <#if (obj.contentFragmentList?size>0)>
-                    <#list obj.contentFragmentList as cf>
-                        <#if (cf.resourceList??) && (cf.resourceList?size>0)>
-                            <#list cf.resourceList as res>
-                                <#if res.type==0>
-                                    <#assign numPic = numPic+1>
-                                </#if>
-                                <#if res.type==1>
-                                    <#assign numVed = numVed +1>
-                                </#if>
-                            </#list>
-                        </#if>
-                    </#list>
-                </#if>
-                    <#if (numPic >0) && (numVed >0)>
-                    <a class="album albums" onclick="show()" data-type="mediaLayer" datatype="0" data-id="1"><i class="icon_img"></i>
-                            ${numPic}张图片/${numVed}个视频
-                      </a>
-                    </#if>
-                    <#if (numPic >0) && (numVed =0)>
-                    <a class="album albums" onclick="show()"  data-type="mediaLayer" datatype="0" data-id="1"><i class="icon_img"></i>
-                            ${numPic}张图片
-                      </a>
-                    </#if>
-                    <#if (numPic =0) && (numVed >0)>
-                        <a class="album albums" onclick="show()" data-type="mediaLayer" datatype="1" data-id="1"><i class="icon_img"></i>
-                            ${numVed}个视频
-                        </a>
-                    </#if>
+                    <a class="album albums" data-id="all"><i class="icon_img"></i>
+
+                    </a>
                     <div class="share_box">
                         <div class="icons">
                             <a href="" class="sina"></a>
@@ -468,8 +435,12 @@
                                     <#list cf.resourceList as r>
                                         <li>
                                             <#if r.type ==0>
-                                                <img src="${masteruri}${r.uri}" alt="">
-
+                                                <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
+                                                    <img src="${masteruri}${r.uri}" alt="">
+                                                </#if>
+                                                <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
+                                                    <img src="${r.uri}" alt="">
+                                                </#if>
                                                 <#if r.description??>
                                                     <span>${r.description}</span>
                                                 </#if>
@@ -480,9 +451,14 @@
                                                 <div class="card_video">
                                                     <div class="time">30:24</div>
                                                     <div class="play"></div>
-                                                    <video poster="http://resource.efeiyi.com/image/uploads/exp2.png">
-                                                        <source style="width: 100%;" src="${masteruri}${r.uri}" type="video/mp4">
-                                                    </video>
+                                                    <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
+                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${masteruri}${r.uri}" type="video/mp4" style="width: 100%;">
+                                                        </video>
+                                                    </#if>
+                                                    <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
+                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${r.uri}" type="video/mp4" style="width: 100%;">
+                                                        </video>
+                                                    </#if>
                                                 </div>
                                                 <#if r.description??>
                                                     <span>${r.description}</span>
@@ -498,7 +474,7 @@
 
                                 <#if (cf.resourceList?size > 2) >
                                     <div class="more">
-                                        <a class="albums" data-type="mediaLayer" datatype="0" data-id="1" href="javascript:;">查看完整图集<i class="arrow_right"></i></a>
+                                        <a class="albums" data-id="${cf.id?c}" href="javascript:;">查看完整图集<i class="arrow_right"></i></a>
                                     </div>
                                 </#if>
                             </div>
@@ -603,7 +579,6 @@
 
         </#list>
     </#if>
-    <#include "masterFloat.ftl">
         <!--//End-->
 
     </div>
@@ -620,258 +595,20 @@
 <!--//End 右侧悬浮-->
 
 </body>
-<script>
-    //题图如果没有就动态创建默认图片  有就不创建
-    $(function(){
-        var _src = $("#detailTopic").attr('src');
-        if(_src=="" || _src ==null || typeof _src == 'undefined'){
-            $('#detailContent').append('<img src="http://resource.efeiyi.com/image/uploads/head.png" alt="" id="back_img" style="width:2800px;height:600px; margin-left: -1400px;">')
-            $('#detailContent').find('.mask_left').hide();
-            $('#detailContent').find('.mask_right').hide();
-        }
-    })
-</script>
+
 <script>
     $(function() {
-        //初始化
-        detaiInheritorlPage.init();
-
-        var mainCategory = $('#mainCategory');
-
-        //初始化分类数据
-        $.each(category_all, function(index, content) {
-            mainCategory.append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
-        });
-
-        mainCategory.find('li').on('click', function() {
-            $("#attr_text").text($(this).html());
-            $("#gb_category_code").val($(this).attr("data-id"));
-            $("#item_1").hide();
-
-            //searchData_();
-        });
-
-
-
-        var searchPage = {
-            init: function() {
-                //$('.header_detail .content .info li.search').hide();
-                $('.header_detail .content .info li.login').addClass('line');
-                this.filterBar();
-                this.search();
-            },
-            filterBar: function() {
-                var obj = $('.filter_bar');
-                var linkTab = obj.find('a');
-                var iconTab = obj.find('.icon_tab');
-                var proColumn = $('.pro_column3'); //搜索列表
-
-                //筛选
-                linkTab.on('click', function() {
-                    $(this).addClass('active').siblings('a').removeClass('active');
-
-                    //刷新搜索结果页
-
-                    if ($(this).index() == 0) {
-                        $("#type").val("");
-                    }
-                    if ($(this).index() == 1) {
-                        $("#type").val("0");
-                    }
-                    if ($(this).index() == 2) {
-                        $("#type").val("1");
-                    }
-                    if ($(this).index() == 3) {
-                        $("#type").val("2");
-                    }
-
-                    searchData_();
-
-                    return false;
-                });
-
-                //切换图标
-                iconTab.on('click', function() {
-                    if ($(this).hasClass('active')) { //九宫格
-                        $(this).removeClass('active');
-                        proColumn.removeClass('active');
-                    } else { //横排
-                        $(this).addClass('active');
-                        proColumn.addClass('active');
-                    }
-                });
-            },
-            search: function() {
-                var filter = $('.filter_search'); //下拉搜索
-                var filterFixed = $('.filter_search_fixed');
-                var ipt = filter.find('.ipt');
-                var iptVal = ipt.val();
-                var filterAll = filter.find('.attr span'); //筛选项
-                var filterItem = filter.find('.item'); //筛选下来框
-                var suggest = filter.find('.suggest');
-                var body = $('body');
-                //获取焦点
-                ipt.focus(function() {
-                    $(this).val('');
-                    body.append('<div class="overbg" style="z-index:1;"></div>');
-                });
-
-                //失去焦点如果为空则显示原始值
-                ipt.blur(function() {
-                    var _val = $(this).val();
-                    if (_val == '') {
-                        $(this).val(iptVal);
-                    }
-                    $('.overbg').remove();
-                });
-
-                //2.点击筛选
-                filterAll.on('click', function() {
-                    var _this = $(this);
-                    var _index = _this.index();
-                    filterItem.eq(_index)
-                            .css('left', parseInt(_this.position().left) + 'px')
-                            .show()
-                            .siblings('.item')
-                            .hide();
-                });
-
-                filterItem.each(function() {
-                    var _this = $(this);
-                    var level = $(this).find('.level');
-                    var level2 = $(this).find('.level2');
-                    var _li = level.find('li'); //分类
-
-                    _li.hover(function() {
-                        $(this).addClass('active').siblings('li').removeClass('active');
-
-                        $("#catecontent").empty();
-                        $("#citycontent").empty();
-
-                        if (typeof(category_all[$(this).index()].children) != "undefined") {
-                            $.each(category_all[$(this).index()].children, function(index, content) {
-                                $("#catecontent").append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
-                            });
-
-                            //点击二级分类
-                            $("#catecontent").find('li').on('click', function() {
-                                filterAll.eq(0).text($(this).html());
-                                _this.hide();
-                                $("#gb_category_code").val($(this).attr("data-id"));
-                                //searchData_();
-                            });
-                        }
-
-                        if (typeof(dic_arr_city) != "undefined") {
-                            $.each(dic_arr_city, function(index, content) {
-                                $("#citycontent").append("<li data-id=\"" + content.code + "\"  >" + content.name + "</li>");
-                            });
-
-                            //国家级
-                            $("#country").find('li').on('click', function() {
-                                filterAll.eq(1).text($(this).html());
-                                _this.hide();
-                                $("#area_code").val("");
-                                // searchData_();
-                            });
-
-                            //一级城市
-                            $("#citycontent").find('li').on('click', function() {
-                                filterAll.eq(1).text($(this).html());
-                                _this.hide();
-                                $("#area_code").val($(this).attr("data-id"));
-                                //searchData_();
-                            });
-                        }
-                        level2.show();
-                    });
-                });
-
-
-                //点击一级类别
-
-                //3.阻止点击自身关闭
-                filter.on('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                });
-
-                //4.点击自身之外的地方关闭下拉框
-                $(document).on("click", function() {
-                    filterItem.hide();
-                    filterFixed.slideUp('fast');
-                });
-                //自动提示
-                body.find('.overbg').on('click', function() {
-                    filterItem.hide();
-                    filterFixed.slideUp('fast');
-                    suggest.hide();
-                    $(this).remove();
-                    body.css('overflow', '');
-                });
-
-            },
-        };
-        searchPage.init();
-        doi_code();
-
         $(".header .content .nav li").eq(0).removeClass("active");
         //给logo加首页链接
         $('.logo').attr('href','http://diich.efeiyi.com/page/index.html');
     });
-    function submit(){
 
-        $(".form").ajaxSubmit();
-    }
-</script>
-<script>
-    $(function(){
-
-        var code_arr = $('.dic');
-        for(var i = 0; i < code_arr.length; i ++) {
-            var _code = $(code_arr[i]).text();
-            var _type = $(code_arr[i]).attr('dic-type');
-            if(_type<100){
-                $(code_arr[i]).text(_code);
-            }
-            var _lang = $(code_arr[i]).attr('lang');
-            var _value = getTextByTypeAndCode(_type, _code, _lang);
-            $(code_arr[i]).text(_value);
-        }
-
-        //查询分类信息
-        catgary();
-
-    });
-
-    //查询分类
-    function catgary(){
-        var _catId = $("#category").attr("category-id");
-        var text = getCategoryTextById(_catId);
-        $("#category").text(text);
-    }
-    //当doi编码不存在时隐藏div
-    function doi_code(){
-        var doi_code = $("#doi_code").text().trim(" ");
-        if(doi_code == null || doi_code == ""){
-            $(".doi_code").hide();
-        }
-    }
-</script>
-<script>
-    //非遗在中国如果没有内容  就隐藏这个div
-    $(function(){
-        if($("#subcon").find("span").length==0){
-            $("#mas").css("display","none");
-        }
-
-    });
+    //判断图片是否加载完成
     (function () {
         var $img = $('#detailTopic');
         var $content = $('#detailContent');
         var img = document.getElementById('detailTopic');
 
-        img.style.display='none';
         img.onload = function () {
             // 加载完成
             var imgW = parseInt($img.width());
@@ -879,8 +616,16 @@
             $content.css({width:imgW+'px'});
             $img.fadeIn(1000);
         };
+
+
+        var imgW = parseInt($img.width());
+        $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
+        $content.css({width:imgW+'px'});
+        $img.fadeIn(1000);
     })();
 
+
+
+
 </script>
-<script	src="http://resource.efeiyi.com/html/project/assets/js/static.js"></script>
 </html>

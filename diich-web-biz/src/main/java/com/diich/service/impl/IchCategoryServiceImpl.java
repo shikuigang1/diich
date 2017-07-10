@@ -22,6 +22,9 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
     @Autowired
     private IchCategoryMapper ichCategoryMapper;
 
+    @Autowired
+    private AttributeMapper attributeMapper;
+
     public List<IchCategory> getAllCategory() throws Exception {
         List<IchCategory> categoryList = null;
 
@@ -56,7 +59,11 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
 
         try {
             ichCategory = ichCategoryMapper.selectByPrimaryKey(id);
-
+            //根据分类id获取属性列表
+            if(ichCategory !=null){
+                List<Attribute> attributes = attributeMapper.selectAttrListByCategory(ichCategory.getId());
+                ichCategory.setAttributeList(attributes);
+            }
             if(ichCategory.getParentId() != null) {
                 return getCategoryByChild(ichCategory);
             }
