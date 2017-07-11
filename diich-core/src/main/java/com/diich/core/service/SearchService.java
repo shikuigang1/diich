@@ -1,5 +1,7 @@
 package com.diich.core.service;
 
+import com.diich.core.model.SearchCondition;
+
 import java.util.List;
 import java.util.Map;
 
@@ -16,8 +18,7 @@ public interface SearchService {
     Map searchText(Map<String,Object> map );
 
     //搜索存储过程调用
-    Map searchTextByProcedure(Map<String,Object> map );
-
+    Integer search(List<Map<String, Object>> list, SearchCondition condition) throws Exception;
 
     //搜索结果菜单使用
     Map searchTextNew(Map<String,Object> map );
