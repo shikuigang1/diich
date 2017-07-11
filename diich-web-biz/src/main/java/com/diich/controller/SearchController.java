@@ -2,6 +2,8 @@ package com.diich.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.diich.core.base.BaseController;
+import com.diich.core.exception.ApplicationException;
+import com.diich.core.model.SearchCondition;
 import com.diich.core.service.SearchService;
 import com.diich.core.util.SecurityUtil;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,11 +83,6 @@ public class SearchController extends BaseController {
         response.setHeader("Access-Control-Allow-Origin", "*");
         map.put("pageBegin",((Integer)map.get("pageNum")-1)*(Integer)map.get("pageSize"));
 
-        //System.out.println(JSON.toJSONString(searchSerice.searchText(map)));
-
-       // return  searchSerice.searchText(map);
-
-
         if(map.get("keyword")==null && map.get("area_code")==null && map.get("gb_category_code")==null){
             map.put("res",null);
             return map;
@@ -106,7 +105,7 @@ public class SearchController extends BaseController {
         return ls;
     }
 
-    @RequestMapping("search")
+    //@RequestMapping("search")
     public String searchExplainText(String keyword, Model model, HttpServletResponse response){
 
         Map<String,Object> map = new HashMap<String,Object>();
@@ -131,6 +130,36 @@ public class SearchController extends BaseController {
         return "search";
     }
 
+    @RequestMapping("search")
+    @ResponseBody
+    public Map<String, Object> search(HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<>();
+        String conditionStr = request.getParameter("condition");
 
+        SearchCondition condition = null;
+
+        try {
+            condition = (SearchCondition) parseObject(conditionStr,
+                    SearchCondition.class);
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return ae.toMap();
+        }
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        Integer total = null;
+
+        try {
+            total = searchService.search(list, condition);
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
+
+        result.put("code", 0);
+        result.put("data", list);
+        result.put("total", total);
+        return result;
+    }
 
 }

@@ -363,7 +363,6 @@ var common = {
 var header = {
     init: function () {
         this.scroll();
-        this.search();
         this.drop("zh");
     },
     scroll: function () { //页面滚动导航悬浮
@@ -438,71 +437,7 @@ var header = {
             }, speed);
         });
 
-
     },
-    search: function () {
-        var _header = $('.header');
-        var search = _header.find('li.search'); //搜索图标
-        var filter = $('.filter_search'); //下拉搜索
-        var filterFixed = $('.filter_search_fixed');
-        var filterAll = filter.find('.attr span'); //筛选项
-        var filterItem = filter.find('.item'); //筛选下来框
-        var suggest = filter.find('.suggest');
-        var body = $('body');
-
-        //1.导航上的搜索图标
-        search.on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            if($(this).hasClass('active')){
-                $(this).removeClass('active');
-                filter.slideUp('fast');
-            }else{
-                $(this).addClass('active');
-                filter.css('top', _header.outerHeight(true) + 'px').slideDown('fast');
-            }
-        });
-
-        //2.点击筛选
-        filterAll.on('click', function () {
-            var _this = $(this);
-            var _index = _this.index();
-            filterItem.eq(_index)
-                .css('left', parseInt(_this.position().left) + 'px')
-                .show()
-                .siblings('.item')
-                .hide();
-        });
-
-        //3.阻止点击自身关闭
-        filter.on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        });
-
-        //4.点击自身之外的地方关闭下拉框
-        $(document).on("click", function () {
-            filterItem.hide();
-            filterFixed.slideUp('fast');
-        });
-
-        //自动提示
-        if (suggest.is(':visible')) {
-            body.css('overflow', 'hidden');
-            body.append('<div class="overbg"></div>');
-        } else {
-            body.css('overflow', '');
-        }
-
-        body.find('.overbg').on('click', function () {
-            filterItem.hide();
-            filterFixed.slideUp('fast');
-            suggest.hide();
-            $(this).remove();
-            body.css('overflow', '');
-        });
-
-    }
 };
 
 //首页 ok
