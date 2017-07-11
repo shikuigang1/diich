@@ -7,6 +7,7 @@ import com.diich.core.model.IchCategory;
 import com.diich.core.service.IchCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -68,26 +69,35 @@ public class IchCategoryController extends BaseController<IchCategory> {
         return putDataToMap(ichCategory);
     }
     /**
-     * 通过分类id获得属性列表
+     * 通过分类id和targetType获取属性列表
      * @return
      */
-    @RequestMapping("getAttributeByCatId")
+    @RequestMapping("getAttributeList")
     @ResponseBody
-    public Map<String, Object> getAttributeByCatId(HttpServletRequest request,HttpServletResponse response) {
+    public Map<String, Object> getAttrListByCatIdAndTarType(HttpServletRequest request, HttpServletResponse response) {
 
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setContentType("text/html;charset=UTF-8");
+        String categoryId = request.getParameter("categoryId");
+        String targetType = request.getParameter("targetType");
+        if(StringUtils.isEmpty(categoryId)){
+            categoryId = null;
+        }
         Long id = null;
+        Integer tarType = null;
         List<Attribute> attributeList=null;
         try {
-            id = Long.parseLong(request.getParameter("id"));
+            if(categoryId != null){
+                id = Long.parseLong(categoryId);
+            }
+            tarType = Integer.parseInt(targetType);
         } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return ae.toMap();
         }
 
         try {
-            attributeList = ichCategoryService.getAttributeListByCatId(id);
+            attributeList = ichCategoryService.getAttrListByCatIdAndTarType(id,tarType);
         } catch (Exception e) {
             ApplicationException ae = (ApplicationException) e;
             return ae.toMap();
