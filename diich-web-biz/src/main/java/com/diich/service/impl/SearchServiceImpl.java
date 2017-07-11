@@ -1,17 +1,16 @@
 package com.diich.service.impl;
 
-import com.alibaba.dubbo.common.json.JSON;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.model.*;
 import com.diich.core.model.vo.SearchVO;
+import com.diich.core.service.IchMasterService;
+import com.diich.core.service.IchProjectService;
 import com.diich.core.service.SearchService;
 import com.diich.mapper.*;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +23,6 @@ import java.util.Map;
 @Service("searchService")
 @Transactional
 public class SearchServiceImpl implements SearchService {
-
 
     @Autowired
     private ContentFragmentMapper contentFragmentMapper;
@@ -50,6 +48,11 @@ public class SearchServiceImpl implements SearchService {
     @Autowired
     private DictionaryMapper dictionaryMapper;
 
+    @Autowired
+    private IchProjectService ichProjectService;
+
+    @Autowired
+    private IchMasterService ichMasterService;
 
     public List<String> searchText(String keyword, int size) {
         return null;
@@ -248,12 +251,29 @@ public class SearchServiceImpl implements SearchService {
         return map;
     }
 
-
     @Override
-    public Map searchTextByProcedure(Map<String, Object> map) {
+    public Integer search(List<Map<String, Object>> resultList, SearchCondition condition) throws Exception {
+        List<ContentFragment> contentList = contentFragmentMapper.queryForSearch(condition);
+        Integer total = contentFragmentMapper.queryForCount(condition);
 
-        contentFragmentMapper.queryForSearch(map);
-        return null;
+        for(ContentFragment content : contentList) {
+            Integer targetType = content.getTargetType();
+            Long targetId = content.getTargetId();
+
+            Map<String, Object> searchMap = new HashMap<>();
+
+            if(targetType == 0) {
+                IchProject project = ichProjectService.getIchProject(targetId + "");
+                searchMap.put("project", project);
+            } else if(targetType == 1) {
+                IchMaster master = ichMasterService.getIchMaster(targetId + "");
+                searchMap.put("master", master);
+            }
+
+            resultList.add(searchMap);
+        }
+
+        return total;
     }
 
     @Override
@@ -276,8 +296,6 @@ public class SearchServiceImpl implements SearchService {
                 s.setCategory(st.getCategory_name());
             }
 
-
-
             if(st.getSummary()!=null && st.getSummary().length()>100){
                 s.setContent(st.getSummary().substring(0,99)+"...");
             }else{
@@ -289,7 +307,6 @@ public class SearchServiceImpl implements SearchService {
             }else{
                 s.setTitle(st.getTitle());
             }
-
 
             s.setImg(st.getImgUrl());
             if(st.getType()==1){

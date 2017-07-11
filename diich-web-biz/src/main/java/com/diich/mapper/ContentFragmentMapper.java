@@ -1,7 +1,9 @@
 package com.diich.mapper;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseMapper;
 import com.diich.core.model.ContentFragment;
+import com.diich.core.model.SearchCondition;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -27,7 +29,8 @@ public interface ContentFragmentMapper extends BaseMapper<ContentFragment> {
     //根据项目名称获取相关信息
     List<ContentFragment> selectByProjectId(long  projectID);
 
-    List<ContentFragment> queryForSearch(Map map);//调用存储过程
+    List<ContentFragment> queryForSearch(SearchCondition condition);//调用存储过程
+    Integer queryForCount(SearchCondition searchCondition) throws Exception;
 
     List<ContentFragment> queryForSearchPage(Map map);//搜索分页
     int queryForSearchCount(Map map);//搜索 查询总数量
