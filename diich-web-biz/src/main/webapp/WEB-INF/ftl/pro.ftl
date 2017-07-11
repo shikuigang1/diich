@@ -27,12 +27,9 @@
     <link rel="stylesheet" href="${caturi}/assets/css/layout.css">
     <script src="${caturi}/data/keyword.js"></script>
     <script src="${caturi}/assets/js/jquery.min.js"></script>
-    <#--<script src="${caturi}/assets/js/system.js"></script>-->
-    <script src="system.js"></script>
-    <script src="utils.js"></script>
-    <#--<script src="${caturi}/assets/js/utils.js"></script>
-    <script src="${caturi}/assets/js/detail-project.js"></script>-->
-    <script src="detail-project.js"></script>
+    <script src="${caturi}/assets/js/system.js"></script>
+    <script src="${caturi}/assets/js/utils.js"></script>
+    <script src="${caturi}/assets/js/detail-project.js"></script>
     <script src="${caturi}/data/category.js"></script>
     <script src="${caturi}/js/citys.js"></script>
     <script src="${caturi}/assets/js/inputs.js"></script>

@@ -19,7 +19,7 @@ public interface AttributeMapper extends BaseMapper<Attribute>{
 
     int updateByPrimaryKey(Attribute record);
 
-    List<Attribute> selectAttrListByCategory(Long ichCategoryId);
+    List<Attribute> selectAttrListByCatIdAndTarType(Attribute record);
 
     List<Attribute> selectAttrByNameAndProId(Map map);
 }

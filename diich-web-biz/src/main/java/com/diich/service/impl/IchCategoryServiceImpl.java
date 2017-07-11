@@ -70,11 +70,14 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
     }
 
     @Override
-    public List<Attribute> getAttributeListByCatId(Long id) throws Exception {
+    public List<Attribute> getAttrListByCatIdAndTarType(Long id , Integer targetType) throws Exception {
         List<Attribute> attributeList = null;
-        if(id != null){
+        if(targetType != null){
             try {
-                attributeList = attributeMapper.selectAttrListByCategory(id);
+                Attribute attribute = new Attribute();
+                attribute.setTargetType(targetType);
+                attribute.setIchCategoryId(id);
+                attributeList = attributeMapper.selectAttrListByCatIdAndTarType(attribute);
             } catch (Exception e) {
                 throw new ApplicationException(ApplicationException.INNER_ERROR);
             }
