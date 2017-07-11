@@ -255,59 +255,6 @@
 
 
     $(function() {
-        //初始化
-        projectPage.init();
-
-        //reset 视频 data-id
-        $("#imgs img").each(function() {
-            //alert($(this).attr("src")+"---"+$(this).attr("data-id"));
-            var obj = $(this);
-            if ($(".mainbg img")) {
-                if ($(this).attr("src") == $(".mainbg img").attr("src")) {
-                    $(".mainbg img").attr("data-id", $(this).attr("data-id"));
-                    $(".mainbg img").attr("data-type", $(this).attr("data-type"));
-                }
-
-            };
-            //section 代码块寻找
-            $("section[name='tuwen']").each(function(index, item) {
-                $(this).find("img").each(function() {
-                    if (obj.attr("src") == $(this).attr("src")) {
-                        $(this).attr("data-id", obj.attr("data-id"));
-                        $(this).attr("data-type", obj.attr("data-type"));
-                    }
-                });
-            });
-        });
-        //reset 视频 data-id
-        $("#videos video").each(function() {
-            //alert($(this).attr("src")+"---"+$(this).attr("data-id"));
-            var obj = $(this);
-            if ($(".mainbg video")) {
-                if ($(this).attr("src") == $(".mainbg video").attr("src")) {
-                    $(".mainbg video").attr("data-id", $(this).attr("data-id"));
-                    $(".mainbg video").attr("data-type", $(this).attr("data-type"));
-                }
-            };
-            //section 代码块寻找
-
-            $("section[name='tuwen']").each(function(index, item) {
-                $(this).find("video").each(function() {
-                    if (obj.attr("src") == $(this).attr("src")) {
-
-                        $(this).attr("data-id", obj.attr("data-id"));
-                        $(this).attr("data-type", obj.attr("data-type"));
-                    }
-                });
-            });
-        });
-
-        //控制header中英文显示
-        $(".language").hide();
-        $(".login").hide();
-
-
-
         var mainCategory = $('#mainCategory');
 
         //初始化分类数据
@@ -432,8 +379,8 @@
                             });
                         }
 
-                        if (typeof(dic_arr) != "undefined") {
-                            $.each(dic_arr, function(index, content) {
+                        if (typeof(dic_arr_city) != "undefined") {
+                            $.each(dic_arr_city, function(index, content) {
                                 $("#citycontent").append("<li data-id=\"" + content.code + "\"  >" + content.name + "</li>");
                             });
 
