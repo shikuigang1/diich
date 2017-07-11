@@ -200,7 +200,7 @@
             <div class="card_main">
                 <div class="floor">
                     <a class="share" title="分享"></a>
-                    <a class="praise active" title="点赞" style="position: relative;"></a>
+                    <a class="praise" title="点赞" style="position: relative;"></a>
 
                     <a class="album albums" data-id="all"><i class="icon_img"></i>
 
