@@ -59,11 +59,6 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
 
         try {
             ichCategory = ichCategoryMapper.selectByPrimaryKey(id);
-            //根据分类id获取属性列表
-            if(ichCategory !=null){
-                List<Attribute> attributes = attributeMapper.selectAttrListByCategory(ichCategory.getId());
-                ichCategory.setAttributeList(attributes);
-            }
             if(ichCategory.getParentId() != null) {
                 return getCategoryByChild(ichCategory);
             }
@@ -72,6 +67,19 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
         }
 
         return ichCategory;
+    }
+
+    @Override
+    public List<Attribute> getAttributeListByCatId(Long id) throws Exception {
+        List<Attribute> attributeList = null;
+        if(id != null){
+            try {
+                attributeList = attributeMapper.selectAttrListByCategory(id);
+            } catch (Exception e) {
+                throw new ApplicationException(ApplicationException.INNER_ERROR);
+            }
+        }
+        return attributeList;
     }
 
     //通过父id找到父对象
