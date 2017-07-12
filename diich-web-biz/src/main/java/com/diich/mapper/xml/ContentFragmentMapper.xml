@@ -189,6 +189,8 @@
     <if test="type != null" >
       AND a.target_type = #{type,jdbcType=INTEGER}
     </if>
+
+
     <if test="gb_category_code != null" >
       AND ic.gb_category LIKE CONCAT(#{gb_category_code,jdbcType=VARCHAR},'%')
     </if>
@@ -230,6 +232,8 @@
       AND a.target_type = #{type,jdbcType=INTEGER}
     </if>
 
+
+
     <if test="gb_category_code != null" >
       AND ic.gb_category LIKE CONCAT(#{gb_category_code,jdbcType=VARCHAR},'%')
     </if>
@@ -252,6 +256,8 @@
     <if test="type != null" >
       AND a.target_type = #{type,jdbcType=INTEGER}
     </if>
+
+
     <if test="gb_category_code != null" >
       AND ic.gb_category LIKE CONCAT(#{gb_category_code,jdbcType=VARCHAR},'%')
     </if>
