@@ -509,6 +509,10 @@ textarea {
     opacity: 1;
 }
 
+.drop_menu.active .item dt a {
+    color: #fff!important;
+}
+
 .drop_menu_en .content .item {
     margin-left: 0;
 }
@@ -540,6 +544,7 @@ textarea {
     position: fixed !important;
     left: 0;
     right: 0;
+    z-index:11;
     display: none
 }
 

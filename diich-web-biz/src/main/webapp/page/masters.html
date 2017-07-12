@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>非遗大师</title>
+    <title>代表性传承人</title>
     <link rel="shortcut icon" type="image/x-icon" href="../assets/images/logo.png" media="screen" />
     <link rel="stylesheet" href="/assets/css/common.css">
     <link rel="stylesheet" href="/assets/css/layout.css">
@@ -175,7 +175,6 @@
 <script>
     $(function() {
         $('.header .content .nav li').eq(2).addClass('active').siblings('li').removeClass('active');
-        masterPage.init();
         var mainCategory = $('#mainCategory');
 
         //初始化分类数据
@@ -300,8 +299,8 @@
                             });
                         }
 
-                        if (typeof(dic_arr) != "undefined") {
-                            $.each(dic_arr, function(index, content) {
+                        if (typeof(dic_arr_city) != "undefined") {
+                            $.each(dic_arr_city, function(index, content) {
                                 $("#citycontent").append("<li data-id=\"" + content.code + "\"  >" + content.name + "</li>");
                             });
 
