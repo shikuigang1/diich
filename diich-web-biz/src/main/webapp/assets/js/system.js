@@ -344,7 +344,6 @@ var common = {
 var header = {
     init: function () {
         this.scroll();
-        this.search();
         this.drop("zh");
     },
     scroll: function () { //页面滚动导航悬浮
@@ -392,94 +391,59 @@ var header = {
             item.eq(4).find('dd a:odd').css({'width': '66px', 'margin-left': '24px'});
         }
 
-        _houer.hover(function () {
-            clearInterval(timer);
-            var _height = _header.outerHeight(true);
-            if ($(this).text() == 'ICH Directory') {
-                dropEn.css('top', _height + 'px').slideDown('fast');
-            } else {
-                drop.css('top', _height + 'px').slideDown('fast');
+        //滑过非遗名录
+        _houer.hover(
+            function () {
+                clearInterval(timer);
+                var _height = _header.outerHeight(true);
+                if ($(this).text() == 'ICH Directory') {
+                    dropEn.css('top', _height + 'px').slideDown('fast');
+                } else {
+                    drop.css('top', _height + 'px').slideDown('fast');
+                }
+                stopWheel();
+            },
+            function () {
+                timer = setInterval(function () {
+                    dropEn.slideUp();
+                    drop.slideUp();
+                }, speed);
+                $(document).off('wheel');
             }
-        }, function () {
-            timer = setInterval(function () {
-                dropEn.slideUp();
-                drop.slideUp();
-            }, speed);
-        });
+        );
 
-        drop.hover(function () {
-            clearInterval(timer);
-        }, function () {
-            timer = setInterval(function () {
-                drop.slideUp();
-            }, speed);
-        });
-        dropEn.hover(function () {
-            clearInterval(timer);
-        }, function () {
-            timer = setInterval(function () {
-                dropEn.slideUp();
-            }, speed);
-        });
+        //非遗名录下拉菜单
+        drop.hover(//中文
+            function () {
+                clearInterval(timer);
+                stopWheel();
+            },
+            function () {
+                timer = setInterval(function () {
+                    drop.slideUp();
+                }, speed);
+                $(document).off('wheel');
+            }
+        );
+        dropEn.hover(//英文
+            function () {
+                clearInterval(timer);
+                stopWheel();
+            },
+            function () {
+                timer = setInterval(function () {
+                    dropEn.slideUp();
+                }, speed);
+                $(document).off('wheel');
+            }
+        );
 
-
-    },
-    search: function () {
-        var _header = $('.header');
-        var search = _header.find('li.search'); //搜索图标
-        var filter = $('.filter_search'); //下拉搜索
-        var filterFixed = $('.filter_search_fixed');
-        var filterAll = filter.find('.attr span'); //筛选项
-        var filterItem = filter.find('.item'); //筛选下来框
-        var suggest = filter.find('.suggest');
-        var body = $('body');
-
-        //1.导航上的搜索图标
-        search.on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            filter.css('top', _header.outerHeight(true) + 'px').slideDown('fast');
-        });
-
-        //2.点击筛选
-        filterAll.on('click', function () {
-            var _this = $(this);
-            var _index = _this.index();
-            filterItem.eq(_index)
-                .css('left', parseInt(_this.position().left) + 'px')
-                .show()
-                .siblings('.item')
-                .hide();
-        });
-
-        //3.阻止点击自身关闭
-        filter.on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        });
-
-        //4.点击自身之外的地方关闭下拉框
-        $(document).on("click", function () {
-            filterItem.hide();
-            filterFixed.slideUp('fast');
-        });
-
-        //自动提示
-        if (suggest.is(':visible')) {
-            body.css('overflow', 'hidden');
-            body.append('<div class="overbg"></div>');
-        } else {
-            body.css('overflow', '');
-        }
-
-        body.find('.overbg').on('click', function () {
-            filterItem.hide();
-            filterFixed.slideUp('fast');
-            suggest.hide();
-            $(this).remove();
-            body.css('overflow', '');
-        });
-
+        //阻止鼠标滚动
+        function stopWheel() {
+            $(document).on('wheel',function () {
+                return false;
+            });
+        };
     }
 };
 
@@ -952,8 +916,6 @@ var textHandle = {
 $(function () {
     renderHhtml.init();
     common.init();
-
-
     //隐藏email
     $('.main em').eq(1).hide();
 });
