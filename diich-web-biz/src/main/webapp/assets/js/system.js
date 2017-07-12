@@ -919,41 +919,6 @@ var homePage = {
     }
 };
 
-//非遗名录 && 搜索结果页
-var searchPage = {
-    init: function () {
-        $('.header_detail .content .info li.search').hide();
-        $('.header_detail .content .info li.login').addClass('line');
-        // $('.directory .section li:nth-child(2n+1)').css('margin-right', '0');
-        this.filterBar();
-    },
-    filterBar: function () {
-        var obj = $('.filter_bar');
-        var linkTab = obj.find('a');
-        var iconTab = obj.find('.icon_tab');
-        var proColumn = $('.pro_column3'); //搜索列表
-
-        //筛选
-        linkTab.on('click', function () {
-            $(this).addClass('active').siblings('a').removeClass('active');
-            return false;
-        });
-
-        //切换图标
-        iconTab.on('click', function () {
-            if ($(this).hasClass('active')) { //九宫格
-                $(this).removeClass('active');
-                proColumn.removeClass('active');
-            } else { //横排
-                $(this).addClass('active');
-                proColumn.addClass('active');
-            }
-        });
-
-
-    }
-};
-
 //文本处理相关
 var textHandle = {
     getLength: function (str) { //获取字符串长度   汉字是2
