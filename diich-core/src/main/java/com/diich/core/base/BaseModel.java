@@ -12,13 +12,5 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class BaseModel implements Serializable {
 
-    private String dataFlag;
 
-    public String getDataFlag() {
-        return dataFlag;
-    }
-
-    public void setDataFlag(String dataFlag) {
-        this.dataFlag = dataFlag;
-    }
 }
