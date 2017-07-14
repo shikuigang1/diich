@@ -104,6 +104,48 @@ function getCategoryById(id) {
     return text;
 }
 
+function getSingleCategoryText(_code, _data) {
+    var _text = null;
+
+    for(var i = 0; i < _data.length; i ++) {
+        if(_data[i].gbCategory == _code) {
+            _text = _data[i].name;
+            return _text;
+        }
+
+        if(_data[i].children != null) {
+            _text = getSingleCategoryText(_code, _data[i].children);
+        }
+
+        if(_text != null) {
+            break;
+        }
+    }
+
+    return _text;
+}
+
+function getSingleCityText(_code, _data) {
+    var _text = null;
+
+    for(var i = 0; i < _data.length; i ++) {
+        if(_data[i].code == _code) {
+            _text = _data[i].name;
+            return _text;
+        }
+
+        if(_data[i].children != null) {
+            _text = getSingleCityText(_code, _data[i].children);
+        }
+
+        if(_text != null) {
+            break;
+        }
+    }
+
+    return _text;
+}
+
 function uploadFile(uri) {
     $.ajaxFileUpload({
         url : uri,

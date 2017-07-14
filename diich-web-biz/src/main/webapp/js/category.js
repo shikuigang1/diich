@@ -2,10 +2,10 @@ var category_all=[
     {
         "children": null,
         "gbCategory": "0",
-        "id": "1",
+        "id": "0",
         "name": "所有分类",
         "eNname": "All Category",
-        "parentId": "0",
+        "parentId": null,
         "status": "1"
     },
     {
@@ -1034,4 +1034,4 @@ var category_all=[
         "parentId": "0",
         "status": "1"
     }
-]
+];

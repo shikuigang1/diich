@@ -1,4 +1,13 @@
-var category_all = [
+var category_all=[
+    {
+        "children": null,
+        "gbCategory": "0",
+        "id": "0",
+        "name": "所有分类",
+        "eNname": "All Category",
+        "parentId": null,
+        "status": "1"
+    },
     {
         "children": [
             {
@@ -6,6 +15,7 @@ var category_all = [
                 "gbCategory": "A01",
                 "id": "2",
                 "name": "语言",
+                "eNname": "language",
                 "parentId": "1",
                 "status": "1"
             },
@@ -14,6 +24,7 @@ var category_all = [
                 "gbCategory": "A02",
                 "id": "3",
                 "name": "文字",
+                "eNname": "written language",
                 "parentId": "1",
                 "status": "1"
             },
@@ -24,6 +35,7 @@ var category_all = [
                         "gbCategory": "A0301",
                         "id": "5",
                         "name": "神话传说",
+                        "eNname": "written language",
                         "parentId": "4",
                         "status": "1"
                     },
@@ -63,6 +75,7 @@ var category_all = [
                 "gbCategory": "A03",
                 "id": "4",
                 "name": "口述",
+                "eNname": "oral account",
                 "parentId": "1",
                 "status": "1"
             },
@@ -71,6 +84,7 @@ var category_all = [
                 "gbCategory": "A04",
                 "id": "10",
                 "name": "其它口头传统及表述",
+                "eNname": "other oral account",
                 "parentId": "1",
                 "status": "1"
             }
@@ -78,6 +92,7 @@ var category_all = [
         "gbCategory": "A",
         "id": "1",
         "name": "口头传统和表述，包括作为非物质文化遗产媒介的语言",
+        "eNname": "legend",
         "parentId": "0",
         "status": "1"
     },
@@ -88,6 +103,7 @@ var category_all = [
                 "gbCategory": "B01",
                 "id": "12",
                 "name": "音乐演奏",
+                "eNname": "music",
                 "parentId": "11",
                 "status": "1"
             },
@@ -145,6 +161,7 @@ var category_all = [
                 "gbCategory": "B02",
                 "id": "13",
                 "name": "舞蹈",
+                "eNname": "dance",
                 "parentId": "11",
                 "status": "1"
             },
@@ -153,6 +170,7 @@ var category_all = [
                 "gbCategory": "B03",
                 "id": "20",
                 "name": "民歌",
+                "eNname": "folk song",
                 "parentId": "11",
                 "status": "1"
             },
@@ -161,6 +179,7 @@ var category_all = [
                 "gbCategory": "B04",
                 "id": "21",
                 "name": "传统戏剧",
+                "eNname": "Traditional drama",
                 "parentId": "11",
                 "status": "1"
             },
@@ -169,6 +188,7 @@ var category_all = [
                 "gbCategory": "B05",
                 "id": "22",
                 "name": "曲艺",
+                "eNname": "Chinese folk art forms",
                 "parentId": "11",
                 "status": "1"
             },
@@ -202,6 +222,7 @@ var category_all = [
                 "gbCategory": "B06",
                 "id": "23",
                 "name": "传统体育、游艺与杂技",
+                "eNname": "Traditional sports,entertainment andacrobatics",
                 "parentId": "11",
                 "status": "1"
             },
@@ -210,6 +231,7 @@ var category_all = [
                 "gbCategory": "B99",
                 "id": "27",
                 "name": "其他表演艺术",
+                "eNname": "other   perform",
                 "parentId": "11",
                 "status": "1"
             }
@@ -217,6 +239,7 @@ var category_all = [
         "gbCategory": "B",
         "id": "11",
         "name": "表演艺术",
+        "eNname": "perform",
         "parentId": "0",
         "status": "1"
     },
@@ -292,6 +315,7 @@ var category_all = [
                 "gbCategory": "C01",
                 "id": "29",
                 "name": "生产商贸习俗",
+                "eNname": "business custom",
                 "parentId": "28",
                 "status": "1"
             },
@@ -341,6 +365,7 @@ var category_all = [
                 "gbCategory": "C02",
                 "id": "38",
                 "name": "生活习俗",
+                "eNname": "Life customs",
                 "parentId": "28",
                 "status": "1"
             },
@@ -414,6 +439,7 @@ var category_all = [
                 "gbCategory": "C03",
                 "id": "44",
                 "name": "人生仪式",
+                "eNname": "Life ritual",
                 "parentId": "28",
                 "status": "1"
             },
@@ -422,6 +448,7 @@ var category_all = [
                 "gbCategory": "C04",
                 "id": "53",
                 "name": "节日庆典",
+                "eNname": "Festival celebration",
                 "parentId": "28",
                 "status": "1"
             },
@@ -430,6 +457,7 @@ var category_all = [
                 "gbCategory": "C99",
                 "id": "54",
                 "name": "其它仪式及庆典",
+                "eNname": "other celebration",
                 "parentId": "28",
                 "status": "1"
             }
@@ -437,6 +465,7 @@ var category_all = [
         "gbCategory": "C",
         "id": "28",
         "name": "社会风俗、礼仪、节庆",
+        "eNname": "custom and etiquette",
         "parentId": "0",
         "status": "1"
     },
@@ -447,6 +476,7 @@ var category_all = [
                 "gbCategory": "D01",
                 "id": "56",
                 "name": "农林牧畜渔",
+                "eNname": "Dense forest and fishery",
                 "parentId": "55",
                 "status": "1"
             },
@@ -455,6 +485,7 @@ var category_all = [
                 "gbCategory": "D02",
                 "id": "57",
                 "name": "服装",
+                "eNname": "clothing",
                 "parentId": "55",
                 "status": "1"
             },
@@ -463,6 +494,7 @@ var category_all = [
                 "gbCategory": "D03",
                 "id": "58",
                 "name": "食品",
+                "eNname": "Food",
                 "parentId": "55",
                 "status": "1"
             },
@@ -471,6 +503,7 @@ var category_all = [
                 "gbCategory": "D04",
                 "id": "59",
                 "name": "住房与建筑",
+                "eNname": "Housing and construction",
                 "parentId": "55",
                 "status": "1"
             },
@@ -479,6 +512,7 @@ var category_all = [
                 "gbCategory": "D05",
                 "id": "60",
                 "name": "交通、旅行",
+                "eNname": "Traffic",
                 "parentId": "55",
                 "status": "1"
             },
@@ -487,6 +521,7 @@ var category_all = [
                 "gbCategory": "D06",
                 "id": "61",
                 "name": "医、药",
+                "eNname": "Medicine",
                 "parentId": "55",
                 "status": "1"
             },
@@ -495,6 +530,7 @@ var category_all = [
                 "gbCategory": "D07",
                 "id": "62",
                 "name": "军事防御",
+                "eNname": "Military",
                 "parentId": "55",
                 "status": "1"
             },
@@ -503,6 +539,7 @@ var category_all = [
                 "gbCategory": "D08",
                 "id": "63",
                 "name": "商贸",
+                "eNname": "business",
                 "parentId": "55",
                 "status": "1"
             },
@@ -511,6 +548,7 @@ var category_all = [
                 "gbCategory": "D09",
                 "id": "64",
                 "name": "工业、工程",
+                "eNname": "Project",
                 "parentId": "55",
                 "status": "1"
             },
@@ -519,6 +557,7 @@ var category_all = [
                 "gbCategory": "D10",
                 "id": "65",
                 "name": "天文、地理、水文等",
+                "eNname": "astronomy  geography  irrigation",
                 "parentId": "55",
                 "status": "1"
             },
@@ -527,6 +566,7 @@ var category_all = [
                 "gbCategory": "D99",
                 "id": "66",
                 "name": "其它自然知识和实践",
+                "eNname": "Other natural knowledge",
                 "parentId": "55",
                 "status": "1"
             }
@@ -534,6 +574,7 @@ var category_all = [
         "gbCategory": "D",
         "id": "55",
         "name": "有关自然界和宇宙的知识和实践",
+        "eNname": "The practice of nature and universe",
         "parentId": "0",
         "status": "1"
     },
@@ -569,6 +610,7 @@ var category_all = [
                 "gbCategory": "E01",
                 "id": "68",
                 "name": "工具和机械制作",
+                "eNname": "tool and mechanical manufacture",
                 "parentId": "67",
                 "status": "1"
             },
@@ -618,6 +660,7 @@ var category_all = [
                 "gbCategory": "E02",
                 "id": "72",
                 "name": "家畜农林产品加工",
+                "eNname": "Painting techniques",
                 "parentId": "67",
                 "status": "1"
             },
@@ -659,6 +702,7 @@ var category_all = [
                 "gbCategory": "E03",
                 "id": "78",
                 "name": "造纸、印刷及装裱",
+                "eNname": "domestic animal agriculture and forestry products",
                 "parentId": "67",
                 "status": "1"
             },
@@ -692,6 +736,7 @@ var category_all = [
                 "gbCategory": "E04",
                 "id": "83",
                 "name": "锻冶工艺（铜器、金银器、景泰蓝等)",
+                "eNname": "Dyeing process",
                 "parentId": "67",
                 "status": "1"
             },
@@ -741,6 +786,7 @@ var category_all = [
                 "gbCategory": "E05",
                 "id": "87",
                 "name": "雕塑工艺（牙骨、木竹、玉石、泥、面等材料的雕、刻或塑）",
+                "eNname": "Paper printing and paperhanging",
                 "parentId": "67",
                 "status": "1"
             },
@@ -782,6 +828,7 @@ var category_all = [
                 "gbCategory": "E06",
                 "id": "93",
                 "name": "烧造工艺（陶、瓷、玻璃料器等）",
+                "eNname": "knit  techniques",
                 "parentId": "67",
                 "status": "1"
             },
@@ -790,6 +837,7 @@ var category_all = [
                 "gbCategory": "E07",
                 "id": "98",
                 "name": "木作工艺（家具等）",
+                "eNname": "Calligraphy and painting craft",
                 "parentId": "67",
                 "status": "1"
             },
@@ -798,6 +846,7 @@ var category_all = [
                 "gbCategory": "E08",
                 "id": "99",
                 "name": "髹饰工艺（漆器等）",
+                "eNname": "smithing  techniques",
                 "parentId": "67",
                 "status": "1"
             },
@@ -847,6 +896,7 @@ var category_all = [
                 "gbCategory": "E09",
                 "id": "100",
                 "name": "织染工艺（纺、织、刺绣、印染等）",
+                "eNname": "paper-cut and carve technics",
                 "parentId": "67",
                 "status": "1"
             },
@@ -888,6 +938,7 @@ var category_all = [
                 "gbCategory": "E10",
                 "id": "106",
                 "name": "编扎工艺（竹、藤、棕、草等材料的编织扎制）",
+                "eNname": "sculpture  techniques",
                 "parentId": "67",
                 "status": "1"
             },
@@ -953,6 +1004,7 @@ var category_all = [
                 "gbCategory": "E11",
                 "id": "111",
                 "name": "字画工艺（书法、国画、篆刻、年画、烫画、铁画、内画壶等）",
+                "eNname": "barbecue technics",
                 "parentId": "67",
                 "status": "1"
             },
@@ -961,6 +1013,7 @@ var category_all = [
                 "gbCategory": "E12",
                 "id": "119",
                 "name": "剪刻工艺（剪纸、皮影等）",
+                "eNname": "wooden  techniques",
                 "parentId": "67",
                 "status": "1"
             },
@@ -969,6 +1022,7 @@ var category_all = [
                 "gbCategory": "E99",
                 "id": "120",
                 "name": "其他类",
+                "eNname": "other kind",
                 "parentId": "67",
                 "status": "1"
             }
@@ -976,6 +1030,7 @@ var category_all = [
         "gbCategory": "E",
         "id": "67",
         "name": "传统的手工艺技能",
+        "eNname": "the technical of tradition handmade",
         "parentId": "0",
         "status": "1"
     }
@@ -1831,4 +1886,3 @@ var ich_category =
             "status":0
         }
     ];
-

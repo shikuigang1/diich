@@ -7,262 +7,17 @@
     <link rel="shortcut icon" type="image/x-icon" href="../assets/images/logo.png" media="screen" />
     <link rel="stylesheet" href="../assets/css/common.css">
     <link rel="stylesheet" href="../assets/css/layout.css">
-
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../js/category.js"></script>
+    <link rel="stylesheet" href="../css/search.css">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../data/category.js"></script>
     <script src="../js/citys.js"></script>
     <script src="../data/keyword.js"></script>
-    <script src="../js/doT.js"></script>
     <script src="../js/serverinfo.js"></script>
     <script src="../assets/js/system.js"></script>
-    <script src="../assets/js/login.js"></script>
-    <script type="text/javascript" src="/js/jquery.i18n.properties-1.0.9.js"></script>
+    <script src="../js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="../js/i18n.js"></script>
-
-
-    <script id="interpolationtmpl" type="text/x-dot-template">
-
-        {{ for(var i=0, catlen=it.length; i<catlen; i++) { }} <li>
-            {{?it[i].type == 0}}
-
-            <a class="pic" href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/project/{{=it[i].id }}.html')">
-                {{?it[i].img}}
-                <img src="http://resource.efeiyi.com/image/project/{{= it[i].img }}?x-oss-process=style/search-result-list-image" alt="">
-                {{??}}
-                <img src="../assets/images/headsmall.png?search-result-list-image" alt="">
-                {{?}}
-            </a>
-
-            <div class="context">
-                <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/project/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_cate"></i></h4>
-                <div class="doi">
-                    <span class="tag">ID</span>
-                    <span>标识码</span>
-                    <span>{{= it[i].doi }}</span>
-                </div>
-
-                {{?it[i].category}}
-                <div class="cate">
-                    <span>类别</span>
-                    <span >{{= it[i].category }}</span>
-                </div>
-                {{?}}
-
-                <div class="brief">
-                    {{= it[i].content }}
-                </div>
-            </div>
-
-            {{??it[i].type == 1 }}
-            <a class="pic" href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/master/{{=it[i].id }}.html')">
-                {{?it[i].img}}
-                <img src="http://resource.efeiyi.com/image/master/{{= it[i].img }}?x-oss-process=style/search-result-list-image" alt="">
-                {{??}}
-                <img src="../assets/images/headsmall.png" alt="">
-                {{?}}
-            </a>
-
-            <div class="context">
-                <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/master/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_user"></i></h4>
-
-                {{?it[i].projjectName}}
-                <div class="cate">
-                    <a href="" class="icon_inter"><i></i>UNESCO认证</a>
-                    {{?it[i].projjectName}}
-                    <span class="name_project">{{= it[i].projjectName }}</span>
-                    {{?}}
-                </div>
-
-                {{?}}
-
-                <div class="doi">
-                    <span class="tag">ID</span>
-                    <span>标识码</span>
-                    <span>{{= it[i].doi }}</span>
-                </div>
-                <div class="brief">
-                    {{= it[i].content }}
-                </div>
-            </div>
-
-            {{??}}
-
-            <a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/works/{{=it[i].id }}.html')" class="pic">
-                {{?it[i].img}}
-                <img src="http://resource.efeiyi.com/image/works/{{= it[i].img }}?x-oss-process=style/search-result-list-image" alt="">
-                {{??}}
-                <img src="../assets/images/headsmall.png" alt="">
-                {{?}}
-            </a>
-            <div class="context">
-                <h4><a href="javascript:gotoPageByLang('http://resource.efeiyi.com/html/works/{{=it[i].id }}.html')">{{= it[i].title }}</a><i class="icon_list_album"></i></h4>
-                <div class="info">
-
-                    {{?it[i].masters.uri}}
-                    <a href=""><img src="{{= it[i].masters.uri}}" alt=""></a>
-                    {{?}}
-
-                    {{?it[i].masters.name}}
-                    <span>{{= it[i].masters.name }}</span>
-                    {{?}}
-                    <span class="name_project">{{= it[i].category }}</span>
-                </div>
-                <div class="brief">
-                    {{= it[i].content }}
-                </div>
-            </div>
-            {{?}}
-        </li>
-
-        {{ } }}
-
-    </script>
-
-
-    <script>
-        
-        function gotoPageByLang(url) {
-            window.location.href=url+"?lang="+window.localStorage.language;
-        }
-
-        function searchData_() {
-
-            $(".suggest").hide();
-            $("#pageNum").val("1"); //把页面回执到1
-            $.ajax({
-                cache: true,
-                type: "POST",
-                url: "/s",
-                data: $('#form').serialize(), // 你的formid
-                dataType: "json",
-                async: true,
-                beforeSend:function(xhr){
-                    //$('#loading').show();
-                    //$('body').css({'overflow':'hidden'});
-                    progress.search();
-                },
-                error: function(request) {
-                    //alert("Connection error");
-                },
-                success: function(data) {
-
-                    if(data.res==null){
-                        $(".search_lose").show();
-                        $(".section").hide();
-                        progress.close('#search-progress');
-                    }else{
-                        $(".search_lose").hide();
-                        $(".section").show();
-
-                        $("#totalCount").text(data.totalCount);
-                        // $("#totalCount_").text(data.totalCount);
-                        var evalText = doT.template($("#interpolationtmpl").text());
-                        $("#content").html(evalText(data.res));
-                        $(".load_more").show();
-
-                        if (parseInt($("#pageNum").val()) * parseInt($("#pageSize").val()) >= data.totalCount) {
-                            $(".load_more").hide();
-                        }else{
-                            $(".load_more").show();
-                        }
-
-                        progress.close('#search-progress');
-                    }
-
-
-                },
-                complete:function(xhr){
-                    //$('#loading').hide();
-                    //$('body').css({'overflow':''});
-                    //progress.close('#search-progress');
-                }
-            });
-        }
-
-        function searchData() {
-            $(".suggest").hide();
-            progress.search();
-
-            $.ajax({
-                cache: true,
-                type: "POST",
-                url: "/s",
-                data: $('#form').serialize(), // 你的formid
-                dataType: "json",
-                async: true,
-                error: function(request) {
-                    //alert("Connection error");
-                },
-                success: function(data) {
-
-                    if(data.res==null){
-                        $(".search_lose").show();
-                        $(".section").hide();
-                        progress.close('#search-progress');
-                    }else{
-                        $(".search_lose").hide();
-                        $(".section").show();
-
-                        //alert(JSON.stringify(data.res));
-                        $("#totalCount").text(data.totalCount);
-                        // $("#totalCount_").text(data.totalCount);
-                        var evalText = doT.template($("#interpolationtmpl").text());
-                        $("#content").html(evalText(data.res));
-                        if (parseInt($("#pageNum").val()) * parseInt($("#pageSize").val()) >= data.totalCount) {
-                            $(".load_more").hide();
-                        }else{
-                            $(".load_more").show();
-                        }
-                        progress.close('#search-progress');
-                    }
-
-
-                }
-            });
-        }
-
-        function loadmore() {
-
-            $("#loadmore").text("loading...");
-            $(".suggest").hide();
-            var pageNum = $("#pageNum").val();
-            $("#pageNum").val((parseInt(pageNum) + 1).toString());
-
-            $.ajax({
-                cache: true,
-                type: "POST",
-                url: "/s",
-                data: $('#form').serialize(), // 你的formid
-                dataType: "json",
-                async: true,
-                error: function(request) {
-                    alert("Connection error");
-                },
-                success: function(data) {
-                    var evalText = doT.template($("#interpolationtmpl").text());
-                    $("#content").append(evalText(data.res));
-
-                    //判定 加载页面 是否可以再点击
-                    if (parseInt($("#pageNum").val()) * parseInt($("#pageSize").val()) >= data.totalCount) {
-                        $(".load_more").hide();
-                        $("#loadmore").text("load more");
-                    }else{
-                        $("#loadmore").text("load more");
-                    }
-                }
-            });
-        }
-
-        function resetForm() {
-
-            $("#pageNum").val(1);
-            $("#pageSize").val(6);
-            $("#area_code").val("");
-            $("#gb_category_code").val("");
-            $("#type").val("");
-        }
-
-    </script>
+    <script src="../js/util.js"></script>
+    <script src="../js/search.js"></script>
 </head>
 
 <body style="background-color: rgb(245, 246, 247)">
@@ -390,11 +145,9 @@
                 </dl>
             </div>
 
-
         </div>
     </div>
     <!--//End content-->
-
 
     <!--//End drop_menu-->
 
@@ -402,14 +155,8 @@
 <div class="filter_search">
     <div class="content">
         <form class="form" id="form">
-            <input class="ipt" type="text" id="keyword" name="keyword" value="" autocomplete="off">
-            <input type="hidden" id="pageNum" name="pageNum" value="1" />
-            <input type="hidden" id="pageSize" name="pageSize" value="6" />
-            <input type="hidden" id="area_code" name="area_code" value="" />
-            <input type="hidden" id="gb_category_code" name="gb_category_code" value="" />
-            <input type="hidden" id="type" name="type" value="" />
-            <input type="hidden"  id="lang" name="lang" value="zh-CN" />
-            <input class="submit" type="button" value="搜索" onclick="searchData()">
+            <input class="ipt" type="text" id="keyword" name="keyword" placeholder="请输入关键词" autocomplete="off">
+            <input class="submit" type="button" value="搜索" id="searchBtn">
             <div class="suggest" style="display: none;">
                 <ul id="words">
                     <!-- <li><a href=""><span>苏州</span>传承人</a></li>-->
@@ -425,7 +172,7 @@
 
         <div class="attr">
             <span id="attr_text">所属类别</span>
-            <span id="area_text">全球</span>
+            <span id="area_text">地区</span>
         </div>
         <!--//End attribute-->
 
@@ -433,7 +180,7 @@
             <div class="item" id="item_1">
                 <dl class="level">
                     <dt>
-                    <div class="title">一级分类</div>
+                    <div class="title" id="first_category">一级分类</div>
                     <!--<div class="subtitle" >所有分类</div>-->
                     </dt>
                     <dd>
@@ -444,7 +191,7 @@
                 </dl>
                 <dl class="level2">
                     <dt>
-                    <div class="title">二级分类</div>
+                    <div class="title" id="second_category">二级分类</div>
                     </dt>
                     <dd>
                         <ul id="catecontent">
@@ -457,7 +204,7 @@
             <div class="item" id="item_2">
                 <dl class="level">
                     <dt>
-                    <div class="title">位置</div>
+                    <div class="title" id="search_position">位置</div>
                     </dt>
                     <dd>
                         <ul id="country">
@@ -467,7 +214,7 @@
                 </dl>
                 <dl class="level2">
                     <dt>
-                    <div class="title">按照字母顺序</div>
+                    <div class="title" id="alphabetical_order">按照字母顺序</div>
                     </dt>
                     <dd>
                         <ul id="citycontent">
@@ -493,29 +240,54 @@
     <div class="directory search">
 
         <div class="section">
-            <div class="title"><span id="totalCount"></span>
-                <p>找到结果</p>
+            <div class="title"><span id="totalCount">0</span>
+                <p id="search_count">找到结果</p>
             </div>
             <!--//End title-->
             <div class="filter_bar">
                 <div class="links">
-                    <a class="active" href="" id="totalCount_">全部</a>
-                    <a href="" id="project_s">项目</a>
-                    <a href="" id="master">传承人</a>
-                    <a href="" id="work">作品</a>
+                    <a class="active target-type" data-id="all" href="javascript:void(0);" id="search_all">全部</a>
+                    <a class="target-type" data-id="0" href="javascript:void(0);" id="search_project">项目</a>
+                    <a class="target-type" data-id="1" href="javascript:void(0);" id="search_master">传承人</a>
+                    <a class="target-type" data-id="2" href="javascript:void(0);" id="search_works">作品</a>
                 </div>
-                <div class="icon_tab active"><i></i></div>
+                <div class="icon_tab active" onclick="switchResultMode();"><i></i></div>
             </div>
             <!--//End bar-->
 
             <div class="pro_column3 active">
                 <ul id="content">
 
-
                 </ul>
+                <li class="template">
+                    <a class="pic" target="_blank">
+                        <!--<img src="http://resource.efeiyi.com/image/project/{{= prop.img }}?x-oss-process=style/search-result-list-image" alt="">-->
+                        <img class="attr head-image" attrName="headImage" id="headImage" src="../assets/images/headsmall.png" alt="">
+                    </a>
+                    <div class="context">
+                        <h4><a class="attr" attrName="title" id="title" target="_blank"></a><i class="icon_list_user" id="icon"></i></h4>
+                        <div class="cate">
+                            <a target="_blank">
+                                <span class="name_project" id="ich_project"></span>
+                            </a>
+                        </div>
+                        <div class="doi">
+                            <span class="tag">ID</span>
+                            <span>标识码</span>
+                            <span class="attr" attrName="doi" id="doi"></span>
+                        </div>
+                        <div class="cate">
+                            <span>类别</span>
+                            <span class="attr" attrName="category" id="category"></span>
+                        </div>
+                        <div class="brief attr" attrName="summary" id="summary">
+
+                        </div>
+                    </div>
+                </li>
             </div>
-            <div class="load_more" style="display:none">
-                <a href="javascript:void(0)" onclick="loadmore()" id="loadmore">Load More</a>
+            <div class="load_more">
+                <a href="javascript:void(0)" id="loadmore">Load More</a>
             </div>
         </div>
         <!-- 项目 end -->
@@ -531,8 +303,7 @@
 
     </div>
 </div>
-
-
+<!-- 找到项目 end -->
 
 <div class="bd footer">
     <div class="diich">
@@ -567,548 +338,4 @@
 <!--//End--footer-->
 
 </body>
-<script>
-    //进度条
-
-    var lang = getLang();
-
-    if(lang=='zh-CN'){
-        //$("#lang").val('zh-CN');
-    }else{
-        //$("#lang").val('eng');
-
-        $("#project_s").text('Project');
-        $("#attr_text").text('All Category');
-        $("#area_text").text('The Whole World');
-        $("#totalCount_").text('Whole');
-        $("#master").text('Master');
-        $("#work").text('Work');
-
-    }
-    //点击联想框 触发
-    function submitForm(index){
-        //$("#keyword").val($("#span_"+index).text());
-        //$("#form").submit()
-        $("#keyword").val($("#span_"+index).text());
-        $(".suggest").hide();
-        searchData_();
-        // location.href="search1.html?keyword="+$("#span_"+index).text();
-    }
-
-    $(function() {
-        $('.header .content .nav li').eq(1).addClass('active').siblings('li').removeClass('active');
-        $("#ahover").hover(function(){
-            $(".drop_menu").show();
-        },function(){
-            $(".drop_menu").hide();
-        });
-
-        $("#keyword").val(getQueryString("keyword"));
-        $("#gb_category_code").val(getQueryString("gb_category_code"));
-
-        if( $("#gb_category_code").val() != ""){
-            // 循环 categoryall
-            $.each(category_all, function(index, content) {
-
-                if(content.gbCategory==$("#gb_category_code").val()){
-
-                    if(lang=='zh-CN'){
-                        $("#attr_text").text(content.name);
-                    }else{
-                        $("#attr_text").text(content.eNname);
-                    }
-                    return false;
-                }
-
-                if(typeof(content.children)!="undefined"){
-                    $.each(content.children, function(i, c) {
-                        if(c.gbCategory==$("#gb_category_code").val()){
-
-                            if(lang=='zh-CN'){
-                                $("#attr_text").text(c.name);
-                            }else{
-                                $("#attr_text").text(c.eNname);
-                            }
-                            return false;
-                        }
-                    });
-                }
-
-            });
-        }
-
-        searchData_();
-
-        //
-        $(".subtitle").on("click",function(){
-
-            $("#item_1").hide();
-            $("#item_2").hide();
-            $("#attr_text").text("所属类别");
-            $("#area_text").text("全球");
-
-            $("#gb_category_code").val("");
-            searchData_();
-
-        });
-
-       /* $("#keyword").keyup(function(){
-            $(".suggest").hide();
-            if($("#keyword").val()!=""){
-                //查询匹配字符串
-                $("#words").empty();
-                var html="";
-                var i=10;//满足数据条数
-                var key = $("#keyword").val().length;
-                $.each(keywords,function(index,content){
-
-                    if(content.substring(0,key)==$("#keyword").val()){
-
-                        html+="<li><a href=\"javascript:void(0)\" id=\"span_"+index+"\" onclick=\"submitForm("+index+")\"><span >"+$("#keyword").val()+"</span>";
-
-                        if(content.length==key){
-                            html+="</a></li>";
-                        }else{
-                            html+=content.substring(key)+"</a></li>";
-                        }
-                        i--;
-                        if(i==0){
-                            $("#words").append(html);
-                            $(".suggest").show();
-                            return false;
-                        }
-                    }
-
-                } );
-                if(i<10){
-                    $("#words").append(html);
-                    $(".suggest").show();
-                }
-            }
-        });*/
-        var cur = 0;
-        $("#keyword").keyup(function(e) {
-            var _this = $(this);
-            var _li = $('#words').find('li');
-
-            $(".suggest").hide();
-
-            //查询匹配字符串
-            var html = "";
-            var i = 3; //满足数据条数
-            var key = _this.val().length;
-
-
-            if (e.keyCode == 40) {
-                $(".suggest").show();
-                $("#words").append(html);
-
-                if (cur < _li.length) {
-                    cur++;
-                } else {
-                    cur = 1;
-                }
-                _this.val(_li.eq(cur - 1).text());
-                _li.eq(cur - 1).addClass('hover').siblings('li').removeClass('hover');
-
-            } else if (e.keyCode == 38) {
-                $(".suggest").show();
-                var _text = _li.eq(cur).text();
-
-                if (cur > 1) {
-                    cur--;
-                } else {
-                    cur = _li.length;
-                }
-
-                $("#words").append(html);
-                _this.val(_li.eq(cur - 1).text());
-                _li.eq(cur - 1).addClass('hover').siblings('li').removeClass('hover');
-            } else {
-
-                $("#words").empty();
-                $.each(keywords, function(index, content) {
-                    if (content.substring(0, key) == $("#keyword").val()) {
-                        html += "<li><a href=\"javascript:void(0)\" id=\"span_" + index + "\" onclick=\"submitForm(" + index + ")\"><span >" + $("#keyword").val() + "</span>";
-                        if (content.length == key) {
-                            html += "</a></li>";
-                        } else {
-                            html += content.substring(key) + "</a></li>";
-                        }
-                        i--;
-                        if (i == 0) {
-                            $("#words").append(html);
-                            $(".suggest").show();
-                            return false;
-                        }
-                    }
-
-                });
-            }
-
-        });
-
-        var mainCategory = $('#mainCategory');
-
-        //初始化分类数据
-        $.each(category_all, function(index, content) {
-
-            if(lang=='zh-CN'){
-                mainCategory.append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
-            }else {
-                mainCategory.append("<li data-id=\"" + content.gbCategory + "\" >" + content.eNname + "</li>");
-            }
-
-        });
-
-        mainCategory.find('li').on('click', function() {
-            $("#attr_text").text($(this).html());
-            $("#gb_category_code").val($(this).attr("data-id"));
-            $("#item_1").hide();
-
-            searchData_();
-        });
-        //初始化国家数据country
-
-        var country = $('#country');
-        //var dic_arr_temp =getDictionaryArrayByType(101,lang);
-        //初始化分类数据
-        $.each(dic_arr_city, function(index, content) {
-            if(lang=='zh-CN'){
-                country.append("<li data-id=\"" + content.code + "\" >" + content.name + "</li>");
-            }else{
-
-                if(typeof (content.eNname)=='undefined'){
-                    country.append("<li data-id=\"" + content.code + "\" >" + content.name + "</li>");
-                }else{
-                    country.append("<li data-id=\"" + content.code + "\" >" + content.eNname + "</li>");
-                }
-            }
-
-        });
-
-        country.find('li').on('click', function() {
-            $("#area_text").text($(this).html());
-            $("#area_code").val($(this).attr("data-id"));
-            $("#item_2").hide();
-
-            searchData_();
-        });
-
-        var searchPage = {
-            init: function() {
-                $('.header_detail .content .info li.search').hide();
-                $('.header_detail .content .info li.login').addClass('line');
-                this.filterBar();
-                this.search();
-            },
-            filterBar: function() {
-                var obj = $('.filter_bar');
-                var linkTab = obj.find('a');
-                var iconTab = obj.find('.icon_tab');
-                var proColumn = $('.pro_column3'); //搜索列表
-
-                //筛选
-                linkTab.on('click', function() {
-                    $(this).addClass('active').siblings('a').removeClass('active');
-                    //刷新搜索结果页
-
-                    if ($(this).index() == 0) {
-                        $("#type").val("");
-                    }
-                    if ($(this).index() == 1) {
-                        $("#type").val("0");
-                    }
-                    if ($(this).index() == 2) {
-                        $("#type").val("1");
-                    }
-                    if ($(this).index() == 3) {
-                        $("#type").val("2");
-                    }
-
-                    searchData_();
-
-                    return false;
-                });
-
-                //切换图标
-                iconTab.on('click', function() {
-                    if ($(this).hasClass('active')) { //九宫格
-                        $(this).removeClass('active');
-                        proColumn.removeClass('active');
-
-                        $("#content").find("img").each(function (){
-                            var aa = $(this).attr("src");
-                            if(aa.indexOf("..")==-1){
-                                var str = aa.substr(0,aa.indexOf("?"));
-                                $(this).attr("src",str+"?x-oss-process=style/search-result-grid-image");
-                            }
-                        });
-
-                    } else { //横排
-                        $(this).addClass('active');
-                        proColumn.addClass('active');
-                        if(aa.indexOf("..")==-1){
-                            var str = aa.substr(0,aa.indexOf("?"));
-                            $(this).attr("src",str+"?x-oss-process=style/search-result-list-image");
-                        }
-                    }
-                });
-            },
-            search: function() {
-                var filter = $('.filter_search'); //下拉搜索
-                var filterFixed = $('.filter_search_fixed');
-                var ipt = filter.find('.ipt');
-                var iptVal = ipt.val();
-                var filterAll = filter.find('.attr span'); //筛选项
-                var filterItem = filter.find('.item'); //筛选下来框
-                var suggest = filter.find('.suggest');
-                var body = $('body');
-                //获取焦点
-                ipt.focus(function() {
-                   /* $(this).val('');
-                    body.append('<div class="overbg" style="z-index:1;"></div>');*/
-                });
-
-                //失去焦点如果为空则显示原始值
-                /*ipt.blur(function() {
-                    var _val = $(this).val();
-                    if (_val == '') {
-                        $(this).val(iptVal);
-                    }
-                    $('.overbg').remove();
-                });*/
-
-                //2.点击筛选
-                filterAll.on('click', function() {
-                    var _this = $(this);
-                    var _index = _this.index();
-                    filterItem.eq(_index)
-                        .css('left', parseInt(_this.position().left) + 'px')
-                        .show()
-                        .siblings('.item')
-                        .hide();
-                });
-
-                filterItem.each(function() {
-                    var _this = $(this);
-                    var level = $(this).find('.level');
-                    var level2 = $(this).find('.level2');
-                    var _li = level.find('li'); //分类
-
-
-                    _li.hover(function() {
-                        $(this).addClass('active').siblings('li').removeClass('active');
-
-                        $("#catecontent").empty();
-                        $("#citycontent").empty();
-
-                        if ($(this).parent().attr("id")=='mainCategory'&& typeof(category_all[$(this).index()].children) != "undefined") {
-                            $.each(category_all[$(this).index()].children, function(index, content) {
-
-                                if(lang=='zh-CN' ){
-                                    $("#catecontent").append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
-                                }else{
-                                    $("#catecontent").append("<li data-id=\"" + content.gbCategory + "\" >" + content.eNname + "</li>");
-                                }
-
-                            });
-
-                            //点击二级分类
-                            $("#catecontent").find('li').on('click', function() {
-                                filterAll.eq(0).text($(this).html());
-                                _this.hide();
-                                $("#gb_category_code").val($(this).attr("data-id"));
-                                searchData_();
-                            });
-                        }
-
-                        if (typeof(dic_arr_city) != "undefined" && $(this).parent().attr("id")=='country') {
-                          /*  $.each(dic_arr, function(index, content) {
-                                $("#citycontent").append("<li data-id=\"" + content.code + "\"  >" + content.name + "</li>");
-                            });
-*/
-                            $.each(dic_arr_city[$(this).index()].children, function(index, content) {
-
-                                if(lang=='zh-CN'){
-
-                                    if(typeof (content.name ) != 'undefined'){
-                                        $("#citycontent").append("<li data-id=\"" + content.code + "\" >" + content.name + "</li>");
-                                    }else if(typeof (content.eNname ) != 'undefined'){
-                                        $("#citycontent").append("<li data-id=\"" + content.code + "\" >" + content.eNname + "</li>");
-                                    }else{}
-
-                                }
-
-                                if(lang=='en'){
-
-                                    if(typeof (content.eNname ) != 'undefined'){
-                                        $("#citycontent").append("<li data-id=\"" + content.code + "\" >" + content.eNname + "</li>");
-                                    }else if(typeof (content.name ) != 'undefined') {
-                                        $("#citycontent").append("<li data-id=\"" + content.code + "\" >" + content.name + "</li>");
-                                    }else{
-                                                                                //do nothing
-                                    }
-                                }
-
-                            });
-
-                           /* //国家级
-                            $("#country").find('li').on('click', function() {
-                                filterAll.eq(1).text($(this).html());
-                                _this.hide();
-                                $("#area_code").val("");
-                                searchData_();
-                            });*/
-
-                            //一级城市
-                            $("#citycontent").find('li').on('click', function() {
-                                filterAll.eq(1).text($(this).html());
-                                _this.hide();
-                                $("#area_code").val($(this).attr("data-id"));
-                                searchData_();
-                            });
-                        }
-                        level2.show();
-                    });
-                });
-
-
-                //点击一级类别
-
-                //3.阻止点击自身关闭
-                filter.on('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                });
-
-                //4.点击自身之外的地方关闭下拉框
-                $(document).on("click", function() {
-                    filterItem.hide();
-                    filterFixed.slideUp('fast');
-                });
-                //自动提示
-                body.find('.overbg').on('click', function() {
-                    filterItem.hide();
-                    filterFixed.slideUp('fast');
-                    suggest.hide();
-                    $(this).remove();
-                    body.css('overflow', '');
-                });
-
-            },
-        };
-        $('#keyword').keypress(function(e) {
-
-
-            if (e.keyCode == 13) {
-                //e.preventDefault();
-
-                //$('.overbg').remove();
-                //$("#area_code").val("");
-                //$("#gb_category_code").val("");
-                //$("#type").val("");
-
-                //$("#item_1").text("所属类别");
-                //$("#item_2").text("全球");
-                //$('.filter_bar').find('a').each(function(i) {
-                //    $('#keyword').blur();
-                //    if (i.index == 0) {
-                //        $(this).addClass('active').siblings('a').removeClass('active');
-                //    }
-                //    searchData_();
-                //});
-                resetForm();
-                window.location = "../page/search.html?keyword=" + $("#keyword").val();
-
-            }
-        })
-        searchPage.init();
-    })
-
-    function getQueryString(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-        var r = window.location.search.substr(1).match(reg);
-        if ( r != null ){
-            return decodeURI(r[2]);
-        }else{
-            return null;
-        }
-    }
-
-    (function () {
-        var drop = $('.drop_menu');
-        var item = drop.find('.item');
-        var _header = $('.header');
-        var _houer = _header.find('.nav li').eq(1);
-        var timer = null;
-        var speed = 200;
-
-
-        _houer.hover(function() {
-            clearInterval(timer);
-            var _height = _header.outerHeight(true);
-            drop.css('top', _height + 'px').slideDown('fast');
-        }, function() {
-            timer = setInterval(function() {
-                drop.slideUp();
-            }, speed);
-        });
-
-        drop.hover(function() {
-            clearInterval(timer);
-        }, function() {
-            timer = setInterval(function() {
-                drop.slideUp();
-            }, speed);
-        });
-
-
-        //去掉dd的左边距
-        item.eq(0).css('width', '86px');
-        item.eq(1).css('width', '143px');
-        item.eq(2).css('width', '100px');
-        item.eq(3).css('width', '240px');
-
-        item.eq(3).find('a:even').css('width', '72px');
-        item.eq(3).find('a:odd').css({ 'width': '129px', 'margin-left': '24px' });
-
-        item.eq(4).css('width', '210px');
-        item.eq(4).find('a:even').css('width', '115px');
-        item.eq(4).find('a:odd').css({ 'width': '66px', 'margin-left': '24px' });
-    })();
-
-    //进度条
-    var progress = {
-        refresh:function () {//刷新页面
-            this.base('#refresh-progress');
-        },
-        search:function () {//搜索进度条
-            this.base('#search-progress');
-        },
-        base:function (obj) {
-            var el = $(obj);
-            var _progress = el.find('.progress');
-            var _span = _progress.find('span');
-            var speed = 2000;
-            _span.animate({'width': '98%'}, speed);
-        },
-        close:function (obj) {//关闭
-            var el = $(obj);
-            var _progress = el.find('.progress');
-            var _span = _progress.find('span');
-            _span.animate({'width': '0'}, 0);
-        }
-    };
-
-    //progress.refresh(); //页面刷新进度条
-    //progress.search();  //搜索进度条
-
-    //progress.close('#refresh-progress');//关闭页面刷新进度条
-    //progress.close('#search-progress');//关闭页面刷新进度条
-
-
-
-</script>
-
 </html>
