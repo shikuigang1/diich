@@ -493,14 +493,19 @@
                         <article class="plain_text">
                             <p>
                                 <#if cf.content??>
-                                    <#-- <#assign content =cf.content?replace("。\n", "。</p><p>") />-->
-                                    <#assign content =cf.content />
+
+                                      <#assign content =cf.content />
+                                      <#assign content =content?replace("。\n", "。<br>") />
+                                      <#assign content =content?replace("？\n", "？<br>") />
+                                      <#assign content =content?replace("！\n", "！<br>") />
+                                      <#assign content =content?replace("：\n", "：<br>") />
+
                                       <#assign content =content?replace("（1）、", "<br>（1）、") />
-                                     <#assign content =content?replace("（2）、", "<br>（2）、") />
+                                      <#assign content =content?replace("（2）、", "<br>（2）、") />
                                       <#assign content =content?replace("（3）、", "<br>（3）、") />
-                                     <#assign content =content?replace("（4）、", "<br>（4）、") />
+                                      <#assign content =content?replace("（4）、", "<br>（4）、") />
                                       <#assign content =content?replace("（5）、", "<br>（5）、") />
-                                     <#assign content =content?replace("（6）、", "<br>（6）、") />
+                                      <#assign content =content?replace("（6）、", "<br>（6）、") />
 
                                     <#-- <#assign content =content?replace("（1）", "<br>（1）") />
                                      <#assign content =content?replace("（2）", "<br>（2）") />

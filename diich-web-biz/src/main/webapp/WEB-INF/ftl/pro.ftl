@@ -659,12 +659,13 @@
                         <article class="plain_text">
                             <p>
                                 <#if cf.content??>
-                                    <#-- <#assign content =cf.content?replace("。\n", "。</span><span>") />-->
+
                                     <#assign content =cf.content />
 
-
-
-
+                                    <#assign content =content?replace("。\n", "。<br>") />
+                                    <#assign content =content?replace("？\n", "？<br>") />
+                                    <#assign content =content?replace("！\n", "！<br>") />
+                                    <#assign content =content?replace("：\n", "：<br>") />
 
                                       <#assign content =content?replace("（1）、", "<br>（1）、") />
                                      <#assign content =content?replace("（2）、", "<br>（2）、") />
@@ -742,7 +743,7 @@
                                         <#assign content =content?replace("\n七、", "<br>七、") />
                                        <#assign content =content?replace("\n八、", "<br>八、") />
                                         <#assign content =content?replace("\n九、", "<br>九、") />
-
+                                        <#assign content =content?replace(" ", "") />
 
 
                                     ${content}
