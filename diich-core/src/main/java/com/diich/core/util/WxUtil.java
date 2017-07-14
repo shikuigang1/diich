@@ -21,7 +21,6 @@ public class WxUtil {
         String url = String.format(ACCESS_TOKEN,APPID,SECRET);
         try {
             String result = HttpGetRequest.doGet(url);
-            System.out.println(result);
             JSONObject rqJsonObject = JSONObject.parseObject(result);
             Map map = JSONObject.toJavaObject(rqJsonObject,Map.class);
             return map;

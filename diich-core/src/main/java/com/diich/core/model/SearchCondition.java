@@ -60,4 +60,9 @@ public class SearchCondition extends BaseModel {
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }
+
+    public String toString() {
+        return "keyword=" + keyword + ",category=" + category + ",area=" +
+                area + ",type=" + type + ",_offset=" + _offset + ",pageSize=" + pageSize;
+    }
 }

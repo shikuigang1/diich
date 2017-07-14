@@ -265,6 +265,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
                 Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
                 if(resource !=null){
+                    resource.setResOrder(contentFragmentResource.getResOrder());
                     resourceList.add(resource);
                 }
 

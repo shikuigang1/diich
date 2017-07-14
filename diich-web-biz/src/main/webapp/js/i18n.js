@@ -146,10 +146,21 @@ function loadProperties(language){
             $('#zixun_title').text($.i18n.prop('zixun_title'));
 
 
-
             $('#d_id').text($.i18n.prop('d_id'));
             $('#apply_id').text($.i18n.prop('apply_id'));
 
+			//搜索页面
+			$('#attr_text').text($.i18n.prop('attr_text'));
+			$('#area_text').text($.i18n.prop('area_text'));
+			$('#first_category').text($.i18n.prop('first_category'));
+			$('#second_category').text($.i18n.prop('second_category'));
+			$('#search_position').text($.i18n.prop('search_position'));
+			$('#alphabetical_order').text($.i18n.prop('alphabetical_order'));
+			$('#search_count').text($.i18n.prop('search_count'));
+			$('#search_all').text($.i18n.prop('search_all'));
+			$('#search_project').text($.i18n.prop('search_project'));
+			$('#search_master').text($.i18n.prop('search_master'));
+			$('#search_works').text($.i18n.prop('search_works'));
 
 
             //渲染地图

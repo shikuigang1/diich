@@ -353,6 +353,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
                     Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
                     if (resource != null) {
+                        resource.setResOrder(contentFragmentResource.getResOrder());
                         resourceList.add(resource);
                     }
                 }
@@ -428,10 +429,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     private void saveContentFragment(ContentFragment c,Long proID) throws Exception{
         Long attributeId = c.getAttributeId();
-//        if(attributeId !=0 && attributeId != null){
-//            Attribute attribute = attributeMapper.selectByPrimaryKey(attributeId);
-//            c.setAttribute(attribute);
-//        }
         if(attributeId == 0 || attributeId == null){
             Attribute attribute = c.getAttribute();
             attributeId = IdWorker.getId();

@@ -1,0 +1,13 @@
+
+.template , .load_more, .cate, .loading {
+    display: none;
+}
+
+.header .content .info li.login:after, .header .content .info li.logined:after {
+    content:'';
+    width:0px;
+}
+
+.header .content .info li.search {
+    display: none;
+}

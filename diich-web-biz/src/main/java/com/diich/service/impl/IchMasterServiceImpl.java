@@ -284,6 +284,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
                 Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
                 if(resource!=null){
+                    resource.setResOrder(contentFragmentResource.getResOrder());
                     resourceList.add(resource);
                 }
             }
