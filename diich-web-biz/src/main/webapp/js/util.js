@@ -106,10 +106,15 @@ function getCategoryById(id) {
 
 function getSingleCategoryText(_code, _data) {
     var _text = null;
+    var lang = getCurrentLanguage();
 
     for(var i = 0; i < _data.length; i ++) {
         if(_data[i].gbCategory == _code) {
-            _text = _data[i].name;
+            if(lang == 'en') {
+                _text = _data[i].eNname;
+            } else {
+                _text = _data[i].name;
+            }
             return _text;
         }
 
@@ -127,10 +132,15 @@ function getSingleCategoryText(_code, _data) {
 
 function getSingleCityText(_code, _data) {
     var _text = null;
+    var lang = getCurrentLanguage();
 
     for(var i = 0; i < _data.length; i ++) {
         if(_data[i].code == _code) {
-            _text = _data[i].name;
+            if(lang == 'en') {
+                _text = _data[i].eNname;
+            } else {
+                _text = _data[i].name;
+            }
             return _text;
         }
 

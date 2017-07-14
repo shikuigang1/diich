@@ -17,19 +17,6 @@ function initPage() {
     var suggest = filter.find('.suggest');
     var body = $('body');
 
-    //1.导航上的搜索图标
-    search.on('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        if($(this).hasClass('active')){
-            $(this).removeClass('active');
-            filter.slideUp('fast');
-        }else{
-            $(this).addClass('active');
-            filter.css('top', _header.outerHeight(true) + 'px').slideDown('fast');
-        }
-    });
-
     //2.点击筛选
     filterAll.on('click', function () {
         var _this = $(this);
@@ -60,12 +47,17 @@ function initPage() {
         body.css('overflow', '');
     }*/
 
-
     $('.header .content .nav li').eq(1).addClass('active').siblings('li').removeClass('active');
     $("#ahover").hover(function(){
         $(".drop_menu").show();
     },function(){
         $(".drop_menu").hide();
+    });
+
+    $(document).keyup(function(event){
+        if(event.keyCode ==13){
+            searchDataFromServer();
+        }
     });
 
     buildOneComboUi(category_all, $('#item_1'));
@@ -84,6 +76,7 @@ function initPage() {
     });
     
     $('#loadmore').on('click', function () {
+        $('#loadmore').text('Loading...');
         pageNum += 1;
         searchDataFromServer();
     });
@@ -136,7 +129,7 @@ function searchDataFromServer() {
 
         },
         complete: function () {
-            progress.finish();
+            progress.stop();
         }
     });
 }
@@ -197,6 +190,7 @@ function buildSearchResultUi(data) {
     }
 
     if(data.total > (pageNum - 1) * pageSize + pageSize) {
+        $('#loadmore').text('Load More');
         $('.load_more').show();
     }
 }
@@ -230,7 +224,7 @@ function fillMasterData(master, template) {
     var $ui = $(template);
     fillCommonByContentList(master, 'master', attrMap, $ui);
 
-    if(master.ichProject != null) {
+    if(master != null && master.ichProject != null) {
         var $ich_project = $ui.find('#ich_project');
         $ich_project.parent().parent().show();
 
@@ -249,6 +243,10 @@ function fillMasterData(master, template) {
 
 function fillCommonByContentList(object, type, attrMap, $ui) {
     var map = {};
+
+    if(object == null) {
+        return;
+    }
 
     var contentList = object.contentFragmentList;
     for(var i = 0; i < contentList.length; i ++) {
@@ -291,12 +289,14 @@ function fillCommonByContentList(object, type, attrMap, $ui) {
 //进度条
 var progress = {
     start:function () {//搜索进度条
-        var $span = $('#search-progress .progress span');
-        $span.animate({'width': '98%'}, 3000);
+        $('#totalCount').hide();
+        $('#search_count').hide();
+        $('.loading').show();
     },
-    finish:function () {//关闭
-        var $span = $('#search-progress .progress span');
-        $span.animate({'width': '0'}, 0);
+    stop:function () {//关闭
+        $('#totalCount').show();
+        $('#search_count').show();
+        $('.loading').hide();
     }
 };
 
