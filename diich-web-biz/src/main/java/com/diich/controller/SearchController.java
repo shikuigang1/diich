@@ -1,28 +1,20 @@
 package com.diich.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
-import com.diich.core.model.Member;
 import com.diich.core.model.SearchCondition;
 import com.diich.core.service.SearchService;
-import com.diich.core.util.SecurityUtil;
-import com.diich.service.impl.MemberDaoImpl;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.URLDecoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/5/12 0012.
