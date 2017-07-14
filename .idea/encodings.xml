@@ -3,15 +3,18 @@
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/diich-core" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/diich-core/src/main/java/com/diich/core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/diich-core/src/main/java/com/diich/core/exception/ApplicationException.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/diich-core/src/main/java/com/diich/core/model/vo/SearchVO.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/diich-search-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/diich-search-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/diich-search-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/diich-search-service/src/main/resources/log4j2.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/diich-web" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/diich-web-biz" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/diich-web-biz/src/main/java/com/diich/controller/ComputerIp.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/diich-web-biz/src/main/java/com/diich/controller/UserController.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/diich-web-biz/src/main/java/com/diich/service/impl/SearchServiceImpl.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/diich-web-biz/src/main/webapp/WEB-INF/ftl/ichproject.ftl" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/diich-web-biz/src/main/webapp/WEB-INF/ftl/pro.ftl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/diich-web/src/main/java/com/diich/web/controller/UserController.java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
