@@ -49,7 +49,7 @@ public class WorksController extends BaseController<Works> {
     @RequestMapping("getWorksList")
     @ResponseBody
     public Map<String, Object> getWorksList(HttpServletRequest request,HttpServletResponse response){
-        Map<String, Object> params = new HashMap<>();;
+        Map<String, Object> params = new HashMap<>();
         String param = request.getParameter("params");
         try{
             if(param !=null){
