@@ -1,5 +1,6 @@
 package com.diich.controller;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.SearchCondition;
@@ -48,16 +49,16 @@ public class SearchController extends BaseController {
         try {
             total = searchService.search(list, condition);
         } catch (Exception e) {
-            /*ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();*/
             return putDataToMap(e);
         }
 
         response.setHeader("Access-Control-Allow-Origin", "*");
-        result.put("code", 0);
-        result.put("data", list);
-        result.put("total", total);
-        return result;
+
+        Page page = new Page();
+        page.setRecords(list);
+        page.setTotal(total);
+
+        return putDataToMap(page);
     }
 
 }

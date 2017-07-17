@@ -126,13 +126,18 @@ public abstract class BaseController<T extends BaseModel> {
 			if (data instanceof Page) {
 				Page<?> page = (Page<?>) data;
 				map.put("data", page.getRecords());
-				map.put("current", page.getCurrent());
-				map.put("size", page.getSize());
-				map.put("pages", page.getPages());
 				map.put("total", page.getTotal());
 			} else if (data instanceof List<?>) {
 				map.put("data", data);
 				map.put("total", ((List<?>) data).size());
+			} else if (data instanceof Exception) {
+				ApplicationException ae = null;
+				try {
+					ae = (ApplicationException) data;
+				} catch (Exception e) {
+					ae = new ApplicationException(1);
+				}
+				return ae.toMap();
 			} else {
 				map.put("data", data);
 			}
