@@ -181,4 +181,14 @@ function getTemplateUi(fileName) {
         }
     });
 }
+//error code message
+function getMsgByCode(code,lang) {
 
+    if(lang == 'zh-CN'){
+        return error_message[code].msg;
+    }else{
+        return error_message[code].enMsg;
+    }
+
+
+}
