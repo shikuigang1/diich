@@ -16,8 +16,19 @@ public class ApplicationException extends Exception {
 	public static int INNER_ERROR = 1;
 	public static int PARAM_ERROR = 2;
 	public static int NO_LOGIN = 3;
+	public static int NO_PHONE = 4;
+	public static int PHONE_USED = 5;
+	public static int CODE_AGAIN = 6;
+	public static int RESET_PASSWORD = 7;
+	public static int NO_REGISTER = 8;
+	public static int CODE_TIMEOUT = 9;
+	public static int NO_CODE = 10;
+    public static int CODE_ERROR = 11;
+	public static int USER_UNCOMPLETE = 12;
+	public static int USER_ERROR =13;
 
-	private static final String[] ERROR_DESC_LIST = new String[] { "", "内部错误.", "参数错误", "用户没有登录"};
+	private static final String[] ERROR_DESC_LIST = new String[] { "", "内部错误.", "参数错误", "用户没有登录","请输入手机号","此手机号已经被占用","验证码已发送,请稍后再试...",
+																	"手机号,验证码,新密码均不能为空","该手机号没注册","验证码超时,请重新获取","请先获取验证码","验证码错误","用户名,密码不能为空","用户名,密码错误"};
 
 	private int code;
 	private String msg;
