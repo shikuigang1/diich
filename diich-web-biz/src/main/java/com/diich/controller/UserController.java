@@ -57,14 +57,14 @@ public class UserController extends BaseController<User> {
         String type = request.getParameter("type");
         if(StringUtils.isEmpty(phone)){
             ApplicationException ae = new ApplicationException(ApplicationException.NO_PHONE);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
         if("0".equals(type)){//0 注册时获取验证码  1密码重置获取验证码
             //检查手机号是否被占用
             List<User> userList = userService.checkUserByPhone(phone);
             if(userList.size()>0){
                 ApplicationException ae = new ApplicationException(ApplicationException.PHONE_USED);
-                return ae.toMap();
+                return putDataToMap(ae);
             }
         }
         HttpSession session = request.getSession();
@@ -82,7 +82,7 @@ public class UserController extends BaseController<User> {
         String  code = (String) session.getAttribute(phone);
         if(code !=null){
             ApplicationException ae = new ApplicationException(ApplicationException.CODE_AGAIN);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
         String verifyCode = null;
         try{
@@ -92,8 +92,7 @@ public class UserController extends BaseController<User> {
             session.setAttribute(phone,verifyCode);
             session.setAttribute("begindate"+phone,df.format(new Date()));
         }catch (Exception e){
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+           return  putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(phone);
@@ -117,7 +116,7 @@ public class UserController extends BaseController<User> {
 
         if(StringUtils.isEmpty(phone)){
             ApplicationException ae = new ApplicationException(ApplicationException.NO_PHONE);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
         HttpSession session = request.getSession();
         //判断验证码是否超时和正确
@@ -129,7 +128,7 @@ public class UserController extends BaseController<User> {
             userService.saveUser(user);
         } catch (Exception e) {
             ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(ae);
         }
         return putDataToMap(user);
     }
@@ -148,7 +147,7 @@ public class UserController extends BaseController<User> {
         String password = request.getParameter("password");
         if(StringUtils.isEmpty(loginName) || StringUtils.isEmpty(password)){
             ApplicationException ae = new ApplicationException(ApplicationException.USER_UNCOMPLETE);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
         User user =null;
         try{
@@ -156,8 +155,7 @@ public class UserController extends BaseController<User> {
             HttpSession session = request.getSession();
             session.setAttribute("CURRENT_USER",user);
         }catch (Exception e){
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         return putDataToMap(user);
     }
@@ -170,7 +168,7 @@ public class UserController extends BaseController<User> {
         User user = (User) WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
-            return ae.toMap();
+            return putDataToMap(ae);
         }else{
             return putDataToMap(request.getSession().getAttribute("CURRENT_USER"));
         }
@@ -213,8 +211,7 @@ public class UserController extends BaseController<User> {
                 user.setPassword(null);
             }
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         return putDataToMap(user);
     }
@@ -240,8 +237,7 @@ public class UserController extends BaseController<User> {
                 user.setPassword(null);
             }
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
        return putDataToMap(user);
     }
@@ -264,7 +260,7 @@ public class UserController extends BaseController<User> {
         try{
             if(StringUtils.isEmpty(code) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(newPassword)){
                 ApplicationException ae = new ApplicationException(ApplicationException.RESET_PASSWORD);
-                return ae.toMap();
+                return putDataToMap(ae);
             }
             HttpSession session = request.getSession();
             //判断验证码是否超时和正确
@@ -276,14 +272,13 @@ public class UserController extends BaseController<User> {
             List<User> userList = userService.checkUserByPhone(phone);
             if(userList.size() == 0){
                 ApplicationException ae = new ApplicationException(ApplicationException.NO_REGISTER);
-                return ae.toMap();
+                return putDataToMap(ae);
             }
             User user = userList.get(0);
             user.setPassword(newPassword);
             userService.saveUser(user);
         }catch (Exception e){
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         return putDataToMap(phone);
     }
@@ -309,18 +304,18 @@ public class UserController extends BaseController<User> {
                 session.removeAttribute(phone);
                 session.removeAttribute("begindate"+phone);
                 ApplicationException ae = new ApplicationException(ApplicationException.CODE_TIMEOUT);
-                return ae.toMap();
+                return putDataToMap(ae);
             }
         }
         String verifyCode = (String) session.getAttribute(phone);
         //防止没有获取验证码直接点击注册
         if(verifyCode == null){
             ApplicationException ae = new ApplicationException(ApplicationException.NO_CODE);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
         if(!verifyCode.equals(code)){
             ApplicationException ae = new ApplicationException(ApplicationException.CODE_ERROR);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
         result.put("code",0);
         return result;
