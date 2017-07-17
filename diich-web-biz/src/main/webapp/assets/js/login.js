@@ -68,30 +68,30 @@ var loginPage = {
 
                 },
                 success: function(res) {
-                    if(res.code==2){
+                    var code= res.code;
+                    if(res.code!=0){
                         _this.parent().parent().parent().prev().addClass("error");
-                        if(lang=='zh-CN'){
-                            phone.next().text(res.msg);
-                        }else{
-                            phone.next().text("Cell phone number had been registed!");
+                        phone.next().text(getMsgByCode(code,lang));
+                    }else{
+                        if (!_this.hasClass('active')) {
+                            _this.addClass('active').text(time + 's后重新发送');
+                            var timer = setInterval(function () {
+                                time--;
+                                _this.text(time + 's后重新发送');
+
+                                if (time == 0) {
+                                    clearInterval(timer);
+                                    time = 60;
+                                    _this.removeClass('active');
+                                    _this.text('重新发送');
+                                }
+                            }, 1000);
                         }
                     }
                 }
             });
 
-            if (!_this.hasClass('active')) {
-                _this.addClass('active').text(time + 's后重新发送');
-                var timer = setInterval(function () {
-                    time--;
-                    _this.text(time + 's后重新发送');
 
-                    if (time == 0) {
-                        clearInterval(timer);
-                        time = 60;
-                        _this.removeClass('active');
-                    }
-                }, 1000);
-            }
 
         });
     },
