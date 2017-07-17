@@ -50,7 +50,6 @@ public class OperateFileUtil {
                     url.append(fileType + "/" + new Date().getTime() + fileName.trim());
 
                     String fileUrl = "http://diich-resource.oss-cn-beijing.aliyuncs.com/" + url.toString();
-
                     //将图片上传至阿里云
                     boolean bool = AliOssUtil.uploadFile(file, "diich-resource", url.toString());
 
