@@ -109,11 +109,6 @@ function initParams() {
 function searchDataFromServer() {
     var condition = buildCondition();
 
-    if(condition.keyword == null) {
-        buildSearchResultUi(null);
-        return;
-    }
-
     $.ajax({
         type: 'post',
         url: '../search',
