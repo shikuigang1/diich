@@ -288,7 +288,7 @@
   </select>
 
   <select id="queryForSearch" resultMap="ResultMapWithBLOBs" parameterType="com.diich.core.model.SearchCondition">
-    {call search(#{keyword,jdbcType=VARCHAR,mode=IN}, #{type,jdbcType=INTEGER,mode=IN},#{category,jdbcType=VARCHAR,mode=IN} ,#{area,jdbcType=VARCHAR,mode=IN},#{_offset,jdbcType=INTEGER,mode=IN},#{pageSize,jdbcType=INTEGER,mode=IN} )}
+    {call search_content(#{keyword,jdbcType=VARCHAR,mode=IN}, #{type,jdbcType=INTEGER,mode=IN},#{category,jdbcType=VARCHAR,mode=IN} ,#{area,jdbcType=VARCHAR,mode=IN},#{_offset,jdbcType=INTEGER,mode=IN},#{pageSize,jdbcType=INTEGER,mode=IN} )}
   </select>
   <select id="queryForCount" resultType="java.lang.Integer" parameterType="com.diich.core.model.SearchCondition">
     {call search_data_count(#{keyword,jdbcType=VARCHAR,mode=IN}, #{type,jdbcType=INTEGER,mode=IN},#{category,jdbcType=VARCHAR,mode=IN} ,#{area,jdbcType=VARCHAR,mode=IN})}

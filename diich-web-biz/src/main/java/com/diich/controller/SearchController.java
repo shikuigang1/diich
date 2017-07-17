@@ -39,7 +39,7 @@ public class SearchController extends BaseController {
                     SearchCondition.class);
         } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
 
         List<Map<String, Object>> list = new ArrayList<>();
@@ -48,8 +48,9 @@ public class SearchController extends BaseController {
         try {
             total = searchService.search(list, condition);
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            /*ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();*/
+            return putDataToMap(e);
         }
 
         response.setHeader("Access-Control-Allow-Origin", "*");
