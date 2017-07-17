@@ -441,14 +441,10 @@ function login(){
             console.log(data);
             var lang = getLang();
             if(data.code!=0){
-               //$(".item login").next().find('div .group').addClass('error')
+               //$(".item login").next().find('div .group').addClass('error') getMsgByCode
                 $('.box_layer .login').find('.group').addClass('error');
 
-                if(lang=='zh-CN'){
-                    $('.box_layer .login').find('.error_txt').text(data.msg);
-                }else{
-                    $('.box_layer .login').find('.error_txt').text("mobile or password error!");
-                }
+                $('.box_layer .login').find('.error_txt').text(getMsgByCode(data.code,lang));
 
             }else{
                 $('.box_layer').hide();
@@ -504,11 +500,12 @@ function registForm(){
                 //注册成功
                 $('.box_layer').fadeOut(100).remove();
             }else {
-                if(lang=='zh-CN'){
+                $("#registForm input[name=code]").next().next().text(getMsgByCode(code,lang));
+           /*     if(lang=='zh-CN'){
                     $("#registForm input[name=code]").next().next().text(res.msg);
                 }else{
                     $("#registForm input[name=code]").next().next().text(res.enMsg);
-                }
+                }*/
             }
         }
 
@@ -553,11 +550,8 @@ function  resetPass(){
                 $('.box_layer').fadeOut(100).remove();
             }else{
                 $("#resetForm input[name=code]").parent().parent().addClass("error");
-                if(lang=='zh-CN'){
-                    $("#resetForm input[name=code]").next().next().text(res.msg);
-                }else{
-                    $("#resetForm input[name=code]").next().next().text(res.enMsg);
-                }
+                $("#resetForm input[name=code]").next().next().text(getMsgByCode(code,lang));
+
             }
         }
 
