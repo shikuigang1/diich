@@ -117,4 +117,5 @@ public class DictionaryController extends BaseController<Dictionary> {
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(list);
     }
+
 }

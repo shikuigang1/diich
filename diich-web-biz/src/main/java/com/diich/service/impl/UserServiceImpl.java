@@ -56,7 +56,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         if(userList.size()==0){
-            throw new ApplicationException(ApplicationException.PARAM_ERROR);
+            throw new ApplicationException(ApplicationException.USER_ERROR);
         }
         return  userList.get(0);
     }
