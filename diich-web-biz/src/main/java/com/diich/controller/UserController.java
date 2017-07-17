@@ -339,7 +339,7 @@ public class UserController extends BaseController<User> {
 
     @RequestMapping("uploadProcessFile")
     @ResponseBody
-    public void uploadProcessFile(HttpServletRequest request,HttpServletResponse response) {
+    public void uploadProcessFile(HttpServletRequest request,HttpServletResponse response,String path) {
         response.setContentType("text/html;charset=UTF-8");
         response.setHeader("Access-Control-Allow-Origin", "*");
         List<String> list = new ArrayList<>();;
@@ -380,12 +380,9 @@ public class UserController extends BaseController<User> {
                         fileType = "other";
                     }
 
-                    url.append(fileType + "/" + new Date().getTime() + fileName.trim());
-
-                    System.out.println(PropertiesUtil.getString("img_Server_Path"));
-
+                    String filename = new Date().getTime() + fileName.trim();
+                    url.append(fileType + "/"+path +"/"+filename);
                     String fileUrl = PropertiesUtil.getString("img_Server_Path")+"/" + url.toString();
-                    String filename=url.toString();
                     //将图片上传至阿里云
 
                     list.add(filename);
