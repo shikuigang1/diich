@@ -35,7 +35,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
             //发送信息
             SendMsgUtil.sendSms(text,phone);
            }catch(Exception e){
-            throw new ApplicationException(ApplicationException.INNER_ERROR);
+            throw new ApplicationException(ApplicationException.PARAM_ERROR);
         }
 
         return code;

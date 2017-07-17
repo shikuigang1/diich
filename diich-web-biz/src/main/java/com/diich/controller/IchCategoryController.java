@@ -34,8 +34,7 @@ public class IchCategoryController extends BaseController<IchCategory> {
         try {
             categoryList = ichCategoryService.getAllCategory();
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(categoryList);
@@ -54,15 +53,13 @@ public class IchCategoryController extends BaseController<IchCategory> {
         try {
             id = Long.parseLong(request.getParameter("id"));
         } catch (Exception e) {
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            return putDataToMap(e);
         }
 
         try {
             ichCategory = ichCategoryService.getCategoryById(id);
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setContentType("text/html;charset=UTF-8");
@@ -92,15 +89,13 @@ public class IchCategoryController extends BaseController<IchCategory> {
             }
             tarType = Integer.parseInt(targetType);
         } catch (Exception e) {
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            return putDataToMap(e);
         }
 
         try {
             attributeList = ichCategoryService.getAttrListByCatIdAndTarType(id,tarType);
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         return putDataToMap(attributeList);
     }
