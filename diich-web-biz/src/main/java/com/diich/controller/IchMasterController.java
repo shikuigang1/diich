@@ -47,14 +47,13 @@ public class IchMasterController extends BaseController<IchMaster>{
         String id = request.getParameter("params");
         if(id == null || "".equals(id)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
         IchMaster ichMaster = null;
         try{
             ichMaster = ichMasterService.getIchMaster(id);
         }catch (Exception e){
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(ichMaster);
@@ -72,14 +71,13 @@ public class IchMasterController extends BaseController<IchMaster>{
             }
         }catch (Exception e){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
         Page<IchMaster> page = null;
         try {
             page = ichMasterService.getIchMasterPage(params);
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(page);
@@ -95,13 +93,13 @@ public class IchMasterController extends BaseController<IchMaster>{
             ichMaster = parseObject(params, IchMaster.class);
         } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
 
         User user = (User) WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
 
         ichMaster.setLastEditorId(user.getId());
@@ -109,8 +107,7 @@ public class IchMasterController extends BaseController<IchMaster>{
         try {
             ichMasterService.saveIchMaster(ichMaster);
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(ichMaster);

@@ -32,14 +32,13 @@ public class WorksController extends BaseController<Works> {
         String id = request.getParameter("params");
         if(id == null || "".equals(id)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
         Works works = null;
         try{
             works = worksService.getWorks(id);
         }catch (Exception e){
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(works);
@@ -57,14 +56,13 @@ public class WorksController extends BaseController<Works> {
             }
         }catch (Exception e){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
         Page<Works> page = null;
         try {
             page = worksService.getWorksPage(params);
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(page);

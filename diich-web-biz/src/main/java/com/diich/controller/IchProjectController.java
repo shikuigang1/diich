@@ -48,14 +48,13 @@ public class IchProjectController extends BaseController<IchProject> {
         String id = request.getParameter("params");
         if(id == null || "".equals(id)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
         IchProject ichProject = null;
         try{
             ichProject = ichProjectService.getIchProject(id);
         }catch (Exception e){
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(ichProject);
@@ -72,14 +71,13 @@ public class IchProjectController extends BaseController<IchProject> {
             }
         }catch (Exception e){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
         Page<IchProject> page = null;
         try {
             page = ichProjectService.getIchProjectPage(params);
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(page);
@@ -95,13 +93,13 @@ public class IchProjectController extends BaseController<IchProject> {
             ichProject = parseObject(params, IchProject.class);
         } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
 
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
 
         ichProject.setLastEditorId(user.getId());
@@ -109,8 +107,7 @@ public class IchProjectController extends BaseController<IchProject> {
         try {
             ichProject = ichProjectService.saveIchProject(ichProject);
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(ichProject);
@@ -132,8 +129,7 @@ public class IchProjectController extends BaseController<IchProject> {
         try {
             ls =ichProjectService.getIchProjectByName(map);
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
 
         response.setHeader("Access-Control-Allow-Origin", "*");

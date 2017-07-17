@@ -38,15 +38,13 @@ public class DictionaryController extends BaseController<Dictionary> {
         try {
             type = Integer.parseInt(request.getParameter("type"));
         } catch (Exception e) {
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            return putDataToMap(e);
         }
 
         try {
             dictionaryList = dictionaryService.getDictionaryListByType(type, language);
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(dictionaryList);
@@ -67,20 +65,18 @@ public class DictionaryController extends BaseController<Dictionary> {
         try {
             type = Integer.parseInt(request.getParameter("type"));
         } catch (Exception e) {
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            return putDataToMap(e);
         }
 
         if(code == null || "".equals(code)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
+            return putDataToMap(ae);
         }
 
         try {
             name = dictionaryService.getTextByTypeAndCode(type, code, language);
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(name);
@@ -94,8 +90,7 @@ public class DictionaryController extends BaseController<Dictionary> {
         try {
             dictionaryList = dictionaryService.getAllDictionary();
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(dictionaryList);
@@ -110,8 +105,7 @@ public class DictionaryController extends BaseController<Dictionary> {
             list = dictionaryService.getDictionaryListByType(type, "chi");
 
         } catch (Exception e) {
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
+            return putDataToMap(e);
         }
 
         response.setHeader("Access-Control-Allow-Origin", "*");
