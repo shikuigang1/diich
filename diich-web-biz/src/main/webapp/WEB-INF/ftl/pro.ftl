@@ -4,7 +4,7 @@
 <head>
 <#assign caturi="http://diich.efeiyi.com" />
     <meta charset="UTF-8">
-    <title>
+    <title id="title">
     <#if (obj.contentFragmentList?size>0)>
        <#list obj.contentFragmentList as cf>
         <#if (obj.lang == "chi")>
@@ -208,12 +208,11 @@
 
                     <div class="share_box">
                         <div class="icons">
-                            <a href="" class="sina"></a>
+                            <span></span>
                             <a href="" class="weixin active"></a>
                         </div>
                         <div class="qrcode">
-                            <img  width="108" src="${caturi}/ichProject/getImage?id=${obj.id?c}&type=sina" alt="新浪">
-                            <img width="108" src="${caturi}/ichProject/getImage?id=${obj.id?c}&type=weixin" alt="微信">
+                            <img width="108" style="display:block" src="${caturi}/ichProject/getImage?id=${obj.id?c}&type=weixin" alt="微信">
                         </div>
                     </div>
                 </div>
