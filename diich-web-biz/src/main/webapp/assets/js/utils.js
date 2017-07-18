@@ -459,7 +459,7 @@ var Detail = { //详情页用到的效果
                     return false;
                 });
 
-                //点击分享图标
+               /* //点击分享图标
                 _el.on('click', function () {
                     $(this).addClass('active').siblings('a').removeClass('active');
                     _img.eq($(this).index()).show().siblings('img').hide();
@@ -468,7 +468,29 @@ var Detail = { //详情页用到的效果
                 _shareBox.on('click', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
+                });*/
+
+                $(function(){
+                    //分享至微博
+                    var el=$('.card_main .floor a.share');
+                    el.on('click',function(){
+                        var img=$("#detailTopic").text().replace("../..","http://resource.efeiyi.com");
+                        var title =$("#title").text()+"【非遗国际】";
+                        var uri=location.href;
+                        $('.share_box span').html('').append(shareSina(img,title,uri));
+                    });
+
+
+
+
                 });
+
+
+
+                function shareSina(img,title,uri){
+                    var str="<a class=\"sina\" href=\"javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=3348629102',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','"+img+"','"+title+"','"+uri+"','页面编码gb2312|utf-8默认gb2312'));\"></a>";
+                    return str;
+                }
 
                 $(document).on("click", function () {
                     _shareBox.fadeOut();
