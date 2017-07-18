@@ -474,7 +474,7 @@ var Detail = { //详情页用到的效果
                     //分享至sina微博
                     var el=$('.card_main .floor a.share');
                     el.on('click',function(){
-                        var img=$("#detailTopic").text().replace("../..","http://resource.efeiyi.com");
+                        var img=$("#detailContent").find('img').attr('src').replace("../..","http://resource.efeiyi.com");
                         var title =$("#title").text()+"【非遗国际】";
                         var uri=location.href;
                         $('.share_box span').html('').append(shareSina(img,title,uri));
