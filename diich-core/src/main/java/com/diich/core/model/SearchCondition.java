@@ -10,7 +10,7 @@ public class SearchCondition extends BaseModel {
     private String category;
     private String area;
     private Integer type;
-    private Integer _offset = 0;//分页中的开始行数
+    private Integer offset = 0;//分页中的位移量
     private Integer pageSize = 6;
 
     public String getKeyword() {
@@ -45,12 +45,12 @@ public class SearchCondition extends BaseModel {
         this.type = type;
     }
 
-    public Integer get_offset() {
-        return _offset;
+    public Integer getOffset() {
+        return offset;
     }
 
-    public void set_offset(Integer _offset) {
-        this._offset = _offset;
+    public void setOffset(Integer offset) {
+        this.offset = offset;
     }
 
     public Integer getPageSize() {
@@ -62,7 +62,25 @@ public class SearchCondition extends BaseModel {
     }
 
     public String toString() {
-        return "keyword=" + keyword + ",category=" + category + ",area=" +
-                area + ",type=" + type + ",_offset=" + _offset + ",pageSize=" + pageSize;
+        String condtion = "";
+        if(keyword != null) {
+            condtion += keyword;
+        }
+        if(category != null) {
+            condtion += category;
+        }
+        if(area != null) {
+            condtion += area;
+        }
+        if(type != null) {
+            condtion += type;
+        }
+        if(offset != null) {
+            condtion += offset;
+        }
+        if(pageSize != null) {
+            condtion += pageSize;
+        }
+        return condtion;
     }
 }

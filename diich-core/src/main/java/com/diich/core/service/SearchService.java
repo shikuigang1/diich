@@ -13,4 +13,5 @@ public interface SearchService {
     //搜索存储过程调用
     Integer search(List<Map<String, Object>> list, SearchCondition condition) throws Exception;
 
+    boolean clearAllKey() throws Exception;
 }

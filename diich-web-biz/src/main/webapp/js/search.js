@@ -71,8 +71,21 @@ function initPage() {
     });
 
     $('#searchBtn').on('click', function () {
-        window.location = 'search.html?keyword=' + $('#keyword').val() + '&' + 'gb_category_code=' +
-            $('#attr_text').attr('data-id') + '&' + 'area=' +  $('#area_text').attr('data-id');
+        var location = 'search.html?';
+
+        if($('#keyword').val() != '' && $('#keyword').val() != null) {
+            location += 'keyword=' + $('#keyword').val() + '&';
+        }
+        if($('#attr_text').attr('data-id') != null && $('#attr_text').attr('data-id') != '0') {
+            location += 'gb_category_code=' + $('#attr_text').attr('data-id') + '&';
+        }
+        if($('#area_text').attr('data-id') != null && $('#area_text').attr('data-id') != '') {
+            location += 'area=' + $('#area_text').attr('data-id') + '&';
+        }
+
+        location = location.substr(0, location.length - 1);
+
+        window.location = location;
     });
     
     $('#loadmore').on('click', function () {
@@ -135,6 +148,7 @@ function buildCondition() {
     var keyword = global_keyword;
     if(keyword != null && keyword != '') {
         condition.keyword = filterStr(keyword);
+        $('#keyword').val(keyword);
     }
 
     var target_type = $('.links .active').attr('data-id');
@@ -152,7 +166,7 @@ function buildCondition() {
         condition.area = area;
     }
 
-    condition._offset = (pageNum - 1) * pageSize;
+    condition.offset = (pageNum - 1) * pageSize;
     condition.pageSize = pageSize;
 
     return condition;
@@ -284,14 +298,14 @@ function fillCommonByContentList(object, type, attrMap, $ui) {
 //进度条
 var progress = {
     start:function () {//搜索进度条
-        $('#totalCount').hide();
-        $('#search_count').hide();
-        $('.loading').show();
+        $('#totalCount').parent().hide();
+        $('#search_count').parent().hide();
+        $('.waiting').show();
     },
     stop:function () {//关闭
-        $('#totalCount').show();
-        $('#search_count').show();
-        $('.loading').hide();
+        $('#totalCount').parent().show();
+        $('#search_count').parent().show();
+        $('.waiting').hide();
     }
 };
 
