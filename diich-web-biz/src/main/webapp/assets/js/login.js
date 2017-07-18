@@ -73,6 +73,10 @@ var loginPage = {
                         _this.parent().parent().parent().prev().addClass("error");
                         phone.next().text(getMsgByCode(code,lang));
                     }else{
+                        //去掉错误提示
+                        _this.parent().parent().parent().prev().removeClass("error");
+                        phone.next().text("");
+
                         if (!_this.hasClass('active')) {
                             _this.addClass('active').text(time + 's后重新发送');
                             var timer = setInterval(function () {
