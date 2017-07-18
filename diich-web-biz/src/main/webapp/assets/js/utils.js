@@ -471,7 +471,7 @@ var Detail = { //详情页用到的效果
                 });*/
 
                 $(function(){
-                    //分享至微博
+                    //分享至sina微博
                     var el=$('.card_main .floor a.share');
                     el.on('click',function(){
                         var img=$("#detailTopic").text().replace("../..","http://resource.efeiyi.com");
