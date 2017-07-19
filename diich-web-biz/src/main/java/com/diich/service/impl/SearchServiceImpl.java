@@ -1,13 +1,13 @@
 package com.diich.service.impl;
 
-import com.diich.core.base.BaseModel;
-import com.diich.core.model.*;
-import com.diich.core.model.vo.SearchVO;
+import com.diich.core.model.ContentFragment;
+import com.diich.core.model.IchMaster;
+import com.diich.core.model.IchProject;
+import com.diich.core.model.SearchCondition;
 import com.diich.core.service.IchMasterService;
 import com.diich.core.service.IchProjectService;
 import com.diich.core.service.SearchService;
-import com.diich.mapper.*;
-import io.swagger.models.auth.In;
+import com.diich.mapper.ContentFragmentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -39,14 +38,18 @@ public class SearchServiceImpl implements SearchService {
     @Autowired
     private RedisTemplate<Serializable, Serializable> redisTemplate;
 
+    private final static Long EXPIRE = 15L;
+    private final static TimeUnit TIME_UNIT = TimeUnit.MINUTES;
+
     @Override
     public Integer search(List<Map<String, Object>> resultList, SearchCondition condition) throws Exception {
-        Integer total = getCountByRedis(condition.toString());
+        Integer total = (Integer) get(condition.toString() + "_total");
         if(total == null) {
             total = contentFragmentMapper.queryForCount(condition);
+            put(condition.toString() + "_total", total);
         }
 
-        List<Map<String, Object>> rList = getListByRedis(condition.toString());
+        List<Map<String, Object>> rList = (ArrayList) get(condition.toString());
         if(rList != null) {
             for(Map<String, Object> map : rList) {
                 resultList.add(map);
@@ -72,25 +75,32 @@ public class SearchServiceImpl implements SearchService {
             resultList.add(searchMap);
         }
 
-        saveToRedis(condition.toString(), resultList, total);
+        put(condition.toString(), resultList);
 
         return total;
     }
 
-    private void saveToRedis(String key, List<Map<String, Object>> value, Integer total) throws Exception {
-        ValueOperations<Serializable, Serializable> opsForValue = redisTemplate.opsForValue();
-        opsForValue.set(key, (ArrayList)value);
-        opsForValue.set(key + "_total", total);
-    }
-
-    private List<Map<String, Object>> getListByRedis(String key) throws Exception {
+    private void put(String key, List<Map<String, Object>> value) throws Exception {
         ValueOperations<Serializable, Serializable> opsFroValue = redisTemplate.opsForValue();
-        return (ArrayList) opsFroValue.get(key);
+        opsFroValue.set(key, (ArrayList)value, EXPIRE, TIME_UNIT);
     }
 
-    private Integer getCountByRedis(String key) throws Exception {
+    private void put(String key, Integer value) throws Exception {
         ValueOperations<Serializable, Serializable> opsFroValue = redisTemplate.opsForValue();
-        return (Integer) opsFroValue.get(key + "_total");
+        opsFroValue.set(key, value, EXPIRE, TIME_UNIT);
     }
 
+    private Object get(String key) throws Exception {
+        ValueOperations<Serializable, Serializable> opsFroValue = redisTemplate.opsForValue();
+        return opsFroValue.get(key);
+    }
+
+    public boolean clearAllKey() throws Exception {
+        Set set = redisTemplate.keys("*");
+        Iterator it = set.iterator();
+        while (it.hasNext()) {
+            redisTemplate.delete(it.next().toString());
+        }
+        return true;
+    }
 }

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +29,6 @@ public class SearchController extends BaseController {
     @RequestMapping("search")
     @ResponseBody
     public Map<String, Object> search(HttpServletRequest request, HttpServletResponse response) {
-        Map<String, Object> result = new HashMap<>();
         String conditionStr = request.getParameter("condition");
 
         SearchCondition condition = null;
@@ -59,6 +57,20 @@ public class SearchController extends BaseController {
         page.setTotal(total);
 
         return putDataToMap(page);
+    }
+
+    @RequestMapping("clearAllKey")
+    @ResponseBody
+    public Map<String, Object> clearAllKey() {
+        boolean flag;
+
+        try {
+            flag = searchService.clearAllKey();
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+
+        return putDataToMap(flag);
     }
 
 }
