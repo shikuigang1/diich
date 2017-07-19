@@ -27,7 +27,7 @@ public class Attribute extends BaseModel {
 
     private Integer maxLength;
 
-    private String desc;
+    private String description;
 
     public String getValue() {
         return value;
@@ -135,11 +135,11 @@ public class Attribute extends BaseModel {
         this.maxLength = maxLength;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
