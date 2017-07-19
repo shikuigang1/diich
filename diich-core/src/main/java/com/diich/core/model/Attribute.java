@@ -23,6 +23,12 @@ public class Attribute extends BaseModel {
 
     private Integer seq;
 
+    private Integer minLength;
+
+    private Integer maxLength;
+
+    private String desc;
+
     public String getValue() {
         return value;
     }
@@ -111,5 +117,29 @@ public class Attribute extends BaseModel {
 
     public void setSeq(Integer seq) {
         this.seq = seq;
+    }
+
+    public Integer getMinLength() {
+        return minLength;
+    }
+
+    public void setMinLength(Integer minLength) {
+        this.minLength = minLength;
+    }
+
+    public Integer getMaxLength() {
+        return maxLength;
+    }
+
+    public void setMaxLength(Integer maxLength) {
+        this.maxLength = maxLength;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

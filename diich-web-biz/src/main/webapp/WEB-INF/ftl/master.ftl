@@ -411,7 +411,7 @@
             <#if (cf.attribute.dataType == 5) && (cf.resourceList??) && (cf.resourceList?size>0)>
 
                 <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
-                    <div class="card">
+                    <div class="card" data-id="${cf.id?c}">
                         <header><h4>${cf.attribute.cnName} </h4></header>
                         <article class="text_img">
                             <div class="side">
@@ -487,7 +487,7 @@
             <#if ((cf.attribute.dataType == 5 || cf.attribute.dataType == 1) && (!cf.resourceList?? || cf.resourceList?size==0))>
 
                 <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
-                    <div class="card">
+                    <div class="card" data-id="${cf.id?c}">
                         <header><h4>${cf.attribute.cnName}  </h4></header>
                         <article class="plain_text">
                             <p>

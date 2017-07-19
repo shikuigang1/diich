@@ -555,8 +555,8 @@
     <#if (obj.contentFragmentList?size>0)>
         <#list obj.contentFragmentList as cf>
             <#if (cf.attribute.dataType == 5  && cf.resourceList?? && cf.resourceList?size>0)>
-                <section name="tuwen" class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
-                    <div class="card">
+                <section  name="tuwen" class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
+                    <div class="card" data-id="${cf.id?c}">
                         <header><h4>
                             <#if obj.lang == "chi">
                                  ${cf.attribute.cnName}
@@ -646,7 +646,7 @@
             <#if ((cf.attribute.dataType == 5 || cf.attribute.dataType == 1) && (!cf.resourceList?? || cf.resourceList?size==0))>
 
                 <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
-                    <div class="card">
+                    <div class="card" data-id="${cf.id?c}">
                         <header><h4>
                             <#if obj.lang == "chi">
                                 ${cf.attribute.cnName}
