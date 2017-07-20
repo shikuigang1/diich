@@ -42,6 +42,12 @@ public class IchProjectController extends BaseController<IchProject> {
     @Autowired
     private IchProjectService ichProjectService;
 
+    /**
+     * 获取项目详情的接口  查询的信息有传承人和作品的信息
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("getIchProject")
     @ResponseBody
     public Map<String, Object> getIchProject(HttpServletRequest request,HttpServletResponse response) {
@@ -53,6 +59,30 @@ public class IchProjectController extends BaseController<IchProject> {
         IchProject ichProject = null;
         try{
             ichProject = ichProjectService.getIchProject(id);
+        }catch (Exception e){
+            return putDataToMap(e);
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(ichProject);
+    }
+
+    /**
+     * 获取的只有项目的信息
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("getIchProjectById")
+    @ResponseBody
+    public Map<String, Object> getIchProjectById(HttpServletRequest request,HttpServletResponse response) {
+        String id = request.getParameter("params");
+        if(id == null || "".equals(id)) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        IchProject ichProject = null;
+        try{
+            ichProject = ichProjectService.getIchProjectById(Long.parseLong(id));
         }catch (Exception e){
             return putDataToMap(e);
         }
@@ -113,6 +143,40 @@ public class IchProjectController extends BaseController<IchProject> {
         return putDataToMap(ichProject);
     }
 
+    /**
+     * 提交的接口
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("submitProject")
+    @ResponseBody
+    public Map<String, Object> submitIchProject(HttpServletRequest request,HttpServletResponse response){
+
+        String params = request.getParameter("params");
+        IchProject ichProject = null;
+        try {
+            ichProject = parseObject(params, IchProject.class);
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+
+        ichProject.setLastEditorId(user.getId());
+        try {
+            ichProject = ichProjectService.submitIchProject(ichProject);
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(ichProject);
+    }
     @RequestMapping("getProByName")
     @ResponseBody
     public Map<String, Object> getProByName(HttpServletRequest request,HttpServletResponse response) {
@@ -158,5 +222,6 @@ public class IchProjectController extends BaseController<IchProject> {
         byte[] imageBts = bos.toByteArray();
         return imageBts;
     }
+
 
 }

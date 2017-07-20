@@ -17,6 +17,8 @@ public interface IchProjectService {
 
     IchProject saveIchProject(IchProject ichProject) throws Exception;
 
+    IchProject submitIchProject(IchProject ichProject) throws Exception;
+
     List<IchProject> getIchProjectList(Page<IchProject> page) throws Exception;
 
     Page<IchProject> getIchProjectPage(Map<String, Object>  params)throws Exception;
