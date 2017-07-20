@@ -9,4 +9,5 @@ public interface ContentFragmentService {
 
     ContentFragment getContentFragment(String id) throws Exception;
     ContentFragment saveContentFragment(ContentFragment contentFragment) throws Exception;
+    void deleteContentFragment(Long id)throws Exception;
 }

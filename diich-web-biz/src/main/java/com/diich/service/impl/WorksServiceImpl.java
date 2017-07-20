@@ -138,12 +138,9 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
     public void saveWorks(Works works) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
         try{
-            String templateName ="works.ftl";
-            String fileName = PropertiesUtil.getString("freemarker.worksfilepath")+"/"+works.getId().toString();
             if(works.getId() == null){//新增
                 Long worksId = IdWorker.getId();
                 works .setId(worksId);
-                fileName = PropertiesUtil.getString("freemarker.worksfilepath")+"/"+worksId;
                 works.setStatus(0);
                 works.setIsRepresent(1);
                 works.setUri(worksId + ".html");
@@ -156,7 +153,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 }
             }else{
                 //更新
-                works.setUri(fileName + ".html");
+                works.setUri(works.getId() + ".html");
                 worksMapper.updateByPrimaryKeySelective(works);
                 List<ContentFragment> contentFragmentList = works.getContentFragmentList();
                 if(contentFragmentList != null && contentFragmentList.size()>0){
@@ -169,24 +166,23 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                             contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
                             List<Resource> resourceList = contentFragment.getResourceList();
                             if(resourceList != null && resourceList.size()>0){
-                                saveResource(resourceList,contentFragment.getId());
+                                IchProjectServiceImpl ips = new IchProjectServiceImpl();
+                                ips.saveResource(resourceList,contentFragment.getId());
                             }
                         }
                     }
                 }
             }
-            //获取项目信息
-            if(works.getIchProjectId() != null){
-                IchProject ichProject = ichProjectService.getIchProjectById(works.getIchProjectId());
-                works.setIchProject(ichProject);
-            }
-            //获取传承人信息
-            if(works.getIchMasterId() != null){
-                IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
-                works.setIchMaster(ichMaster);
-            }
-            //生成静态页面
-            String uri = buildHTML(templateName, works, fileName);
+//            //获取项目信息
+//            if(works.getIchProjectId() != null){
+//                IchProject ichProject = ichProjectService.getIchProjectById(works.getIchProjectId());
+//                works.setIchProject(ichProject);
+//            }
+//            //获取传承人信息
+//            if(works.getIchMasterId() != null){
+//                IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
+//                works.setIchMaster(ichMaster);
+//            }
             commit(transactionStatus);
         }catch (Exception e){
             rollback(transactionStatus);
@@ -285,8 +281,8 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             Attribute attribute = c.getAttribute();
             attributeId = IdWorker.getId();
             attribute.setId(attributeId);
-            attribute.setDataType(5);
-            attribute.setTargetType(2);
+            attribute.setTargetType(12);
+            attribute.setIchCategoryId(id);
             attribute.setStatus(0);
             attribute.setIsOpen(1);
             attribute.setPriority(99);
@@ -300,57 +296,9 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         contentFragmentMapper.insertSelective(c);
         List<Resource> resourceList = c.getResourceList();
         if(resourceList != null && resourceList.size()>0){
-            saveResource(resourceList,c.getId());
+            IchProjectServiceImpl ips = new IchProjectServiceImpl();
+            ips.saveResource(resourceList,c.getId());
         }
     }
-    /**
-     * 保存资源文件
-     * @param resList
-     * @param cId
-     */
-    private void saveResource(List<Resource> resList,Long cId) throws Exception{
 
-        for(int i = 0; i<resList.size();i++){
-            Resource resource = resList.get(i);
-            Long resourceId = resource.getId();
-            if(resourceId == null){
-                resourceId = IdWorker.getId();
-                resource.setId(resourceId);
-                resource.setStatus(0);
-                //判断上传的文件类型 0图片 1 视频 2 音频
-                String sType = FileType.fileType(resource.getUri());
-                if("图片".equals(sType)){
-                    resource.setType(0);
-                }
-                if("视频".equals(sType)){
-                    resource.setType(1);
-                }
-                if("音乐".equals(sType)){
-                    resource.setType(2);
-                }
-                if("文档".equals(sType)){
-                    resource.setType(3);
-                }
-                //保存resource
-                resourceMapper.insertSelective(resource);
-                ContentFragmentResource cfr = new ContentFragmentResource();
-                cfr.setId(IdWorker.getId());
-                cfr.setContentFragmentId(cId);
-                cfr.setResourceId(resourceId);
-                if(resource.getResOrder() !=null && !"".equals(resource.getResOrder())){
-                    cfr.setResOrder(resource.getResOrder());
-                }else{
-                    cfr.setResOrder(i+1);
-                }
-                cfr.setStatus(0);
-                //保存中间表
-                contentFragmentResourceMapper.insertSelective(cfr);
-            }else{
-                //更新资源文件
-                resourceMapper.updateByPrimaryKeySelective(resource);
-
-            }
-        }
-
-    }
 }

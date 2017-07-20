@@ -19,4 +19,5 @@ public interface ContentFragmentResourceMapper extends BaseMapper<ContentFragmen
     int updateByPrimaryKey(ContentFragmentResource record);
 
     List<ContentFragmentResource> selectByContentFragmentId(Long contentFragmentId);
+    int deleteByContentFragmentId(Long contentFragmentId);
 }

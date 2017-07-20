@@ -71,7 +71,12 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
         checkSaveField(contentFragment);//校验字段
         try{
             if(contentFragment.getId() == null){
+                Long attributeId = contentFragment.getAttributeId();
+                if(attributeId == 0 || attributeId == null){
+                    attributeId = saveAttribute(contentFragment);
+                }
                 contentFragment.setId(IdWorker.getId());
+                contentFragment.setAttributeId(attributeId);
                 contentFragment.setStatus(0);
                 contentFragmentMapper.insertSelective(contentFragment);
             }else{
@@ -88,6 +93,27 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         return contentFragment;
+    }
+
+    @Override
+    public void deleteContentFragment(Long id) throws Exception {
+        TransactionStatus transactionStatus = getTransactionStatus();
+        try{
+            ContentFragment contentFragment = contentFragmentMapper.selectByPrimaryKey(id);
+
+            contentFragmentResourceMapper.deleteByContentFragmentId(id);
+
+            contentFragmentMapper.deleteByPrimaryKey(id);
+            Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
+            if(attribute != null && (attribute.getTargetType() ==10 || attribute.getTargetType() ==11 || attribute.getTargetType() ==12)){
+                attributeMapper.deleteByPrimaryKey(contentFragment.getAttributeId());
+            }
+            commit(transactionStatus);
+        }catch (Exception e){
+            rollback(transactionStatus);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+
     }
 
     private void checkSaveField(ContentFragment contentFragment) throws Exception {
@@ -116,4 +142,25 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
 
         }
     }
+
+    /**
+     * 保存自定义字段
+     * @param contentFragment
+     * @return
+     * @throws Exception
+     */
+    private Long saveAttribute(ContentFragment contentFragment) throws Exception{
+        String targetType = 1+""+contentFragment.getTargetType();
+        Attribute attribute = contentFragment.getAttribute();
+        Long attributeId = IdWorker.getId();
+        attribute.setId(attributeId);
+        attribute.setStatus(0);
+        attribute.setTargetType(Integer.parseInt(targetType));
+        attribute.setIchCategoryId(contentFragment.getTargetId());
+        attribute.setIsOpen(1);
+        attribute.setPriority(99);
+        attributeMapper.insertSelective(attribute);
+        return attributeId;
+    }
+
 }

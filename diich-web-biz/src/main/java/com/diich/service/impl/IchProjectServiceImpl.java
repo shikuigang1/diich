@@ -246,7 +246,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     saveContentFragment(c,proID);
                 }
             }
-
         } else {
             ichProject.setUri(ichProject.getId() +".html");
             ichProjectMapper.updateByPrimaryKeySelective(ichProject);
@@ -257,7 +256,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                         //新增内容片断
                         saveContentFragment(contentFragment,ichProject.getId());
                     }else{//更新内容片断
-
                         contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
                         List<Resource> resourceList = contentFragment.getResourceList();
                         if(resourceList != null && resourceList.size()>0){
@@ -266,7 +264,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     }
                 }
             }
-
         }
         List<Works> worksList = ichProject.getWorksList();
         if(worksList !=null && worksList.size()>0){
@@ -275,7 +272,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 worksService.saveWorks(works);
             }
         }
-
         return ichProject;
     }
 
@@ -460,8 +456,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             Attribute attribute = c.getAttribute();
             attributeId = IdWorker.getId();
             attribute.setId(attributeId);
-            attribute.setTargetType(0);
             attribute.setStatus(0);
+            attribute.setTargetType(10);
+            attribute.setIchCategoryId(proID);
             attribute.setIsOpen(1);
             attribute.setPriority(99);
             attributeMapper.insertSelective(attribute);
@@ -576,9 +573,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
             }
         }
-
         if(status == 3){//提交
-
             List<Attribute> attributeList = null;
             try{
                 //根据targetType获取属性列表
@@ -650,9 +645,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
                 }
             }
-
         }
-
     }
 
     /**
