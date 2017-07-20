@@ -153,6 +153,7 @@ public class UserController extends BaseController<User> {
         try{
             user = userService.login(loginName,password);
             HttpSession session = request.getSession();
+            user.setPassword(null);
             session.setAttribute("CURRENT_USER",user);
         }catch (Exception e){
             return putDataToMap(e);
