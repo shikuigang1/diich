@@ -189,9 +189,14 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Transactional
     public IchProject saveIchProject(IchProject ichProject) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
-        checkIchProject(ichProject,2);//校验项目 2代表保存 3代表提交
+        if(ichProject.getStatus() != null && ichProject.getStatus() == 2){
+            checkIchProject(ichProject,2);//校验项目 2代表保存 3代表提交
+        }
+        if(ichProject.getStatus() != null && ichProject.getStatus() == 3){
+            checkIchProject(ichProject,3);//校验项目 2代表保存 3代表提交
+        }
         try {
-            saveProject(ichProject,2);//保存项目
+            saveProject(ichProject);//保存项目
             commit(transactionStatus);
         } catch (Exception e) {
             rollback(transactionStatus);
@@ -199,27 +204,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         }
         return ichProject;
     }
-
-    /**
-     * 提交项目
-     * @param ichProject
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public IchProject submitIchProject(IchProject ichProject) throws Exception {
-        TransactionStatus transactionStatus = getTransactionStatus();
-        checkIchProject(ichProject,3);//校验项目 2代表保存 3代表提交
-        try {
-            ichProject= saveProject(ichProject, 3);
-            commit(transactionStatus);
-        } catch (Exception e) {
-            rollback(transactionStatus);
-            throw new ApplicationException(ApplicationException.INNER_ERROR);
-        }
-        return ichProject;
-    }
-
 
     private void checkIchProject(IchProject ichProject,Integer status) throws Exception{
         //根据项目名称查询项目是否存在
@@ -229,14 +213,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     }
 
 
-    private IchProject saveProject(IchProject ichProject,Integer status) throws Exception{
+    private IchProject saveProject(IchProject ichProject) throws Exception{
         if(StringUtils.isEmpty(ichProject.getLang())){
             ichProject.setLang("chi");
         }
         if(ichProject.getId() == null) {
             long proID = IdWorker.getId();
             ichProject.setId(proID);
-            ichProject.setStatus(status);
             ichProject.setUri(proID +".html");
             ichProjectMapper.insertSelective(ichProject);
             List<ContentFragment> ls = ichProject.getContentFragmentList();

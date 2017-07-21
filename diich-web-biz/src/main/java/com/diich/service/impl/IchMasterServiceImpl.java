@@ -160,7 +160,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
      * @return
      */
     @Override
-    public void saveIchMaster(IchMaster ichMaster) throws Exception {
+    public IchMaster saveIchMaster(IchMaster ichMaster) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
         //检查当前传承人自定义属性是否已存在
         checkAttributeByName(ichMaster);
@@ -215,6 +215,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
+        return ichMaster;
     }
 
     /**
