@@ -459,7 +459,106 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     }
 
     /**
-     * 保存资源文件
+     * 根据项目名称查询项目是否存在
+     * @param ichProject
+     * @throws Exception
+     */
+    private void checkProjectByName(IchProject ichProject) throws Exception{
+        List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
+        List<ContentFragment> contentFragments = null;
+        for (ContentFragment contentFragment:contentFragmentList) {
+            if(contentFragment.getAttributeId() !=4){
+                continue;
+            }else{
+                contentFragments = contentFragmentMapper.selectByAttIdAndContent(contentFragment);
+                break;
+            }
+        }
+        if(ichProject.getId() == null){
+            if(contentFragments.size()>0){
+                throw new ApplicationException(ApplicationException.PARAM_ERROR);
+            }
+        }else{
+            if(contentFragments.size()>0){
+                Long targetId = contentFragments.get(0).getTargetId();
+                if(ichProject.getId()!=targetId){
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR);
+                }
+            }
+        }
+    }
+
+    /**
+     *  检查属性是否符合条件
+     * @param ichProject
+     */
+    private void checkAttribute(IchProject ichProject,Integer status) throws Exception{
+        List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
+        List<String> list = new ArrayList<>();
+        for (ContentFragment contentFragment:contentFragmentList) {
+            if (contentFragment.getAttributeId() !=0) {
+                continue;
+            }
+            checkDefineField(contentFragment,list);//校验自定义字段
+            list.add(contentFragment.getAttribute().getCnName());
+        }
+        if(status == 2){//保存
+            for (ContentFragment contentFragment:contentFragmentList) {
+                if(contentFragment.getAttributeId() !=0){
+                    //判断字段是否符合条件
+                    checkSaveField(contentFragment);
+                }
+            }
+        }
+        if(status == 3){//提交
+            List<Attribute> attributeList = null;
+            try{
+                //根据targetType获取属性列表
+                Attribute attribute = new Attribute();
+                attribute.setTargetType(0);
+                attributeList = attributeMapper.selectAttrListByCatIdAndTarType(attribute);
+            }catch (Exception e){
+                e.printStackTrace();
+                throw new ApplicationException(ApplicationException.INNER_ERROR);
+            }
+
+            for (Attribute attr :attributeList) {
+                checkSubmitField(attr,contentFragmentList);
+            }
+        }
+    }
+    /**
+     * 检查自定义字段是否重名
+     * @param contentFragment
+     * @throws Exception
+     */
+    private void checkDefineField(ContentFragment contentFragment,List<String> list) throws Exception {
+
+        Map map = new HashMap();
+        Attribute attribute = contentFragment.getAttribute();
+        String cnName = attribute.getCnName();
+        //判断是否重名
+        if(list.contains(cnName)){
+            throw new ApplicationException(ApplicationException.PARAM_ERROR);
+        }
+        //根据属性名称和targetType查询attribute表中是否存在该属性
+
+        map.put("cnName",cnName);
+        map.put("targetType",0);
+        List<Attribute> attributeList = null;
+        try{
+            attributeList = attributeMapper.selectAttrByNameAndTargetType(map);
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+
+        if(attributeList.size()>0){
+            throw new ApplicationException(ApplicationException.PARAM_ERROR,"自定义属性名称已存在");
+        }
+    }
+
+    /**
+     * 保存资源文件 项目  传承人  作品
      * @param resList
      * @param cId
      */
@@ -510,85 +609,24 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     }
 
     /**
-     * 根据项目名称查询项目是否存在
-     * @param ichProject
+     * 提交时对字段校验 项目  传承人  作品
+     * @param attribute
+     * @param contentFragmentList
      * @throws Exception
      */
-    private void checkProjectByName(IchProject ichProject) throws Exception{
-        List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
-        List<ContentFragment> contentFragments = null;
+    public void checkSubmitField(Attribute attribute, List<ContentFragment> contentFragmentList) throws Exception{
+
+        int count = 0;
         for (ContentFragment contentFragment:contentFragmentList) {
-            if(contentFragment.getAttributeId() !=4){
+            if(contentFragment.getAttributeId() == 0 || contentFragment.getAttributeId() == null){
                 continue;
-            }else{
-                contentFragments = contentFragmentMapper.selectByAttIdAndContent(contentFragment);
-                break;
             }
-        }
-        if(ichProject.getId() == null){
-            if(contentFragments.size()>0){
-                throw new ApplicationException(ApplicationException.PARAM_ERROR);
-            }
-        }else{
-            if(contentFragments.size()>0){
-                Long targetId = contentFragments.get(0).getTargetId();
-                if(ichProject.getId()!=targetId){
-                    throw new ApplicationException(ApplicationException.PARAM_ERROR);
+            if(attribute.getMaxLength() != null){
+                if(contentFragment.getContent() !=null && contentFragment.getContent().length() > attribute.getMaxLength()){
+                    throw  new ApplicationException(ApplicationException.PARAM_ERROR,attribute.getCnName().toString()+" 字段不符合要求");
                 }
             }
-        }
-    }
-
-    /**
-     *  检查属性是否符合条件
-     * @param ichProject
-     */
-    private void checkAttribute(IchProject ichProject,Integer status) throws Exception{
-        List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
-        if(status == 2){//保存
-            for (ContentFragment contentFragment:contentFragmentList) {
-                if(contentFragment.getAttributeId() !=0){
-                    //判断字段是否符合条件
-                    checkSaveField(contentFragment);
-
-                }else{
-                    checkDefineField(ichProject,contentFragment);
-                }
-            }
-        }
-        if(status == 3){//提交
-            List<Attribute> attributeList = null;
-            try{
-                //根据targetType获取属性列表
-                Attribute attribute = new Attribute();
-                attribute.setTargetType(0);
-                attributeList = attributeMapper.selectAttrListByCatIdAndTarType(attribute);
-            }catch (Exception e){
-                e.printStackTrace();
-                throw new ApplicationException(ApplicationException.INNER_ERROR);
-            }
-
-            for (Attribute attr :attributeList) {
-                checkSubmitField(attr,contentFragmentList);
-            }
-            for (ContentFragment contentFragment:contentFragmentList) {
-                   if (contentFragment.getAttributeId() ==0) {
-                       checkDefineField(ichProject,contentFragment);//校验自定义字段
-                   }
-            }
-        }
-    }
-
-    private void checkSubmitField(Attribute attribute, List<ContentFragment> contentFragmentList) throws Exception{
-
-            int count = 0;
-            for (ContentFragment contentFragment:contentFragmentList) {
-                if(attribute.getMaxLength() != null){
-                    if(contentFragment.getContent() !=null && contentFragment.getContent().length() > attribute.getMaxLength()){
-                        throw  new ApplicationException(ApplicationException.PARAM_ERROR,attribute.getCnName().toString()+" 字段不符合要求");
-                    }
-                }
-                if(attribute.getMinLength() > 0){//检查必填项是否已填
+            if(attribute.getMinLength() > 0){//检查必填项是否已填
                 if(contentFragment.getAttributeId() != attribute.getId()){
                     continue;
                 }
@@ -605,7 +643,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         }
     }
 
-    private void checkSaveField(ContentFragment contentFragment) throws Exception {
+    /**
+     * 保存时对字段的校验  项目  传承人  作品
+     * @param contentFragment
+     * @throws Exception
+     */
+    public void checkSaveField(ContentFragment contentFragment) throws Exception {
         Long attributeId = contentFragment.getAttributeId();
         if(attributeId != null){
             Attribute attribute = null;
@@ -631,37 +674,4 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         }
     }
 
-    /**
-     * 检查自定义字段是否重名
-     * @param ichProject
-     * @param contentFragment
-     * @throws Exception
-     */
-    private void checkDefineField(IchProject ichProject,ContentFragment contentFragment) throws Exception {
-
-        Map map = new HashMap();
-        List<String> list = new ArrayList<>();
-        Attribute attribute = contentFragment.getAttribute();
-        String cnName = attribute.getCnName();
-        //判断是否重名
-        if(list.contains(cnName)){
-            throw new ApplicationException(ApplicationException.PARAM_ERROR);
-        }
-        list .add(cnName);
-        //根据属性名称和项目id查询attribute表中是否存在该属性
-        if(ichProject.getId() != null){
-            map.put("cnName",cnName);
-            map.put("targetId",ichProject.getId());
-            List<Attribute> attributeList = null;
-            try{
-                attributeList = attributeMapper.selectAttrByNameAndProId(map);
-            }catch (Exception e){
-                throw new ApplicationException(ApplicationException.INNER_ERROR);
-            }
-
-            if(attributeList.size()>0){
-                throw new ApplicationException(ApplicationException.PARAM_ERROR);
-            }
-        }
-    }
 }
