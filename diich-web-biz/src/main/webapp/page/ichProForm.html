@@ -3,169 +3,196 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>我要申报-项目基础信息</title>
-    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/logo.png" media="screen" />
+    <title>我要申报-项目表单-基础信息</title>
     <link rel="stylesheet" href="../assets/css/common.css">
     <link rel="stylesheet" href="../assets/css/inputs.css">
     <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/jQuery.Form.js"></script>
     <script src="../assets/js/laydate.js"></script>
     <script src="../assets/js/system.js"></script>
     <script src="../assets/js/inputs.js"></script>
-    <script src="../js/ajaxfileupload.js"></script>
-    <script type="text/javascript" src="../js/jquery.i18n.properties-1.0.9.js"></script>
-    <script src="../js/i18n.js"></script>
-
-
-
+    <script src="../assets/js/login.js"></script>
+    <script src="../assets/js/inputs-project.js"></script>
 </head>
 
 <body style="background-color: rgb(245, 246, 247)">
 <div class="header fixed header_detail"></div>
 <!--//End header-->
 
+
+<body style="background-color: rgb(245, 246, 247)">
+<!--//End header-->
 <div class="container ipt_base">
-    <div class="project">
+    <div class="head">
         <div class="hd">
-            <div class="name">填写申报信息-土家银器</div>
+            <div class="name">填写申报信息-李秀丽（土家银器传人）</div>
             <div class="handle">
                 <a class="active" href="">保存</a>
-                <a class="active" href="">已保存</a>
                 <a class="empty" href="">预览</a>
                 <a class="empty" href="">提交</a>
+                <a class="disabled" href="">提交</a>
             </div>
         </div>
     </div>
     <!--//End project_name-->
 
     <div class="hd">
-        <div class="slide_nav">
-            <dl>
-                <dt><i class="checkbox"></i><span>基础信息</span></dt>
-            </dl>
+        <div class="slide">
+            <div class="item">
+                <div class="dt selected"><i class="icon selected"></i>基础信息</div>
+            </div>
             <!--//End 基础信息-->
-            <dl>
-                <dt><i class="checkbox"></i><span>项目内容</span><em></em></dt>
-                <dd>
-                    <ul>
-                        <li class="active"><a href=""><i class="checkbox"></i><span>基本内容</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>传承谱系</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>历史渊源</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>主要价值</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>基本特征</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>濒危状况</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>保护措施</span></a></li>
+            <div class="item">
+                <div class="dt"><i class="icon unselected"></i>项目内容<em class="arrow"></em></div>
+                <div class="dd">
+                    <ul id="menu">
+                       <!-- <li><i class="icon unselected"></i><span>项目内容</span></li>
+                        <li><i class="icon unselected"></i><span>传承谱系</span></li>
+                        <li><i class="icon unselected"></i><span>历史渊源</span></li>
+                        <li><i class="icon unselected"></i><span>主要价值</span></li>
+                        <li><i class="icon unselected"></i><span>基本特征</span></li>
+                        <li><i class="icon unselected"></i><span>濒危状况</span></li>
+                        <li><i class="icon unselected"></i><span>保护措施</span></li>
+                        <li><i class="icon unselected"></i><span>添加自定义项</span></li>-->
                     </ul>
-                </dd>
-            </dl>
-            <!--//End 项目内容-->
-            <dl>
-                <dt><i class="checkbox"></i><span>项目实践</span><em></em></dt>
-                <dd>
+                </div>
+            </div>
+            <!--//End 传承人内容-->
+            <div class="item status">
+                <div class="dd">
                     <ul>
-                        <li><a href=""><i class="checkbox"></i><span>花样或图案</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>工具</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>制作技术、方法、过程撒打算的</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>代表作品</span></a></li>
+                        <li><i class="icon selected"></i>完成模块内所有的字段</li>
+                        <li><i class="icon unselected"></i>未完成模块内的必填项</li>
+                        <li><i class="icon warning"></i>完成模块内所有的必填项<br>未完成某些选填项</li>
                     </ul>
-                </dd>
-            </dl>
-
-
+                </div>
+            </div>
+            <!--//End 基础信息-->
         </div>
+        <!--//slide End-->
+
         <div class="content">
-            <div class="title"><h2>基础信息</h2></div>
+            <div class="title">基础信息</div>
+            <div class="hint"><i class="dot"></i>标有 <em>*</em> 的为必填项 · 信息越完善，申报成功的几率越高</div>
             <!--//End-->
-            <div class="bd base_tips">
-                <p>· 标有<em class="red"> * </em>的为必填项</p>
-                <p>· 信息越完善，申报成功的几率越高</p>
+
+            <div class="st">
+                <h2>基础信息</h2>
             </div>
             <!--//End-->
-            <form class="base" action="">
-                <div class="con">
 
-                    <dl class="thematic">
-                        <dt><em class="red">*</em>题图</dt>
-                        <dd>
-                            <div class="file">
-                                <input type="file" id="file" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple="multiple" />
-                                <img src="assets/uploads/exp1.png" width="296" height="222"/>
-                                <span class="reupload">上传题图</span>
-                            </div>
-                            <p class="ipt_tips">建议比例：x*x，不符合的图片将进行裁剪；格式：jpg\png</p>
-                        </dd>
-                    </dl>
-                    <!--//End 题图z-->
-                    <dl>
-                        <dt><em class="red">*</em>分类</dt>
-                        <dd><a href="javascript:;" class="ipt" data-type="cate">一级分类</a><i class="arrow_right"></i></dd>
-                    </dl>
-                    <!--//End 分类-->
-                    <dl>
-                        <dt><em class="red">*</em>地域</dt>
-                        <dd>
-                            <input class="ipt" type="text">
-                            <p class="ipt_tips">多个地区用逗号隔开。如：中国江苏省苏州市，中国江苏省无锡市</p>
-                        </dd>
-                    </dl>
-                    <!--//End 地域-->
-                    <dl>
-                        <dt><em class="red">*</em>是否为中国文化部认定的非遗项目？</dt>
-                        <dd>
-                            <div class="bd judge">
-                                <span><i class="radio"></i>是</span>
-                                <span><i class="radio"></i>否</span>
-                            </div>
-                            <div class="bd judge_drop">
-                                <div class="item">
-                                    <p>别称</p>
-                                    <input id="calendar" value="">
-                                </div>
-                                <div class="item">
-                                    <p>认定级别</p>
-                                    <select>
-                                        <option value="1" >1</option >
-                                    </select>
-                                </div>
-                                <div class="item">
-                                    <p>类别编号</p>
-                                    <input type="text" value="">
-                                </div>
-                            </div>
-                        </dd>
-                    </dl>
-                    <!--//End 是否为中国文化部认定的非遗项目-->
-                    <dl class="brief">
-                        <dt><em class="red">*</em>简介</dt>
-                        <dd>
-                            <textarea name="" id="" cols="30" rows="10"></textarea>
-                        </dd>
-                    </dl>
-                    <!--//End 简介-->
-                    <div class="bd info">
-                        <dl>
-                            <dt><em class="red">*</em>拼音</dt>
-                            <dd><input type="text" class="ipt"></dd>
-                        </dl>
-                        <dl>
-                            <dt>别称</dt>
-                            <dd><input type="text" class="ipt"></dd>
-                        </dl>
-                        <dl>
-                            <dt>英文名</dt>
-                            <dd><input type="text" class="ipt"></dd>
-                        </dl>
-                        <dl>
-                            <dt>&nbsp;</dt>
-                            <dd><a href="" class="ipt ipt_add">+添加新信息</a></dd>
-                        </dl>
+            <form action="" class="bd horizontal">
+                <div class="main">
+                    <div class="group">
+                        <label class="label" for=""><em>*</em>分类</label>
+                        <div class="control">
+                            <div class="ipt w310" data-type="selectCate">一级分类</div>
+                        </div>
                     </div>
-                    <!--//End 添加信息部分-->
+                    <!--//End 分类-->
+                    <div class="group">
+                        <label class="label" for=""><em>*</em>题图</label>
+
+                        <div class="control">
+                            <div class="file_up">
+                                <span class="text">上传题图</span>
+                            </div>
+                            <div class="tips">建议比例：x*x，不符合的图片将进行裁剪；格式：jpg\png</div>
+                        </div>
+                    </div>
+                    <!--//End 题图-->
+                    <div class="group">
+                        <label class="label" for=""><em>*</em>地域</label>
+                        <div class="control">
+                            <select class="ipt w210" name="" id="1">
+                                <option>国家</option>
+                            </select>
+                            <select class="ipt w210" name="" id="2">
+                                <option>国家</option>
+                            </select>
+                            <select class="ipt w210" name="" id="3">
+                                <option>国家</option>
+                            </select>
+                            <div class="errors"><i></i>请填写地域</div>
+                        </div>
+                    </div>
+                    <!--//End 地域-->
+                    <div class="group inheritor">
+                        <label class="label" for=""><em>*</em>是否为自己申报传承人</label>
+                        <div class="control">
+                            <span class="radio"><i></i><input type="radio" name="">是</span>
+                            <span class="radio active"><i></i><input type="radio" name="">否</span>
+                        </div>
+                    </div>
+                    <div class="group" data-type="group-drop" style="display: none">
+                        <div class="group">
+                            <label class="label" for=""><em>*</em>认证时间</label>
+                            <div class="control">
+                                <input id="calendar" class="ipt w310" value="" name="time">
+                            </div>
+                        </div>
+                        <div class="group">
+                            <label class="label" for=""><em>*</em>认证级别</label>
+                            <div class="control">
+                                <select class="ipt w310" name="" id="">
+                                    <option value="1">1</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <label class="label" for=""><em>*</em>类别编号</label>
+                            <div class="control">
+                                <input class="ipt w310" value="" name="time">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--//End 是否为自己申报传承人-->
+                    <div class="group">
+                        <label class="label"><em>*</em>简介</label>
+                        <div class="control">
+                            <textarea name="" id="" cols="30" rows="10"></textarea>
+                            <div class="errors"><i></i>请填写简写</div>
+                        </div>
+                    </div>
+                    <!--//End 简介-->
+                    <div class="group">
+                        <label class="label"><em>*</em>拼音</label>
+                        <div class="control">
+                            <input type="text" class="ipt w562">
+                            <div class="errors"><i></i>请填写拼音</div>
+                        </div>
+                    </div>
+                    <!--//End 拼音-->
+                    <div class="group">
+                        <label class="label"><em>*</em>别称</label>
+                        <div class="control">
+                            <input type="text" class="ipt w562">
+                            <div class="errors"><i></i>请填写别称</div>
+                        </div>
+                    </div>
+                    <!--//End 别称-->
+                    <div class="group">
+                        <label class="label"><em>*</em>英文名</label>
+                        <div class="control">
+                            <input type="text" class="ipt w562">
+                            <div class="errors"><i></i>请填写英文名</div>
+                        </div>
+                    </div>
+                    <!--//End 英文名-->
                 </div>
-                <div class="bd save">
-                    <input type="submit" value="保存并下一步">
+                <!--//End-->
+                <div class="handle">
+                    <a href="">删除此项</a>
+                    <a class="active" href="">下一步</a>
+                    <a href="">跳过此项</a>
                 </div>
             </form>
+
+
         </div>
+
     </div>
 </div>
 
@@ -174,74 +201,21 @@
 <!--//End-->
 
 
-<div class="project_layer">
-    <div class="content">
-        <div class="title">选择项目类别</div>
-        <div class="items">
-            <ul>
-                <li><i class="radio" value="1" name="radio"></i>口头传说和表述</li>
-                <li><i class="radio" value="11" name="radio"></i>表演艺术</li>
-                <li><i class="radio" value="28" name="radio"></i>传统的手艺技能</li>
-                <li><i class="radio" value="55" name="radio"></i>社会风俗、利益、节庆</li>
-                <li><i class="radio" value="77" name="radio"></i>有关自然界和宇宙的只是和实践</li>
-            </ul>
-        </div>
-        <div class="confirm">
-            <a href="javascript:;" class="btn">确认</a>
-        </div>
-    </div>
-</div>
-<!---//End 点击一级分类弹出框-->
 
-<aside class="mask works-mask">
-    <div class="mask-content">
-        <p class="del-p">您确定要删除作品图片吗？</p>
-        <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
-    </div>
-</aside>
-<!--//End 上传图片确认删除提示框-->
+
 
 
 
 </body>
 <script>
-    $(function () {
+    $(function() {
         $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
-        projectFrom.init();
     });
+    //时间
     !function(){
         laydate.skin('molv');//切换皮肤，请查看skins下面皮肤库
         laydate({elem: '#calendar'});//绑定元素
     }();
-
-
-    function filechange(obj) {
-
-        $.ajaxFileUpload({
-            url : '../user/uploadFile',
-            secureuri : false,
-            fileElementId : obj,
-            dataType : 'json',
-            success : function(data) {
-
-                alert(JSON.stringify(data));
-                if(data.code != 0) {
-                    alert(data.msg);
-                    return;
-                }
-                var arr = data.data;
-                for(var i = 0; i < arr.length; i ++) {
-                    var $img = $('<img style="width: 50px;"/>');
-                    $img.attr('src', arr[i]);
-                    $('#img_block').append($img);
-                }
-            },
-            error : function(e) {
-                alert(e.responseText);
-            }
-        });
-    }
-
-
+    projectBaseInfo.init();
 </script>
 </html>
