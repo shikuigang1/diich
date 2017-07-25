@@ -36,7 +36,7 @@ var upload={
                 },
                 success: function (data) {
                     if(callback || callback!='undefinied'){
-                        callback(data.data[0]);
+                        callback(data);
                         bar.width('');
                         parent.addClass('active');
                         progress.hide();
@@ -53,6 +53,181 @@ var upload={
 };
 
 
+//选择地域
+var selectArea={
+    init:function (type,callback) {
+        this.bind(type,callback);
+    },
+    template:function (data) {
+        var _dom='';
+        if(data.length!=0){
+            for(var i=0;i<data.length;i++){
+                _dom+='<li data-code="'+data[i].code+'"><span>'+data[i].name+'</span></li>';
+            }
+            return '<ul>'+_dom+'</ul>';
+        }else {
+            return '';
+        }
+    },
+    initDom:function (data) {//获取国家
+        var temp='<div class="tab">' +
+            '  <span style="display: block;"><strong>请选择</strong><i class="icon"></i><em class="icon"></em></span>' +
+            '  <span><strong>请选择</strong><i class="icon"></i></span>' +
+            '  <span style="margin-right:0"><strong>请选择</strong><i class="icon"></i></span>' +
+            '</div>' +
+            '<div class="con">' +
+            '  <div class="items scrollbar" data-type="level1"" style="display:block">'+ this.template(data) +'</div>'+
+            '  <div class="items scrollbar" data-type="level2""></div>'+
+            '  <div class="items scrollbar" data-type="level3""></div>'+
+            '</div>';
+        return temp;
+    },
+    bind:function (type,callback) {
+        var _this=this;
+        var result=[];
+        var resultText=[];
+        var area=$('#area');
+        var select=$('#select');
+        var selected=$('#selected');
+        var isFirst=true;
+        $('div[data-type=selectArea]').on('click',function () {
+            if(isFirst){
+                isFirst=false;
+
+                // if(type==1){//0是多选  1是单选
+                //
+                // }
+                var el=$(this);
+                var data2=[];
+                var data3=[];
+                var store=''; //临时
+                var storeText=''; //临时
+                //初始化dom
+                select.append(_this.initDom(dic_arr_city)).show();
+                area.show();
+                var tab= select.find('.tab span');
+                var items= select.find('.items');
+                var items1=items.eq(0);
+                var items2=items.eq(1);
+                var items3=items.eq(2);
+
+                //1.点击第一个
+                items1.on('click','li',function () {
+                    var _index=$(this).index();
+                    var _text=$(this).text();
+                    var _code=$(this).attr('data-code');
+                    data2=dic_arr_city[_index].children;
+                    items.hide().html('');
+                    items2.html('').append(_this.template(data2)).show();
+                    isTab(data2.length,0,_text,_code);
+                });
+
+                //2.点击第二个
+                items2.on('click','li',function () {
+                    var _index=$(this).index();
+                    var _text=$(this).text();
+                    var _code=$(this).attr('data-code');
+                    data3=data2[_index].children;
+                    items.hide().html('');
+                    items3.html('').append(_this.template(data3)).show();
+                    isTab(data3.length,1,_text,_code);
+                });
+
+                //2.点击第三个
+                items3.on('click','li',function () {
+                    var _text=$(this).text();
+                    var _code=$(this).attr('data-code');
+                    tab.removeClass('selected');
+                    isTab(0,2,_text,_code);
+                });
+
+                //tab标签状态
+                function isTab(size,index,text,code) {//a索引  b选中的文字 c是code值
+                    tab.removeClass('selected');
+                    tab.eq(index).addClass('active selected').find('strong').text(text);
+                    tab.eq(index+1).show();
+                    store+=code+',';
+                    storeText+=text;
+                    storeText=_this.unique(storeText);
+                    //当没有子数据的时候赋值给result
+                    if(size==0 && index==0){
+                        assignValue();
+                        isFirst=true;
+                    }
+                    //当选择区县的时候把数据赋值给result
+                    if(index==2){
+                        assignValue();
+                        isFirst=true;
+                    }
+
+                    function assignValue() {
+                        result.push(store);
+                        resultText.push(storeText);
+                        createSelected(storeText);
+                        select.html('').hide();
+                        el.attr('value',result);
+                        // console.log(_this.unique(result));
+                        if(callback && callback!='undefined'){
+                            callback(result);
+                        }
+                    }
+                }
+
+                //创建选中元素
+                function createSelected(data) {
+                    selected.append('<li><span>'+data+'<i class="icon"></i></span></li>');
+                }
+            }
+
+        });
+
+        //删除选中的数据
+        selected.on('click','span',function () {
+            var _index=$(this).index();
+            $(this).parents('li').remove();
+            result.splice(_index,1);
+            if(callback && callback!='undefined'){
+                callback(result);
+            }
+        });
+
+    },
+    unique:function (val) {
+        var newStr="";
+        for(var i=0;i<val.length;i++){
+            if(newStr.indexOf(val[i])==-1){
+                newStr+=val[i];
+            }
+        }
+        return newStr;
+    }
+};
+
+var slideBar={
+    init:function () {
+        this.effect();
+    },
+    effect:function () {
+        var slide=$('.ipt_base .slide');
+        var dt=slide.find('.dt');
+        var dd=slide.find('.dd');
+        dd.find('li:last-child').css('margin-bottom','0');
+        //点击dt 展开收起
+        dt.on('click',function () {
+            if($(this).siblings('.dd').length>0){
+                $(this).siblings('.dd').slideToggle(100);
+            }
+        });
+
+        //点击子分类
+        dd.on('click','li',function () {
+            $(this).addClass('active').siblings('li').removeClass('active');
+        });
+    }
+};
+
+
+
 //项目基础信息
 var projectBaseInfo = {
     init:function () {
@@ -66,9 +241,6 @@ var projectBaseInfo = {
         this.selectCate.init('div[data-type=selectCate]',_data);
         this.declare();
         this.uploadImgage();
-
-        //加载菜单数据
-        loadPageData(0);
     },
     selectCate:{//选择一级分类
         init:function (obj,data) {
@@ -155,8 +327,8 @@ var projectBaseInfo = {
     },
     uploadImgage:function () {//上传图片
         var el=$('.horizontal .group .control .file_up');
-        upload.submit(el,1,'../user/uploadFile',function (data) {
-            $('.preview').attr('src',data).show();
+        upload.submit(el,1,'http://localhost:8005/admin/upload',function (data) {
+            $('.preview').attr('src','/uploads/'+data.image_url).show();
         });
         $('._token').val($('meta[name=token]').attr('content'));
     }
@@ -166,7 +338,6 @@ var projectBaseInfo = {
 //传承人认证
 var inheritorPage={
     init:function () { //el元素   url 上传地址
-        this.change();
         this.uploadImage();
     },
     template:function () {
@@ -201,39 +372,12 @@ var inheritorPage={
         var temp=$('#temp');
         temp.html('').append(this.template());
     },
-    change:function () {//改变数据 和 渲染dom
-        var _this=this;
-        var slide=$('.ipt_base .slide');
-        var dt=slide.find('.dt');
-        var dd=slide.find('.dd');
-        var content=$('.ipt_base .content');
-        var st=content.find('.st h2');
-
-        //点击dt 展开收起
-        dt.on('click',function () {
-            if($(this).siblings('.dd').length>0){
-                $(this).toggleClass('active');
-                $(this).siblings('.dd').slideToggle(100);
-            }
-        });
-
-        //点击子分类
-        dd.on('click','li',function () {
-            _this.create();
-            st.text($(this).text());
-            $(this).addClass('active').siblings('li').removeClass('active');
-            _this.uploadImage();
-        });
-
-
-
-    },
     uploadImage:function () {
         var _images=$('#images');
         //
         var el=$('.ipt_base .content .edit .images .handle .file_up .icon');
-        upload.submit(el,1,'../user/uploadFile',function (data) {
-            _images.find('.handle').before(templateItem(data));
+        upload.submit(el,1,'http://localhost:8005/admin/upload',function (data) {
+            _images.find('.handle').before(templateItem('/uploads/'+data.image_url));
             isItemStatus();
         });
         //赋值token  有用则留无用则删除
@@ -261,3 +405,15 @@ var inheritorPage={
     }
 };
 
+
+
+$(function () {
+    //选择地址 0是选择地址的类型 0是多选 1是单选
+    selectArea.init(0,function (data) {
+        console.log(data);
+    });
+
+    //左侧菜单
+    slideBar.init();
+
+});
