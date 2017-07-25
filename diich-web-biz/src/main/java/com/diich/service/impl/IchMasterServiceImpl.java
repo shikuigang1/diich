@@ -94,6 +94,22 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         return  ichMaster;
     }
 
+    @Override
+    public IchMaster getIchMasterById(Long id) throws Exception {
+        IchMaster ichMaster =null;
+        try{
+            ichMaster = ichMasterMapper.selectByMasterById(id);
+            if(ichMaster != null){
+                //内容片断列表
+                List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
+                ichMaster.setContentFragmentList(contentFragmentList);
+            }
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return ichMaster;
+    }
+
 
     /**
      * 根据条件查询分页列表
@@ -173,7 +189,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         return ichMaster;
     }
 
-
     private IchMaster saveMaster(IchMaster ichMaster)throws Exception{
         if(StringUtils.isEmpty(ichMaster.getLang())){
             ichMaster.setLang("chi");
@@ -203,6 +218,9 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                     }else{
                         //更新
                         contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                        if(contentFragment.getAttribute().getTargetType() == 11){//更新自定义属性的名称
+                            attributeMapper.updateByPrimaryKeySelective(contentFragment.getAttribute());
+                        }
                         List<Resource> resourceList = contentFragment.getResourceList();
                         if(resourceList != null && resourceList.size()>0){
                             IchProjectServiceImpl ips = new IchProjectServiceImpl();
@@ -220,6 +238,21 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             }
         }
         return ichMaster;
+    }
+
+    /**
+     * 预览
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public String preview(Long id) throws Exception {
+        IchMaster ichMaster = getIchMasterById(id);
+        getIchMaster(ichMaster);//返回前端需要的特定数据
+        String fileName = PropertiesUtil.getString("freemarker.masterfilepath")+"/"+ichMaster.getId().toString();
+        String uri = buildHTML("master.ftl", ichMaster, fileName);
+        return uri;
     }
     /**
      * 生成静态页面
@@ -299,7 +332,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         Map<String,Object> allMap = new HashedMap();
         Map<String,Object> headMap = new HashedMap();           //放公共数据
         Set<Resource> imgdist = new HashSet<>();                //去重后的所有图片集合
-        Set<Resource> vediodist = new HashSet<>();              //去重后的所有视频集合
+        Set<Resource> videosdist = new HashSet<>();              //去重后的所有视频集合
         List<ContentFragment> ContentFragmentList = ichMaster.getContentFragmentList();
         for (ContentFragment contentFragment:ContentFragmentList) {
             Map<String, Object> map = new HashMap<>();          //存放每个模块的图片和视频
@@ -319,7 +352,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                     }
                     if (resource.getType() == 1) {
                         video.add(resource);
-                        vediodist.addAll(video);
+                        videosdist.addAll(video);
                     }
                 }
             }
@@ -340,7 +373,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             list.add(map);
         }
         allMap.put("imgs",imgdist);
-        allMap.put("videos",vediodist);
+        allMap.put("videos",videosdist);
         headMap.put("lang",ichMaster.getLang());
         ichMaster.setJson(JSONObject.toJSON(list).toString());
         ichMaster.setJsonAll(JSONObject.toJSON(allMap).toString());

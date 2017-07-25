@@ -18,6 +18,8 @@ public interface IchMasterMapper extends BaseMapper<IchMaster> {
 
     IchMaster selectByPrimaryKey(Long id);
 
+    IchMaster selectByMasterById(Long id);
+
     int updateByPrimaryKeySelective(IchMaster record);
 
     int updateByPrimaryKey(IchMaster record);

@@ -67,7 +67,7 @@ public class IchProjectController extends BaseController<IchProject> {
     }
 
     /**
-     * 获取的只有项目的信息
+     * 获取的只有项目的信息  对status不做限制
      * @param request
      * @param response
      * @return
@@ -165,6 +165,34 @@ public class IchProjectController extends BaseController<IchProject> {
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(ls);
     }
+
+    /**
+     * 预览
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("preview")
+    @ResponseBody
+    public Map<String, Object> preview(HttpServletRequest request, HttpServletResponse response) throws Exception{
+
+        String id = request.getParameter("params");
+        if(id == null || "".equals(id)) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        String uri = null;
+        try{
+            uri = ichProjectService.preview(Long.parseLong(id));
+        }catch (Exception e){
+            return putDataToMap(e);
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(uri);
+    }
+
+
     @RequestMapping("/getImage")
     public void exportQRCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String id=request.getParameter("id");
