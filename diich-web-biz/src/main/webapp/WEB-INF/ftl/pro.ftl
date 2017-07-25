@@ -291,7 +291,7 @@
                                     District：
                                 </#if>
                             </strong>
-                                <#assign codeList = cf.content?split(";")>
+                                <#assign codeList = cf.content?split(",")>
                                 <#list codeList as s>
                                     <em class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${s}</em>
                                     <#if s_index+1 < (codeList?size)>
