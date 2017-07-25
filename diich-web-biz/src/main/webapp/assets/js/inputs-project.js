@@ -1,5 +1,5 @@
 //添加项目相关内容
-var ichproject={};
+var basticTemplate ="";
 
 //页面渲染
 function renderpage(){
@@ -14,7 +14,8 @@ function checkPageInputs(){
 //渲染左侧菜单页面
 function renderLeftMenu(bytype) {
     //初始化页面
-    loadPageData(bytype);
+    var data = loadPageData(bytype,0);
+    initpage(data);
 }
 
 function initpage(data){
@@ -38,31 +39,42 @@ function initpage(data){
     });
     //初始化 右侧内容
 }
+//通过选中分类初始化 项目实战菜单
+function initmenu2(targetType,categoryId) {
+    var data = loadPageData(targetType,categoryId);
+    getDataByCateGoryId(data);
+}
 
 //请求服务器 获取 属性类型 targetType 标示类型
-function loadPageData(targetType) {
+function loadPageData(targetType,categoryId) {
+
+    var data ;
     $.ajax({
         type: "POST",
         url: "../ichCategory/getAttributeList",
-        data:{targetType:targetType,categoryId:0} ,
+        data:{targetType:targetType,categoryId:categoryId} ,
         dataType: "json",
+        async:false,
         complete: function () { },
         success: function (result) {
             console.log(result);
-            initpage(result);
+            if(result.code==0){
+                data = result;
+            }
         },
         error: function (result, status) {
         }
     });
+    return data;
 }
 //动态获取实践展示 根据分类id
 function getDataByCateGoryId(data){
-    $("#submenu").empty();
+    $("#menu2").empty();
     $.each(data.data,function (index,obj) {
         if(getLang()=="zh-CN"){
-            $("#submenu").append("<li><li class=\"icon unselected\"></i><span>"+obj.cnName+"</span></li>");
+            $("#menu2").append("<li><li class=\"icon unselected\"></i><span>"+obj.cnName+"</span></li>");
         }else{
-            $("#submenu").append("<li><li class=\"icon unselected\"></i><span>"+obj.enName+"</span></li>");
+            $("#menu2").append("<li><li class=\"icon unselected\"></i><span>"+obj.enName+"</span></li>");
         }
     });
 }
@@ -83,9 +95,7 @@ function loadContentFragmentById(cid){
 }
 
 function saveandnext() {
-
     //判断
-
     //修改状态
     //获取当前选中状态的按钮
      $(".ipt_base .slide .item .dd").find('li.active').next().click();
@@ -149,9 +159,11 @@ function  getContentFragmentByID(attid) {
 }
 
 function saveIchProject() {
-    //组织对象 但是不处理 对象id
+    //本地缓存获取对象
+    var ichProject = localStorage.getItem("ichProject");
+    if(typeof (ichProject)=='undefined'){
 
-
+    }
 
     //获取本地
     $.ajax({
