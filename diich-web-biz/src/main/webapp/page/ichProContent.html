@@ -3,16 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <title>我要申报-项目内容</title>
+    <title>我要申报-传承人表单-基础信息</title>
     <link rel="stylesheet" href="../assets/css/common.css">
     <link rel="stylesheet" href="../assets/css/inputs.css">
     <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/laydate.js"></script>
     <script src="../assets/js/system.js"></script>
     <script src="../assets/js/inputs.js"></script>
     <script src="../assets/js/login.js"></script>
-    <script type="text/javascript" src="../js/jquery.i18n.properties-1.0.9.js"></script>
-    <script src="../js/i18n.js"></script>
+    <script src="../assets/js/inputs-project.js"></script>
 </head>
 
 <body style="background-color: rgb(245, 246, 247)">
@@ -20,12 +19,11 @@
 <!--//End header-->
 
 <div class="container ipt_base">
-    <div class="project">
+    <div class="head">
         <div class="hd">
             <div class="name">填写申报信息-土家银器</div>
             <div class="handle">
                 <a class="active" href="">保存</a>
-                <a class="active" href="">已保存</a>
                 <a class="empty" href="">预览</a>
                 <a class="empty" href="">提交</a>
             </div>
@@ -34,364 +32,98 @@
     <!--//End project_name-->
 
     <div class="hd">
-        <div class="slide_nav">
-            <dl>
-                <dt><i class="checkbox"></i><span>基础信息</span></dt>
-            </dl>
+        <div class="slide">
+            <div class="item">
+                <div class="dt"><i class="icon selected"></i>基础信息</div>
+            </div>
             <!--//End 基础信息-->
-            <dl>
-                <dt><i class="checkbox"></i><span>项目内容</span><em></em></dt>
-                <dd>
-                    <ul>
-                        <li class="active"><a href=""><i class="checkbox"></i><span>基本内容</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>传承谱系</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>历史渊源</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>主要价值</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>基本特征</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>濒危状况</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>保护措施</span></a></li>
+            <div class="item">
+                <div class="dt"><i class="icon unselected"></i>非遗项目内容<em class="arrow"></em></div>
+                <div class="dd">
+                    <ul id="menu">
+                       <!-- <li><i class="icon unselected"></i><span>简历</span></li>
+                        <li><i class="icon unselected"></i><span>传承历史和现状</span></li>
+                        <li><i class="icon unselected"></i><span>师徒关系</span></li>
+                        <li><i class="icon unselected"></i><span>领域活动</span></li>
+                        <li><i class="icon unselected"></i><span>记忆特征</span></li>
+                        <li><i class="icon unselected"></i><span>个人成就</span></li>-->
                     </ul>
-                </dd>
-            </dl>
-            <!--//End 项目内容-->
-            <dl>
-                <dt><i class="checkbox"></i><span>项目实践</span><em></em></dt>
-                <dd>
-                    <ul>
-                        <li><a href=""><i class="checkbox"></i><span>花样或图案</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>工具</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>制作技术、方法、过程撒打算的</span></a></li>
-                        <li><a href=""><i class="checkbox"></i><span>代表作品</span></a></li>
+                </div>
+            </div>
+
+            <div class="item">
+                <div class="dt"><i class="icon unselected"></i>具体实践<em class="arrow"></em></div>
+                <div class="dd">
+                    <ul id="submenu">
+
                     </ul>
-                </dd>
-            </dl>
-            <!--//End 项目实践-->
-
-            <div class="status">
-                <div class="item"><i class="icon checkbox1"></i><span>完成模块内所有的字段</span></div>
-                <div class="item"><i class="icon checkbox2"></i><span>未完成模块内的必填项</span></div>
-                <div class="item"><i class="icon checkbox3"></i><span>完成模块内所有的必填项<br>未完成某些选填项</span></div>
+                </div>
             </div>
 
+            <!--//End 传承人内容-->
+            <div class="item status">
+                <div class="dd">
+                    <ul>
+                        <li><i class="icon selected"></i>完成模块内所有的字段</li>
+                        <li><i class="icon unselected"></i>未完成模块内的必填项</li>
+                        <li><i class="icon warning"></i>完成模块内所有的必填项<br>未完成某些选填项</li>
+                    </ul>
+                </div>
+            </div>
+            <!--//End 基础信息-->
         </div>
-        <div class="content ancestry">
-            <div class="title"><h2>项目内容</h2></div>
-            <!--//End-->
-            <div class="bd base_tips">
-                <p>· 标有<em class="red"> * </em>的为必填项</p>
-                <p>· 信息越完善，申报成功的几率越高</p>
+        <!--//slide End-->
+
+        <div class="content">
+            <div class="title">传承人内容</div>
+            <div class="hint"><i class="dot"></i>标有 <em>*</em> 的为必填项    · 信息越完善，申报成功的几率越高</div>
+            <div class="st"><h2>简历</h2><span>查看填写示例</span></div>
+
+            <div id="temp">
+                <div class="edit">
+                    <form action="">
+                        <div class="text">
+                            <textarea name="" id="" cols="30" rows="10">示例效果，点击菜单就创建新的DOM</textarea>
+                        </div>
+                        <div class="images">
+                            <div class="item">
+                                <img src="assets/uploads/exp1.png" alt="">
+                                <input type="text" name="text" placeholder="请输入标题">
+                            </div>
+                            <div class="handle">
+                                <div class="add add_image">
+                                    <span class="icon"><i></i></span>
+                                    <span>添加图片</span>
+                                </div>
+                                <div class="add add_video">
+                                    <span class="icon"><i></i></span>
+                                    <span>添加视频</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--//edit End-->
+                <div class="buttons">
+                    <a href="">删除此项</a>
+                    <a class="next" href="javascript:saveandnext()">下一步</a>
+                    <a href="">跳过此项</a>
+                </div>
             </div>
-            <!--//End-->
-
-            <section class="card" attr-id="35">
-                <div class="bd head"><em class="red">*</em><span>基本内容</span><a href="javascript:;" data-type="modalExample">查看填写示例</a></div>
-                <div class="textarea">
-                    <textarea id="base_content" name="basecontent" placeholder="输入内容介绍..."></textarea>
-                </div>
-                <div class="thumb">
-                    <div class="item handle_up">
-                        <ul class="bd">
-                            <li class="img imgfile">
-                                <span><i class="icon"></i></span>
-                                <input type="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
-                            </li>
-                            <li class="video videofile">
-                                <span><i class="icon"></i><em class="icon arrow"></em></span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-            <!--//End 基本内容-->
-
-            <section class="card" attr-id="36">
-                <div class="bd head"><em class="red">*</em><span>传承谱系</span><a href="javascript:;" data-type="modalExample">查看填写示例</a></div>
-                <div class="textarea">
-                    <textarea name="" placeholder="输入内容介绍..."></textarea>
-                </div>
-                <div class="thumb">
-                    <div class="item handle_up">
-                        <ul class="bd">
-                            <li class="img imgfile">
-                                <span><i class="icon"></i></span>
-                                <input type="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
-                            </li>
-                            <li class="video videofile">
-                                <span><i class="icon"></i><em class="icon arrow"></em></span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-            <!--//End 传承谱系-->
-
-            <section class="card" attr-id="34">
-                <div class="bd head"><em class="red">*</em><span>历史渊源</span><a href="javascript:;" data-type="modalExample">查看填写示例</a></div>
-                <div class="textarea">
-                    <textarea name="" placeholder="输入内容介绍..."></textarea>
-                </div>
-                <div class="thumb">
-                    <div class="item handle_up">
-                        <ul class="bd">
-                            <li class="img imgfile">
-                                <span><i class="icon"></i></span>
-                                <input type="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
-                            </li>
-                            <li class="video videofile">
-                                <span><i class="icon"></i><em class="icon arrow"></em></span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-            <!--//End 历史渊源-->
-
-            <section class="card" attr-id="38">
-                <div class="bd head"><em class="red">*</em><span>主要价值</span><a href="javascript:;" data-type="modalExample">查看填写示例</a></div>
-                <div class="textarea">
-                    <textarea name="" placeholder="输入内容介绍..."></textarea>
-                </div>
-                <div class="thumb">
-                    <div class="item handle_up">
-                        <ul class="bd">
-                            <li class="img imgfile">
-                                <span><i class="icon"></i></span>
-                                <input type="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
-                            </li>
-                            <li class="video videofile">
-                                <span><i class="icon"></i><em class="icon arrow"></em></span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-            <!--//End 主要价值-->
-
-            <section class="card" attr-id="37">
-                <div class="bd head"><em class="red">*</em><span>基本特征</span><a href="javascript:;" data-type="modalExample">查看填写示例</a></div>
-                <div class="textarea">
-                    <textarea name="" placeholder="输入内容介绍..."></textarea>
-                </div>
-                <div class="thumb">
-                    <div class="item handle_up">
-                        <ul class="bd">
-                            <li class="img imgfile">
-                                <span><i class="icon"></i></span>
-                                <input type="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
-                            </li>
-                            <li class="video videofile">
-                                <span><i class="icon"></i><em class="icon arrow"></em></span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-            <!--//End 基本特征-->
-
-            <section class="card" attr-id="39">
-                <div class="bd head"><em class="red">*</em><span>濒危状况</span><a href="javascript:;" data-type="modalExample">查看填写示例</a></div>
-                <div class="textarea">
-                    <textarea name="" placeholder="输入内容介绍..."></textarea>
-                </div>
-                <div class="thumb">
-                    <div class="item handle_up">
-                        <ul class="bd">
-                            <li class="img imgfile">
-                                <span><i class="icon"></i></span>
-                                <input type="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
-                            </li>
-                            <li class="video videofile">
-                                <span><i class="icon"></i><em class="icon arrow"></em></span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-            <!--//End 濒危状况-->
-
-            <section class="card" attr-id="40">
-                <div class="bd head"><em class="red">*</em><span>保护措施</span><a href="javascript:;" data-type="modalExample">查看填写示例</a></div>
-                <div class="textarea">
-                    <textarea name="" placeholder="输入内容介绍..."></textarea>
-                </div>
-                <div class="thumb">
-                    <div class="item handle_up">
-                        <ul class="bd">
-                            <li class="img imgfile">
-                                <span><i class="icon"></i></span>
-                                <input type="file" accept="image/jpg,image/jpeg,image/png,image/bmp">
-                            </li>
-                            <li class="video videofile">
-                                <span><i class="icon"></i><em class="icon arrow"></em></span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-            <!--//End 保护措施-->
-
-
-            <div class="bd add_card">
-                <a href="" data-type="addCard">+添加新信息</a>
-            </div>
-            <!--//End 添加新信息-->
-
-            <div class="bd save">
-                <a href="javascript:void(0)" onclick="save()">保存并下一步</a>
-            </div>
-
         </div>
-        <!--//End 传承谱系-->
+
     </div>
 </div>
-
-
 <div class="footer"></div>
 <!--//End-->
 
-
-<div class="project_layer">
-    <div class="content">
-        <div class="title">选择项目类别</div>
-        <div class="items">
-            <ul>
-                <li><i class="radio"></i>口头传说和表述</li>
-                <li><i class="radio"></i>表演艺术</li>
-                <li><i class="radio"></i>传统的手艺技能</li>
-                <li><i class="radio"></i>社会风俗、利益、节庆</li>
-                <li><i class="radio"></i>有关自然界和宇宙的只是和实践</li>
-            </ul>
-        </div>
-        <div class="confirm">
-            <a href="javascript:;" class="btn">确认</a>
-        </div>
-    </div>
-</div>
-
-<!--//End 一级分类-->
-
-
-<div class="modal_example">
-    <div class="content">
-        <span class="close"></span>
-        <div class="title">基本内容（龚扇）</div>
-        <div class="main scrollbar">
-            <p>宣纸生产历史悠久，是传统手工纸的典型代表。宣纸以榆科落叶乔木青檀皮和精选沙田稻草为原料，先分别制成皮料浆和草料浆，然后按不同的比例混合，添加纸药(猕猴桃藤汁)抄制不同品种的宣纸。整个生产过程有100多道工序，主要包括：</p>
-            <p>1、皮料制作工序：</p>
-            <p>砍条、蒸料、浸泡、剥皮、晒干、水浸、渍灰、腌沤、灰蒸、踩皮、腌置、踩洗、碱蒸、洗涤、撕选、摊晒、碱蒸、洗涤、摊晒成燎皮、鞭皮、碱蒸、洗皮、压榨、拣皮、做胎、选皮、舂料、切皮、踩洗、淘洗、漂白成檀皮纤维料</p>
-            <p>2、草料制作工序：</p>
-            <p>选草、切草、捣草(破节)、埋浸、洗涤、渍灰、堆积、洗涤、日光晒干成草坯、蒸煮、洗涤、日光摊晒、蒸煮、洗涤、日光摊晒制成燎草、鞭草、舂料、洗涤、漂白成草纤维料</p>
-            <p>3、配料：</p>
-            <p>将草纤维料与檀皮纤维料按一定比例混合，棉料配比是40%皮料+60%草料，净皮为60%皮料+40%草料，特种净皮是80%皮料+20%草料，纯皮为100%皮料。再经筛选、打匀、洗涤，制成混合纸浆。</p>
-            <p>4、制纸：</p>
-            <p>将混合纸浆配水，配胶(加猕猴桃藤汁)，再经捞纸、压榨、焙纸、选纸、剪纸、包装为成品。</p>
-            <p>宣纸成品要求达到纸质绵韧、手感润柔，纸面平整、有隐约竹帘纹，切边应整齐洁净，纸面不许有折子、裂口、洞眼、沙粒和附着物等瑕疵。</p>
-        </div>
-    </div>
-</div>
-<!--//End 基本内容-->
 </body>
 <script>
     $(function () {
         $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
-        ancestryPgae.init();
+        //首先要获取 添加的类型 默认 是项目 值为0
+        renderLeftMenu(0);
     });
-    
-    function  save() {
-        //属性id
-        var ich={}; //主对象
-        var attr={};//contentFragment 内部属性对象
 
-        var contentFragmentList=[];
-        var contentFragment={};
-
-        var resourceList=[];
-        var resource={};
-
-        //动态组织数据
-        $("section").each(function (index,obj) {
-                //区分自定义 和 本身 内容
-                if(typeof ($(this).attr("attr-id"))=='undefined'){
-                    //自定义
-                    contentFragment.attributeId = 0;
-                    attr={};
-                    attr.id=0;
-                    attr.cnName=$(this).find("input").val();
-                    attr.dataType=5;//默认图文信息
-
-                }else{
-                    contentFragment.attributeId=$(this).attr("attr-id");
-                    attr.dataType=5;//默认图文信息
-                }
-
-                contentFragment.content=$(this).find("textarea").val();
-                contentFragment.attribute =attr;
-
-                //获取资源列表
-                if($(this).find("div .item").length>1){
-                    var length = $(this).find("div .item").length;
-                    var _this=this;
-                    $(this).find("div .item").each(function (i,o) {
-                        if(i < length-1){
-                            var img = $($(_this).find("div .item")[i]).find("span").first();
-
-                            //alert(img.toString()+"---"+$(img).attr("")+"---"+img.tagName+"=="+$(img).html());
-                            //alert(img.attr("src"));
-                            if($(_this).find("span").first().tagName=='img'){
-                                resource.type = 0;
-                            }
-
-                            if($(_this).find("span").first().tagName=='video'){
-                                resource.type = 1;
-                            }
-
-                            resource.uri=$(_this).find("span").first().attr("src");
-                            resourceList.push(cloneObj(resource));
-                            resource={};
-                        }
-                    });
-                    console.log(JSON.stringify(contentFragmentList));
-                    contentFragment.resourceList=resourceList;
-                    contentFragmentList.push(cloneObj(contentFragment));
-                    contentFragment={};
-                }
-                //alert($(this).find("div .item").length+"---"+JSON.stringify(contentFragment));
-
-        });
-        //获取本地存储id
-        ich.id=localStorage.getItem("curr_pro_id");
-
-        ich.contentFragmentList=contentFragmentList;
-        console.log(JSON.stringify(ich));
-
-        $.ajax({
-            type: "POST",
-            url: "../ichProject/saveIchProject",
-            data:{params:JSON.stringify(ich)} ,
-            dataType: "json",
-            complete: function () { },
-            success: function (result) {
-                console.log(result);
-                if(result.code=='3'){//用户未登录或者登陆超时 弹出登录窗口
-                    loginPage.show();
-                    //触发点击事件
-                    $('.header .content .info li.login').click();
-                }
-
-                if(result.code=='0'){
-                    //添加内容
-                    //把项目id 保存到本地
-                    alert(result.data.id);
-                    localStorage.setItem("curr_pro_id",result.data.id);
-                   // location.href="ichProContent.html";
-                }
-            },
-            error: function (result, status) {
-            }
-        });
-        location.href="ichProPractice.html";
-    }
-    
 </script>
-
 </html>
