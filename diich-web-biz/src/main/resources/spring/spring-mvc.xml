@@ -12,29 +12,9 @@
 
 
     <!-- 开启注解 -->
-   <mvc:annotation-driven />
-       <!--<mvc:message-converters register-defaults="true">-->
-           <!--<bean class="org.springframework.http.converter.StringHttpMessageConverter">-->
-               <!--<property name="supportedMediaTypes" value="text/html;charset=UTF-8"/>-->
-           <!--</bean>-->
-       <!--</mvc:message-converters>-->
-   <!--</mvc:annotation-driven>-->
-    <context:component-scan base-package="com.diich.controller"/>
-    <!-- 设置组件扫描的基础包 -->
-    <!--<context:component-scan base-package="com.diich.controller">
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>-->
+    <mvc:annotation-driven />
 
-<!--
-    <bean id="mappingJacksonHttpMessageConverter"
-          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-        <property name="supportedMediaTypes">
-            <list>
-                <value>text/html;charset=UTF-8</value>
-            </list>
-        </property>
-    </bean>
--->
+    <context:component-scan base-package="com.diich.controller"/>
 
     <mvc:annotation-driven>
         <mvc:message-converters>
@@ -65,19 +45,6 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
-
-    <!-- 拦截器 -->
-<!--   <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**" />
-            <mvc:exclude-mapping path="/*.ico" />
-
-        </mvc:interceptor>
-    </mvc:interceptors>-->
-
-    <!--<mvc:view-resolvers>
-        <mvc:jsp cache-views="false" prefix="/" suffix=".html" />
-    </mvc:view-resolvers>-->
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <description>配置文件上传</description>
