@@ -231,6 +231,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             }
         } else {
             ichProject.setUri(ichProject.getId() +".html");
+            //判断当前用户是否为同一用户 如果不是同一用户将项目另存
             ichProjectMapper.updateByPrimaryKeySelective(ichProject);
             List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
             if (contentFragmentList !=null && contentFragmentList.size()>0){
@@ -240,6 +241,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                         saveContentFragment(contentFragment,ichProject.getId());
                     }else{//更新内容片断
                         contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                        if(contentFragment.getAttribute().getTargetType() == 10){//更新自定义属性的名称
+                            attributeMapper.updateByPrimaryKeySelective(contentFragment.getAttribute());
+                        }
                         List<Resource> resourceList = contentFragment.getResourceList();
                         if(resourceList != null && resourceList.size()>0){
                             saveResource(resourceList,contentFragment.getId());
@@ -258,21 +262,50 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return ichProject;
     }
 
+    /**
+     * 如果修改人不同就另存版本
+     * @param ichProject
+     * @return
+     * @throws Exception
+     */
+    private IchProject updateProject(IchProject ichProject) throws Exception{
+        IchProject selectProject = ichProjectMapper.selectByPrimaryKey(ichProject.getId());
+        if(selectProject.getLastEditorId() != ichProject.getLastEditorId()){
+            long id = IdWorker.getId();
+            //TODO
+        }
+        return ichProject;
+    }
 
     /**
-     *  根据传承人或者作品信息查询项目
+     *  根据传承人或者作品信息查询项目 status 不做限制
      * @param id
      * @return
      */
     public IchProject getIchProjectById(Long id) throws Exception {
         //所属项目
-        IchProject ichProject = ichProjectMapper.selectByPrimaryKey(id);
+        IchProject ichProject = ichProjectMapper.selectByIchProjectById(id);
         if (ichProject != null) {
             //内容片断列表
             List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
             ichProject.setContentFragmentList(contentFragmentList);
         }
         return ichProject;
+    }
+
+    /**
+     * 预览
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public String preview(Long id) throws Exception {
+        IchProject ichProject = getIchProjectById(id);
+        getIchproject(ichProject);//返回前端需要的特定数据
+        String fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId().toString();
+        String uri = buildHTML("pro.ftl", ichProject, fileName);
+        return uri;
     }
 
     /**
@@ -435,8 +468,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     private void saveContentFragment(ContentFragment c,Long proID) throws Exception{
         Long attributeId = c.getAttributeId();
+        Attribute attribute = c.getAttribute();
         if(attributeId == 0 || attributeId == null){
-            Attribute attribute = c.getAttribute();
             attributeId = IdWorker.getId();
             attribute.setId(attributeId);
             attribute.setStatus(0);

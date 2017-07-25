@@ -59,6 +59,30 @@ public class IchMasterController extends BaseController<IchMaster>{
         return putDataToMap(ichMaster);
     }
 
+    /**
+     * 对status 不做限制
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("getIchMasterById")
+    @ResponseBody
+    public Map<String, Object> getIchMasterById(HttpServletRequest request,HttpServletResponse response) {
+        String id = request.getParameter("params");
+        if(id == null || "".equals(id)) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        IchMaster ichMaster = null;
+        try{
+            ichMaster = ichMasterService.getIchMasterById(Long.parseLong(id));
+        }catch (Exception e){
+            return putDataToMap(e);
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(ichMaster);
+    }
+
     @RequestMapping("getIchMasterList")
     @ResponseBody
     public Map<String, Object> getIchMasterList(HttpServletRequest request,HttpServletResponse response) {
@@ -112,6 +136,32 @@ public class IchMasterController extends BaseController<IchMaster>{
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(ichMaster);
     }
+    /**
+     * 预览
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("preview")
+    @ResponseBody
+    public Map<String, Object> preview(HttpServletRequest request, HttpServletResponse response) throws Exception{
+
+        String id = request.getParameter("params");
+        if(id == null || "".equals(id)) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        String uri = null;
+        try{
+            uri = ichMasterService.preview(Long.parseLong(id));
+        }catch (Exception e){
+            return putDataToMap(e);
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(uri);
+    }
+
     @RequestMapping("/getImage")
     public void exportQRCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String id=request.getParameter("id");

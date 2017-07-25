@@ -81,6 +81,10 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
                 contentFragmentMapper.insertSelective(contentFragment);
             }else{
                 contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                Attribute attribute = contentFragment.getAttribute();
+                if(attribute != null && (attribute.getTargetType() ==10 || attribute.getTargetType() ==11 || attribute.getTargetType() ==12)){//更新自定义属性的名称
+                    attributeMapper.updateByPrimaryKeySelective(contentFragment.getAttribute());
+                }
             }
             //保存资源文件
             if(contentFragment.getResourceList() != null && contentFragment.getResourceList().size() > 0){
@@ -102,7 +106,12 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
             ContentFragment contentFragment = contentFragmentMapper.selectByPrimaryKey(id);
 
             contentFragmentResourceMapper.deleteByContentFragmentId(id);
-
+            List<Resource> resourceList = contentFragment.getResourceList();
+            if(resourceList != null && resourceList.size()>0){
+                for (Resource resource : resourceList) {
+                    resourceMapper.deleteByPrimaryKey(resource.getId());
+                }
+            }
             contentFragmentMapper.deleteByPrimaryKey(id);
             Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
             if(attribute != null && (attribute.getTargetType() ==10 || attribute.getTargetType() ==11 || attribute.getTargetType() ==12)){

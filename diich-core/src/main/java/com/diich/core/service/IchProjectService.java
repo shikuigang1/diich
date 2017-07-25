@@ -23,6 +23,8 @@ public interface IchProjectService {
 
     IchProject getIchProjectById(Long id) throws Exception;
 
+    String preview(Long id) throws Exception;
+
     String buildHTML(String templateName, IchProject ichProject,String fileName) throws Exception;
 
     //项目创建 搜索使用  最多显示 5 条数据

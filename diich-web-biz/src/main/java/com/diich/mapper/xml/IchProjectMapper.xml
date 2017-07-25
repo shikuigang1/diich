@@ -170,5 +170,10 @@
      LIMIT #{pageBegin,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 
   </select>
-
+  <select id="selectByIchProjectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from ich_project
+    where id = #{id,jdbcType=BIGINT}
+  </select>
 </mapper>
