@@ -1,518 +1,263 @@
 //上传图片
-var imageUpload={
-    init:function () {
-        this.create();
-        this.handle(); //填写图片标题 删除图片
+var upload={
+    template:function (type,url) {//0是视频  1是图片 url上传的地址
+        var _name='';
+        _name=(type==1)?'mypic':'video';
+        var _parent='<form class="upload" action="'+url+'" method="post" enctype="multipart/form-data">'+
+            '<input class="_token" type="hidden" name="_token" value="">'+
+            '<div class="progress"><em class="bar"></em><em class="percent"></em></div>' +
+            '<input class="file" type="file" name="mypic">'+
+            '</form>'+
+            '<img class="preview" src="" />';
+        return _parent;
     },
-    create:function () {//上传图片
+    submit:function (obj,type,url,callback) {
         var _this=this;
-        var parent=$('.card');
-        var thumb=parent.find('.thumb');
-        thumb.on('change', '.imgfile input[type=file]', function() {
-            var _thumb=$(this).parents('.thumb');
-            var _val=$(this).val();
-            //验证图片类型
-            if (_this.validate(_val)) {
-                var uri = _this.getURI(this.files[0]);
-                if (uri) {
-                    _thumb.addClass('active');
-                    $(this).parents('.item').before(DOM.preview(uri));
-                }
-            } else {
-                alert("图片类型必须是.gif,jpeg,jpg,png中的一种");
-                return;
-            }
+        $(obj).append(this.template(type,url));
 
-            _this.handle(); //填写图片标题
-        });
-    },
-    validate:function (val) {//验证
-        if (/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(val)) {
-            return true;
-        }else {
-            return false;
-        }
-    },
-    getURI:function (file) {//建立一個可存取到該file的url
-        var url = null;
-        if (window.createObjectURL != undefined) { // basic
-            url = window.createObjectURL(file);
-        } else if (window.URL != undefined) { // mozilla(firefox)
-            url = window.URL.createObjectURL(file);
-        } else if (window.webkitURL != undefined) { // webkit or chrome
-            url = window.webkitURL.createObjectURL(file);
-        }
-        return url;
-    },
-    handle:function () {//填写图片标题 删除图片
-        var parent=$('.card');
-        //填写图片标题
-        parent.on('keyup','.thumb .item input[data-type="entry"]',function () {
-            var _txt=$(this).siblings('span[data-type="entryText"]');
-            var len=$(this).val().length;
-            if(len<15){
-                _txt.text($(this).val());
-            }
-        });
 
-        //删除图片
-        parent.on('click','.thumb .item .remove',function () {
-            var thumb=$(this).parents('.thumb');
-            $(this).parents('.item').remove();
-            if(thumb.find('.item').length<2){
-                thumb.removeClass('active');
-            }
-        });
-    }
-};
-
-//上传视频
-var videoUpload={
-    init:function () {
-        this.create();
-    },
-    create:function () {//创建弹出层dom
-        var _this=this;
-        var parent=$('.card');
-        var el=parent.find('.item');
-
-        //1.点击视频图标
-        el.on('click','li.video .icon',function (e) {
-            var parent=$(this).parents('li.video');
-            var _drop=parent.find('.drop');
-            if(_drop.length < 1){
-                parent.append(DOM.drop());
-            }else {
-                _drop.show();
-            }
-            e.preventDefault();
-            e.stopPropagation();
-        });
-
-        //2.点击插入视频链接
-        el.on('click','.drop .url',function (e) {
-            var parent =$(this).parents('li.video');
-            var _insert=parent.find('.insert');
-            if(_insert.length < 1){
-                parent.append(DOM.insert());
-            }else {
-                _insert.show();
-            }
-            e.preventDefault();
-            e.stopPropagation();
-        });
-
-        //3.点击插入视频链接输入框 弹层不关闭
-        el.on('click','li.video .insert',function (e){
-            e.preventDefault();
-            e.stopPropagation();
-        });
-
-        //4.点击插入本地视频
-        el.on('click','li.video input.local',function (e) {
-            var parent=$('.card');
-            var thumb=parent.find('.thumb');
-            thumb.on('change', '.videofile .local', function() {
-                var _thumb=$(this).parents('.thumb');
-                var _val=$(this).val().substr($(this).val().indexOf("."));
-
-                //验证图片类型
-                if (_this.validate(_val)) {
-                    var uri = _this.getURI(this.files[0]);
-                    if (uri) {
-                        _thumb.addClass('active');
-                        $(this).parents('.item').before(DOM.videoPeview(uri));
+        $('.file').on('change',function () {
+            var parent=$(this).parents('.file_up');
+            var preview=parent.find('.preview');
+            var _form = $(this).parents('.upload');
+            var progress=_form.find('.progress');
+            var bar=progress.find('.bar');
+            var percent=progress.find('.percent');
+            _form.ajaxSubmit({
+                dataType: 'json',
+                beforeSend: function () {
+                    var percentVal = '0%';
+                    progress.show();
+                    bar.width(percentVal);
+                },
+                uploadProgress: function (event, position, total, percentComplete) {
+                    var percentVal = percentComplete + '%';
+                    bar.width(percentVal);
+                },
+                success: function (data) {
+                    if(callback || callback!='undefinied'){
+                        callback(data.data[0]);
+                        bar.width('');
+                        parent.addClass('active');
+                        progress.hide();
                     }
+                },
+                error: function (xhr) {
+                    //todo
                 }
             });
         });
-        //1.点击多余部分关闭
-        $(document).on('click', function() {
-            parent.find('.drop').hide();
-            parent.find('.insert').hide();
-        });
 
-    },
-    validate:function (val) {//验证
-        if (val === '.mp4') {
-            return true;
-        }else {
-            return false;
-        }
-    },
-    getURI:function (file) {//建立一個可存取到該file的url
-        var url = null;
-        if (window.createObjectURL != undefined) { // basic
-            url = window.createObjectURL(file);
-        } else if (window.URL != undefined) { // mozilla(firefox)
-            url = window.URL.createObjectURL(file);
-        } else if (window.webkitURL != undefined) { // webkit or chrome
-            url = window.webkitURL.createObjectURL(file);
-        }
-        return url;
+
     }
 };
 
 
-//创建模块
-var DOM={
-    drop:function () {//点击视频提示框DOM
-        var str = '<div class="drop"><p class="url">插入视频/音频链接</p> <p class="local">上传本地视频/音频<input class="local" type="file"></p></div>';
-        return str;
-    },
-    insert:function () {//插入视频 输入地址
-        var str = '<div class="insert"><dl class="bd"><dt class="bd">插入视频</dt><dd class="bd"><p class="name">输入视频地址</p><p class="form"><input type="text" value=""><a href="">确定</a></p></dd></dl></div>';
-        return str;
-    },
-    preview:function (uri) {//创建图片预览dom
-        var str='<div class="item">'+
-                    '<span class="pic"><img src="'+uri+'" alt=""></span>'+
-                    '<div class="txt">'+
-                        '<input data-type="entry" type="text">'+
-                        '<span data-type="entryText">填写标题</span>'+
-                    '</div>'+
-                    '<div class="remove">删除</div>'+
-                '</div>';
-        return str;
-    },
-    videoPeview:function (uri) {//创建视频预览dom
-        var str='<div class="item">'+
-            '<span class="pic"><video src="'+uri+'"></video></span>'+
-            '<div class="txt">'+
-                '<input data-type="entry" type="text">'+
-                '<span data-type="entryText">填写标题</span>'+
-            '</div>'+
-            '</div>';
-        return str;
-    },
-    card:function () {//模块
-        var str = '<section class="card">' +
-            '<div class="bd head"><span><input class="new_input" style="font-size:20px;" type="text" placeholder="模块标题"></span></div>' +
-            '<div class="textarea">' +
-            '<textarea name="" placeholder="输入内容介绍..."></textarea>' +
-            '</div>' +
-            '<div class="thumb">' +
-            '<div class="item handle_up">' +
-            '<ul class="bd">' +
-            '<li class="img imgfile">' +
-            '<span><i class="icon"></i></span>' +
-            '<input type="file" accept="image/jpg,image/jpeg,image/png,image/bmp">' +
-            '</li>' +
-            '<li class="video videofile">' +
-            '<span><i class="icon"></i><em class="icon arrow"></em></span>' +
-            '</li>' +
-            '</ul>' +
-            '</div>' +
-            '</div>' +
-            '</section>';
-        return str;
-    },
-    cardProduct:function (len) {//项目实践-添加代表作品
-        var str = '<div class="bd works">'+
-            '<div class="bd head">' +
-            '<span>代表作品'+len+'</span>' +
-            '</div>'+
-            '<dl class="item">'+
-            '<dt>作品名称</dt>'+
-            '<dd><input type="text" class="ipt"></dd>'+
-            '</dl>'+
-            '<dl class="item">'+
-            '<dt>创作人</dt>'+
-            '<dd><input type="text" class="ipt"></dd>'+
-            '</dl>'+
-            '<div class="thumb">'+
-            '<div class="item handle_up">'+
-            '<ul class="bd">'+
-            '<li class="img imgfile">'+
-            '<span><i class="icon"></i></span>'+
-            '<input type="file" accept="image/jpg,image/jpeg,image/png,image/bmp">'+
-            '</li>'+
-            '<li class="video videofile">'+
-            '<span><i class="icon"></i><em class="icon arrow"></em></span>'+
-            '</li>'+
-            '</ul>'+
-            '</div>'+
-            '</div>'+
-            '</div>';
-        return str;
-    },
-};
-
-//项目-基础信息  已开发不动了
-var projectFrom = {
-    init: function() {
-        this.default();
-        this.cateLayer();
-        this.judge();
-        this.addInput();
-        this.slideNav();
-        this.imageUpload();
-    },
-    default: function() { //去除默认的一些属性
-        //
-        $('.ipt_base .content form.base .con dd .judge_drop .item').eq(1).css('margin', '0 60px');
-    },
-    cateLayer: function() { //一级分类
-        var base = $('.ipt_base');
-        var el = base.find('a[data-type="cate"]');
-        var layer = $('.project_layer');
-        var li = layer.find('.items li');
-        var btn = layer.find('.confirm a');
-
-        //点击一级分类
-        el.on('click', function() {
-            $('body').append('<div class="overbg"></div>');
-            layer.fadeIn(200);
-            //点击背景
-            $('.overbg').on('click', function() {
-                layer.fadeOut(200);
-                $(this).remove();
-            });
-        });
-
-
-        //分类选择
-        li.on('click', function() {
-            //判断是否有选中 没有确认按钮置灰
-            $(this).addClass('active').siblings('li').removeClass('active');
-            if (li.hasClass('active')) {
-                btn.addClass('active');
-            } else {
-                btn.removeClass('active');
-            }
-        });
-
-        //点击确定按钮
-        btn.on('click', function() {
-            li.each(function() {
-                var _value = $(this).find('i').attr('value');
-                if ($(this).hasClass('active')) {
-                    close();
-                    el.text($(this).text());
-                    el.attr('value', _value);
-                }
-            });
-        });
-
-
-        //关闭分类浮层
-        function close() {
-            layer.fadeOut(200);
-            $('.overbg').remove();
-        }
-    },
-    judge: function() { //是否为中国文化部认定的非遗项目
-        var el = $('.ipt_base .content form.base .con dd .judge');
-        var drop = el.siblings('.judge_drop');
-
-        el.find('span').on('click', function() {
-            if ($(this).index() == 0) {
-                drop.show();
-            } else {
-                drop.hide();
-            }
-            $(this).addClass('active').siblings('span').removeClass('active');
-        })
-    },
-    addInput: function() { //添加新信息
-        var target = $('.ipt_base .content .info');
-        var el = target.find('dl .ipt_add');
-        var index = 0;
-        el.on('click', function() {
-            index++;
-            var elStr = '<dl><dt><input class="new' + index + '" type="text" placeholder="输入信息名称"/><i class="remove"></i></dt><dd><input type="text" class="ipt"></dd></dl>';
-            $(this).parents('dl').before(elStr);
-
-            //获取焦点
-            var newEl = $('input.new' + index);
-            newEl.focus();
-
-
-            //点击删除按钮
-            var del = $('dl .remove');
-            del.on('click', function() {
-                $(this).parents('dl').remove();
-            });
-
-            return false;
-        });
-    },
-    slideNav: function() { //左侧导航
-        var parent = $('.ipt_base');
-        var project = parent.find('.project');
-        var el = parent.find('.slide_nav');
-        var content = parent.find('.content');
-        //滚动
-        $(window).scroll(function() {
-            var d = $(window).scrollTop();
-            if (d >= 140) {
-                parent.css('padding-top', '157px');
-                project.addClass('fixed');
-                content.css({ 'margin-left': '282px' });
-                el.addClass('nav_active');
-            } else {
-                parent.css('padding-top', '');
-                project.removeClass('fixed');
-                el.removeClass('nav_active');
-                content.css({ 'margin-left': '' });
-            }
-        });
-
-        //点击菜单
-        el.find('dl').each(function() {
-            var _this = $(this);
-            var dt = _this.find('dt');
-            var dd = _this.find('dd');
-            var speed = 200;
-            dt.on('click', function() {
-                $(this).toggleClass('active');
-                if ($(this).hasClass('active')) { //收起状态
-                    dd.stop(true).slideUp(speed);
-                } else { //展开状态
-                    dd.stop(true).slideDown(speed);
-                }
-
-            });
-        });
-    },
-    imageUpload: function() {
-        var el = $('.file');
-        el.on('change', 'input[type=file]', function() {
-            //验证图片类型
-            if (/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test($(this).val())) {
-                var img = $(this).siblings('img');
-                var reupload = $(this).siblings('.reupload');
-                var objUrl = getObjectURL(this.files[0]);
-                if (objUrl) {
-                    $(this).parents('.file').addClass('active');
-                    img.attr("src", objUrl).show();
-                    reupload.text('重新上传');
-                }
-            } else {
-                alert("图片类型必须是.gif,jpeg,jpg,png中的一种");
-                return;
-            }
-        });
-        //建立一個可存取到該file的url
-        function getObjectURL(file) {
-            var url = null;
-            if (window.createObjectURL != undefined) { // basic
-                url = window.createObjectURL(file);
-            } else if (window.URL != undefined) { // mozilla(firefox)
-                url = window.URL.createObjectURL(file);
-            } else if (window.webkitURL != undefined) { // webkit or chrome
-                url = window.webkitURL.createObjectURL(file);
-            }
-            return url;
-        }
-    },
-};
-
-
-//项目申报公共函数初始化
-var projectReport= {
+//项目基础信息
+var projectBaseInfo = {
     init:function () {
-        imageUpload.init();
-        videoUpload.init();
-        this.modalExample();
-        this.addCard();
-        this.slideNav();
-    },
-    modalExample: function() {//查看示例弹出框
-        var modal = $('.modal_example');
-        var el = $('.ipt_base a[data-type="modalExample"]');
-        el.on('click', function() {
-            modal.fadeIn(200);
-            modal.append('<div class="overbg"></div>');
-            $('body').css('overflow', 'hidden');
-        });
-        // var overbg=modal.find('.overbg');
-        modal.on('click', '.overbg', function() {
-            modal.fadeOut(200);
-            $(this).remove();
-            $('body').css('overflow', '');
-        });
-        modal.on('click', '.close', function() {
-            modal.fadeOut(200);
-            $('body').css('overflow', '');
-        });
-    },
-    addCard:function () {//创建模块
-        var parent = $('.ipt_base .ancestry');
-        var el = parent.find('a[data-type="addCard"]');
+        var _data=[
+            {value:1,name:'口头传说和表述'},
+            {value:11,name:'表演艺术'},
+            {value:28,name:'传统的手艺技能'},
+            {value:55,name:'社会风俗、利益、节庆'},
+            {value:77,name:'有关自然界和宇宙的只是和实践'}
+        ];
+        this.selectCate.init('div[data-type=selectCate]',_data);
+        this.declare();
+        this.uploadImgage();
 
-        el.on('click', function() {
-            $(this).before(DOM.card());
-            $('.new_input').focus();
-            imageUpload.init();
-            videoUpload.init();
-            return false;
+        //加载菜单数据
+        loadPageData(0);
+    },
+    selectCate:{//选择一级分类
+        init:function (obj,data) {
+            var _this=this;
+            $(obj).on('click',function () {
+                var $this=$(this);
+                var index=$(this).attr('data-index');
+
+                _this.bind(index,data,function (response) {//value 选中ID data数据
+                    $this.attr('value',response.value);
+                    $this.attr('data-index',response.index);
+                    $this.text(response.name);
+                });
+
+            });
+        },
+        template:function (data) {
+            var str='';
+            for(var i=0;i<data.length;i++){
+                str+='<li value="'+data[i].value+'"><span class="radio"><i></i></span>'+data[i].name+'</li>';
+            }
+
+            var temp='<div class="cate_layer" style="display: block;">'+
+                '<div class="content">'+
+                '<div class="title">选择项目类别</div>'+
+                '<div class="items">'+ str + '</div>'+
+                '<div class="confirm">'+
+                '<a href="javascript:;" class="btn">确认</a>'+
+                '</div>'+
+                '</div>'+
+                '</div>'+
+                '<div class="overbg"></div>';
+            return temp;
+        },
+        bind:function (index,data,callback) {//操作弹出框
+            $('body').append(this.template(data));
+            var parent=$('.cate_layer');
+            var _li=parent.find('li');
+            var _btn=parent.find('.btn');
+            var callData={};
+
+            if(index){
+                _btn.addClass('active');
+                _li.eq(index).addClass('active');
+            }
+
+            //选择
+            _li.on('click',function () {
+                _btn.addClass('active');
+                $(this).addClass('active').siblings('li').removeClass('active');
+
+                //填充数据
+                return callData={
+                    value:$(this).attr('value'),
+                    name:$(this).text(),
+                    index:$(this).index()
+                };
+
+            });
+
+
+            //选中
+            _btn.on('click',function () {
+                parent.remove();
+                $('.overbg').remove();
+                if(callback || callback!='undefinied'){
+                    callback(callData);
+                }
+            });
+
+        }
+    },
+    declare:function () {//是否为自己申报传承人
+        $('.horizontal .group').on('click','.radio',function () {
+            var index=$(this).index();
+            var drop=$(this).parents('.group').siblings('div[data-type=group-drop]');
+            $(this).addClass('active').siblings('.radio').removeClass('active');
+            if(index==0){
+                drop.slideDown('fast');
+            }else {
+                drop.slideUp('fast');
+            }
         });
     },
-    slideNav: function() { //左侧导航
-        var parent = $('.ipt_base');
-        var project = parent.find('.project');
-        var el = parent.find('.slide_nav');
-        var content = parent.find('.content');
-        //滚动
-        $(window).scroll(function() {
-            var d = $(window).scrollTop();
-            if (d >= 140) {
-                parent.css('padding-top', '157px');
-                project.addClass('fixed');
-                content.css({ 'margin-left': '282px' });
-                el.addClass('nav_active');
-            } else {
-                parent.css('padding-top', '');
-                project.removeClass('fixed');
-                el.removeClass('nav_active');
-                content.css({ 'margin-left': '' });
+    uploadImgage:function () {//上传图片
+        var el=$('.horizontal .group .control .file_up');
+        upload.submit(el,1,'../user/uploadFile',function (data) {
+            $('.preview').attr('src',data).show();
+        });
+        $('._token').val($('meta[name=token]').attr('content'));
+    }
+};
+
+
+//传承人认证
+var inheritorPage={
+    init:function () { //el元素   url 上传地址
+        this.change();
+        this.uploadImage();
+    },
+    template:function () {
+        var str=`<div class="edit">
+                    <form action="">
+                        <div class="text">
+                            <textarea name="" id="" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="images" id="images">
+                            <div class="handle">
+                                <div class="add file_up">
+                                    <span class="icon"><i></i></span>
+                                    <span>添加图片</span>
+                                </div>
+                                <div class="add file_up" style="margin-right:0;">
+                                    <span class="icon icon2"><i></i></span>
+                                    <span>添加视频</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--//edit End-->
+                <div class="buttons">
+                    <a href="">删除此项</a>
+                    <a class="next" href="">下一步</a>
+                    <a href="">跳过此项</a>
+                </div>`;
+        return str;
+    },
+    create:function () {
+        var temp=$('#temp');
+        temp.html('').append(this.template());
+    },
+    change:function () {//改变数据 和 渲染dom
+        var _this=this;
+        var slide=$('.ipt_base .slide');
+        var dt=slide.find('.dt');
+        var dd=slide.find('.dd');
+        var content=$('.ipt_base .content');
+        var st=content.find('.st h2');
+
+        //点击dt 展开收起
+        dt.on('click',function () {
+            if($(this).siblings('.dd').length>0){
+                $(this).toggleClass('active');
+                $(this).siblings('.dd').slideToggle(100);
             }
         });
 
-        //点击菜单
-        el.find('dl').each(function() {
-            var _this = $(this);
-            var dt = _this.find('dt');
-            var dd = _this.find('dd');
-            var speed = 200;
-            dt.on('click', function() {
-                $(this).toggleClass('active');
-                if ($(this).hasClass('active')) { //收起状态
-                    dd.stop(true).slideUp(speed);
-                } else { //展开状态
-                    dd.stop(true).slideDown(speed);
-                }
-
-            });
+        //点击子分类
+        dd.on('click','li',function () {
+            _this.create();
+            st.text($(this).text());
+            $(this).addClass('active').siblings('li').removeClass('active');
+            _this.uploadImage();
         });
-    }
-};
 
 
-//项目内容
-var ancestryPgae = {
-    init: function() {
-        projectReport.init();
-    }
-};
 
-//项目实践
-var practicePage = {
-    init: function() {
-        projectReport.init();
-        this.addCardProduct();
     },
-    addCardProduct: function() {
-        var parent=$('.ipt_base');
-        var el = parent.find('a[data-type="addCardProduct"]');
-        el.on('click',function(){
-            var len=parent.find('.works').length+1;
-            $(this).parent('.add_card').before(DOM.cardProduct(len));
-            imageUpload.init();
-            videoUpload.init();
+    uploadImage:function () {
+        var _images=$('#images');
+        //
+        var el=$('.ipt_base .content .edit .images .handle .file_up .icon');
+        upload.submit(el,1,'../user/uploadFile',function (data) {
+            _images.find('.handle').before(templateItem(data));
+            isItemStatus();
         });
+        //赋值token  有用则留无用则删除
+        $('._token').val($('meta[name=token]').attr('content'));
+
+        //模版
+        function templateItem(str) {
+            var templ='<div class="item">' +
+                '<img src="'+str+'" alt="">' +
+                '<input type="text" name="text" placeholder="请输入标题">' +
+                '</div>';
+            return templ;
+        }
+
+
+        isItemStatus();
+        //判断上传图片的状态
+        function isItemStatus() {
+            var _item=_images.find('.item');
+            if(_item.length>=3){
+                _images.addClass('active');
+            }
+            _images.find('.item:even').css('margin-right','10px');
+        }
     }
 };
-
 

@@ -758,6 +758,28 @@
     display: inline-block;
     margin-left: 8px;
 }
+.card header .handle{
+    padding-left:20px;
+    line-height:64px;
+    font-size:14px;
+    color: #777;
+    position: absolute;
+    top:0;
+    right:0;
+    cursor: pointer;
+}
+.card header .handle i {
+    background:url(../images/icon_detail_edit.png) 0 0 no-repeat;
+    width:14px;
+    height:14px;
+    position: absolute;
+    top:50%;
+    left: 0;
+    margin-top:-7px;
+}
+.card header .handle.save i {
+    background-position: 0 -14px;
+}
 
 .card article.product_list {
     padding-bottom: 30px;
@@ -841,6 +863,134 @@
     left: 0;
     background: #4283EB;
 }
+
+.card article.create textarea{
+    width:1130px;
+    height:300px;
+    padding:20px;
+    border: 1px solid #eee;
+    margin-bottom:100px;
+}
+
+.card article.edit {
+    width:1108px;
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    padding: 30px;
+    margin-bottom:100px;
+    float: left;
+}
+.card article.edit .text {
+    width:847px;
+    float: left;
+}
+.card article.edit .text textarea {
+    width:100%;
+    line-height:36px;
+}
+.card article.edit .images {
+    width:230px;
+    float: right;
+}
+.card article.edit .images .item {
+    width:100%;
+    float: left;
+    text-align: center;
+}
+.card article.edit .images .item img{
+    width:100%;
+}
+.card article.edit .images .item input {
+    width:100%;
+    line-height:36px;
+    text-align: center;
+    color: #1B1B1B;
+}
+.card article.edit .images .handle {
+    width:100%;
+    float: left;
+    margin-top:20px;
+}
+.card article.edit .images .handle .add {
+    width:98px;
+    float: left;
+    cursor: pointer;
+}
+.card article.edit .images .handle .add .icon {
+    width:100%;
+    height:98px;
+    border: 1px solid #e5e5e5;
+    position: relative;
+    float: left;
+}
+.card article.edit .images .handle .add .icon i {
+    background: url(../images/icon_detail_edit.png) 0 0 no-repeat;
+    width:29px;
+    height:30px;
+    position: absolute;
+    top:50%;
+    left:50%;
+    margin-top:-15px;
+    margin-left:-15px;
+}
+.card article.edit .images .handle .add .icon input[type=file] {
+    width:100%;
+    position: absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    z-index:2;
+    opacity:0;
+}
+.card article.edit .images .handle .add .icon .progress {
+    top:auto;
+    bottom:0;
+    display: none;
+}
+.card article.edit .images .handle .add span {
+    width:100%;
+    text-align: center;
+    font-size: 14px;
+    color: #949494;
+    line-height:36px;
+    float: left;
+}
+.card article.edit .images .handle .add_image {
+    margin-right:30px;
+}
+.card article.edit .images .handle .add_image .icon i {
+    background-position: 0 -46px;
+}
+.card article.edit .images .handle .add_video .icon i {
+    background-position: 0 -76px;
+}
+.card article.edit .images.active .item {
+    width:98px;
+    height:98px;
+    display: -webkit-flex;
+    -webkit-justify-content: center;
+    -webkit-align-items: center;
+    background: #eee;
+    margin-bottom: 30px;
+}
+.card article.edit .progress .bar {
+    background: #0f0;
+    width: 20%;
+    height: 2px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.card article.edit .progress .percent {
+    position: absolute;
+    top: -26px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+}
+
+
 
 /*--//End 图文列表--*/
 
@@ -2639,12 +2789,11 @@ section.odd {
     margin-bottom: 34px;
 }
 
-.media_layer .content .title .dt li {
+.media_layer .content .title .dt {
     font-size: 24px;
     font-weight: normal;
     float: left;
     margin-right: 10px;
-    display: none;
 }
 
 .media_layer .content .title .more {
