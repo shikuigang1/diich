@@ -167,7 +167,7 @@ function buildCondition() {
     }
 
     condition.offset = (pageNum - 1) * pageSize;
-    condition.pageSize = pageSize;
+    condition.limit = pageSize;
 
     return condition;
 }

@@ -1,5 +1,6 @@
 package com.diich.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.diich.core.model.IchMaster;
 import com.diich.core.model.IchProject;
 import com.diich.core.model.Search;
@@ -41,7 +42,7 @@ public class SearchServiceImpl implements SearchService {
     private final static TimeUnit TIME_UNIT = TimeUnit.MINUTES;
 
     @Override
-    public Integer search(List<Map<String, Object>> resultList, Search.Condition condition) throws Exception {
+    public Integer search(List<Map<String, Object>> resultList, JSONObject condition) throws Exception {
         Integer total = (Integer) get(condition.toString() + "_total");
         if(total == null) {
             total = searchMapper.queryForCount(condition);
