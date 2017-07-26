@@ -32,13 +32,6 @@ public interface ContentFragmentMapper extends BaseMapper<ContentFragment> {
     List<ContentFragment> queryForSearch(SearchCondition condition);//调用存储过程
     Integer queryForCount(SearchCondition searchCondition) throws Exception;
 
-    List<ContentFragment> queryForSearchPage(Map map);//搜索分页
-    int queryForSearchCount(Map map);//搜索 查询总数量
-    List<ContentFragment> queryByTargetIDAndType(ContentFragment contentFragment);
-    List<ContentFragment> queryListByTargetId(long target_id);
-
     List<ContentFragment> selectByAttIdAndContent(ContentFragment record);
-    //当关坚持为null使用
-    List<ContentFragment> queryNoKeyWord(Map map);
 
 }

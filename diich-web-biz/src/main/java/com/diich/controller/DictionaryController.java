@@ -84,7 +84,7 @@ public class DictionaryController extends BaseController<Dictionary> {
 
     @RequestMapping("getAllDictionary")
     @ResponseBody
-    public Map<String, Object> getDictionaryByCode(HttpServletResponse response) {
+    public Map<String, Object> getAllDictionary(HttpServletResponse response) {
         List<Dictionary> dictionaryList = null;
 
         try {
