@@ -1,13 +1,12 @@
 package com.diich.service.impl;
 
-import com.diich.core.model.ContentFragment;
 import com.diich.core.model.IchMaster;
 import com.diich.core.model.IchProject;
-import com.diich.core.model.SearchCondition;
+import com.diich.core.model.Search;
 import com.diich.core.service.IchMasterService;
 import com.diich.core.service.IchProjectService;
 import com.diich.core.service.SearchService;
-import com.diich.mapper.ContentFragmentMapper;
+import com.diich.mapper.SearchMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -27,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 public class SearchServiceImpl implements SearchService {
 
     @Autowired
-    private ContentFragmentMapper contentFragmentMapper;
+    private SearchMapper searchMapper;
 
     @Autowired
     private IchProjectService ichProjectService;
@@ -42,10 +41,10 @@ public class SearchServiceImpl implements SearchService {
     private final static TimeUnit TIME_UNIT = TimeUnit.MINUTES;
 
     @Override
-    public Integer search(List<Map<String, Object>> resultList, SearchCondition condition) throws Exception {
+    public Integer search(List<Map<String, Object>> resultList, Search.Condition condition) throws Exception {
         Integer total = (Integer) get(condition.toString() + "_total");
         if(total == null) {
-            total = contentFragmentMapper.queryForCount(condition);
+            total = searchMapper.queryForCount(condition);
             put(condition.toString() + "_total", total);
         }
 
@@ -57,10 +56,10 @@ public class SearchServiceImpl implements SearchService {
             return total;
         }
 
-        List<ContentFragment> contentList = contentFragmentMapper.queryForSearch(condition);
-        for(ContentFragment content : contentList) {
-            Integer targetType = content.getTargetType();
-            Long targetId = content.getTargetId();
+        List<Search> contentList = searchMapper.queryForSearch(condition);
+        for(Search search : contentList) {
+            Integer targetType = search.getTargetType();
+            Long targetId = search.getTargetId();
 
             Map<String, Object> searchMap = new HashMap<>();
 
@@ -103,4 +102,5 @@ public class SearchServiceImpl implements SearchService {
         }
         return true;
     }
+
 }

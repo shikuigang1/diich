@@ -3,7 +3,7 @@ package com.diich.controller;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
-import com.diich.core.model.SearchCondition;
+import com.diich.core.model.Search;
 import com.diich.core.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,11 +31,11 @@ public class SearchController extends BaseController {
     public Map<String, Object> search(HttpServletRequest request, HttpServletResponse response) {
         String conditionStr = request.getParameter("condition");
 
-        SearchCondition condition = null;
+        Search.Condition condition = null;
 
         try {
-            condition = (SearchCondition) parseObject(conditionStr,
-                    SearchCondition.class);
+            condition = (Search.Condition) parseObject(conditionStr,
+                    Search.Condition.class);
         } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
