@@ -143,13 +143,6 @@
      from content_fragment where target_id = #{projectID,jdbcType=BIGINT} and status = 0
   </select>
 
-  <select id="queryForSearch" resultMap="ResultMapWithBLOBs" parameterType="com.diich.core.model.SearchCondition">
-    {call search_content(#{keyword,jdbcType=VARCHAR,mode=IN}, #{type,jdbcType=INTEGER,mode=IN},#{category,jdbcType=VARCHAR,mode=IN} ,#{area,jdbcType=VARCHAR,mode=IN},#{offset,jdbcType=INTEGER,mode=IN},#{pageSize,jdbcType=INTEGER,mode=IN} )}
-  </select>
-  <select id="queryForCount" resultType="java.lang.Integer" parameterType="com.diich.core.model.SearchCondition">
-    {call search_data_count(#{keyword,jdbcType=VARCHAR,mode=IN}, #{type,jdbcType=INTEGER,mode=IN},#{category,jdbcType=VARCHAR,mode=IN} ,#{area,jdbcType=VARCHAR,mode=IN})}
-  </select>
-
   <select id="selectByAttIdAndContent" resultMap="BaseResultMap" parameterType="com.diich.core.model.ContentFragment">
     select * from content_fragment where content = #{content,jdbcType=LONGVARCHAR} and attribute_id = #{attributeId,jdbcType=BIGINT} and status = 0
   </select>
