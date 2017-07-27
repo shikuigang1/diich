@@ -218,7 +218,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                     }else{
                         //更新
                         contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
-                        if(contentFragment.getAttribute().getTargetType() == 11){//更新自定义属性的名称
+                        if((contentFragment.getAttribute().getTargetType() != null) && contentFragment.getAttribute().getTargetType() == 11){//更新自定义属性的名称
                             attributeMapper.updateByPrimaryKeySelective(contentFragment.getAttribute());
                         }
                         List<Resource> resourceList = contentFragment.getResourceList();
@@ -414,7 +414,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             attributeId = IdWorker.getId();
             attribute.setId(attributeId);
             attribute.setTargetType(11);
-            attribute.setIchCategoryId(id);
+            attribute.setTargetId(id);
             attribute.setStatus(0);
             attribute.setIsOpen(1);
             attribute.setPriority(99);

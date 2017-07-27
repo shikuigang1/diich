@@ -104,12 +104,11 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
         TransactionStatus transactionStatus = getTransactionStatus();
         try{
             ContentFragment contentFragment = contentFragmentMapper.selectByPrimaryKey(id);
-
-            contentFragmentResourceMapper.deleteByContentFragmentId(id);
-            List<Resource> resourceList = contentFragment.getResourceList();
-            if(resourceList != null && resourceList.size()>0){
-                for (Resource resource : resourceList) {
-                    resourceMapper.deleteByPrimaryKey(resource.getId());
+            List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(id);
+            if(contentFragmentResourceList.size()>0){
+                contentFragmentResourceMapper.deleteByContentFragmentId(id);
+                for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
+                    resourceMapper.deleteByPrimaryKey(contentFragmentResource.getResourceId());
                 }
             }
             contentFragmentMapper.deleteByPrimaryKey(id);
@@ -165,7 +164,7 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
         attribute.setId(attributeId);
         attribute.setStatus(0);
         attribute.setTargetType(Integer.parseInt(targetType));
-        attribute.setIchCategoryId(contentFragment.getTargetId());
+        attribute.setTargetId(contentFragment.getTargetId());
         attribute.setIsOpen(1);
         attribute.setPriority(99);
         attributeMapper.insertSelective(attribute);

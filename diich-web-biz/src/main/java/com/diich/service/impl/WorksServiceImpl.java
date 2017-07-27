@@ -173,16 +173,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                     }
                 }
             }
-//            //获取项目信息
-//            if(works.getIchProjectId() != null){
-//                IchProject ichProject = ichProjectService.getIchProjectById(works.getIchProjectId());
-//                works.setIchProject(ichProject);
-//            }
-//            //获取传承人信息
-//            if(works.getIchMasterId() != null){
-//                IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
-//                works.setIchMaster(ichMaster);
-//            }
+
             commit(transactionStatus);
         }catch (Exception e){
             rollback(transactionStatus);
@@ -282,7 +273,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             attributeId = IdWorker.getId();
             attribute.setId(attributeId);
             attribute.setTargetType(12);
-            attribute.setIchCategoryId(id);
+            attribute.setTargetId(id);
             attribute.setStatus(0);
             attribute.setIsOpen(1);
             attribute.setPriority(99);
