@@ -8,6 +8,7 @@ import com.diich.core.model.ContentFragment;
 import com.diich.core.model.ContentFragmentResource;
 import com.diich.core.model.Resource;
 import com.diich.core.service.ContentFragmentService;
+import com.diich.core.service.ResourceService;
 import com.diich.mapper.AttributeMapper;
 import com.diich.mapper.ContentFragmentMapper;
 import com.diich.mapper.ContentFragmentResourceMapper;
@@ -35,6 +36,8 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
     private ContentFragmentResourceMapper contentFragmentResourceMapper;
     @Autowired
     private ResourceMapper resourceMapper;
+    @Autowired
+    private ResourceService resourceService;
 
     @Override
     public ContentFragment getContentFragment(String id) throws Exception {
@@ -88,11 +91,27 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
             }
             //保存资源文件
             if(contentFragment.getResourceList() != null && contentFragment.getResourceList().size() > 0){
-                IchProjectServiceImpl ips = new IchProjectServiceImpl();
-                ips.saveResource(contentFragment.getResourceList(),contentFragment.getId());
+                for (int i=0; i<  contentFragment.getResourceList().size();i++) {
+                    Resource resource = contentFragment.getResourceList().get(i);
+                    resourceService.save(resource);
+                    ContentFragmentResource cfr = new ContentFragmentResource();
+                    cfr.setId(IdWorker.getId());
+                    cfr.setContentFragmentId(contentFragment.getId());
+                    cfr.setResourceId(resource.getId());
+                    if(resource.getResOrder() !=null && !"".equals(resource.getResOrder())){
+                        cfr.setResOrder(resource.getResOrder());
+                    }else{
+                        cfr.setResOrder(i+1);
+                    }
+                    cfr.setStatus(0);
+                    //保存中间表
+                    contentFragmentResourceMapper.insertSelective(cfr);
+                }
+
             }
             commit(transactionStatus);
         }catch (Exception e){
+            e.printStackTrace();
             rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
