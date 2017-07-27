@@ -1,11 +1,9 @@
 package com.diich.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.baomidou.mybatisplus.toolkit.StringUtils;
-import com.diich.core.base.BaseModel;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
@@ -15,7 +13,6 @@ import com.diich.core.util.FileType;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
 import org.apache.commons.collections.map.HashedMap;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
@@ -44,10 +41,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Autowired
     private IchCategoryService ichCategoryService;
     @Autowired
-    private IchMasterMapper ichMasterMapper;
-    @Autowired
-    private WorksMapper worksMapper;
-    @Autowired
     private IchMasterService ichMasterService;
     @Autowired
     private WorksService worksService;
@@ -58,8 +51,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Autowired
     private VersionService versionService;
     @Autowired
-    private SqlSessionFactory sqlSessionFactory;
-
+    private VersionMapper versionMapper;
     /**
      * 根据id获取项目信息
      * @param id
@@ -68,7 +60,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     public IchProject getIchProject(String id) throws Exception {
 
-
         IchProject ichProject = null;
 
         try {
@@ -76,7 +67,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
 
             if(ichProject != null) {
-                 // User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
                 //获取传承人列表
                 List<IchMaster> ichMasterList = ichMasterService.getIchMasterByIchProjectId(Long.parseLong(id));
 
@@ -182,7 +172,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
 
     /**
-     * 保存或更新项目信息
+     * 录入时保存或更新项目信息
      * @param ichProject
      * @throws Exception
      */
@@ -231,7 +221,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             }
         } else {
             ichProject.setUri(ichProject.getId() +".html");
-            //判断当前用户是否为同一用户 如果不是同一用户将项目另存
             ichProjectMapper.updateByPrimaryKeySelective(ichProject);
             List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
             if (contentFragmentList !=null && contentFragmentList.size()>0){
@@ -269,16 +258,55 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      * @throws Exception
      */
     private IchProject updateProject(IchProject ichProject) throws Exception{
+        Long mainId = ichProject.getId();
         IchProject selectProject = ichProjectMapper.selectByPrimaryKey(ichProject.getId());
         if(selectProject.getLastEditorId() != ichProject.getLastEditorId()){
-            long id = IdWorker.getId();
-            //TODO
+            long branchId = IdWorker.getId();
+            ichProject.setId(branchId);
+            ichProject.setStatus(3);
+            ichProjectMapper.insertSelective(ichProject);
+            List<ContentFragment> ichProjectContentFragmentList = ichProject.getContentFragmentList();
+            for (ContentFragment contentFragment : ichProjectContentFragmentList) {
+                long id = IdWorker.getId();
+                contentFragment.setId(id);
+                contentFragment.setTargetId(branchId);
+                contentFragmentMapper.insertSelective(contentFragment);
+                List<Resource> resourceList = contentFragment.getResourceList();
+                if(resourceList != null && resourceList.size()>0){
+                    for(int i = 0 ; i <= resourceList.size() ; i++ ){
+                        Resource resource = resourceList.get(i);
+                        long resourceId = IdWorker.getId();
+                        resource.setId(resourceId);
+                        //保存resource
+                        resourceMapper.insertSelective(resource);
+                        ContentFragmentResource cfr = new ContentFragmentResource();
+                        cfr.setId(IdWorker.getId());
+                        cfr.setContentFragmentId(branchId);
+                        cfr.setResourceId(resourceId);
+                        if(resource.getResOrder() !=null && !"".equals(resource.getResOrder())){
+                            cfr.setResOrder(resource.getResOrder());
+                        }else{
+                            cfr.setResOrder(i+1);
+                        }
+                        cfr.setStatus(0);
+                        //保存中间表
+                        contentFragmentResourceMapper.insertSelective(cfr);
+                    }
+                }
+            }
+            //保存version表
+            Version version = new Version();
+            version.setId(IdWorker.getId());
+            version.setStatus(0);
+            version.setTargetType(0);
+            version.setChiId(mainId);
+            version.setEngId(branchId);
+            versionMapper.insertSelective(version);
         }
         return ichProject;
     }
-
     /**
-     *  根据传承人或者作品信息查询项目 status 不做限制
+     *  根据项目id查询项目信息 status 不做限制
      * @param id
      * @return
      */
@@ -468,8 +496,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     private void saveContentFragment(ContentFragment c,Long proID) throws Exception{
         Long attributeId = c.getAttributeId();
-        Attribute attribute = c.getAttribute();
         if(attributeId == 0 || attributeId == null){
+            Attribute attribute = c.getAttribute();
             attributeId = IdWorker.getId();
             attribute.setId(attributeId);
             attribute.setStatus(0);
@@ -509,13 +537,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         }
         if(ichProject.getId() == null){
             if(contentFragments.size()>0){
-                throw new ApplicationException(ApplicationException.PARAM_ERROR);
+                throw new ApplicationException(ApplicationException.PARAM_ERROR,contentFragments.get(0).getAttribute().getCnName()+"已经存在");
             }
         }else{
             if(contentFragments.size()>0){
                 Long targetId = contentFragments.get(0).getTargetId();
                 if(ichProject.getId()!=targetId){
-                    throw new ApplicationException(ApplicationException.PARAM_ERROR);
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR,contentFragments.get(0).getAttribute().getCnName()+"已经存在");
                 }
             }
         }
@@ -603,7 +631,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 resourceId = IdWorker.getId();
                 resource.setId(resourceId);
                 resource.setStatus(0);
-                resource.setType(resource.getType());
                 //判断上传的文件类型 0图片 1 视频 2 音频
                 String sType = FileType.fileType(resource.getUri());
                 if("图片".equals(sType)){

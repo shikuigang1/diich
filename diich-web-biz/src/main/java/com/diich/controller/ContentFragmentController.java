@@ -73,10 +73,14 @@ public class ContentFragmentController extends BaseController<ContentFragment>{
             return putDataToMap(ae);
         }
         try{
-            contentFragmentService.deleteContentFragment(Long.parseLong(id));
+            String[] ids = id.split(",");
+            for (String cid : ids) {
+                contentFragmentService.deleteContentFragment(Long.parseLong(cid));
+            }
         }catch (Exception e){
             return putDataToMap(e);
         }
         return putDataToMap(id);
     }
+
 }

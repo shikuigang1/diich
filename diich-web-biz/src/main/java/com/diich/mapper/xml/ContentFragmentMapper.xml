@@ -135,6 +135,17 @@
     order by attribute.seq
   </select>
 
+  <select id="selectAllAttrByTargetIdAndType" parameterType="com.diich.core.model.ContentFragment" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from content_fragment
+    left JOIN  attribute on content_fragment.attribute_id = attribute.id
+    where content_fragment.target_id = #{targetId} and content_fragment.target_type =#{targetType} and content_fragment.status = 0
+    order by attribute.seq
+  </select>
+
   <select id="selectByProjectId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

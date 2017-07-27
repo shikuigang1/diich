@@ -126,13 +126,13 @@ public class IchProjectController extends BaseController<IchProject> {
             return putDataToMap(ae);
         }
 
-        User user = (User)WebUtil.getCurrentUser(request);
-        if(user == null) {
-            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
-            return putDataToMap(ae);
-        }
-
-        ichProject.setLastEditorId(user.getId());
+//        User user = (User)WebUtil.getCurrentUser(request);
+//        if(user == null) {
+//            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+//            return putDataToMap(ae);
+//        }
+//
+//        ichProject.setLastEditorId(user.getId());
 
         try {
             ichProject = ichProjectService.saveIchProject(ichProject);
@@ -196,7 +196,7 @@ public class IchProjectController extends BaseController<IchProject> {
     @RequestMapping("/getImage")
     public void exportQRCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String id=request.getParameter("id");
-        String url = "http://resource.efeiyi.com/html/project/"+ id +".html";
+        String url = "http://project.efeiyi.com/p/"+ id +".html";
         QRCodeGenerator qrCode = new QRCodeGenerator(url);
         qrCode.createQRCode(108, 108);
         BufferedImage bufferedImage = qrCode.getImageResult();

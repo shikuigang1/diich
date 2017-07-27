@@ -165,7 +165,7 @@ public class IchMasterController extends BaseController<IchMaster>{
     @RequestMapping("/getImage")
     public void exportQRCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String id=request.getParameter("id");
-        String url = "http://resource.efeiyi.com/html/master/"+ id +".html";
+        String url = "http://inheritor.efeiyi.com/m/"+ id +".html";
         QRCodeGenerator qrCode = new QRCodeGenerator(url);
         qrCode.createQRCode(108, 108);
         BufferedImage bufferedImage = qrCode.getImageResult();

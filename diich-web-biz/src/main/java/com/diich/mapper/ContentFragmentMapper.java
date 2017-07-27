@@ -21,6 +21,8 @@ public interface ContentFragmentMapper extends BaseMapper<ContentFragment> {
     int updateByPrimaryKey(ContentFragment record);
     //根据targetId和类型查询内容片段列表
     List<ContentFragment> selectByTargetIdAndType(ContentFragment record);
+    //包括is_open为0的
+    List<ContentFragment> selectAllAttrByTargetIdAndType(ContentFragment record);
 
     //根据项目名称获取相关信息
     List<ContentFragment> selectByProjectId(long  projectID);

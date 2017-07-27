@@ -13,6 +13,8 @@ public class Attribute extends BaseModel {
 
     private Integer priority;
 
+    private Long targetId;
+
     private Integer targetType;
 
     private Integer status;
@@ -77,6 +79,14 @@ public class Attribute extends BaseModel {
 
     public void setPriority(Integer priority) {
         this.priority = priority;
+    }
+
+    public Long getTargetId() {
+        return targetId;
+    }
+
+    public void setTargetId(Long targetId) {
+        this.targetId = targetId;
     }
 
     public Integer getTargetType() {
