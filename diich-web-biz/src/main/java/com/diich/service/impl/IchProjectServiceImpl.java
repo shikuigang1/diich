@@ -189,6 +189,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             saveProject(ichProject);//保存项目
             commit(transactionStatus);
         } catch (Exception e) {
+            e.printStackTrace();
             rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
@@ -230,7 +231,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                         saveContentFragment(contentFragment,ichProject.getId());
                     }else{//更新内容片断
                         contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
-                        if(contentFragment.getAttribute().getTargetType() == 10){//更新自定义属性的名称
+                        if((contentFragment.getAttribute().getTargetType() != null) && (contentFragment.getAttribute().getTargetType() == 10)){//更新自定义属性的名称
                             attributeMapper.updateByPrimaryKeySelective(contentFragment.getAttribute());
                         }
                         List<Resource> resourceList = contentFragment.getResourceList();
@@ -502,7 +503,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             attribute.setId(attributeId);
             attribute.setStatus(0);
             attribute.setTargetType(10);
-            attribute.setIchCategoryId(proID);
+            attribute.setTargetId(proID);
             attribute.setIsOpen(1);
             attribute.setPriority(99);
             attributeMapper.insertSelective(attribute);
@@ -537,13 +538,14 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         }
         if(ichProject.getId() == null){
             if(contentFragments.size()>0){
-                throw new ApplicationException(ApplicationException.PARAM_ERROR,contentFragments.get(0).getAttribute().getCnName()+"已经存在");
+                throw new ApplicationException(ApplicationException.PARAM_ERROR,contentFragments.get(0).getContent()+" 已经存在");
             }
         }else{
-            if(contentFragments.size()>0){
-                Long targetId = contentFragments.get(0).getTargetId();
-                if(ichProject.getId()!=targetId){
-                    throw new ApplicationException(ApplicationException.PARAM_ERROR,contentFragments.get(0).getAttribute().getCnName()+"已经存在");
+            if(contentFragments != null && contentFragments.size()>0){
+                long targetId = contentFragments.get(0).getTargetId();
+                long id = ichProject.getId();
+                if(id != targetId){
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR,contentFragments.get(0).getContent()+" 已经存在");
                 }
             }
         }
