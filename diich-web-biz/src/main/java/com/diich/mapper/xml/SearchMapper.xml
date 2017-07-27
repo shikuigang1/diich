@@ -10,16 +10,16 @@
     <result column="target_type" property="targetType" jdbcType="INTEGER" />
   </resultMap>
 
-  <select id="queryForSearch" resultMap="BaseResultMap" parameterType="com.diich.core.model.Search.Condition">
+  <select id="queryForSearch" resultMap="BaseResultMap" parameterType="com.alibaba.fastjson.JSONObject">
     {call search_content(#{keyword,jdbcType=VARCHAR,mode=IN}, #{type,jdbcType=INTEGER,mode=IN},#{category,jdbcType=VARCHAR,mode=IN} ,#{area,jdbcType=VARCHAR,mode=IN},#{offset,jdbcType=INTEGER,mode=IN},#{limit,jdbcType=INTEGER,mode=IN} )}
   </select>
-  <select id="queryForCount" resultType="java.lang.Integer" parameterType="com.diich.core.model.Search.Condition">
+  <select id="queryForCount" resultType="java.lang.Integer" parameterType="com.alibaba.fastjson.JSONObject">
     {call search_data_count(#{keyword,jdbcType=VARCHAR,mode=IN}, #{type,jdbcType=INTEGER,mode=IN},#{category,jdbcType=VARCHAR,mode=IN} ,#{area,jdbcType=VARCHAR,mode=IN})}
   </select>
 
-  <select id="searchList"  parameterType="java.util.Map"  resultMap="BaseResultMap, recordCount" >
+  <!--<select id="searchList"  parameterType="java.util.Map"  resultMap="BaseResultMap, recordCount" >
     {call search(#{keyword,jdbcType=VARCHAR,mode=IN}, #{type,jdbcType=INTEGER,mode=IN},#{category,jdbcType=VARCHAR,mode=IN} ,
     #{area,jdbcType=VARCHAR,mode=IN})}
-  </select>
+  </select>-->
 
 </mapper>
