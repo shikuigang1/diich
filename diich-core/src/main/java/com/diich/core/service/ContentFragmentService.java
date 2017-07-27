@@ -8,6 +8,10 @@ import com.diich.core.model.ContentFragment;
 public interface ContentFragmentService {
 
     ContentFragment getContentFragment(String id) throws Exception;
+
     ContentFragment saveContentFragment(ContentFragment contentFragment) throws Exception;
+
     void deleteContentFragment(Long id)throws Exception;
+
+    void deleteResource(Long id)throws Exception;
 }

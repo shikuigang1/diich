@@ -99,4 +99,8 @@
     delete from content_fragment_resource
     where content_fragment_id = #{contentFragmentId,jdbcType=BIGINT}
   </delete>
+  <delete id="deleteByResourceId" parameterType="java.lang.Long" >
+    delete from content_fragment_resource
+    where resource_id = #{resourceId,jdbcType=BIGINT}
+  </delete>
 </mapper>

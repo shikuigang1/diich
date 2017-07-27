@@ -12,6 +12,8 @@ public class IchMaster extends BaseModel {
 
     private Long lastEditorId;
 
+    private Long userId;
+
     private Date lastEditDate;
 
     private Integer editRank;
@@ -22,9 +24,9 @@ public class IchMaster extends BaseModel {
 
     private String lang;//语言
 
-    private IchProject ichProject;//项目
+    private Integer isMaster;//是否为自己申报传承人标示 1是 0否
 
-    private User user;//最后编辑者
+    private IchProject ichProject;//项目
 
     private List<ContentFragment> contentFragmentList;//内容片断列表
 
@@ -58,6 +60,14 @@ public class IchMaster extends BaseModel {
 
     public void setLastEditorId(Long lastEditorId) {
         this.lastEditorId = lastEditorId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Date getLastEditDate() {
@@ -100,14 +110,6 @@ public class IchMaster extends BaseModel {
         this.ichProject = ichProject;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public List<ContentFragment> getContentFragmentList() {
         return contentFragmentList;
     }
@@ -122,6 +124,14 @@ public class IchMaster extends BaseModel {
 
     public void setLang(String lang) {
         this.lang = lang;
+    }
+
+    public Integer getIsMaster() {
+        return isMaster;
+    }
+
+    public void setIsMaster(Integer isMaster) {
+        this.isMaster = isMaster;
     }
 
     public List<Works> getWorksList() {

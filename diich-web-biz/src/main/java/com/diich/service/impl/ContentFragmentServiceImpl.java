@@ -124,6 +124,19 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
 
     }
 
+    @Override
+    public void deleteResource(Long id) throws Exception {
+        TransactionStatus transactionStatus = getTransactionStatus();
+        try{
+            contentFragmentResourceMapper.deleteByResourceId(id);
+            resourceMapper.deleteByPrimaryKey(id);
+            commit(transactionStatus);
+        }catch (Exception e){
+            rollback(transactionStatus);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+    }
+
     private void checkSaveField(ContentFragment contentFragment) throws Exception {
         Long attributeId = contentFragment.getAttributeId();
         if (attributeId != null) {

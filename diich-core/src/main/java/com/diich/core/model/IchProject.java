@@ -25,8 +25,6 @@ public class IchProject extends BaseModel {
 
     private  IchCategory ichCategory;//项目分类
 
-    private User user;//最后编辑者
-
     private Version version;//版本 中文版和英文版的中间表
 
     private String json;//按模块分所有的资源
@@ -103,14 +101,6 @@ public class IchProject extends BaseModel {
 
     public void setIchCategory(IchCategory ichCategory) {
         this.ichCategory = ichCategory;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getUri() {
