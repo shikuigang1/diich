@@ -126,13 +126,13 @@ public class IchProjectController extends BaseController<IchProject> {
             return putDataToMap(ae);
         }
 
-//        User user = (User)WebUtil.getCurrentUser(request);
-//        if(user == null) {
-//            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
-//            return putDataToMap(ae);
-//        }
-//
-//        ichProject.setLastEditorId(user.getId());
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+
+        ichProject.setLastEditorId(user.getId());
 
         try {
             ichProject = ichProjectService.saveIchProject(ichProject);
