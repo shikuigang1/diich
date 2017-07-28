@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
-import com.diich.core.service.DictionaryService;
-import com.diich.core.service.IchMasterService;
-import com.diich.core.service.IchProjectService;
-import com.diich.core.service.WorksService;
+import com.diich.core.service.*;
 import com.diich.core.util.BuildHTMLEngine;
 import com.diich.core.util.FileType;
 import com.diich.core.util.PropertiesUtil;
@@ -30,11 +27,6 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
 
     @Autowired
     private WorksMapper worksMapper;
-
-    @Autowired
-    private IchProjectMapper ichProjectMapper;
-    @Autowired
-    private IchMasterMapper ichMasterMapper;
     @Autowired
     private ContentFragmentMapper contentFragmentMapper;
     @Autowired
@@ -48,7 +40,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
     @Autowired
     private IchMasterService ichMasterService;
     @Autowired
-    private DictionaryService dictionaryService;
+    private ResourceService resourceService;
     /**
      * 根据id查询作品信息
      * @param id
@@ -166,8 +158,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                             contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
                             List<Resource> resourceList = contentFragment.getResourceList();
                             if(resourceList != null && resourceList.size()>0){
-                                IchProjectServiceImpl ips = new IchProjectServiceImpl();
-                                ips.saveResource(resourceList,contentFragment.getId());
+                                saveResource(resourceList,contentFragment.getId());
                             }
                         }
                     }
@@ -287,9 +278,33 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         contentFragmentMapper.insertSelective(c);
         List<Resource> resourceList = c.getResourceList();
         if(resourceList != null && resourceList.size()>0){
-            IchProjectServiceImpl ips = new IchProjectServiceImpl();
-            ips.saveResource(resourceList,c.getId());
+            saveResource(resourceList,c.getId());
         }
     }
-
+    /**
+     * 保存资源文件
+     * @param resourceList
+     * @param cId
+     */
+    private void saveResource(List<Resource> resourceList,Long cId) throws Exception{
+        for (int i = 0; i < resourceList.size(); i++) {
+            Resource resource = resourceList.get(i);
+            Long resourceId = resource.getId();
+            resourceService.save(resource);
+            if (resourceId == null) {
+                ContentFragmentResource cfr = new ContentFragmentResource();
+                cfr.setId(IdWorker.getId());
+                cfr.setContentFragmentId(cId);
+                cfr.setResourceId(resource.getId());
+                if (resource.getResOrder() != null && !"".equals(resource.getResOrder())) {
+                    cfr.setResOrder(resource.getResOrder());
+                } else {
+                    cfr.setResOrder(i + 1);
+                }
+                cfr.setStatus(0);
+                //保存中间表
+                contentFragmentResourceMapper.insertSelective(cfr);
+            }
+        }
+    }
 }

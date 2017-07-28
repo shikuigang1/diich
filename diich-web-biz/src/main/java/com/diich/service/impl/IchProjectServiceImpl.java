@@ -37,6 +37,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Autowired
     private ContentFragmentMapper contentFragmentMapper;
     @Autowired
+    private ContentFragmentService contentFragmentService;
+    @Autowired
     private ContentFragmentResourceMapper contentFragmentResourceMapper;
     @Autowired
     private IchCategoryService ichCategoryService;
@@ -48,6 +50,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     private DictionaryService dictionaryService;
     @Autowired
     private  ResourceMapper resourceMapper;
+    @Autowired
+    private  ResourceService resourceService;
     @Autowired
     private VersionService versionService;
     @Autowired
@@ -213,33 +217,16 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             ichProject.setId(proID);
             ichProject.setUri(proID +".html");
             ichProjectMapper.insertSelective(ichProject);
-            List<ContentFragment> ls = ichProject.getContentFragmentList();
-            if(ls !=null && ls.size()>0){
-                for(int i=0;i<ls.size();i++){
-                    ContentFragment c = ls.get(i);
-                    saveContentFragment(c,proID);
-                }
-            }
         } else {
             ichProject.setUri(ichProject.getId() +".html");
             ichProjectMapper.updateByPrimaryKeySelective(ichProject);
-            List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
-            if (contentFragmentList !=null && contentFragmentList.size()>0){
-                for (ContentFragment contentFragment: contentFragmentList) {
-                    if(contentFragment.getId()==null){
-                        //新增内容片断
-                        saveContentFragment(contentFragment,ichProject.getId());
-                    }else{//更新内容片断
-                        contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
-                        if((contentFragment.getAttribute().getTargetType() != null) && (contentFragment.getAttribute().getTargetType() == 10)){//更新自定义属性的名称
-                            attributeMapper.updateByPrimaryKeySelective(contentFragment.getAttribute());
-                        }
-                        List<Resource> resourceList = contentFragment.getResourceList();
-                        if(resourceList != null && resourceList.size()>0){
-                            saveResource(resourceList,contentFragment.getId());
-                        }
-                    }
-                }
+        }
+        List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
+        if (contentFragmentList !=null && contentFragmentList.size()>0){
+            for (ContentFragment contentFragment: contentFragmentList) {
+                contentFragment.setTargetId(ichProject.getId());
+                //新增内容片断
+                contentFragmentService.saveContentFragment(contentFragment);
             }
         }
         List<Works> worksList = ichProject.getWorksList();
@@ -491,34 +478,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         ichProject.setJsonHead(JSONObject.toJSON(headMap).toString());
         return ichProject;
     }
-    /**
-     * 增加contentFragment
-     * @param c
-     */
-    private void saveContentFragment(ContentFragment c,Long proID) throws Exception{
-        Long attributeId = c.getAttributeId();
-        if(attributeId == 0 || attributeId == null){
-            Attribute attribute = c.getAttribute();
-            attributeId = IdWorker.getId();
-            attribute.setId(attributeId);
-            attribute.setStatus(0);
-            attribute.setTargetType(10);
-            attribute.setTargetId(proID);
-            attribute.setIsOpen(1);
-            attribute.setPriority(99);
-            attributeMapper.insertSelective(attribute);
-        }
-        c.setAttributeId(attributeId);
-        c.setId(IdWorker.getId());
-        c.setTargetId(proID);
-        c.setTargetType(0);
-        c.setStatus(0);
-        contentFragmentMapper.insertSelective(c);
-        List<Resource> resourceList = c.getResourceList();
-        if(resourceList != null && resourceList.size()>0){
-            saveResource(resourceList,c.getId());
-        }
-    }
 
     /**
      * 根据项目名称查询项目是否存在
@@ -621,62 +580,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     }
 
     /**
-     * 保存资源文件 项目  传承人  作品
-     * @param resList
-     * @param cId
-     */
-    public void saveResource(List<Resource> resList,Long cId) throws Exception{
-        for(int i = 0; i<resList.size();i++){
-            Resource resource = resList.get(i);
-            Long resourceId = resource.getId();
-            if(resourceId == null){
-                resourceId = IdWorker.getId();
-                resource.setId(resourceId);
-                resource.setStatus(0);
-                //判断上传的文件类型 0图片 1 视频 2 音频
-                String sType = FileType.fileType(resource.getUri());
-                if("图片".equals(sType)){
-                    resource.setType(0);
-                }
-                if("视频".equals(sType)){
-                    resource.setType(1);
-                }
-                if("音乐".equals(sType)){
-                    resource.setType(2);
-                }
-                if("文档".equals(sType)){
-                    resource.setType(3);
-                }
-                //保存resource
-                resourceMapper.insertSelective(resource);
-                ContentFragmentResource cfr = new ContentFragmentResource();
-                cfr.setId(IdWorker.getId());
-                cfr.setContentFragmentId(cId);
-                cfr.setResourceId(resourceId);
-                if(resource.getResOrder() !=null && !"".equals(resource.getResOrder())){
-                    cfr.setResOrder(resource.getResOrder());
-                }else{
-                    cfr.setResOrder(i+1);
-                }
-                cfr.setStatus(0);
-                //保存中间表
-                contentFragmentResourceMapper.insertSelective(cfr);
-            }else{
-                //更新资源文件
-                resourceMapper.updateByPrimaryKeySelective(resource);
-
-            }
-        }
-
-    }
-
-    /**
      * 提交时对字段校验 项目  传承人  作品
      * @param attribute
      * @param contentFragmentList
      * @throws Exception
      */
-    public void checkSubmitField(Attribute attribute, List<ContentFragment> contentFragmentList) throws Exception{
+    private void checkSubmitField(Attribute attribute, List<ContentFragment> contentFragmentList) throws Exception{
 
         int count = 0;
         for (ContentFragment contentFragment:contentFragmentList) {
@@ -710,7 +619,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      * @param contentFragment
      * @throws Exception
      */
-    public void checkSaveField(ContentFragment contentFragment) throws Exception {
+    private void checkSaveField(ContentFragment contentFragment) throws Exception {
         Long attributeId = contentFragment.getAttributeId();
         if(attributeId != null){
             Attribute attribute = null;

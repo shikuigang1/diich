@@ -2,6 +2,7 @@ package com.diich.service.impl;
 
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.diich.core.base.BaseService;
+import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.ContentFragmentResource;
 import com.diich.core.model.Resource;
 import com.diich.core.service.ResourceService;
@@ -10,6 +11,7 @@ import com.diich.mapper.ContentFragmentResourceMapper;
 import com.diich.mapper.ResourceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
 
 import java.util.List;
 
@@ -18,10 +20,11 @@ import java.util.List;
  */
 @Service("resourceServiceImpl")
 public class ResourceServiceImpl extends BaseService<Resource> implements ResourceService {
-    @Autowired
-    private ContentFragmentResourceMapper contentFragmentResourceMapper;
+
     @Autowired
     private ResourceMapper resourceMapper;
+    @Autowired
+    private ContentFragmentResourceMapper contentFragmentResourceMapper;
     /**
      * 保存资源文件 项目  传承人  作品
      */
@@ -53,4 +56,17 @@ public class ResourceServiceImpl extends BaseService<Resource> implements Resour
 
             }
         }
+
+    @Override
+    public void deleteResource(Long id) throws Exception {
+        TransactionStatus transactionStatus = getTransactionStatus();
+        try{
+            contentFragmentResourceMapper.deleteByResourceId(id);
+            resourceMapper.deleteByPrimaryKey(id);
+            commit(transactionStatus);
+        }catch (Exception e){
+            rollback(transactionStatus);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+    }
 }

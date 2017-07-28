@@ -12,6 +12,4 @@ public interface ContentFragmentService {
     ContentFragment saveContentFragment(ContentFragment contentFragment) throws Exception;
 
     void deleteContentFragment(Long id)throws Exception;
-
-    void deleteResource(Long id)throws Exception;
 }

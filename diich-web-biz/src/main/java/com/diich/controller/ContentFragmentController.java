@@ -83,24 +83,4 @@ public class ContentFragmentController extends BaseController<ContentFragment>{
         return putDataToMap(id);
     }
 
-    @RequestMapping("deleteResource")
-    @ResponseBody
-    public  Map<String,Object> deleteResource(HttpServletRequest request, HttpServletResponse response){
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        String id = request.getParameter("params");
-        if(id == null || "".equals(id)) {
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return putDataToMap(ae);
-        }
-        try{
-            String[] ids = id.split(",");
-            for (String cid : ids) {
-                contentFragmentService.deleteResource(Long.parseLong(cid));
-            }
-        }catch (Exception e){
-            return putDataToMap(e);
-        }
-        return putDataToMap(id);
-    }
-
 }

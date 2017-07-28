@@ -7,4 +7,5 @@ import com.diich.core.model.Resource;
  */
 public interface ResourceService {
     void save(Resource resource) throws Exception;
+    void deleteResource(Long id)throws Exception;
 }

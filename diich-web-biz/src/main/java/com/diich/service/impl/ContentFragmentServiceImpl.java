@@ -93,19 +93,22 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
             if(contentFragment.getResourceList() != null && contentFragment.getResourceList().size() > 0){
                 for (int i=0; i<  contentFragment.getResourceList().size();i++) {
                     Resource resource = contentFragment.getResourceList().get(i);
+                    Long resourceId = resource.getId();
                     resourceService.save(resource);
-                    ContentFragmentResource cfr = new ContentFragmentResource();
-                    cfr.setId(IdWorker.getId());
-                    cfr.setContentFragmentId(contentFragment.getId());
-                    cfr.setResourceId(resource.getId());
-                    if(resource.getResOrder() !=null && !"".equals(resource.getResOrder())){
-                        cfr.setResOrder(resource.getResOrder());
-                    }else{
-                        cfr.setResOrder(i+1);
+                    if(resourceId == null){
+                        ContentFragmentResource cfr = new ContentFragmentResource();
+                        cfr.setId(IdWorker.getId());
+                        cfr.setContentFragmentId(contentFragment.getId());
+                        cfr.setResourceId(resource.getId());
+                        if(resource.getResOrder() !=null && !"".equals(resource.getResOrder())){
+                            cfr.setResOrder(resource.getResOrder());
+                        }else{
+                            cfr.setResOrder(i+1);
+                        }
+                        cfr.setStatus(0);
+                        //保存中间表
+                        contentFragmentResourceMapper.insertSelective(cfr);
                     }
-                    cfr.setStatus(0);
-                    //保存中间表
-                    contentFragmentResourceMapper.insertSelective(cfr);
                 }
 
             }
@@ -123,37 +126,27 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
         TransactionStatus transactionStatus = getTransactionStatus();
         try{
             ContentFragment contentFragment = contentFragmentMapper.selectByPrimaryKey(id);
-            List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(id);
-            if(contentFragmentResourceList.size()>0){
-                contentFragmentResourceMapper.deleteByContentFragmentId(id);
-                for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
-                    resourceMapper.deleteByPrimaryKey(contentFragmentResource.getResourceId());
+            if(contentFragment != null){
+                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(id);
+                if(contentFragmentResourceList.size()>0){
+                    contentFragmentResourceMapper.deleteByContentFragmentId(id);
+                    for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
+                        resourceMapper.deleteByPrimaryKey(contentFragmentResource.getResourceId());
+                    }
+                }
+                contentFragmentMapper.deleteByPrimaryKey(id);
+                Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
+                if(attribute != null && (attribute.getTargetType() ==10 || attribute.getTargetType() ==11 || attribute.getTargetType() ==12)){
+                    attributeMapper.deleteByPrimaryKey(contentFragment.getAttributeId());
                 }
             }
-            contentFragmentMapper.deleteByPrimaryKey(id);
-            Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
-            if(attribute != null && (attribute.getTargetType() ==10 || attribute.getTargetType() ==11 || attribute.getTargetType() ==12)){
-                attributeMapper.deleteByPrimaryKey(contentFragment.getAttributeId());
-            }
+
             commit(transactionStatus);
         }catch (Exception e){
             rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
-    }
-
-    @Override
-    public void deleteResource(Long id) throws Exception {
-        TransactionStatus transactionStatus = getTransactionStatus();
-        try{
-            contentFragmentResourceMapper.deleteByResourceId(id);
-            resourceMapper.deleteByPrimaryKey(id);
-            commit(transactionStatus);
-        }catch (Exception e){
-            rollback(transactionStatus);
-            throw new ApplicationException(ApplicationException.INNER_ERROR);
-        }
     }
 
     private void checkSaveField(ContentFragment contentFragment) throws Exception {

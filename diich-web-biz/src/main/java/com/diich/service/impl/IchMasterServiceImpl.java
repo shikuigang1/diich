@@ -9,10 +9,7 @@ import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
-import com.diich.core.service.DictionaryService;
-import com.diich.core.service.IchMasterService;
-import com.diich.core.service.IchProjectService;
-import com.diich.core.service.WorksService;
+import com.diich.core.service.*;
 import com.diich.core.util.BuildHTMLEngine;
 import com.diich.core.util.FileType;
 import com.diich.core.util.PropertiesUtil;
@@ -34,32 +31,20 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
 
     @Autowired
     private IchMasterMapper ichMasterMapper;
-
-    @Autowired
-    private IchProjectMapper ichProjectMapper;
-
-    @Autowired
-    private UserMapper userMapper;
-
     @Autowired
     private AttributeMapper attributeMapper;
-
     @Autowired
     private ContentFragmentMapper contentFragmentMapper;
-
     @Autowired
     private ContentFragmentResourceMapper contentFragmentResourceMapper;
-
     @Autowired
     private ResourceMapper resourceMapper;
-    @Autowired
-    private WorksMapper worksMapper;
     @Autowired
     private IchProjectService ichProjectService;
     @Autowired
     private WorksService worksService;
     @Autowired
-    private DictionaryService dictionaryService;
+    private ResourceService resourceService;
 
     /**
      * 根据id查询传承人
@@ -226,8 +211,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                         }
                         List<Resource> resourceList = contentFragment.getResourceList();
                         if(resourceList != null && resourceList.size()>0){
-                            IchProjectServiceImpl ips = new IchProjectServiceImpl();
-                            ips.saveResource(resourceList,contentFragment.getId());
+                            saveResource(resourceList,contentFragment.getId());
                         }
                     }
                 }
@@ -421,8 +405,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         contentFragmentMapper.insertSelective(c);
         List<Resource> resourceList = c.getResourceList();
         if(resourceList != null && resourceList.size()>0){
-            IchProjectServiceImpl ips = new IchProjectServiceImpl();
-            ips.saveResource(resourceList,c.getId());
+            saveResource(resourceList,c.getId());
         }
     }
 
@@ -447,8 +430,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 if(contentFragment.getAttributeId()==0){
                     continue;
                 }
-                IchProjectServiceImpl ips = new IchProjectServiceImpl();
-                ips.checkSaveField(contentFragment);
+                checkSaveField(contentFragment);
             }
         }
         if(ichMaster.getStatus() == 3){//提交
@@ -464,8 +446,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             }
 
             for (Attribute attr :attributeList) {
-                IchProjectServiceImpl ips = new IchProjectServiceImpl();
-                ips.checkSubmitField(attr,contentFragmentList);
+                checkSubmitField(attr,contentFragmentList);
             }
         }
     }
@@ -494,6 +475,97 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
 
         if(attributeList.size()>0){
             throw new ApplicationException(ApplicationException.PARAM_ERROR);
+        }
+    }
+    /**
+     * 保存资源文件
+     * @param resourceList
+     * @param cId
+     */
+    private void saveResource(List<Resource> resourceList,Long cId) throws Exception{
+        for (int i = 0; i < resourceList.size(); i++) {
+            Resource resource = resourceList.get(i);
+            Long resourceId = resource.getId();
+            resourceService.save(resource);
+            if (resourceId == null) {
+                ContentFragmentResource cfr = new ContentFragmentResource();
+                cfr.setId(IdWorker.getId());
+                cfr.setContentFragmentId(cId);
+                cfr.setResourceId(resource.getId());
+                if (resource.getResOrder() != null && !"".equals(resource.getResOrder())) {
+                    cfr.setResOrder(resource.getResOrder());
+                } else {
+                    cfr.setResOrder(i + 1);
+                }
+                cfr.setStatus(0);
+                //保存中间表
+                contentFragmentResourceMapper.insertSelective(cfr);
+            }
+        }
+    }
+    /**
+     * 提交时对字段校验 项目  传承人  作品
+     * @param attribute
+     * @param contentFragmentList
+     * @throws Exception
+     */
+    private void checkSubmitField(Attribute attribute, List<ContentFragment> contentFragmentList) throws Exception{
+
+        int count = 0;
+        for (ContentFragment contentFragment:contentFragmentList) {
+            if(contentFragment.getAttributeId() == 0 || contentFragment.getAttributeId() == null){
+                continue;
+            }
+            if(attribute.getMaxLength() != null){
+                if(contentFragment.getContent() !=null && contentFragment.getContent().length() > attribute.getMaxLength()){
+                    throw  new ApplicationException(ApplicationException.PARAM_ERROR,attribute.getCnName().toString()+" 字段不符合要求");
+                }
+            }
+            if(attribute.getMinLength() > 0){//检查必填项是否已填
+                if(contentFragment.getAttributeId() != attribute.getId()){
+                    continue;
+                }
+                String content = contentFragment.getContent();
+                count ++;
+                if(content == null || (content.length() < attribute.getMinLength())){
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR,attribute.getCnName().toString()+" 字段不符合要求");
+                }
+            }
+            if(count == 0){
+                throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
+            }
+
+        }
+    }
+
+    /**
+     * 保存时对字段的校验  项目  传承人  作品
+     * @param contentFragment
+     * @throws Exception
+     */
+    private void checkSaveField(ContentFragment contentFragment) throws Exception {
+        Long attributeId = contentFragment.getAttributeId();
+        if(attributeId != null){
+            Attribute attribute = null;
+            try{
+                attribute = attributeMapper.selectByPrimaryKey(attributeId);
+            }catch (Exception e){
+                e.printStackTrace();
+                throw new ApplicationException(ApplicationException.INNER_ERROR);
+            }
+
+            if(attribute.getMinLength() != null){
+                String content = contentFragment.getContent();
+                if(content == null || (content.length() < attribute.getMinLength())){
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
+                }
+            }
+            if(attribute.getMaxLength() != null){
+                String content = contentFragment.getContent();
+                if(content != null && content.length() > attribute.getMaxLength()){
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
+                }
+            }
         }
     }
 }
