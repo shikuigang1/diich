@@ -51,8 +51,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Autowired
     private  ResourceMapper resourceMapper;
     @Autowired
-    private  ResourceService resourceService;
-    @Autowired
     private VersionService versionService;
     @Autowired
     private VersionMapper versionMapper;
@@ -580,7 +578,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     }
 
     /**
-     * 提交时对字段校验 项目  传承人  作品
+     * 提交时对字段校验 项目
      * @param attribute
      * @param contentFragmentList
      * @throws Exception
@@ -615,7 +613,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     }
 
     /**
-     * 保存时对字段的校验  项目  传承人  作品
+     * 保存时对字段的校验
      * @param contentFragment
      * @throws Exception
      */

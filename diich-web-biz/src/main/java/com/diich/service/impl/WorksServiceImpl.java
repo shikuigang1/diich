@@ -41,6 +41,8 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
     private IchMasterService ichMasterService;
     @Autowired
     private ResourceService resourceService;
+    @Autowired
+    private ContentFragmentService contentFragmentService;
     /**
      * 根据id查询作品信息
      * @param id
@@ -137,34 +139,18 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 works.setIsRepresent(1);
                 works.setUri(worksId + ".html");
                 worksMapper.insertSelective(works);
-                List<ContentFragment> contentFragmentList = works.getContentFragmentList();
-                if(contentFragmentList != null && contentFragmentList.size()>0){
-                    for (ContentFragment contentFragment:contentFragmentList) {
-                        saveContentFragment(contentFragment,worksId);
-                    }
-                }
             }else{
                 //更新
                 works.setUri(works.getId() + ".html");
                 worksMapper.updateByPrimaryKeySelective(works);
-                List<ContentFragment> contentFragmentList = works.getContentFragmentList();
-                if(contentFragmentList != null && contentFragmentList.size()>0){
-                    for (ContentFragment contentFragment : contentFragmentList) {
-                        if(contentFragment.getId() == null){
-                            //添加
-                            saveContentFragment(contentFragment,works.getId());
-                        }else{
-                            //更新
-                            contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
-                            List<Resource> resourceList = contentFragment.getResourceList();
-                            if(resourceList != null && resourceList.size()>0){
-                                saveResource(resourceList,contentFragment.getId());
-                            }
-                        }
-                    }
+            }
+            List<ContentFragment> contentFragmentList = works.getContentFragmentList();
+            if(contentFragmentList != null && contentFragmentList.size()>0){
+                for (ContentFragment contentFragment:contentFragmentList) {
+                    contentFragment.setTargetId(works.getId());
+                    contentFragmentService.saveContentFragment(contentFragment);
                 }
             }
-
             commit(transactionStatus);
         }catch (Exception e){
             rollback(transactionStatus);
@@ -251,60 +237,5 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             contentFragment.setResourceList(resourceList);
         }
         return contentFragmentList;
-    }
-
-    /**
-     * 填加contentFragment
-     * @param c
-     */
-    private void saveContentFragment(ContentFragment c,Long id) throws Exception{
-        Long attributeId = c.getAttributeId();
-        if(attributeId == 0 || attributeId == null){
-            Attribute attribute = c.getAttribute();
-            attributeId = IdWorker.getId();
-            attribute.setId(attributeId);
-            attribute.setTargetType(12);
-            attribute.setTargetId(id);
-            attribute.setStatus(0);
-            attribute.setIsOpen(1);
-            attribute.setPriority(99);
-            attributeMapper.insertSelective(attribute);
-        }
-        c.setAttributeId(attributeId);
-        c.setId(IdWorker.getId());
-        c.setTargetId(id);
-        c.setTargetType(2);
-        c.setStatus(0);
-        contentFragmentMapper.insertSelective(c);
-        List<Resource> resourceList = c.getResourceList();
-        if(resourceList != null && resourceList.size()>0){
-            saveResource(resourceList,c.getId());
-        }
-    }
-    /**
-     * 保存资源文件
-     * @param resourceList
-     * @param cId
-     */
-    private void saveResource(List<Resource> resourceList,Long cId) throws Exception{
-        for (int i = 0; i < resourceList.size(); i++) {
-            Resource resource = resourceList.get(i);
-            Long resourceId = resource.getId();
-            resourceService.save(resource);
-            if (resourceId == null) {
-                ContentFragmentResource cfr = new ContentFragmentResource();
-                cfr.setId(IdWorker.getId());
-                cfr.setContentFragmentId(cId);
-                cfr.setResourceId(resource.getId());
-                if (resource.getResOrder() != null && !"".equals(resource.getResOrder())) {
-                    cfr.setResOrder(resource.getResOrder());
-                } else {
-                    cfr.setResOrder(i + 1);
-                }
-                cfr.setStatus(0);
-                //保存中间表
-                contentFragmentResourceMapper.insertSelective(cfr);
-            }
-        }
     }
 }
