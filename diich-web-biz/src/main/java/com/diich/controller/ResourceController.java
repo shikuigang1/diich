@@ -42,7 +42,7 @@ public class ResourceController extends BaseController<Resource>{
         }
         return putDataToMap(id);
     }
-    @RequestMapping("deleteResource")
+    @RequestMapping("saveResource")
     @ResponseBody
     public Map<String,Object> saveResource(HttpServletRequest request, HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
