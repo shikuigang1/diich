@@ -149,9 +149,14 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
 
     }
 
+    @Override
+    public void deleteContentFragmentByAttrIdAndTargetId(Long targetId, Integer targetType, Long attributeId) throws Exception {
+
+    }
+
     private void checkSaveField(ContentFragment contentFragment) throws Exception {
         Long attributeId = contentFragment.getAttributeId();
-        if (attributeId != null) {
+        if (attributeId != null && attributeId != 0) {
             Attribute attribute = null;
             try {
                 attribute = attributeMapper.selectByPrimaryKey(attributeId);
