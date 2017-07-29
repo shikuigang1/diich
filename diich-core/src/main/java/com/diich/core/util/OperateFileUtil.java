@@ -28,6 +28,8 @@ public class OperateFileUtil {
 
             String fileType = null;
 
+            String pathType = request.getParameter("type");
+
             for(String key : multiFileMap.keySet()) {
                 List<MultipartFile> fileList = multiFileMap.get(key);
 
@@ -47,7 +49,7 @@ public class OperateFileUtil {
                         fileType = "other";
                     }
 
-                    url.append(fileType + "/" + new Date().getTime() + fileName.trim());
+                    url.append(fileType+"/"+pathType+ "/" + new Date().getTime() + fileName.trim());
 
                     String fileUrl = "http://diich-resource.oss-cn-beijing.aliyuncs.com/" + url.toString();
                     //将图片上传至阿里云
