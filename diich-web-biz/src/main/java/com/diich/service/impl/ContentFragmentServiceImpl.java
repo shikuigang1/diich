@@ -19,7 +19,9 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/7/18.
@@ -148,10 +150,14 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
         }
 
     }
-
+    //用于删除项目时间部分
     @Override
     public void deleteContentFragmentByAttrIdAndTargetId(Long targetId, Integer targetType, Long attributeId) throws Exception {
-
+        ContentFragment contentFragment = new ContentFragment();
+        contentFragment.setAttributeId(attributeId);
+        contentFragment.setTargetId(targetId);
+        contentFragment.setTargetType(targetType);
+        contentFragmentMapper.selectByAttrIdAndTargetId(targetId,targetType,attributeId);
     }
 
     private void checkSaveField(ContentFragment contentFragment) throws Exception {
@@ -180,7 +186,6 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
 
         }
     }
-
     /**
      * 保存自定义字段
      * @param contentFragment

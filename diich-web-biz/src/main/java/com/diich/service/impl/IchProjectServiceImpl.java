@@ -188,7 +188,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             checkIchProject(ichProject,3);//校验项目 2代表保存 3代表提交
         }
         try {
-            saveProject(ichProject);//保存项目
+            if(ichProject.getStatus() != null && ichProject.getStatus() == 3){
+                ichProjectMapper.updateByPrimaryKeySelective(ichProject);
+            }else {
+                saveProject(ichProject);//保存项目
+            }
             commit(transactionStatus);
         } catch (Exception e) {
             e.printStackTrace();
@@ -198,13 +202,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return ichProject;
     }
 
+
     private void checkIchProject(IchProject ichProject,Integer status) throws Exception{
         //根据项目名称查询项目是否存在
         checkProjectByName(ichProject);
         //查询自定义字段是否在本项目存在
         checkAttribute(ichProject,status);
     }
-
 
     private IchProject saveProject(IchProject ichProject) throws Exception{
         if(StringUtils.isEmpty(ichProject.getLang())){
@@ -216,6 +220,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             ichProject.setUri(proID +".html");
             ichProjectMapper.insertSelective(ichProject);
         } else {
+            //判断分类是否发生改变
             ichProject.setUri(ichProject.getId() +".html");
             ichProjectMapper.updateByPrimaryKeySelective(ichProject);
         }
@@ -237,6 +242,17 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return ichProject;
     }
 
+    private void checkIchCat(IchProject ichProject)throws Exception{
+        Long id = ichProject.getId();
+        IchProject project = ichProjectMapper.selectByPrimaryKey(id);
+        Long ichCategoryId = project.getIchCategoryId();
+        if(!ichProject.getIchCategoryId().equals(ichCategoryId)){//修改了分类,删除原来分类的项目时间内容
+            List<Attribute> attributeList = ichCategoryService.getAttrListByCatIdAndTarType(ichCategoryId, 0);
+            for (Attribute attribute:attributeList) {
+                contentFragmentService.deleteContentFragmentByAttrIdAndTargetId(id, 0, attribute.getId());
+            }
+        }
+    }
     /**
      * 如果修改人不同就另存版本
      * @param ichProject
@@ -298,7 +314,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     public IchProject getIchProjectById(Long id) throws Exception {
         //所属项目
-        IchProject ichProject = ichProjectMapper.selectByIchProjectById(id);
+        IchProject ichProject = ichProjectMapper.selectIchProjectById(id);
         if (ichProject != null) {
             //内容片断列表
             List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
