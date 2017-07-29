@@ -99,5 +99,35 @@ public class IchCategoryController extends BaseController<IchCategory> {
         }
         return putDataToMap(attributeList);
     }
+    /**
+     * 通过分类id和targetType获取属性列表
+     * @return
+     */
+    @RequestMapping("getDefAttributeList")
+    @ResponseBody
+    public Map<String, Object> getDefAttrListByTarIdAndTarType(HttpServletRequest request, HttpServletResponse response) {
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        String targetId = request.getParameter("targetId");
+        String targetType = request.getParameter("targetType");
+        Long id = null;
+        Integer tarType = null;
+        List<Attribute> attributeList=null;
+        try {
+            if(targetId != null){
+                id = Long.parseLong(targetId);
+            }
+            tarType = Integer.parseInt(targetType);
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+
+        try {
+            attributeList = ichCategoryService.getDefAttrByTarIdAndTarType(id,tarType);
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+        return putDataToMap(attributeList);
+    }
 
 }

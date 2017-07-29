@@ -208,6 +208,17 @@
     </if>
     order by seq
   </select>
+  <select id="selectDefAttrByTarIdAndTarType" resultMap="BaseResultMap" parameterType="com.diich.core.model.Attribute">
+      SELECT
+        <include refid="Base_Column_List" />
+     FROM attribute WHERE status = 0
+    <if test="targetId != null" >
+      and target_id = #{targetId,jdbcType=BIGINT}
+    </if>
+    <if test="targetType != null" >
+      and target_type = #{targetType,jdbcType=INTEGER}
+    </if>
+  </select>
   <select id="selectAttrByNameAndTargetType" parameterType="java.util.Map" resultMap="BaseResultMap">
     select a.cn_name from attribute a
     where a.status = 0

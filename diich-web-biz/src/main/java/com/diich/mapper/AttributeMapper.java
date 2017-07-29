@@ -21,5 +21,7 @@ public interface AttributeMapper extends BaseMapper<Attribute>{
 
     List<Attribute> selectAttrListByCatIdAndTarType(Attribute record);
 
+    List<Attribute> selectDefAttrByTarIdAndTarType(Attribute record);
+
     List<Attribute> selectAttrByNameAndTargetType(Map map);
 }

@@ -85,6 +85,22 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
         return attributeList;
     }
 
+    @Override
+    public List<Attribute> getDefAttrByTarIdAndTarType(Long id, Integer targetType) throws Exception {
+        List<Attribute> attributeList = null;
+        if(targetType != null){
+            try {
+                Attribute attribute = new Attribute();
+                attribute.setTargetType(targetType);
+                attribute.setTargetId(id);
+                attributeList = attributeMapper.selectDefAttrByTarIdAndTarType(attribute);
+            } catch (Exception e) {
+                throw new ApplicationException(ApplicationException.INNER_ERROR);
+            }
+        }
+        return attributeList;
+    }
+
     //通过父id找到父对象
     private IchCategory getCategoryByChild(IchCategory childCategory) throws Exception {
         if(childCategory.getParentId() == 0) {
