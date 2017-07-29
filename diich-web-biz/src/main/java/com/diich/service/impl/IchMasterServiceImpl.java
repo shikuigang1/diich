@@ -462,7 +462,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                     throw new ApplicationException(ApplicationException.PARAM_ERROR,attribute.getCnName().toString()+" 字段不符合要求");
                 }
             }
-            if(count == 0){
+            if((attribute.getMinLength() != null) && (count == 0)){
                 throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
             }
 
