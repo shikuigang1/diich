@@ -1381,6 +1381,7 @@ a.arrow_right:hover:after {
     width: 360px;
     float: left;
     position: relative;
+    display: block;
 }
 
 .form_area .group .area label {
