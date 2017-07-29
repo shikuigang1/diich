@@ -100,7 +100,7 @@ public class IchCategoryController extends BaseController<IchCategory> {
         return putDataToMap(attributeList);
     }
     /**
-     * 通过分类id和targetType获取属性列表
+     * 通过项目id和targetType获取属性列表
      * @return
      */
     @RequestMapping("getDefAttributeList")
