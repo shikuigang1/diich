@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>我要申报-录入完成</title>
+    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="assets/css/inputs.css">
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/laydate.js"></script>
+    <script src="./assets/js/citys.js"></script>
+    <script src="assets/js/system.js"></script>
+    <script src="assets/js/inputs.js"></script>
+</head>
+
+<body style="background-color: rgb(245, 246, 247)">
+    <div class="header fixed header_detail"></div>
+    <!--//End header-->
+
+    <div class="ipt_over">
+        <div class="content">
+            <div class="title">
+                <i class="icon"></i>
+                <span>信息填写完成，可以提交审核</span>
+                <span>感谢您对非遗大数据平台的支持！</span>
+            </div>
+            <div class="buttons">
+                <a class="btn1" href="">申报项目传承人</a>
+                <a class="btn2" href="">个人中心</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer"></div>
+    <!--//End-->
+
+    <script>
+        $(function() {
+            $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
+        });
+
+        projectPage.init();
+    </script>
+</body>
+</html>
