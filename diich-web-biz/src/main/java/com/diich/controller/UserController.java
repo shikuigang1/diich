@@ -152,11 +152,11 @@ public class UserController extends BaseController<User> {
         User user =null;
         try{
             user = userService.login(loginName,password);
-            jedisHelper.set(String.valueOf(user.getId()),JSON.toJSONString(user),60);
+            //jedisHelper.set(String.valueOf(user.getId()),JSON.toJSONString(user),60);
             HttpSession session = request.getSession();
             user.setPassword(null);
             session.setAttribute("CURRENT_USER",user);
-            jedisHelper.set(String.valueOf(user.getId()),user,600);
+            jedisHelper.set(String.valueOf(user.getId()),user,60);
         }catch (Exception e){
             return putDataToMap(e);
         }
