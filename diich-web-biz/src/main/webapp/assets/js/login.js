@@ -381,7 +381,7 @@ $(function () {
     $.ajax({
         cache: true,
         type: "POST",
-        url: "/user/userinfo",
+        url: "http://diich.efeiyi.com/user/userinfo",
         dataType: "json",
         async: true,
         error: function(request) {
@@ -432,7 +432,7 @@ function login(){
     $.ajax({
         cache: true,
         type: "POST",
-        url: "/user/login",
+        url: "http://diich.efeiyi.com/user/login",
         data: $('#loginForm').serialize(), // 你的formid
         dataType: "json",
         async: true,
@@ -485,7 +485,7 @@ function registForm(){
     $.ajax({
         cache: true,
         type: "POST",
-        url: "/user/register",
+        url: "http://diich.efeiyi.com/user/register",
         data: $('#registForm').serialize(),
         dataType: "json",
         async: true,
@@ -535,7 +535,7 @@ function  resetPass(){
     $.ajax({
         cache: true,
         type: "POST",
-        url: "/user/resetPassword",
+        url: "http://diich.efeiyi.com/user/resetPassword",
         data: $('#resetForm').serialize(),
         dataType: "json",
         async: true,
