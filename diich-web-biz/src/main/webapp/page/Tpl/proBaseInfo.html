@@ -9,11 +9,14 @@
     <!--//End-->
 
     <form action="" class="bd horizontal">
+
+
         <div class="main">
             <div class="group">
                 <label class="label" for=""><em>*</em>分类</label>
                 <div class="control">
                     <div class="ipt w310" data-type="selectCate">一级分类</div>
+                    <div class="errors" style="display: none"><i></i>请选择分类</div>
                 </div>
             </div>
             <!--//End 分类-->
@@ -25,6 +28,7 @@
                         <span class="text">上传题图</span>
                     </div>
                     <div class="tips">建议比例：x*x，不符合的图片将进行裁剪；格式：jpg\png</div>
+
                 </div>
             </div>
             <!--//End 题图-->
@@ -36,22 +40,25 @@
                         <div class="select" id="select"></div>
                         <div class="selected" id="selected"></div>
                     </div>
-                    <div class="errors"><i></i>请填写地域</div>
+                    <div class="errors" style="display: none"><i></i>请填写地域</div>
                 </div>
             </div>
             <!--//End 地域-->
             <div class="group inheritor">
                 <label class="label" for=""><em>*</em>是否为自己申报传承人</label>
                 <div class="control">
-                    <span class="radio"><i></i><input type="radio" name="">是</span>
-                    <span class="radio active"><i></i><input type="radio" name="">否</span>
+                    <span class="radio"><i></i><input type="radio" name="authenticated" value="1">是</span>
+                    <span class="radio active"><i></i><input type="radio" name="authenticated" value="0">否</span>
                 </div>
             </div>
             <div class="group" data-type="group-drop" style="display: none">
                 <div class="group">
                     <label class="label" for=""><em>*</em>认证时间</label>
                     <div class="control">
-                        <input id="calendar" class="ipt w310" value="" name="time">
+                        <!--<input id="calendar" class="ipt w310" value="" name="time" id="certTime">-->
+                        <div class="calendarWarp ipt w310">
+                            <input type="text" name="time" class='ECalendar' id="ECalendar_date"  value=""/>
+                        </div>
                     </div>
                 </div>
                 <div class="group">
@@ -62,9 +69,9 @@
                     </div>
                 </div>
                 <div class="group">
-                    <label class="label" for=""><em>*</em>类别编号</label>
+                    <label class="label" for=""><em>*</em>认证编号</label>
                     <div class="control">
-                        <input class="ipt w310" value="" name="time">
+                        <input class="ipt w310" value="" name="time" id="certCode">
                     </div>
                 </div>
             </div>
@@ -74,41 +81,32 @@
             <div class="group">
                 <label class="label"><em>*</em>简介</label>
                 <div class="control">
-                    <textarea name="" id="" cols="30" rows="10"></textarea>
-                    <div class="errors"><i></i>请填写简写</div>
+                    <textarea name="" id="summary" cols="30" rows="10"></textarea>
+                    <div class="errors" style="display: none"><i></i>请填写简写</div>
                 </div>
             </div>
             <!--//End 简介-->
             <div class="group">
                 <label class="label"><em>*</em>拼音</label>
                 <div class="control">
-                    <input type="text" class="ipt w562">
-                    <div class="errors"><i></i>请填写拼音</div>
+                    <input type="text" id="pinyin" class="ipt w562">
+                    <div class="errors" style="display: none"><i></i>请填写拼音</div>
                 </div>
             </div>
             <!--//End 拼音-->
             <div class="group">
-                <label class="label"><em>*</em>别称</label>
-                <div class="control">
-                    <input type="text" class="ipt w562">
-                    <div class="errors"><i></i>请填写别称</div>
-                </div>
-            </div>
-            <!--//End 别称-->
-            <div class="group">
                 <label class="label"><em>*</em>英文名</label>
                 <div class="control">
-                    <input type="text" class="ipt w562">
-                    <div class="errors"><i></i>请填写英文名</div>
+                    <input type="text" class="ipt w562" id="engName">
+                    <div class="errors" style="display: none"><i></i>请填写英文名</div>
                 </div>
             </div>
             <!--//End 英文名-->
         </div>
         <!--//End-->
         <div class="handle">
-            <a href="">删除此项</a>
-            <a class="active" href="">下一步</a>
-            <a href="">跳过此项</a>
+            <a class="active" href="javascript:saveIchProject(0);">下一步</a>
+           <!-- <a href="">跳过此项</a>-->
         </div>
     </form>
 
