@@ -137,10 +137,10 @@
     </div>
 </div>
 <!--//End filter_search -->
-<#assign masterpage = "http://resource.efeiyi.com/html/master/"/>
-<#assign workspage = "http://resource.efeiyi.com/html/works/"/>
-<#assign prouri="../../image/project/" />
-<#assign masteruri="../../image/master/" />
+<#assign masterpage = "http://inheritor.efeiyi.com/m/"/>
+<#assign workspage = "http://works.efeiyi.com/w/"/>
+<#assign prouri="http://resource.efeiyi.com/image/project/" />
+<#assign masteruri="http://resource.efeiyi.com/image/master/" />
 <#assign str="http:" />
 <#assign strs="https:" />
 <div class="container">
@@ -212,7 +212,7 @@
                             <a href="" class="weixin active"></a>
                         </div>
                         <div class="qrcode">
-                            <img width="108" style="display:block" src="${caturi}/ichProject/getImage?id=${obj.id?c}&type=weixin" alt="微信">
+                            <img width="108" style="display:block" src="${caturi}/ichProject/getImage?id=${obj.id?c}" alt="微信">
                         </div>
                     </div>
                 </div>
@@ -626,14 +626,14 @@
 
                                 <#if (cf.resourceList?size > 2) >
                                     <div class="more">
-                                        <a class="albums" data-id="${cf.id?c}" href="javascript:;">
+                                        <a class="albums arrow_right" data-id="${cf.id?c}" href="javascript:;">
                                             <#if obj.lang == "chi">
                                                 查看完整图集
                                             </#if>
                                             <#if obj.lang == "eng">
                                                 View the complete set of images
                                             </#if>
-                                            <i class="arrow_right"></i></a>
+                                            </a>
                                     </div>
                                 </#if>
                             </div>

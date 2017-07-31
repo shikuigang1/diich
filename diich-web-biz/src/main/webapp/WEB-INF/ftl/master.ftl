@@ -129,10 +129,10 @@
 </div>
 <!--//End filter_search -->
 
-<#assign propage = "http://resource.efeiyi.com/html/project/"/>
-<#assign workspage = "http://resource.efeiyi.com/html/works/"/>
-<#assign prouri="../../image/project/" />
-<#assign masteruri="../../image/master/" />
+<#assign propage = "http://project.efeiyi.com/p/"/>
+<#assign workspage = "http://works.efeiyi.com/w/"/>
+<#assign prouri="http://resource.efeiyi.com/image/project/" />
+<#assign masteruri="http://resource.efeiyi.com/image/master/" />
 <#assign str="http:" />
 <#assign strs="https:" />
 <div class="container">
@@ -203,7 +203,7 @@
                             <a href="" class="weixin active"></a>
                         </div>
                         <div class="qrcode">
-                            <img width="108" style="display:block" src="${caturi}/ichMaster/getImage?id=${obj.id?c}&type=weixin" alt="微信">
+                            <img width="108" style="display:block" src="${caturi}/ichMaster/getImage?id=${obj.id?c}" alt="微信">
                         </div>
                     </div>
                 </div>
@@ -240,7 +240,7 @@
                                 <#list obj.contentFragmentList as cf>
                                     <#if cf.attributeId == 23 && cf.content??>
                                         <strong>申报地区：</strong>
-                                        <#assign codeList = cf.content?split(";")>
+                                        <#assign codeList = cf.content?split(",")>
                                         <#list codeList as s>
                                             <em class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${s}</em>
                                             <#if s_index+1 < (codeList?size)>
@@ -408,7 +408,7 @@
 
     <#if (obj.contentFragmentList?size>0)>
         <#list obj.contentFragmentList as cf>
-            <#if (cf.attribute.dataType == 5) && (cf.resourceList??) && (cf.resourceList?size>0)>
+            <#if (cf.attribute??) &&(cf.attribute.dataType == 5) && (cf.resourceList??) && (cf.resourceList?size>0)>
 
                 <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
                     <div class="card" data-id="${cf.id?c}">
@@ -473,7 +473,7 @@
 
                                 <#if (cf.resourceList?size > 2) >
                                     <div class="more">
-                                        <a class="albums" data-id="${cf.id?c}" href="javascript:;">查看完整图集<i class="arrow_right"></i></a>
+                                        <a class="albums arrow_right" data-id="${cf.id?c}" href="javascript:;">查看完整图集</a>
                                     </div>
                                 </#if>
                             </div>
@@ -484,7 +484,7 @@
                 <#assign odd_even = odd_even+1 />
             </#if>
 
-            <#if ((cf.attribute.dataType == 5 || cf.attribute.dataType == 1) && (!cf.resourceList?? || cf.resourceList?size==0))>
+            <#if ((cf.attribute??) && (cf.attribute.dataType == 5 || cf.attribute.dataType == 1) && (!cf.resourceList?? || cf.resourceList?size==0))>
 
                 <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
                     <div class="card" data-id="${cf.id?c}">
