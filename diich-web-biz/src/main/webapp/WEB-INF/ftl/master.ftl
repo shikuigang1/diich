@@ -473,7 +473,7 @@
 
                                 <#if (cf.resourceList?size > 2) >
                                     <div class="more">
-                                        <a class="albums" data-id="${cf.id?c}" href="javascript:;">查看完整图集<i class="arrow_right"></i></a>
+                                        <a class="albums arrow_right" data-id="${cf.id?c}" href="javascript:;">查看完整图集</a>
                                     </div>
                                 </#if>
                             </div>

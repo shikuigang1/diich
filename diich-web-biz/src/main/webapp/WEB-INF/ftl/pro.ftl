@@ -626,14 +626,14 @@
 
                                 <#if (cf.resourceList?size > 2) >
                                     <div class="more">
-                                        <a class="albums" data-id="${cf.id?c}" href="javascript:;">
+                                        <a class="albums arrow_right" data-id="${cf.id?c}" href="javascript:;">
                                             <#if obj.lang == "chi">
                                                 查看完整图集
                                             </#if>
                                             <#if obj.lang == "eng">
                                                 View the complete set of images
                                             </#if>
-                                            <i class="arrow_right"></i></a>
+                                            </a>
                                     </div>
                                 </#if>
                             </div>
