@@ -147,6 +147,7 @@ function buildCondition() {
 
     var keyword = global_keyword;
     if(keyword != null && keyword != '') {
+        keyword = keyword.replace(/\+/g,' ');
         condition.keyword = filterStr(keyword);
         $('#keyword').val(keyword);
     }
