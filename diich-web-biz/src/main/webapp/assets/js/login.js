@@ -378,10 +378,11 @@ var loginPage = {
 $(function () {
     loginPage.init();
     //判断当前用户是否登录
+    console.log(localStorage.getItem("pid"));
     $.ajax({
         cache: true,
         type: "POST",
-        url: "http://diich.efeiyi.com/user/userinfo",
+        url: "../user/userinfo",
         data: {params:localStorage.getItem("pid")}, // 你的formid
         dataType: "json",
         async: true,
@@ -432,7 +433,7 @@ function login(){
     $.ajax({
         cache: true,
         type: "POST",
-        url: "http://diich.efeiyi.com/user/login",
+        url: "../user/login",
         data: $('#loginForm').serialize(), // 你的formid
         dataType: "json",
         async: true,
