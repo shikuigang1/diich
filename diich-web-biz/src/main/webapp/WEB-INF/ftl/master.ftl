@@ -131,8 +131,8 @@
 
 <#assign propage = "http://project.efeiyi.com/p/"/>
 <#assign workspage = "http://works.efeiyi.com/w/"/>
-<#assign prouri="../../image/project/" />
-<#assign masteruri="../../image/master/" />
+<#assign prouri="http://resource.efeiyi.com/image/project/" />
+<#assign masteruri="http://resource.efeiyi.com/image/master/" />
 <#assign str="http:" />
 <#assign strs="https:" />
 <div class="container">
