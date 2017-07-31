@@ -376,6 +376,7 @@ var loginPage = {
 
 
 $(function () {
+    loginPage.init();
     //判断当前用户是否登录
     $.ajax({
         cache: true,
@@ -395,7 +396,6 @@ $(function () {
                 $(".login").hide();
                 $(".logined").show();
                 //根据当前 语言环境判断
-
                 if(lang=='zh-CN'){
                     $(".logined").find('a').text("你好，"+data.data.loginName);
                 }else{
@@ -422,7 +422,7 @@ $(function () {
         }
     });
 
-    loginPage.init();
+
 
     //window.sessionStorage.setItem();
 });
@@ -438,16 +438,13 @@ function login(){
         async: true,
         error: function(request) {
             //alert("Connection error");
-
         },
         success: function(data) {
-
             console.log(data);
             var lang = getLang();
             if(data.code!=0){
                //$(".item login").next().find('div .group').addClass('error') getMsgByCode
                 $('.box_layer .login').find('.group').addClass('error');
-
                 $('.box_layer .login').find('.error_txt').text(getMsgByCode(data.code,lang));
 
             }else{
@@ -455,7 +452,6 @@ function login(){
                 $(".login").hide();
                 $(".logined").show();
                 //根据当前 语言环境判断   默认显示英文
-
                 if(lang=='zh-CN'){
                     $(".logined").find('a').text("你好，"+ data.data.loginName);
                 }else{
@@ -562,4 +558,4 @@ function  resetPass(){
     });
 }
 //系统过滤页面  这些页面 未登录 需要弹出登录窗口
-var filterpage= ['/declare.html','/ichpro.html','/ichProForm.html'];
+var filterpage= ['/declare.html','/ichpro.html','/ichProForm.html','/ichProContent.html'];

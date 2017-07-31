@@ -11,6 +11,7 @@
     <script src="../assets/js/system.js"></script>
     <script src="../assets/js/inputs.js"></script>
 	<script src="../assets/js/serverinfo.js"></script>
+    <script src="../assets/js/login.js"></script>
     <script type="text/javascript" src="/js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="../js/i18n.js"></script>
 </head>
@@ -121,7 +122,7 @@
 					  $.each(data,function(index,item){
 
 						html+="<li>";
-						if(typeof(item.img)!="undefined"){ 
+						if(typeof(item.img)!="undefined"){
 							html+="<img src=\""+item.img+"\" alt=\"\">";
 						}else{ 
 							//使用默认图片
@@ -129,9 +130,19 @@
 						}
 						
 						html+="<div class=\"info\">";
-						html+="<p class=\"name\"><strong>"+item.name+"</strong><em>ID编码"+item.id+"</em></p>";
-						html+="<p><strong>类型：</strong><span>"+item.category+"</span></p>";
-						html+="<p><strong>地区：</strong><span>"+item.dis+"</span></p>";
+
+						if(typeof (item.name) !="undefined"){
+                            html+="<p class=\"name\"><strong>"+item.name+"</strong><em>ID编码"+item.id+"</em></p>";
+                        }
+
+                        if(typeof (item.category) !="undefined"){
+                            html+="<p><strong>类型：</strong><span>"+item.category+"</span></p>";
+                        }
+
+                        if(typeof (item.dis) !="undefined"){
+                            html+="<p><strong>地区：</strong><span>"+item.dis+"</span></p>";
+                        }
+
 						html+="</div></li>";
 					  
 					  });
@@ -150,11 +161,11 @@
          });
 
         $("#keyword").keyup(function(){
-            if($("#keyword").val()!=""){
+           /* if($("#keyword").val()!=""){
                 $('#keyword').removeAttr("disabled")
             }else{
                 $('#keyword').attr('disabled',"true");
-            }
+            }*/
         });
 		
     });
@@ -187,9 +198,17 @@
 						}
 						
 						html+="<div class=\"info\">";
-						html+="<p class=\"name\"><strong>"+item.name+"</strong><em>ID编码"+item.id+"</em></p>";
-						html+="<p><strong>类型：</strong><span>"+item.category+"</span></p>";
-						html+="<p><strong>地区：</strong><span>"+item.dis+"</span></p>";
+                          if(typeof (item.name) !="undefined"){
+                              html+="<p class=\"name\"><strong>"+item.name+"</strong><em>ID编码"+item.id+"</em></p>";
+                          }
+
+                          if(typeof (item.category) !="undefined"){
+                              html+="<p><strong>类型：</strong><span>"+item.category+"</span></p>";
+                          }
+
+                          if(typeof (item.dis) !="undefined"){
+                              html+="<p><strong>地区：</strong><span>"+item.dis+"</span></p>";
+                          }
 						html+="</div></li>";
 					  
 					  });
