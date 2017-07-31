@@ -185,7 +185,9 @@ var Detail = { //详情页用到的效果
                 _data.name=jsonHead.masterName;
                 _data.page='master';
             }
-            _data.headImage=jsonHead.headImage[0].uri;
+            if(jsonHead.headImage != null && jsonHead.headImage !='undefined'){
+                _data.headImage=jsonHead.headImage[0].uri;
+            }
             return _data;
         },
         formatData:function (type) {//type 传入的是 jsonAll/json   id为区域contentFragmentId
