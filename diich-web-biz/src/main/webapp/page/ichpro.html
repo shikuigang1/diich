@@ -217,6 +217,7 @@
 					  $(".step2").show();
 					  $("#item2").show();
 				  }else{
+                    localStorage.removeItem('ichProject');
                     location.href="../page/ichProForm.html?proName="+$("#keyword").val();
 				  }
 				  
@@ -226,6 +227,8 @@
 	
 	}
     function gotoCreate() {
+	   //清楚本地缓存
+        localStorage.removeItem('ichProject');
         location.href="../page/ichProForm.html?proName="+$("#keyword").val();
     }
 </script>
