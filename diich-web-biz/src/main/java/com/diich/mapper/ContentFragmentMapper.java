@@ -29,6 +29,6 @@ public interface ContentFragmentMapper extends BaseMapper<ContentFragment> {
 
     List<ContentFragment> selectByAttIdAndContent(ContentFragment record);
 
-    ContentFragment selectByAttrIdAndTargetId(Long targetId, Integer targetType, Long attributeId);
+    ContentFragment selectByAttrIdAndTargetId(ContentFragment record);
 
 }

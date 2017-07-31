@@ -150,14 +150,32 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
         }
 
     }
-    //用于删除项目时间部分
+    //用于删除项目实践部分
     @Override
     public void deleteContentFragmentByAttrIdAndTargetId(Long targetId, Integer targetType, Long attributeId) throws Exception {
-        ContentFragment contentFragment = new ContentFragment();
-        contentFragment.setAttributeId(attributeId);
-        contentFragment.setTargetId(targetId);
-        contentFragment.setTargetType(targetType);
-        contentFragmentMapper.selectByAttrIdAndTargetId(targetId,targetType,attributeId);
+        TransactionStatus transactionStatus = getTransactionStatus();
+        try{
+            ContentFragment contentFragment = new ContentFragment();
+            contentFragment.setAttributeId(attributeId);
+            contentFragment.setTargetId(targetId);
+            contentFragment.setTargetType(targetType);
+            ContentFragment content = contentFragmentMapper.selectByAttrIdAndTargetId(contentFragment);
+            if(content != null){
+                Long id = content.getId();
+                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(id);
+                if(contentFragmentResourceList.size()>0){
+                    contentFragmentResourceMapper.deleteByContentFragmentId(id);
+                    for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
+                        resourceMapper.deleteByPrimaryKey(contentFragmentResource.getResourceId());
+                    }
+                }
+                contentFragmentMapper.deleteByPrimaryKey(id);
+            }
+            commit(transactionStatus);
+        }catch(Exception e){
+            rollback(transactionStatus);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
     }
 
     private void checkSaveField(ContentFragment contentFragment) throws Exception {
