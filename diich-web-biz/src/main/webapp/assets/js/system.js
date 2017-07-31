@@ -5,7 +5,7 @@ var renderHhtml = {
         this.footer();
     },
     header: function () { //导航
-        var language = getCurrentLanguage();
+        var language = getLang();
 
         var htmlStr = '<div class="content">' +
             '<a class="logo" href="' + renderHhtml.uri + '/page/index.html"></a>' +
