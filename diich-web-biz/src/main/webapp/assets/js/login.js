@@ -382,6 +382,7 @@ $(function () {
         cache: true,
         type: "POST",
         url: "http://diich.efeiyi.com/user/userinfo",
+        data: {params:localStorage.getItem("pid")}, // 你的formid
         dataType: "json",
         async: true,
         error: function(request) {
@@ -390,7 +391,6 @@ $(function () {
         success: function(data) {
             var lang = getLang();
             console.log(data);
-
             //隐藏 显示数据
             if(typeof (data.data)!='undefined' && data.code==0){
                 $(".login").hide();
@@ -441,6 +441,7 @@ function login(){
         },
         success: function(data) {
             console.log(data);
+            localStorage.setItem("pid",data.data.id);
             var lang = getLang();
             if(data.code!=0){
                //$(".item login").next().find('div .group').addClass('error') getMsgByCode
