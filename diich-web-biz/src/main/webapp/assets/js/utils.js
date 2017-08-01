@@ -22,8 +22,6 @@ var cutStr = {
     }
 };
 
-
-
 //详情页相关
 var Detail = { //详情页用到的效果
     productsTab: function () { //作品分页
@@ -185,9 +183,7 @@ var Detail = { //详情页用到的效果
                 _data.name=jsonHead.masterName;
                 _data.page='master';
             }
-            if(jsonHead.headImage != null && jsonHead.headImage !='undefined'){
-                _data.headImage=jsonHead.headImage[0].uri;
-            }
+            _data.headImage=jsonHead.headImage[0].uri;
             return _data;
         },
         formatData:function (type) {//type 传入的是 jsonAll/json   id为区域contentFragmentId
@@ -209,15 +205,15 @@ var Detail = { //详情页用到的效果
                         _index=i;
                     }
                 }
-                
+
                 _data.imgs=data[_index].imgs;
                 _data.videos=data[_index].videos;
                 //判断图片和视频的数量
                 _data.imgSize=_data.imgs.length;
                 _data.videoSize=_data.videos.length;
             }
-			
-			
+
+
 
             return _data;
         },
@@ -288,7 +284,7 @@ var Detail = { //详情页用到的效果
             //区域
             $('.card .text_img .media .more a').on('click',function () {
                 var type=$(this).attr('data-id');
-				console.log(type)
+                console.log(type)
                 $('body').append(_this.createDom());
                 _this.handleDom(type);
                 return false;
@@ -461,17 +457,7 @@ var Detail = { //详情页用到的效果
                     return false;
                 });
 
-               /* //点击分享图标
-                _el.on('click', function () {
-                    $(this).addClass('active').siblings('a').removeClass('active');
-                    _img.eq($(this).index()).show().siblings('img').hide();
-                });
-
-                _shareBox.on('click', function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                });*/
-
+                //点击分享图标
                 $(function(){
                     //分享至sina微博
                     var el=$('.card_main .floor a.share');
@@ -493,7 +479,6 @@ var Detail = { //详情页用到的效果
                     var str="<a class=\"sina\" href=\"javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=3348629102',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','"+img+"','"+title+"','"+uri+"','页面编码gb2312|utf-8默认gb2312'));\"></a>";
                     return str;
                 }
-
                 $(document).on("click", function () {
                     _shareBox.fadeOut();
                 });
@@ -553,7 +538,7 @@ var Detail = { //详情页用到的效果
         }
 
     },
-    code_arr:function () {//替换字典数据
+    code_arr:function () {//替换资源数据
         var code_arr = $('.dic');
         for(var i = 0; i < code_arr.length; i ++) {
             var _code = $(code_arr[i]).text();
@@ -596,188 +581,211 @@ var Detail = { //详情页用到的效果
     }
 };
 
-
-
 //静态页面搜素
 var searchPage={
     init: function() {
         $('.header_detail .content .info li.login').addClass('line');
-        this.initData();
-        this.filterBar();
-        this.search();
+        this.slide(); //点击图标下拉
+
     },
-    filterBar: function() {
-        var obj = $('.filter_bar');
-        var linkTab = obj.find('a');
-        var iconTab = obj.find('.icon_tab');
-        var proColumn = $('.pro_column3'); //搜索列表
-
-        //筛选
-        linkTab.on('click', function() {
-            $(this).addClass('active').siblings('a').removeClass('active');
-
-            //刷新搜索结果页
-
-            if ($(this).index() == 0) {
-                $("#type").val("");
-            }
-            if ($(this).index() == 1) {
-                $("#type").val("0");
-            }
-            if ($(this).index() == 2) {
-                $("#type").val("1");
-            }
-            if ($(this).index() == 3) {
-                $("#type").val("2");
-            }
-
-            searchData_();
-
-            return false;
-        });
-
-        //切换图标
-        iconTab.on('click', function() {
-            if ($(this).hasClass('active')) { //九宫格
-                $(this).removeClass('active');
-                proColumn.removeClass('active');
-            } else { //横排
-                $(this).addClass('active');
-                proColumn.addClass('active');
-            }
-        });
-    },
-    search: function() {
+    slide:function () {
+        var _this=this;
+        var url='http://diich.efeiyi.com/page/search.html?keyword=';
+        var elIcon=$('.header_detail .content .info li.search'); //导航搜索icon
         var filter = $('.filter_search'); //下拉搜索
-        var filterFixed = $('.filter_search_fixed');
-        var ipt = filter.find('.ipt');
-        var iptVal = ipt.val();
-        var filterAll = filter.find('.attr span'); //筛选项
-        var filterItem = filter.find('.item'); //筛选下来框
-        var suggest = filter.find('.suggest');
-        var body = $('body');
-        //获取焦点
-        ipt.focus(function() {
-            $(this).val('');
-            body.append('<div class="overbg" style="z-index:1;"></div>');
+
+        elIcon.on('click',function () {
+            filter.stop(true).slideToggle(200);
+            console.log('asdasd')
         });
+        _this.form.init(url);
+        _this.select.init(filter,url);
+    },
+    form:{//搜索部分
+        init:function (url) {
+            this.bind(url);
+        },
+        template:function (options,url) {
+            var str=' <form class="form" action="'+url+'">' +
+                '<input class="ipt" type="text" id="keyword" name="keyword" placeholder="从这里搜索您感兴趣的..." autocomplete="off">' +
+                '            <input class="submit" type="submit" value="搜索">' +
+                '        </form>' +
+                '        <div class="attr">' +
+                '            <span>'+options.category+'</span>' +
+                '            <span>'+options.citys+'</span>' +
+                '        </div>';
+            return str;
+        },
+        bind:function (url) {
+            var form=$('#form');
+            var options={
+                category:'所属类别',
+                citys:'地区'
+            };
+            form.append(this.template(options,url));
 
-        //失去焦点如果为空则显示原始值
-        ipt.blur(function() {
-            var _val = $(this).val();
-            if (_val == '') {
-                $(this).val(iptVal);
-            }
-            $('.overbg').remove();
-        });
+            //1.输入框
+            var _ipt=form.find('.ipt'); //输入框
 
-        //2.点击筛选
-        filterAll.on('click', function() {
-            var _this = $(this);
-            var _index = _this.index();
-            filterItem.eq(_index)
-                .css('left', parseInt(_this.position().left) + 'px')
-                .show()
-                .siblings('.item')
-                .hide();
-        });
-
-        filterItem.each(function() {
-            var _this = $(this);
-            var level = $(this).find('.level');
-            var level2 = $(this).find('.level2');
-            var _li = level.find('li'); //分类
-
-            _li.hover(function() {
-                $(this).addClass('active').siblings('li').removeClass('active');
-
-                $("#catecontent").empty();
-                $("#citycontent").empty();
-
-                if (typeof(category_all[$(this).index()].children) != "undefined") {
-                    $.each(category_all[$(this).index()].children, function(index, content) {
-                        $("#catecontent").append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
-                    });
-
-                    //点击二级分类
-                    $("#catecontent").find('li').on('click', function() {
-                        filterAll.eq(0).text($(this).html());
-                        _this.hide();
-                        $("#gb_category_code").val($(this).attr("data-id"));
-                        //searchData_();
-                    });
+            //2.提交
+            $(document).keyup(function(e){
+                if(e.keyCode ==13){
+                    window.location=url+$('#keyword').val();
                 }
-
-                if (typeof(dic_arr_city) != "undefined") {
-                    $.each(dic_arr_city, function(index, content) {
-                        $("#citycontent").append("<li data-id=\"" + content.code + "\"  >" + content.name + "</li>");
-                    });
-
-                    //国家级
-                    $("#country").find('li').on('click', function() {
-                        filterAll.eq(1).text($(this).html());
-                        _this.hide();
-                        $("#area_code").val("");
-                        // searchData_();
-                    });
-
-                    //一级城市
-                    $("#citycontent").find('li').on('click', function() {
-                        filterAll.eq(1).text($(this).html());
-                        _this.hide();
-                        $("#area_code").val($(this).attr("data-id"));
-                        //searchData_();
-                    });
-                }
-                level2.show();
             });
-        });
-
-
-        //点击一级类别
-
-        //3.阻止点击自身关闭
-        filter.on('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        });
-
-        //4.点击自身之外的地方关闭下拉框
-        $(document).on("click", function() {
-            filterItem.hide();
-            filterFixed.slideUp('fast');
-        });
-        //自动提示
-        body.find('.overbg').on('click', function() {
-            filterItem.hide();
-            filterFixed.slideUp('fast');
-            suggest.hide();
-            $(this).remove();
-            body.css('overflow', '');
-        });
+        }
 
     },
-    initData:function () {//初始化分类数据
-        var mainCategory = $('#mainCategory');
+    select: {//所属分类
+        init:function (obj,url) {
+            this.bind(obj,url);
+        },
+        template:function (options) {
+            var str='<div class="item">' +
+                '                <dl class="level">' +
+                '                    <dt><span class="title">'+options.title+'</span></dt>' +
+                '                    <dd><ul></ul></dd>' +
+                '                </dl>' +
+                '                <dl class="level2">' +
+                '                    <dt><span class="title">'+options.stitle+'</span></dt>' +
+                '                    <dd><ul></ul></dd>' +
+                '                </dl>' +
+                '            </div>';
+            return str;
+        },
+        createLi:function (type,data) {
+            var str='';
+            for (var i=0;i<data.length;i++){
+                if(type=='gb_category_code'){
+                    str+='<li data-type="'+type+'" data-id="'+data[i].gbCategory+'">'+data[i].name+'</li>';
+                }else {
+                    str+='<li data-type="'+type+'" data-id="'+data[i].code+'">'+data[i].name+'</li>';
+                }
+            }
+            return str;
+        },
+        bind:function (obj,url) {
+            var _this=this;
+            var data=[];
+            var options={};
+            var drag=$('#drag');
+            //点击分类和地区
+            obj.on('click','.attr span',function () {
+                var _index=$(this).index();
+                if(_index==0){//所属分类
+                    data=category_all;
+                    options={
+                        title:'一级分类',
+                        stitle:'二级分类',
+                        type:'gb_category_code'
+                    }
+                }else {//选择城市
+                    data=dic_arr_city;
+                    options={
+                        title:'位置',
+                        stitle:'按照字母顺序',
+                        type:'area'
+                    }
+                }
 
-        //初始化分类数据
-        $.each(category_all, function(index, content) {
-            mainCategory.append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
-        });
+                drag.append(_this.template(options));
+                var item=drag.find('.item');
+                var level1=drag.find('.level');
+                var level2=drag.find('.level2');
+                item.slideDown(100).css('left',$(this).offset().left+'px');
 
-        mainCategory.find('li').on('click', function() {
-            $("#attr_text").text($(this).html());
-            $("#gb_category_code").val($(this).attr("data-id"));
-            $("#item_1").hide();
 
-            //searchData_();
-        });
+
+                level1.find('ul').html(_this.createLi(options.type,data));
+                level1.find('li').hover(function () {
+                    var _data=data[$(this).index()].children;
+                    level2.hide().find('ul').html('');
+                    if(_data!==null && _data.length!==0){
+                        level2.show().find('ul').html(_this.createLi(options.type,_data));
+                    }
+                });
+
+            });
+
+            drag.on('click','li',function(){
+                window.location=url+ $('#keyword').val()+'&'+$(this).attr('data-type')+'='+$(this).attr('data-id');
+            });
+
+        }
+    }
+
+};
+
+
+//上传图片
+var upload={
+    init:function () {
+        this.create(el,url);
     },
-    submit:function () {
-        $(".form").ajaxSubmit();
+    elForm:function (type,url) { //1是图片  0是视频
+        var str='';
+        if(type==1){
+            str='<div class="file"><input type="file" name="mypic"></div>';
+        }else {
+            str='<div class="file"><input type="file" name="myvideo"></div>';
+        }
+        var _parent='<form class="upload" action="'+url+'" method="post" enctype="multipart/form-data">'+str+'<div class="progress"><em class="bar"></em><em class="percent"></em></div></form>';
+        return _parent;
+    },
+    elPreview:function (src) {//创建预览图片
+        var _str='<div class="preview"><img src="'+src+'"></div>';
+        return _str;
+    },
+    create:function (el,url) {
+        var _this=this;
+        var article=$(el);
+        article.each(function () {
+            $(this).find('.add_image .icon').append(_this.elForm(1,url));
+            $(this).find('.add_video .icon').append(_this.elForm(0,url));
+        });
+        _this.submitImage();
+    },
+    submitImage:function () {
+        var _this=this;
+        var _form=$(this).parents('form');
+        var progress=_form.find('.progress');
+        var bar=progress.find('.progress');
+        var percent=progress.find('.percent');
+
+        var img=$('.add_image .icon');
+
+        img.on('click','input[type=file]',function () {
+            var _form = $(this).parents('form');
+            _form.ajaxSubmit({
+                dataType: 'json',
+                beforeSend: function () {
+                    var percentVal = '0%';
+                    //bar.width(percentVal);
+                    //percent.html(percentVal);
+                },
+                uploadProgress: function (event, position, total, percentComplete) {
+                    var percentVal = percentComplete + '%';
+                    // progress.show();
+                    // bar.width(percentVal);
+                    // percent.html(percentVal);
+                },
+                success: function (data) {
+                    //todo
+                },
+                error: function (xhr) {
+                    var _src = 'http://localhost:8008/bigData/src/assets/uploads/detail_04.jpg';
+                    //1.去重表单
+                    // parent.html('');
+                    //2.重新创建看一个可以上传的表单
+                    // parent.append(_this.elForm());
+                    //3.给预览图片赋值
+                    // var _form=parent.find('form.upload');
+                    // _form.append(_this.elPreview(_src));
+                    //4.改变input 的状态
+                    // _form.find('.file').addClass('active').append('重新上传');
+                }
+            });
+        })
     }
 };
 
-$(function () {
-    searchPage.init();
-})
