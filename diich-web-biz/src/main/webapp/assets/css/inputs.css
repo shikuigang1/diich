@@ -1308,5 +1308,23 @@ body,
 .ipt_over .buttons a.btn2 {
     float: right;
 }
+
+.prompt {
+    margin-left: 60px;
+    font-size: 14px;
+    color: #FF3E3E;
+    position: relative;
+    float: left;
+    padding-left: 22px;
+}
+.prompt i {
+    background: url(../images/inputs/errors.png);
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -8px;
+}
 /*--//End 信息填写完成，可以提交审核--*/
 
