@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class IchProject extends BaseModel {
+public class IchProject extends IchObject {
     private Long id;
 
     private Long ichCategoryId;

@@ -31,10 +31,10 @@ public class SearchController extends BaseController {
     public Map<String, Object> search(HttpServletRequest request, HttpServletResponse response) {
         String conditionStr = request.getParameter("condition");
 
-        JSONObject condition = null;
+        Map<String, Object> condition = null;
 
         try {
-            condition = JSONObject.parseObject(conditionStr);
+            condition = JSONObject.parseObject(conditionStr, Map.class);
         } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);

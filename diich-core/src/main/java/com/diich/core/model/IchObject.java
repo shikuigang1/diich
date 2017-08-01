@@ -5,7 +5,7 @@ import com.diich.core.base.BaseModel;
 /**
  * Created by Administrator on 2017/7/26.
  */
-public class Search extends BaseModel{
+public class IchObject extends BaseModel{
     private long targetId;
     private int targetType;
 

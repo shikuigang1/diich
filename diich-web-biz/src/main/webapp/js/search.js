@@ -185,7 +185,15 @@ function buildSearchResultUi(data) {
         return;
     }
 
-    $("#totalCount").text(data.total);
+    var total = 0;
+    if(pageNum > 1) {
+        var total_of_storage = localStorage.getItem('search_total');
+        total = total_of_storage != null ? total_of_storage : 0;
+    } else {
+        total = data.total != null ? data.total : 0;
+        localStorage.setItem('search_total', total);
+    }
+    $("#totalCount").text(total);
 
     var template = $('.template')[0].outerHTML;
     var array = data.data;
@@ -199,7 +207,7 @@ function buildSearchResultUi(data) {
         $('#content').append($ui);
     }
 
-    if(data.total > (pageNum - 1) * pageSize + pageSize) {
+    if(total > (pageNum - 1) * pageSize + pageSize) {
         $('#loadmore').text('Load More');
         $('.load_more').show();
     }

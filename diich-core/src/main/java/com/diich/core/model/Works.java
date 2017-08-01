@@ -5,7 +5,7 @@ import com.diich.core.base.BaseModel;
 import java.util.Date;
 import java.util.List;
 
-public class Works extends BaseModel {
+public class Works extends IchObject {
     private Long id;
 
     private Long lastEditorId;
