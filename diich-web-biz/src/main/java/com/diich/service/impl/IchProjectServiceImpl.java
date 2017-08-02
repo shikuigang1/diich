@@ -181,9 +181,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Transactional
     public IchProject saveIchProject(IchProject ichProject) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
-        if(ichProject.getStatus() != null && ichProject.getStatus() == 2){
-            checkIchProject(ichProject,2);//校验项目 2代表保存 3代表提交
-        }
         if(ichProject.getStatus() != null && ichProject.getStatus() == 3){
             checkIchProject(ichProject,3);//校验项目 2代表保存 3代表提交
         }
@@ -220,7 +217,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             ichProject.setUri(proID +".html");
             ichProjectMapper.insertSelective(ichProject);
         } else {
-            //判断分类是否发生改变
+            checkIchCat(ichProject);//判断分类是否发生改变
             ichProject.setUri(ichProject.getId() +".html");
             ichProjectMapper.updateByPrimaryKeySelective(ichProject);
         }
@@ -265,7 +262,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         if(selectProject.getLastEditorId() != ichProject.getLastEditorId()){
             long branchId = IdWorker.getId();
             ichProject.setId(branchId);
-            ichProject.setStatus(3);
+            ichProject.setStatus(2);
             ichProjectMapper.insertSelective(ichProject);
             List<ContentFragment> ichProjectContentFragmentList = ichProject.getContentFragmentList();
             for (ContentFragment contentFragment : ichProjectContentFragmentList) {
@@ -336,6 +333,17 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         String fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId().toString();
         String uri = buildHTML("pro.ftl", ichProject, fileName);
         return uri;
+    }
+
+    @Override
+    public List<IchProject> getIchProjectByUserId(Long id) throws Exception {
+        List<IchProject> ichProjectList = null;
+        try{
+           ichProjectList = ichProjectMapper.selectIchProjectByUserId(id);
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return ichProjectList;
     }
 
     /**
@@ -530,22 +538,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     private void checkAttribute(IchProject ichProject,Integer status) throws Exception{
         List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
-        List<String> list = new ArrayList<>();
-        for (ContentFragment contentFragment:contentFragmentList) {
-            if (contentFragment.getAttributeId() !=0) {
-                continue;
-            }
-            checkDefineField(contentFragment,list);//校验自定义字段
-            list.add(contentFragment.getAttribute().getCnName());
-        }
-        if(status == 2){//保存
-            for (ContentFragment contentFragment:contentFragmentList) {
-                if(contentFragment.getAttributeId() !=0){
-                    //判断字段是否符合条件
-                    checkSaveField(contentFragment);
-                }
-            }
-        }
         if(status == 3){//提交
             List<Attribute> attributeList = null;
             try{
@@ -561,35 +553,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             for (Attribute attr :attributeList) {
                 checkSubmitField(attr,contentFragmentList);
             }
-        }
-    }
-    /**
-     * 检查自定义字段是否重名
-     * @param contentFragment
-     * @throws Exception
-     */
-    private void checkDefineField(ContentFragment contentFragment,List<String> list) throws Exception {
-
-        Map map = new HashMap();
-        Attribute attribute = contentFragment.getAttribute();
-        String cnName = attribute.getCnName();
-        //判断是否重名
-        if(list.contains(cnName)){
-            throw new ApplicationException(ApplicationException.PARAM_ERROR);
-        }
-        //根据属性名称和targetType查询attribute表中是否存在该属性
-
-        map.put("cnName",cnName);
-        map.put("targetType",0);
-        List<Attribute> attributeList = null;
-        try{
-            attributeList = attributeMapper.selectAttrByNameAndTargetType(map);
-        }catch (Exception e){
-            throw new ApplicationException(ApplicationException.INNER_ERROR);
-        }
-
-        if(attributeList.size()>0){
-            throw new ApplicationException(ApplicationException.PARAM_ERROR,"自定义属性名称已存在");
         }
     }
 
@@ -625,37 +588,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
             }
 
-        }
-    }
-
-    /**
-     * 保存时对字段的校验
-     * @param contentFragment
-     * @throws Exception
-     */
-    private void checkSaveField(ContentFragment contentFragment) throws Exception {
-        Long attributeId = contentFragment.getAttributeId();
-        if(attributeId != null){
-            Attribute attribute = null;
-            try{
-                attribute = attributeMapper.selectByPrimaryKey(attributeId);
-            }catch (Exception e){
-                e.printStackTrace();
-                throw new ApplicationException(ApplicationException.INNER_ERROR);
-            }
-
-            if(attribute.getMinLength() != null){
-                String content = contentFragment.getContent();
-                if(content == null || (content.length() < attribute.getMinLength())){
-                    throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
-                }
-            }
-            if(attribute.getMaxLength() != null){
-                String content = contentFragment.getContent();
-                if(content != null && content.length() > attribute.getMaxLength()){
-                    throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
-                }
-            }
         }
     }
 

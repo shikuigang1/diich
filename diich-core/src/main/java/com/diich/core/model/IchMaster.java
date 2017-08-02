@@ -5,7 +5,7 @@ import com.diich.core.base.BaseModel;
 import java.util.Date;
 import java.util.List;
 
-public class IchMaster extends BaseModel {
+public class IchMaster extends IchObject {
     private Long id;
 
     private Long ichProjectId;

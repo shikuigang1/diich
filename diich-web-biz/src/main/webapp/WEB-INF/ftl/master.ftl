@@ -20,10 +20,10 @@
     <script src="${caturi}/assets/js/system.js"></script>
     <script src="${caturi}/assets/js/utils.js"></script>
     <script src="${caturi}/assets/js/detail-master.js"></script>
+    <script src="${caturi}/assets/js/login.js"></script>
     <script src="${caturi}/data/keyword.js"></script>
     <script src="${caturi}/data/category.js"></script>
     <script src="${caturi}/js/citys.js"></script>
-    <script src="${caturi}/assets/js/inputs.js"></script>
     <script src="${caturi}/js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="${caturi}/js/i18n.js"></script>
     <script src="${caturi}/data/dictionary.js"></script>
@@ -44,86 +44,8 @@
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
     <div class="content">
-        <form class="form" action="${caturi}/page/search.html">
-            <input class="ipt" type="text" id="keyword" name="keyword" value="" autocomplete="off">
-            <input type="hidden" id="area_code" name="area_code" value="" />
-            <input type="hidden" id="gb_category_code" name="gb_category_code" value="" />
-            <input type="hidden" id="type" name="type" value="" />
-            <input class="submit" type="button" value="搜索" onclick="submit()">
-            <div class="suggest" style="display: none;">
-                <ul>
-
-                </ul>
-            </div>
-        </form>
-        <!--//End form-->
-
-        <div class="attr">
-            <span id="attr_text">所属类别</span>
-            <span id="area_text">全球</span>
-        </div>
-        <!--//End attribute-->
-
-        <div class="dropbox" id="drag">
-            <!--//ENd 全部-->
-
-            <div class="item" id="item_1">
-                <dl class="level">
-                    <dt>
-                    <div class="title">一级分类</div>
-                    <div class="subtitle">所有分类</div>
-                    </dt>
-                    <dd>
-                        <ul id="mainCategory">
-
-                        </ul>
-                    </dd>
-                </dl>
-                <dl class="level2">
-                    <dt>
-                    <div class="title">二级分类</div>
-                    <div class="subtitle">所有二级分类</div>
-                    </dt>
-                    <dd>
-                        <ul id="catecontent">
-
-                        </ul>
-                    </dd>
-                </dl>
-            </div>
-            <!--//End 所属分类-->
-
-            <div class="item">
-                <dl class="level">
-                    <dt>
-                    <div class="title">位置</div>
-                    </dt>
-                    <dd>
-                        <ul>
-                            <li>中国</li>
-                        </ul>
-                    </dd>
-                </dl>
-                <dl class="level2">
-                    <dt>
-                    <div class="title">按照字母顺序</div>
-                    </dt>
-                    <dd>
-                        <ul id="citycontent">
-                            <li>安微</li>
-                            <li>澳门</li>
-                            <li>北京</li>
-                            <li>上海</li>
-                            <li>福建</li>
-                            <li>甘肃</li>
-                            <li>广东</li>
-                        </ul>
-                    </dd>
-                </dl>
-            </div>
-            <!--//End 位置-->
-
-        </div>
+        <div id="form"></div>
+        <div class="dropbox" id="drag"></div>
         <!--//End attribute-->
     </div>
 </div>

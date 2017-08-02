@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.diich.mapper.IchObjectMapper" >
+  <resultMap id="recordCount" type="java.lang.Integer">
+    <result column="record_count" jdbcType="INTEGER" javaType="java.lang.Integer" />
+  </resultMap>
+
+  <resultMap id="BaseResultMap" type="com.diich.core.model.IchObject" >
+    <result column="target_id" property="targetId" jdbcType="BIGINT" />
+    <result column="target_type" property="targetType" jdbcType="INTEGER" />
+  </resultMap>
+
+  <select id="searchList"  parameterType="java.util.Map"  resultMap="BaseResultMap, recordCount" statementType="CALLABLE">
+  {call search(#{keyword,jdbcType=VARCHAR,mode=IN}, #{type,jdbcType=INTEGER,mode=IN},#{category,jdbcType=VARCHAR,mode=IN} ,
+  #{area,jdbcType=VARCHAR,mode=IN})}
+</select>
+
+</mapper>
