@@ -170,6 +170,7 @@ public class IchProjectController extends BaseController<IchProject> {
         }
 
         response.setHeader("Access-Control-Allow-Origin", "*");
+
         return putDataToMap(ls);
     }
 
