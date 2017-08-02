@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public interface SearchService {
 
-    int search(Map<String, Object> condition, List<IchObject> ichObjectList);
+    int search(Map<String, Object> condition, List<IchObject> ichObjectList) throws Exception;
 
     boolean clearAllKey() throws Exception;
 }

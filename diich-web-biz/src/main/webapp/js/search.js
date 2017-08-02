@@ -254,10 +254,10 @@ function fillMasterData(master, template) {
         for(var i = 0; i < contentList.length; i ++) {
             if(contentList[i].attributeId == 4) {
                 $ich_project.text(contentList[i].content);
-                /*$ich_project.parent().attr('href', 'http://resource.efeiyi.com/html/project/'+
-                 master.ichProject.id +'.html?lang=' + getCurrentLanguage());*/
             }
         }
+        $ich_project.parent().attr('href', 'http://resource.efeiyi.com/html/project/'+
+         master.ichProjectId +'.html?lang=' + getCurrentLanguage());
     }
 
     return $ui;
