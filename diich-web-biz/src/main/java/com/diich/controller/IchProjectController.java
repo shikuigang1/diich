@@ -7,6 +7,7 @@ import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.IchProject;
 import com.diich.core.model.User;
 import com.diich.core.service.IchProjectService;
+import com.diich.core.support.cache.JedisHelper;
 import com.diich.core.util.QRCodeGenerator;
 import com.diich.core.util.WebUtil;
 import com.sun.image.codec.jpeg.JPEGCodec;
@@ -42,6 +43,8 @@ public class IchProjectController extends BaseController<IchProject> {
     @Autowired
     private IchProjectService ichProjectService;
 
+    @Autowired
+    private JedisHelper jedisHelper;
     /**
      * 获取项目详情的接口  查询的信息有传承人和作品的信息
      * @param request
@@ -80,9 +83,14 @@ public class IchProjectController extends BaseController<IchProject> {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
         IchProject ichProject = null;
         try{
-            ichProject = ichProjectService.getIchProjectById(Long.parseLong(id));
+            ichProject = ichProjectService.getIchProjectByIdAndIUser(Long.parseLong(id),user.getId());
         }catch (Exception e){
             return putDataToMap(e);
         }
@@ -125,7 +133,6 @@ public class IchProjectController extends BaseController<IchProject> {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
-
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
@@ -192,6 +199,31 @@ public class IchProjectController extends BaseController<IchProject> {
         return putDataToMap(uri);
     }
 
+    /**
+     *个人中心
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("getIchProjectByUserId")
+    @ResponseBody
+    public Map<String, Object> getIchProjectByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        List<IchProject> ichProjectList = null;
+        try{
+            ichProjectList = ichProjectService.getIchProjectByUserId(user.getId());
+        }catch (Exception e){
+            return putDataToMap(e);
+        }
+
+        return putDataToMap(ichProjectList);
+    }
 
     @RequestMapping("/getImage")
     public void exportQRCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
