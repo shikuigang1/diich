@@ -34,6 +34,7 @@ function  initCertRank() {
 function initpage(data){
     //初始化 左侧菜单栏
     //<li class="active"><a href=""><i class="checkbox"></i><span>基本内容</span></a></li>
+    //console.log(data);
     $.each(data.data,function (index,obj) {
         ////长文本 或者图文
         if(obj.dataType==1 || obj.dataType==5 ){
@@ -41,9 +42,9 @@ function initpage(data){
             if(!(obj.id==9 || obj.id==24 || obj.id==31)){
                 //中英文切换  <li><i class="icon unselected"></i><span>传承谱系</span></li>
                 if(getLang()=="zh-CN"){
-                    $("#menu").append("<li data-type='longField'><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
+                    $("#menu").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
             }else{
-                    $("#menu").append("<li data-type='longField'><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
+                    $("#menu").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
                 }
             }
         }else{
@@ -85,14 +86,13 @@ function getDataByCateGoryId(data){
     $("#menu2").empty();
     $.each(data.data,function (index,obj) {
         if(getLang()=="zh-CN"){
-            $("#menu2").append("<li data-type='longField'><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
+            $("#menu2").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
         }else{
-            $("#menu2").append("<li data-type='longField'><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
+            $("#menu2").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
         }
     });
 }
 function loadContentFragmentById(cid){
-
     $.ajax({
         type: "POST",
         url: "../ichCategory/getAttributeList",
@@ -116,7 +116,10 @@ function saveandnext() {
      // $("li .active").next().click();
 }
 //保存自定义菜单项
-function  saveCustom() {
+function  saveCustom(next) {
+
+    validateCustom();
+
     var attr={};
     var contentFragment={};
 
@@ -161,8 +164,14 @@ function  saveCustom() {
                 ich.contentFragmentList.push(result.data);
                 localStorage.setItem("ichProject",JSON.stringify(ich));
                 //根据分类重新初始化 左侧菜单
-
                 init3(result.data.targetId);
+                if(next==1){
+                    $("#attrName").val("");
+                    $("#longContent").val("");
+                    $("#images").find('.item').remove();
+                    //$(".preview").empty();
+                    $(".ipt_base .slide .item .dd").find('li.active').next().click();
+                }
 
             }else{
                 alert("保存失败");
@@ -173,6 +182,20 @@ function  saveCustom() {
         }
     });
 }
+function  validateCustom() {
+
+  //  alert($("#attrName").val().trim().length);
+    if($("#attrName").val()==""|| $("#attrName").val().trim().length==0){
+        $("#attrName").next().show();
+        return false;
+    }
+
+    if($("#longContent").val()==""){
+        $("#longContent").next().show();
+        return false;
+    }
+
+}
 
 //根据项目id 初始化自定义属性列表
 function init3(targetID) {
@@ -180,7 +203,7 @@ function init3(targetID) {
     $.ajax({
         type: "POST",
         url: "../ichCategory/getDefAttributeList",
-        data:{targetType:10,categoryId:targetID} ,
+        data:{targetType:10,targetId:targetID} ,
         dataType: "json",
         async:false,
         complete: function () { },
@@ -190,9 +213,9 @@ function init3(targetID) {
                 $("#menu3").empty();
                 $.each(result.data,function (index,obj) {
                     if(getLang()=="zh-CN"){
-                        $("#menu3").append("<li data-type='longField'><i class=\"icon selected\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
+                        $("#menu3").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon selected\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
                     }else{
-                        $("#menu3").append("<li data-type='longField'><i class=\"icon selected\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
+                        $("#menu3").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon selected\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
                     }
                 });
                 $("#menu3").parent().show();
@@ -218,8 +241,22 @@ function  delContentFragment(attrId) {
         }
     });
     if(cid==0){
-        alert("删除错误"); return false;
+        //清除本地数据
+
+        $('li[data-type=longField]').each(function (idx,obj) {
+            if($(this).hasClass("selected")){
+
+                $("#longContent").val("");
+                if($(this).attr("target-type")==5){
+                    $("#images").find('.item').remove();
+                }
+            }
+        });
+
+        init3(ich.id);
+        return false;
     }
+     console.log(cid);
     $.ajax({
         type: "POST",
         url: "../contentFragment/deleteContentFragment",
@@ -232,17 +269,37 @@ function  delContentFragment(attrId) {
             if(result.code==0){
              //判断是否是自定义属性
              var flag=false; //判断是否为自定义 标记
+             var idx=-1;
              if($("#menu3").children().length>0){
-                 $("#menu3").children().each(function () {
+                 $("#menu3").children().each(function (index,obj) {
                      if($(this).find('span').eq(0).attr('data-id')==attrId){
                          flag=true;
+                         idx=index;
+                         return false;
                      }
                  });
              }
              //是自定义 删除后刷新页面 非自定义 清空内容留在本地
-                delContentFragmentLocal(attrId);
+             delContentFragmentLocal(attrId);//删除本地缓存
              if(flag){
-                 location.reload();
+                 //location.reload();
+                 init3(ich.id);
+                 //指定下一个选中状态   当删除 是自定义项
+                 if($("#menu3").children().length>0){
+
+                     if(idx==0){
+                         $("#menu3").children().eq(0).click();
+                     }else{
+                         $("#menu3").children().eq(idx-1).click();
+                     }
+
+                 }else{
+                     //选中上一个 菜单项 末尾子菜单
+                     if($("#menu2").children().length>0){
+                         $("#menu2").children().eq($("#menu2").children().length-1).click();
+                     }
+                 }
+
              }else{
                 //清空内容
                  $("#longContent").val("");
@@ -260,8 +317,6 @@ function  delContentFragment(attrId) {
                      }
                  });
              }
-
-
             }else{
                 alert("保存失败");
             }
@@ -356,7 +411,7 @@ function  saveContentPragment(attrid) {
     }
 
     //alert(JSON.stringify(temp));
-    //console.log(JSON.stringify(temp));
+    console.log(JSON.stringify(temp));
     //return false;
     $.ajax({
         type: "POST",
@@ -377,7 +432,6 @@ function  saveContentPragment(attrid) {
                             ich.contentFragmentList[index]=result.data;
                         }
                     });
-
                     if(flag==0){
                         ich.contentFragmentList.push(result.data);
                     }
@@ -458,39 +512,39 @@ function saveIchProject(page) {
         ich = JSON.parse(ichjsonStr);
         //contentFragmentList = ich.contentFragmentList;
     }
-        var attr={};//contentFragment 内部属性对象
+        //var attr={};//contentFragment 内部属性对象
         var contentFragment={};
 
         contentFragment.attributeId=9;//简介
         contentFragment.content=$("#summary").val();
         contentFragment.targetType=0;
-        attr.dataType=1;//长文本
+        //attr.dataType=1;//长文本
         contentFragment.targetType=0;
-        contentFragment.attribute=attr;
+        //contentFragment.attribute=attr;
         contentFragmentList.push(cloneObj(contentFragment));
         contentFragment={};
         contentFragment.attributeId=6;//拼音
         contentFragment.content=$("#pinyin").val();
-        attr.dataType=0;//短文本
+        //attr.dataType=0;//短文本
         contentFragment.targetType=0;
-        contentFragment.attribute=attr;
+        //contentFragment.attribute=attr;
         contentFragmentList.push(cloneObj(contentFragment));
         contentFragment={};
 
         contentFragment.attributeId=5;//英文名
         contentFragment.content=$("#engName").val();
-        attr.dataType=0;//短文本
+        //attr.dataType=0;//短文本
         contentFragment.targetType=0;
 
-        contentFragment.attribute=attr;
+        //contentFragment.attribute=attr;
         contentFragmentList.push(cloneObj(contentFragment));
         contentFragment={};
 
         contentFragment.attributeId=4;//中文名
         contentFragment.content=$("#chiName").val();//中文名
         contentFragment.targetType=0;
-        attr.dataType=0;
-        contentFragment.attribute=attr;
+        //attr.dataType=0;
+        //contentFragment.attribute=attr;
         contentFragmentList.push(cloneObj(contentFragment));
         contentFragment={};
         //判断是否 为已经认证项目
@@ -505,25 +559,25 @@ function saveIchProject(page) {
 
             contentFragment.attributeId=116;//认证时间
             contentFragment.content=$("#ECalendar_date").val();
-            attr.dataType=0;//短文本
+            //attr.dataType=0;//短文本
             contentFragment.targetType=0;
 
-            contentFragment.attribute=attr;
+           // contentFragment.attribute=attr;
             contentFragmentList.push(cloneObj(contentFragment));
             contentFragment={};
 
             contentFragment.attributeId=41;//认证级别
             contentFragment.content=$("#certselect").val();
-            attr.dataType=103;//字典码
+            //attr.dataType=103;//字典码
             contentFragment.targetType=0;
-            contentFragment.attribute=attr;
+            //contentFragment.attribute=attr;
             contentFragmentList.push(cloneObj(contentFragment));
             contentFragment={};
             contentFragment.attributeId=108;//认证编号
             contentFragment.content=$("#certCode").val();
-            attr.dataType=0;//短文本
+           // attr.dataType=0;//短文本
             contentFragment.targetType=0;
-            contentFragment.attribute=attr;
+            //contentFragment.attribute=attr;
             contentFragmentList.push(cloneObj(contentFragment));
             contentFragment={};
       }
@@ -562,7 +616,6 @@ function saveIchProject(page) {
         localStorage.setItem("ichProject",JSON.stringify(ich));
         console.log(JSON.stringify(ich));
         vaidateForm(ich);
-
 
     //获取本地
   $.ajax({
@@ -680,7 +733,6 @@ function  initProjectView(ich) {
         //通过分类选择 项目实战
         initmenu2(0,ich.ichCategoryId);
 
-
         if(ich.contentFragmentList!= null && typeof (ich.contentFragmentList) != 'undefined'){
 
             $('li[data-type=longField]').each(function () {
@@ -701,7 +753,7 @@ function  initProjectView(ich) {
         }
         //初始化 自定义属性
         init3(ich.id);
-        //修改提交那妞
+        //修改提交按钮状态
         if(ich.id != null && typeof (ich.id) != 'undefined'){
             $(".handle").find('a').eq(2).removeClass('disabled').addClass('empty');
         }
@@ -746,8 +798,7 @@ function submitCheck() {
         }
     });
 }
-
-function preview(){
+function ichProjectpreview(){
     var ich = getCurrentProject();
     $.ajax({
         type: "POST",
@@ -760,10 +811,38 @@ function preview(){
             console.log(JSON.stringify(result));
             if(result.code==0){
                 //存储本地
-                location.href=result.data;
+                location.href="../page/"+ich.id+".html";
             }
         },
         error: function (result, status) {
         }
     });
+}
+//验证 是否已经添加基础信息 否则不能点击其他 菜单按钮
+function  validateIchID() {
+    var ich = getCurrentProject();
+    if(ich.id==null || typeof(ich.id) =='undefined'){
+        return  false;
+    }else{
+        return true;
+    }
+}
+function getIchProByID(pid) {
+    var ich={};
+    $.ajax({
+        type: "POST",
+        url: "../ichProject/getIchProjectById",
+        data:{params:pid} ,
+        dataType: "json",
+        async:false,
+        complete: function () { },
+        success: function (result) {
+            if(result.code==0){
+                ich = result.data;
+            }
+        },
+        error: function (result, status) {
+        }
+    });
+    return ich;
 }

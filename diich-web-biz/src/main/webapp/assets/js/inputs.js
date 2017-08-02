@@ -118,7 +118,6 @@ var selectArea={
                     items2.html('').append(_this.template(data2)).show();
                     isTab(data2.length,0,_text,_code);
                 });
-
                 //2.点击第二个
                 items2.on('click','li',function () {
                     var _index=$(this).index();
@@ -129,7 +128,6 @@ var selectArea={
                     items3.html('').append(_this.template(data3)).show();
                     isTab(data3.length,1,_text,_code);
                 });
-
                 //2.点击第三个
                 items3.on('click','li',function () {
                     var _text=$(this).text();
@@ -137,7 +135,6 @@ var selectArea={
                     tab.removeClass('selected');
                     isTab(0,2,_text,_code);
                 });
-
                 //tab标签状态
                 function isTab(size,index,text,code) {//a索引  b选中的文字 c是code值
                     tab.removeClass('selected');
@@ -159,7 +156,7 @@ var selectArea={
                     function assignValue() {
                         result.push(store);
                         resultText.push(storeText);
-                        localStorage.setItem("codeText",JSON.stringify(resultText));
+                        localStorage.setItem("codeText",resultText.join(","));
                         createSelected(storeText);
                         select.html('').hide();
                         el.attr('value',result);
@@ -168,30 +165,49 @@ var selectArea={
                         }
                     }
                 }
-
                 //创建选中元素
                 function createSelected(data) {
                     selected.append('<li><span>'+data+'<i class="icon"></i></span></li>');
                 }
+
+
             }
 
-        });
 
+
+        });
         //删除选中的数据
-        selected.on('click','span',function () {
+        selected.on('click','li',function () {
             var _index=$(this).index();
-            $(this).parents('li').remove();
+            $(this).remove();
             result.splice(_index,1);
+            resultText.splice(_index,1);
+            console.log(resultText);
+            // var arr=[];
+            // for(var i=0;i<resultText.length;i++){
+            //     if(i != _index){
+            //         arr.push(resultText[i]);
+            //     }
+            // }
+
+            // console.log(JSON.stringify(arr));
+            localStorage.setItem("codeText",resultText.join(","));
             if(callback && callback!='undefined'){
                 callback(result);
             }
+            //删除本地缓存
         });
-
     },
     radio:function (callback) {
         var _this=this;
         var result=[];
         var resultText=[];
+
+        var codeText = localStorage.getItem("codeText");
+        if(codeText != null && typeof (codeText) !="undefined"){
+            resultText = codeText.split(",");
+        }
+
         var area=$('#area');
         var select=$('#select');
         var selected=$('#selected');
@@ -274,15 +290,12 @@ var selectArea={
                         }
                     }
                 }
-
                 //创建选中元素
                 function createSelected(data) {
                     selected.append('<li><span>'+data+'<i class="icon"></i></span></li>');
                 }
             }
-
         });
-
         //删除选中的数据
         selected.on('click','span',function () {
             var _index=$(this).index();
@@ -291,6 +304,7 @@ var selectArea={
             if(callback && callback!='undefined'){
                 callback(result);
             }
+            //删除本地缓存数据
         });
     }
 };
@@ -311,8 +325,6 @@ var projectPage={
         //弱当前缓存有数据则在本地 查找并添加
         var ich = getCurrentProject();
         initProjectView(ich);
-
-
     },
     bind:function () {
         var _data=[
@@ -325,19 +337,14 @@ var projectPage={
         this.selectCate.init('div[data-type=selectCate]',_data); //选择分类
         this.declare();  //是否为自己申报传承人
         selectArea.init(0,function (data) {//选择地址 0是选择地址的类型 0是多选 1是单选
-            console.log(data);
+
+            console.log(JSON.stringify(data));
             var ich = getCurrentProject();
-
             var contentFragment={};
-            var attr={};
-
             contentFragment.attributeId=33;//区域id
-            attr.dataType=0;
-            contentFragment.attribute=attr;
             contentFragment.targetType=0;
             var content=""
             $.each(data,function(index,value) {
-
                 var codepath = value.substring(0,value.length-1);
                 if(codepath.lastIndexOf(",") != -1){
                     content=content+codepath.substring(codepath.lastIndexOf(",")+1)+",";
@@ -345,14 +352,12 @@ var projectPage={
                     content=content+codepath+",";
                 }
             });
-
             contentFragment.content=content.substring(0,content.length-1);
             if( ich.contentFragmentList == null || typeof(ich.contentFragmentList)=="undefined"){
                 var contentFragmentList=[];
                 contentFragmentList.push(contentFragment);
                 ich.contentFragmentList=contentFragmentList;
             }else{
-
                 //查询该数据是否已存在  存在覆盖原有数据
                 var flag = 0;
                 $.each( ich.contentFragmentList,function (idx,obj){
@@ -365,8 +370,8 @@ var projectPage={
                     ich.contentFragmentList.push(contentFragment);
                 }
             }
+            console.log(contentFragment);
             localStorage.setItem("ichProject",JSON.stringify(ich));
-
         });
     },
     slideBar:{//左侧菜单
@@ -381,6 +386,11 @@ var projectPage={
             dd.find('li:last-child').css('margin-bottom','0');
             //点击dt 展开收起
             dt.on('click',function () {
+
+                if(!validateIchID()){
+                    alert("请先添加基础信息"); return false;
+                }
+
                 var _dd=$(this).siblings('.dd');
                 var _dateType=$(this).attr('data-type');
                 if(_dd.length>0){
@@ -391,9 +401,7 @@ var projectPage={
                 $(this).addClass("selected");
                 $('li[data-type=longField]').removeClass("selected");
 
-
                 if(typeof (_dateType) != 'undefined'){
-
                     //移除其他选中
                     $('#tpl').load('./Tpl/'+_dateType+'.html',function () {
                         projectPage.bind();
@@ -401,7 +409,6 @@ var projectPage={
                             projectPage.uploadImgage(); //上传题图
                             //重新初始化 分类信息  认证信息
                             initCertRank();
-
                             var ich = getCurrentProject();
                             if(typeof (ich)!= "undefined"){
                                 //填充分类
@@ -447,7 +454,6 @@ var projectPage={
                                     if(obj.attributeId == 41 && obj.content != ''){
                                         $("#certselect").val(obj.content);
                                     }
-
                                 });
 
                                 if(flag==1){
@@ -455,35 +461,37 @@ var projectPage={
                                 }
                                 //区域值
                                 var codeText=localStorage.getItem("codeText");
-                                var codeTextList = JSON.parse(codeText);
-                                if(codeTextList !=  null || typeof(codeTextList)!= 'undefined' ){
-                                    for(var i=0;i<codeTextList.length;i++){
-                                        $("#selected").append('<li><span>'+codeTextList[i]+'<i class="icon"></i></span></li>');
+                                if(codeText !=""){
+                                    var codeTextList = codeText.split(",");
+                                    if(codeTextList !=  null || typeof(codeTextList)!= 'undefined' ){
+                                        for(var i=0;i<codeTextList.length;i++){
+                                            $("#selected").append('<li><span>'+codeTextList[i]+'<i class="icon"></i></span></li>');
+                                        }
+                                        $("#area").show();
+                                        $('#select').hide();
                                     }
-                                    $("#area").show();
-                                    $('#select').hide();
                                 }
-
 
                                 //填充 是否为 已申报传承人
 
-
                             }
                         }
-
                         if(_dateType == 'longFieldCustom'){
                             projectPage.radioImage();
                         }
                     });
                 }
-
             });
 
             //点击子分类
             dd.on('click','li',function () {
+                if(!validateIchID()){
+                    alert("请先添加基础信息"); return false;
+                }
                 var _dateType=$(this).attr('data-type');
                 var name = $(this).children("span").first().text();
                 var attrid=$(this).children("span").first().attr('data-id');
+                var targetType=$(this).attr('target-type');
 
                 //移除其他选中状态
                 $(this).addClass('selected').siblings('li').removeClass('selected');
@@ -495,16 +503,16 @@ var projectPage={
                     if(_dateType==='longField'){
                         //修改标签内容
                         $(".st").children("h2").text(name);
-
                         //初始化当前菜单数据
                         var ich = getCurrentProject();
+                       // var flag = false;//缓存命中标记
                         $.each(ich.contentFragmentList,function (index,obj) {
                                 if(obj.attributeId == attrid){
+                                   // flag = true;
                                     $("#longContent").val(obj.content);
                                     if(typeof(obj.resourceList) != 'undefined'){
                                         var html="";
                                         $.each(obj.resourceList,function (i,resource) {
-
                                             if(i%2==0){
                                                 html+="<div class=\"item\" style=\"margin-right: 10px;\">";
                                             }else{
@@ -520,18 +528,21 @@ var projectPage={
 
                                         $("#images").prepend(html);
                                     }
-
                                 }
                         });
+                        //是否显示 添加图片
+                        if(targetType==1){ //不显示 上传图片
+                            $("#images").hide();
+                        }
 
                         $(".next").prev().attr("href","javascript:delContentFragment("+attrid+")");
                         $(".next").attr("href","javascript:saveContentPragment("+attrid+")");
                         $(".next").next().attr("href","javascript:next("+attrid+")");
+
                         projectPage.radioImage(); //上传题图
                     }else {
                         projectPage.uploadImgage(); //上传题图
                     }
-
                 });
             });
         }
@@ -580,7 +591,6 @@ var projectPage={
             var _btn=parent.find('.btn');
             var callData={};
 
-
             for(var i=0;i<data.length;i++) {
                 if(_text==data[i].name){
                     console.log(i);
@@ -588,19 +598,16 @@ var projectPage={
                     _li.eq(i).addClass('active');
                 }
             }
-
             //选择
             _li.on('click',function () {
                 _btn.addClass('active');
                 $(this).addClass('active').siblings('li').removeClass('active');
-
                 //填充数据
                 return callData={
                     value:$(this).attr('value'),
                     name:$(this).text(),
                     index:$(this).index()
                 };
-
             });
             //选中
             _btn.on('click',function () {
@@ -612,9 +619,24 @@ var projectPage={
                 //本地获取 project 对象
                 var ich = getCurrentProject();
                 //if(typeof (ich.ichCategoryId) == "undefined" || ich.ichCategoryId==null){
-                    ich.ichCategoryId=callData.value;
+                if(ich.id==null || typeof(ich.id)=="undefined"){
+                        //do nothing
+                }else{
+                    if(ich.id != callData.value){
+                        //清空本地 分类相关数据
+                        $("#menu2").children("li").each(function () {
+                            var attrid = $(this).find("span").attr('data-id');
+                            $.each(ich.contentFragmentList,function (index,obj) {
+                                if(attrid == obj.attributeId){
+                                    ich.contentFragmentList.slice(index,1);
+                                    return false;
+                                }
+                            });
+                        });
+                    }
+                }
+                ich.ichCategoryId=callData.value;
                 //}
-
                 localStorage.setItem("ichProject",JSON.stringify(ich));
                 initmenu2(0,callData.value);
             });
@@ -711,24 +733,22 @@ var projectPage={
                     var imgpath = data.data[0];
                     //获取图片名称
                     var path = imgpath.substring(imgpath.lastIndexOf("/")+1);
-
                     var ich = getCurrentProject();
 
                     var contentFragment={};
-                    var attr={};
+                    //var attr={};
                     var resource={};
                     var resourceList=[];
 
                     contentFragment.attributeId=1;//题图
                     //contentFragment.content=$("#titu").val();//题图对应链接
-
-                    attr.dataType=0;
+                    //attr.dataType=0;
                     resource.uri=path;
                     resource.type=0;
                     resource.description='';
                     resourceList.push(resource);
 
-                    contentFragment.attribute=attr;
+                   //contentFragment.attribute=attr;
                     contentFragment.resourceList=resourceList;
                     contentFragment.targetType=0;
 
@@ -747,7 +767,6 @@ var projectPage={
                         if(flag == 0){
                             ich.contentFragmentList.push(contentFragment);
                         }
-
                     }
                     localStorage.setItem("ichProject",JSON.stringify(ich));
                 }
