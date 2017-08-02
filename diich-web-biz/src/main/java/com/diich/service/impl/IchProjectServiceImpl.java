@@ -212,8 +212,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             ichProject.setUri(proID +".html");
             ichProjectMapper.insertSelective(ichProject);
         } else {
-            IchProject selectProject = ichProjectMapper.selectByPrimaryKey(ichProject.getId());
-            if(selectProject.getLastEditorId() != ichProject.getLastEditorId()){//当前编辑者是否发生了改变
+            IchProject selectProject = ichProjectMapper.selectIchProjectById(ichProject.getId());
+            if( !ichProject.getLastEditorId().equals(selectProject.getLastEditorId())){//当前编辑者是否发生了改变
                 return updateProject(ichProject);
             }
             checkIchCat(ichProject);//判断分类是否发生改变
@@ -240,7 +240,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
     private void checkIchCat(IchProject ichProject)throws Exception{
         Long id = ichProject.getId();
-        IchProject project = ichProjectMapper.selectByPrimaryKey(id);
+        IchProject project = ichProjectMapper.selectIchProjectById(id);
         Long ichCategoryId = project.getIchCategoryId();
         if(!ichProject.getIchCategoryId().equals(ichCategoryId)){//修改了分类,删除原来分类的项目时间内容
             List<Attribute> attributeList = ichCategoryService.getAttrListByCatIdAndTarType(ichCategoryId, 0);
