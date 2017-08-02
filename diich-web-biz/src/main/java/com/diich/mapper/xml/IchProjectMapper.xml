@@ -176,4 +176,10 @@
     from ich_project
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectIchProjectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from ich_project
+    where last_editor_id = #{userId,jdbcType=BIGINT}
+  </select>
 </mapper>
