@@ -92,7 +92,7 @@ function initPage() {
     $('#loadmore').on('click', function () {
         $('#loadmore').text('Loading...');
         pageNum += 1;
-        searchDataFromServer();
+        searchDataFromServer(false);
     });
 
     initParams();
@@ -120,7 +120,7 @@ function initParams() {
     searchDataFromServer();
 }
 
-function searchDataFromServer() {
+function searchDataFromServer(is_show_progress) {
     var condition = buildCondition();
 
     $.ajax({
@@ -129,7 +129,7 @@ function searchDataFromServer() {
         data: {'condition':JSON.stringify(condition)},
         dataType: 'json',
         beforeSend:function() {
-            progress.start();
+            is_show_progress == false ? 0 : progress.start();
         },
         success: function(data) {
             buildSearchResultUi(data);
@@ -138,7 +138,7 @@ function searchDataFromServer() {
 
         },
         complete: function () {
-            progress.stop();
+            is_show_progress == false ? 0 : progress.stop();
         }
     });
 }
