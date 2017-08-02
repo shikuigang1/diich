@@ -11,6 +11,7 @@
             <form action="">
                 <div class="text">
                     <textarea name="longContent" id="longContent" cols="30" rows="10"></textarea>
+                    <div class="errors" style="display: none"><i></i>请填写自定义名称</div>
                 </div>
                 <div class="images" id="images">
                     <div class="handle">
@@ -28,9 +29,8 @@
         </div>
         <!--//edit End-->
         <div class="buttons">
-            <a href="">删除此项</a>
-            <a class="next" href="javascript:saveCustom();">保存</a>
-           <!-- <a href="">跳过此项</a>-->
+            <a class="next" href="javascript:saveCustom(1);"style="width: 180px;">保存并添加一项</a>
+            <a class="next" href="javascript:saveCustom(0);">保存</a>
         </div>
     </div>
 
