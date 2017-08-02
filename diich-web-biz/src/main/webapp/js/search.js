@@ -74,7 +74,8 @@ function initPage() {
         var location = 'search.html?';
 
         if($('#keyword').val() != '' && $('#keyword').val() != null) {
-            location += 'keyword=' + $('#keyword').val() + '&';
+            global_keyword = $('#keyword').val();
+            location += 'keyword=' + global_keyword + '&';
         }
         if($('#attr_text').attr('data-id') != null && $('#attr_text').attr('data-id') != '0') {
             location += 'gb_category_code=' + $('#attr_text').attr('data-id') + '&';
