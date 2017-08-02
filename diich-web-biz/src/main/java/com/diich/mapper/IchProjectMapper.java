@@ -27,4 +27,6 @@ public interface IchProjectMapper extends BaseMapper<IchProject>{
 
     IchProject selectIchProjectById(Long id);
 
+    List<IchProject> selectIchProjectByUserId(Long userId);
+
 }

@@ -15,15 +15,19 @@ public interface IchProjectService {
 
     IchProject getIchProject(String id)throws Exception;
 
+    IchProject getIchProjectById(Long id)throws Exception;
+
     IchProject saveIchProject(IchProject ichProject) throws Exception;
 
     List<IchProject> getIchProjectList(Page<IchProject> page) throws Exception;
 
     Page<IchProject> getIchProjectPage(Map<String, Object>  params)throws Exception;
 
-    IchProject getIchProjectById(Long id) throws Exception;
+    IchProject getIchProjectByIdAndIUser(Long id, Long userId) throws Exception;
 
-    String preview(Long id) throws Exception;
+    String preview(Long id) throws Exception;//预览
+
+    List<IchProject> getIchProjectByUserId(Long id) throws Exception;//根据用户id获取用户信息
 
     String buildHTML(String templateName, IchProject ichProject,String fileName) throws Exception;
 
