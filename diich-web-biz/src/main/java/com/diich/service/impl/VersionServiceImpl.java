@@ -1,5 +1,6 @@
 package com.diich.service.impl;
 
+import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.Version;
@@ -19,21 +20,30 @@ public class VersionServiceImpl extends BaseService<Version> implements VersionS
     @Autowired
     private VersionMapper versionMapper;
     @Override
-    public Version getVersionByLangIdAndTargetType(Long chiId, Long engId, Integer targetType) throws Exception {
+    public List<Version> getVersionByLangIdAndTargetType(Long mainId, Long branchId, Integer targetType,Integer versionType) throws Exception {
         List<Version> versionList = null;
         try{
             Version version = new Version();
-            version.setChiId(chiId);
-            version.setEngId(engId);
+            version.setMainVersionId(mainId);
+            version.setBranchVersionId(branchId);
             version.setTargetType(targetType);
+            version.setVersionType(0);
             versionList = versionMapper.selectVersionByLangIdAndTargetType(version);
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
+        return versionList;
+    }
 
-        if(versionList.size()>0){
-            return versionList.get(0);
+    @Override
+    public Version save(Version version) throws Exception {
+        try{
+            version.setId(IdWorker.getId());
+            version.setStatus(0);
+            versionMapper.insertSelective(version);
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-        return null;
+        return version;
     }
 }

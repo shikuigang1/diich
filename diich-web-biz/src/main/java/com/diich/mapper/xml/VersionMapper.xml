@@ -4,28 +4,31 @@
   <resultMap id="BaseResultMap" type="com.diich.core.model.Version" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="target_type" property="targetType" jdbcType="INTEGER" />
-    <result column="eng_id" property="engId" jdbcType="BIGINT" />
-    <result column="chi_id" property="chiId" jdbcType="BIGINT" />
+    <result column="branch_version_id" property="branchVersionId" jdbcType="BIGINT" />
+    <result column="main_version_id" property="mainVersionId" jdbcType="BIGINT" />
+    <result column="version_type" property="versionType" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, target_type, eng_id, chi_id, status
+    id, target_type, branch_version_id, main_version_id, version_type, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from version
-    where id = #{id,jdbcType=BIGINT} and status = 0
+    where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from version
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.Version" >
-    insert into version (id, target_type, eng_id, 
-      chi_id, status)
-    values (#{id,jdbcType=BIGINT}, #{targetType,jdbcType=INTEGER}, #{engId,jdbcType=BIGINT}, 
-      #{chiId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER})
+    insert into version (id, target_type, branch_version_id,
+    main_version_id, version_type, status
+    )
+    values (#{id,jdbcType=BIGINT}, #{targetType,jdbcType=INTEGER}, #{branchVersionId,jdbcType=BIGINT},
+    #{mainVersionId,jdbcType=BIGINT}, #{versionType,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}
+    )
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.Version" >
     insert into version
@@ -36,11 +39,14 @@
       <if test="targetType != null" >
         target_type,
       </if>
-      <if test="engId != null" >
-        eng_id,
+      <if test="branchVersionId != null" >
+        branch_version_id,
       </if>
-      <if test="chiId != null" >
-        chi_id,
+      <if test="mainVersionId != null" >
+        main_version_id,
+      </if>
+      <if test="versionType != null" >
+        version_type,
       </if>
       <if test="status != null" >
         status,
@@ -53,11 +59,14 @@
       <if test="targetType != null" >
         #{targetType,jdbcType=INTEGER},
       </if>
-      <if test="engId != null" >
-        #{engId,jdbcType=BIGINT},
+      <if test="branchVersionId != null" >
+        #{branchVersionId,jdbcType=BIGINT},
       </if>
-      <if test="chiId != null" >
-        #{chiId,jdbcType=BIGINT},
+      <if test="mainVersionId != null" >
+        #{mainVersionId,jdbcType=BIGINT},
+      </if>
+      <if test="versionType != null" >
+        #{versionType,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -70,11 +79,14 @@
       <if test="targetType != null" >
         target_type = #{targetType,jdbcType=INTEGER},
       </if>
-      <if test="engId != null" >
-        eng_id = #{engId,jdbcType=BIGINT},
+      <if test="branchVersionId != null" >
+        branch_version_id = #{branchVersionId,jdbcType=BIGINT},
       </if>
-      <if test="chiId != null" >
-        chi_id = #{chiId,jdbcType=BIGINT},
+      <if test="mainVersionId != null" >
+        main_version_id = #{mainVersionId,jdbcType=BIGINT},
+      </if>
+      <if test="versionType != null" >
+        version_type = #{versionType,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -85,8 +97,9 @@
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.Version" >
     update version
     set target_type = #{targetType,jdbcType=INTEGER},
-      eng_id = #{engId,jdbcType=BIGINT},
-      chi_id = #{chiId,jdbcType=BIGINT},
+      branch_version_id = #{branchVersionId,jdbcType=BIGINT},
+      main_version_id = #{mainVersionId,jdbcType=BIGINT},
+      version_type = #{versionType,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -97,11 +110,14 @@
     <if test="targetType != null" >
      and  target_type = #{targetType,jdbcType=INTEGER}
     </if>
-    <if test="engId != null" >
-      and eng_id = #{engId,jdbcType=BIGINT}
+    <if test="branchVersionId != null" >
+      and branch_version_id = #{branchVersionId,jdbcType=BIGINT}
     </if>
-    <if test="chiId != null" >
-     and  chi_id = #{chiId,jdbcType=BIGINT}
+    <if test="mainVersionId != null" >
+     and  main_version_id = #{mainVersionId,jdbcType=BIGINT}
+    </if>
+    <if test="versionType != null" >
+      and version_type = #{versionType,jdbcType=INTEGER}
     </if>
   </select>
 </mapper>
