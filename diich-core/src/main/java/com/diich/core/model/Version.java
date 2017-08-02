@@ -7,9 +7,11 @@ public class Version extends BaseModel {
 
     private Integer targetType;
 
-    private Long engId;
+    private Long branchVersionId;
 
-    private Long chiId;
+    private Long mainVersionId;
+
+    private Integer versionType;
 
     private Integer status;
 
@@ -29,20 +31,28 @@ public class Version extends BaseModel {
         this.targetType = targetType;
     }
 
-    public Long getEngId() {
-        return engId;
+    public Long getBranchVersionId() {
+        return branchVersionId;
     }
 
-    public void setEngId(Long engId) {
-        this.engId = engId;
+    public void setBranchVersionId(Long branchVersionId) {
+        this.branchVersionId = branchVersionId;
     }
 
-    public Long getChiId() {
-        return chiId;
+    public Long getMainVersionId() {
+        return mainVersionId;
     }
 
-    public void setChiId(Long chiId) {
-        this.chiId = chiId;
+    public void setMainVersionId(Long mainVersionId) {
+        this.mainVersionId = mainVersionId;
+    }
+
+    public Integer getVersionType() {
+        return versionType;
+    }
+
+    public void setVersionType(Integer versionType) {
+        this.versionType = versionType;
     }
 
     public Integer getStatus() {

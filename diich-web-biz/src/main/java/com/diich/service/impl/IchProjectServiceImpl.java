@@ -82,15 +82,17 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
             ichProject.setContentFragmentList(contentFragmentList);
             getIchproject(ichProject);//返回前端需要的特定数据
-            //根据id和targetType查询中间表看是否有对应的版本
-            Version version = null;
+            //根据id和targetType和versionType查询中间表看是否有对应的版本
+            List<Version> versionList = null;
             if("chi".equals(ichProject.getLang())){
-                version = versionService.getVersionByLangIdAndTargetType(Long.valueOf(id), null, 0);
+                versionList = versionService.getVersionByLangIdAndTargetType(ichProject.getId(), null, 0, 0);
             }
             if("eng".equals(ichProject.getLang())){
-                version = versionService.getVersionByLangIdAndTargetType(null, Long.valueOf(id),0);
+                versionList = versionService.getVersionByLangIdAndTargetType(null, ichProject.getId(), 0, 0);
             }
-            ichProject.setVersion(version);
+            if(versionList.size()>0){
+                ichProject.setVersion( versionList.get(0));
+            }
         } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
@@ -122,7 +124,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
         return page;
     }
-
     /**
      * 获取项目列表信息
      * @param page
@@ -149,16 +150,17 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 List<Works> worksList =worksService.getWorksByIchProjectId(ichProject.getId());
 
                 ichProject.setWorksList(worksList);
-                //根据id和targetType查询中间表看是否有对应的版本
-                Version version = null;
+                //根据id和targetType和versionType查询中间表看是否有对应的版本
+                List<Version> versionList = null;
                 if("chi".equals(ichProject.getLang())){
-                    version = versionService.getVersionByLangIdAndTargetType(ichProject.getId(), null, 0);
+                    versionList = versionService.getVersionByLangIdAndTargetType(ichProject.getId(), null, 0, 0);
                 }
                 if("eng".equals(ichProject.getLang())){
-                    version = versionService.getVersionByLangIdAndTargetType(null, ichProject.getId(),0);
+                    versionList = versionService.getVersionByLangIdAndTargetType(null, ichProject.getId(), 0, 0);
                 }
-                ichProject.setVersion(version);
-
+                if(versionList.size()>0){
+                    ichProject.setVersion( versionList.get(0));
+                }
                 //获取项目的field
                 List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
                 ichProject.setContentFragmentList(contentFragmentList);
@@ -181,8 +183,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Transactional
     public IchProject saveIchProject(IchProject ichProject) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
+        //根据项目名称查询项目是否存在
+        checkProjectByName(ichProject);
         if(ichProject.getStatus() != null && ichProject.getStatus() == 3){
-            checkIchProject(ichProject,3);//校验项目 2代表保存 3代表提交
+            //查询自定义字段是否在本项目存在
+            checkAttribute(ichProject,3);
         }
         try {
             if(ichProject.getStatus() != null && ichProject.getStatus() == 3){
@@ -199,14 +204,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return ichProject;
     }
 
-
-    private void checkIchProject(IchProject ichProject,Integer status) throws Exception{
-        //根据项目名称查询项目是否存在
-        checkProjectByName(ichProject);
-        //查询自定义字段是否在本项目存在
-        checkAttribute(ichProject,status);
-    }
-
     private IchProject saveProject(IchProject ichProject) throws Exception{
         if(StringUtils.isEmpty(ichProject.getLang())){
             ichProject.setLang("chi");
@@ -217,6 +214,10 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             ichProject.setUri(proID +".html");
             ichProjectMapper.insertSelective(ichProject);
         } else {
+            IchProject selectProject = ichProjectMapper.selectByPrimaryKey(ichProject.getId());
+            if(selectProject.getLastEditorId() != ichProject.getLastEditorId()){//当前编辑者是否发生了改变
+                return updateProject(ichProject);
+            }
             checkIchCat(ichProject);//判断分类是否发生改变
             ichProject.setUri(ichProject.getId() +".html");
             ichProjectMapper.updateByPrimaryKeySelective(ichProject);
@@ -229,13 +230,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 contentFragmentService.saveContentFragment(contentFragment);
             }
         }
-        List<Works> worksList = ichProject.getWorksList();
-        if(worksList !=null && worksList.size()>0){
-            for (Works works: worksList) {
-                works.setIchProjectId(ichProject.getId());
-                worksService.saveWorks(works);
-            }
-        }
+//        List<Works> worksList = ichProject.getWorksList();
+//        if(worksList !=null && worksList.size()>0){
+//            for (Works works: worksList) {
+//                works.setIchProjectId(ichProject.getId());
+//                worksService.saveWorks(works);
+//            }
+//        }
         return ichProject;
     }
 
@@ -258,57 +259,57 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     private IchProject updateProject(IchProject ichProject) throws Exception{
         Long mainId = ichProject.getId();
-        IchProject selectProject = ichProjectMapper.selectByPrimaryKey(ichProject.getId());
-        if(selectProject.getLastEditorId() != ichProject.getLastEditorId()){
-            long branchId = IdWorker.getId();
-            ichProject.setId(branchId);
-            ichProject.setStatus(2);
-            ichProjectMapper.insertSelective(ichProject);
-            List<ContentFragment> ichProjectContentFragmentList = ichProject.getContentFragmentList();
-            for (ContentFragment contentFragment : ichProjectContentFragmentList) {
-                long id = IdWorker.getId();
-                contentFragment.setId(id);
-                contentFragment.setTargetId(branchId);
-                contentFragmentMapper.insertSelective(contentFragment);
-                List<Resource> resourceList = contentFragment.getResourceList();
-                if(resourceList != null && resourceList.size()>0){
-                    for(int i = 0 ; i <= resourceList.size() ; i++ ){
-                        Resource resource = resourceList.get(i);
-                        long resourceId = IdWorker.getId();
-                        resource.setId(resourceId);
-                        //保存resource
-                        resourceMapper.insertSelective(resource);
-                        ContentFragmentResource cfr = new ContentFragmentResource();
-                        cfr.setId(IdWorker.getId());
-                        cfr.setContentFragmentId(branchId);
-                        cfr.setResourceId(resourceId);
-                        if(resource.getResOrder() !=null && !"".equals(resource.getResOrder())){
-                            cfr.setResOrder(resource.getResOrder());
-                        }else{
-                            cfr.setResOrder(i+1);
-                        }
-                        cfr.setStatus(0);
-                        //保存中间表
-                        contentFragmentResourceMapper.insertSelective(cfr);
-                    }
+        long branchId = IdWorker.getId();
+        ichProject.setId(branchId);
+        ichProject.setStatus(2);
+        ichProjectMapper.insertSelective(ichProject);
+        List<ContentFragment> ichProjectContentFragmentList = ichProject.getContentFragmentList();
+        for (ContentFragment contentFragment : ichProjectContentFragmentList) {
+            contentFragment.setId(null);
+            contentFragment.setTargetId(branchId);
+            List<Resource> resourceList = contentFragment.getResourceList();
+            if(resourceList != null && resourceList.size()>0){
+                for(int i = 0 ; i <= resourceList.size() ; i++ ){
+                    Resource resource = resourceList.get(i);
+                    resource.setId(null);
                 }
             }
-            //保存version表
-            Version version = new Version();
-            version.setId(IdWorker.getId());
-            version.setStatus(0);
-            version.setTargetType(0);
-            version.setChiId(mainId);
-            version.setEngId(branchId);
-            versionMapper.insertSelective(version);
+            contentFragmentService.saveContentFragment(contentFragment);
         }
+        //保存version表
+        Version version = new Version();
+        version.setTargetType(0);
+        version.setMainVersionId(mainId);
+        version.setBranchVersionId(branchId);
+        version.setVersionType(1000);//版本  修改中, 已过期
+        versionService.save(version);
+
         return ichProject;
+    }
+    @Override
+    public IchProject getIchProjectByIdAndIUser(Long id, Long userId) throws Exception {
+        List<Version> versionList = versionService.getVersionByLangIdAndTargetType(id, null, 0, 1000);
+        if(versionList.size()>0){
+            List tempList = new ArrayList();
+            for(Version version : versionList){
+                tempList.add(version.getBranchVersionId());
+            }
+            List<IchProject> ichProjectList = getIchProjectByUserId(userId);
+            for (IchProject ichProject : ichProjectList) {
+                Long ichProjectId = ichProject.getId();
+                if(tempList.contains(ichProjectId)){
+                    return ichProject;
+                }
+            }
+        }
+        return getIchProjectById(id);
     }
     /**
      *  根据项目id查询项目信息 status 不做限制
      * @param id
      * @return
      */
+    @Override
     public IchProject getIchProjectById(Long id) throws Exception {
         //所属项目
         IchProject ichProject = ichProjectMapper.selectIchProjectById(id);
@@ -340,6 +341,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         List<IchProject> ichProjectList = null;
         try{
            ichProjectList = ichProjectMapper.selectIchProjectByUserId(id);
+            for (IchProject ichProject : ichProjectList) {
+                //内容片断列表
+                List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
+                ichProject.setContentFragmentList(contentFragmentList);
+            }
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
