@@ -759,6 +759,12 @@ body,
     -webkit-align-items: center;
     background: #eee;
     margin-bottom: 30px;
+    position: relative;
+}
+.ipt_base .content .edit .images.active .item input {
+    position: absolute;
+    top: 98px;
+    left: 0;
 }
 
 .ipt_base .content .buttons {
