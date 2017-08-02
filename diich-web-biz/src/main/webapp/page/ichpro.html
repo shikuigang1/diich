@@ -218,10 +218,9 @@
 					  $("#item2").show();
 				  }else{
                     localStorage.removeItem('ichProject');
+                    localStorage.setItem('ichProName',$("#keyword").val());
                     location.href="../page/ichProForm.html?proName="+$("#keyword").val();
 				  }
-				  
-                   
                 }
             });
 	
@@ -229,6 +228,8 @@
     function gotoCreate() {
 	   //清楚本地缓存
         localStorage.removeItem('ichProject');
+        //添加项目名称到本地
+        localStorage.setItem('ichProName',$("#keyword").val());
         location.href="../page/ichProForm.html?proName="+$("#keyword").val();
     }
 </script>

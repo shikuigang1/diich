@@ -122,10 +122,36 @@
         $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
     });
 
+    //获取地址栏 参数 判断是 添加还是 编辑
+    var pid = $.getUrlParam("pid");
+
+    if(pid == null ||  typeof(pid)=='undefined' ){
+        $("#chiName").val(localStorage.getItem('ichProName'));
+        $(".name").text('填写申报信息-'+localStorage.getItem('ichProName'));
+    }else{
+        var ich = getIchProByID(pid);
+        console.log(JSON.stringify(ich));
+        var code="";
+        $.each(ich.contentFragmentList,function (idnex,object) {
+            if(object.attributeId==4){//获取用户中文名信息
+                $(".name").text('编辑申报信息-'+object.content);
+                $("#chiName").val(object.content);
+            }
+            if(object.attributeId==4){//获取区域code 值
+                code = object.content;
+            }
+        });
+        //初始化本地区域 文本数据
+        if(code != ""){
+
+        }
+
+
+        localStorage.setItem("ichProject",JSON.stringify(ich));
+    }
+
     projectPage.init();
 
-    $("#chiName").val($.getUrlParam('proName'));
-    $(".name").text('填写申报信息-'+$.getUrlParam('proName'));
 
 </script>
 </html>
