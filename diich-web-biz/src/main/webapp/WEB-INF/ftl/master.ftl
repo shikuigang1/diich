@@ -29,9 +29,9 @@
     <script src="${caturi}/data/dictionary.js"></script>
     <script src="${caturi}/js/util.js"></script>
     <script>
-        var json = ${obj.json};
-        var jsonAll = ${obj.jsonAll};
-        var jsonHead = ${obj.jsonHead};
+        var json = ${json.json};
+        var jsonAll = ${json.jsonAll};
+        var jsonHead = ${json.jsonHead};
     </script>
     <style>
         br{line-height:60px;}

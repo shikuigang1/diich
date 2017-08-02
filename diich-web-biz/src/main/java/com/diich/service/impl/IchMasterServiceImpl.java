@@ -70,9 +70,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 //内容片断列表
                 List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
                 ichMaster.setContentFragmentList(contentFragmentList);
-
-                ichMaster = getIchMaster(ichMaster);//返回前端需要的特定数据
-
             }
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
@@ -148,8 +145,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 //内容片断列表
                 List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
                 ichMaster.setContentFragmentList(contentFragmentList);
-
-                ichMaster = getIchMaster(ichMaster);//返回前端需要的特定数据
             }
         } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
@@ -219,7 +214,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     @Override
     public String preview(Long id) throws Exception {
         IchMaster ichMaster = getIchMasterById(id);
-        getIchMaster(ichMaster);//返回前端需要的特定数据
         String fileName = PropertiesUtil.getString("freemarker.masterfilepath")+"/"+ichMaster.getId().toString();
         String uri = buildHTML("master.ftl", ichMaster, fileName);
         return uri;
@@ -234,7 +228,8 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
      */
     @Override
     public String buildHTML(String templateName, IchMaster ichMaster, String fileName) throws Exception {
-        String uri = BuildHTMLEngine.buildHTML(templateName, ichMaster, fileName);
+        Map map = getJson(ichMaster);
+        String uri = BuildHTMLEngine.buildHTML(templateName, ichMaster,map, fileName);
         return uri;
     }
     /**
@@ -310,7 +305,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
      * @param ichMaster
      * @return
      */
-    private IchMaster getIchMaster(IchMaster ichMaster) throws Exception{
+    private Map getJson(IchMaster ichMaster) throws Exception{
         //list用于向前端传输按模块划分的图片资源   用于显示在详情页特定模块的资源
         List<Map<String,Object>> list = new ArrayList<>();
         //allMap 所有去除重复图片和视频后的资源容器  用于显示在详情页得查看所有图片
@@ -360,10 +355,11 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         allMap.put("imgs",imgdist);
         allMap.put("videos",videosdist);
         headMap.put("lang",ichMaster.getLang());
-        ichMaster.setJson(JSONObject.toJSON(list).toString());
-        ichMaster.setJsonAll(JSONObject.toJSON(allMap).toString());
-        ichMaster.setJsonHead(JSONObject.toJSON(headMap).toString());
-        return ichMaster;
+        Map map = new HashMap();
+        map.put("json",JSONObject.toJSON(list).toString());
+        map.put("jsonAll",JSONObject.toJSON(allMap).toString());
+        map.put("jsonHead",JSONObject.toJSON(headMap).toString());
+        return map;
     }
 
     /**

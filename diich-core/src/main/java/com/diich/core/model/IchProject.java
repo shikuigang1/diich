@@ -1,6 +1,7 @@
 package com.diich.core.model;
 
 import com.diich.core.base.BaseModel;
+import com.sun.tools.doclets.internal.toolkit.Content;
 
 import java.util.Date;
 import java.util.List;
@@ -26,12 +27,6 @@ public class IchProject extends IchObject {
     private  IchCategory ichCategory;//项目分类
 
     private Version version;//版本 中文版和英文版的中间表
-
-    private String json;//按模块分所有的资源
-
-    private String jsonAll;//详情页查看所有图片和视频
-
-    private String jsonHead;//浮层页公用数据
 
     public List<ContentFragment> getContentFragmentList() {
         return contentFragmentList;
@@ -143,27 +138,19 @@ public class IchProject extends IchObject {
         this.version = version;
     }
 
-    public String getJson() {
-        return json;
+    public void setArea(String area) {
+        ContentFragment contentFragment = new ContentFragment();
+        contentFragment.setContent(area);
+        contentFragment.setTargetId(id);
+        contentFragmentList.add(contentFragment);
     }
 
-    public void setJson(String json) {
-        this.json = json;
-    }
-
-    public String getJsonAll() {
-        return jsonAll;
-    }
-
-    public void setJsonAll(String jsonAll) {
-        this.jsonAll = jsonAll;
-    }
-
-    public String getJsonHead() {
-        return jsonHead;
-    }
-
-    public void setJsonHead(String jsonHead) {
-        this.jsonHead = jsonHead;
+    public String getArea() {
+        for(ContentFragment contentFragment: contentFragmentList) {
+            if(contentFragment.getAttributeId().equals(13L)) {
+                return contentFragment.getContent();
+            }
+        }
+        return null;
     }
 }

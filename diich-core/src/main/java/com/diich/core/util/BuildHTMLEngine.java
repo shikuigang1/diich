@@ -21,7 +21,7 @@ public class BuildHTMLEngine {
     /**
      *生成静态页面的方法
      */
-    public static String buildHTML(String templateName, BaseModel entity, String outputFileName) throws Exception{
+    public static String buildHTML(String templateName, BaseModel entity, Map map, String outputFileName) throws Exception{
 
         if(StringUtils.isBlank(templateName)){
             throw new BusinessException("模板名不能为空 ");
@@ -39,7 +39,7 @@ public class BuildHTMLEngine {
         Template template = configuration.getTemplate(templateName);
         Map dataMap = new HashMap<>();
         dataMap.put("obj",entity);
-//        String outPutPath=PropertiesUtil.getString("freemarker.filepath")+"/"+outputFileName+".html";
+        dataMap.put("json",map);
         String outPutPath = outputFileName + ".html";
         Writer out =  new OutputStreamWriter(new FileOutputStream(outPutPath),"utf-8");
         template.process(dataMap, out);

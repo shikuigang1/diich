@@ -81,7 +81,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             //获取项目的field
             List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
             ichProject.setContentFragmentList(contentFragmentList);
-            getIchproject(ichProject);//返回前端需要的特定数据
             //根据id和targetType和versionType查询中间表看是否有对应的版本
             List<Version> versionList = null;
             if("chi".equals(ichProject.getLang())){
@@ -164,7 +163,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 //获取项目的field
                 List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
                 ichProject.setContentFragmentList(contentFragmentList);
-                getIchproject(ichProject);//返回前端需要的特定数据
             }
             return ichProjectList;
         } catch (Exception e) {
@@ -330,7 +328,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Override
     public String preview(Long id) throws Exception {
         IchProject ichProject = getIchProjectById(id);
-        getIchproject(ichProject);//返回前端需要的特定数据
         String fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId().toString();
         String uri = buildHTML("pro.ftl", ichProject, fileName);
         return uri;
@@ -362,7 +359,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     @Override
     public String buildHTML(String templateName, IchProject ichProject, String fileName) throws Exception {
-        String uri = BuildHTMLEngine.buildHTML(templateName, ichProject, fileName);
+        Map map = getJson(ichProject);//返回前端需要的特定数据
+        String uri = BuildHTMLEngine.buildHTML(templateName, ichProject,map, fileName);
         return uri;
     }
 
@@ -450,7 +448,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      * @param ichProject
      * @return
      */
-    private IchProject getIchproject(IchProject ichProject) throws Exception{
+    private Map getJson(IchProject ichProject) throws Exception{
 
         //list用于向前端传输按模块划分的图片资源   用于显示在详情页特定模块的资源
         List<Map<String,Object>> list = new ArrayList<>();
@@ -501,10 +499,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         allMap.put("imgs",imgdist);
         allMap.put("videos",videosdist);
         headMap.put("lang",ichProject.getLang());
-        ichProject.setJson(JSONObject.toJSON(list).toString());
-        ichProject.setJsonAll(JSONObject.toJSON(allMap).toString());
-        ichProject.setJsonHead(JSONObject.toJSON(headMap).toString());
-        return ichProject;
+        Map map = new HashMap();
+        map.put("json",JSONObject.toJSON(list).toString());
+        map.put("jsonAll",JSONObject.toJSON(allMap).toString());
+        map.put("jsonHead",JSONObject.toJSON(headMap).toString());
+        return map;
     }
 
     /**

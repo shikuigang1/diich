@@ -32,12 +32,6 @@ public class IchMaster extends IchObject {
 
     private List<Works> worksList;//作品列表
 
-    private String json;//按模块分所有的资源
-
-    private String jsonAll;//详情页查看所有图片和视频
-
-    private String jsonHead;//浮层页公用数据
-
     public Long getId() {
         return id;
     }
@@ -140,29 +134,5 @@ public class IchMaster extends IchObject {
 
     public void setWorksList(List<Works> worksList) {
         this.worksList = worksList;
-    }
-
-    public String getJson() {
-        return json;
-    }
-
-    public void setJson(String json) {
-        this.json = json;
-    }
-
-    public String getJsonAll() {
-        return jsonAll;
-    }
-
-    public void setJsonAll(String jsonAll) {
-        this.jsonAll = jsonAll;
-    }
-
-    public String getJsonHead() {
-        return jsonHead;
-    }
-
-    public void setJsonHead(String jsonHead) {
-        this.jsonHead = jsonHead;
     }
 }
