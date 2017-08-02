@@ -7,7 +7,9 @@ import com.diich.core.service.IchMasterService;
 import com.diich.core.service.IchProjectService;
 import com.diich.core.service.SearchService;
 import com.diich.mapper.IchObjectMapper;
+import com.diich.mapper.SearchDao;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -36,52 +38,18 @@ public class SearchServiceImpl implements SearchService {
     private IchMasterService ichMasterService;
 
     @Autowired
+    private SqlSessionFactory sqlSessionFactory;
+
+    @Autowired
     private RedisTemplate<Serializable, Serializable> redisTemplate;
 
     private final static Long EXPIRE = 15L;
     private final static TimeUnit TIME_UNIT = TimeUnit.MINUTES;
 
     @Override
-    public Integer search(List<Map<String, Object>> resultList, Map<String, Object> condition) throws Exception {
-        Integer total = getDataFromRedis(resultList, condition);
-        if(total != null) {
-            return total;
-        }
-
-        RowBounds rowBounds = new RowBounds((Integer) condition.get("offset"),
-                (Integer) condition.get("limit"));
-        List<?> list = ichObjectMapper.searchList(condition, rowBounds);
-
-        if(list.size() != 0 && list.get(0) != null) {
-            for(IchObject obj : (ArrayList<IchObject>)list.get(0)) {
-                Integer targetType = obj.getTargetType();
-                Long targetId = obj.getTargetId();
-
-                Map<String, Object> searchMap = new HashMap<>();
-
-                if(targetType == 0) {
-                    obj = ichProjectService.getIchProject(targetId + "");
-                    searchMap.put("project", obj);
-                } else if(targetType == 1) {
-                    obj = ichMasterService.getIchMaster(targetId + "");
-                    searchMap.put("master", obj);
-                }
-
-                resultList.add(searchMap);
-            }
-        }
-
-        if(list.size() != 0 && list.get(1) != null) {
-            if(list.get(1) instanceof ArrayList) {
-                List tmpList = (ArrayList)list.get(1);
-                total = (Integer) ((tmpList != null && tmpList.size() != 0) ? tmpList.get(0) : 0);
-            }
-        }
-
-        put(condition.toString() + "_total", total);
-        put(condition.toString(), resultList);
-
-        return total != null ? total : 0;
+    public int search(Map<String, Object> condition, List<IchObject> ichObjectList) {
+        SearchDao searchDao = new SearchDao();
+        return searchDao.search(condition, ichObjectList, sqlSessionFactory);
     }
 
     private Integer getDataFromRedis(List<Map<String, Object>> resultList, Map<String, Object> condition)

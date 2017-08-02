@@ -30,8 +30,6 @@ public class Works extends IchObject {
 
     private IchMaster ichMaster;//传承人
 
-    private List<ContentFragment> contentFragmentList;//内容片断列表
-
     public Long getId() {
         return id;
     }
@@ -126,13 +124,5 @@ public class Works extends IchObject {
 
     public void setIchMaster(IchMaster ichMaster) {
         this.ichMaster = ichMaster;
-    }
-
-    public List<ContentFragment> getContentFragmentList() {
-        return contentFragmentList;
-    }
-
-    public void setContentFragmentList(List<ContentFragment> contentFragmentList) {
-        this.contentFragmentList = contentFragmentList;
     }
 }

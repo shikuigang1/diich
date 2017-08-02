@@ -28,8 +28,6 @@ public class IchMaster extends IchObject {
 
     private IchProject ichProject;//项目
 
-    private List<ContentFragment> contentFragmentList;//内容片断列表
-
     private List<Works> worksList;//作品列表
 
     public Long getId() {
@@ -102,14 +100,6 @@ public class IchMaster extends IchObject {
 
     public void setIchProject(IchProject ichProject) {
         this.ichProject = ichProject;
-    }
-
-    public List<ContentFragment> getContentFragmentList() {
-        return contentFragmentList;
-    }
-
-    public void setContentFragmentList(List<ContentFragment> contentFragmentList) {
-        this.contentFragmentList = contentFragmentList;
     }
 
     public String getLang() {

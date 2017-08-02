@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
+import com.diich.core.model.IchObject;
 import com.diich.core.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,11 +41,11 @@ public class SearchController extends BaseController {
             return putDataToMap(ae);
         }
 
-        List<Map<String, Object>> list = new ArrayList<>();
-        Integer total = 0;
+        List<IchObject> list = new ArrayList<>();
+        int total = 0;
 
         try {
-            total = searchService.search(list, condition);
+            total = searchService.search(condition, list);
         } catch (Exception e) {
             return putDataToMap(e);
         }

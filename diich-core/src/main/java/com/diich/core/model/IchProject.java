@@ -28,16 +28,6 @@ public class IchProject extends IchObject {
 
     private Version version;//版本 中文版和英文版的中间表
 
-    public List<ContentFragment> getContentFragmentList() {
-        return contentFragmentList;
-    }
-
-    public void setContentFragmentList(List<ContentFragment> contentFragmentList) {
-        this.contentFragmentList = contentFragmentList;
-    }
-
-    private List<ContentFragment> contentFragmentList;
-
     private List<IchMaster> ichMasterList;//传承人列表
 
     private List<Works> worksList;//代表作品列表

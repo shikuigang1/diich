@@ -8,5 +8,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface IchObjectMapper extends BaseMapper<IchObject> {
-    List<?> searchList(Map<String, Object> params, RowBounds rowBounds);
+    List<IchObject> search(Map<String, Object> params);
 }

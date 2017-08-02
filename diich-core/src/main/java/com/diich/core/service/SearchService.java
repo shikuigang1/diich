@@ -1,5 +1,7 @@
 package com.diich.core.service;
 
+import com.diich.core.model.IchObject;
+
 import java.util.List;
 import java.util.Map;
 
@@ -8,8 +10,7 @@ import java.util.Map;
  */
 public interface SearchService {
 
-    //搜索存储过程调用
-    Integer search(List<Map<String, Object>> list, Map<String, Object> condition) throws Exception;
+    int search(Map<String, Object> condition, List<IchObject> ichObjectList);
 
     boolean clearAllKey() throws Exception;
 }
