@@ -23,6 +23,7 @@
                 <value>classpath:config/redis.properties</value>
                 <value>classpath:config/jdbc.properties</value>
                 <value>classpath:config/freemarker.properties</value>
+                <value>classpath:config/system.properties</value>
             </list>
         </property>
 
