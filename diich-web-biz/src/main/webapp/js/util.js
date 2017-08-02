@@ -83,6 +83,20 @@ function getCategoryTextById(id) {
     return text;
 }
 
+//获取分类 列表
+function getCategoryList(type) {
+    var temp=[];
+    if(type==0){
+        for(var i = 0; i < ich_category.length; i ++) {
+            var category = ich_category[i];
+            if(category.parent_id == 0) {
+                temp.push(category);
+            }
+        }
+    }
+    return temp;
+}
+
 function getCategoryById(id) {
     var text = '';
 
