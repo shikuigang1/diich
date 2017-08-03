@@ -214,7 +214,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             ichProjectMapper.insertSelective(ichProject);
         } else {
             IchProject selectProject = ichProjectMapper.selectIchProjectById(ichProject.getId());
-            if( !ichProject.getLastEditorId().equals(selectProject.getLastEditorId())){//当前编辑者是否发生了改变
+            if( !ichProject.getLastEditorId().equals(selectProject.getLastEditorId()) || ichProject.getStatus()==0){//当前编辑者是否发生了改变
                 return updateProject(ichProject);
             }
             checkIchCat(ichProject);//判断分类是否发生改变
