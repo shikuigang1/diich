@@ -188,6 +188,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             checkAttribute(ichProject,3);
         }
         try {
+            ichProject.setLastEditDate(new Date());
             if(ichProject.getStatus() != null && ichProject.getStatus() == 3){
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
             }else {
@@ -528,14 +529,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         if(ichProject.getId() == null){
             if(contentFragments.size()>0){
                 throw new ApplicationException(ApplicationException.PARAM_ERROR,contentFragments.get(0).getContent()+" 已经存在");
-            }
-        }else{
-            if(contentFragments != null && contentFragments.size()>0){
-                long targetId = contentFragments.get(0).getTargetId();
-                long id = ichProject.getId();
-                if(id != targetId){
-                    throw new ApplicationException(ApplicationException.PARAM_ERROR,contentFragments.get(0).getContent()+" 已经存在");
-                }
             }
         }
     }
