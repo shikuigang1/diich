@@ -167,7 +167,6 @@ function  saveCustom(next) {
 
     contentFragment.resourceList=resourceList;
     contentFragment.attribute=attr;
-
     contentFragment.targetId=getCurrentProject().id;
 
     console.log(JSON.stringify(contentFragment));
@@ -691,6 +690,7 @@ function vaidateForm(ich) {
        $("div[data-type=selectCate]").next().show();
     }
     var val=$("input:radio[name='authenticated']:checked").val();
+
     $.each(ich.contentFragmentList,function (index,obj) {
 
         if(obj.attributeId==9 && obj.content==""){
@@ -705,15 +705,12 @@ function vaidateForm(ich) {
         }
 
         if(obj.attributeId==6 && obj.content==""){
-            alert(obj.content +"###");
             $("#pinyin").next().show();
-
             return false;
         }
 
         if(obj.attributeId==5 && obj.content==""){
             $("#engName").next().show();
-
             return false;
         }
 
@@ -736,16 +733,6 @@ function vaidateForm(ich) {
 
         }
     });
-
-    if ($("#summary").val() == "") {
-        alert("请填写简介！");
-        return false;
-    }
-
-    if ($("#pinyin").val() == "") {
-        alert("请填写拼音！");
-        return false;
-    }
 }
 function  initProjectView(ich) {
     if(ich.ichCategoryId == null || typeof (ich.ichCategoryId) == "undefined"){
@@ -762,9 +749,7 @@ function  initProjectView(ich) {
         if(ich.contentFragmentList!= null && typeof (ich.contentFragmentList) != 'undefined'){
 
             $('li[data-type=longField]').each(function () {
-
                 var dataid = $(this).find('span').eq(0).attr('data-id');
-
                 var flag = 0;
                 $.each(ich.contentFragmentList,function (idx,obj) {
                     if(obj.attributeId == dataid ){
