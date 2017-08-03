@@ -477,7 +477,7 @@ var projectPage={
                             }
                         }
                         if(_dateType == 'longFieldCustom'){
-                            projectPage.radioImage();
+                            projectPage.uploadImgage();
                         }
                     });
                 }
@@ -486,7 +486,8 @@ var projectPage={
             //点击子分类
             dd.on('click','li',function () {
                 if(!validateIchID()){
-                    alert("请先添加基础信息"); return false;
+                    tipBox.init('fail',"请先添加基础信息");
+                     return false;
                 }
                 var _dateType=$(this).attr('data-type');
                 var name = $(this).children("span").first().text();
@@ -783,6 +784,8 @@ var projectPage={
         //
         var el=$('.ipt_base .content .edit .images .handle .file_up .icon');
         upload.submit(el,1,'/user/uploadFile?type=master',function (data) {
+
+            alert("aaa");
             _images.find('.handle').before(templateItem(data.data));
             isItemStatus();
             _images.find('.preview').remove();
