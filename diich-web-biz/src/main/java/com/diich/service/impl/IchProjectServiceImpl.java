@@ -260,19 +260,22 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         long branchId = IdWorker.getId();
         ichProject.setId(branchId);
         ichProject.setStatus(2);
+        ichProject.setUri(branchId+".html");
         ichProjectMapper.insertSelective(ichProject);
         List<ContentFragment> ichProjectContentFragmentList = ichProject.getContentFragmentList();
-        for (ContentFragment contentFragment : ichProjectContentFragmentList) {
-            contentFragment.setId(null);
-            contentFragment.setTargetId(branchId);
-            List<Resource> resourceList = contentFragment.getResourceList();
-            if(resourceList != null && resourceList.size()>0){
-                for(int i = 0 ; i <= resourceList.size() ; i++ ){
-                    Resource resource = resourceList.get(i);
-                    resource.setId(null);
+        if(ichProjectContentFragmentList != null && ichProjectContentFragmentList.size()>0){
+            for (ContentFragment contentFragment : ichProjectContentFragmentList) {
+                contentFragment.setId(null);
+                contentFragment.setTargetId(branchId);
+                List<Resource> resourceList = contentFragment.getResourceList();
+                if(resourceList != null && resourceList.size()>0){
+                    for(int i = 0 ; i <  resourceList.size() ; i++ ){
+                        Resource resource = resourceList.get(i);
+                        resource.setId(null);
+                    }
                 }
+                contentFragmentService.saveContentFragment(contentFragment);
             }
-            contentFragmentService.saveContentFragment(contentFragment);
         }
         //保存version表
         Version version = new Version();
