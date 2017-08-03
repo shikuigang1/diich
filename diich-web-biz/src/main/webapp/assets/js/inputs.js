@@ -471,13 +471,11 @@ var projectPage={
                                         $('#select').hide();
                                     }
                                 }
-
                                 //填充 是否为 已申报传承人
-
                             }
                         }
                         if(_dateType == 'longFieldCustom'){
-                            projectPage.radioImage();
+                            projectPage.uploadImgage();
                         }
                     });
                 }
@@ -486,7 +484,8 @@ var projectPage={
             //点击子分类
             dd.on('click','li',function () {
                 if(!validateIchID()){
-                    alert("请先添加基础信息"); return false;
+                    tipBox.init('fail',"请先添加基础信息");
+                     return false;
                 }
                 var _dateType=$(this).attr('data-type');
                 var name = $(this).children("span").first().text();
@@ -782,7 +781,7 @@ var projectPage={
         var _images=$('#images');
         //
         var el=$('.ipt_base .content .edit .images .handle .file_up .icon');
-        upload.submit(el,1,'/user/uploadFile?type=master',function (data) {
+        upload.submit(el,1,'/user/uploadFile?type=project',function (data) {
             _images.find('.handle').before(templateItem(data.data));
             isItemStatus();
             _images.find('.preview').remove();
