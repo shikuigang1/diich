@@ -71,20 +71,29 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
 
     @Override
     public List<Attribute> getAttrListByCatIdAndTarType(Long id , Integer targetType) throws Exception {
-        List<Attribute> attributeList = null;
+        List<Attribute> attributeList = new ArrayList<>();
+        return getAttributeList(id, targetType, attributeList);
+    }
+
+    private List<Attribute> getAttributeList( Long id , Integer targetType ,List<Attribute> attributeList) throws Exception{
         if(targetType != null){
             try {
                 Attribute attribute = new Attribute();
                 attribute.setTargetType(targetType);
                 attribute.setIchCategoryId(id);
-                attributeList = attributeMapper.selectAttrListByCatIdAndTarType(attribute);
+                List<Attribute> list = attributeMapper.selectAttrListByCatIdAndTarType(attribute);
+                attributeList.addAll(list);
+                IchCategory ichCategory = ichCategoryMapper.selectByPrimaryKey(id);
+                while(ichCategory != null && ichCategory.getParentId() !=null){
+                    id = ichCategory.getParentId();
+                    return getAttributeList(id,targetType,attributeList);
+                }
             } catch (Exception e) {
                 throw new ApplicationException(ApplicationException.INNER_ERROR);
             }
         }
         return attributeList;
     }
-
     @Override
     public List<Attribute> getDefAttrByTarIdAndTarType(Long id, Integer targetType) throws Exception {
         List<Attribute> attributeList = null;
