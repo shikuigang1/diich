@@ -471,9 +471,7 @@ var projectPage={
                                         $('#select').hide();
                                     }
                                 }
-
                                 //填充 是否为 已申报传承人
-
                             }
                         }
                         if(_dateType == 'longFieldCustom'){
@@ -783,9 +781,7 @@ var projectPage={
         var _images=$('#images');
         //
         var el=$('.ipt_base .content .edit .images .handle .file_up .icon');
-        upload.submit(el,1,'/user/uploadFile?type=master',function (data) {
-
-            alert("aaa");
+        upload.submit(el,1,'/user/uploadFile?type=project',function (data) {
             _images.find('.handle').before(templateItem(data.data));
             isItemStatus();
             _images.find('.preview').remove();
