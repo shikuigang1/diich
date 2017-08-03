@@ -129,8 +129,6 @@
         }else{
             localStorage.setItem('action',"update");//添加修改标记状态
             var ich = getIchProByID(pid);
-            //console.log(JSON.stringify(ich));
-           // return false;
             var code="";
             $.each(ich.contentFragmentList,function (idnex,object) {
                 if(object.attributeId==4){//获取用户中文名信息
