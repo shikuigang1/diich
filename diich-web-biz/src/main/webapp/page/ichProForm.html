@@ -120,38 +120,95 @@
 <script>
     $(function() {
         $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
+        //获取地址栏 参数 判断是 添加还是 编辑
+        var pid = $.getUrlParam("pid");
+        if(pid == null ||  typeof(pid)=='undefined' ){
+            localStorage.setItem('action',"add");
+            $("#chiName").val(localStorage.getItem('ichProName'));
+            $(".name").text('填写申报信息-'+localStorage.getItem('ichProName'));
+        }else{
+            localStorage.setItem('action',"update");//添加修改标记状态
+            var ich = getIchProByID(pid);
+            //console.log(JSON.stringify(ich));
+           // return false;
+            var code="";
+            $.each(ich.contentFragmentList,function (idnex,object) {
+                if(object.attributeId==4){//获取用户中文名信息
+                    $(".name").text('编辑申报信息-'+object.content);
+                    $("#chiName").val(object.content);
+                }
+                if(object.attributeId==33){//获取区域code 值
+                    code = object.content;
+                }
+            });
+            //初始化本地区域 文本数据
+            if(code != ""){
+                toArray(dic_arr_city);
+                var codeText=[];
+                if(code.indexOf(",") != -1){
+                    var codes = code.split(",");
+                    for(var i=0;i<codes.length;i++){
+                        var str="";
+                        var obj=getAreaName(codes[i],dic_arr_city);
+                        str=obj.name;
+                        while (obj.parent_id>0){
+                            obj=getAreaName(obj.parent_id,dic_arr_city);
+                            str=obj.name+str;
+                        }
+                        codeText.push(str);
+                    }
+                }else{
+                    var str="";
+                    var obj=getAreaName(code,dic_arr_city);
+                    str=obj.name;
+                    while (obj.parent_id>0){
+                        obj=getAreaName(obj.parent_id,dic_arr_city);
+                        str=obj.name+str;
+                    }
+                    codeText.push(str);
+                }
+                //console.log(JSON.stringify(codeText));
+                localStorage.setItem("codeText",codeText.join(","));
+            }
+            localStorage.setItem("ichProject",JSON.stringify(ich));
+        }
+        projectPage.init();
     });
 
-    //获取地址栏 参数 判断是 添加还是 编辑
-    var pid = $.getUrlParam("pid");
-
-    if(pid == null ||  typeof(pid)=='undefined' ){
-        $("#chiName").val(localStorage.getItem('ichProName'));
-        $(".name").text('填写申报信息-'+localStorage.getItem('ichProName'));
-    }else{
-        var ich = getIchProByID(pid);
-        console.log(JSON.stringify(ich));
-        var code="";
-        $.each(ich.contentFragmentList,function (idnex,object) {
-            if(object.attributeId==4){//获取用户中文名信息
-                $(".name").text('编辑申报信息-'+object.content);
-                $("#chiName").val(object.content);
+    var newArr = new Array();
+    function getAreaName(code,dic_arr_city) {
+/*
+        for (var i=0;i<dic_arr_city.length;i++) {
+            if(dic_arr_city[i].code == code || dic_arr_city[i].id == code) {
+                   return dic_arr_city[i];
+            } else if(typeof (dic_arr_city[i].children) != "undefined"){
+                if (dic_arr_city[i].children.length>0) {
+                   return getAreaName(code,dic_arr_city[i].children); //递归遍历
+                }
             }
-            if(object.attributeId==4){//获取区域code 值
-                code = object.content;
-            }
-        });
-        //初始化本地区域 文本数据
-        if(code != ""){
+        }*/
 
+        for (var i=0;i<newArr.length;i++) {
+            if(newArr[i].code == code || newArr[i].id == code) {
+                return newArr[i];
+            }
         }
-
-
-        localStorage.setItem("ichProject",JSON.stringify(ich));
     }
 
-    projectPage.init();
 
+
+    function toArray(dic_arr_city){
+        for(var i=0;i<dic_arr_city.length;i++){
+            if(Array.isArray(dic_arr_city[i].children) && dic_arr_city[i].children.length>0){
+                toArray(dic_arr_city[i].children);
+                var dic = cloneObj(dic_arr_city[i]);
+                dic.children=null;
+                newArr.push(dic);
+            }else{
+                newArr.push(dic_arr_city[i]);
+            }
+        }
+    }
 
 </script>
 </html>
