@@ -161,7 +161,7 @@ var selectArea={
                         select.html('').hide();
                         el.attr('value',result);
                         if(callback && callback!='undefined'){
-                            callback(result);
+                            callback(result, resultText);
                         }
                     }
                 }
@@ -782,7 +782,7 @@ var projectPage={
         var _images=$('#images');
         //
         var el=$('.ipt_base .content .edit .images .handle .file_up .icon');
-        upload.submit(el,1,'/user/uploadFile?type=project',function (data) {
+        upload.submit(el,1,'/user/uploadFile?type=master',function (data) {
             _images.find('.handle').before(templateItem(data.data));
             isItemStatus();
             _images.find('.preview').remove();
@@ -811,14 +811,6 @@ var projectPage={
     }
 };
 
-//传承人基本信息
-var inheritorBaseInfo={
-    init:function () {
-        selectArea.init(1,function (data) {
-            console.log(data);
-        });
-    }
-};
 
 
 //传承人认证
@@ -911,6 +903,37 @@ var inheritorPage={
         upload.submit(el,1,'http://localhost:8005/admin/upload',function (data) {
             _images.find('.handle').before(templateItem('/uploads/'+data.image_url));
             isItemStatus();
+        });
+        //赋值token  有用则留无用则删除
+        $('._token').val($('meta[name=token]').attr('content'));
+
+        //模版
+        function templateItem(str) {
+            var templ='<div class="item">' +
+                '<img src="'+str+'" alt="">' +
+                '<input type="text" name="text" placeholder="请输入标题">' +
+                '</div>';
+            return templ;
+        }
+
+        isItemStatus();
+        //判断上传图片的状态
+        function isItemStatus() {
+            var _item=_images.find('.item');
+            if(_item.length>=3){
+                _images.addClass('active');
+            }
+            _images.find('.item:even').css('margin-right','10px');
+        }
+    },
+    radioImage:function () {
+        var _images=$('#images');
+        //
+        var el=$('.ipt_base .content .edit .images .handle .file_up .icon');
+        upload.submit(el,1,'/user/uploadFile?type=master',function (data) {
+            _images.find('.handle').before(templateItem(data.data));
+            isItemStatus();
+            _images.find('.preview').remove();
         });
         //赋值token  有用则留无用则删除
         $('._token').val($('meta[name=token]').attr('content'));

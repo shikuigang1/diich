@@ -36,7 +36,7 @@
             <div class="group">
                 <label class="label"><em>*</em>姓名</label>
                 <div class="control">
-                    <input value="{{#each basics.contentFragmentList}}{{#equal '13' attributeId }}{{content}}{{/equal}}{{/each}}" validate="true" check="required chinese" id="cnName" name="cnName" data-id="13" type="text" class="ipt w310">
+                    <input value="{{getContent basics.contentFragmentList 13}}" validate="true" check="required chinese" id="cnName" name="cnName" data-id="13" type="text" class="ipt w310">
                     <div id="cnName_err" class="errors" style="display: none"><i></i>请填写姓名</div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
             <div class="group">
                 <label class="label"><em>*</em>英文名</label>
                 <div class="control">
-                    <input value="{{#each basics.contentFragmentList}}{{#equal '14' attributeId }}{{content}}{{/equal}}{{/each}}" validate="true" check="required english" id="enName" name="enName" data-id="14" type="text" class="ipt w310">
+                    <input value="{{getContent basics.contentFragmentList 14}}" validate="true" check="required english" id="enName" name="enName" data-id="14" type="text" class="ipt w310">
                     <div id="enName_err" class="errors" style="display: none"><i></i>请填写英文名</div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
             <div class="group">
                 <label class="label" for=""><em>*</em>拼音</label>
                 <div class="control">
-                    <input value="{{#each basics.contentFragmentList}}{{#equal '15' attributeId }}{{content}}{{/equal}}{{/each}}" validate="true" check="required pinyin" id="py" name="py" data-id="15" type="text" class="ipt w310">
+                    <input value="{{getContent basics.contentFragmentList 15}}" validate="true" check="required pinyin" id="py" name="py" data-id="15" type="text" class="ipt w310">
                     <div id="py_err" class="errors" style="display: none"><i></i>请填写拼音</div>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                     <select id="gj" name= "gj" data-id="49" check="required" class="ipt w310">
                         {{#each countrys}}
                             {{#eif @index 0 op=">"}}
-                                <option {{#onGj ../../basics.contentFragmentList code }}selected="selected"{{/onGj}} code="{{code}}" value="{{code}}">{{name}}</option>
+                                <option {{#onGj ../../basics.contentFragmentList code 49 }}selected="selected"{{/onGj}} code="{{code}}" value="{{code}}">{{name}}</option>
                             {{/eif}}
                         {{/each}}
                     </select>
@@ -77,7 +77,7 @@
             <div class="group">
                 <label class="label"><em>*</em>民族</label>
                 <div class="control">
-                    <input value="{{#each basics.contentFragmentList}}{{#equal '17' attributeId }}{{content}}{{/equal}}{{/each}}" validate="true" check="required" id="mz" name="mz" data-id="17" type="text" class="ipt w310">
+                    <input value="{{getContent basics.contentFragmentList 17}}" validate="true" check="required" id="mz" name="mz" data-id="17" type="text" class="ipt w310">
                     <div id="mz_err" class="errors" style="display: none"><i></i>请填写民族</div>
                 </div>
             </div>
@@ -96,10 +96,10 @@
                 <label class="label"><em>*</em>证件类型</label>
                 <div class="control">
                     <select id="zj_type" name="zj_type" check="required" data-id="127" class="ipt w310" name="">
-                        <option {{#onZjType basics.contentFragmentList 0}}selected="selected"{{/onZjType}} value="0">身份证</option>
-                        <option {{#onZjType basics.contentFragmentList 1}}selected="selected"{{/onZjType}} value="1">签证</option>
-                        <option {{#onZjType basics.contentFragmentList 2}}selected="selected"{{/onZjType}} value="2">护照</option>
-                        <option {{#onZjType basics.contentFragmentList 3}}selected="selected"{{/onZjType}} value="3">军人证</option>
+                        <option {{#onZjType basics.contentFragmentList 0 127}}selected="selected"{{/onZjType}} value="0">身份证</option>
+                        <option {{#onZjType basics.contentFragmentList 1 127}}selected="selected"{{/onZjType}} value="1">签证</option>
+                        <option {{#onZjType basics.contentFragmentList 2 127}}selected="selected"{{/onZjType}} value="2">护照</option>
+                        <option {{#onZjType basics.contentFragmentList 3 127}}selected="selected"{{/onZjType}} value="3">军人证</option>
                     </select>
                     <div class="errors" style="display: none"><i></i>请填写证件类型</div>
                 </div>
@@ -109,7 +109,7 @@
             <div class="group">
                 <label class="label"><em>*</em>证件号码</label>
                 <div class="control">
-                    <input value="{{#each basics.contentFragmentList}}{{#equal '128' attributeId }}{{content}}{{/equal}}{{/each}}" validate="true" check="required idcard" id="zj" name="zj" data-id="128" type="text" class="ipt w310">
+                    <input value="{{getContent basics.contentFragmentList 128}}" validate="true" check="required idcard" id="zj" name="zj" data-id="128" type="text" class="ipt w310">
                     <div id="zj_err" class="errors" style="display: none"><i></i>请填写证件号码</div>
                 </div>
             </div>
@@ -118,9 +118,9 @@
         </div>
         <!--//End-->
         <div class="handle">
-            <a href="">删除此项</a>
+            <!-- <a href="">删除此项</a> -->
             <a id="active" class="active" href="javascript:void(0);">下一步</a>
-            <a href="">跳过此项</a>
+            <!-- <a id="skip" href="javascript:void(0);">跳过此项</a> -->
         </div>
     </form>
 

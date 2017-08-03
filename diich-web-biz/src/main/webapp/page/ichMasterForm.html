@@ -8,8 +8,17 @@
     <link rel="stylesheet" href="../assets/css/inputs.css">
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/js/laydate.js"></script>
+    <script src="../assets/js/validate-1.14.0.min.js"></script>
     <script src="../assets/js/system.js"></script>
     <script src="../assets/js/inputs.js"></script>
+    <script src="../js/citys.js"></script>
+    <script src="../assets/js/inputs-master.js"></script>
+    <script src="../page/templates/require/require.js"></script>
+    <script src="../page/templates/require/handlebars.js"></script>
+    <script src="../data/dictionary.js"></script>
+    <script src="../js/util.js"></script>
+    <script src="../assets/js/Ecalendar.jquery.min.js"></script>
+    <script src="../assets/js/jQuery.Form.js"></script>
 </head>
 
 <body style="background-color: rgb(245, 246, 247)">
@@ -23,7 +32,8 @@
             <div class="handle">
                 <a class="active" href="">保存</a>
                 <a class="empty" href="">预览</a>
-                <a class="empty" href="">提交</a>
+                <a id="onSend" class="empty" href="javascript:void(0);" style="display: none">提交</a>
+                <a id="notSend" class="disabled" href="javascript:void(0);">提交</a>
             </div>
         </div>
     </div>
@@ -32,41 +42,37 @@
     <div class="hd">
         <div class="slide">
             <div class="item">
-                <div class="dt selected"><i class="icon selected"></i>基础信息</div>
-            </div>
-            <!--//End 基础信息-->
-            <div class="item">
-                <div class="dt selected"><i class="icon selected"></i>项目内容<em class="arrow"></em></div>
+                <div id="menu_0" class="dt selected"><i class="icon"></i>基础信息<em class="arrow"></em></div>
                 <div class="dd">
                     <ul>
-                        <li class="selected"><i class="icon selected"></i><span>项目内容</span></li>
-                        <li><i class="icon unselected"></i><span>传承谱系</span></li>
-                        <li><i class="icon unselected"></i><span>历史渊源</span></li>
-                        <li><i class="icon unselected"></i><span>主要价值</span></li>
-                        <li><i class="icon unselected"></i><span>基本特征</span></li>
-                        <li><i class="icon unselected"></i><span>濒危状况</span></li>
-                        <li><i class="icon unselected"></i><span>保护措施</span></li>
+                        <li id="menu_00" class="selected"><i class="icon unselected"></i><span>基本信息</span></li>
+                        <li id="menu_01"><i class="icon unselected"></i><span>联系方式</span></li>
+                        <li id="menu_02"><i class="icon unselected"></i><span>职业信息</span></li>
                     </ul>
                 </div>
             </div>
-            <!--//End 传承人内容-->
+            <!--//End 基础信息-->
             <div class="item">
-                <div class="dt"><i class="icon selected"></i>项目实践<em class="arrow"></em></div>
-                <div class="dd">
-                    <ul>
-                        <li><i class="icon unselected"></i><span>简历</span></li>
-                        <li><i class="icon unselected"></i><span>传承历史与现状</span></li>
-                        <li><i class="icon unselected"></i><span>师徒关系</span></li>
-                        <li><i class="icon unselected"></i><span>记忆特征</span></li>
-                        <li><i class="icon unselected"></i><span>个人成就</span></li>
-                        <li><i class="icon unselected"></i><span>自定义项1</span></li>
-                        <li><i class="icon unselected"></i><span>自定义项2</span></li>
+                <div id="menu_1" class="dt" data-type="content"><i class="icon"></i>传承人内容<em class="arrow"></em></div>
+                <div class="dd"  style="display: none">
+                    <ul id="menuTwo">
+                        <li id="menu_10"><i class="icon unselected"></i><span>简历</span></li>
+                        <li id="menu_11"><i class="icon unselected"></i><span>传承历史与现状</span></li>
+                        <li id="menu_12"><i class="icon unselected"></i><span>师徒关系</span></li>
+                        <li id="menu_13"><i class="icon unselected"></i><span>技能</span></li>
+                        <li id="menu_14"><i class="icon unselected"></i><span>个人成就</span></li>
+                        <li id="menu_15"><i class="icon unselected"></i><span>传承谱系</span></li>
+                        <li id="menu_16"><i class="icon unselected"></i><span>获奖情况</span></li>
+                        <li id="menu_17"><i class="icon unselected"></i><span>知识产权</span></li>
                     </ul>
                 </div>
             </div>
             <!--//End 传承人内容-->
             <div class="item custom">
-                <div class="dt selected"><i></i>添加自定义项</div>
+                <div id="menu_2" class="dt"><i></i>添加自定义项</div>
+                <div class="dd"  style="display: none">
+                    <ul></ul>
+                </div>
             </div>
             <!--//End 传承人内容-->
             <div class="item status">
@@ -82,40 +88,37 @@
         </div>
         <!--//slide End-->
 
-        <div class="content">
-            <div class="title">传承人内容</div>
-            <div class="hint"><i class="dot"></i>标有 <em>*</em> 的为必填项    · 信息越完善，申报成功的几率越高</div>
-            <div class="st"><h2>简历</h2><span>查看填写示例</span></div>
-
-
-
-            <div id="temp">
-                <div class="edit">
-                    <form action="">
-                        <div class="text">
-                            <textarea name="" id="" cols="30" rows="10">示例效果，点击菜单就创建新的DOM</textarea>
-                        </div>
-                        <div class="images" id="images">
-                            <div class="handle">
-                                <div class="add file_up">
-                                    <span class="icon"><i></i></span>
-                                    <span>添加图片</span>
-                                </div>
-                                <div class="add file_up" style="margin-right:0;">
-                                    <span class="icon icon2"><i></i></span>
-                                    <span>添加视频</span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <!--//edit End-->
-                <div class="buttons">
-                    <a href="">删除此项</a>
-                    <a class="next" href="">下一步</a>
-                    <a href="">跳过此项</a>
-                </div>
-            </div>
+        <div id="content" class="content">
+            <!--<div class="title">传承人内容</div>-->
+            <!--<div class="hint"><i class="dot"></i>标有 <em>*</em> 的为必填项    · 信息越完善，申报成功的几率越高</div>-->
+            <!--<div class="st"><h2>简历</h2><span>查看填写示例</span></div>-->
+            <!--<div id="temp">-->
+                <!--<div class="edit">-->
+                    <!--<form action="">-->
+                        <!--<div class="text">-->
+                            <!--<textarea name="" id="" cols="30" rows="10">示例效果，点击菜单就创建新的DOM</textarea>-->
+                        <!--</div>-->
+                        <!--<div class="images" id="images">-->
+                            <!--<div class="handle">-->
+                                <!--<div class="add file_up">-->
+                                    <!--<span class="icon"><i></i></span>-->
+                                    <!--<span>添加图片</span>-->
+                                <!--</div>-->
+                                <!--<div class="add file_up" style="margin-right:0;">-->
+                                    <!--<span class="icon icon2"><i></i></span>-->
+                                    <!--<span>添加视频</span>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</form>-->
+                <!--</div>-->
+                <!--&lt;!&ndash;//edit End&ndash;&gt;-->
+                <!--<div class="buttons">-->
+                    <!--<a href="">删除此项</a>-->
+                    <!--<a class="next" href="">下一步</a>-->
+                    <!--<a href="">跳过此项</a>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
 
     </div>
@@ -133,10 +136,18 @@
 
 </body>
 <script>
-    $(function () {
+    $(function() {
         $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
-
+        require(["ichMasterForm/ichMasterForm"], function (ichMasterForm) {
+            ichMasterForm.init(dic_arr_city); // 初始化
+        })
     });
+    //时间
+    !function(){
+        laydate.skin('molv');//切换皮肤，请查看skins下面皮肤库
+        laydate({elem: '#calendar'});//绑定元素
+    }();
 
 </script>
+
 </html>
