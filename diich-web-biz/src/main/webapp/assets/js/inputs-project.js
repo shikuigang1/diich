@@ -370,6 +370,7 @@ function  saveContentPragment(attrid) {
 
     if($("#longContent").val().trim()==''){
         alert("请添加文本");
+        $("#longContent").next().show();
         return false;
     }
     contentFragment.attributeId=attrid;
@@ -431,7 +432,7 @@ function  saveContentPragment(attrid) {
             }
         });
     }
-    ich.status=2;
+    //ich.status=2;
     //alert(JSON.stringify(temp));
     //console.log(JSON.stringify(ich));
     // return false;
@@ -736,7 +737,7 @@ function vaidateForm(ich) {
 }
 function  initProjectView(ich) {
     if(ich.ichCategoryId == null || typeof (ich.ichCategoryId) == "undefined"){
-
+        renderLeftMenu(0,0);
     }else {
         $('div[data-type=proBaseInfo]').click();
         //选中状态补全
