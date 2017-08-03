@@ -128,19 +128,19 @@ public class IchProject extends IchObject {
         this.version = version;
     }
 
-    public void setArea(String area) {
-        ContentFragment contentFragment = new ContentFragment();
-        contentFragment.setContent(area);
-        contentFragment.setTargetId(id);
-        contentFragmentList.add(contentFragment);
-    }
-
-    public String getArea() {
-        for(ContentFragment contentFragment: contentFragmentList) {
-            if(contentFragment.getAttributeId().equals(13L)) {
-                return contentFragment.getContent();
-            }
-        }
-        return null;
-    }
+//    public void setArea(String area) {
+//        ContentFragment contentFragment = new ContentFragment();
+//        contentFragment.setContent(area);
+//        contentFragment.setTargetId(id);
+//        contentFragmentList.add(contentFragment);
+//    }
+//
+//    public String getArea() {
+//        for(ContentFragment contentFragment: contentFragmentList) {
+//            if(contentFragment.getAttributeId().equals(13L)) {
+//                return contentFragment.getContent();
+//            }
+//        }
+//        return null;
+//    }
 }
