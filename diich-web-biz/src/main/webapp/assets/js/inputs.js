@@ -177,9 +177,9 @@ var selectArea={
 
         });
         //删除选中的数据
-        selected.on('click','li',function () {
+        selected.on('click','.icon',function () {
             var _index=$(this).index();
-            $(this).remove();
+            $(this).parents('li').remove();
             result.splice(_index,1);
             resultText.splice(_index,1);
            // console.log(resultText);
@@ -377,12 +377,15 @@ var projectPage={
             dd.find('li:last-child').css('margin-bottom','0');
             //点击dt 展开收起
             dt.on('click',function () {
-                if(!validateIchID()){
-                    tipBox.init('fail','保存失败');
+                var _dateType=$(this).attr('data-type');
+                if((!validateIchID()) && (_dateType !='proBaseInfo') ){
+                    //tipBox.init('fail','请先填写基础信息',1500);
+                    tipBox.init('fail','请先填写基础信息',1500);
+                    return false;
                 }
 
                 var _dd=$(this).siblings('.dd');
-                var _dateType=$(this).attr('data-type');
+
                 if(_dd.length>0){
                     _dd.slideToggle(100);
                 }
@@ -958,10 +961,10 @@ var inheritorPage={
     }
 };
 var tipBox={
-    init:function (type,text) {
-        this.template(type,text);
+    init:function (type,text,speed) {
+        this.template(type,text,speed);
     },
-    template:function (type,text) {
+    template:function (type,text,speed) {
         var html='<div class="tipbox '+type+'" style="display: none;">' +
             '        <div class="head">提示</div>' +
             '        <div class="content">' +
@@ -970,5 +973,9 @@ var tipBox={
             '    </div>';
         $('body').append(html);
         $('.tipbox').fadeIn(300);
+        setTimeout(function () {
+            $('.tipbox').fadeOut(300).remove();
+        },speed)
     }
 };
+
