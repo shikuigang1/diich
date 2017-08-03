@@ -1,10 +1,9 @@
 package com.diich.service.impl;
 
+import com.diich.core.model.ContentFragment;
 import com.diich.core.model.IchMaster;
-import com.diich.core.model.IchProject;
 import com.diich.core.model.IchObject;
-import com.diich.core.service.IchMasterService;
-import com.diich.core.service.IchProjectService;
+import com.diich.core.model.IchProject;
 import com.diich.core.service.SearchService;
 import com.diich.mapper.IchObjectMapper;
 import org.apache.ibatis.session.RowBounds;
@@ -30,58 +29,71 @@ public class SearchServiceImpl implements SearchService {
     private IchObjectMapper ichObjectMapper;
 
     @Autowired
-    private IchProjectService ichProjectService;
-
-    @Autowired
-    private IchMasterService ichMasterService;
-
-    @Autowired
     private RedisTemplate<Serializable, Serializable> redisTemplate;
 
     private final static Long EXPIRE = 15L;
     private final static TimeUnit TIME_UNIT = TimeUnit.MINUTES;
 
-    @Override
-    public Integer search(List<Map<String, Object>> resultList, Map<String, Object> condition) throws Exception {
-        Integer total = getDataFromRedis(resultList, condition);
-        if(total != null) {
-            return total;
-        }
-
+    public int search(Map<String, Object> condition, List<IchObject> ichObjectList) throws Exception {
         RowBounds rowBounds = new RowBounds((Integer) condition.get("offset"),
                 (Integer) condition.get("limit"));
+
         List<?> list = ichObjectMapper.searchList(condition, rowBounds);
+        FillIchObjectList((List<IchObject>)list.get(0));
 
-        if(list.size() != 0 && list.get(0) != null) {
-            for(IchObject obj : (ArrayList<IchObject>)list.get(0)) {
-                Integer targetType = obj.getTargetType();
-                Long targetId = obj.getTargetId();
+        ichObjectList.addAll((List<IchObject>)list.get(0));
 
-                Map<String, Object> searchMap = new HashMap<>();
+        if(list.get(1) != null && ((List)list.get(1)).size() != 0) {
+            return (int)((List)list.get(1)).get(0);
+        }
 
-                if(targetType == 0) {
-                    obj = ichProjectService.getIchProject(targetId + "");
-                    searchMap.put("project", obj);
-                } else if(targetType == 1) {
-                    obj = ichMasterService.getIchMaster(targetId + "");
-                    searchMap.put("master", obj);
+        return -1;
+    }
+
+    private void FillIchObjectList(List<IchObject> ichObjects) throws Exception {
+        String idList = "";
+        for(int i = 0; i < ichObjects.size(); i++) {
+            if(idList.equals("")) {
+                idList += ichObjects.get(i).getId();
+            } else {
+                idList += "," + ichObjects.get(i).getId();
+            }
+        }
+        List<HashMap> result = ichObjectMapper.loadIchObjectList(idList);
+
+        for(int i = 0; i < ichObjects.size(); i++) {
+            IchObject ichObject = ichObjects.get(i);
+            Long id = ichObject.getId();
+            int type = ichObject.getType();
+            if(ichObject.getType() == 0) {
+                ichObject = new IchProject();
+            } else if(ichObject.getType() == 1) {
+                ichObject = new IchMaster();
+            }
+            ichObject.setId(id);
+            ichObject.setType(type);
+            ichObjects.set(i, ichObject);
+
+            for (HashMap hashmap:result) {
+                if (hashmap.get("targetId").equals(ichObject.getId())) {
+                    ContentFragment contentFragment = new ContentFragment();
+                    contentFragment.setAttributeId((Long) hashmap.get("attributeId"));
+                    contentFragment.setContent((String) hashmap.get("content"));
+                    ichObject.addContentFragment(contentFragment);
+                    if(ichObject instanceof IchProject && hashmap.get("ichCategoryId") != null) {
+                        ((IchProject) ichObject).setIchCategoryId((Long) hashmap.get("ichCategoryId"));
+                    }
+                    if(ichObject instanceof  IchMaster && hashmap.get("projectName") != null) {
+                        ContentFragment content = new ContentFragment();
+                        content.setAttributeId(4L);
+                        content.setContent(hashmap.get("projectName").toString());
+                        ((IchMaster) ichObject).setIchProjectId((Long) hashmap.get("projectId"));
+                        ichObject.addContentFragment(content);
+                    }
                 }
-
-                resultList.add(searchMap);
             }
         }
 
-        if(list.size() != 0 && list.get(1) != null) {
-            if(list.get(1) instanceof ArrayList) {
-                List tmpList = (ArrayList)list.get(1);
-                total = (Integer) ((tmpList != null && tmpList.size() != 0) ? tmpList.get(0) : 0);
-            }
-        }
-
-        put(condition.toString() + "_total", total);
-        put(condition.toString(), resultList);
-
-        return total != null ? total : 0;
     }
 
     private Integer getDataFromRedis(List<Map<String, Object>> resultList, Map<String, Object> condition)

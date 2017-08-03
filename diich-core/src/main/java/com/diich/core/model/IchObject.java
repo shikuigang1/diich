@@ -2,27 +2,55 @@ package com.diich.core.model;
 
 import com.diich.core.base.BaseModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Created by Administrator on 2017/7/26.
+ * Created by Administrator on 2017/7/23.
  */
 public class IchObject extends BaseModel{
-    private long targetId;
-    private int targetType;
 
-    public long getTargetId() {
-        return targetId;
+    private Long id;
+    private int type;
+    protected List<ContentFragment> contentFragmentList;
+
+    public List<ContentFragment> getContentFragmentList() {
+        return contentFragmentList;
     }
 
-    public void setTargetId(long targetId) {
-        this.targetId = targetId;
+    public void setContentFragmentList(List<ContentFragment> contentFragmentList) {
+        this.contentFragmentList = contentFragmentList;
     }
 
-    public int getTargetType() {
-        return targetType;
+    public void addContentFragment(ContentFragment contentFragment) {
+        if(contentFragmentList == null ) {
+            contentFragmentList = new ArrayList<>();
+        }
+
+        Long attributeId = contentFragment.getAttributeId();
+        for (ContentFragment contentFragment2: contentFragmentList) {
+            if(attributeId != null && attributeId.equals(contentFragment2.getAttributeId())) {
+                contentFragmentList.remove(contentFragment2);
+            }
+        }
+
+        contentFragmentList.add(contentFragment);
     }
 
-    public void setTargetType(int targetType) {
-        this.targetType = targetType;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
 }

@@ -5,14 +5,27 @@
     <result column="record_count" jdbcType="INTEGER" javaType="java.lang.Integer" />
   </resultMap>
 
-  <resultMap id="BaseResultMap" type="com.diich.core.model.IchObject" >
-    <result column="target_id" property="targetId" jdbcType="BIGINT" />
-    <result column="target_type" property="targetType" jdbcType="INTEGER" />
+  <resultMap id="ich_object" type="com.diich.core.model.IchObject" >
+    <result column="target_id" property="id" jdbcType="BIGINT" />
+    <result column="target_type" property="type" jdbcType="INTEGER" />
   </resultMap>
 
-  <select id="searchList"  parameterType="java.util.Map"  resultMap="BaseResultMap, recordCount" statementType="CALLABLE">
-  {call search(#{keyword,jdbcType=VARCHAR,mode=IN}, #{type,jdbcType=INTEGER,mode=IN},#{category,jdbcType=VARCHAR,mode=IN} ,
-  #{area,jdbcType=VARCHAR,mode=IN})}
-</select>
+  <resultMap id="ich_object2" type="java.util.HashMap" >
+    <result column="target_id" property="targetId" jdbcType="BIGINT" />
+    <result column="target_type" property="targetType" jdbcType="INTEGER" />
+    <result column="attribute_id" property="attributeId" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="ich_category_id" property="ichCategoryId" jdbcType="INTEGER" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="searchList"  parameterType="java.util.Map"  resultMap="ich_object, recordCount" >
+    {call search(#{keyword,jdbcType=VARCHAR,mode=IN}, #{type,jdbcType=INTEGER,mode=IN},#{category,jdbcType=VARCHAR,mode=IN} ,
+    #{area,jdbcType=VARCHAR,mode=IN})}
+  </select>
+  <select id="loadIchObjectList" parameterType="java.lang.String" resultMap="ich_object2" >
+    {call load_ich_object_list(#{id_list,jdbcType=VARCHAR,mode=IN})}
+  </select>
 
 </mapper>

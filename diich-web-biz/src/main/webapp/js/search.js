@@ -41,11 +41,11 @@ function initPage() {
 
     //自动提示
     /*if (suggest.is(':visible')) {
-        body.css('overflow', 'hidden');
-        body.append('<div class="overbg"></div>');
-    } else {
-        body.css('overflow', '');
-    }*/
+     body.css('overflow', 'hidden');
+     body.append('<div class="overbg"></div>');
+     } else {
+     body.css('overflow', '');
+     }*/
 
     $('.header .content .nav li').eq(1).addClass('active').siblings('li').removeClass('active');
     $("#ahover").hover(function(){
@@ -74,7 +74,8 @@ function initPage() {
         var location = 'search.html?';
 
         if($('#keyword').val() != '' && $('#keyword').val() != null) {
-            location += 'keyword=' + $('#keyword').val() + '&';
+            global_keyword = $('#keyword').val();
+            location += 'keyword=' + global_keyword + '&';
         }
         if($('#attr_text').attr('data-id') != null && $('#attr_text').attr('data-id') != '0') {
             location += 'gb_category_code=' + $('#attr_text').attr('data-id') + '&';
@@ -87,11 +88,11 @@ function initPage() {
 
         window.location = location;
     });
-    
+
     $('#loadmore').on('click', function () {
         $('#loadmore').text('Loading...');
         pageNum += 1;
-        searchDataFromServer();
+        searchDataFromServer(false);
     });
 
     initParams();
@@ -119,7 +120,7 @@ function initParams() {
     searchDataFromServer();
 }
 
-function searchDataFromServer() {
+function searchDataFromServer(is_show_progress) {
     var condition = buildCondition();
 
     $.ajax({
@@ -128,7 +129,7 @@ function searchDataFromServer() {
         data: {'condition':JSON.stringify(condition)},
         dataType: 'json',
         beforeSend:function() {
-            progress.start();
+            is_show_progress == false ? 0 : progress.start();
         },
         success: function(data) {
             buildSearchResultUi(data);
@@ -137,7 +138,7 @@ function searchDataFromServer() {
 
         },
         complete: function () {
-            progress.stop();
+            is_show_progress == false ? 0 : progress.stop();
         }
     });
 }
@@ -199,11 +200,14 @@ function buildSearchResultUi(data) {
     var array = data.data;
     for(var i = 0; i < array.length; i ++) {
         var $ui = null;
-        if(typeof array[i].project != 'undefined') {
-            $ui = fillProjectData(array[i].project, template);
-        } else if(typeof array[i].master != 'undefined') {
-            $ui = fillMasterData(array[i].master, template);
+        if(array[i].type == 0) {
+            $ui = fillProjectData(array[i], template);
+        } else if(array[i].type == 1) {
+            $ui = fillMasterData(array[i], template);
+        } else if(array[i].type == 2) {
+            //作品
         }
+
         $('#content').append($ui);
     }
 
@@ -237,23 +241,24 @@ function fillMasterData(master, template) {
     attrMap.headImage = 113;
     attrMap.title = 13;
     attrMap.doi = 11;
+    attrMap.projectName = 4;
     attrMap.summary = 24;
 
     var $ui = $(template);
     fillCommonByContentList(master, 'master', attrMap, $ui);
 
-    if(master != null && master.ichProject != null) {
+    if(master != null && master.contentFragmentList != null) {
         var $ich_project = $ui.find('#ich_project');
         $ich_project.parent().parent().show();
 
-        var contentList = master.ichProject.contentFragmentList;
+        var contentList = master.contentFragmentList;
         for(var i = 0; i < contentList.length; i ++) {
             if(contentList[i].attributeId == 4) {
                 $ich_project.text(contentList[i].content);
-                $ich_project.parent().attr('href', 'http://resource.efeiyi.com/html/project/'+
-                    master.ichProject.id +'.html?lang=' + getCurrentLanguage());
             }
         }
+        $ich_project.parent().attr('href', 'http://resource.efeiyi.com/html/project/'+
+         master.ichProjectId +'.html?lang=' + getCurrentLanguage());
     }
 
     return $ui;
@@ -269,8 +274,7 @@ function fillCommonByContentList(object, type, attrMap, $ui) {
     var contentList = object.contentFragmentList;
     for(var i = 0; i < contentList.length; i ++) {
         if(contentList[i].attributeId == attrMap.headImage) {
-            var head_image = getHeadImage(contentList[i], type);
-            if(head_image != null) map['headImage'] = head_image;
+            map['headImage'] = getHeadImage(contentList[i].content, type);
         } else if(contentList[i].attributeId == attrMap.title) {
             map['title'] = contentList[i].content;
         } else if(contentList[i].attributeId == attrMap.doi) {
@@ -347,15 +351,13 @@ function filterStr(str) {
 }
 
 function getHeadImage(content, type) {
-    var head_image = null;
-    if(content.resourceList != null && content.resourceList.length > 0) {
-        head_image = content.resourceList[0].uri;
-        if(head_image.indexOf('http') > 0) {
-            head_image += '?x-oss-process=style/search-result-list-image';
-        } else {
-            head_image = aliyun_resource_uri + type + '/' + head_image + '?x-oss-process=style/search-result-list-image';
-        }
+    var head_image = content;
+    if(head_image.indexOf('http') > 0) {
+        head_image += '?x-oss-process=style/search-result-list-image';
+    } else {
+        head_image = aliyun_resource_uri + type + '/' + head_image + '?x-oss-process=style/search-result-list-image';
     }
+
     return head_image;
 }
 
@@ -467,7 +469,7 @@ function buildTwoComboUi(data, data_id, $ui) {
             pageNum = 1;
             searchDataFromServer();
         });
-        
+
         $container.append($li);
     }
 }
