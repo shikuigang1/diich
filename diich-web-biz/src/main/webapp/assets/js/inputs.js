@@ -182,15 +182,7 @@ var selectArea={
             $(this).remove();
             result.splice(_index,1);
             resultText.splice(_index,1);
-            console.log(resultText);
-            // var arr=[];
-            // for(var i=0;i<resultText.length;i++){
-            //     if(i != _index){
-            //         arr.push(resultText[i]);
-            //     }
-            // }
-
-            // console.log(JSON.stringify(arr));
+           // console.log(resultText);
             localStorage.setItem("codeText",resultText.join(","));
             if(callback && callback!='undefined'){
                 callback(result);
@@ -320,8 +312,7 @@ var projectPage={
             projectPage.uploadImgage(); //上传题图
         });
         this.slideBar.init(); //左侧菜单
-        //添加左侧菜单数据
-        renderLeftMenu(0,0);
+
         //弱当前缓存有数据则在本地 查找并添加
         var ich = getCurrentProject();
         initProjectView(ich);
@@ -386,9 +377,8 @@ var projectPage={
             dd.find('li:last-child').css('margin-bottom','0');
             //点击dt 展开收起
             dt.on('click',function () {
-
                 if(!validateIchID()){
-                    alert("请先添加基础信息"); return false;
+                    tipBox.init('fail','保存失败');
                 }
 
                 var _dd=$(this).siblings('.dd');
@@ -412,21 +402,31 @@ var projectPage={
                             var ich = getCurrentProject();
                             if(typeof (ich)!= "undefined"){
                                 //填充分类
-                                var c_id = ich.ichCategoryId;
+                               /* var c_id = ich.ichCategoryId;
                                 var catelist = getCategoryList(0);
                                 var name="";
                                 for(var i=0;i<catelist.length;i++){
                                     if(catelist[i].id==c_id){
                                         name = catelist[i].name;
                                     }
+                                }*/
+                               var str = getCategoryTextById(ich.ichCategoryId);
+                             /*  if(str.indexOf("-") != -1){
+                                   str=str.split("-")[0];
+                               }*/
+                                $('div[data-type=selectCate]').text(str);
+                                //判断分类按钮是否可以编辑
+                                if(localStorage.getItem("action")=='update'&& getCurrentProject().ichCategoryId !=null ){
+                                    $('div[data-type=selectCate]').before('<div style="width: 100%;float:left;background:#fff;border: 0;z-index:2;">'+str+'</div>');
+                                    $('div[data-type=selectCate]').remove();
                                 }
-                                $('div[data-type=selectCate]').text(name);
+
                                 //填充题图
                                 //是否为已认证项目 标记
                                 var flag = 0;
                                 $.each(ich.contentFragmentList,function (idx,obj) {
                                     //填充题图
-                                    if(obj.attributeId == 1){
+                                    if(obj.attributeId == 1 && obj.resourceList.length>0){
                                         var uri = obj.resourceList[0].uri;
                                         $(".preview").attr("src",imgserver+"/image/project/"+uri).show();
                                         $(".preview").parent().addClass('active');
@@ -958,4 +958,18 @@ var inheritorPage={
         }
     }
 };
-
+var tipBox={
+    init:function (type,text) {
+        this.template(type,text);
+    },
+    template:function (type,text) {
+        var html='<div class="tipbox '+type+'" style="display: none;">' +
+            '        <div class="head">提示</div>' +
+            '        <div class="content">' +
+            '            <i class="icon"></i><span>'+text+'</span>' +
+            '        </div>' +
+            '    </div>';
+        $('body').append(html);
+        $('.tipbox').fadeIn(300);
+    }
+};

@@ -11,9 +11,9 @@ function checkPageInputs(){
 }
 
 //渲染左侧菜单页面
-function renderLeftMenu(bytype) {
+function renderLeftMenu(bytype,cateId) {
     //初始化页面
-    var data = loadPageData(bytype,0);
+    var data = loadPageData(bytype,cateId);
     initpage(data);
 }
 
@@ -39,14 +39,25 @@ function initpage(data){
         ////长文本 或者图文
         if(obj.dataType==1 || obj.dataType==5 ){
             //过滤掉简介不再左侧显示
-            if(!(obj.id==9 || obj.id==24 || obj.id==31)){
+            if((!(obj.id==9 || obj.id==24 || obj.id==31)) && obj.ichCategoryId == 0){
                 //中英文切换  <li><i class="icon unselected"></i><span>传承谱系</span></li>
                 if(getLang()=="zh-CN"){
                     $("#menu").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
-            }else{
-                    $("#menu").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
+                }else{
+                        $("#menu").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
+                    }
+            }
+
+            if((!(obj.id==9 || obj.id==24 || obj.id==31)) && obj.ichCategoryId>0){
+                //中英文切换  <li><i class="icon unselected"></i><span>传承谱系</span></li>
+                if(getLang()=="zh-CN"){
+                    $("#menu2").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
+                }else{
+                    $("#menu2").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
                 }
             }
+
+
         }else{
             //右侧字段生成
         }
@@ -85,11 +96,21 @@ function loadPageData(targetType,categoryId) {
 function getDataByCateGoryId(data){
     $("#menu2").empty();
     $.each(data.data,function (index,obj) {
-        if(getLang()=="zh-CN"){
-            $("#menu2").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
+        if(obj.dataType==1 || obj.dataType==5 ){
+            //过滤掉简介不再左侧显示
+            if((!(obj.id==9 || obj.id==24 || obj.id==31)) && obj.ichCategoryId>0){
+                //中英文切换  <li><i class="icon unselected"></i><span>传承谱系</span></li>
+                if(getLang()=="zh-CN"){
+                    $("#menu2").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
+                }else{
+                    $("#menu2").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
+                }
+            }
         }else{
-            $("#menu2").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
+            //右侧字段生成
         }
+
+
     });
 }
 function loadContentFragmentById(cid){
@@ -375,7 +396,7 @@ function  saveContentPragment(attrid) {
         var flag_1 =0;
         $.each(ich.contentFragmentList,function (idx,obj) {
             if(obj.attributeId == attrid){
-                flag_1=1
+                flag_1=1;
                 ich.contentFragmentList[idx].content=$("#longContent").val();
                 if(typeof (obj.resourceList) == 'undefined'){
                     ich.contentFragmentList[idx].resourceList = resourceList;
@@ -385,7 +406,9 @@ function  saveContentPragment(attrid) {
                         $.each(obj.resourceList,function (i,o) {
                                 if(object.uri==o.uri){
                                     flag=1;
+                                    o.description=object.description;
                                 }
+
                         });
                         if(flag==0){
                             ich.contentFragmentList[idx].resourceList.push(object);
@@ -409,21 +432,22 @@ function  saveContentPragment(attrid) {
             }
         });
     }
-
+    ich.status=2;
     //alert(JSON.stringify(temp));
-    console.log(JSON.stringify(temp));
-    //return false;
+    //console.log(JSON.stringify(ich));
+    // return false;
     $.ajax({
         type: "POST",
-        url: "../contentFragment/saveContentFragment",
-        data:{params:JSON.stringify(temp)} ,
+        //url: "../contentFragment/saveContentFragment",
+        url: "../ichProject/saveIchProject",
+        data:{params:JSON.stringify(ich)} ,
         dataType: "json",
         async:false,
         complete: function () { },
         success: function (result) {
             console.log(result);
             if(result.code==0){
-                    var ich = getCurrentProject();
+                   /* var ich = getCurrentProject();
 
                     var flag =0;
                     $.each(ich.contentFragmentList,function (index,obj) {
@@ -434,9 +458,9 @@ function  saveContentPragment(attrid) {
                     });
                     if(flag==0){
                         ich.contentFragmentList.push(result.data);
-                    }
+                    }*/
                     //console.log(JSON.stringify(ich));
-                    localStorage.setItem("ichProject",JSON.stringify(ich));
+                    localStorage.setItem("ichProject",JSON.stringify(result.data));
                     //跳转到下一菜单
                     $('li[data-type=longField]').removeClass("selected");
                     var index=0;
@@ -730,8 +754,10 @@ function  initProjectView(ich) {
         $('div[data-type=proBaseInfo]').click();
         //选中状态补全
         $('div[data-type=proBaseInfo]').find("i").addClass('selected');
+        //项目内容
+        renderLeftMenu(0,ich.ichCategoryId);
         //通过分类选择 项目实战
-        initmenu2(0,ich.ichCategoryId);
+        //initmenu2(0,ich.ichCategoryId);
 
         if(ich.contentFragmentList!= null && typeof (ich.contentFragmentList) != 'undefined'){
 
