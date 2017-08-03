@@ -27,7 +27,7 @@ public class VersionServiceImpl extends BaseService<Version> implements VersionS
             version.setMainVersionId(mainId);
             version.setBranchVersionId(branchId);
             version.setTargetType(targetType);
-            version.setVersionType(0);
+            version.setVersionType(versionType);
             versionList = versionMapper.selectVersionByLangIdAndTargetType(version);
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
