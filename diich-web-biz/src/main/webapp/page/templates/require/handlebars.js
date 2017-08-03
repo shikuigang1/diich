@@ -2700,10 +2700,10 @@ Handlebars.template = Handlebars.VM.template;
         }
     });
 
-    Handlebars.registerHelper("onZjType", function (keys, key1, options) {
+    Handlebars.registerHelper("onZjType", function (keys, key1, menuId, options) {
         var fag = false;
         $.each(keys, function(i, v) {
-            if(v.attributeId == 127 && key1 == v.content) {
+            if(v.attributeId == menuId && key1 == v.content) {
                 fag = true;
                 return;
             }
@@ -2716,10 +2716,10 @@ Handlebars.template = Handlebars.VM.template;
         }
      })
 
-    Handlebars.registerHelper("onGj", function (keys, key1, options) {
+    Handlebars.registerHelper("onGj", function (keys, key1, menuId, options) {
         var fag = false;
         $.each(keys, function(i, v) {
-            if(v.attributeId == 49 && key1 == v.content) {
+            if(v.attributeId == menuId && key1 == v.content) {
                 fag = true;
                 return;
             }
@@ -2731,6 +2731,35 @@ Handlebars.template = Handlebars.VM.template;
             return options.inverse(this);
         }
     })
+
+    // 获取到接口返回值content值(传承人)
+    Handlebars.registerHelper("getContent", function (keys, menuId) {
+        var content = "";
+        $.each(keys, function(i, v) {
+            if(v.attributeId == menuId) {
+                content = v.content;
+                return;
+            } else if(keys.length == 1){
+                content = v.content;
+                return;
+            }
+        })
+        return content;
+    })
+
+    //  获取到接口返回值id值(传承人)
+    Handlebars.registerHelper("getId", function (keys, menuId) {
+        var id = "";
+        $.each(keys, function(i, v) {
+            if(v.attributeId == menuId) {
+                id = v.id;
+                return;
+            }
+        })
+        return id;
+    })
+
+
 
 })();
 ;

@@ -257,7 +257,7 @@ function fillMasterData(master, template) {
                 $ich_project.text(contentList[i].content);
             }
         }
-        $ich_project.parent().attr('href', 'http://resource.efeiyi.com/html/project/'+
+        $ich_project.parent().attr('href', 'http://project.efeiyi.com/p/'+
          master.ichProjectId +'.html?lang=' + getCurrentLanguage());
     }
 
@@ -293,13 +293,20 @@ function fillCommonByContentList(object, type, attrMap, $ui) {
         var _attr = attr_arr[i];
         var attr_name = $(_attr).attr('attrName');
         if(typeof map[attr_name] != 'undefined') {
+            var target_type = 'project';
+            if(type == 'master') {
+                target_type = 'inheritor';
+            } else if(type == 'works') {
+                target_type = type;
+            }
+
             if($(_attr).hasClass('head-image')) {
                 $ui.find('#' + attr_name).attr('src', map[attr_name]);
-                $ui.find('#' + attr_name).parent().attr('href', 'http://resource.efeiyi.com/html/'+ type +'/'+
+                $ui.find('#' + attr_name).parent().attr('href','http://'+ target_type +'.efeiyi.com/'+ type.substring(0,1)+'/'+
                     object.id +'.html?lang=' + getCurrentLanguage());
             } else if($(_attr).is('a')) {
                 $ui.find('#' + attr_name).text(map[attr_name]);
-                $ui.find('#' + attr_name).attr('href', 'http://resource.efeiyi.com/html/'+ type +'/'+
+                $ui.find('#' + attr_name).attr('href', 'http://' + target_type + '.efeiyi.com/'+ type.substring(0,1)+'/'+
                     object.id +'.html?lang=' + getCurrentLanguage());
             } else {
                 $ui.find('#' + attr_name).text(map[attr_name]);

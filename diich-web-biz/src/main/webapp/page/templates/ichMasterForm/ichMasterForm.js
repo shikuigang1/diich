@@ -1,25 +1,33 @@
 /**
  * 我要申报-传承人模块管理器
- * menuTpl : 左侧菜单模板
+ * customTpl : 自定义项模板
  * basicTpl : 基本信息模板
  * contactTpl ：联系方式模板
  * vocationTpl : 职业信息模板
  * resumeTpl: 简历模板 传承历史与现状模板 记忆特征模板  个人成就模板 统一调用resumeTpl
  * masterTpl
  */
-define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
+define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     "text!ichMasterForm/contact.tpl", "text!ichMasterForm/vocation.tpl",
-    "text!ichMasterForm/resume.tpl", "text!ichMasterForm/master.tpl"], function(menuTpl, basicTpl, contactTpl, vocationTpl, resumeTpl, masterTpl) {
+    "text!ichMasterForm/resume.tpl", "text!ichMasterForm/master.tpl",
+    "text!ichMasterForm/menu.tpl"], function(customTpl, basicTpl, contactTpl, vocationTpl, resumeTpl, masterTpl, menuTpl) {
 
 
-    var basicObj = {"contentFragmentList":[{"attribute":null,"attributeId":"13","content":"张天赐","id":"892204434849828864","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"14","content":"zhangChina","id":"892204435051155456","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"15","content":"zhangPinYin","id":"892204435273453568","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"49","content":"CHN","id":"892204435499945984","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"17","content":"汉","id":"892204435718049792","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"18","content":"2017/07/31","id":"892204435923570688","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"127","content":"0","id":"892204436162646016","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"128","content":"230702198909021410","id":"892204436384944128","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"10","content":"","id":"892204436598853632","resourceList":[{"description":"","id":"892204436691128320","resOrder":null,"status":"0","type":"0","uri":"150155305316320151023153449 (1).jpg"}],"status":"0","targetId":"892204434384261120","targetType":"1"}],"editRank":null,"ichProject":null,"ichProjectId":null,"id":"892204434384261120","isMaster":"0","json":"","jsonAll":"","jsonHead":"","lang":"chi","lastEditDate":null,"lastEditorId":"1","status":"2","uri":"892204434384261120.html","userId":null,"worksList":[]};
-    console.log(" --- >", basicObj)
-    var contactObj = {"contentFragmentList":[{"attribute":null,"attributeId":"58","content":"18612057290","id":"892218910567354368","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"59","content":"chinazhangtianci@163.com","id":"892218910839984128","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"54","content":"凯撒看卡萨","id":"892218911108419584","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"56","content":"100100","id":"892218911339106304","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"55","content":"120102","id":"892218911573987328","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"}],"editRank":null,"ichProject":null,"ichProjectId":null,"id":"892204434384261120","isMaster":"1","json":"","jsonAll":"","jsonHead":"","lang":"chi","lastEditDate":null,"lastEditorId":"1","status":"2","uri":"892204434384261120.html","userId":"1","worksList":[]}; // 联系方式模板缓存对象
-    console.log(" --- >", contactObj)
-    var vocationObj = {"contentFragmentList":[{"attribute":null,"attributeId":"47","content":"sadsaa","id":"892229844073500672","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"48","content":"分公司的","id":"892229844274827264","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"50","content":"人多","id":"892229844476153856","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"24","content":"asdasd","id":"892229844677480448","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"}],"editRank":null,"ichProject":null,"ichProjectId":null,"id":"892204434384261120","isMaster":"1","json":"","jsonAll":"","jsonHead":"","lang":"chi","lastEditDate":null,"lastEditorId":"1","status":"2","uri":"892204434384261120.html","userId":"1","worksList":[]};
-    console.log(" --- >", vocationObj);
+    //var basicObj = {"contentFragmentList":[{"attribute":null,"attributeId":"13","content":"张天赐","id":"892204434849828864","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"14","content":"zhangChina","id":"892204435051155456","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"15","content":"zhangPinYin","id":"892204435273453568","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"49","content":"CHN","id":"892204435499945984","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"17","content":"汉","id":"892204435718049792","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"18","content":"2017/07/31","id":"892204435923570688","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"127","content":"0","id":"892204436162646016","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"128","content":"230702198909021410","id":"892204436384944128","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"10","content":"","id":"892204436598853632","resourceList":[{"description":"","id":"892204436691128320","resOrder":null,"status":"0","type":"0","uri":"150155305316320151023153449 (1).jpg"}],"status":"0","targetId":"892204434384261120","targetType":"1"}],"editRank":null,"ichProject":null,"ichProjectId":null,"id":"892204434384261120","isMaster":"0","json":"","jsonAll":"","jsonHead":"","lang":"chi","lastEditDate":null,"lastEditorId":"1","status":"2","uri":"892204434384261120.html","userId":null,"worksList":[]};
+    //console.log(" --- >", basicObj)
+    //var contactObj = {"contentFragmentList":[{"attribute":null,"attributeId":"58","content":"18612057290","id":"892218910567354368","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"59","content":"chinazhangtianci@163.com","id":"892218910839984128","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"54","content":"凯撒看卡萨","id":"892218911108419584","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"56","content":"100100","id":"892218911339106304","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"55","content":"120102","id":"892218911573987328","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"}],"editRank":null,"ichProject":null,"ichProjectId":null,"id":"892204434384261120","isMaster":"1","json":"","jsonAll":"","jsonHead":"","lang":"chi","lastEditDate":null,"lastEditorId":"1","status":"2","uri":"892204434384261120.html","userId":"1","worksList":[]}; // 联系方式模板缓存对象
+    //console.log(" --- >", contactObj)
+    //var vocationObj = {"contentFragmentList":[{"attribute":null,"attributeId":"47","content":"sadsaa","id":"892229844073500672","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"48","content":"分公司的","id":"892229844274827264","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"50","content":"人多","id":"892229844476153856","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"24","content":"asdasd","id":"892229844677480448","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"}],"editRank":null,"ichProject":null,"ichProjectId":null,"id":"892204434384261120","isMaster":"1","json":"","jsonAll":"","jsonHead":"","lang":"chi","lastEditDate":null,"lastEditorId":"1","status":"2","uri":"892204434384261120.html","userId":"1","worksList":[]};
+    //console.log(" --- >", vocationObj);
+    //var masterObj = {"contentFragmentList":[{"attribute":null,"attributeId":"125","content":"唐曾","id":"892346621700923392","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"},{"attribute":null,"attributeId":"126","content":"悟空","id":"892346622208434176","resourceList":[],"status":"0","targetId":"892204434384261120","targetType":"1"}],"editRank":null,"ichProject":null,"ichProjectId":null,"id":"892204434384261120","isMaster":"0","json":"","jsonAll":"","jsonHead":"","lang":"chi","lastEditDate":null,"lastEditorId":"1","status":"2","uri":"892204434384261120.html","userId":null,"worksList":[]}; // 师徒信息模板缓存对象
+    //var resumeObj = {"contentFragmentList":[{"attribute":null,"attributeId":"51","content":"阿萨德卡拉斯科来得及ask来得及 安师大啊圣诞快乐爱疯 按时风口浪尖阿里斯顿卡死机的了","id":"892345594843029504","resourceList":[{"description":"测试001","id":"892345594901749760","resOrder":null,"status":"0","type":"0","uri":"150158670957920150915164332.jpg"},{"description":"测试002","id":"892345595031773184","resOrder":null,"status":"0","type":"0","uri":"150158672064520151023153449 (1).jpg"}],"status":"0","targetId":"892204434384261120","targetType":"1"}],"editRank":null,"ichProject":null,"ichProjectId":null,"id":"892204434384261120","isMaster":"0","json":"","jsonAll":"","jsonHead":"","lang":"chi","lastEditDate":null,"lastEditorId":"1","status":"2","uri":"892204434384261120.html","userId":null,"worksList":[]} // 简历信息模板缓存对象
+    //console.log(" --- >", resumeObj)
+
+    var basicObj = {}; // 基本信息缓存对象
+    var contactObj = {}; // 联系方式缓存对象
+    var vocationObj = {}; // 职业信息缓存对象
+    var resumeObj = {}; // 简历信息缓存对象
     var masterObj = {}; // 师徒信息模板缓存对象
-    var resumeObj = {}; // 简历信息模板缓存对象
     var historyObj = {}; // 传承历史与现状缓存对象
     var skillObj = {}; // 技能缓存对象
     var achieveObj = {}; // 成就缓存对象
@@ -27,10 +35,13 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
     var rewardObj = {}; // 获奖情况缓存对象
     var loreObj = {}; // 支持产权缓存对象
 
-    var targetId = "892204434384261120"; // 传承人ID 用于判断是否是一个人申请的
+    var customList = {}; // 缓存自定义项对象
+
+    var targetId = ""; // 传承人ID 用于判断是否是一个人申请的
     var isMaster = "0"; // 是否为自己申报传承人 0否 1是 默认 否
     var ossPash = "http://diich-resource.oss-cn-beijing.aliyuncs.com/image/master/"; // oss图片地址存放地址
     var addressText = ""; // 存储用户选取的地址
+
     // 初始化数据
     function init(dicArrCity) {
 
@@ -49,18 +60,44 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
      */
     function menusOne() {
         $("body").delegate(".dt", "click", function(){
-            // 被点击效果切换
-            $(".dt").each(function(i, v) {
-                $(this).removeClass("selected");
-                if(type != 2) {
-                    $(this).next(".dd").hide();
+            var $this = $(this);
+            var type = $this.attr("id").split("_").pop();
+            if(type != 0) {
+                // 用户点击的是 基本信息之外的模块
+                var idArray = $this.attr("id").split("_");
+                var status = $("#" + idArray[0] + "_" + "0").children("i").hasClass("selected");
+                console.log("status --- >", status);
+                if(status) {
+                    // 可以点击
+                    _onEffect($this);
+                    // 添加自定义项  加载模板
+                    if(type == 2) {
+                        getCustom($this.attr("id").toString());
+                    }
+                } else {
+                    // 不可以点击
+                    alert("请先完成基本信息项填写")
                 }
-            })
-            $(this).addClass("selected"); // 添加被点击效果
+            } else {
+                // 用户点击的是基本信息模块
+                _onEffect($this);
+            }
 
-            var type = $(this).attr("id").split("_").pop();
-            if(type != 2) {
-                $(this).next(".dd").show();
+            /**
+             *  点击样式 模板切换
+             * @param $this 被点击对象
+             * @private
+             */
+            function _onEffect($this) {
+                // 被点击效果切换
+                $(".dt").each(function(i, v) {
+                    $(this).removeClass("selected");
+                    if(type != 2) {
+                        $(this).next(".dd").hide();
+                    }
+                })
+                $this.addClass("selected"); // 添加被点击效果
+                $this.next(".dd").show();
             }
         });
     }
@@ -70,63 +107,167 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
      */
     function menusTwo(dicArrCity) {
         $("body").delegate("li[id^='menu_']", "click", function(){
-            // 被点击效果切换
-            $("li[id^='menu_']").each(function(i, v) {
-                $(this).removeClass("selected");
-            })
-            $(this).addClass("selected"); //添加被点击效果
+            var $this = $(this);
             var id = $(this).attr("id");
             var type =  id.split("_").pop();
-            // 切换各个模板页面
-            switch (type) {
-                case "00":
-                    // 基本信息模板
-                    getBasic(id.toString(), dicArrCity);
-                    break;
-                case "01":
-                    // 联系方式模板
-                    getContact(id.toString());
-                    break;
-                case "02":
-                    // 职业信息模板
-                    getVocation(id.toString());
-                    break;
-                case "10":
-                    // 简历
-                    getResume(id, "简历", 51, "jl");
-                    break;
-                case "11":
-                    // 传承历史与现状
-                    getResume(id, "传承历史与现状", 119, "lsxz");
-                    break;
-                case "12":
-                    // 师徒关系
-                    getMaster(id);
-                    break;
-                case "13":
-                    // 技能
-                    getResume(id, "技能", 115, "jn");
-                    break;
-                case "14":
-                    // 个人成就
-                    getResume(id, "个人成就", 110, "cj");
-                    break;
-                case "15":
-                    // 传承谱系
-                    getResume(id, "传承谱系", 21, "ch");
-                    break;
-                case "16":
-                    // 获奖情况
-                    getResume(id, "获奖情况", 129, "hjqk");
-                    break;
-                case "17":
-                    // 知识产权
-                    getResume(id, "知识产权", 131, "zscq");
-                    break;
-                default:
-                    console.log("没有")
+
+            if(type != 00) {
+                // 用户点击的是 2级基本信息菜单外的选项
+                var idArray = $this.attr("id").split("_");
+                var status = $("#" + idArray[0] + "_" + "00").children("i").hasClass("selected");
+                console.log("status --- >", status);
+                if(status) {
+                    // 可以点击
+                    _onEffect($this);
+                } else {
+                    // 不可以点击
+                    alert("请完成基本信息模块数据的填写")
+                }
+            } else {
+                // 用户点击的是 2级基本信息菜单
+                _onEffect($this);
+            }
+
+            /**
+             * 点击样式 模板切换
+             * @param $this
+             * @private
+             */
+            function _onEffect($this) {
+                // 被点击效果切换
+                $("li[id^='menu_']").each(function(i, v) {
+                    $(this).removeClass("selected");
+                })
+                $this.addClass("selected"); //添加被点击效果
+                // 切换各个模板页面
+                switch (type) {
+                    case "00":
+                        // 基本信息模板
+                        getBasic(id.toString(), dicArrCity);
+                        break;
+                    case "01":
+                        // 联系方式模板
+                        getContact(id.toString());
+                        break;
+                    case "02":
+                        // 职业信息模板
+                        getVocation(id.toString());
+                        break;
+                    case "10":
+                        // 简历
+                        getResume(id, "简历", 51, "jl");
+                        break;
+                    case "11":
+                        // 传承历史与现状
+                        getResume(id, "传承历史与现状", 119, "lsxz");
+                        break;
+                    case "12":
+                        // 师徒关系
+                        getMaster(id);
+                        break;
+                    case "13":
+                        // 技能
+                        getResume(id, "技能", 115, "jn");
+                        break;
+                    case "14":
+                        // 个人成就
+                        getResume(id, "个人成就", 110, "cj");
+                        break;
+                    case "15":
+                        // 传承谱系
+                        getResume(id, "传承谱系", 21, "ch");
+                        break;
+                    case "16":
+                        // 获奖情况
+                        getResume(id, "获奖情况", 129, "hjqk");
+                        break;
+                    case "17":
+                        // 知识产权
+                        getResume(id, "知识产权", 131, "zscq");
+                        break;
+                    default:
+                        // 自定义项
+                        var titile = $(this).children("span").text();
+                        var menuId = $(this).attr("data-id");
+                        getResume(id, titile, menuId);
+                }
             }
         });
+    }
+
+    /**
+     * 自定义项模板
+     */
+    function getCustom(id) {
+        // 更新DOM元素
+        var resumenHtml = Handlebars.compile(customTpl)();
+        $("#content").html(resumenHtml);
+        inheritorPage.radioImage(); // 加载上传视频， 上传图片
+
+        _bindingSave();
+        function _bindingSave() {
+            $("#next").on("click", function() {
+                _onSave($(this));
+            })
+        }
+
+        function _onSave($this) {
+            $this.off("click");
+            var fag = true;
+            var name = $("#customName").val()
+            var content = $("#customContent").val();
+            // 验证
+            if(!name) {
+                $("#customName_err").html("<i></i>请填写自定义名称").show();
+                fag = false;
+            } else if (name.length > 9) {
+                $("#customName_err").html("<i></i>自定义名称最多可输入9个字").show();
+                fag = false;
+            }
+
+            if(!content) {
+                $("#customContent_err").html("<i></i>请填写自定义内容，请填写").show();
+                fag = false;
+            }
+
+            if(fag) {
+                var imgs = [];
+                $("#images").children("div .item").each(function(i, v) {
+                    var img = {};
+                    var uri = $(this).children("img").attr("src")
+                    img["uri"] = uri.substr(uri.lastIndexOf("/") + 1, uri.length);
+                    img["description"] = $(this).children("input").val();
+                    img["type"] = 0;
+                    img["status"] = 0;
+                    imgs.push(img);
+                })
+
+                // 构建参数
+                var data = [];
+                data[0] = {"name": "custom", "value": content, imgs: imgs, coustomName: name};
+                var params = buildParams(data);
+                console.log("params --- >", params)
+                onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+                    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        // 添加自定义菜单
+                        var $ul = $("#menu_2").next(".dd").children("ul");
+                        var id = "menu_2" + ($ul.children("li").length + 1);
+                        eval("customList." + id + "=" +  JSON.stringify(result.res.data)); // 动态往customList自定义对象中添加各个自定义对象
+                        var menuId = result.res.data.contentFragmentList[0].attribute.id;
+                        var menuHtml = Handlebars.compile(menuTpl)({"id" : id, "name": name, "menuId" : menuId});
+                        $ul.append(menuHtml);
+                        $("#" + id).children("i").addClass("selected").removeClass("unselected");
+                        console.log("customList --- >", customList);
+                        _bindingSave();
+                    } else {
+                        _bindingSave();
+                    }
+                });
+            }
+
+        }
+
     }
 
     /**
@@ -136,7 +277,8 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
      */
     function getBasic(id, dicArrCity) {
         $("#content").html( Handlebars.compile(basicTpl)({countrys: dicArrCity, basics: basicObj})); // 更新页面模板
-        var imgUrl = "http://diich-resource.oss-cn-beijing.aliyuncs.com/image/master/150155305316320151023153449 (1).jpg"; // 上传他图片地址
+        //var imgUrl = "http://diich-resource.oss-cn-beijing.aliyuncs.com/image/master/150155305316320151023153449 (1).jpg"; // 上传他图片地址
+        var imgUrl = "";
         // 上传图片
         upload.submit($('.horizontal .group .control .file_up'),1,'/user/uploadFile?type=master',function (res) {
             console.log("res -- >", res);
@@ -180,47 +322,41 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
             }
         });
 
-        _binding();
-        function _binding() {
+        _bindingSave();
+        function _bindingSave() {
             $("#active").on("click", function() {  // 监听提交
-                onSave();
+                _onSave();
             })
         }
         // 防止用户多次点击下一步按钮  处理过程解绑点击事件 处理完成后重新绑定
-        function onSave() {
+        function _onSave() {
             $("#active").off("click");
             if(validate() && imgUrl != "" && isMaster != "") {
                 var data = $("#basicForm").serializeArray(); // 获取表单数据
                 data.push({"name" : "img", "value" : imgUrl}); // 构建图片参数
+                console.log("data -- ->", data)
                 var params = basicObj ? buildParams(data, basicObj) :  buildParams(data, null); // 构建请求参数数据
                 console.log("params  --- 》", params);
-
-
-                // 跳转到下一页面
-                _onNextPage(id, ["menu_01"]);
-                //_onBasicsMenu();
-                _onSubmitMenu();
-
-                //onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                //    console.log("result === >", result,  JSON.stringify(result.res.data));
-                //    // 处理用户未登录
-                //    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                //        targetId = result.res.data.id;
-                //        basicObj = result.res.data; // 保存成功存储服务器返回数据
-                //        // 跳转到下一页面
-                //        var nextId = id.split("_")[0] + "_01";
-                //        nextPage(id, nextId, function() {
-                //            getContact(nextId);
-                //        });
-                //    } else {
-                //        console.log(result.res.code, result.res.msg);
-                //    }
-                //});
-                _binding();
+                // 发送请求
+                onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+                    console.log("result === >", result,  JSON.stringify(result.res.data));
+                    // 处理用户未登录
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        targetId = result.res.data.id;
+                        basicObj = result.res.data; // 保存成功存储服务器返回数据
+                        // 跳转到下一页面
+                        _onNextPage(id, ["menu_01"]);
+                        _onSubmitMenu();
+                        _bindingSave();
+                    } else {
+                        console.log(result.res.code, result.res.msg);
+                        _bindingSave();
+                    }
+                });
             } else {
                 imgUrl == "" ? $("#img_err").html("<i></i>请上传照片,若以上传请等待回显图片后点击 下一步/提交 操作").show() : "";
                 isMaster == "" ? $("#isApply_err").html("<i></i>请选择是否为自己申报传承人").show() : "";
-                _binding();
+                _bindingSave();
             }
         }
     }
@@ -242,8 +378,8 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
         })
 
         console.log("dic_arr_city   --- >", dic_arr_city)
-        _binding();
-        function _binding() {
+        _bindingSave();
+        function _bindingSave() {
             $("#contact_active").on("click", function() {     // 监听提交
                 onSave();
             })
@@ -257,26 +393,23 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
                 data.push({"name" : "live", "value" : addressCode[(addressCode.length - 1)]}); // 构建三级联动参数
                 var params = contactObj ? buildParams(data, contactObj) :  buildParams(data, null); // 构建请求参数数据
                 console.log("params -- >", params);
-                // 跳转到下一页面
-                _onNextPage(id, ["menu_02"]);
-                //_onBasicsMenu();
-                _onSubmitMenu();
-                //onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                //    console.log("result ---- >", result, JSON.stringify(result.res.data));
-                //    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                //        targetId = result.res.data.id;
-                //        contactObj = result.res.data; // 保存成功存储服务器返回数据
-                //        var nextId = id.split("_")[0] + "_02";
-                //        nextPage(id, nextId, function() {
-                //            getVocation(nextId);
-                //        });
-                //    } else {
-                //        console.log("失败")
-                //    }
-                //});
-                _binding();
+                // 发送请求
+                onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+                    console.log("result ---- >", result, JSON.stringify(result.res.data));
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        targetId = result.res.data.id;
+                        contactObj = result.res.data; // 保存成功存储服务器返回数据
+                        // 跳转到下一页面
+                        _onNextPage(id, ["menu_02"]);
+                        _onSubmitMenu();
+                        _bindingSave();
+                    } else {
+                        console.log("失败");
+                        _bindingSave();
+                    }
+                });
             } else {
-                _binding();
+                _bindingSave();
             }
         }
     }
@@ -290,8 +423,8 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
         // 更新DOM元素
         $("#content").html(Handlebars.compile(vocationTpl)({vocations: vocationObj}));
         //getInputText(vocationObj, "vocationObj"); // 监听用户再此页面输入的内容
-        _binding();
-        function _binding() {
+        _bindingSave();
+        function _bindingSave() {
             $("#vocation_active").on("click", function() {     // 监听提交
                 onSave();
             })
@@ -305,29 +438,24 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
                 var data = $("#vocationForm").serializeArray(); // 获取表单数据
                 var params = vocationObj ? buildParams(data, vocationObj) :  buildParams(data, null); // 构建请求参数数据
                 console.log("params -- >", params);
-
-                // 跳转到下一页面
-                _onNextPage(id, ["menu_1", "menu_10"]);
-                //_onBasicsMenu();
-                _onSubmitMenu();
-
-                //onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                //    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
-                //    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                //        targetId = result.res.data.id;
-                //        vocationObj = result.res.data; // 保存成功存储服务器返回数据
-                //        var nextId = id.split("_")[0] + "_10";
-                //        nextPage(id, nextId, function() {
-                //            getVocation(nextId);
-                //        });
-                //    } else {
-                //        console.log("失败")
-                //    }
-                //});
-                _binding();
+                // 发送请求
+                onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+                    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        targetId = result.res.data.id;
+                        vocationObj = result.res.data; // 保存成功存储服务器返回数据
+                        // 跳转到下一页面
+                        _onNextPage(id, ["menu_1", "menu_10"]);
+                        _onSubmitMenu();
+                        _bindingSave();
+                    } else {
+                        console.log("失败")
+                        _bindingSave();
+                    }
+                });
             } else {
                 showMsg($("#jj"), defaults.tips_required, false);
-                _binding();
+                _bindingSave();
             }
 
         }
@@ -340,7 +468,7 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
      */
     function getMaster(id) {
         // 更新DOM元素
-        $("#content").html(Handlebars.compile(masterTpl)({}));
+        $("#content").html(Handlebars.compile(masterTpl)({masters: masterObj}));
 
         _binding();
         function _binding() {
@@ -356,9 +484,17 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
                 var data = $("#masterForm").serializeArray(); // 获取表单数据
                 params = resumeObj ? buildParams(data, resumeObj) :  buildParams(data, null); // 构建请求参数数据
                 console.log("params --- >", params);
-                _onNextPage(id, ["menu_13"]);
-                //_onInheritorMenu();
-                _onSubmitMenu();
+                onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+                    console.log("result ---- >", result, JSON.stringify(result.res.data));
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        targetId = result.res.data.id;
+                        masterObj = result.res.data; // 保存成功存储服务器返回数据
+                        _onNextPage(id, ["menu_13"]);;
+                        _onSubmitMenu();
+                    } else {
+                        console.log("失败")
+                    }
+                });
                 _binding();
             } else {
                 console.log("不可以提交");
@@ -375,20 +511,60 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
      * @param dataId 相关填写项对应数据库ID
      * @param name 用于生成模板中id name属性
      */
-    function getResume(id, title, dataId, name) {
+    function getResume(id, title, menuId, name) {
+        var resume = {title: title, name: name ? name : "menuData", menuId: menuId, startPath: ossPash};
+        switch (menuId) {
+            case 51:
+                // 简历
+                resume.resumes = resumeObj;
+                break;
+            case 119:
+                // 传承历史与现状
+                resume.resumes = historyObj;
+                break;
+            case 115:
+                // 技能
+                resume.resumes = skillObj;
+                break;
+            case 110:
+                // 个人成就
+                resume.resumes = achieveObj;
+                break;
+            case 21:
+                // 传承谱系
+                resume.resumes = inheritObj;
+                break;
+            case 129:
+                // 获奖情况
+                resume.resumes = rewardObj;
+                break;
+            case 131:
+                resume.resumes = loreObj;
+                break;
+            default:
+                resume.resumes = customList[id];
+                console.log("resume --- >", resume);
+        }
         // 更新DOM元素
-        var resumenHtml = Handlebars.compile(resumeTpl)({title: title, name: name, id: dataId});
+        var resumenHtml = Handlebars.compile(resumeTpl)(resume);
         $("#content").html(resumenHtml);
         inheritorPage.radioImage(); // 加载上传视频， 上传图片
 
-        _binding();
-        function _binding() {
+        /**
+         *  保存 删除操作防止用户多次点击
+         */
+        _bindingSave();
+        function _bindingSave() {
             $("#next").on("click", function() {
-                onSave();
+                _onSave($(this));
             })
         }
 
-        function onSave() {
+        /**
+         * 监听保存
+         */
+        function _onSave($this) {
+            $this.off("click");
             var content = $("#" + name).val();
             if(content != "") {
                 //var data = $("#currencyForm").serializeArray(); // 获取表单数据
@@ -411,7 +587,7 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
                 data[0].imgs = imgs;
                 var params = "";
                 var nextId = []; // 跳转到下一个页面的MOD ID集合
-                switch (dataId) {
+                switch (menuId) {
                     case 51:
                         // 简历
                         params = resumeObj ? buildParams(data, resumeObj) :  buildParams(data, null); // 构建请求参数数据
@@ -450,29 +626,94 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
                         console.log("没有")
                 }
                 console.log("params -- >", params);
-                //onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                //    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
-                //    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                //        targetId = result.res.data.id;
-                //        vocationObj = result.res.data; // 保存成功存储服务器返回数据
-                //        var nextId = id.split("_")[0] + "_10";
-                //        nextPage(id, nextId, function() {
-                //            getVocation(nextId);
-                //        });
-                //    } else {
-                //        console.log("失败")
-                //    }
-                //});
-                // 跳转到下一页面
-                _onNextPage(id, nextId);
-                //_onInheritorMenu();
-                _onSubmitMenu();
+                onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+                    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        switch (menuId) {
+                            case 51:
+                                // 简历
+                                resumeObj = result.res.data;
+                                break;
+                            case 119:
+                                // 传承历史与现状
+                                historyObj = result.res.data;
+                                break;
+                            case 115:
+                                // 技能
+                                skillObj = result.res.data;
+                                break;
+                            case 110:
+                                // 个人成就
+                                achieveObj = result.res.data;
+                                break;
+                            case 21:
+                                // 传承谱系
+                                inheritObj = result.res.data;
+                                break;
+                            case 129:
+                                // 获奖情况
+                                rewardObj = result.res.data;
+                                break;
+                            case 131:
+                                loreObj = result.res.data;
+                                break;
+                        }
+                        // 跳转到下一页面
+                        _onNextPage(id, nextId);
+                        _onSubmitMenu();
+                        _bindingSave();
+                    } else {
+                        _bindingSave();
+                        console.log("失败")
+                    }
+                });
             } else {
                 $("#nr_err").show();
             }
-
          }
 
+        _bindingDelete();
+        function _bindingDelete() {
+            $("a[id^='delete_']").on("click", function() {
+                _onDelete($(this));
+            })
+        }
+
+        /**
+         * 监听删除
+         */
+        function _onDelete($this) {
+            $this.off("click");
+            var dataId = $this.attr("id").split("_").pop();
+            var modId = $this.attr("id").split("_")[1];
+            // 清空DOM层数据
+            $("#" + modId).val("");
+            $("#images").children("div .item").each(function() {
+                $(this).remove();
+            })
+            console.log("id --- >", dataId, modId);
+
+            if(dataId) {
+                // 删除数据库中数据
+                onRequest("POST", "/contentFragment/deleteContentFragment", {params: dataId}).then(function(result) {
+                    console.log("result --- >", result)
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        _bindingDelete();
+                    } else {
+                        _bindingDelete();
+                    }
+                })
+            }
+        }
+
+        /**
+         * 跳过监听
+         */
+        $("#skip").on("click", function() {
+            var num = parseInt(id.split("_").pop()) + 1;
+            var str = id.split("_")[0];
+            $('#' + str + "_" + num).trigger("click");
+        })
     }
 
     /**
@@ -522,11 +763,21 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
      * @private
      */
     function _onNextPage(id, nextIds) {
-        $("#" + id).removeClass("selected").children("i").addClass("selected").removeClass("unselected"); // 添加已完成效果
-        $.each(nextIds, function(i, v) {
-            $('#' + v).trigger("click"); // 模拟点击传承人内容
+        new Promise(function(resolv, reject) {
+            try{
+                $("#" + id).removeClass("selected").children("i").addClass("selected").removeClass("unselected"); // 添加已完成效果
+                resolv();
+            } catch(e) {
+                reject({err: e});
+            }
+        }).then(function(res) {
+                $.each(nextIds, function(i, v) {
+                    $('#' + v).trigger("click"); // 模拟点击传承人内容
+                })
         })
+
     }
+
 
     /**
      * 构建请求参数
@@ -537,19 +788,25 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
     function buildParams(data, updateData) {
         $.each(data, function(i, v) {
             console.log("  --- >", i, v);
-            v.attributeId = $("#" + v.name).attr("data-id");
+            v.attributeId = $("#" + v.name).attr("data-id") ? $("#" + v.name).attr("data-id") : 0 ;
             v.content = v.value;
             v.status = 0;
             v.targetType = 1;
             v.targetId = targetId? targetId : "";
             v.resourceList = v.imgs ? v.imgs : [];
+
+            // 自定义
+            if(v.attributeId == 0) {
+                v.attribute = {
+                    "cnName": v.coustomName,
+                    "dataType": 5,
+                }
+                delete v.coustomName;
+            }
+
             if(v.name == "img") {
                 v.content = "";
                 v.resourceList = [{uri: v.value}]; // 基本信息中只有一张图片
-            }
-
-            if(v.name == "jl") {
-
             }
 
             if(v.name == "birthday") {
@@ -575,25 +832,12 @@ define(["text!ichMasterForm/menu.tpl", "text!ichMasterForm/basic.tpl",
         })
 
         return params = {
-                "contentFragmentList": data,
-                "isMaster": parseInt(isMaster),
-                "lang": getLang()=="zh-CN" ? "chi" : "eng",
-                "status": 2,
-                "id": targetId ? targetId : ""
+            "contentFragmentList": data,
+            "isMaster": parseInt(isMaster),
+            "lang": getLang()=="zh-CN" ? "chi" : "eng",
+            "status": 2,
+            "id": targetId ? targetId : ""
         }
-    }
-
-    /**
-     * 监听当前页面所有input type="text"输入框中值, 每次变化都会缓存一个JS对象
-     * @returns {{}}
-     */
-    function getInputText(obj, onkey) {
-        $("input[type='text']").on("input propertychange", function() {
-            var key = $(this).attr("name");
-            obj[key? key.toString(): $(this).attr("id").toString()] = $(this).val();
-            console.log("obj --- >", obj)
-            localStorage.setItem(onkey,JSON.stringify(obj)); // 缓存基本信息模板对象
-        })
     }
 
     /**
