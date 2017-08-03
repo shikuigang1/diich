@@ -441,15 +441,16 @@ function login(){
             //alert("Connection error");
         },
         success: function(data) {
-            console.log(data);
-            localStorage.setItem("pid",data.data.id);
+            //console.log(data);
             var lang = getLang();
             if(data.code!=0){
+
                //$(".item login").next().find('div .group').addClass('error') getMsgByCode
                 $('.box_layer .login').find('.group').addClass('error');
                 $('.box_layer .login').find('.error_txt').text(getMsgByCode(data.code,lang));
 
             }else{
+                localStorage.setItem("pid",data.data.id);
                 $('.box_layer').hide();
                 $(".login").hide();
                 $(".logined").show();
