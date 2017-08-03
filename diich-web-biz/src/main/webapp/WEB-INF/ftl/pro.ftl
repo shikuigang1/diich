@@ -64,12 +64,11 @@
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
 <#assign str="http:" />
 <#assign strs="https:" />
-<div class="container">
+<div class="container data-item" data-id="${obj.id?c}">
     <div class="bd detail">
         <div class="mainbg">
             <div class="content" id="detailContent">
                 <div class="mask_left"></div>
-
                 <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/head.png">
                 <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
@@ -78,10 +77,10 @@
                                 <#list cf.resourceList as res>
                                     <#if res.type==0 && res.status==0>
                                         <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                            <img src="${prouri}${res.uri}" alt="" id="detailTopic" style="display:none">
+                                            <img src="${prouri}${res.uri}" alt="" id="detailTopic" style="display:none" data-id="1" class="data-item">
                                         </#if>
                                         <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
-                                            <img src="${res.uri}" alt="" id="detailTopic" style="display:none">
+                                            <img src="${res.uri}" alt="" id="detailTopic" style="display:none" data-id="1" class="data-item">
                                         </#if>
                                     </#if>
                                 </#list>
@@ -139,7 +138,13 @@
                 </div>
                 <!--//End -->
                 <div class="detail_title">
-                    <h2><#if (obj.contentFragmentList?size>0)>
+                        <#if obj.lang == "chi">
+                            <#assign cNid = 4/>
+                        </#if>
+                        <#if obj.lang == "eng">
+                                <#assign cNid = 5/>
+                        </#if>
+                    <h2 data-id="${cNid}" class="data-item"><#if (obj.contentFragmentList?size>0)>
                                 <#list obj.contentFragmentList as cf>
                                     <#if obj.lang == "chi">
                                         <#if cf.attributeId == 4>
@@ -154,35 +159,36 @@
                                 </#list>
                          </#if>
                     </h2>
-                    <div class="doi_code">
-                        <i class="icon">ID</i>
-                        <span>
-                        <#if obj.lang == "chi">
-                            标识码：
-                        </#if>
-                         <#if obj.lang == "eng">
-                             ID code：
-                         </#if>
-                        <em id="doi_code"> <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
-                            <#list obj.contentFragmentList as cf>
-                                <#if cf.attributeId == 2>
-                                    <#if cf.content??>
-                                         ${cf.content}
-                                    </#if >
-                                </#if>
-                            </#list>
-                        </#if>
-                        </em></span>
-                        <em class="icon"></em>
-                        <div class="drop">
-                            <img src="" alt="">
-                        </div>
-                    </div>
+                    <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
+                        <#list obj.contentFragmentList as cf>
+                            <#if cf.attributeId == 2>
+                                <#if cf.content??>
+                                        <div class="doi_code">
+                                            <i class="icon">ID</i>
+                                            <span>
+                                            <#if obj.lang == "chi">
+                                                标识码：
+                                            </#if>
+                                             <#if obj.lang == "eng">
+                                                 ID code：
+                                             </#if>
+                                            <em id="doi_code" data-id="2" class="data-item">
+                                                ${cf.content}
+                                            </em></span>
+                                            <em class="icon"></em>
+                                            <div class="drop">
+                                                <img src="" alt="">
+                                            </div>
+                                        </div>
+                                </#if >
+                            </#if>
+                        </#list>
+                    </#if>
                 </div>
                 <!--//End title-->
 
                 <div class="bd subtxt">
-                        <span>
+                        <span >
                             <strong>
                                 <#if obj.lang == "chi">
                                     类别：
@@ -192,37 +198,36 @@
                                 </#if>
                             </strong>
                             <#if (obj.ichCategoryId??)>
-                            <em id="category" category-id="${obj.ichCategoryId}"></em>
+                            <em id="category" category-id="${obj.ichCategoryId?c}" class="data-item"></em>
                             </#if>
                             <#if (!obj.ichCategoryId??)>
-                                <em id="category" category-id=""></em>
+                                <em id="category" category-id="" class="data-item"></em>
                             </#if>
 
                         </span>
-                    <span>
-
-                    <#if (obj.contentFragmentList?size>0)>
-                        <#list obj.contentFragmentList as cf>
-                            <#if cf.attributeId == 33 && cf.content??>
-                               <strong>
-                                <#if obj.lang == "chi">
-                                    地区：
-                                </#if>
-                                <#if obj.lang == "eng">
-                                    District：
-                                </#if>
-                            </strong>
-                                <#assign codeList = cf.content?split(",")>
-                                <#list codeList as s>
-                                    <em class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${s}</em>
-                                    <#if s_index+1 < (codeList?size)>
-                                        <i>|</i>
+                <#if (obj.contentFragmentList?size>0)>
+                    <#list obj.contentFragmentList as cf>
+                        <#if cf.attributeId == 33 && cf.content??>
+                            <span>
+                                   <strong>
+                                    <#if obj.lang == "chi">
+                                        地区：
                                     </#if>
-                                </#list>
-                            </#if>
-                        </#list>
-                    </#if>
-                        </span>
+                                    <#if obj.lang == "eng">
+                                        District：
+                                    </#if>
+                                </strong>
+                                    <#assign codeList = cf.content?split(",")>
+                                    <#list codeList as s>
+                                        <em class="value dic data-item" dic-type="${cf.attribute.dataType}" lang="${obj.lang}" data-id="33" >${s}</em>
+                                        <#if s_index+1 < (codeList?size)>
+                                            <i>|</i>
+                                        </#if>
+                                    </#list>
+                            </span>
+                        </#if>
+                    </#list>
+                </#if>
                     <span class="language" id="trans_lang">
                             <a href="" id="trans"></a>
                     </span>
@@ -262,27 +267,27 @@
 
                                         </#list>
                                         <a href="${masterpage}${master.id?c }.html" class="avatar">
-                                            <img src="${masterPic}" alt=""/>
+                                            <img src="${masterPic}" alt="" class="data-item" data-id="113"/>
                                         </a>
 
                                         <span class="txt">
                                             <#list master.contentFragmentList as cf>
                                                 <#if obj.lang == "chi">
                                                     <#if cf.attributeId == 13 && cf.targetType == 1>
-                                                        <p class="name"><a href="${masterpage}${master.id?c }.html">${cf.content}</a></p>
+                                                        <p class="name"><a href="${masterpage}${master.id?c }.html" data-id="13" class="data-item">${cf.content}</a></p>
                                                     </#if>
                                                 </#if>
                                                 <#if obj.lang == "eng">
                                                     <#if cf.attributeId == 14 && cf.targetType == 1>
-                                                        <p class="name"><a href="${masterpage}${master.id?c }.html">${cf.content}</a></p>
+                                                        <p class="name"><a href="${masterpage}${master.id?c }.html" data-id="14" class="data-item">${cf.content}</a></p>
                                                     </#if>
                                                 </#if>
                                                 <#if cf.attributeId == 50 && cf.targetType == 1>
-                                                    <p >${cf.content}</p>
+                                                    <p data-id="50" class="data-item">${cf.content}</p>
                                                 </#if>
 
                                                 <#if cf.attributeId == 111 && cf.targetType == 1>
-                                                    <p class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</p>
+                                                    <p class="value dic data-item" dic-type="${cf.attribute.dataType}" lang="${obj.lang}" data-id="111">${cf.content}</p>
                                                 </#if>
                                             </#list>
 
@@ -337,7 +342,7 @@
                                     <#if obj.lang == "eng">
                                         Human intangible cultural heritage number：
                                     </#if>
-                                  <em class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em> </span>
+                                  <em class="value dic data-item" dic-type="${cf.attribute.dataType}" lang="${obj.lang}" data-id="106">${cf.content}</em> </span>
                             </#if>
                         </#list>
                     </#if>
@@ -351,7 +356,7 @@
                                     <#if obj.lang == "eng">
                                         Rank
                                     </#if>
-                                    ： <em style="font-size: 12px" class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em> </span>
+                                    ： <em style="font-size: 12px" class="value dic data-item" dic-type="${cf.attribute.dataType}" lang="${obj.lang}" data-id="41">${cf.content}</em> </span>
                             </#if>
                         </#list>
                     </#if>
@@ -387,7 +392,7 @@
                                              ${cf.attribute.enName}
                                         </#if>
                                         ：</span>
-                                    <span class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
+                                    <span class="value dic data-item" dic-type="${cf.attribute.dataType}" lang="${obj.lang}" data-id="${cf.attributeId}">${cf.content}</span>
                                 </li>
                             </#if>
                         </#list>
@@ -433,7 +438,7 @@
                                         <#if c.attributeId==114>
                                             <#if c.resourceList??>
                                                 <#list c.resourceList as p>
-                                                    <a href="${workspage}${work.id?c}.html"><img src="${p.uri}?x-oss-process=style/head-image-style" alt=""></a>
+                                                    <a href="${workspage}${work.id?c}.html"><img src="${p.uri}?x-oss-process=style/head-image-style" alt="" class="data-item" data-id="114"></a>
                                                 </#list>
                                             </#if>
                                         </#if>
@@ -442,12 +447,12 @@
                                     <#list work.contentFragmentList as c>
                                         <#if obj.lang == "chi">
                                             <#if c.attributeId==28>
-                                            <p class="name">${c.content} </p>
+                                            <p class="name data-item" data-id="28">${c.content} </p>
                                             </#if>
                                         </#if>
                                         <#if obj.lang == "eng">
                                             <#if c.attributeId==29>
-                                                <p class="name">${c.content} </p>
+                                                <p class="name data-item" data-id="29">${c.content} </p>
                                             </#if>
                                         </#if>
 
@@ -456,7 +461,7 @@
                                         <#if c.attributeId==114>
                                             <#if c.resourceList??>
                                                 <#list c.resourceList as p>
-                                                    <p class="master"><#if p.description??>${p.description}</#if></p>
+                                                    <p class="master data-item" data-id="114"><#if p.description??>${p.description}</#if></p>
                                                 </#list>
                                             </#if>
                                         </#if>
@@ -489,7 +494,7 @@
                         <article class="text_img">
                             <div class="side">
                                 <div class="item">
-                                    <p>
+                                    <p class="data-item" data-id="${cf.attributeId}">
                                         <#if cf.content??>
                                              <#assign content =cf.content?replace("。\n", "。<br>") />
                                            <#--  <#assign content =content?replace("\n", "?<br>") />-->
@@ -508,14 +513,14 @@
                                         <li>
                                             <#if r.type ==0>
                                                 <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                    <img src="${prouri}${r.uri}" alt="">
+                                                    <img src="${prouri}${r.uri}" alt="" class="data-item" data-id="${cf.attributeId}">
                                                 </#if>
                                                 <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
-                                                    <img src="${r.uri}" alt="">
+                                                    <img src="${r.uri}" alt="" class="data-item" data-id="${cf.attributeId}">
                                                 </#if>
 
                                                 <#if r.description??>
-                                                    <span>${r.description}</span>
+                                                    <span class="data-item" data-id="${cf.attributeId}">${r.description}</span>
                                                 </#if>
                                             </#if>
 
@@ -524,18 +529,18 @@
                                                     <div class="time">30:24</div>
                                                     <div class="play" data-type="1" data-id="1" ></div>
                                                     <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${prouri}${r.uri}" type="video/mp4" style="width: 100%;">
+                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${prouri}${r.uri}" type="video/mp4" style="width: 100%;" class="data-item" data-id="${cf.attributeId}">
                                                         </video>
                                                     </#if>
                                                     <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
-                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${r.uri}" type="video/mp4" style="width: 100%;">
+                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${r.uri}" type="video/mp4" style="width: 100%;" class="data-item" data-id="${cf.attributeId}">
                                                         </video>
                                                     </#if>
 
 
                                                 </div>
                                                 <#if r.description??>
-                                                    <span>${r.description}</span>
+                                                    <span class="data-item" data-id="${cf.attributeId}">${r.description}</span>
                                                 </#if>
                                             </#if>
                                             <#if (r_index == 1)>
@@ -577,7 +582,7 @@
                             </#if>
                         </h4></header>
                         <article class="plain_text">
-                            <p>
+                            <p class="data-item" data-id="${cf.attributeId}">
                                 <#if cf.content??>
 
                                     <#assign content =cf.content />
