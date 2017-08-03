@@ -759,12 +759,6 @@ body,
     -webkit-align-items: center;
     background: #eee;
     margin-bottom: 30px;
-    position: relative;
-}
-.ipt_base .content .edit .images.active .item input {
-    position: absolute;
-    top: 98px;
-    left: 0;
 }
 
 .ipt_base .content .buttons {
@@ -1313,43 +1307,6 @@ body,
 }
 .ipt_over .buttons a.btn2 {
     float: right;
-}
-
-.prompt {
-    margin-left: 60px;
-    font-size: 14px;
-    color: #FF3E3E;
-    position: relative;
-    float: left;
-    padding-left: 22px;
-}
-.prompt i {
-    background: url(../images/inputs/errors.png);
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    margin-top: -8px;
-}
-
-.st .errors {
-    font-size: 14px;
-    color: #FF3E3E;
-    position: relative;
-    float: left;
-    padding-left: 22px;
-    margin-top: 10px;;
-}
-
-.st .errors i {
-    background: url(../images/inputs/errors.png);
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    margin-top: -8px;
 }
 /*--//End 信息填写完成，可以提交审核--*/
 
