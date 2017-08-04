@@ -72,7 +72,7 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
 
     @Override
     public ContentFragment saveContentFragment(ContentFragment contentFragment) throws Exception {
-        TransactionStatus transactionStatus = getTransactionStatus();
+//        TransactionStatus transactionStatus = getTransactionStatus();
         checkSaveField(contentFragment);//校验字段
         try{
             if(contentFragment.getId() == null){
@@ -114,10 +114,10 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
                 }
 
             }
-            commit(transactionStatus);
+//            commit(transactionStatus);
         }catch (Exception e){
             e.printStackTrace();
-            rollback(transactionStatus);
+//            rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         return contentFragment;
