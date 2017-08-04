@@ -14,8 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.Map;
 
 /**
@@ -72,12 +74,14 @@ public class ResourceController extends BaseController<Resource>{
     public void getResourceUri(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String fileName = request.getParameter("fileName");
 
+        fileName = URLEncoder.encode(fileName, "UTF-8");
+
         String uri = "http://diich-resource.oss-cn-beijing.aliyuncs.com/video/" + fileName;
 
         URL url = new URL(uri);
-        URLConnection urlConnection = url.openConnection();
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-        BufferedInputStream input = new BufferedInputStream(urlConnection.getInputStream());
+        BufferedInputStream input = new BufferedInputStream(conn.getInputStream());
         ServletOutputStream responOutPut=response.getOutputStream();
         byte[] buffer = new byte[1024*100];
         int i = 0;
