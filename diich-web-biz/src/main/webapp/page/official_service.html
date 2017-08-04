@@ -4,9 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <title>官方服务</title>
-    <link rel="shortcut icon" type="image/x-icon" href="http://resource.efeiyi.com/other/assets/images/logo.png" media="screen" />
-    <link rel="stylesheet" href="http://diich.efeiyi.com/assets/css/common.css">
-    <link rel="stylesheet" href="http://diich.efeiyi.com/assets/css/layout.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/logo.png" media="screen">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link href="../css/video-js.css" rel="stylesheet">
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../js/category.js"></script>
+    <script src="../js/citys.js"></script>
+    <script src="../assets/js/system.js"></script>
+    <script src="http://diich-resource.oss-cn-beijing.aliyuncs.com/other/assets/js/static.js"></script>
+    <script src="../js/jquery.i18n.properties-1.0.9.js"></script>
+    <script src="../js/i18n.js"></script>
+    <script src="../js/video.min.js"></script>
     <style>
         .modal_video {
             position: fixed;
@@ -21,7 +30,7 @@
             top:50%;
             left:50%;
             z-index:20;
-            background: #fff;
+            background: rgba(0,0,0,.85);
         }
         .modal_video .overbg0 {
             background: rgba(0,0,0,.85);
@@ -32,13 +41,16 @@
             left:0;
             z-index:10;
         }
+
+        .modal_video .content {
+            position: absolute;
+            top:50%;
+            left:50%;
+            z-index:20;
+            margin-top: -194px;
+            margin-left: -300px;
+        }
     </style>
-    <script src="http://diich.efeiyi.com/assets/js/jquery.min.js"></script>
-    <script src="http://diich.efeiyi.com/js/category.js"></script>
-    <script src="http://diich.efeiyi.com/js/citys.js"></script>
-    <script src="http://diich.efeiyi.com/assets/js/system.js"></script>
-    <script src="../js/jquery.i18n.properties-1.0.9.js"></script>
-    <script src="../js/i18n.js"></script>
 </head>
 
 <body style="background-color: rgb(245, 246, 247)">
@@ -154,7 +166,7 @@
 
                             <div class="rbox">
                                 <div class="video">
-                                    <span class="play play120" data-id="0" style="z-index:20;"><i></i></span>
+                                    <span class="play play120" data-uri="../resource/getResourceUri?fileName=%E8%81%94%E5%90%88%E5%9B%BD%E6%95%99%E8%AF%BE%E6%96%87%E7%BB%84%E7%BB%87%E5%9B%BD%E9%99%85%E9%9D%9E%E9%81%97%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0.mp4" style="z-index:20;"><i></i></span>
                                     <img class="preview" src="http://resource.efeiyi.com/image/uploads/serve/pic1.jpg" alt="">
                                 </div>
                             </div>
@@ -206,7 +218,7 @@
                             <div class="bd context">
                                 <p>通过联合国教科文组织非遗项目评定委员会审核，将获得由联合国教科文组织颁发的非遗项目认证证书等相关服务</p>
                             </div>
-                            <div class="bd link"><a href="http://resource.efeiyi.com/other/%E9%9D%9E%E9%81%97%E4%BA%A7%E6%9D%83%E4%BA%A4%E6%98%93%E6%9C%8D%E5%8A%A1%E4%BB%8B%E7%BB%8D.pdf" target="_blank">查看详情</a></div>
+                            <div class="bd link"><a href="http://resource.efeiyi.com/other/%E9%9D%9E%E9%81%97%E4%BA%A7%E6%9D%83%E4%BA%A4%E6%98%93%E6%9C%8D%E5%8A%A1%E4%BB%8B%E7%BB%8D.pdf">查看详情</a></div>
                         </li>
                     </ul>
                 </div>
@@ -223,7 +235,7 @@
 
 <div class="modal_video" style="display: none;">
     <div class="content">
-        <video class="video" style="width:600px;height:388px;margin-top:-194px;margin-left:-300px" src="http://diich-resource.oss-cn-beijing.aliyuncs.com/video/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AE%A3%E4%BC%A0%E7%89%87%E5%88%9D%E7%89%88.mp4" controls></video>
+
     </div>
     <div class="overbg0"></div>
 </div>
@@ -233,210 +245,43 @@
     $(function() {
         $('.header .content .nav li').eq(5).addClass('active').siblings('li').removeClass('active');
 
+        var video_template =
+                '<video id="my-video" class="video-js" controls preload="none" width="600" height="388" data-setup="{}">' +
+                    '<source src="" type="video/mp4">' +
+                '</video>';
+
         //视频弹出层
         (function () {
             var modal=$('.modal_video');
             var el=$('.play120');
             var content=modal.find('.content');
-            var video=content.find('video').get(0);
 
+            var myPlayer = null;
             el.on('click',function () {
-                video.play();
-                modal.fadeIn(200);
+                if(myPlayer != null) {
+                    modal.fadeIn(200);
+                    myPlayer.play();
+                    return;
+                }
+
+                var data_uri = $(this).attr('data-uri');
+                content.append(video_template);
+
+                myPlayer = videojs('my-video', {}, function () {
+                    myPlayer.src(data_uri);
+                    myPlayer.load(data_uri);
+                    myPlayer.play();
+                });
             });
             $('.overbg0').on('click',function(){
-                video.pause();
+                //myPlayer.dispose();
+                myPlayer.pause();
                 modal.fadeOut();
+                //content.children().remove();
             });
             return false;
         })();
 
     });
-
-
-    $(function() {
-        var mainCategory = $('#mainCategory');
-
-        //初始化分类数据
-        $.each(category_all, function(index, content) {
-            mainCategory.append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
-        });
-
-        mainCategory.find('li').on('click', function() {
-            $("#attr_text").text($(this).html());
-            $("#gb_category_code").val($(this).attr("data-id"));
-            $("#item_1").hide();
-
-            //searchData_();
-        });
-
-        var searchPage = {
-            init: function() {
-                //$('.header_detail .content .info li.search').hide();
-                $('.header_detail .content .info li.login').addClass('line');
-                this.filterBar();
-                this.search();
-            },
-            filterBar: function() {
-                var obj = $('.filter_bar');
-                var linkTab = obj.find('a');
-                var iconTab = obj.find('.icon_tab');
-                var proColumn = $('.pro_column3'); //搜索列表
-
-                //筛选
-                linkTab.on('click', function() {
-                    $(this).addClass('active').siblings('a').removeClass('active');
-
-                    //刷新搜索结果页
-
-                    if ($(this).index() == 0) {
-                        $("#type").val("");
-                    }
-                    if ($(this).index() == 1) {
-                        $("#type").val("0");
-                    }
-                    if ($(this).index() == 2) {
-                        $("#type").val("1");
-                    }
-                    if ($(this).index() == 3) {
-                        $("#type").val("2");
-                    }
-
-                    searchData_();
-
-                    return false;
-                });
-
-                //切换图标
-                iconTab.on('click', function() {
-                    if ($(this).hasClass('active')) { //九宫格
-                        $(this).removeClass('active');
-                        proColumn.removeClass('active');
-                    } else { //横排
-                        $(this).addClass('active');
-                        proColumn.addClass('active');
-                    }
-                });
-            },
-            search: function() {
-                var filter = $('.filter_search'); //下拉搜索
-                var filterFixed = $('.filter_search_fixed');
-                var ipt = filter.find('.ipt');
-                var iptVal = ipt.val();
-                var filterAll = filter.find('.attr span'); //筛选项
-                var filterItem = filter.find('.item'); //筛选下来框
-                var suggest = filter.find('.suggest');
-                var body = $('body');
-                //获取焦点
-                ipt.focus(function() {
-                    $(this).val('');
-                    body.append('<div class="overbg" style="z-index:1;"></div>');
-                });
-
-                //失去焦点如果为空则显示原始值
-                ipt.blur(function() {
-                    var _val = $(this).val();
-                    if (_val == '') {
-                        $(this).val(iptVal);
-                    }
-                    $('.overbg').remove();
-                });
-
-                //2.点击筛选
-                filterAll.on('click', function() {
-                    var _this = $(this);
-                    var _index = _this.index();
-                    filterItem.eq(_index)
-                            .css('left', parseInt(_this.position().left) + 'px')
-                            .show()
-                            .siblings('.item')
-                            .hide();
-                });
-
-                filterItem.each(function() {
-                    var _this = $(this);
-                    var level = $(this).find('.level');
-                    var level2 = $(this).find('.level2');
-                    var _li = level.find('li'); //分类
-
-                    _li.hover(function() {
-                        $(this).addClass('active').siblings('li').removeClass('active');
-
-                        $("#catecontent").empty();
-                        $("#citycontent").empty();
-
-                        if (typeof(category_all[$(this).index()].children) != "undefined") {
-                            $.each(category_all[$(this).index()].children, function(index, content) {
-                                $("#catecontent").append("<li data-id=\"" + content.gbCategory + "\" >" + content.name + "</li>");
-                            });
-
-                            //点击二级分类
-                            $("#catecontent").find('li').on('click', function() {
-                                filterAll.eq(0).text($(this).html());
-                                _this.hide();
-                                $("#gb_category_code").val($(this).attr("data-id"));
-                                //searchData_();
-                            });
-                        }
-
-                        if (typeof(dic_arr_city) != "undefined") {
-                            $.each(dic_arr_city, function(index, content) {
-                                $("#citycontent").append("<li data-id=\"" + content.code + "\"  >" + content.name + "</li>");
-                            });
-
-                            //国家级
-                            $("#country").find('li').on('click', function() {
-                                filterAll.eq(1).text($(this).html());
-                                _this.hide();
-                                $("#area_code").val("");
-                                // searchData_();
-                            });
-
-                            //一级城市
-                            $("#citycontent").find('li').on('click', function() {
-                                filterAll.eq(1).text($(this).html());
-                                _this.hide();
-                                $("#area_code").val($(this).attr("data-id"));
-                                //searchData_();
-                            });
-                        }
-                        level2.show();
-                    });
-                });
-
-
-                //点击一级类别
-
-                //3.阻止点击自身关闭
-                filter.on('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                });
-
-                //4.点击自身之外的地方关闭下拉框
-                $(document).on("click", function() {
-                    filterItem.hide();
-                    filterFixed.slideUp('fast');
-                });
-                //自动提示
-                body.find('.overbg').on('click', function() {
-                    filterItem.hide();
-                    filterFixed.slideUp('fast');
-                    suggest.hide();
-                    $(this).remove();
-                    body.css('overflow', '');
-                });
-
-            },
-        };
-        searchPage.init();
-    });
-
-    function submit() {
-        $(".form").ajaxSubmit();
-    }
-
-
 </script>
-
 </html>
