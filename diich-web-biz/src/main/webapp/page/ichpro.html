@@ -10,7 +10,7 @@
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/js/system.js"></script>
     <script src="../assets/js/inputs.js"></script>
-	<script src="../assets/js/serverinfo.js"></script>
+	<script src="../js/serverinfo.js"></script>
     <script src="../assets/js/login.js"></script>
     <script type="text/javascript" src="/js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="../js/i18n.js"></script>
@@ -191,8 +191,8 @@
 					  var html="";
 					  $.each(data,function(index,item){
 						html+="<li>";
-						if(typeof(item.img)!="undefined"){ 
-							html+="<img src=\""+item.img+"\" alt=\"\">";
+						if(typeof(item.img)!="undefined"){
+                            html+="<img src=\""+imgserver+"/image/project/"+item.img+"\" alt=\"\">";
 						}else{ 
 							//使用默认图片
 							html+="<img src=\""+defaultheadimg+"\" alt=\"\">";
