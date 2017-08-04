@@ -9,8 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Map;
 
 /**
@@ -61,5 +66,26 @@ public class ResourceController extends BaseController<Resource>{
         }
 
         return putDataToMap(resource);
+    }
+
+    @RequestMapping("getResourceUri")
+    public void getResourceUri(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String fileName = request.getParameter("fileName");
+
+        String uri = "http://diich-resource.oss-cn-beijing.aliyuncs.com/video/" + fileName;
+
+        URL url = new URL(uri);
+        URLConnection urlConnection = url.openConnection();
+
+        BufferedInputStream input = new BufferedInputStream(urlConnection.getInputStream());
+        ServletOutputStream responOutPut=response.getOutputStream();
+        byte[] buffer = new byte[1024*100];
+        int i = 0;
+        while ((i = input.read(buffer)) > 0) {
+            responOutPut.write(buffer, 0, i);
+            responOutPut.flush();
+        }
+        input.close();
+        responOutPut.close();
     }
 }
