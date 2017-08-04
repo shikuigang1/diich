@@ -162,7 +162,7 @@
     </if>
 
     <if test="type == 1" >
-
+      AND c.content != ''
       AND c.content  LIKE  CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
       OR #{keyword,jdbcType=VARCHAR} LIKE CONCAT('%',c.content,'%')
     </if>
