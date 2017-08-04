@@ -331,7 +331,7 @@ function  delContentFragment(attrId) {
                      }
                  });
 
-                 $("#menu1").children().each(function () {
+                 $("#menu2").children().each(function () {
                      if($(this).find('span').eq(0).attr('data-id')==attrId){
                          $(this).find('i').eq(0).removeClass('selected');
                      }
