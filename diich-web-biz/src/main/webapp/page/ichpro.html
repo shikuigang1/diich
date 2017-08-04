@@ -113,7 +113,7 @@
                 },
                 success: function(res) {
 				var data = res.data;
-					
+				//console.log(JSON.stringify(res));
 				  if(data.length>0){
 					  $("#item1").empty();
 					  $(".step2").hide();
@@ -123,7 +123,7 @@
 
 						html+="<li>";
 						if(typeof(item.img)!="undefined"){
-							html+="<img src=\""+item.img+"\" alt=\"\">";
+							html+="<img src=\""+imgserver+"/image/project/"+item.img+"\" alt=\"\">";
 						}else{ 
 							//使用默认图片
 							html+="<img src=\""+defaultheadimg+"\" alt=\"\">";
@@ -183,6 +183,7 @@
                 },
                 success: function(res) {
 				var data = res.data;
+				//console.log(data);
 				if(data.length>0){
 					  $("#item1").empty();
 					  $(".step2").hide();
@@ -228,8 +229,10 @@
     function gotoCreate() {
 	   //清楚本地缓存
         localStorage.removeItem('ichProject');
+        localStorage.removeItem('codeText');
         //添加项目名称到本地
         localStorage.setItem('ichProName',$("#keyword").val());
+        localStorage.setItem('action',"add");
         location.href="../page/ichProForm.html?proName="+$("#keyword").val();
     }
 </script>

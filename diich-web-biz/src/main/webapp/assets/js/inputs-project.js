@@ -369,7 +369,7 @@ function  saveContentPragment(attrid) {
     //在页面 获取数据 封装数据
 
     if($("#longContent").val().trim()==''){
-        alert("请添加文本");
+
         $("#longContent").next().show();
         return false;
     }
@@ -639,7 +639,9 @@ function saveIchProject(page) {
         ich.status=2;
         localStorage.setItem("ichProject",JSON.stringify(ich));
         console.log(JSON.stringify(ich));
-        vaidateForm(ich);
+        if(!vaidateForm(ich)){
+            return ;
+        }
 
     //获取本地
   $.ajax({
@@ -693,7 +695,6 @@ function vaidateForm(ich) {
     var val=$("input:radio[name='authenticated']:checked").val();
 
     $.each(ich.contentFragmentList,function (index,obj) {
-
         if(obj.attributeId==9 && obj.content==""){
             $("#summary").next().show();
             $("#summary").focus();
@@ -718,7 +719,7 @@ function vaidateForm(ich) {
         if(val=="1"){
 
             if(obj.attributeId==116 && obj.content==""){
-                $("#certTime").next().show();
+                $("#ECalendar_date").next().show();
                 return false;
             }
 
