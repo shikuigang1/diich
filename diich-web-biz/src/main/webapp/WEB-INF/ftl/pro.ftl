@@ -158,7 +158,7 @@
                                     </#if>
                                 </#list>
                          </#if>
-                    </h2>
+                    </h2><a href="../page/ichProForm.html?pid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
                     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 2>

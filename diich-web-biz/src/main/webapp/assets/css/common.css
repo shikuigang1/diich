@@ -1031,14 +1031,27 @@ textarea {
 .detail_title {
     position: relative;
 }
-
 .detail_title h2 {
     padding-right: 340px;
     font-size: 44px;
     line-height: 50px;
     color: #333;
 }
-
+.detail_title .edit {
+    color: #4283ea;
+    padding-left:16px;
+    position: absolute;
+    top:-20px;
+    right:0;
+}
+.detail_title .edit .icon {
+    background: url(../images/icon_detail_edit2.png) 0 0 no-repeat;
+    width:12px;
+    height:15px;
+    position: absolute;
+    top:0;
+    left:0;
+}
 .detail_title .doi_code {
     background: #4283EA;
     line-height: 28px;
