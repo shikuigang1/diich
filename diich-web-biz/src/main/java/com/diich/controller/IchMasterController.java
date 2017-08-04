@@ -29,6 +29,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -73,9 +74,14 @@ public class IchMasterController extends BaseController<IchMaster>{
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
         IchMaster ichMaster = null;
         try{
-            ichMaster = ichMasterService.getIchMasterById(Long.parseLong(id));
+            ichMaster = ichMasterService.getIchMasterByIdAndUser(Long.parseLong(id),user);
         }catch (Exception e){
             return putDataToMap(e);
         }
@@ -162,6 +168,31 @@ public class IchMasterController extends BaseController<IchMaster>{
         return putDataToMap(uri);
     }
 
+    /**
+     *个人中心
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("getIchProjectByUserId")
+    @ResponseBody
+    public Map<String, Object> getIchProjectByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        List<IchMaster> ichMasterList = null;
+        try{
+            ichMasterList = ichMasterService.getIchMasterByUserId(user.getId());
+        }catch (Exception e){
+            return putDataToMap(e);
+        }
+
+        return putDataToMap(ichMasterList);
+    }
     @RequestMapping("/getImage")
     public void exportQRCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String id=request.getParameter("id");

@@ -118,6 +118,14 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_PHONE);
             return putDataToMap(ae);
         }
+        if(StringUtils.isEmpty(user.getLoginName())){
+            ApplicationException ae = new ApplicationException(ApplicationException.USER_UNCOMPLETE);
+            return putDataToMap(ae);
+        }
+        if(StringUtils.isEmpty(user.getLoginName())){
+            ApplicationException ae = new ApplicationException(ApplicationException.USER_UNCOMPLETE);
+            return putDataToMap(ae);
+        }
         HttpSession session = request.getSession();
         //判断验证码是否超时和正确
         Map<String, Object> checkResult = checkVerifyCode(session, phone, code);

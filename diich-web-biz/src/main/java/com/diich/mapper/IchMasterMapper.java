@@ -18,7 +18,7 @@ public interface IchMasterMapper extends BaseMapper<IchMaster> {
 
     IchMaster selectByPrimaryKey(Long id);
 
-    IchMaster selectByMasterById(Long id);
+    IchMaster selectMasterById(Long id);
 
     int updateByPrimaryKeySelective(IchMaster record);
 
@@ -29,5 +29,7 @@ public interface IchMasterMapper extends BaseMapper<IchMaster> {
 
     //根据项目id查询传承人列表
     List<IchMaster> selectByIchProjectId(Long ichProjectId);
+
+    List<IchMaster> selectIchMasterByUserId(Long userId);
 
 }

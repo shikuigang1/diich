@@ -175,7 +175,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
     /**
      * 录入时保存或更新项目信息
-     * @param ichProject
+     * @param ichProject  status = 3 提交
      * @throws Exception
      */
     @Transactional
@@ -188,11 +188,15 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             checkAttribute(ichProject,3);
         }
         try {
+            User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
             ichProject.setLastEditDate(new Date());
             if(ichProject.getStatus() != null && ichProject.getStatus() == 3){
+                if(user != null && user.getType() == 0){//如果当前修改者不是admin type 代表权限 0 代表admin  1代表普通用户
+                    ichProject.setStatus(0);
+                }
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
             }else {
-                saveProject(ichProject);//保存项目
+                saveProject(ichProject,user);//保存项目
             }
             commit(transactionStatus);
         } catch (Exception e) {
@@ -203,22 +207,23 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return ichProject;
     }
 
-    private IchProject saveProject(IchProject ichProject) throws Exception{
+
+    private IchProject saveProject(IchProject ichProject ,User user) throws Exception{
         if(StringUtils.isEmpty(ichProject.getLang())){
             ichProject.setLang("chi");
         }
-        if(ichProject.getId() == null) {
+        if(ichProject.getId() == null) {//保存
             long proID = IdWorker.getId();
             ichProject.setId(proID);
+            ichProject.setStatus(2);
             ichProject.setUri(proID +".html");
             ichProjectMapper.insertSelective(ichProject);
-        } else {
+        } else {//修改
             IchProject selectProject = ichProjectMapper.selectIchProjectById(ichProject.getId());
-            if( !ichProject.getLastEditorId().equals(selectProject.getLastEditorId()) || ichProject.getStatus()==0){//当前编辑者是否发生了改变
+            if( (user != null && user.getType() !=0) && (!ichProject.getLastEditorId().equals(selectProject.getLastEditorId()) || ichProject.getStatus()==0)){//当前编辑者(非管理员)是发生了改变
                 return updateProject(ichProject);
             }
             checkIchCat(ichProject);//判断分类是否发生改变
-            ichProject.setUri(ichProject.getId() +".html");
             ichProjectMapper.updateByPrimaryKeySelective(ichProject);
         }
         List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
@@ -229,13 +234,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 contentFragmentService.saveContentFragment(contentFragment);
             }
         }
-//        List<Works> worksList = ichProject.getWorksList();
-//        if(worksList !=null && worksList.size()>0){
-//            for (Works works: worksList) {
-//                works.setIchProjectId(ichProject.getId());
-//                worksService.saveWorks(works);
-//            }
-//        }
         return ichProject;
     }
 
@@ -289,14 +287,17 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return ichProject;
     }
     @Override
-    public IchProject getIchProjectByIdAndIUser(Long id, Long userId) throws Exception {
+    public IchProject getIchProjectByIdAndIUser(Long id, User user) throws Exception {
+        if(user.getType() == 0){//是管理员
+            return getIchProject(String.valueOf(id));
+        }
         List<Version> versionList = versionService.getVersionByLangIdAndTargetType(id, null, 0, 1000);
         if(versionList.size()>0){
             List tempList = new ArrayList();
             for(Version version : versionList){
                 tempList.add(version.getBranchVersionId());
             }
-            List<IchProject> ichProjectList = getIchProjectByUserId(userId);
+            List<IchProject> ichProjectList = getIchProjectByUserId(user.getId());
             for (IchProject ichProject : ichProjectList) {
                 Long ichProjectId = ichProject.getId();
                 if(tempList.contains(ichProjectId)){
