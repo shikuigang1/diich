@@ -384,7 +384,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
            resultMap.put("name",ls.get(i).get("name"));
            String lang = ls.get(i).get("lang").toString();
 
-
             //获取项目分类
            Long categoryID = (Long)ls.get(i).get("ichCategoryId");
            if(categoryID != null){
@@ -400,14 +399,17 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                //获取项目名
                ContentFragment c= cs.get(j);
                Attribute a = attributeMapper.selectByPrimaryKey(c.getAttributeId());
-              /*  if(c.getAttributeId()==4){
+                if(c.getAttributeId()==4){
                     resultMap.put("name",c.getContent());
-                }*/
+                }
                 //获取项目题图
                 if(c.getAttributeId()==1){
 
                         Resource r = resourceMapper.selectByContentFramentID(c.getId());
-                        resultMap.put("img",r.getUri());
+                        if(r != null){
+                            resultMap.put("img",r.getUri());
+                        }
+
 
                 }
                 //获取区域地址
