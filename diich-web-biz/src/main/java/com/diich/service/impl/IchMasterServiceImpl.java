@@ -1,17 +1,14 @@
 package com.diich.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.baomidou.mybatisplus.toolkit.StringUtils;
-import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
 import com.diich.core.service.*;
 import com.diich.core.util.BuildHTMLEngine;
-import com.diich.core.util.FileType;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
 import org.apache.commons.collections.map.HashedMap;
@@ -44,9 +41,11 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     @Autowired
     private WorksService worksService;
     @Autowired
-    private ResourceService resourceService;
-    @Autowired
     private ContentFragmentService contentFragmentService;
+    @Autowired
+    private VersionMapper versionMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 根据id查询传承人
@@ -82,7 +81,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     public IchMaster getIchMasterById(Long id) throws Exception {
         IchMaster ichMaster =null;
         try{
-            ichMaster = ichMasterMapper.selectByMasterById(id);
+            ichMaster = ichMasterMapper.selectMasterById(id);
             if(ichMaster != null){
                 //内容片断列表
                 List<ContentFragment> contentFragmentList = getContentFragmenByMasterId(ichMaster);
@@ -160,9 +159,20 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     @Override
     public IchMaster saveIchMaster(IchMaster ichMaster) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
-        checkIchMaster(ichMaster);//校验传承人信息
+        if(ichMaster.getStatus() != null && ichMaster.getStatus() == 3){
+            checkIchMaster(ichMaster);//校验传承人信息
+        }
         try {
-            saveMaster(ichMaster);
+            User user = userMapper.selectByPrimaryKey(ichMaster.getId());
+            ichMaster.setLastEditDate(new Date());
+            if(ichMaster.getStatus() != null && ichMaster.getStatus() == 3){
+                if(user != null && user.getType() == 0){//如果当前修改者不是admin type代表权限  0 代表admin  1代表普通用户
+                    ichMaster.setStatus(0);
+                }
+                ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
+            }else{
+                saveMaster(ichMaster , user);
+            }
             commit(transactionStatus);
         } catch (Exception e) {
             rollback(transactionStatus);
@@ -171,7 +181,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         return ichMaster;
     }
 
-    private IchMaster saveMaster(IchMaster ichMaster)throws Exception{
+    private IchMaster saveMaster(IchMaster ichMaster ,User user)throws Exception{
         if(StringUtils.isEmpty(ichMaster.getLang())){
             ichMaster.setLang("chi");
         }
@@ -181,10 +191,14 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         if(ichMaster.getId() == null) {
             long id = IdWorker.getId();
             ichMaster.setId(id);
+            ichMaster.setStatus(2);
             ichMaster.setUri(id + ".html");
             ichMasterMapper.insertSelective(ichMaster);
         } else {
-            ichMaster.setUri(ichMaster.getId() +".html");
+            IchMaster master = ichMasterMapper.selectMasterById(ichMaster.getId());
+            if( (user != null && user.getType() !=0) && (!ichMaster.getLastEditorId().equals(master.getLastEditorId()) || ichMaster.getStatus()==0)){//当前编辑者(非管理员)是发生了改变
+                return updateMaster(ichMaster);
+            }
             ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
         }
         List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
@@ -195,13 +209,46 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 contentFragmentService.saveContentFragment(contentFragment);
             }
         }
-        List<Works> worksList = ichMaster.getWorksList();
-        if(worksList !=null && worksList.size()>0){
-            for (Works works : worksList) {
-                works.setIchMasterId(ichMaster.getId());
-                worksService.saveWorks(works);
+        return ichMaster;
+    }
+
+    /**
+     * 如果修改人不同就另存版本
+     * @param ichMaster
+     * @return
+     * @throws Exception
+     */
+    private IchMaster updateMaster(IchMaster ichMaster) throws Exception{
+        Long mainId = ichMaster.getId();
+        long branchId = IdWorker.getId();
+        ichMaster.setId(branchId);
+        ichMaster.setStatus(2);
+        ichMaster.setUri(branchId+".html");
+        ichMasterMapper.insertSelective(ichMaster);
+        List<ContentFragment> ichProjectContentFragmentList = ichMaster.getContentFragmentList();
+        if(ichProjectContentFragmentList != null && ichProjectContentFragmentList.size()>0){
+            for (ContentFragment contentFragment : ichProjectContentFragmentList) {
+                contentFragment.setId(null);
+                contentFragment.setTargetId(branchId);
+                List<Resource> resourceList = contentFragment.getResourceList();
+                if(resourceList != null && resourceList.size()>0){
+                    for(int i = 0 ; i <  resourceList.size() ; i++ ){
+                        Resource resource = resourceList.get(i);
+                        resource.setId(null);
+                    }
+                }
+                contentFragmentService.saveContentFragment(contentFragment);
             }
         }
+        //保存version表
+        Version version = new Version();
+        version.setId(IdWorker.getId());
+        version.setStatus(0);
+        version.setTargetType(1);
+        version.setMainVersionId(mainId);
+        version.setBranchVersionId(branchId);
+        version.setVersionType(1000);//版本  修改中, 已过期
+        versionMapper.insertSelective(version);
         return ichMaster;
     }
 
@@ -213,10 +260,14 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
      */
     @Override
     public String preview(Long id) throws Exception {
-        IchMaster ichMaster = getIchMasterById(id);
-        String fileName = PropertiesUtil.getString("freemarker.masterfilepath")+"/"+ichMaster.getId().toString();
-        String uri = buildHTML("master.ftl", ichMaster, fileName);
-        return uri;
+        try{
+            IchMaster ichMaster = getIchMasterById(id);
+            String fileName = PropertiesUtil.getString("freemarker.masterfilepath")+"/"+ichMaster.getId().toString();
+            String uri = buildHTML("master.ftl", ichMaster, fileName);
+            return uri;
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
     }
     /**
      * 生成静态页面
@@ -228,10 +279,55 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
      */
     @Override
     public String buildHTML(String templateName, IchMaster ichMaster, String fileName) throws Exception {
-        Map map = getJson(ichMaster);
-        String uri = BuildHTMLEngine.buildHTML(templateName, ichMaster,map, fileName);
-        return uri;
+        try{
+            Map map = getJson(ichMaster);
+            String uri = BuildHTMLEngine.buildHTML(templateName, ichMaster,map, fileName);
+            return uri;
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
     }
+
+    @Override
+    public IchMaster getIchMasterByIdAndUser(Long id, User user) throws Exception {
+        if(user.getType() == 0){//是管理员
+            return getIchMaster(String.valueOf(id));
+        }
+        Version version = new Version();
+        version.setTargetType(1);
+        version.setVersionType(1000);
+        version.setMainVersionId(id);
+        List<Version> versionList = versionMapper.selectVersionByLangIdAndTargetType(version);
+        if(versionList.size()>0){
+            List tempList = new ArrayList();
+            for(Version ver : versionList){
+                tempList.add(ver.getBranchVersionId());
+            }
+            List<IchMaster> ichMasterList = getIchMasterByUserId(user.getId());
+            for (IchMaster ichMaster: ichMasterList) {
+                if(tempList.contains(ichMaster.getId())){
+                    return ichMaster;
+                }
+            }
+        }
+        return getIchMasterById(id);
+    }
+
+    @Override
+    public List<IchMaster> getIchMasterByUserId(Long id) throws Exception {
+        try{
+            List<IchMaster> ichMasterList = ichMasterMapper.selectIchMasterByUserId(id);
+            for (IchMaster ichMaster:ichMasterList) {
+                List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
+                ichMaster.setContentFragmentList(contentFragmentList);
+            }
+            return ichMasterList;
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+
+    }
+
     /**
      * 根据项目id获取传承人列表
      * @param ichProjectId
@@ -369,23 +465,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
      */
     private void checkIchMaster(IchMaster ichMaster) throws Exception {
         List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
-        List<String> list = new ArrayList<>();
-        for (ContentFragment contentFragment:contentFragmentList) {
-            if(contentFragment.getAttributeId() != 0){
-                continue;
-            }
-            //检查当前传承人自定义属性是否已存在
-            checkDefineField(contentFragment,list);
-            list.add(contentFragment.getAttribute().getCnName());
-        }
-        if(ichMaster.getStatus() == 2){//保存 校验字段是否符合条件
-            for (ContentFragment contentFragment:contentFragmentList){
-                if(contentFragment.getAttributeId()==0){
-                    continue;
-                }
-                checkSaveField(contentFragment);
-            }
-        }
         if(ichMaster.getStatus() == 3){//提交
             List<Attribute> attributeList = null;
             try{
@@ -404,32 +483,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         }
     }
 
-    /**
-     * 根据属性名称检查当前传承人自定义属性是否存在
-     * @param contentFragment
-     */
-    private void checkDefineField(ContentFragment contentFragment,List<String> list) throws Exception{
-        Map map = new HashMap();
-        Attribute attribute = contentFragment.getAttribute();
-        String cnName = attribute.getCnName();
-        //判断是否重名
-        if(list.contains(cnName)){//自定义字段之间是否相互重名
-            throw new ApplicationException(ApplicationException.PARAM_ERROR);
-        }
-        //根据属性名称和targetType查询attribute表中是否存在该属性
-        map.put("cnName",cnName);
-        map.put("targetType",1);
-        List<Attribute> attributeList = null;
-        try{
-            attributeList = attributeMapper.selectAttrByNameAndTargetType(map);
-        }catch (Exception e){
-            throw new ApplicationException(ApplicationException.INNER_ERROR);
-        }
-
-        if(attributeList.size()>0){
-            throw new ApplicationException(ApplicationException.PARAM_ERROR);
-        }
-    }
     /**
      * 提交时对字段校验 传承人
      * @param attribute
@@ -462,37 +515,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
             }
 
-        }
-    }
-
-    /**
-     * 保存时对字段的校验 传承人
-     * @param contentFragment
-     * @throws Exception
-     */
-    private void checkSaveField(ContentFragment contentFragment) throws Exception {
-        Long attributeId = contentFragment.getAttributeId();
-        if(attributeId != null){
-            Attribute attribute = null;
-            try{
-                attribute = attributeMapper.selectByPrimaryKey(attributeId);
-            }catch (Exception e){
-                e.printStackTrace();
-                throw new ApplicationException(ApplicationException.INNER_ERROR);
-            }
-
-            if(attribute.getMinLength() != null){
-                String content = contentFragment.getContent();
-                if(content == null || (content.length() < attribute.getMinLength())){
-                    throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
-                }
-            }
-            if(attribute.getMaxLength() != null){
-                String content = contentFragment.getContent();
-                if(content != null && content.length() > attribute.getMaxLength()){
-                    throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
-                }
-            }
         }
     }
 }

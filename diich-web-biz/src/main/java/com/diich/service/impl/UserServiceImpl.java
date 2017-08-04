@@ -127,6 +127,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
            try {
                user.setId(IdWorker.getId());
                user.setStatus(0);
+               user.setType(1);
                String password = SecurityUtil.encryptMd5(user.getPassword());
                user.setPassword(password);
                userMapper.insertSelective(user);

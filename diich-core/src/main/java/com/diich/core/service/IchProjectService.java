@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseModel;
 import com.diich.core.model.IchMaster;
 import com.diich.core.model.IchProject;
+import com.diich.core.model.User;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ public interface IchProjectService {
 
     Page<IchProject> getIchProjectPage(Map<String, Object>  params)throws Exception;
 
-    IchProject getIchProjectByIdAndIUser(Long id, Long userId) throws Exception;
+    IchProject getIchProjectByIdAndIUser(Long id, User user) throws Exception;
 
     String preview(Long id) throws Exception;//预览
 

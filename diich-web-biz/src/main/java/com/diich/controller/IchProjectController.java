@@ -90,7 +90,7 @@ public class IchProjectController extends BaseController<IchProject> {
         }
         IchProject ichProject = null;
         try{
-            ichProject = ichProjectService.getIchProjectByIdAndIUser(Long.parseLong(id),user.getId());
+            ichProject = ichProjectService.getIchProjectByIdAndIUser(Long.parseLong(id),user);
         }catch (Exception e){
             return putDataToMap(e);
         }

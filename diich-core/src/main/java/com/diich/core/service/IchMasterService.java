@@ -3,6 +3,7 @@ package com.diich.core.service;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseModel;
 import com.diich.core.model.IchMaster;
+import com.diich.core.model.User;
 import com.diich.core.model.Works;
 
 import java.util.List;
@@ -35,4 +36,8 @@ public interface IchMasterService {
     IchMaster getIchMasterByWorks(Works works) throws Exception;
     //生成静态页面
     String buildHTML(String templateName, IchMaster ichMaster, String fileName) throws Exception;
+
+    IchMaster getIchMasterByIdAndUser(Long id , User user) throws Exception;
+
+    List<IchMaster> getIchMasterByUserId(Long id) throws Exception;
 }

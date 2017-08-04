@@ -164,12 +164,19 @@
   <select id="selectByIchProjectId" parameterType="java.lang.Long" resultMap="BaseResultMap">
   select
     <include refid="Base_Column_List" />
-   from ich_master where ich_project_id = #{ichProjectId,jdbcType=BIGINT} and status = 0
+   from ich_master where ich_project_id = #{ichProjectId,jdbcType=BIGINT} and status != 1
   </select>
-  <select id="selectByMasterById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectMasterById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
     <include refid="Base_Column_List" />
     from ich_master
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and status != 1
   </select>
+  <select id="selectIchMasterByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from ich_master
+    where last_editor_id = #{userId,jdbcType=BIGINT} and status != 1
+  </select>
+
 </mapper>
