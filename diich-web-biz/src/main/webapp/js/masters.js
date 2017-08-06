@@ -88,7 +88,7 @@ function addLiListener() {
                 $(this).parent().find('.curr').find('img').attr('src', aliyun_img_uri + current_master.photo.split(',')[1]);
                 $(this).parent().find('.curr').addClass('active');
             }
-        }, 
+        },
         function () {
             if(current_master == tmp_master) {
                 return;

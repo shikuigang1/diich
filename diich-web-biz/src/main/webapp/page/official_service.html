@@ -242,6 +242,8 @@
 <!--//End 视频弹出层-->
 </body>
 <script>
+    var myPlayer = null;
+
     $(function() {
         $('.header .content .nav li').eq(5).addClass('active').siblings('li').removeClass('active');
 
@@ -250,37 +252,32 @@
                     '<source src="" type="video/mp4">' +
                 '</video>';
 
-        //视频弹出层
-        (function () {
-            var modal=$('.modal_video');
-            var el=$('.play120');
-            var content=modal.find('.content');
+        var modal=$('.modal_video');
+        var content=modal.find('.content');
 
-            var myPlayer = null;
-            el.on('click',function () {
-                if(myPlayer != null) {
-                    modal.fadeIn(200);
-                    myPlayer.play();
-                    return;
-                }
+        $('.play120').on('click',function () {
+            modal.fadeIn(200);
 
-                var data_uri = $(this).attr('data-uri');
-                content.append(video_template);
+            if(myPlayer != null) {
+                myPlayer.play();
+                return;
+            }
 
-                myPlayer = videojs('my-video', {}, function () {
-                    myPlayer.src(data_uri);
-                    myPlayer.load(data_uri);
-                    myPlayer.play();
-                });
+            var data_uri = $(this).attr('data-uri');
+            content.append(video_template);
+
+            myPlayer = videojs('my-video', {}, function () {
+                this.src(data_uri);
+                this.load(data_uri);
+                this.play();
             });
-            $('.overbg0').on('click',function(){
-                //myPlayer.dispose();
-                myPlayer.pause();
-                modal.fadeOut();
-                //content.children().remove();
-            });
-            return false;
-        })();
+        });
+        $('.overbg0').on('click',function(){
+            //myPlayer.dispose();
+            myPlayer.pause();
+            modal.fadeOut();
+            //content.children().remove();
+        });
 
     });
 </script>

@@ -297,10 +297,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             for(Version version : versionList){
                 tempList.add(version.getBranchVersionId());
             }
-            List<IchProject> ichProjectList = getIchProjectByUserId(user.getId());
+            List<IchProject> ichProjectList = ichProjectMapper.selectIchProjectByUserId(user.getId());
             for (IchProject ichProject : ichProjectList) {
                 Long ichProjectId = ichProject.getId();
                 if(tempList.contains(ichProjectId)){
+                    List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
+                    ichProject.setContentFragmentList(contentFragmentList);
                     return ichProject;
                 }
             }
@@ -342,12 +344,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     public List<IchProject> getIchProjectByUserId(Long id) throws Exception {
         List<IchProject> ichProjectList = null;
         try{
-           ichProjectList = ichProjectMapper.selectIchProjectByUserId(id);
-            for (IchProject ichProject : ichProjectList) {
-                //内容片断列表
-                List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
-                ichProject.setContentFragmentList(contentFragmentList);
-            }
+
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }

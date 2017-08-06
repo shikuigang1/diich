@@ -77,23 +77,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         return  ichMaster;
     }
 
-    @Override
-    public IchMaster getIchMasterById(Long id) throws Exception {
-        IchMaster ichMaster =null;
-        try{
-            ichMaster = ichMasterMapper.selectMasterById(id);
-            if(ichMaster != null){
-                //内容片断列表
-                List<ContentFragment> contentFragmentList = getContentFragmenByMasterId(ichMaster);
-                ichMaster.setContentFragmentList(contentFragmentList);
-            }
-        }catch (Exception e){
-            throw new ApplicationException(ApplicationException.INNER_ERROR);
-        }
-        return ichMaster;
-    }
-
-
     /**
      * 根据条件查询分页列表
      * @param params
@@ -253,6 +236,28 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     }
 
     /**
+     * status 不做限制
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public IchMaster getIchMasterById(Long id) throws Exception {
+        IchMaster ichMaster =null;
+        try{
+            ichMaster = ichMasterMapper.selectMasterById(id);
+            if(ichMaster != null){
+                //内容片断列表
+                List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);
+                ichMaster.setContentFragmentList(contentFragmentList);
+            }
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return ichMaster;
+    }
+
+    /**
      * 预览
      * @param id
      * @return
@@ -291,7 +296,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     @Override
     public IchMaster getIchMasterByIdAndUser(Long id, User user) throws Exception {
         if(user.getType() == 0){//是管理员
-            return getIchMaster(String.valueOf(id));
+            return getIchMasterById(id);
         }
         Version version = new Version();
         version.setTargetType(1);
@@ -303,9 +308,11 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             for(Version ver : versionList){
                 tempList.add(ver.getBranchVersionId());
             }
-            List<IchMaster> ichMasterList = getIchMasterByUserId(user.getId());
+            List<IchMaster> ichMasterList = ichMasterMapper.selectIchMasterByUserId(user.getId());
             for (IchMaster ichMaster: ichMasterList) {
                 if(tempList.contains(ichMaster.getId())){
+                    List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);
+                    ichMaster.setContentFragmentList(contentFragmentList);
                     return ichMaster;
                 }
             }
@@ -315,17 +322,18 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
 
     @Override
     public List<IchMaster> getIchMasterByUserId(Long id) throws Exception {
+        List<IchMaster> ichMasterList = null;
         try{
-            List<IchMaster> ichMasterList = ichMasterMapper.selectIchMasterByUserId(id);
-            for (IchMaster ichMaster:ichMasterList) {
-                List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
-                ichMaster.setContentFragmentList(contentFragmentList);
-            }
-            return ichMasterList;
+//            List<IchMaster> ichMasterList = ichMasterMapper.selectIchMasterByUserId(id);
+//            for (IchMaster ichMaster:ichMasterList) {
+//                List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
+//                ichMaster.setContentFragmentList(contentFragmentList);
+//            }
+
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-
+        return ichMasterList;
     }
 
     /**
@@ -352,12 +360,18 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         IchMaster ichMaster = ichMasterMapper.selectByPrimaryKey(works.getIchMasterId());
         if (ichMaster != null) {
             //内容片断列表
-            List<ContentFragment> contentFragmentList = getContentFragmenByMasterId(ichMaster);
+            List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
             ichMaster.setContentFragmentList(contentFragmentList);
         }
         return ichMaster;
     }
 
+    /**
+     * 查出来的信息是用户公开的信息
+     * @param ichMaster
+     * @return
+     * @throws Exception
+     */
     private List<ContentFragment> getContentFragmentListByMasterId(IchMaster ichMaster) throws Exception {
         //内容片断列表
         ContentFragment con = new ContentFragment();
@@ -367,8 +381,13 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         contentFragmentList = getContentFragmentList(contentFragmentList);
         return contentFragmentList;
     }
-
-    private List<ContentFragment> getContentFragmenByMasterId(IchMaster ichMaster) throws Exception {
+    /**
+     * 查出来的信息是用户所有的信息
+     * @param ichMaster
+     * @return
+     * @throws Exception
+     */
+    private List<ContentFragment> getContentFragmentByMasterId(IchMaster ichMaster) throws Exception {
         //内容片断列表
         ContentFragment con = new ContentFragment();
         con.setTargetId(ichMaster.getId());
