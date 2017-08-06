@@ -317,9 +317,9 @@ var projectPage={
         var _data=[
             {value:1,name:'口头传说和表述'},
             {value:11,name:'表演艺术'},
-            {value:28,name:'传统的手艺技能'},
-            {value:55,name:'社会风俗、利益、节庆'},
-            {value:77,name:'有关自然界和宇宙的只是和实践'}
+            {value:28,name:'传统手工艺技能'},
+            {value:55,name:'社会风俗、礼仪、节庆'},
+            {value:77,name:'有关自然界和宇宙的知识的实践'}
         ];
         this.selectCate.init('div[data-type=selectCate]',_data); //选择分类
         this.declare();  //是否为自己申报传承人
@@ -460,7 +460,7 @@ var projectPage={
                                 }
                                 //区域值
                                 var codeText=localStorage.getItem("codeText");
-                                if(codeText !=""){
+                                if(codeText != null && codeText !="" && typeof (codeText) !="undefined"){
                                     var codeTextList = codeText.split(",");
                                     if(codeTextList !=  null || typeof(codeTextList)!= 'undefined' ){
                                         for(var i=0;i<codeTextList.length;i++){
