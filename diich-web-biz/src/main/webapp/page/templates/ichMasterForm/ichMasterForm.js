@@ -497,7 +497,9 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
      * @private
      */
     function _onPreview() {
-        tipBox.init("fail", "次功能暂未开通", 1500);
+        $("#preview").on("click", function() {
+            tipBox.init("fail", "此功能暂未开通", 1500);
+        })
     }
 
     /**
@@ -756,7 +758,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         var  params = {
             "isMaster": parseInt(isMaster),
             "lang": getLang()=="zh-CN" ? "chi" : "eng",
-            "status": 2,
+            //"status": 2,
             "id": targetId ? targetId : ""
         }
 
