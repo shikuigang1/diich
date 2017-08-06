@@ -86,11 +86,11 @@ this.Handlebars = {};
     Handlebars.K = function() {};
 
     Handlebars.createFrame = Object.create || function(object) {
-        Handlebars.K.prototype = object;
-        var obj = new Handlebars.K();
-        Handlebars.K.prototype = null;
-        return obj;
-    };
+            Handlebars.K.prototype = object;
+            var obj = new Handlebars.K();
+            Handlebars.K.prototype = null;
+            return obj;
+        };
 
     Handlebars.logger = {
         DEBUG: 0, INFO: 1, WARN: 2, ERROR: 3, level: 3,
@@ -1288,10 +1288,10 @@ Handlebars.JavaScriptCompiler = function() {};
             this.name = this.environment.name;
             this.isChild = !!context;
             this.context = context || {
-                programs: [],
-                environments: [],
-                aliases: { }
-            };
+                    programs: [],
+                    environments: [],
+                    aliases: { }
+                };
 
             this.preamble();
 
@@ -2043,21 +2043,21 @@ Handlebars.JavaScriptCompiler = function() {};
     };
 
     var reservedWords = (
-    "break else new var" +
-    " case finally return void" +
-    " catch for switch while" +
-    " continue function this with" +
-    " default if throw" +
-    " delete in try" +
-    " do instanceof typeof" +
-    " abstract enum int short" +
-    " boolean export interface static" +
-    " byte extends long super" +
-    " char final native synchronized" +
-    " class float package throws" +
-    " const goto private transient" +
-    " debugger implements protected volatile" +
-    " double import public let yield"
+        "break else new var" +
+        " case finally return void" +
+        " catch for switch while" +
+        " continue function this with" +
+        " default if throw" +
+        " delete in try" +
+        " do instanceof typeof" +
+        " abstract enum int short" +
+        " boolean export interface static" +
+        " byte extends long super" +
+        " char final native synchronized" +
+        " class float package throws" +
+        " const goto private transient" +
+        " debugger implements protected volatile" +
+        " double import public let yield"
     ).split(" ");
 
     var compilerWords = JavaScriptCompiler.RESERVED_WORDS = {};
@@ -2608,7 +2608,7 @@ Handlebars.template = Handlebars.VM.template;
         var context = $.EU.groupBy(context, function (value, index) {
             return value["type"];
         });
-        
+
         if(context && typeof context === 'object') {
             if(context instanceof Array){
                 for(var j = context.length; i<j; i++) {
@@ -2653,14 +2653,14 @@ Handlebars.template = Handlebars.VM.template;
     Handlebars.registerHelper("imageUrl", function() {
         return $.EU.E.imageUrl;
     });
-    
-	//判断
+
+    //判断
     Handlebars.registerHelper("isExist", function (key1, key2, options) {
-    	var result = false;
-    	if (key1 && key2) {
-    		result = new RegExp( '\\b' + key1.split(",").join('\\b|\\b') + '\\b').test(key2);
-    	}
-    	
+        var result = false;
+        if (key1 && key2) {
+            result = new RegExp( '\\b' + key1.split(",").join('\\b|\\b') + '\\b').test(key2);
+        }
+
         if (result) {
             return options.fn(this);
         } else {
@@ -2714,7 +2714,7 @@ Handlebars.template = Handlebars.VM.template;
         } else {
             return options.inverse(this);
         }
-     })
+    })
 
     Handlebars.registerHelper("onGj", function (keys, key1, menuId, options) {
         var fag = false;
@@ -2759,7 +2759,67 @@ Handlebars.template = Handlebars.VM.template;
         return id;
     })
 
+    // 获取居住地址
+    Handlebars.registerHelper("getAddressText", function (keys, menuId) {
+        var code = "";
+        $.each(keys, function(i, v) {
+            if(v.attributeId == menuId){
+                code = v.content;
+                return;
+            }
+        })
+        var addText = "";
+        var parentId = "";
+        var parantId1 = "";
+        gl(dic_arr_city, code);
+        function gl(arr, code) {
+            $.each(arr, function(i, v) {
+                if(v.code == code || v.id == code) {
+                    addText = v.name + addText;
+                    if(parentId == "") {
+                        parentId = v.parent_id ? v.parent_id : "";
+                    } else {
+                        parantId1 = v.parent_id ? v.parent_id : "";
+                    }
+                } else if(typeof(v.children) != "undefined" && v.children.length > 0) {
+                    gl(v.children, code);
+                }
+            })
+        }
+        if(parentId != "") {
+            gl(dic_arr_city, parentId);
+        }
+        if(parantId1 != "") {
+            gl(dic_arr_city, parantId1);
+        }
+        return addText;
+    })
 
+    // 判断接口返回集合数据中是否包含对应的attributeId
+    Handlebars.registerHelper("ifAttribute", function(keys, menuId, options) {
+        var fag = false;
+        $.each(keys, function(i, v) {
+            if(v.attributeId == menuId){
+                fag = true;
+                return;
+            }
+        })
+
+        if(fag) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    })
+
+    Handlebars.registerHelper("getCustomName", function(keys) {
+        var name = "";
+        $.each(keys, function(i, v) {
+            name = v.attribute.cnName;
+            return;
+        })
+        return name;
+    })
 
 })();
 ;
