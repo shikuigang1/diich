@@ -1281,7 +1281,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     // 不可以点击
                     tipBox.init("fail", "请先完成基本信息项填写" , 1500);
                 }
-                _onEffect($this);
+                //_onEffect($this);
             } else {
                 // 用户点击的是 2级基本信息菜单
                 _onEffect($this);
