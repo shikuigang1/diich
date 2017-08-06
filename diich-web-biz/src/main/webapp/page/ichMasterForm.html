@@ -28,7 +28,7 @@
 <div class="container ipt_base">
     <div class="head">
         <div class="hd">
-            <div class="name">填写申报信息-土家银器</div>
+            <div id="title" class="name">填写申报信息 - </div>
             <div class="handle">
                 <a id="onSubmit"class="active" href="javascript:void(0);">保存</a>
                 <a id="preview" class="empty" href="javascript:void(0);">预览</a>
@@ -139,6 +139,8 @@
     $(function() {
         $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
         require(["ichMasterForm/ichMasterForm"], function (ichMasterForm) {
+            var projectName = getQueryString("projectName");
+            $("#title").html("填写申报信息 - " + projectName)
             ichMasterForm.init(dic_arr_city); // 初始化
         })
     });

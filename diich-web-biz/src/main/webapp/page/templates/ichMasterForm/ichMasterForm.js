@@ -1281,7 +1281,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     // 不可以点击
                     tipBox.init("fail", "请先完成基本信息项填写" , 1500);
                 }
-                _onEffect($this);
+                //_onEffect($this);
             } else {
                 // 用户点击的是 2级基本信息菜单
                 _onEffect($this);
@@ -1563,8 +1563,8 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         reg_email: /^\w+\@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}$/i, //验证邮箱
         reg_num: /^\d+$/,         //验证数字
         reg_chinese: /^[\u4E00-\u9FA5]+$/,     //验证中文
-        reg_english: /^[A-Za-z]+$/, // 验证英文
-        reg_pinyin: /^[A-Za-z]+$/, // 验证拼音
+        reg_english: /^([a-zA-Z ]+|[\u4e00-\u9fa5]+)$/, // 验证英文
+        reg_pinyin: /^([a-zA-Z ]+|[\u4e00-\u9fa5]+)$/, // 验证拼音
         reg_mobile: /^1[3458]{1}[0-9]{9}$/,    //验证手机
         reg_idcard: /^\d{14}\d{3}?\w$/,     //验证身份证
         reg_passport: /^[a-zA-Z]{5,17}$/, // 护照格式验证
