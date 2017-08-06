@@ -18,7 +18,7 @@
             <div class="group">
                 <label class="label"><em>*</em>手机</label>
                 <div class="control">
-                    <input value="{{getContent contacts.contentFragmentList 58}}" validate="true" check="required mobile" id="sj" name="sj" data-id="58" type="text" class="ipt w310" placeholder="+86">
+                    <input value="{{getContent pageObj.contentFragmentList 58}}" validate="true" check="required mobile" id="sj" name="sj" data-id="58" type="text" class="ipt w310" placeholder="+86">
                     <div id="sj_err" class="errors" style="display: none"><i></i>请填写手机</div>
                 </div>
             </div>
@@ -27,7 +27,7 @@
             <div class="group">
                 <label class="label"><em>*</em>电子邮箱</label>
                 <div class="control">
-                    <input value="{{getContent contacts.contentFragmentList 59}}" validate="true" check="required email" id="yx" name="yx" data-id="59" type="text" class="ipt w310">
+                    <input value="{{getContent pageObj.contentFragmentList 59}}" validate="true" check="required email" id="yx" name="yx" data-id="59" type="text" class="ipt w310">
                     <div id="yx_err" class="errors" style="display: none"><i></i>请填写电子邮箱</div>
                 </div>
             </div>
@@ -37,12 +37,10 @@
                 <label class="label" for=""><em>*</em>居住地址</label>
                 <div class="control">
                     <div id="live" class="ipt w650 select" data-type="selectArea" value="" data-id="55" >请选择地域</div>
-                    <div class="area" id="area" style="{{#if contact.live}}display: block;{{/if}}" >
-                        <div class="select" id="select" style="{{#if contact.live}}display: none;{{/if}}"></div>
+                    <div class="area" id="area" style="{{#ifAttribute pageObj.contentFragmentList 55 }}display: block;{{/ifAttribute}}" >
+                        <div class="select" id="select" style="{{#ifAttribute pageObj.contentFragmentList 55 }}display: none;{{/ifAttribute}}"></div>
                         <div class="selected" id="selected">
-                            {{#if contact.live}}
-                                <li><span>{{../contact.live}}<i class="icon"></i></span></li>
-                            {{/if}}
+                           {{#ifAttribute pageObj.contentFragmentList 55 }} <li><span>{{getAddressText pageObj.contentFragmentList 55}}<i class="icon"></i></span></li> {{/ifAttribute}}
                         </div>
                     </div>
                     <div class="errors" style="display: none"><i></i>请填写地域</div>
@@ -53,7 +51,7 @@
             <div class="group">
                 <label class="label"><em>*</em>详情地址</label>
                 <div class="control">
-                    <input value="{{getContent contacts.contentFragmentList 54}}" validate="true" check="required" id="dz" name="dz" data-id="54" type="text" class="ipt w650">
+                    <input value="{{getContent pageObj.contentFragmentList 54}}" validate="true" check="required" id="dz" name="dz" data-id="54" type="text" class="ipt w650">
                     <div id="dz_err" class="errors" style="display: none"><i></i>请填写详情地址</div>
                 </div>
             </div>
@@ -62,7 +60,7 @@
             <div class="group">
                 <label class="label"><em>*</em>邮编</label>
                 <div class="control">
-                    <input value="{{getContent contacts.contentFragmentList 56}}" validate="true" check="required zipcode" id="yb" name="yb" data-id="56" type="text" class="ipt w310">
+                    <input value="{{getContent pageObj.contentFragmentList 56}}" validate="true" check="required zipcode" id="yb" name="yb" data-id="56" type="text" class="ipt w310">
                     <div id="yb_err" class="errors" style="display: none"><i></i>请填写邮编</div>
                 </div>
             </div>

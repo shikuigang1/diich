@@ -18,7 +18,7 @@
             <div class="group">
                 <label class="label">职业</label>
                 <div class="control">
-                    <input value="{{getContent vocations.contentFragmentList 47}}" id="zy" name="zy" data-id="47" type="text" class="ipt w310">
+                    <input value="{{getContent pageObj.contentFragmentList 47}}" id="zy" name="zy" data-id="47" type="text" class="ipt w310">
                 </div>
             </div>
             <!--//End 手机-->
@@ -26,7 +26,7 @@
             <div class="group">
                 <label class="label">职务职称</label>
                 <div class="control">
-                    <input value="{{getContent vocations.contentFragmentList 48}}" id="zc" name="zc" data-id="48" type="text" class="ipt w310">
+                    <input value="{{getContent pageObj.contentFragmentList 48}}" id="zc" name="zc" data-id="48" type="text" class="ipt w310">
                 </div>
             </div>
             <!--//End 电子邮箱-->
@@ -34,7 +34,7 @@
             <div class="group">
                 <label class="label">荣誉称号</label>
                 <div class="control">
-                    <input value="{{getContent vocations.contentFragmentList 50}}" id="ch" name="ch" data-id="50" type="text" class="ipt w650">
+                    <input value="{{getContent pageObj.contentFragmentList 50}}" id="ch" name="ch" data-id="50" type="text" class="ipt w650">
                 </div>
             </div>
             <!--//End 详情地址-->
@@ -42,7 +42,7 @@
             <div class="group">
                 <label class="label"><em>*</em>简介</label>
                 <div class="control">
-                    <textarea value="" name="jj" id="jj" data-id="24" cols="30" rows="10">{{getContent vocations.contentFragmentList 24}}</textarea>
+                    <textarea value="" name="jj" id="jj" data-id="24" cols="30" rows="10">{{getContent pageObj.contentFragmentList 24}}</textarea>
                     <div id="jj_err" class="errors" style="display: none"><i></i>请填写简写</div>
                 </div>
             </div>

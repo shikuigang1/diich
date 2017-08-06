@@ -938,8 +938,14 @@ var inheritorPage={
 
         //模版
         function templateItem(str) {
+            // 简单验证稍后更新
+            var localhostPaht=window.document.location.href.substring(0,window.document.location.href.indexOf(window.document.location.pathname))
+            var newStr = str;
+            if(str.lastIndexOf(".jpg") < 0) {
+                newStr = localhostPaht + "/assets/images/inputs/play.jpg";
+            }
             var templ='<div class="item">' +
-                '<img src="'+str+'" alt="">' +
+                '<img src="' + newStr + '" alt="">' +
                 '<input type="text" name="text" placeholder="请输入标题">' +
                 '</div>';
             return templ;
