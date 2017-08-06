@@ -5,6 +5,7 @@ import com.diich.core.base.BaseMapper;
 import com.diich.core.model.IchMaster;
 import com.diich.core.model.IchProject;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 import java.util.Map;
@@ -31,5 +32,9 @@ public interface IchMasterMapper extends BaseMapper<IchMaster> {
     List<IchMaster> selectByIchProjectId(Long ichProjectId);
 
     List<IchMaster> selectIchMasterByUserId(Long userId);
+
+    List<IchMaster> selectIchMasterByUserAndStatus( @Param("params") Map<String, Object> params, RowBounds rowBounds) throws Exception;
+
+    int selectIchMasterCountByUserAndStatus( @Param("params") Map<String, Object> params) throws Exception;
 
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseMapper;
 import com.diich.core.model.IchProject;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 import java.util.Map;
@@ -28,5 +29,9 @@ public interface IchProjectMapper extends BaseMapper<IchProject>{
     IchProject selectIchProjectById(Long id);
 
     List<IchProject> selectIchProjectByUserId(Long userId);
+
+    List<IchProject> selectIchProjectByUserAndStatus( @Param("params") Map<String, Object> params, RowBounds rowBounds) throws Exception;
+
+    int selectIchProjectCountByUserAndStatus( @Param("params") Map<String, Object> params) throws Exception;
 
 }

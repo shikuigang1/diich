@@ -211,19 +211,74 @@ public class IchProjectController extends BaseController<IchProject> {
     @ResponseBody
     public Map<String, Object> getIchProjectByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        Map<String, Object> params = new HashMap<>();
+        String param = request.getParameter("params");
+        try{
+            if(param !=null){
+                params = JSON.parseObject(param, Map.class);
+            }
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
-        List<IchProject> ichProjectList = null;
+        params.put("userId",user.getId());
+        Page<IchProject> page = null;
         try{
-            ichProjectList = ichProjectService.getIchProjectByUserId(user.getId());
+            page = ichProjectService.getIchProjectByUserId(params);
         }catch (Exception e){
             return putDataToMap(e);
         }
 
-        return putDataToMap(ichProjectList);
+        return putDataToMap(page);
+    }
+
+    @RequestMapping("audit")
+    @ResponseBody
+    public Map<String, Object> audit(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        String id = request.getParameter("params");
+        if(id == null){
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        try{
+            ichProjectService.audit(Long.parseLong(id),user);
+        }catch (Exception e){
+            return putDataToMap(e);
+        }
+        return putDataToMap(id);
+    }
+
+    /**
+     * 假删
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("delete")
+    @ResponseBody
+    public Map<String, Object> delete(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        String id = request.getParameter("params");
+        if(id == null){
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        try{
+            int delete = ichProjectService.deleteIchProject(Long.parseLong(id));
+        }catch (Exception e){
+            return putDataToMap(e);
+        }
+        return putDataToMap(id);
     }
 
     @RequestMapping("/getImage")

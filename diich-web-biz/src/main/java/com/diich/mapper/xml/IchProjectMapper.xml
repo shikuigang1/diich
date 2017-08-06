@@ -182,4 +182,28 @@
     from ich_project
     where last_editor_id = #{userId,jdbcType=BIGINT} and status != 1
   </select>
+  <select id="selectIchProjectByUserAndStatus" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from ich_project
+    where status != 1
+    <if test="params.userId != null" >
+      and  last_editor_id = #{params.userId,jdbcType=BIGINT}
+    </if>
+    <if test="params.status != null" >
+      and  status = #{params.status,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="selectIchProjectCountByUserAndStatus" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from ich_project
+    where  status != 1
+    <if test="params.userId != null" >
+      and  last_editor_id = #{params.userId,jdbcType=BIGINT}
+    </if>
+    <if test="params.status != null" >
+      and  status = #{params.status,jdbcType=INTEGER}
+    </if>
+  </select>
 </mapper>

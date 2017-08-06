@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://diich.efeiyi.com" />
+<#assign caturi="http://47.95.32.236" />
     <meta charset="UTF-8">
     <title id="title">
     <#if (obj.contentFragmentList?size>0)>
@@ -158,7 +158,7 @@
                                     </#if>
                                 </#list>
                          </#if>
-                    </h2><a href="../page/ichProForm.html?pid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
+                    </h2><a href="http://47.95.32.236/page/ichProForm.html?pid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
                     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 2>
@@ -726,7 +726,7 @@
         //去掉头部标记
         $(".header .content .nav li").eq(0).removeClass("active");
         //给logo加首页链接
-        $('.logo').attr('href','http://diich.efeiyi.com/page/index.html');
+        $('.logo').attr('href','${caturi}/page/index.html');
 
     });
 
