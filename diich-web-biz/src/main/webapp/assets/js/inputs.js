@@ -170,11 +170,7 @@ var selectArea={
                     selected.append('<li><span>'+data+'<i class="icon"></i></span></li>');
                 }
 
-
             }
-
-
-
         });
         //删除选中的数据
         selected.on('click','.icon',function () {
@@ -960,22 +956,5 @@ var inheritorPage={
         }
     }
 };
-var tipBox={
-    init:function (type,text,speed) {
-        this.template(type,text,speed);
-    },
-    template:function (type,text,speed) {
-        var html='<div class="tipbox '+type+'" style="display: none;">' +
-            '        <div class="head">提示</div>' +
-            '        <div class="content">' +
-            '            <i class="icon"></i><span>'+text+'</span>' +
-            '        </div>' +
-            '    </div>';
-        $('body').append(html);
-        $('.tipbox').fadeIn(300);
-        setTimeout(function () {
-            $('.tipbox').fadeOut(300).remove();
-        },speed)
-    }
-};
+
 
