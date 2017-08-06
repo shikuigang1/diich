@@ -28,7 +28,7 @@
                         <span class="text">上传题图</span>
                     </div>
                     <div class="tips">建议比例：x*x，不符合的图片将进行裁剪；格式：jpg\png</div>
-
+                    <div class="errors" style="display: none"><i></i>请上传题图</div>
                 </div>
             </div>
             <!--//End 题图-->
@@ -45,7 +45,7 @@
             </div>
             <!--//End 地域-->
             <div class="group inheritor">
-                <label class="label" for=""><em>*</em>是否为自己申报传承人</label>
+                <label class="label" for="">是否为中国文化部认定的非遗项目</label>
                 <div class="control">
                     <span class="radio"><i></i><input type="radio" name="authenticated" value="1">是</span>
                     <span class="radio active"><i></i><input type="radio" name="authenticated" value="0">否</span>
@@ -71,7 +71,7 @@
                     </div>
                 </div>
                 <div class="group">
-                    <label class="label" for=""><em>*</em>认证编号</label>
+                    <label class="label" for=""><em>*</em>项目代码</label>
                     <div class="control">
                         <input class="ipt w310" value="" name="time" id="certCode">
                         <div class="errors" style="display: none"><i></i>请填写认证编号</div>
@@ -85,7 +85,7 @@
                 <label class="label"><em>*</em>简介</label>
                 <div class="control">
                     <textarea name="" id="summary" cols="30" rows="10"></textarea>
-                    <div class="errors" style="display: none"><i></i>请填写简写</div>
+                    <div class="errors" style="display: none"><i></i>简介字符长度在20-200之间！</div>
                 </div>
             </div>
             <!--//End 简介-->
@@ -93,7 +93,7 @@
                 <label class="label"><em>*</em>拼音</label>
                 <div class="control">
                     <input type="text" id="pinyin" class="ipt w562">
-                    <div class="errors" style="display: none"><i></i>请填写拼音</div>
+                    <div class="errors" style="display: none"><i></i>请填入正确格式的拼音且长度在1-50之间</div>
                 </div>
             </div>
             <!--//End 拼音-->
@@ -101,7 +101,7 @@
                 <label class="label"><em>*</em>英文名</label>
                 <div class="control">
                     <input type="text" class="ipt w562" id="engName">
-                    <div class="errors" style="display: none"><i></i>请填写英文名</div>
+                    <div class="errors" style="display: none"><i></i>请填入正确格式的英文名且长度在1-50之间</div>
                 </div>
             </div>
             <!--//End 英文名-->
