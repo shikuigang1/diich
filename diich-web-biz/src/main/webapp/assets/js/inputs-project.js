@@ -1,5 +1,5 @@
 //添加项目相关内容
-
+var attributeData=[];
 //页面渲染
 function renderpage(){
 
@@ -25,7 +25,7 @@ function  initCertRank() {
     }else{
         selectList = getDictionaryArrayByType(103,'eng');
     }
-    console.log(selectList);
+    //console.log(selectList);
     for(var i=0;i<selectList.length;i++) {
         $("#certselect").append("<option value='"+selectList[i].code+"'>"+selectList[i].name+"</option>");
     }
@@ -85,6 +85,7 @@ function loadPageData(targetType,categoryId) {
             console.log(result);
             if(result.code==0){
                 data = result;
+                attributeData = result.data ;
             }
         },
         error: function (result, status) {
@@ -148,6 +149,14 @@ function  saveCustom(next) {
     contentFragment.attributeId=0;
     contentFragment.targetType=0;
 
+    var attrName = $("#attrName").val().trim();
+    if(attrName.length<1 || attrName.length>50){
+        $("#attrName").next().show();
+        return false;
+    }else{
+        $("#attrName").next().hide();
+    }
+
     attr.dataType=5;//短字段
     attr.cnName=$("#attrName").val();
     attr.id=0;
@@ -169,7 +178,7 @@ function  saveCustom(next) {
     contentFragment.attribute=attr;
     contentFragment.targetId=getCurrentProject().id;
 
-    console.log(JSON.stringify(contentFragment));
+   // console.log(JSON.stringify(contentFragment));
     $.ajax({
         type: "POST",
         url: "../contentFragment/saveContentFragment",
@@ -231,6 +240,7 @@ function init3(targetID) {
             console.log(result);
             if(result.code==0){
                 $("#menu3").empty();
+
                 $.each(result.data,function (index,obj) {
                     if(getLang()=="zh-CN"){
                         $("#menu3").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon selected\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
@@ -360,21 +370,37 @@ function delContentFragmentLocal(attrId){
 
 
 function  saveContentPragment(attrid) {
+    //验证数据
+    var flag = false;
+      $.each(attributeData,function (index,obj) {
+            if(obj.id == attrid){
+                if(obj.minLength>0 && $("#longContent").val().trim().length>0){
+                    flag=true;
+                }
+            }
+      });
+
+    if(!flag){
+        $("#longContent").next().show();
+        return false;
+    }
+
     //先通过 attributeID 在本地寻找是否有相应的 内容片断
     var contentFragment = getContentFragmentByID(attrid);
-
     if (typeof(contentFragment) == "undefined" || contentFragment== null){
         contentFragment={};
     }
     //在页面 获取数据 封装数据
 
-    if($("#longContent").val().trim()==''){
+    if($("#longContent").val().trim()=='' || $("#longContent").val().trim().length<50){
 
         $("#longContent").next().show();
         return false;
     }
+
+
     contentFragment.attributeId=attrid;
-    contentFragment.content=$("#longContent").val();
+    contentFragment.content=$("#longContent").val().trim();
     contentFragment.targetType=0;
 
     var resource={};
@@ -445,7 +471,7 @@ function  saveContentPragment(attrid) {
         async:false,
         complete: function () { },
         success: function (result) {
-            console.log(result);
+           // console.log(result);
             if(result.code==0){
                    /* var ich = getCurrentProject();
 
@@ -481,8 +507,26 @@ function  saveContentPragment(attrid) {
                             html+="<div class=\"buttons\"> <a href=\"javascript:addCustom()\">增加自定义项</a> <a href=\"javascript:submitCheck()\">提交审核</a></div></div>";
 
                         $("#tpl").append(html);
-
                     }
+                    //判断开启提交按钮
+
+                var opencheck = false;
+                $.each(result.data.contentFragmentList,function (index,obj) {
+
+                    if(obj.attributeId== 40 && obj.content != null && obj.content.length>0){
+                        opencheck= true;
+                    }
+
+                });
+
+                if(opencheck){
+                    $(".handle").find('a').eq(2).removeClass('disabled').addClass('empty');
+                }else{
+                    $(".handle").find('a').eq(2).removeClass('empty').addClass('disabled');
+                }
+
+
+
             }else{
                 alert("保存失败");
             }
@@ -540,7 +584,7 @@ function saveIchProject(page) {
         var contentFragment={};
 
         contentFragment.attributeId=9;//简介
-        contentFragment.content=$("#summary").val();
+        contentFragment.content=$("#summary").val().trim();
         contentFragment.targetType=0;
         //attr.dataType=1;//长文本
         contentFragment.targetType=0;
@@ -548,7 +592,7 @@ function saveIchProject(page) {
         contentFragmentList.push(cloneObj(contentFragment));
         contentFragment={};
         contentFragment.attributeId=6;//拼音
-        contentFragment.content=$("#pinyin").val();
+        contentFragment.content=$("#pinyin").val().trim();
         //attr.dataType=0;//短文本
         contentFragment.targetType=0;
         //contentFragment.attribute=attr;
@@ -556,7 +600,7 @@ function saveIchProject(page) {
         contentFragment={};
 
         contentFragment.attributeId=5;//英文名
-        contentFragment.content=$("#engName").val();
+        contentFragment.content=$("#engName").val().trim();
         //attr.dataType=0;//短文本
         contentFragment.targetType=0;
 
@@ -565,7 +609,7 @@ function saveIchProject(page) {
         contentFragment={};
 
         contentFragment.attributeId=4;//中文名
-        contentFragment.content=$("#chiName").val();//中文名
+        contentFragment.content=$("#chiName").val().trim();//中文名
         contentFragment.targetType=0;
         //attr.dataType=0;
         //contentFragment.attribute=attr;
@@ -573,16 +617,57 @@ function saveIchProject(page) {
         contentFragment={};
         //判断是否 为已经认证项目
 
+       /* //初始化长字段
+        contentFragment.attributeId=34;//中文名
+        contentFragment.content=null
+        contentFragment.targetType=0;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+        contentFragment.attributeId=35;//中文名
+        contentFragment.content=null
+        contentFragment.targetType=0;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+        contentFragment.attributeId=36;//中文名
+        contentFragment.content=null
+        contentFragment.targetType=0;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+        contentFragment.attributeId=37;//中文名
+        contentFragment.content=null
+        contentFragment.targetType=0;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+        contentFragment.attributeId=38;//中文名
+        contentFragment.content=null
+        contentFragment.targetType=0;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+        contentFragment.attributeId=39;//中文名
+        contentFragment.content=null
+        contentFragment.targetType=0;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+        contentFragment.attributeId=40;//中文名
+        contentFragment.content=null
+        contentFragment.targetType=0;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+*/
+
+
+
+
         var val=$("input:radio[name='authenticated']:checked").val();
 
         if(typeof (val)=='undefined'){
-            alert("请选择是否已认证！"); return false;
+            //alert("请选择是否已认证！"); return false;
         }
 
         if(val=="1"){
 
             contentFragment.attributeId=116;//认证时间
-            contentFragment.content=$("#ECalendar_date").val();
+            contentFragment.content=$("#ECalendar_date").val().trim();
             //attr.dataType=0;//短文本
             contentFragment.targetType=0;
 
@@ -591,14 +676,14 @@ function saveIchProject(page) {
             contentFragment={};
 
             contentFragment.attributeId=41;//认证级别
-            contentFragment.content=$("#certselect").val();
+            contentFragment.content=$("#certselect").val().trim();
             //attr.dataType=103;//字典码
             contentFragment.targetType=0;
             //contentFragment.attribute=attr;
             contentFragmentList.push(cloneObj(contentFragment));
             contentFragment={};
             contentFragment.attributeId=108;//认证编号
-            contentFragment.content=$("#certCode").val();
+            contentFragment.content=$("#certCode").val().trim();
            // attr.dataType=0;//短文本
             contentFragment.targetType=0;
             //contentFragment.attribute=attr;
@@ -609,7 +694,7 @@ function saveIchProject(page) {
        var flag = 0;
        $.each(contentFragmentList,function (index,obj) {
             flag = 0;
-           if(typeof (ich.contentFragmentList)!="undefined" || ich.contentFragmentList.length>0){
+           if(typeof (ich.contentFragmentList)!="undefined" && ich.contentFragmentList.length>0){
                $.each(ich.contentFragmentList,function (idx,o) {
                    if(obj.attributeId == o.attributeId){
                        flag = 1;
@@ -636,9 +721,10 @@ function saveIchProject(page) {
            }
        });
        // ich.contentFragmentList=contentFragmentList;
-        ich.status=2;
+       // ich.status=2;
         localStorage.setItem("ichProject",JSON.stringify(ich));
-        console.log(JSON.stringify(ich));
+        ///console.log(JSON.stringify(ich));
+
         if(!vaidateForm(ich)){
             return ;
         }
@@ -655,6 +741,10 @@ function saveIchProject(page) {
             console.log(JSON.stringify(result));
             if(result.code==0){
                 //存储本地
+                //
+                if(page == 1){
+                    tipBox.init("success","保存成功",1500);
+                }
                 localStorage.setItem("ichProject",JSON.stringify(result.data));
                 //跳下一步操作
                 if(page==0){
@@ -666,9 +756,30 @@ function saveIchProject(page) {
                     $('div[data-type=proBaseInfo]').removeClass("selected");
                     $('div[data-type=proBaseInfo]').find("i").addClass('selected');
                 }
+
+            //提交按钮开启
+                var opencheck = false;
+              $.each(result.data.contentFragmentList,function (index,obj) {
+
+                  if(obj.attributeId== 40 && obj.content != null && obj.content.length>0){
+                      opencheck= true;
+                  }
+                  
+              });
+
+              if(opencheck){
+                  $(".handle").find('a').eq(2).removeClass('disabled').addClass('empty');
+              }else{
+                  $(".handle").find('a').eq(2).removeClass('empty').addClass('disabled');
+              }
+
+
+            }else if(result.code==3){
+                //tipBox.init("fail",result.msg,1500);
+                $('.header .content .info li.login').click();
+            }else {
+                //tipBox.init("fail",result.msg,1500);
             }
-            //提交按钮开启 默认 只要保存基本信息 就可以提交
-            $(".handle").find('a').eq(2).removeClass('disabled').addClass('empty');
         },
         error: function (result, status) {
         }
@@ -689,52 +800,108 @@ function getCurrentProject(){
 //表单验证
 function vaidateForm(ich) {
 
+    var flag = true;
     if(ich.ichCategoryId == null || typeof (ich.ichCategoryId) == "undefined"){
        $("div[data-type=selectCate]").next().show();
+    }else{
+        $("div[data-type=selectCate]").next().hide();
     }
     var val=$("input:radio[name='authenticated']:checked").val();
 
+    var isImage=false;
+    var patten=/^[a-zA-Z \s]{2,20}$/;
     $.each(ich.contentFragmentList,function (index,obj) {
-        if(obj.attributeId==9 && obj.content==""){
+        console.log(JSON.stringify(obj));
+
+        if(obj.attributeId==9 && (obj.content.length<20 || obj.content.length>200)){
             $("#summary").next().show();
             $("#summary").focus();
-            return false;
+            flag = false;
+        }
+        else if(obj.attributeId==9){
+            $("#summary").next().hide();
+        }
+
+        if(obj.attributeId==1){
+            isImage = true;
         }
 
         if(obj.attributeId==33 && obj.content==""){
-            $("#select").next().show();
-            return false;
+            $("#area").next().show();
+            flag = false;
+            //return false;
+        }else if(obj.attributeId==33){
+            $("#area").next().hide();
         }
 
-        if(obj.attributeId==6 && obj.content==""){
+        if(obj.attributeId==6 && (obj.content.length<1 || obj.content.length>50)){
             $("#pinyin").next().show();
-            return false;
+            $("#pinyin").focus();
+            flag = false;
+            //return false;
+        }else if(obj.attributeId==6){
+
+            if( !patten.test( obj.content)){
+                flag = false;
+                $("#pinyin").next().show();
+                $("#pinyin").focus();
+            }else{
+                $("#pinyin").next().hide();
+            }
+
         }
 
-        if(obj.attributeId==5 && obj.content==""){
+        if(obj.attributeId==5 && (obj.content.length<1 || obj.content.length>50)){
             $("#engName").next().show();
-            return false;
+            $("#engName").focus();
+            flag = false;
+           // return false;
+        }else if(obj.attributeId==5){
+
+            if(!patten.test( obj.content)){
+                flag = false;
+                $("#engName").next().show();
+                $("#engName").focus();
+            }else{
+                $("#engName").next().hide();
+            }
         }
 
         if(val=="1"){
-
             if(obj.attributeId==116 && obj.content==""){
-                $("#ECalendar_date").next().show();
-                return false;
+                //$("#ECalendar_date").next().show();
+                flag = false;
+                //return false;
             }
 
             if(obj.attributeId==41 && obj.content==""){
                 $("#certselect").next().show();
-                return false;
+                flag = false;
+                //return false;
+            }else if(obj.attributeId==41){
+                $("#certselect").next().hide();
             }
 
             if(obj.attributeId==108 && obj.content==""){
                 $("#certCode").next().show();
-                return false;
+                flag = false;
+                //return false;
+            }else if(obj.attributeId==108){
+                $("#certCode").next().hide();
             }
 
         }
     });
+
+
+
+    if(!isImage){
+        $(".tips").next().show();
+        flag = false;
+    }else{
+        $(".tips").next().hide();
+    }
+    return flag;
 }
 function  initProjectView(ich) {
     if(ich.ichCategoryId == null || typeof (ich.ichCategoryId) == "undefined"){
@@ -790,9 +957,11 @@ function addCustom(){
     $('div[data-type=longFieldCustom]').click();
 }
 function submitCheck() {
+
     var ich = getCurrentProject();
     ich.status=3;
 
+    //验证是否可以提交
     $.ajax({
         type: "POST",
         url: "../ichProject/saveIchProject",
@@ -821,10 +990,10 @@ function ichProjectpreview(){
         async:false,
         complete: function () { },
         success: function (result) {
-            console.log(JSON.stringify(result));
+            //console.log(JSON.stringify(result));
             if(result.code==0){
                 //存储本地
-                location.href="../page/"+ich.id+".html";
+                location.href="../tmp/"+ich.id+".html";
             }
         },
         error: function (result, status) {

@@ -12,6 +12,7 @@ var upload={
         return _parent;
     },
     submit:function (obj,type,url,callback) {
+
         var _this=this;
         $(obj).append(this.template(type,url));
         $(document).on('change','.file',function () {
@@ -319,7 +320,7 @@ var projectPage={
             {value:11,name:'表演艺术'},
             {value:28,name:'传统手工艺技能'},
             {value:55,name:'社会风俗、礼仪、节庆'},
-            {value:77,name:'有关自然界和宇宙的知识的实践'}
+            {value:77,name:'有关自然界和宇宙知识的实践'}
         ];
         this.selectCate.init('div[data-type=selectCate]',_data); //选择分类
         this.declare();  //是否为自己申报传承人
@@ -413,7 +414,11 @@ var projectPage={
                              /*  if(str.indexOf("-") != -1){
                                    str=str.split("-")[0];
                                }*/
-                                $('div[data-type=selectCate]').text(str);
+
+                                if(str != "非遗项目"){
+                                    $('div[data-type=selectCate]').text(str);
+                                }
+
                                 //判断分类按钮是否可以编辑
                                 if(localStorage.getItem("action")=='update'&& getCurrentProject().ichCategoryId !=null ){
                                     $('div[data-type=selectCate]').before('<div style="width: 100%;float:left;background:#fff;border: 0;z-index:2;">'+str+'</div>');
@@ -483,12 +488,57 @@ var projectPage={
             //点击子分类
             dd.on('click','li',function () {
                 if(!validateIchID()){
-                    tipBox.init('fail',"请先添加基础信息");
+                    tipBox.init('fail',"请先添加基础信息",1500);
                      return false;
                 }
+                //验证
+                var ich = getCurrentProject();
+                var attrid=$(this).children("span").first().attr('data-id');
+                var nextFlag = false;
+                var init = false;
+                        $.each(ich.contentFragmentList,function (index,o) {
+
+                                if(33<attrid  &&  attrid<41 && 33<o.attributeId && o.attributeId<41){
+
+                                    if(o.attributeId < attrid && (o.content == ''|| o.content==null)){
+                                        nextFlag = true;
+                                        return false;
+                                    }
+
+                                }else{
+
+
+                                    if(o.attributeId >34 && attrid<41 && (o.content == ''|| o.content==null)){
+                                        nextFlag = true;
+                                        return false;
+                                    }
+
+                                }
+
+                        });
+                 //判断是否初始化数据
+
+                $.each(ich.contentFragmentList,function (index,o) {
+                        if(o.attributeId >33 && o.attributeId<41){
+                            init= true;
+                        }
+                });
+
+                if(!init){
+                    nextFlag = true;
+                }
+
+                 if(attrid== 34 ){
+                     nextFlag = false;
+                 }
+                if(nextFlag){
+                    tipBox.init('fail',"请先添加必填数据",1500);
+                    return false;
+                }
+
                 var _dateType=$(this).attr('data-type');
                 var name = $(this).children("span").first().text();
-                var attrid=$(this).children("span").first().attr('data-id');
+
                 var targetType=$(this).attr('target-type');
 
                 //移除其他选中状态
@@ -665,6 +715,7 @@ var projectPage={
         });
     },
     uploadImgage:function () {//上传图片
+
         var el=$('.horizontal .group .control .file_up');
         upload.submit(el,1,'/user/uploadFile?type=project',function (data) {
             console.log(data);
