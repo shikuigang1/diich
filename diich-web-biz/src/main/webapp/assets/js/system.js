@@ -952,6 +952,7 @@ var cloneObj = function (obj) {
     }
     return newObj;
 };
+
 var tipBox={
     init:function (type,text,speed) {
         this.template(type,text,speed);
@@ -970,3 +971,5 @@ var tipBox={
         },speed)
     }
 };
+
+
