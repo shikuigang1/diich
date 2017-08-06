@@ -13,8 +13,8 @@
             <div class="group inheritor">
                 <label class="label" for=""><em>*</em>是否为自己申报传承人</label>
                 <div class="control">
-                    <span name="isApply_0" class="radio {{expr '0' pageObj.isMaster op='==' true='active' false=''}}"><i></i><input type="radio" name="">是</span>
-                    <span name="isApply_1" class="radio {{expr '1' pageObj.isMaster op='==' true='active' false=''}}"><i></i><input type="radio" name="">否</span>
+                    <span name="isApply_1" class="radio {{expr '1' pageObj.isMaster op='==' true='active' false=''}}"><i></i><input type="radio" name="">是</span>
+                    <span name="isApply_0" class="radio {{expr '0' pageObj.isMaster op='==' true='active' false=''}}"><i></i><input type="radio" name="">否</span>
                     <div id="isApply_err" class="errors" style="display: none" ><i></i>请选择是否为自己申报传承人</div>
                 </div>
             </div>

@@ -939,7 +939,7 @@ var inheritorPage={
         //模版
         function templateItem(str) {
             var templ='<div class="item">' +
-                '<img src="'+str+'" alt="">' +
+                '<img src="' + str + '" alt="">' +
                 '<input type="text" name="text" placeholder="请输入标题">' +
                 '</div>';
             return templ;

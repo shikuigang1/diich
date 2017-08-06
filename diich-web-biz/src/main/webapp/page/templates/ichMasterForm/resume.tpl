@@ -26,10 +26,10 @@
                             <span class="icon"><i></i></span>
                             <span>添加图片</span>
                         </div>
-                       <!-- <div class="add file_up" style="margin-right:0;">
+                        <div class="add file_up" style="margin-right:0;">
                             <span class="icon icon2"><i></i></span>
                             <span>添加视频</span>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </form>

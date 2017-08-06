@@ -2775,7 +2775,7 @@ Handlebars.template = Handlebars.VM.template;
         function gl(arr, code) {
             $.each(arr, function(i, v) {
                 if(v.code == code || v.id == code) {
-                    addText = v.name + addText;
+                    addText = v.name != "全球" ? v.name + addText : "";
                     if(parentId == "") {
                         parentId = v.parent_id ? v.parent_id : "";
                     } else {

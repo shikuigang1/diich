@@ -438,11 +438,15 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     }
     // 页面构建参数所需参数数据
     var targetId = pageObj.hasOwnProperty("contentFragmentList") ? pageObj.id : ""; // 传承人ID 用于判断是否是一个人申请的
-    var isMaster = "0"; // 是否为自己申报传承人 0否 1是 默认 否
+    var isMaster = "0";// 是否为自己申报传承人 0否 1是 默认 否
+    if(pageObj.hasOwnProperty("contentFragmentList")) {
+        pageObj.isMaster = pageObj.userId ? 1 : 0;
+        isMaster = isMaster;
+    }
     var ossPash = "http://diich-resource.oss-cn-beijing.aliyuncs.com/image/master/"; // oss图片地址存放地址
     var imgUrl = ""; // 基础信息模板图片url
     var addressCode = ""; // 联系方式信息模板居住地址code值
-
+    var saveSuccessText = "保存成功";
     /**
      * 处理化数据
      * @param dicArrCity
@@ -450,31 +454,34 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     function init(dicArrCity) {
         // 获取浏览器url参数mid
         var mid = getQueryString("mid");
-        console.log("获取的浏览器参数为 --  >", mid);
         if(mid != null) {
             onRequest("GET", "/ichMaster/getIchMasterById", {params:mid}).then(function(result) {
-                console.log("result === >", result,  JSON.stringify(result.res.data));
+                console.log(result)
                 // 处理用户未登录
                 if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                     _onMergeObj(result.res.data);
                 } else {
-                    console.log(result.res.code, result.res.msg);
+                    tipBox.init("fail", result.res.msg, 1500);
                 }
             }).then(function() {
+                targetId = pageObj.hasOwnProperty("contentFragmentList") ? pageObj.id : "";
+                pageObj.isMaster = pageObj.userId ? 1 : 0
+                isMaster = isMaster;
                 // 加载其他模块
-                _onInitLoad();
+                _onInitLoad(dicArrCity);
             })
         } else {
             // 加载其他模块
-            _onInitLoad();
+            _onInitLoad(dicArrCity);
         }
+        //_onInitLoad(dicArrCity);
     }
 
     /**
      * 初始化需要加载的
      * @private
      */
-    function _onInitLoad() {
+    function _onInitLoad(dicArrCity) {
         getBasic(dicArrCity);// 初始化第一个呈现页面为基础信息页面
         menusOne(); // 一级菜单监听
         menusTwo(dicArrCity); // 二级菜单监听
@@ -482,6 +489,15 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         _onSubmit(); // 全局提交操作
         _onYesMenu(); // 初始化验证哪些填写项已完成
         buildCustom(); // 初始化构建自定义菜单项
+        _onPreview(); // 预览
+    }
+
+    /**
+     * 预览
+     * @private
+     */
+    function _onPreview() {
+        tipBox.init("fail", "次功能暂未开通", 1500);
     }
 
     /**
@@ -505,17 +521,19 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     console.log("result === >", result,  JSON.stringify(result.res.data));
                     // 处理用户未登录
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                        alert("提交成功");
+                        //alert("提交成功");
+                        window.location.href = "ichMasterOver.html"; // 跳转成功页面
                         _bindingSave(); // 重新绑定
                     } else {
-                        console.log(result.res.code, result.res.msg);
+                        tipBox.init("fail", result.res.msg, 1500);
                         _bindingSave(); // 重新绑定
                     }
                 });
             } else {
                 _bindingSave(); // 重新绑定
-                alert("当前不可以提交");
+                tipBox.init("fail", "当前不可以提交", 1500);
             }
+
         }
     }
 
@@ -601,13 +619,15 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
                         _onMergeObj(result.res.data);
+                        tipBox.init("success", saveSuccessText, 1500);
                         _bindingSave();
                     } else {
+                        tipBox.init("fail", result.res.msg, 1500);
                         _bindingSave();
                     }
                 });
             } else {
-                alert("当前页面不可保存");
+                tipBox.init("fail", "当前页面不可保存", 1500);
                 _bindingSave();
             }
         }
@@ -855,6 +875,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         $("#" + menu_1 + menuNum.toString()).trigger("click");
                         _bindingSave();
                     } else {
+                        tipBox.init("fail", result.res.msg , 1500);
                         _bindingSave();
                     }
                 });
@@ -905,8 +926,8 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         _onSubmitMenu();
                         _bindingSave();
                     } else {
+                        tipBox.init("fail", result.res.msg , 1500);
                         _bindingSave();
-                        console.log("失败")
                     }
                 });
             } else {
@@ -941,6 +962,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         _bindingDelete();
                     } else {
+                        tipBox.init("fail", result.res.msg , 1500);
                         _bindingDelete();
                     }
                 })
@@ -1030,7 +1052,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         _onSubmitMenu();
                         _bindingSave();
                     } else {
-                        console.log(result.res.code, result.res.msg);
+                        tipBox.init("fail", result.res.msg , 1500);
                         _bindingSave();
                     }
                 });
@@ -1091,7 +1113,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         _onSubmitMenu();
                         _bindingSave();
                     } else {
-                        console.log("失败");
+                        tipBox.init("fail", result.res.msg , 1500);
                         _bindingSave();
                     }
                 });
@@ -1135,7 +1157,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         _onSubmitMenu();
                         _bindingSave();
                     } else {
-                        console.log("失败")
+                        tipBox.init("fail", result.res.msg , 1500);
                         _bindingSave();
                     }
                 });
@@ -1179,12 +1201,11 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         _onSubmitMenu();
                         _bindingSave();
                     } else {
-                        console.log("失败");
+                        tipBox.init("fail", result.res.msg , 1500);
                         _bindingSave();
                     }
                 });
             } else {
-                console.log("不可以提交");
                 _bindingSave();
             }
         }
@@ -1214,7 +1235,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     }
                 } else {
                     // 不可以点击
-                    alert("请先完成基本信息项填写")
+                    tipBox.init("fail", "请先完成基本信息项填写" , 1500);
                 }
             } else {
                 // 用户点击的是基本信息模块
@@ -1256,7 +1277,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     _onEffect($this);
                 } else {
                     // 不可以点击
-                    alert("请完成基本信息模块数据的填写")
+                    tipBox.init("fail", "请先完成基本信息项填写" , 1500);
                 }
                 _onEffect($this);
             } else {
@@ -1429,7 +1450,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
 
         // 查看页面中所有的选项是否都填写通过了 通过了则可以提交
         if(fag && fag1) {
-            console.log("可以提交", fag, fag1);
+            //console.log("可以提交", fag, fag1);
             $("#onSend").addClass("empty").removeClass("disabled"); // 更新提交按钮状态为可提交
         }
     }
