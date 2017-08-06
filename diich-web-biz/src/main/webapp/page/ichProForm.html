@@ -129,6 +129,7 @@
         }else{
             localStorage.setItem('action',"update");//添加修改标记状态
             var ich = getIchProByID(pid);
+
             var code="";
             $.each(ich.contentFragmentList,function (idnex,object) {
                 if(object.attributeId==4){//获取用户中文名信息
@@ -175,7 +176,7 @@
 
     var newArr = new Array();
     function getAreaName(code,dic_arr_city) {
-/*
+        /*
         for (var i=0;i<dic_arr_city.length;i++) {
             if(dic_arr_city[i].code == code || dic_arr_city[i].id == code) {
                    return dic_arr_city[i];
