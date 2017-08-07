@@ -25,7 +25,7 @@
                 <span>感谢您对非遗大数据平台的支持！</span>
             </div>
             <div class="buttons">
-                <a class="btn1" href="">申报项目传承人</a>
+                <a class="btn1" href=">申报项目传承人</a>
                 <a class="btn2" href="">个人中心</a>
             </div>
         </div>
@@ -37,7 +37,19 @@
     <script>
         $(function() {
             $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
+            var ich = getCurrentProject();
+            //获取项目中文名
+            var chinaName="";
+
+            $.each(ich.contentFragmentList,function (index,obj) {
+                if(obj.attributeId == 4){
+                    chinaName = obj.content;
+                }
+            });
+
+            $(".btn1").attr("href","../page/ichMasterForm.html?ichProjectId="+ich.id+"&ichProjectName="+chinaName);
         });
+
 
       //  projectPage.init();
     </script>
