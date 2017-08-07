@@ -138,7 +138,7 @@ var loginPage = {
                             <div class="group">
                                 <div class="name"><span>密&nbsp;&nbsp;码</span></div>
                                 <div class="area">
-                                    <input class="ipt"  type="text" name="password" placeholder="请输入密码">
+                                    <input class="ipt"  type="password" name="password" placeholder="请输入密码">
                                     <a class="forget js-to-reset" href="javascript:;">忘记登录密码</a>
                                      <div class="error_txt"></div>
                                 </div>
@@ -264,7 +264,7 @@ var loginPage = {
                             <div class="group">
                                 <div class="name"><span style="font-size:16px;">Password</span></div>
                                 <div class="area">
-                                    <input class="ipt" type="text" name="password" placeholder="Please input a password">
+                                    <input class="ipt" type="password" name="password" placeholder="Please input a password">
                                     <a class="forget js-to-reset" href="javascript:;">Forgot login password</a>
                                     <div class="error_txt"></div>
                                 </div>
@@ -561,4 +561,4 @@ function  resetPass(){
     });
 }
 //系统过滤页面  这些页面 未登录 需要弹出登录窗口
-var filterpage= ['/declare.html','/ichpro.html','/ichProForm.html','/ichProContent.html'];
+var filterpage= ['/declare.html','/ichpro.html','/ichProForm.html','/ichProContent.html', '/ichMasterForm.html'];

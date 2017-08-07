@@ -36,7 +36,7 @@
             <div class="group">
                 <label class="label"><em>*</em>姓名</label>
                 <div class="control">
-                    <input value="{{getContent pageObj.contentFragmentList 13}}" validate="true" check="required chinese" id="cnName" name="cnName" data-id="13" type="text" class="ipt w310">
+                    <input value="{{getContent pageObj.contentFragmentList 13}}" validate="true" check="required chinese length_1_50" id="cnName" name="cnName" data-id="13" type="text" class="ipt w310">
                     <div id="cnName_err" class="errors" style="display: none"><i></i>请填写姓名</div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
             <div class="group">
                 <label class="label"><em>*</em>英文名</label>
                 <div class="control">
-                    <input value="{{getContent pageObj.contentFragmentList 14}}" validate="true" check="required english" id="enName" name="enName" data-id="14" type="text" class="ipt w310">
+                    <input value="{{getContent pageObj.contentFragmentList 14}}" validate="true" check="required english length_1_50" id="enName" name="enName" data-id="14" type="text" class="ipt w310">
                     <div id="enName_err" class="errors" style="display: none"><i></i>请填写英文名</div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
             <div class="group">
                 <label class="label" for=""><em>*</em>拼音</label>
                 <div class="control">
-                    <input value="{{getContent pageObj.contentFragmentList 15}}" validate="true" check="required pinyin" id="py" name="py" data-id="15" type="text" class="ipt w310">
+                    <input value="{{getContent pageObj.contentFragmentList 15}}" validate="true" check="required pinyin length_1_50" id="py" name="py" data-id="15" type="text" class="ipt w310">
                     <div id="py_err" class="errors" style="display: none"><i></i>请填写拼音</div>
                 </div>
             </div>
@@ -112,6 +112,15 @@
                     <input value="{{getContent pageObj.contentFragmentList 128}}" validate="true" check="required idcard" id="zj" name="zj" data-id="128" type="text" class="ipt w310">
                     <div id="zj_err" class="errors" style="display: none"><i></i>请填写证件号码</div>
                 </div>
+            </div>
+            <!--//End 证件号码-->
+
+            <div class="group">
+                <label class="label"><em>*</em>项目ID</label>
+                    <div class="control">
+                        <input value="{{ichProjectId}}" validate="true" check="required" id="ichProjectId" name="ichProjectId" type="text" class="ipt w310">
+                        <div id="zj_err" class="errors" style="display: none"><i></i>请填写证件号码</div>
+                    </div>
             </div>
             <!--//End 证件号码-->
 

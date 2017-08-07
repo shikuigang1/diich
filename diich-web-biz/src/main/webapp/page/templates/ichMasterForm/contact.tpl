@@ -18,7 +18,7 @@
             <div class="group">
                 <label class="label"><em>*</em>手机</label>
                 <div class="control">
-                    <input value="{{getContent pageObj.contentFragmentList 58}}" validate="true" check="required mobile" id="sj" name="sj" data-id="58" type="text" class="ipt w310" placeholder="+86">
+                    <input value="{{getContent pageObj.contentFragmentList 58}}" validate="true" check="required mobile length_11_11" id="sj" name="sj" data-id="58" type="text" class="ipt w310" placeholder="+86">
                     <div id="sj_err" class="errors" style="display: none"><i></i>请填写手机</div>
                 </div>
             </div>
