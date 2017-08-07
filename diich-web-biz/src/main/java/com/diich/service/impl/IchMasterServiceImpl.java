@@ -159,6 +159,12 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             }
             commit(transactionStatus);
         } catch (Exception e) {
+            if( e instanceof ApplicationException) {
+                ApplicationException ae = (ApplicationException) e;
+                if (ae.getCode() == 2) {
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR, ae.getDetailMsg());
+                }
+            }
             rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }

@@ -201,6 +201,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             }
             commit(transactionStatus);
         } catch (Exception e) {
+            if(e instanceof ApplicationException){
+                ApplicationException ae = (ApplicationException) e;
+                if(ae.getCode() == 2){
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR,ae.getDetailMsg());
+                }
+            }
             e.printStackTrace();
             rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
@@ -290,7 +296,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Override
     public IchProject getIchProjectByIdAndIUser(Long id, User user) throws Exception {
         if(user.getType() != null && user.getType() == 0){//是管理员
-            return getIchProject(String.valueOf(id));
+            return getIchProjectById(id);
         }
         List<Version> versionList = versionService.getVersionByLangIdAndTargetType(id, null, 0, 1000);
         if(versionList.size()>0){
