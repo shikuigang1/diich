@@ -1,4 +1,4 @@
- <div class="title">传承人内容</div>
+ <div class="title">自定义内容</div>
     <div class="hint"><i class="dot"></i>标有 <em>*</em> 的为必填项 · 信息越完善，申报成功的几率越高</div>
     <div class="st">
         <h2 class="custom"><input type="text" id="customName" placeholder="请输入自定义项的名称......"></h2>
@@ -17,10 +17,10 @@
                             <span class="icon"><i></i></span>
                             <span>添加图片</span>
                         </div>
-                       <!-- <div class="add file_up" style="margin-right:0;">
+                        <div class="add file_up" style="margin-right:0;">
                             <span class="icon icon2"><i></i></span>
                             <span>添加视频</span>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </form>

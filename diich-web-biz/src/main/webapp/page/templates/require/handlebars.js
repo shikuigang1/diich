@@ -2739,10 +2739,11 @@ Handlebars.template = Handlebars.VM.template;
             if(v.attributeId == menuId) {
                 content = v.content;
                 return;
-            } else if(keys.length == 1){
-                content = v.content;
-                return;
             }
+            //} else if(keys.length == 1){
+            //    content = v.content;
+            //    return;
+            //}
         })
         return content;
     })

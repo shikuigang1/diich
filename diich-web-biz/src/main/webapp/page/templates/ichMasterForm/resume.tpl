@@ -34,7 +34,7 @@
                 </div>
             </form>
         </div>
-        <div id="nr_err" class="prompt" style="display: none"><i></i>此项是必添项，请填写</div>
+        <div id="{{name}}_err" class="prompt" style="display:none"><i></i>此项是必添项，请填写</div>
         <!--//edit End-->
         <div class="buttons">
             <a id="delete_{{name}}_{{getId pageObj.contentFragmentList menuId}}" href="javascript:void(0);">删除此项</a>
