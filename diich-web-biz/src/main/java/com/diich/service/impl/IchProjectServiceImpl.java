@@ -289,7 +289,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     }
     @Override
     public IchProject getIchProjectByIdAndIUser(Long id, User user) throws Exception {
-        if(user.getType() == 0){//是管理员
+        if(user.getType() != null && user.getType() == 0){//是管理员
             return getIchProject(String.valueOf(id));
         }
         List<Version> versionList = versionService.getVersionByLangIdAndTargetType(id, null, 0, 1000);

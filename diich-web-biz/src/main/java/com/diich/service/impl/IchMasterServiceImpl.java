@@ -296,7 +296,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
 
     @Override
     public IchMaster getIchMasterByIdAndUser(Long id, User user) throws Exception {
-        if(user.getType() == 0){//是管理员
+        if(user.getType() != null && user.getType() == 0){//是管理员
             return getIchMasterById(id);
         }
         Version version = new Version();
