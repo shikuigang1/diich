@@ -118,7 +118,7 @@
             <div class="group">
                 <label class="label"><em>*</em>项目ID</label>
                     <div class="control">
-                        <input value="{{ichProjectId}}" validate="true" check="required" id="ichProjectId" name="ichProjectId" type="text" class="ipt w310">
+                        <input value="{{ichProjectId}}" validate="true" check="required" id="ichProjectId" type="text" class="ipt w310">
                         <div id="zj_err" class="errors" style="display: none"><i></i>请填写证件号码</div>
                     </div>
             </div>

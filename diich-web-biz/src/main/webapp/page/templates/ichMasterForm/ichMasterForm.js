@@ -851,13 +851,13 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 var params = getBasicFormData(); // 获取表单数据 构建参数
                 params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 console.log("params -- >", params);
-                //// 发送请求
+                // 发送请求
                 onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
                     console.log("result === >", result,  JSON.stringify(result.res.data));
                     // 处理用户未登录
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
-                       _onMergeObj(result.res.data);
+                        _onMergeObj(result.res.data);
                         // 跳转到下一页面
                         _onNextPage(menu_00, [menu_01]);
                         _onSubmitMenu();

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://47.95.32.236" />
+<#assign caturi="http://diich.efeiyi.com" />
     <meta charset="UTF-8">
     <title id="title">
     <#if (obj.contentFragmentList?size>0)>
@@ -158,7 +158,7 @@
                                     </#if>
                                 </#list>
                          </#if>
-                    </h2><a href="http://47.95.32.236/page/ichProForm.html?pid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
+                    </h2><a href="${caturi}/page/ichProForm.html?pid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
                     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 2>
@@ -166,14 +166,8 @@
                                         <div class="doi_code">
                                             <i class="icon">ID</i>
                                             <span>
-                                            <#if obj.lang == "chi">
-                                                标识码：
-                                            </#if>
-                                             <#if obj.lang == "eng">
-                                                 ID code：
-                                             </#if>
                                             <em id="doi_code" data-id="2" class="data-item">
-                                                ${cf.content}
+                                               ：${cf.content}
                                             </em></span>
                                             <em class="icon"></em>
                                             <div class="drop">
@@ -708,17 +702,17 @@
     $(function() {
 
         //控制header中英文显示
-        <#if obj.version?? && (obj.version.chiId??) && (obj.version.engId??)>
+        <#if obj.version?? && (obj.version.mainVersionId??) && (obj.version.branchVersionId??)>
             <#if obj.lang == "eng">
                 $("#trans").text("该词条中文版");
-                $("#trans").attr('href',${obj.version.chiId?c}+ ".html");
+                $("#trans").attr('href',${obj.version.mainVersionId?c}+ ".html");
             </#if>
             <#if obj.lang == "chi">
                 $("#trans").text("English version");
-                $("#trans").attr('href',${obj.version.engId?c}+ ".html");
+                $("#trans").attr('href',${obj.version.branchVersionId?c}+ ".html");
             </#if>
         </#if>
-        <#if !obj.version?? || (!obj.version.chiId??) || (!obj.version.engId??)>
+        <#if !obj.version?? || (!obj.version.mainVersionId??) || (!obj.version.branchVersionId??)>
                 $("#trans_lang").hide();
         </#if>
 
