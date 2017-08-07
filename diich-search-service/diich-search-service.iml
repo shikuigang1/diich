@@ -45,7 +45,7 @@
     </orderEntry>
     <orderEntry type="library" name="Maven: org.quartz-scheduler:quartz:2.2.3" level="project" />
     <orderEntry type="library" name="Maven: c3p0:c3p0:0.9.1.1" level="project" />
-    <orderEntry type="library" name="Maven: org.mybatis:mybatis:3.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.mybatis:mybatis:3.4.4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.velocity:velocity:1.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:4.3.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-solr:2.1.0.RELEASE" level="project" />
@@ -95,6 +95,7 @@
     <orderEntry type="library" name="Maven: com.aliyun.oss:aliyun-sdk-oss:2.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.4.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.zxing:core:3.3.0" level="project" />
     <orderEntry type="library" name="Maven: org.elasticsearch:elasticsearch:2.3.3" level="project" />
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:5.5.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-backward-codecs:5.5.0" level="project" />

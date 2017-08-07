@@ -24,8 +24,8 @@ public final class Resources {
             synchronized (MESSAGES) {
                 message = MESSAGES.get(locale.getLanguage());
                 if (message == null) {
-                    message = ResourceBundle.getBundle("i18n/messages", locale);
-                    MESSAGES.put(locale.getLanguage(), message);
+                    //message = ResourceBundle.getBundle("i18n/messages", locale);
+                    MESSAGES.put(locale.getLanguage(), null);
                 }
             }
         }

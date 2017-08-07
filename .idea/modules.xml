@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/diich.iml" filepath="$PROJECT_DIR$/diich.iml" />
+      <module fileurl="file://$PROJECT_DIR$/diich-background/diich-background.iml" filepath="$PROJECT_DIR$/diich-background/diich-background.iml" />
       <module fileurl="file://$PROJECT_DIR$/diich-core/diich-core.iml" filepath="$PROJECT_DIR$/diich-core/diich-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/diich-search-service/diich-search-service.iml" filepath="$PROJECT_DIR$/diich-search-service/diich-search-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/diich-web/diich-web.iml" filepath="$PROJECT_DIR$/diich-web/diich-web.iml" />

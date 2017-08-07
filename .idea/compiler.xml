@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="diich-background" />
         <module name="diich-core" />
         <module name="diich-search-service" />
         <module name="diich-web" />
@@ -14,6 +15,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="diich" target="1.5" />
+      <module name="diich-background" target="1.7" />
       <module name="diich-core" target="1.7" />
       <module name="diich-search-service" target="1.8" />
       <module name="diich-web" target="1.7" />

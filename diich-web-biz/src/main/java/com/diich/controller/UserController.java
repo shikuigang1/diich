@@ -177,8 +177,9 @@ public class UserController extends BaseController<User> {
 
         response.setHeader("Access-Control-Allow-Origin", "*");
         String id = request.getParameter("params");
-        String o = (String)jedisHelper.get(id);
-        Object obj = JSON.parse(o);
+        //String o = (String)jedisHelper.get(id);
+        //Object obj = JSON.parse(o);
+        Object obj = WebUtil.getCurrentUser(request);
         if(obj == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
