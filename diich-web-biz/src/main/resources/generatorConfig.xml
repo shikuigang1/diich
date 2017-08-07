@@ -47,7 +47,7 @@
         </javaClientGenerator>
         <!-- 指定数据库表 -->
 
-        <table schema="general" tableName="sec_user"
+        <table schema="general" tableName="search_table"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false" >
             <property name="useActualColumnNames" value="true"/>

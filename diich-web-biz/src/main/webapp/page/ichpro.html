@@ -183,45 +183,47 @@
                 },
                 success: function(res) {
 				var data = res.data;
-				//console.log(data);
-				if(data.length>0){
-					  $("#item1").empty();
-					  $(".step2").hide();
-					  $(".tips").html("您要申报的项目可能已存在，若有符合的项目，请勿重复申报");
-					  var html="";
-					  $.each(data,function(index,item){
-						html+="<li>";
-						if(typeof(item.img)!="undefined"){
-                            html+="<img src=\""+imgserver+"/image/project/"+item.img+"\" alt=\"\">";
-						}else{ 
-							//使用默认图片
-							html+="<img src=\""+defaultheadimg+"\" alt=\"\">";
-						}
-						
-						html+="<div class=\"info\">";
-                          if(typeof (item.name) !="undefined"){
-                              html+="<p class=\"name\"><strong>"+item.name+"</strong><em>ID编码"+item.id+"</em></p>";
-                          }
+				if(res.code== 0){
+                    if(data.length>0){
+                        $("#item1").empty();
+                        $(".step2").hide();
+                        $(".tips").html("您要申报的项目可能已存在，若有符合的项目，请勿重复申报");
+                        var html="";
+                        $.each(data,function(index,item){
+                            html+="<li>";
+                            if(typeof(item.img)!="undefined"){
+                                html+="<img src=\""+imgserver+"/image/project/"+item.img+"\" alt=\"\">";
+                            }else{
+                                //使用默认图片
+                                html+="<img src=\""+defaultheadimg+"\" alt=\"\">";
+                            }
 
-                          if(typeof (item.category) !="undefined"){
-                              html+="<p><strong>类型：</strong><span>"+item.category+"</span></p>";
-                          }
+                            html+="<div class=\"info\">";
+                            if(typeof (item.name) !="undefined"){
+                                html+="<p class=\"name\"><strong>"+item.name+"</strong><em>ID编码"+item.id+"</em></p>";
+                            }
 
-                          if(typeof (item.dis) !="undefined"){
-                              html+="<p><strong>地区：</strong><span>"+item.dis+"</span></p>";
-                          }
-						html+="</div></li>";
-					  
-					  });
-					 
-					  $("#item1").append(html);
-					  $(".step2").show();
-					  $("#item2").show();
-				  }else{
-                    localStorage.removeItem('ichProject');
-                    localStorage.setItem('ichProName',$("#keyword").val());
-                    location.href="../page/ichProForm.html?proName="+$("#keyword").val();
-				  }
+                            if(typeof (item.category) !="undefined"){
+                                html+="<p><strong>类型：</strong><span>"+item.category+"</span></p>";
+                            }
+
+                            if(typeof (item.dis) !="undefined"){
+                                html+="<p><strong>地区：</strong><span>"+item.dis+"</span></p>";
+                            }
+                            html+="</div></li>";
+
+                        });
+
+                        $("#item1").append(html);
+                        $(".step2").show();
+                        $("#item2").show();
+                    }else{
+                        localStorage.removeItem('ichProject');
+                        localStorage.setItem('ichProName',$("#keyword").val());
+                        location.href="../page/ichProForm.html?proName="+$("#keyword").val();
+                    }
+                }
+
                 }
             });
 	

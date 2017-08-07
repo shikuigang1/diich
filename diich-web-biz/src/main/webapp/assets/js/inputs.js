@@ -401,19 +401,8 @@ var projectPage={
                             initCertRank();
                             var ich = getCurrentProject();
                             if(typeof (ich)!= "undefined"){
-                                //填充分类
-                               /* var c_id = ich.ichCategoryId;
-                                var catelist = getCategoryList(0);
-                                var name="";
-                                for(var i=0;i<catelist.length;i++){
-                                    if(catelist[i].id==c_id){
-                                        name = catelist[i].name;
-                                    }
-                                }*/
+
                                var str = getCategoryTextById(ich.ichCategoryId);
-                             /*  if(str.indexOf("-") != -1){
-                                   str=str.split("-")[0];
-                               }*/
 
                                 if(str != "非遗项目"){
                                     $('div[data-type=selectCate]').text(str);
@@ -459,7 +448,7 @@ var projectPage={
                                         $("#certselect").val(obj.content);
                                     }
                                 });
-
+                                //显示选中内容
                                 if(flag==1){
                                     $('.horizontal .group .radio').eq(0).click();
                                 }
@@ -479,7 +468,7 @@ var projectPage={
                             }
                         }
                         if(_dateType == 'longFieldCustom'){
-                            projectPage.uploadImgage();
+                            projectPage.radioImage();
                         }
                     });
                 }
@@ -487,64 +476,32 @@ var projectPage={
 
             //点击子分类
             dd.on('click','li',function () {
+                var attrid=$(this).children("span").first().attr('data-id');
+                var _dateType=$(this).attr('data-type');
+
+                if(!$(this).find('i').eq(0).hasClass('selected') && !saveAndnext ){
+                    return false;
+                }
+
+                saveAndnext=false;
+
                 if(!validateIchID()){
                     tipBox.init('fail',"请先添加基础信息",1500);
                      return false;
                 }
                 //验证
                 var ich = getCurrentProject();
-                var attrid=$(this).children("span").first().attr('data-id');
-                var nextFlag = false;
-                var init = false;
-                        $.each(ich.contentFragmentList,function (index,o) {
 
-                                if(33<attrid  &&  attrid<41 && 33<o.attributeId && o.attributeId<41){
-
-                                    if(o.attributeId < attrid && (o.content == ''|| o.content==null)){
-                                        nextFlag = true;
-                                        return false;
-                                    }
-
-                                }else{
-
-
-                                    if(o.attributeId >34 && attrid<41 && (o.content == ''|| o.content==null)){
-                                        nextFlag = true;
-                                        return false;
-                                    }
-
-                                }
-
-                        });
-                 //判断是否初始化数据
-
-                $.each(ich.contentFragmentList,function (index,o) {
-                        if(o.attributeId >33 && o.attributeId<41){
-                            init= true;
-                        }
-                });
-
-                if(!init){
-                    nextFlag = true;
-                }
-
-                 if(attrid== 34 ){
-                     nextFlag = false;
-                 }
-                if(nextFlag){
-                    tipBox.init('fail',"请先添加必填数据",1500);
-                    return false;
-                }
-
-                var _dateType=$(this).attr('data-type');
                 var name = $(this).children("span").first().text();
-
                 var targetType=$(this).attr('target-type');
-
                 //移除其他选中状态
+                $("#menu").find("li").removeClass('selected');
+                $("#menu2").find("li").removeClass('selected');
+                $("#menu3").find("li").removeClass('selected');
                 $(this).addClass('selected').siblings('li').removeClass('selected');
                 //当前图标选中
                 $(".dt").removeClass("selected");
+
 
                 $('#tpl').load('./Tpl/'+_dateType+'.html',function () {
                     projectPage.bind();

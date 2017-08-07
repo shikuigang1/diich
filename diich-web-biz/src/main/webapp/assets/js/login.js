@@ -488,7 +488,7 @@ function registForm(){
     $.ajax({
         cache: true,
         type: "POST",
-        url: "http://diich.efeiyi.com/user/register",
+        url: "../user/register",
         data: $('#registForm').serialize(),
         dataType: "json",
         async: true,
@@ -538,7 +538,7 @@ function  resetPass(){
     $.ajax({
         cache: true,
         type: "POST",
-        url: "http://diich.efeiyi.com/user/resetPassword",
+        url: "../user/resetPassword",
         data: $('#resetForm').serialize(),
         dataType: "json",
         async: true,

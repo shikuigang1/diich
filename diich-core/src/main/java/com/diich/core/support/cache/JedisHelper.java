@@ -8,11 +8,16 @@ import java.util.Set;
 
 import com.diich.core.support.cache.jedis.Executor;
 import com.diich.core.support.cache.jedis.JedisTemplate;
+import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.alibaba.fastjson.JSON;
 
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.BinaryClient.LIST_POSITION;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.SortingParams;
@@ -21,15 +26,27 @@ import redis.clients.jedis.Tuple;
 /**
  * Redis缓存辅助类
  */
-@Configuration
+@Component
 public class JedisHelper implements CacheManager {
+
+
 	JedisTemplate jedisTemplate;
+
+	@Autowired
+	RedisTemplate redisTemplate;
+
+
+	public void setRedisTemplate(RedisTemplate redisTemplate) {
+		this.redisTemplate = redisTemplate;
+	}
 
 	@Bean
 	public JedisTemplate setJedisTemplate() {
 		jedisTemplate = new JedisTemplate();
 		return jedisTemplate;
 	}
+
+
 
 	public final Object get(final String key) {
 		return jedisTemplate.run(key, new Executor<String>() {
@@ -102,7 +119,7 @@ public class JedisHelper implements CacheManager {
 
 	/**
 	 * 在某个时间点失效
-	 * 
+	 *
 	 * @param key
 	 * @param unixTime
 	 * @return
@@ -1246,10 +1263,12 @@ public class JedisHelper implements CacheManager {
 	}
 
 	public Set<Object> getAll(String pattern) {
-		return null;
+		return  null;
 	}
 
-	public void delAll(String pattern) {
+	public void delAll(final String pattern) {
+		System.out.println(redisTemplate.keys("*").size());
+		return;
 	}
 
 	public boolean setnx(final String key, final Serializable value) {
@@ -1263,4 +1282,7 @@ public class JedisHelper implements CacheManager {
 	public void unlock(String key) {
 		del(key);
 	}
+
+
+
 }

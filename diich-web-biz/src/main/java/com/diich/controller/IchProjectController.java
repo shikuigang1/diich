@@ -185,6 +185,7 @@ public class IchProjectController extends BaseController<IchProject> {
     @ResponseBody
     public Map<String, Object> preview(HttpServletRequest request, HttpServletResponse response) throws Exception{
 
+       // System.out.println("----------------------------:"+request.getServletContext().getRealPath("/"));
         String id = request.getParameter("params");
         if(id == null || "".equals(id)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);

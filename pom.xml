@@ -13,6 +13,7 @@
         <module>diich-search-service</module>
         <module>diich-web</module>
         <module>diich-web-biz</module>
+        <module>diich-background</module>
     </modules>
 
     <properties>

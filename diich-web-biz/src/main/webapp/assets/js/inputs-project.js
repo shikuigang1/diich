@@ -1,5 +1,6 @@
 //添加项目相关内容
 var attributeData=[];
+var saveAndnext=false;
 //页面渲染
 function renderpage(){
 
@@ -140,7 +141,9 @@ function saveandnext() {
 //保存自定义菜单项
 function  saveCustom(next) {
 
-    validateCustom();
+   if(!validateCustom()) {
+       return false;
+   }
 
     var attr={};
     var contentFragment={};
@@ -199,6 +202,7 @@ function  saveCustom(next) {
                     $("#longContent").val("");
                     $("#images").find('.item').remove();
                     //$(".preview").empty();
+
                     $(".ipt_base .slide .item .dd").find('li.active').next().click();
                 }
 
@@ -214,16 +218,18 @@ function  saveCustom(next) {
 function  validateCustom() {
 
   //  alert($("#attrName").val().trim().length);
+
+    var flag = true;
     if($("#attrName").val()==""|| $("#attrName").val().trim().length==0){
         $("#attrName").next().show();
-        return false;
+        flag = false;
     }
 
-    if($("#longContent").val()==""){
+    if($("#longContent").val().trim()=="" || $("#longContent").val().trim().length<50){
         $("#longContent").next().show();
-        return false;
+        flag = false;
     }
-
+    return flag;
 }
 
 //根据项目id 初始化自定义属性列表
@@ -272,7 +278,6 @@ function  delContentFragment(attrId) {
     });
     if(cid==0){
         //清除本地数据
-
         $('li[data-type=longField]').each(function (idx,obj) {
             if($(this).hasClass("selected")){
 
@@ -282,7 +287,6 @@ function  delContentFragment(attrId) {
                 }
             }
         });
-
         init3(ich.id);
         return false;
     }
@@ -347,6 +351,24 @@ function  delContentFragment(attrId) {
                      }
                  });
              }
+             //提交按钮判断
+
+                $.each(ich.contentFragmentList,function (index,obj) {
+
+                    if(obj.attributeId < 41 && 33<obj.attributeId && obj.content != null && obj.content.length>0){
+                        opencheck= true;
+                    }
+
+                });
+
+                if(opencheck){
+                    $(".handle").find('a').eq(2).removeClass('disabled').addClass('empty');
+                }else{
+                    $(".handle").find('a').eq(2).removeClass('empty').addClass('disabled');
+                }
+
+
+
             }else{
                 alert("保存失败");
             }
@@ -374,8 +396,14 @@ function  saveContentPragment(attrid) {
     var flag = false;
       $.each(attributeData,function (index,obj) {
             if(obj.id == attrid){
+
+                if(obj.minLength==null || obj.minLength ==0){
+                    flag = true;
+                    return false;
+                }else
                 if(obj.minLength>0 && $("#longContent").val().trim().length>0){
                     flag=true;
+                    return false;
                 }
             }
       });
@@ -460,7 +488,7 @@ function  saveContentPragment(attrid) {
     }
     //ich.status=2;
     //alert(JSON.stringify(temp));
-    //console.log(JSON.stringify(ich));
+    console.log(JSON.stringify(ich));
     // return false;
     $.ajax({
         type: "POST",
@@ -497,6 +525,7 @@ function  saveContentPragment(attrid) {
                     });
                     if($('li[data-type=longField]').length>index+1){
                         $('li[data-type=longField]').eq(index).find("i").addClass('selected');
+                        saveAndnext = true;
                         $('li[data-type=longField]').eq(index+1).click();
                     }else{
                         //do nothing
@@ -580,14 +609,16 @@ function saveIchProject(page) {
         ich = JSON.parse(ichjsonStr);
         //contentFragmentList = ich.contentFragmentList;
     }
-        //var attr={};//contentFragment 内部属性对象
+
+
+    if(page==0){
         var contentFragment={};
 
         contentFragment.attributeId=9;//简介
         contentFragment.content=$("#summary").val().trim();
         contentFragment.targetType=0;
         //attr.dataType=1;//长文本
-        contentFragment.targetType=0;
+        //contentFragment.targetType=0;
         //contentFragment.attribute=attr;
         contentFragmentList.push(cloneObj(contentFragment));
         contentFragment={};
@@ -615,48 +646,6 @@ function saveIchProject(page) {
         //contentFragment.attribute=attr;
         contentFragmentList.push(cloneObj(contentFragment));
         contentFragment={};
-        //判断是否 为已经认证项目
-
-       /* //初始化长字段
-        contentFragment.attributeId=34;//中文名
-        contentFragment.content=null
-        contentFragment.targetType=0;
-        contentFragmentList.push(cloneObj(contentFragment));
-        contentFragment={};
-        contentFragment.attributeId=35;//中文名
-        contentFragment.content=null
-        contentFragment.targetType=0;
-        contentFragmentList.push(cloneObj(contentFragment));
-        contentFragment={};
-        contentFragment.attributeId=36;//中文名
-        contentFragment.content=null
-        contentFragment.targetType=0;
-        contentFragmentList.push(cloneObj(contentFragment));
-        contentFragment={};
-        contentFragment.attributeId=37;//中文名
-        contentFragment.content=null
-        contentFragment.targetType=0;
-        contentFragmentList.push(cloneObj(contentFragment));
-        contentFragment={};
-        contentFragment.attributeId=38;//中文名
-        contentFragment.content=null
-        contentFragment.targetType=0;
-        contentFragmentList.push(cloneObj(contentFragment));
-        contentFragment={};
-        contentFragment.attributeId=39;//中文名
-        contentFragment.content=null
-        contentFragment.targetType=0;
-        contentFragmentList.push(cloneObj(contentFragment));
-        contentFragment={};
-        contentFragment.attributeId=40;//中文名
-        contentFragment.content=null
-        contentFragment.targetType=0;
-        contentFragmentList.push(cloneObj(contentFragment));
-        contentFragment={};
-*/
-
-
-
 
         var val=$("input:radio[name='authenticated']:checked").val();
 
@@ -671,7 +660,7 @@ function saveIchProject(page) {
             //attr.dataType=0;//短文本
             contentFragment.targetType=0;
 
-           // contentFragment.attribute=attr;
+            // contentFragment.attribute=attr;
             contentFragmentList.push(cloneObj(contentFragment));
             contentFragment={};
 
@@ -684,50 +673,52 @@ function saveIchProject(page) {
             contentFragment={};
             contentFragment.attributeId=108;//认证编号
             contentFragment.content=$("#certCode").val().trim();
-           // attr.dataType=0;//短文本
+            // attr.dataType=0;//短文本
             contentFragment.targetType=0;
             //contentFragment.attribute=attr;
             contentFragmentList.push(cloneObj(contentFragment));
             contentFragment={};
-      }
+        }
         //添加自定义 属性值
-       var flag = 0;
-       $.each(contentFragmentList,function (index,obj) {
+        var flag = 0;
+        $.each(contentFragmentList,function (index,obj) {
             flag = 0;
-           if(typeof (ich.contentFragmentList)!="undefined" && ich.contentFragmentList.length>0){
-               $.each(ich.contentFragmentList,function (idx,o) {
-                   if(obj.attributeId == o.attributeId){
-                       flag = 1;
+            if(typeof (ich.contentFragmentList)!="undefined" && ich.contentFragmentList.length>0){
+                $.each(ich.contentFragmentList,function (idx,o) {
+                    if(obj.attributeId == o.attributeId){
+                        flag = 1;
 
-                       if(obj.attributeId==1){//图片
-                           ich.contentFragmentList[idx].resourceList[0].uri=obj.resourceList[0].uri;
+                        if(obj.attributeId==1){//图片
+                            ich.contentFragmentList[idx].resourceList[0].uri=obj.resourceList[0].uri;
 
-                       }else{
-                           ich.contentFragmentList[idx].content=obj.content;
-                       }
-                   }
-               });
-           }
+                        }else{
+                            ich.contentFragmentList[idx].content=obj.content;
+                        }
+                    }
+                });
+            }
 
-           if(flag == 0){
-               if( typeof (ich.contentFragmentList)=="undefined" || ich.contentFragmentList==null){
+            if(flag == 0){
+                if( typeof (ich.contentFragmentList)=="undefined" || ich.contentFragmentList==null){
                     var temp =[];
                     temp.push(obj);
                     ich.contentFragmentList = temp;
-               }else{
-                   ich.contentFragmentList.push(obj);
+                }else{
+                    ich.contentFragmentList.push(obj);
 
-               }
-           }
-       });
-       // ich.contentFragmentList=contentFragmentList;
-       // ich.status=2;
+                }
+            }
+        });
         localStorage.setItem("ichProject",JSON.stringify(ich));
         ///console.log(JSON.stringify(ich));
 
         if(!vaidateForm(ich)){
             return ;
         }
+
+    }
+
+
 
     //获取本地
   $.ajax({
@@ -751,6 +742,7 @@ function saveIchProject(page) {
                     //当前信息完善
                     $('div[data-type=proBaseInfo]').removeClass("selected");
                     $('div[data-type=proBaseInfo]').find("i").addClass('selected');
+                    saveAndnext = true;
                     $("#menu").find("li")[0].click();
                 }else{
                     $('div[data-type=proBaseInfo]').removeClass("selected");
@@ -809,7 +801,7 @@ function vaidateForm(ich) {
     var val=$("input:radio[name='authenticated']:checked").val();
 
     var isImage=false;
-    var patten=/^[a-zA-Z \s]{2,20}$/;
+    var patten=/^[a-zA-Z \s]{1,20}$/;
     $.each(ich.contentFragmentList,function (index,obj) {
         console.log(JSON.stringify(obj));
 
