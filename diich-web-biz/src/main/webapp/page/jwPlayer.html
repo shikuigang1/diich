@@ -1,0 +1,19 @@
+<html>
+<head>
+	<title>jwPlayer</title>
+	<script src="../js/jwplayer.js"></script>
+</head>
+<body>
+	<div id="player">
+		<script>
+			jwplayer('player').setup({
+				flashplayer: '../js/player.swf',
+				file: 'guardians2.mp4',
+				streamer: 'rtmp://123.57.250.114:1935/oflaDemo',
+				width: 800,
+				height: 600
+			});
+		</script>
+	</div>
+</body>
+</html>
