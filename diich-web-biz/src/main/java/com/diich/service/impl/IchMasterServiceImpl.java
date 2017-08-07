@@ -12,6 +12,7 @@ import com.diich.core.util.BuildHTMLEngine;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
@@ -321,19 +322,45 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     }
 
     @Override
-    public List<IchMaster> getIchMasterByUserId(Long id) throws Exception {
-        List<IchMaster> ichMasterList = null;
+    public Page<IchMaster> getIchMasterByUserId(Map<String, Object> params) throws Exception {
+        Integer current = 1;
+        Integer pageSize = 10;
+        if(params != null && params.containsKey("current")){
+            current = (Integer) params.get("current");
+        }
+        if(params != null && params.containsKey("pageSize")){
+            pageSize = (Integer) params.get("pageSize");
+        }
+        int offset = (current - 1) * pageSize;
+        RowBounds rowBounds = new RowBounds(offset,pageSize);
+        Page<IchMaster> page = new Page();
         try{
-//            List<IchMaster> ichMasterList = ichMasterMapper.selectIchMasterByUserId(id);
-//            for (IchMaster ichMaster:ichMasterList) {
-//                List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
-//                ichMaster.setContentFragmentList(contentFragmentList);
-//            }
-
+            List<IchMaster> ichMasterList = ichMasterMapper.selectIchMasterByUserAndStatus(params,rowBounds);
+            for (IchMaster ichMaster : ichMasterList) {
+                List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);
+                ichMaster.setContentFragmentList(contentFragmentList);
+            }
+            page.setRecords(ichMasterList);
+            int total = ichMasterMapper.selectIchMasterCountByUserAndStatus(params);
+            page.setTotal(total);//查询数量
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-        return ichMasterList;
+        return page;
+    }
+
+    @Override
+    public int deleteIchMaster(long id) throws Exception{
+        int i = -1;
+        try{
+            IchMaster ichMaster = ichMasterMapper.selectMasterById(id);
+            ichMaster.setStatus(1);
+            ichMaster.setLastEditDate(new Date());
+            i = ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return i;
     }
 
     /**
@@ -515,8 +542,8 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             if(contentFragment.getAttributeId() == 0 || contentFragment.getAttributeId() == null){
                 continue;
             }
-            if(attribute.getMaxLength() != null){
-                if(contentFragment.getContent() !=null && contentFragment.getContent().length() > attribute.getMaxLength()){
+            if(attribute.getMaxLength() != null&& (attribute.getId() == contentFragment.getAttributeId())){
+                if(contentFragment.getContent() !=null && contentFragment.getContent().trim().length() > attribute.getMaxLength()){
                     throw  new ApplicationException(ApplicationException.PARAM_ERROR,attribute.getCnName().toString()+" 字段不符合要求");
                 }
             }
@@ -524,7 +551,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 if(contentFragment.getAttributeId() != attribute.getId()){
                     continue;
                 }
-                String content = contentFragment.getContent();
+                String content = contentFragment.getContent().trim();
                 count ++;
                 if(content == null || (content.length() < attribute.getMinLength())){
                     throw new ApplicationException(ApplicationException.PARAM_ERROR,attribute.getCnName().toString()+" 字段不符合要求");

@@ -1,7 +1,6 @@
 package com.diich.core.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.diich.core.base.BaseModel;
 import com.diich.core.model.IchMaster;
 import com.diich.core.model.User;
 import com.diich.core.model.Works;
@@ -39,5 +38,7 @@ public interface IchMasterService {
 
     IchMaster getIchMasterByIdAndUser(Long id , User user) throws Exception;
 
-    List<IchMaster> getIchMasterByUserId(Long id) throws Exception;
+    Page<IchMaster> getIchMasterByUserId(Map<String, Object>  params) throws Exception;
+
+    int deleteIchMaster(long id) throws Exception;
 }

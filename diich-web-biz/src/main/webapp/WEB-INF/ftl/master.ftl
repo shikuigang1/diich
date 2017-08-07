@@ -135,7 +135,7 @@
                     <#list obj.contentFragmentList as cf>
                         <#if cf.attributeId == 13>
                             <#assign mastername = cf.content>
-                        <h2>${cf.content}</h2>
+                        <h2>${cf.content}</h2><a href="http://47.95.32.236/page/ichMasterForm.html?mid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
                         </#if>
                     </#list>
                 </#if>

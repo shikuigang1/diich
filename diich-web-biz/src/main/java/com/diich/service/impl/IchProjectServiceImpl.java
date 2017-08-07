@@ -13,6 +13,7 @@ import com.diich.core.util.FileType;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
@@ -340,15 +341,39 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return uri;
     }
 
+    /**
+     * 个人中心
+     * @param params
+     * @return
+     * @throws Exception
+     */
     @Override
-    public List<IchProject> getIchProjectByUserId(Long id) throws Exception {
-        List<IchProject> ichProjectList = null;
+    public Page<IchProject> getIchProjectByUserId(Map<String, Object> params) throws Exception {
+        Integer current = 1;
+        Integer pageSize = 10;
+        if(params != null && params.containsKey("current")){
+            current = (Integer) params.get("current");
+        }
+        if(params != null && params.containsKey("pageSize")){
+            pageSize = (Integer) params.get("pageSize");
+        }
+        int offset = (current - 1) * pageSize;
+        RowBounds rowBounds = new RowBounds(offset,pageSize);
+        Page<IchProject> page = new Page();
         try{
-
+            List<IchProject> ichProjectList = ichProjectMapper.selectIchProjectByUserAndStatus(params,rowBounds);
+            for (IchProject ichProject : ichProjectList) {
+                List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
+                ichProject.setContentFragmentList(contentFragmentList);
+            }
+            //查询数量
+            int total = ichProjectMapper.selectIchProjectCountByUserAndStatus(params);
+            page.setRecords(ichProjectList);
+            page.setTotal(total);
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-        return ichProjectList;
+        return page;
     }
 
     /**
@@ -422,6 +447,31 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
        }
 
         return result;
+    }
+
+    @Override
+    public void audit(Long id, User user) throws Exception {
+
+    }
+
+    /**
+     * 假删
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public int deleteIchProject(Long id) throws Exception {
+        int i = -1;
+        try{
+            IchProject ichProject = ichProjectMapper.selectIchProjectById(id);
+            ichProject.setStatus(1);
+            ichProject.setLastEditDate(new Date());
+            i = ichProjectMapper.updateByPrimaryKeySelective(ichProject);
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return i;
     }
 
     private List<ContentFragment> getContentFragmentListByProjectId(IchProject ichProject) throws Exception {
@@ -570,8 +620,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             if(contentFragment.getAttributeId() == 0 || contentFragment.getAttributeId() == null){
                 continue;
             }
-            if(attribute.getMaxLength() != null){
-                if(contentFragment.getContent() !=null && contentFragment.getContent().length() > attribute.getMaxLength()){
+            if(attribute.getMaxLength() != null && (attribute.getId() == contentFragment.getAttributeId()) ){
+                if(contentFragment.getContent() !=null && contentFragment.getContent().trim().length() > attribute.getMaxLength()){
                     throw  new ApplicationException(ApplicationException.PARAM_ERROR,attribute.getCnName().toString()+" 字段不符合要求");
                 }
             }
@@ -581,7 +631,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
                 String content = contentFragment.getContent();
                 count ++;
-                if(content == null || (content.length() < attribute.getMinLength())){
+                if(content == null || (content.trim().length() < attribute.getMinLength())){
                     throw new ApplicationException(ApplicationException.PARAM_ERROR,attribute.getCnName().toString()+" 字段不符合要求");
                 }
             }

@@ -175,23 +175,57 @@ public class IchMasterController extends BaseController<IchMaster>{
      * @return
      * @throws Exception
      */
-    @RequestMapping("getIchProjectByUserId")
+    @RequestMapping("getIchMasterByUserId")
     @ResponseBody
-    public Map<String, Object> getIchProjectByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public Map<String, Object> getIchMasterByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        Map<String, Object> params = new HashMap<>();
+        String param = request.getParameter("params");
+        try{
+            if(param !=null){
+                params = JSON.parseObject(param, Map.class);
+            }
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
-        List<IchMaster> ichMasterList = null;
+        params.put("userId",user.getId());
+        Page<IchMaster> page = null;
         try{
-            ichMasterList = ichMasterService.getIchMasterByUserId(user.getId());
+            page = ichMasterService.getIchMasterByUserId(params);
         }catch (Exception e){
             return putDataToMap(e);
         }
 
-        return putDataToMap(ichMasterList);
+        return putDataToMap(page);
+    }
+
+    /**
+     * 假删
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("delete")
+    @ResponseBody
+    public Map<String, Object> delete(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        String id = request.getParameter("params");
+        if(id == null){
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        try{
+            int delete = ichMasterService.deleteIchMaster(Long.parseLong(id));
+        }catch (Exception e){
+            return putDataToMap(e);
+        }
+        return putDataToMap(id);
     }
     @RequestMapping("/getImage")
     public void exportQRCode(HttpServletRequest request, HttpServletResponse response) throws Exception {

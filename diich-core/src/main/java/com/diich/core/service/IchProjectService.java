@@ -28,10 +28,14 @@ public interface IchProjectService {
 
     String preview(Long id) throws Exception;//预览
 
-    List<IchProject> getIchProjectByUserId(Long id) throws Exception;//根据用户id获取用户信息
+    Page<IchProject> getIchProjectByUserId(Map<String, Object> params) throws Exception;//根据用户id获取用户信息
 
     String buildHTML(String templateName, IchProject ichProject,String fileName) throws Exception;
 
     //项目创建 搜索使用  最多显示 5 条数据
     List<Map> getIchProjectByName(Map<String,Object> map) throws Exception;
+
+    void audit(Long id, User user)throws Exception;
+
+    int deleteIchProject(Long id) throws Exception;
 }
