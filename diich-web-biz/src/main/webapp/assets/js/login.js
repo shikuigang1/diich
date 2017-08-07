@@ -561,4 +561,4 @@ function  resetPass(){
     });
 }
 //系统过滤页面  这些页面 未登录 需要弹出登录窗口
-var filterpage= ['/declare.html','/ichpro.html','/ichProForm.html','/ichProContent.html'];
+var filterpage= ['/declare.html','/ichpro.html','/ichProForm.html','/ichProContent.html', '/ichMasterForm.html'];

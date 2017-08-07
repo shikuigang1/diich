@@ -320,7 +320,7 @@ var projectPage={
             {value:11,name:'表演艺术'},
             {value:28,name:'传统手工艺技能'},
             {value:55,name:'社会风俗、礼仪、节庆'},
-            {value:77,name:'有关自然界和宇宙知识的实践'}
+            {value:67,name:'有关自然界和宇宙知识的实践'}
         ];
         this.selectCate.init('div[data-type=selectCate]',_data); //选择分类
         this.declare();  //是否为自己申报传承人
@@ -358,7 +358,7 @@ var projectPage={
                     ich.contentFragmentList.push(contentFragment);
                 }
             }
-            console.log(contentFragment);
+            //console.log(contentFragment);
             localStorage.setItem("ichProject",JSON.stringify(ich));
         });
     },
@@ -948,8 +948,9 @@ var inheritorPage={
         function templateItem(str) {
             // 简单验证稍后更新
             var localhostPaht=window.document.location.href.substring(0,window.document.location.href.indexOf(window.document.location.pathname))
-            var newStr = str;
-            if(str.lastIndexOf(".jpg") < 0) {
+            var newStr = str[0];
+            console.log("---", newStr.lastIndexOf(".jpg"));
+            if(newStr.lastIndexOf(".jpg") < 0) {
                 newStr = localhostPaht + "/assets/images/inputs/play.jpg";
             }
             var templ='<div class="item">' +

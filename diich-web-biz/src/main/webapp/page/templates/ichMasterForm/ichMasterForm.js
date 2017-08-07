@@ -13,392 +13,6 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     "text!ichMasterForm/menu.tpl"], function(customTpl, basicTpl, contactTpl, vocationTpl, resumeTpl, masterTpl, menuTpl) {
 
     var pageObj = {};
-    // 页面回显数据对象
-    //var pageObj = {
-    //    "contentFragmentList": [
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "13",
-    //            "content": "王大山",
-    //            "id": "893393786871242752",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "14",
-    //            "content": "wangdashanYW",
-    //            "id": "893393787064180736",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "15",
-    //            "content": "wangdashaPY",
-    //            "id": "893393787257118720",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "49",
-    //            "content": "CHN",
-    //            "id": "893393787454251008",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "17",
-    //            "content": "汉族",
-    //            "id": "893393787651383296",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "18",
-    //            "content": "2017/07/31",
-    //            "id": "893393787865292800",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "127",
-    //            "content": "0",
-    //            "id": "893393788079202304",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "128",
-    //            "content": "230702198909021410",
-    //            "id": "893393788280528896",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "10",
-    //            "content": "",
-    //            "id": "893393788473466880",
-    //            "resourceList": [
-    //                {
-    //                    "description": "",
-    //                    "id": "893393788565741568",
-    //                    "resOrder": null,
-    //                    "status": "0",
-    //                    "type": "0",
-    //                    "uri": "150183662307520150915164332.jpg"
-    //                }
-    //            ],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "58",
-    //            "content": "18612057290",
-    //            "id": "893394064303480832",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "59",
-    //            "content": "chinazhangtianci@163.com",
-    //            "id": "893394064488030208",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "54",
-    //            "content": "黑龙江伊春",
-    //            "id": "893394064676773888",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "56",
-    //            "content": "100100",
-    //            "id": "893394064882294784",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "55",
-    //            "content": "120102",
-    //            "id": "893394065087815680",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "47",
-    //            "content": "软件开发",
-    //            "id": "893394329731620864",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "48",
-    //            "content": "JAVA工程师",
-    //            "id": "893394329928753152",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "50",
-    //            "content": "nodejs JAVA",
-    //            "id": "893394330104913920",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "24",
-    //            "content": "12年 13年。 啊三段砍啊是的傲视啊三德科技按时来到看家可莱丝的监控了ask来得及卡死的金坷垃圣诞快乐阿里是的卡送到家卡拉胶屎壳郎的进来点击量阿里登录i阿是i",
-    //            "id": "893394330306240512",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "51",
-    //            "content": "简历是们艺术 很找到的请大家知道的",
-    //            "id": "893394548053532672",
-    //            "resourceList": [
-    //                {
-    //                    "description": "这是简历图片",
-    //                    "id": "893394548108058624",
-    //                    "resOrder": null,
-    //                    "status": "0",
-    //                    "type": "0",
-    //                    "uri": "150183682199120151023153449 (1).jpg"
-    //                }
-    //            ],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "119",
-    //            "content": "传承历史与现状。  就是从古代到现在。 在到学医",
-    //            "id": "893394835908616192",
-    //            "resourceList": [
-    //                {
-    //                    "description": " 传承历史与现状图片",
-    //                    "id": "893394836055416832",
-    //                    "resOrder": null,
-    //                    "status": "0",
-    //                    "type": "0",
-    //                    "uri": "150183687050920150915164332.jpg"
-    //                }
-    //            ],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "125",
-    //            "content": "唐僧",
-    //            "id": "893394966108200960",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "126",
-    //            "content": "悟空",
-    //            "id": "893394966322110464",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "115",
-    //            "content": "技能真狠重要， 比如 spring  springmvc 啥啥 一说脑袋就疼",
-    //            "id": "893395205389049856",
-    //            "resourceList": [
-    //                {
-    //                    "description": "技能图片",
-    //                    "id": "893395205460353024",
-    //                    "resOrder": null,
-    //                    "status": "0",
-    //                    "type": "0",
-    //                    "uri": "150183698121320160310180619.jpg"
-    //                }
-    //            ],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "110",
-    //            "content": "个人成就是 你都得到啥奖励。 我啥也没有",
-    //            "id": "893395426575671296",
-    //            "resourceList": [
-    //                {
-    //                    "description": "技能图片",
-    //                    "id": "893395426630197248",
-    //                    "resOrder": null,
-    //                    "status": "0",
-    //                    "type": "0",
-    //                    "uri": "150183703477320160222160452.jpg"
-    //                }
-    //            ],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "21",
-    //            "content": "传承谱系 我还真不知道是啥东西。。。",
-    //            "id": "893395593517359104",
-    //            "resourceList": [
-    //                {
-    //                    "description": "传承谱系图片",
-    //                    "id": "893395593571885056",
-    //                    "resOrder": null,
-    //                    "status": "0",
-    //                    "type": "0",
-    //                    "uri": "150183707523320160421134618.jpg"
-    //                }
-    //            ],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "129",
-    //            "content": "获奖情况，  我得想想。  好像没啥呀a",
-    //            "id": "893395801441591296",
-    //            "resourceList": [
-    //                {
-    //                    "description": "获奖图片",
-    //                    "id": "893395801496117248",
-    //                    "resOrder": null,
-    //                    "status": "0",
-    //                    "type": "0",
-    //                    "uri": "150183712365620151023153449.jpg"
-    //                }
-    //            ],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": null,
-    //            "attributeId": "131",
-    //            "content": "知识产权。 嘎嘎重要",
-    //            "id": "893396158905344000",
-    //            "resourceList": [],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        },
-    //        {
-    //            "attribute": {
-    //                "cnName": "自定义4",
-    //                "dataType": "5",
-    //                "description": "",
-    //                "enName": "",
-    //                "ichCategoryId": null,
-    //                "id": "893409074740224000",
-    //                "isOpen": "1",
-    //                "maxLength": null,
-    //                "minLength": null,
-    //                "priority": "99",
-    //                "seq": null,
-    //                "status": "0",
-    //                "targetId": "893393786741219328",
-    //                "targetType": "11",
-    //                "value": ""
-    //            },
-    //            "attributeId": "893409074740224000",
-    //            "content": "自定义4",
-    //            "id": "893409074937356288",
-    //            "resourceList": [
-    //                {
-    //                    "description": "自定义4",
-    //                    "id": "893409075126099968",
-    //                    "resOrder": null,
-    //                    "status": "0",
-    //                    "type": "0",
-    //                    "uri": "150184027287220151023153449 (1).jpg"
-    //                }
-    //            ],
-    //            "status": "0",
-    //            "targetId": "893393786741219328",
-    //            "targetType": "1"
-    //        }
-    //    ],
-    //    "editRank": null,
-    //    "ichProject": null,
-    //    "ichProjectId": null,
-    //    "id": "893393786741219328",
-    //    "isMaster": "0",
-    //    "lang": "chi",
-    //    "lastEditDate": null,
-    //    "lastEditorId": "1",
-    //    "status": "2",
-    //    "type": "0",
-    //    "uri": "893393786741219328.html",
-    //    "userId": null,
-    //    "worksList": []
-    //}
     console.log("pageObj --- >", pageObj);
     // 菜单ID管理对象
     var menu_0 = "menu_0"; // 一级菜单 基础信息菜单MOD ID
@@ -414,20 +28,21 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     var menu_15 = "menu_15"; // 二级菜单 传承谱系菜单MOD ID
     var menu_16 = "menu_16"; // 二级菜单 获奖情况菜单MOD ID
     var menu_17 = "menu_17"; // 二级菜单 知识产权菜单MOD ID
+    var menu_2 = "menu_2"; // 自定义菜单项
     // 页面填写项ID 集中管理对象
     var arrObj = {
         // 基础信息 一级菜单
         menu_0: {
             menu_00: [10, 13, 14, 15, 49, 17, 18, 127, 128], // 基本信息 attributeId
             menu_01: [58, 59, 55, 54, 56], // 联系方式 attributeId
-            menu_02: [47, 48, 50, 24] // 职业信息 attributeId
+            menu_02: [24] // 职业信息 attributeId
         },
 
         // 传承人内容 一级菜单
         menu_1: {
             menu_10: [51], // 简历 attributeId
             menu_11: [119], // 传承历史与现状 attributeId
-            menu_12: [125, 126], // 师徒 attributeId
+            menu_12: [125], // 师徒 attributeId
             menu_13: [115], // 技能 attributeId
             menu_14: [110], // 个人成就 attributeId
             menu_15: [21], // 传承谱系 attributeId
@@ -437,6 +52,8 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
 
     }
     // 页面构建参数所需参数数据
+    var mid = getQueryString("mid");
+    var ichProjectId = getQueryString("ichProjectId");
     var targetId = pageObj.hasOwnProperty("contentFragmentList") ? pageObj.id : ""; // 传承人ID 用于判断是否是一个人申请的
     var isMaster = "0";// 是否为自己申报传承人 0否 1是 默认 否
     if(pageObj.hasOwnProperty("contentFragmentList")) {
@@ -447,25 +64,138 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     var imgUrl = ""; // 基础信息模板图片url
     var addressCode = ""; // 联系方式信息模板居住地址code值
     var saveSuccessText = "保存成功";
+
+    /**
+     * 统一验证入口
+     */
+    function validate() {
+        var status = true;
+        // 表单验证
+        $("input[validate='true']").each(function (){
+            var _validate = $(this).attr("check"); // 获取check属性值
+            if(_validate) {
+                var arr = _validate.split(" "); // 根据空格将其拆分成数组
+                for(var i = 0; i < arr.length; i++) {
+                    var rules = arr[i].split("_");
+                    // 调用验证方法
+                    if(!check($(this), rules[0], $(this).val(), rules[1], rules[2])) {
+                        status = false; // 有一个为false的 表单都不可以提交
+                    }
+                }
+            }
+        })
+        return status;
+    }
+
+    /**
+     * 验证 正则 提示语
+     * @type {{tips_sucess: string, tips_required: string, tips_email: string, tips_num: string, tips_chinese: string, tips_english: string, tips_pinyin: string, tips_mobile: string, tips_idcard: string, tips_pwdequal: string, tips_passport: string, tips_zipcode: string, reg_email: RegExp, reg_num: RegExp, reg_chinese: RegExp, reg_english: RegExp, reg_pinyin: RegExp, reg_mobile: RegExp, reg_idcard: RegExp, reg_passport: RegExp, reg_passport1: RegExp, reg_zipcode: RegExp}}
+     */
+    var defaults = {
+        // 提示语
+        tips_sucess: "", // 验证成功时候的提示语，默认是空
+        tips_required: '此项是必添项，请填写',
+        tips_email: '邮箱地址格式有误',
+        tips_num: '请填写数字',
+        tips_chinese: '请填写中文',
+        tips_english: '请填写英文',
+        tips_pinyin: '请填写拼音',
+        tips_mobile: '手机号码格式有误',
+        tips_idcard: '身份证号码格式有误',
+        tips_pwdequal: '两次密码不一致',
+        tips_passport: '护照号码格式有误',
+        tips_zipcode: '邮编格式有误',
+        tips_length: '请输入(min-max字)',
+        tips_minLength: '请最少输入(min字)',
+
+        // 正则
+        reg_email: /^\w+\@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}$/i, //验证邮箱
+        reg_num: /^\d+$/,         //验证数字
+        reg_chinese: /^[\u4E00-\u9FA5]+$/,     //验证中文
+        reg_english: /^([a-zA-Z ]+|[\u4e00-\u9fa5]+)$/, // 验证英文
+        reg_pinyin: /^([a-zA-Z ]+|[\u4e00-\u9fa5]+)$/, // 验证拼音
+        reg_mobile: /^1[3458]{1}[0-9]{9}$/,    //验证手机
+        reg_idcard: /^\d{14}\d{3}?\w$/,     //验证身份证
+        reg_passport: /^[a-zA-Z]{5,17}$/, // 护照格式验证
+        reg_passport1: /^[a-zA-Z0-9]{5,17}$/, // 护照格式验证1
+        reg_zipcode: /^[1-9][0-9]{5}$/,
+        reg_length: "/^.{min,max}$\/",
+        reg_minLengh: "/^\w{min,}$/"
+    };
+
+    //验证方法
+    function check(obj, _match, _val, minLength, maxLength) {
+        //根据验证情况，显示相应提示信息，返回相应的值
+        switch (_match) {
+            case 'required':
+                return _val ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_required, false);
+            case 'email':
+                return chk(_val, defaults.reg_email) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_email, false);
+            case 'num':
+                return chk(_val, defaults.reg_num) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_num, false);
+            case 'chinese':
+                return chk(_val, defaults.reg_chinese) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_chinese, false);
+            case 'english':
+                return chk(_val, defaults.reg_english) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_english, false);
+            case 'pinyin' :
+                return chk(_val, defaults.reg_pinyin) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_pinyin, false);
+            case 'mobile':
+                return chk(_val, defaults.reg_mobile) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_mobile, false);
+            case 'idcard':
+                return chk(_val, defaults.reg_idcard) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_idcard, false);
+            case 'passport':
+                return chk(_val, defaults.reg_passport, defaults.reg_passport1) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_passport, false);
+            case 'zipcode' :
+                return chk(_val, defaults.reg_zipcode) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_zipcode, false);
+            case 'length' :
+                var regular = defaults.reg_length.replace("min", minLength).replace("max", maxLength);
+                return chk(_val, eval(regular)) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_length.replace("min", minLength).replace("max", maxLength), false);
+            default:
+                // 验证长度
+                return true;
+        }
+    }
+
+    /**
+     * 渲染 页面提示语
+     * @param obj   dom对象
+     * @param msg   提示语
+     * @param mark 结果true false
+     * @returns {*}
+     */
+    function showMsg(obj, msg, mark) {
+        if(!mark) {
+            $("#" + obj.attr("id") + "_err").html("<i></i>" + msg).show(); // 显示提示语
+            return mark;
+        } else {
+            $("#" + obj.attr("id") + "_err").html("<i></i>" + msg).hide(); // 隐藏提示语
+            return mark;
+        }
+    }
+
     /**
      * 处理化数据
      * @param dicArrCity
      */
     function init(dicArrCity) {
-        // 获取浏览器url参数mid
-        var mid = getQueryString("mid");
+        // 获取浏览器url参数mid ichProjectId
         if(mid != null) {
             onRequest("GET", "/ichMaster/getIchMasterById", {params:mid}).then(function(result) {
                 console.log(result)
                 // 处理用户未登录
                 if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                    _onMergeObj(result.res.data);
+                    if(result.res.data) {
+                        _onMergeObj(result.res.data);
+                    }
                 } else {
-                    tipBox.init("fail", result.res.msg, 1500);
+                    if(result.res.code != 3) {
+                        tipBox.init("fail", result.res.msg, 1500);
+                    }
                 }
             }).then(function() {
-                targetId = pageObj.hasOwnProperty("contentFragmentList") ? pageObj.id : "";
-                pageObj.isMaster = pageObj.userId ? 1 : 0
+                targetId = pageObj.hasOwnProperty("contentFragmentList") ? pageObj.id : mid;
+                ichProjectId = pageObj.ichProjectId;
+                pageObj.isMaster = pageObj.userId ? 1 : 0;
                 isMaster = isMaster;
                 // 加载其他模块
                 _onInitLoad(dicArrCity);
@@ -474,7 +204,6 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             // 加载其他模块
             _onInitLoad(dicArrCity);
         }
-        //_onInitLoad(dicArrCity);
     }
 
     /**
@@ -519,7 +248,9 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 $("#onSend").off("click"); // 解绑点击事件
                 // 可以提交
                 pageObj.status = 3; // 状态修改为提交状态
-                onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(pageObj)}).then(function(result) {
+                var params = pageObj;
+                params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params) }).then(function(result) {
                     console.log("result === >", result,  JSON.stringify(result.res.data));
                     // 处理用户未登录
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
@@ -527,7 +258,9 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         window.location.href = "ichMasterOver.html"; // 跳转成功页面
                         _bindingSave(); // 重新绑定
                     } else {
-                        tipBox.init("fail", result.res.msg, 1500);
+                        if(result.res.code != 3) {
+                            tipBox.init("fail", result.res.msg, 1500);
+                        }
                         _bindingSave(); // 重新绑定
                     }
                 });
@@ -537,6 +270,25 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             }
 
         }
+    }
+
+    // 过滤掉没填写值的数据
+    function _onFilterNull(arr) {
+        var newArr = [];
+        $.each(arr, function(i, v) {
+            if(v.attributeId != 10) {
+                if(v.content != "") {
+                    newArr.push(v);
+                }
+            } else {
+                $.each(v.resourceList, function(j, d) {
+                    if(d.uri != "") {
+                        newArr.push(v);
+                    }
+                })
+            }
+        })
+        return newArr;
     }
 
     /**
@@ -570,64 +322,89 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     case "00":
                         // 基本信息模板
                         params = getBasicFormData();
+                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        console.log("params --- >", params);
                         break;
                     case "01":
                         // 联系方式模板
                         params = getContactFormData();
+                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        console.log("params --- >", params);
                         break;
                     case "02":
                         // 职业信息模板
                         params = getVocationFormData();
+                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        console.log("params --- >", params);
                         break;
                     case "10":
                         // 简历
                         params = getResumeFormData("jl");
+                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        console.log("params --- >", params);
                         break;
                     case "11":
                         // 传承历史与现状
                         params = getResumeFormData("lsxz");
+                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         break;
                     case "12":
                         // 师徒关系
                         params = getMasterFormData();
+                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         break;
                     case "13":
                         // 技能
                         params = getResumeFormData("jn");
+                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         break;
                     case "14":
                         // 个人成就
                         params = getResumeFormData("cj");
+                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         break;
                     case "15":
                         // 传承谱系
                         params = getResumeFormData("ch");
+                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         break;
                     case "16":
                         // 获奖情况
                         params = getResumeFormData("hjqk");
+                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         break;
                     case "17":
                         // 知识产权
                         params = getResumeFormData("zscq");
+                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         break;
                     default:
                         // 自定义项
                         params = getResumeFormData("menuData");
+                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 }
-                console.log("params --- >", params);
-                onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
-                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                        targetId = result.res.data.id;
-                        _onMergeObj(result.res.data);
-                        tipBox.init("success", saveSuccessText, 1500);
-                        _bindingSave();
-                    } else {
-                        tipBox.init("fail", result.res.msg, 1500);
-                        _bindingSave();
-                    }
-                });
+
+                // 如果页面无任何已填写项， 则直接提示保存成功， 有填写项则存库
+                if(params.contentFragmentList.length > 0) {
+                    onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+                        console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
+                        if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                            targetId = result.res.data.id;
+                            _onMergeObj(result.res.data);
+                            tipBox.init("success", saveSuccessText, 1500);
+                            _bindingSave();
+                        } else {
+                            if(result.res.code != 3) {
+                                tipBox.init("fail", result.res.msg, 1500);
+                            }
+                            _bindingSave();
+                        }
+                    });
+                } else {
+                    // 页面无添加项目， 则直接提示保存成功
+                    tipBox.init("success", saveSuccessText, 1500);
+                    _bindingSave();
+                }
             } else {
                 tipBox.init("fail", "当前页面不可保存", 1500);
                 _bindingSave();
@@ -654,12 +431,13 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 var code = $.inArray(parseInt(v.attributeId), attributeIds);
                 if(code < 0) {
                     // 生成自定义项菜单
-                    var $ul = $("#" + menu_1).next(".dd").children("ul");
+
+                    var $ul = $("#" + menu_2).next(".dd").children("ul");
                     var menuNum = $ul.children("li").length;
-                    var id = menu_1 + menuNum.toString();
+                    var id = menu_2 + menuNum.toString();
                     var menuHtml = Handlebars.compile(menuTpl)({"id" : id, "name": v.attribute.cnName, "menuId" : v.attributeId});
                     $ul.append(menuHtml);
-                    $("#" + menu_1 + menuNum.toString()).children(i).addClass("selected").removeClass("unselected"); // 因为自定义项添加时的限制，已确保添加后的是已完成的
+                    $("#" + menu_2 + menuNum.toString()).children(i).addClass("selected").removeClass("unselected"); // 因为自定义项添加时的限制，已确保添加后的是已完成的
                 }
             })
         }
@@ -759,7 +537,12 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             "isMaster": parseInt(isMaster),
             "lang": getLang()=="zh-CN" ? "chi" : "eng",
             //"status": 2,
-            "id": targetId ? targetId : ""
+            "id": targetId ? targetId : "",
+
+        }
+
+        if(ichProjectId) {
+            params.ichProjectId = ichProjectId;
         }
 
         $.each(data, function(i, v) {
@@ -868,16 +651,19 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         targetId = result.res.data.id;
                         _onMergeObj(result.res.data);
                         // 添加自定义菜单
-                        var $ul = $("#" + menu_1).next(".dd").children("ul");
+                        var $ul = $("#" + menu_2).next(".dd").children("ul");
                         var menuNum = $ul.children("li").length;
-                        var id = menu_1 + menuNum.toString();
+                        var id = menu_2 + menuNum.toString();
                         var menuHtml = Handlebars.compile(menuTpl)({"id" : id, "name": name, "menuId" : result.res.data.contentFragmentList[0].attributeId});
                         $ul.append(menuHtml);
-                        $("#" + menu_1).trigger("click");
-                        $("#" + menu_1 + menuNum.toString()).trigger("click");
+                        //$("#" + menu_2).trigger("click");
+                        $("#" + menu_2 + menuNum.toString()).children("i").addClass("selected").removeClass("unselected");
+                        $("#" + menu_2 + menuNum.toString()).trigger("click");
                         _bindingSave();
                     } else {
-                        tipBox.init("fail", result.res.msg , 1500);
+                        if(result.res.code != 3) {
+                            tipBox.init("fail", result.res.msg , 1500);
+                        }
                         _bindingSave();
                     }
                 });
@@ -897,7 +683,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
      * @param name 用于生成模板中id name属性
      * @param nextId 跳转到下一个页面id
      */
-    function getResume(id, title, menuId, name, nextId) {
+    function getResume(id, title, menuId, name, nextId, minLength) {
         var resume = {title: title, name: name ? name : "menuData", menuId: menuId, startPath: ossPash, pageObj: pageObj};
         // 更新DOM元素
         var resumenHtml = Handlebars.compile(resumeTpl)(resume);
@@ -916,8 +702,25 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         function _onSave($this) {
             $this.off("click");
             var content = $("#" + name).val();
-            if(content != "") {
+            var fag = true;
+            fag = content ? showMsg($("#jj"), defaults.tips_success, true) : showMsg($("#jj"), defaults.tips_required, false);
+            if(content.length < 50) {
+                showMsg($("#" + name), defaults.tips_minLength.replace("min", minLength), false);
+                fag = false;
+            }
+            //var regular = defaults.reg_minLengh.replace("min", minLength);
+            //fag = chk(content, eval(regular)) ? showMsg($("#" + name), defaults.tips_success, true) : showMsg($("#" + name), defaults.tips_minLength.replace("min", minLength), false);
+            //if(minLength) {
+            //    // reg_minLengh
+            //    //var regular = defaults.reg_length.replace("min", minLength).replace("max", maxLength);
+            //    //fag = chk(jconten, eval(regular)) ? showMsg($("#jj"), defaults.tips_success, true) : showMsg($("#jj"), defaults.tips_length.replace("min", minLength).replace("max", maxLength), false);
+            //    var regular = defaults.reg_minLengh.replace("min", minLength);
+            //    fag = chk(content, eval(regular)) ? showMsg($("#" + name), defaults.tips_success, true) : showMsg($("#" + name), defaults.tips_minLength.replace("min", minLength), false);
+            //}
+
+            if(fag) {
                 var params = getResumeFormData(resume.name);
+                //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
                     console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
@@ -928,12 +731,15 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         _onSubmitMenu();
                         _bindingSave();
                     } else {
-                        tipBox.init("fail", result.res.msg , 1500);
+                        if(result.res.code != 3) {
+                            tipBox.init("fail", result.res.msg , 1500);
+                        }
                         _bindingSave();
                     }
                 });
             } else {
-                $("#nr_err").show();
+                //$("#nr_err").show();
+                _bindingSave();
             }
         }
 
@@ -964,7 +770,9 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         _bindingDelete();
                     } else {
-                        tipBox.init("fail", result.res.msg , 1500);
+                        if(result.res.code != 3) {
+                            tipBox.init("fail", result.res.msg , 1500);
+                        }
                         _bindingDelete();
                     }
                 })
@@ -985,7 +793,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
      * @param dicArrCity
      */
     function getBasic(dicArrCity) {
-        $("#content").html(Handlebars.compile(basicTpl)({countrys: dicArrCity, pageObj: pageObj})); // 更新页面模板
+        $("#content").html(Handlebars.compile(basicTpl)({countrys: dicArrCity, pageObj: pageObj, ichProjectId: ichProjectId})); // 更新页面模板
         // 上传图片
         upload.submit($('.horizontal .group .control .file_up'),1,'/user/uploadFile?type=master',function (res) {
             console.log("res -- >", res);
@@ -1041,6 +849,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             $("#active").off("click");
             if(validate() && imgUrl != "" && isMaster != "") {
                 var params = getBasicFormData(); // 获取表单数据 构建参数
+                params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 console.log("params -- >", params);
                 // 发送请求
                 onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
@@ -1054,7 +863,9 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         _onSubmitMenu();
                         _bindingSave();
                     } else {
-                        tipBox.init("fail", result.res.msg , 1500);
+                        if(result.res.code != 3) {
+                            tipBox.init("fail", result.res.msg , 1500);
+                        }
                         _bindingSave();
                     }
                 });
@@ -1115,7 +926,9 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         _onSubmitMenu();
                         _bindingSave();
                     } else {
-                        tipBox.init("fail", result.res.msg , 1500);
+                        if(result.res.code != 3) {
+                            tipBox.init("fail", result.res.msg , 1500);
+                        }
                         _bindingSave();
                     }
                 });
@@ -1144,9 +957,19 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         // 保存
         function onSave() {
             $("#vocation_active").off("click");
-            if($("#jj").val()) {
+            var jconten = $("#jj").val();
+            var minLength = 50;
+            var maxLength = 200;
+            var fag = true;
+            fag = jconten ? showMsg($("#jj"), defaults.tips_success, true) : showMsg($("#jj"), defaults.tips_required, false);
+            var regular = defaults.reg_length.replace("min", minLength).replace("max", maxLength);
+            fag = chk(jconten, eval(regular)) ? showMsg($("#jj"), defaults.tips_success, true) : showMsg($("#jj"), defaults.tips_length.replace("min", minLength).replace("max", maxLength), false);
+
+            if(fag) {
                 showMsg($("#jj"), defaults.tips_success, true);
                 var params = getVocationFormData();
+                // 过滤掉重复数据
+                params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 console.log("params -- >", params);
                 // 发送请求
                 onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
@@ -1159,15 +982,15 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         _onSubmitMenu();
                         _bindingSave();
                     } else {
-                        tipBox.init("fail", result.res.msg , 1500);
+                        if(result.res.code != 3) {
+                            tipBox.init("fail", result.res.msg , 1500);
+                        }
                         _bindingSave();
                     }
                 });
             } else {
-                showMsg($("#jj"), defaults.tips_required, false);
                 _bindingSave();
             }
-
         }
     }
 
@@ -1193,6 +1016,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             $("#master_active").off("click");
             if(validate()) {
                 var params = getMasterFormData();
+                params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 console.log("params --- >", params);
                 onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
                     console.log("result ---- >", result, JSON.stringify(result.res.data));
@@ -1203,7 +1027,9 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         _onSubmitMenu();
                         _bindingSave();
                     } else {
-                        tipBox.init("fail", result.res.msg , 1500);
+                        if(result.res.code != 3) {
+                            tipBox.init("fail", result.res.msg , 1500);
+                        }
                         _bindingSave();
                     }
                 });
@@ -1239,6 +1065,11 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     // 不可以点击
                     tipBox.init("fail", "请先完成基本信息项填写" , 1500);
                 }
+                //_onEffect($this);
+                //if(type == 2) {
+                //    $("#onSubmit").addClass("disabled").removeClass("active");// 修改当前按钮为不可点击
+                //    getCustom($this.attr("id").toString());
+                //}
             } else {
                 // 用户点击的是基本信息模块
                 _onEffect($this);
@@ -1297,7 +1128,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 switch (type) {
                     case "00":
                         // 基本信息模板
-                        getBasic(id.toString(), dicArrCity);
+                        getBasic(dicArrCity);
                         break;
                     case "01":
                         // 联系方式模板
@@ -1309,11 +1140,11 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         break;
                     case "10":
                         // 简历
-                        getResume(id, "简历", 51, "jl", [menu_11]);
+                        getResume(id, "简历", 51, "jl", [menu_11], 50);
                         break;
                     case "11":
                         // 传承历史与现状
-                        getResume(id, "传承历史与现状", 119, "lsxz", [menu_12]);
+                        getResume(id, "传承历史与现状", 119, "lsxz", [menu_12], 50);
                         break;
                     case "12":
                         // 师徒关系
@@ -1321,23 +1152,23 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         break;
                     case "13":
                         // 技能
-                        getResume(id, "技能", 115, "jn", [menu_14]);
+                        getResume(id, "技能", 115, "jn", [menu_14], 50);
                         break;
                     case "14":
                         // 个人成就
-                        getResume(id, "个人成就", 110, "cj",  [menu_15]);
+                        getResume(id, "个人成就", 110, "cj",  [menu_15], 50);
                         break;
                     case "15":
                         // 传承谱系
-                        getResume(id, "传承谱系", 21, "ch",  [menu_16]);
+                        getResume(id, "传承谱系", 21, "ch",  [menu_16], 50);
                         break;
                     case "16":
                         // 获奖情况
-                        getResume(id, "获奖情况", 129, "hjqk",  [menu_17]);
+                        getResume(id, "获奖情况", 129, "hjqk",  [menu_17], 50);
                         break;
                     case "17":
                         // 知识产权
-                        getResume(id, "知识产权", 131, "zscq",  []);
+                        getResume(id, "知识产权", 131, "zscq",  [], 50);
                         break;
                     default:
                         // 自定义项
@@ -1353,6 +1184,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     function getBasicFormData() {
         var data = $("#basicForm").serializeArray(); // 获取表单数据
         data.push({"name" : "img", "value" : imgUrl}); // 构建图片参数
+        //$("#ichProjectId")
         return buildParams(data, pageObj); // 构建请求参数数据
     }
 
@@ -1516,105 +1348,6 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             return reg.test(str) || reg1.test(str);
         } else {
             return reg.test(str);
-        }
-    }
-
-    /**
-     * 统一验证入口
-     */
-    function validate() {
-        var status = true;
-        // 表单验证
-        $("input[validate='true']").each(function (){
-            var _validate = $(this).attr("check"); // 获取check属性值
-            if(_validate) {
-                var arr = _validate.split(" "); // 根据空格将其拆分成数组
-                for(var i = 0; i < arr.length; i++) {
-                    // 调用验证方法
-                    if(!check($(this), arr[i], $(this).val())) {
-                        status = false; // 有一个为false的 表单都不可以提交
-                    }
-                }
-            }
-        })
-        return status;
-    }
-
-    /**
-     * 验证 正则 提示语
-     * @type {{tips_sucess: string, tips_required: string, tips_email: string, tips_num: string, tips_chinese: string, tips_english: string, tips_pinyin: string, tips_mobile: string, tips_idcard: string, tips_pwdequal: string, tips_passport: string, tips_zipcode: string, reg_email: RegExp, reg_num: RegExp, reg_chinese: RegExp, reg_english: RegExp, reg_pinyin: RegExp, reg_mobile: RegExp, reg_idcard: RegExp, reg_passport: RegExp, reg_passport1: RegExp, reg_zipcode: RegExp}}
-     */
-    var defaults = {
-        // 提示语
-        tips_sucess: "", // 验证成功时候的提示语，默认是空
-        tips_required: '此项是必添项，请填写',
-        tips_email: '邮箱地址格式有误',
-        tips_num: '请填写数字',
-        tips_chinese: '请填写中文',
-        tips_english: '请填写英文',
-        tips_pinyin: '请填写拼音',
-        tips_mobile: '手机号码格式有误',
-        tips_idcard: '身份证号码格式有误',
-        tips_pwdequal: '两次密码不一致',
-        tips_passport: '护照号码格式有误',
-        tips_zipcode: '邮编格式有误',
-
-        // 正则
-        reg_email: /^\w+\@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}$/i, //验证邮箱
-        reg_num: /^\d+$/,         //验证数字
-        reg_chinese: /^[\u4E00-\u9FA5]+$/,     //验证中文
-        reg_english: /^[A-Za-z]+$/, // 验证英文
-        reg_pinyin: /^[A-Za-z]+$/, // 验证拼音
-        reg_mobile: /^1[3458]{1}[0-9]{9}$/,    //验证手机
-        reg_idcard: /^\d{14}\d{3}?\w$/,     //验证身份证
-        reg_passport: /^[a-zA-Z]{5,17}$/, // 护照格式验证
-        reg_passport1: /^[a-zA-Z0-9]{5,17}$/, // 护照格式验证1
-        reg_zipcode: /^[1-9][0-9]{5}$/,
-    };
-
-    //验证方法
-    function check(obj, _match, _val) {
-        //根据验证情况，显示相应提示信息，返回相应的值
-        switch (_match) {
-            case 'required':
-                return _val ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_required, false);
-            case 'email':
-                return chk(_val, defaults.reg_email) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_email, false);
-            case 'num':
-                return chk(_val, defaults.reg_num) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_num, false);
-            case 'chinese':
-                return chk(_val, defaults.reg_chinese) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_chinese, false);
-            case 'english':
-                return chk(_val, defaults.reg_english) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_english, false);
-            case 'pinyin' :
-                return chk(_val, defaults.reg_pinyin) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_pinyin, false);
-            case 'mobile':
-                return chk(_val, defaults.reg_mobile) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_mobile, false);
-            case 'idcard':
-                return chk(_val, defaults.reg_idcard) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_idcard, false);
-            case 'passport':
-                return chk(_val, defaults.reg_passport, defaults.reg_passport1) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_passport, false);
-            case 'zipcode' :
-                return chk(_val, defaults.reg_zipcode) ? showMsg(obj, defaults.tips_success, true) : showMsg(obj, defaults.tips_zipcode, false);
-            default:
-                return true;
-        }
-    }
-
-    /**
-     * 渲染 页面提示语
-     * @param obj   dom对象
-     * @param msg   提示语
-     * @param mark 结果true false
-     * @returns {*}
-     */
-    function showMsg(obj, msg, mark) {
-        if(!mark) {
-            $("#" + obj.attr("id") + "_err").html("<i></i>" + msg).show(); // 显示提示语
-            return mark;
-        } else {
-            $("#" + obj.attr("id") + "_err").html("<i></i>" + msg).hide(); // 隐藏提示语
-            return mark;
         }
     }
 
