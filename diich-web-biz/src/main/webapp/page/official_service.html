@@ -16,6 +16,7 @@
     <script src="../js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="../js/i18n.js"></script>
     <script src="../js/video.min.js"></script>
+    <script src="../js/jwplayer.js"></script>
     <style>
         .modal_video {
             position: fixed;
@@ -166,7 +167,8 @@
 
                             <div class="rbox">
                                 <div class="video">
-                                    <span class="play play120" data-uri="../resource/getResourceUri?fileName=%E8%81%94%E5%90%88%E5%9B%BD%E6%95%99%E8%AF%BE%E6%96%87%E7%BB%84%E7%BB%87%E5%9B%BD%E9%99%85%E9%9D%9E%E9%81%97%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0.mp4" style="z-index:20;"><i></i></span>
+                                    <!--<span class="play play120" data-uri="../resource/getResourceUri?fileName=%E8%81%94%E5%90%88%E5%9B%BD%E6%95%99%E8%AF%BE%E6%96%87%E7%BB%84%E7%BB%87%E5%9B%BD%E9%99%85%E9%9D%9E%E9%81%97%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0.mp4" style="z-index:20;"><i></i></span>-->
+                                    <span class="play play120" data-uri="http://resource.efeiyi.com/video/qinghuaci.mp4" style="z-index:20;"><i></i></span>
                                     <img class="preview" src="http://resource.efeiyi.com/image/uploads/serve/pic1.jpg" alt="">
                                 </div>
                             </div>
@@ -242,15 +244,17 @@
 <!--//End 视频弹出层-->
 </body>
 <script>
-    var myPlayer = null;
+    var jwPlayer = null;
 
     $(function() {
         $('.header .content .nav li').eq(5).addClass('active').siblings('li').removeClass('active');
 
-        var video_template =
+        /*var video_template =
                 '<video id="my-video" class="video-js" controls preload="none" width="600" height="388" data-setup="{}">' +
-                    '<source src="" type="video/mp4">' +
-                '</video>';
+                    '<source src="rtmp://123.57.250.114:1935/live/qinghuaci.mp4" type="rtmp/flv">' +
+                '</video>';*/
+
+        var video_template = '<div id="player"></div>';
 
         var modal=$('.modal_video');
         var content=modal.find('.content');
@@ -258,23 +262,32 @@
         $('.play120').on('click',function () {
             modal.fadeIn(200);
 
-            if(myPlayer != null) {
+            /*if(myPlayer != null) {
                 myPlayer.play();
                 return;
-            }
+            }*/
 
-            var data_uri = $(this).attr('data-uri');
+            //var data_uri = $(this).attr('data-uri');
             content.append(video_template);
 
-            myPlayer = videojs('my-video', {}, function () {
+            jwPlayer = jwplayer('player').setup({
+                flashplayer: '../js/player.swf',
+                file: '联合国教课文组织国际非遗大数据平台.mp4',
+                streamer: 'rtmp://123.57.250.114:1935/oflaDemo',
+                width: 600,
+                height: 380,
+                autostart: true
+            });
+
+            /*myPlayer = videojs('my-video', {}, function () {
                 this.src(data_uri);
                 this.load(data_uri);
                 this.play();
-            });
+            });*/
         });
         $('.overbg0').on('click',function(){
             //myPlayer.dispose();
-            myPlayer.pause();
+            //myPlayer.pause();
             modal.fadeOut();
             //content.children().remove();
         });
