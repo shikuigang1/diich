@@ -164,7 +164,7 @@ public class UserController extends BaseController<User> {
             HttpSession session = request.getSession();
             user.setPassword(null);
             session.setAttribute("CURRENT_USER",user);
-            jedisHelper.set(String.valueOf(user.getId()),user,600);
+//            jedisHelper.set(String.valueOf(user.getId()),user,600);
         }catch (Exception e){
             return putDataToMap(e);
         }
@@ -176,9 +176,10 @@ public class UserController extends BaseController<User> {
     public  Map<String, Object> userinfo(HttpServletRequest request,HttpServletResponse response) {
 
         response.setHeader("Access-Control-Allow-Origin", "*");
-        String id = request.getParameter("params");
-        String o = (String)jedisHelper.get(id);
-        Object obj = JSON.parse(o);
+//        String id = request.getParameter("params");
+//        String o = (String)jedisHelper.get(id);
+//        Object obj = JSON.parse(o);
+        User obj = (User) WebUtil.getCurrentUser(request);
         if(obj == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
