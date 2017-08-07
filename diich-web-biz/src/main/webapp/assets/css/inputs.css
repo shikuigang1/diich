@@ -211,7 +211,6 @@ body,
     padding: 40px 36px;
     float: left;
 }
-
 .ipt_page .create_project .step2 .result .dd li .info p {
     width: 100%;
     height: 26px;
@@ -221,21 +220,17 @@ body,
     overflow: hidden;
     float: left;
 }
-
 .ipt_page .create_project .step2 .result .dd li .info span {
     font-size: 14px;
     color: #000;
 }
-
 .ipt_page .create_project .step2 .result .dd li .info strong {
     font-size: 14px;
     color: #949494;
 }
-
 .ipt_page .create_project .step2 .result .dd li .info p.name {
     margin-bottom: 20px;
 }
-
 .ipt_page .create_project .step2 .result .dd li .info p.name strong {
     font-size: 20px;
     height: 21px;
@@ -243,7 +238,6 @@ body,
     color: #1b1b1b;
     float: left;
 }
-
 .ipt_page .create_project .step2 .result .dd li .info p.name em {
     background: #4283EB;
     padding: 0 10px;
@@ -254,7 +248,6 @@ body,
     float: left;
     margin-left: 4px;
 }
-
 .ipt_page .create_project .step2 .result .dd .btn_create {
     width: 200px;
     line-height: 46px;
@@ -265,15 +258,59 @@ body,
     float: left;
     background: #fff;
 }
+.ipt_page .create_project .step3 {
+    width:100%;
+    float: left;
+}
+.ipt_page .create_project .step3 .dt {
+    width:100%;
+    line-height:22px;
+    float: left;
+}
+.ipt_page .create_project .step3 .group {
+    width:100%;
+    float: left;
+    margin-top:46px;
+}
+.ipt_page .create_project .step3 .group .label{
+    width:8%;
+    line-height:42px;
+    float: left;
+}
+.ipt_page .create_project .step3 .group .label em {
+    color: #f00;
+}
+.ipt_page .create_project .step3 .group .control {
+    width:50%;
+    float: left;
+}
+.ipt_page .create_project .step3 .group .control .ipt {
+    width:92%;
+    padding:0 4%;
+    border: 1px solid #E5E5E5;
+    line-height:42px;
+}
+.ipt_page .create_project .step3 .group .control .btn {
+    width:104px;
+    line-height:48px;
+    background: #4283EA;
+    color: #fff;
+    font-size:20px;
+    text-align: center;
+    float: right;
+    margin-bottom:50px;
+    cursor: pointer;
+}
+
+
+
 
 .ipt_inheritor .create_project .step2 .result .item {
     width: 774px;
 }
-
 .ipt_inheritor .create_project .step2 .result .dd {
     width: 100%;
 }
-
 .ipt_inheritor .create_project .step2 .result .dd li .btn_create {
     width: 140px;
     position: absolute;
@@ -281,22 +318,18 @@ body,
     right: 43px;
     margin-top: -24px;
 }
-
 .ipt_inheritor .create_project .step2 .result .item2 {
     width: 280px;
     line-height: 26px;
     float: right;
 }
-
 .ipt_inheritor .create_project .step2 .result .dd li .info p.name em {
     margin-left: 10px;
 }
-
 .ipt_inheritor .create_project .step2 .result .dd .btn_create {
     width: auto;
     padding: 0 20px;
 }
-
 .ipt_inheritor .create_project .step2 .result .dd .btn_create span {
     max-width: 120px;
     font-size: 20px;
@@ -580,7 +613,6 @@ body,
     margin-top: -10px;
 }
 /*--------slide--------*/
-
 .ipt_base .content {
     width: 876px;
     border: 1px solid #bdbdbd;
@@ -588,14 +620,12 @@ body,
     float: right;
     margin-bottom: 100px;
 }
-
 .ipt_base .content .title {
     font-size: 24px;
     line-height: 92px;
     padding: 0 60px;
     background: #F5F6F8;
 }
-
 .ipt_base .content .hint {
     padding: 0 60px;
     line-height: 44px;
@@ -604,14 +634,12 @@ body,
     position: relative;
     margin-bottom: 13px;
 }
-
 .ipt_base .content .hint em {
     color: #f00;
     line-height: 48px;
     position: relative;
     top: 5px
 }
-
 .ipt_base .content .hint .dot {
     width: 2px;
     height: 2px;
@@ -621,14 +649,12 @@ body,
     left: 52px;
     margin-top: -1px;
 }
-
 .ipt_base .content .st {
     padding: 0 60px;
     height: 60px;
     position: relative;
     margin-bottom: 60px;
 }
-
 .ipt_base .content .st:after {
     content: '';
     width: 24px;
@@ -638,7 +664,6 @@ body,
     bottom: 0;
     left: 60px;
 }
-
 .ipt_base .content .st h2 {
     font-size: 20px;
     display: inline-block;
@@ -657,64 +682,75 @@ body,
     font-size: 14px;
     color: #4283eb;
 }
-
 .ipt_base .content .edit {
     width: 754px;
     border: 1px solid #e5e5e5;
     float: left;
     margin: 0 60px 30px 60px;
 }
-
 .ipt_base .content .edit .text {
     width: 70%;
     float: left;
+    position: relative;
 }
-
 .ipt_base .content .edit .text textarea {
     width: 92%;
     padding: 3% 4%;
     min-height: 500px;
     line-height: 26px;
 }
+.ipt_base .content .edit .text .errors {
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 16px;
+    color: #FF3E3E;
+    position: absolute;
+    bottom: -26px;
+    left: 0;
+}
+.ipt_base .content .edit .text .errors i {
+    background: url(../images/inputs/errors.png);
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -8px;
+}
+
 
 .ipt_base .content .edit .images {
     width: 209px;
     float: left;
     margin-top: 3%;
 }
-
 .ipt_base .content .edit .images .item {
     width: 100%;
     max-width: 228px;
     float: left;
     text-align: center;
 }
-
 .ipt_base .content .edit .images .item img {
     width: 100%;
 }
-
 .ipt_base .content .edit .images .item input {
     width: 100%;
     line-height: 36px;
     text-align: center;
     color: #1B1B1B;
 }
-
 .ipt_base .content .edit .images .handle {
     width: 100%;
     max-width: 228px;
     float: left;
     margin-top: 20px;
 }
-
 .ipt_base .content .edit .images .handle .add {
     width: 98px;
     cursor: pointer;
     float: left;
     margin-right: 11px;
 }
-
 .ipt_base .content .edit .images .handle .add .icon {
     width: 100%;
     height: 98px;
@@ -722,7 +758,6 @@ body,
     position: relative;
     float: left;
 }
-
 .ipt_base .content .edit .images .handle .add .icon i {
     background: url(../images/icon_detail_edit.png) 0 0 no-repeat;
     width: 29px;
@@ -733,7 +768,6 @@ body,
     margin-top: -15px;
     margin-left: -15px;
 }
-
 .ipt_base .content .edit .images .handle .add span {
     width: 100%;
     text-align: center;
@@ -742,15 +776,12 @@ body,
     line-height: 36px;
     float: left;
 }
-
 .ipt_base .content .edit .images .handle .add .icon i {
     background-position: 0 -46px;
 }
-
 .ipt_base .content .edit .images .handle .add .icon2 i {
     background-position: 0 -76px;
 }
-
 .ipt_base .content .edit .images.active .item {
     width: 98px;
     height: 98px;
@@ -759,19 +790,16 @@ body,
     -webkit-align-items: center;
     background: #eee;
     margin-bottom: 30px;
-    position: relative;
 }
 .ipt_base .content .edit .images.active .item input {
     position: absolute;
     top: 98px;
     left: 0;
 }
-
 .ipt_base .content .buttons {
     float: right;
     margin: 40px 30px;
 }
-
 .ipt_base .content .buttons a {
     width: 102px;
     line-height: 42px;
@@ -782,13 +810,10 @@ body,
     float: left;
     margin-left: 14px;
 }
-
 .ipt_base .content .buttons a.next {
     background: #4283ea;
     color: #fff;
 }
-
-
 /*--//End--*/
 
 .horizontal .main {
@@ -840,7 +865,8 @@ body,
     text-indent: 5px;
 }
 
-.horizontal .group .label em {
+.horizontal .group .label em,
+.horizontal .group .label i{
     line-height: 10px;
     font-size: 20px;
     color: #D0021B;
@@ -960,11 +986,11 @@ body,
 }
 
 .horizontal .group.inheritor .label {
-    width: 30%;
+    width: 54%
 }
 
 .horizontal .group.inheritor .control {
-    width: 70%;
+    width: 46%;
 }
 
 .horizontal .handle {
@@ -1240,7 +1266,6 @@ body,
     width:420px;
     margin:0 auto 120px auto;
 }
-
 .info_check .buttons a {
     width:184px;
     height:56px;
@@ -1314,41 +1339,30 @@ body,
 .ipt_over .buttons a.btn2 {
     float: right;
 }
-.prompt {
-    margin-left: 60px;
-    font-size: 14px;
-    color: #FF3E3E;
-    position: relative;
-    float: left;
-    padding-left: 22px;
-}
-.prompt i {
-    background: url(../images/inputs/errors.png);
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    margin-top: -8px;
-}
-
-.st .errors {
-    font-size: 14px;
-    color: #FF3E3E;
-    position: relative;
-    float: left;
-    padding-left: 22px;
-    margin-top: 10px;;
-}
-
-.st .errors i {
-    background: url(../images/inputs/errors.png);
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    margin-top: -8px;
-}
 /*--//End 信息填写完成，可以提交审核--*/
+.organization {
+    width: 876px;
+    border: 1px solid #bdbdbd;
+    background: #fff;
+    float: right;
+}
+.organization .horizontal .main {
+    width:757px;
+    margin-top:50px;
+}
+.organization .horizontal .group .label {
+    width:16%;
+}
+.organization .horizontal .group .control {
+    width:84%;
+}
+.organization .horizontal .group .control textarea {
+    width:552px
+}
+.organization .horizontal .group.inheritor .label {
+    width:40%;
+}
+.organization .horizontal .group.inheritor .control {
+    width:60%;
+}
 
