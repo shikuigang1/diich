@@ -91,7 +91,7 @@ var category_all=[
         ],
         "gbCategory": "A",
         "id": "1",
-        "name": "口头传统和表述，包括作为非物质文化遗产媒介的语言",
+        "name": "口头传统和表述",
         "eNname": "legend",
         "parentId": "0",
         "status": "1"
