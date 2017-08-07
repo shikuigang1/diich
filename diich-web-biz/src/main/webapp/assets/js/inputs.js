@@ -320,7 +320,7 @@ var projectPage={
             {value:11,name:'表演艺术'},
             {value:28,name:'传统手工艺技能'},
             {value:55,name:'社会风俗、礼仪、节庆'},
-            {value:77,name:'有关自然界和宇宙知识的实践'}
+            {value:67,name:'有关自然界和宇宙知识的实践'}
         ];
         this.selectCate.init('div[data-type=selectCate]',_data); //选择分类
         this.declare();  //是否为自己申报传承人
@@ -358,7 +358,7 @@ var projectPage={
                     ich.contentFragmentList.push(contentFragment);
                 }
             }
-            console.log(contentFragment);
+            //console.log(contentFragment);
             localStorage.setItem("ichProject",JSON.stringify(ich));
         });
     },
