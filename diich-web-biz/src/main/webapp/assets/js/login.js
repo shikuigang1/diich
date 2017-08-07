@@ -382,7 +382,7 @@ $(function () {
     $.ajax({
         cache: true,
         type: "POST",
-        url: "../user/userinfo",
+        url: "/user/userinfo",
         data: {params:localStorage.getItem("pid")}, // 你的formid
         dataType: "json",
         async: true,
@@ -433,7 +433,7 @@ function login(){
     $.ajax({
         cache: true,
         type: "POST",
-        url: "../user/login",
+        url: "/user/login",
         data: $('#loginForm').serialize(), // 你的formid
         dataType: "json",
         async: true,
@@ -488,7 +488,7 @@ function registForm(){
     $.ajax({
         cache: true,
         type: "POST",
-        url: "../user/register",
+        url: "/user/register",
         data: $('#registForm').serialize(),
         dataType: "json",
         async: true,
@@ -538,7 +538,7 @@ function  resetPass(){
     $.ajax({
         cache: true,
         type: "POST",
-        url: "../user/resetPassword",
+        url: "/user/resetPassword",
         data: $('#resetForm').serialize(),
         dataType: "json",
         async: true,
