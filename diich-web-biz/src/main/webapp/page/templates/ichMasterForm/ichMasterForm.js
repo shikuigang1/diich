@@ -852,23 +852,23 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 console.log("params -- >", params);
                 //// 发送请求
-                //onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                //    console.log("result === >", result,  JSON.stringify(result.res.data));
-                //    // 处理用户未登录
-                //    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                //        targetId = result.res.data.id;
-                //        _onMergeObj(result.res.data);
-                //        // 跳转到下一页面
-                //        _onNextPage(menu_00, [menu_01]);
-                //        _onSubmitMenu();
-                //        _bindingSave();
-                //    } else {
-                //        if(result.res.code != 3) {
-                //            tipBox.init("fail", result.res.msg , 1500);
-                //        }
-                //        _bindingSave();
-                //    }
-                //});
+                onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+                    console.log("result === >", result,  JSON.stringify(result.res.data));
+                    // 处理用户未登录
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        targetId = result.res.data.id;
+                       _onMergeObj(result.res.data);
+                        // 跳转到下一页面
+                        _onNextPage(menu_00, [menu_01]);
+                        _onSubmitMenu();
+                        _bindingSave();
+                    } else {
+                        if(result.res.code != 3) {
+                            tipBox.init("fail", result.res.msg , 1500);
+                        }
+                        _bindingSave();
+                    }
+                });
             } else {
                 imgUrl == "" ? $("#img_err").html("<i></i>请上传照片,若以上传请等待回显图片后点击 下一步/提交 操作").show() : "";
                 isMaster == "" ? $("#isApply_err").html("<i></i>请选择是否为自己申报传承人").show() : "";
