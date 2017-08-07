@@ -61,6 +61,14 @@ public class ApplicationException extends Exception {
 		this.msg = msg;
 	}
 
+	public String getDetailMsg() {
+		return detailMsg;
+	}
+
+	public void setDetailMsg(String detailMsg) {
+		this.detailMsg = detailMsg;
+	}
+
 	public Map<String, Object> toMap() {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("code", this.code);
