@@ -230,11 +230,11 @@ public class IchProjectController extends BaseController<IchProject> {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
-//        User user = (User)WebUtil.getCurrentUser(request);
-//        if(user == null) {
-//            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
-//            return putDataToMap(ae);
-//        }
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
         params.put("userId",879254100457402368L);
         Page<IchProject> page = null;
         try{

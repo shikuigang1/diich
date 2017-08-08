@@ -330,7 +330,10 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     public String preview(Long id) throws Exception {
         IchProject ichProject = getIchProjectById(id);
         String fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId().toString();
-        String uri = buildHTML("preview_pro.ftl", ichProject, fileName);
+        String str = PropertiesUtil.getString("freemarker.projectfilepath");
+        String url = str.substring(str.lastIndexOf("/"));
+        String s = buildHTML("preview_pro.ftl", ichProject, fileName);
+        String uri = "." + url + "/" + id + ".html";
         return uri;
     }
 
