@@ -18,7 +18,7 @@ public interface IchProjectService {
 
     IchProject getIchProjectById(Long id)throws Exception;
 
-    IchProject saveIchProject(IchProject ichProject) throws Exception;
+    IchProject saveIchProject(IchProject ichProject , User user) throws Exception;
 
     List<IchProject> getIchProjectList(Page<IchProject> page) throws Exception;
 

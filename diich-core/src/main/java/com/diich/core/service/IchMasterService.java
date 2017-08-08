@@ -25,7 +25,7 @@ public interface IchMasterService {
     Page<IchMaster> getIchMasterPage(Map<String, Object>  params) throws Exception;
 
     //保存传承人
-    IchMaster  saveIchMaster(IchMaster ichMaster) throws Exception;
+    IchMaster  saveIchMaster(IchMaster ichMaster,User user) throws Exception;
 
     String  preview(Long id) throws Exception;//预览
 

@@ -141,13 +141,12 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
      * @return
      */
     @Override
-    public IchMaster saveIchMaster(IchMaster ichMaster) throws Exception {
+    public IchMaster saveIchMaster(IchMaster ichMaster , User user) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
         if(ichMaster.getStatus() != null && ichMaster.getStatus() == 3){
             checkIchMaster(ichMaster);//校验传承人信息
         }
         try {
-            User user = userMapper.selectByPrimaryKey(ichMaster.getId());
             ichMaster.setLastEditDate(new Date());
             if(ichMaster.getStatus() != null && ichMaster.getStatus() == 3){
                 if(user != null && user.getType() == 0){//如果当前修改者不是admin type代表权限  0 代表admin  1代表普通用户

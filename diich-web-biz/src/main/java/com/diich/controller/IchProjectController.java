@@ -142,7 +142,7 @@ public class IchProjectController extends BaseController<IchProject> {
         ichProject.setLastEditorId(user.getId());
 
         try {
-            ichProject = ichProjectService.saveIchProject(ichProject);
+            ichProject = ichProjectService.saveIchProject(ichProject,user);
         } catch (Exception e) {
             return putDataToMap(e);
         }

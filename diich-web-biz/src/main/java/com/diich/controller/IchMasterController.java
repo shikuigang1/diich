@@ -93,7 +93,7 @@ public class IchMasterController extends BaseController<IchMaster>{
     @ResponseBody
     public Map<String, Object> getIchMasterList(HttpServletRequest request,HttpServletResponse response) {
 
-        Map<String, Object> params = new HashMap<>();;
+        Map<String, Object> params = new HashMap<>();
         String param = request.getParameter("params");
         try{
             if(param !=null){
@@ -135,7 +135,7 @@ public class IchMasterController extends BaseController<IchMaster>{
         ichMaster.setLastEditorId(user.getId());
 
         try {
-            ichMasterService.saveIchMaster(ichMaster);
+            ichMasterService.saveIchMaster(ichMaster , user);
         } catch (Exception e) {
             return putDataToMap(e);
         }

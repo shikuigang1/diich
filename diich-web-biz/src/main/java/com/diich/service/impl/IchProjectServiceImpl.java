@@ -180,7 +180,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      * @throws Exception
      */
     @Transactional
-    public IchProject saveIchProject(IchProject ichProject) throws Exception {
+    public IchProject saveIchProject(IchProject ichProject, User user) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
         //根据项目名称查询项目是否存在
         checkProjectByName(ichProject);
@@ -189,7 +189,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             checkAttribute(ichProject,3);
         }
         try {
-            User user = userMapper.selectByPrimaryKey(ichProject.getLastEditorId());
             ichProject.setLastEditDate(new Date());
             if(ichProject.getStatus() != null && ichProject.getStatus() == 3){
                 if(user != null && user.getType() == 0){//如果当前修改者不是admin type 代表权限 0 代表admin  1代表普通用户
@@ -572,7 +571,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         }
         if(ichProject.getId() == null){
             if(contentFragments.size()>0){
-                throw new ApplicationException(ApplicationException.PARAM_ERROR,contentFragments.get(0).getContent()+" 已经存在");
+                for (ContentFragment  contentFragment : contentFragments) {
+                    IchProject project = ichProjectMapper.selectByPrimaryKey(contentFragment.getTargetId());
+                    if(project != null && project.getStatus() != null && project.getStatus() == 0){
+                        throw new ApplicationException(ApplicationException.PARAM_ERROR,contentFragments.get(0).getContent()+" 已经存在");
+                    }
+                }
             }
         }
     }
