@@ -891,7 +891,11 @@ body,
     margin-right: 10px;
     position: relative;
 }
-
+.horizontal .group .control div.ipt {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space:nowrap;
+}
 .horizontal .group .control div.ipt:after {
     content: '';
     width: 8px;
