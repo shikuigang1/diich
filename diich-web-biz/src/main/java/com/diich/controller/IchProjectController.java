@@ -235,7 +235,7 @@ public class IchProjectController extends BaseController<IchProject> {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
-        params.put("userId",879254100457402368L);
+        params.put("userId",user.getId());
         Page<IchProject> page = null;
         try{
             page = ichProjectService.getIchProjectByUserId(params);
