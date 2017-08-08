@@ -155,16 +155,24 @@ public class IchProjectController extends BaseController<IchProject> {
     public Map<String, Object> getProByName(HttpServletRequest request,HttpServletResponse response) {
 
         Map<String,Object> map = new HashMap<String,Object>();
-
         map.put("keyword",request.getParameter("keyword"));
-        map.put("type",request.getParameter("type"));
+        map.put("type",0);
         map.put("pageBegin",0);
         map.put("pageSize",5);
 
-        List<Map> ls=null;
-
+        Map resultMap = null;
+        List ls = null;
         try {
-            ls =ichProjectService.getIchProjectByName(map);
+            ls=ichProjectService.getIchProjectByName(map);
+           if(ls==null || ls.size()==0){
+               map.put("type",1);
+               ls =ichProjectService.getIchProjectByName(map);
+               resultMap.put("type",1);
+           }else{
+               resultMap.put("type",0);
+           }
+            map.put("data",ls);
+
         } catch (Exception e) {
             return putDataToMap(e);
         }
