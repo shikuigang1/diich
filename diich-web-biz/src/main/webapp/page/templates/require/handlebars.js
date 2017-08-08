@@ -2822,5 +2822,8 @@ Handlebars.template = Handlebars.VM.template;
         return name;
     })
 
+
+    //Handlebars.registerHelper("onRadio", function())
+
 })();
 ;

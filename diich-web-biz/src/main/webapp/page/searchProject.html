@@ -190,7 +190,7 @@
                     $(".tips").html("您要申报的项目可能已存在，若有符合的项目，请勿重复申报");
                     var html="";
                     $.each(data,function(index,item){
-                        html+="<a href='ichMasterForm.html?ichProjectId=" + item.id + "&ichProjectName=" + item.name + "'><li>";
+                        html+="<a href='ichMasterForm.html?pid=" + item.id + "&pname=" + item.name + "'><li>";
                         if(typeof(item.img)!="undefined"){
                             html+="<img src=\""+imgserver+"/image/project/"+item.img+"\" alt=\"\">";
                         }else{

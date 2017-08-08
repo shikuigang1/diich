@@ -18,7 +18,7 @@
             <div class="group">
                 <label class="label"><em>*</em>手机</label>
                 <div class="control">
-                    <input value="{{getContent pageObj.contentFragmentList 58}}" validate="true" check="required mobile length_11_11" id="sj" name="sj" data-id="58" type="text" class="ipt w310" placeholder="+86">
+                    <input value="{{getContent pageObj.contentFragmentList 58}}" validate="true" check="mobile length_11_11" id="sj" name="sj" data-id="58" type="text" class="ipt w310" placeholder="+86">
                     <div id="sj_err" class="errors" style="display: none"><i></i>请填写手机</div>
                 </div>
             </div>
@@ -27,7 +27,7 @@
             <div class="group">
                 <label class="label"><em>*</em>电子邮箱</label>
                 <div class="control">
-                    <input value="{{getContent pageObj.contentFragmentList 59}}" validate="true" check="required email" id="yx" name="yx" data-id="59" type="text" class="ipt w310">
+                    <input value="{{getContent pageObj.contentFragmentList 59}}" validate="true" check="email" id="yx" name="yx" data-id="59" type="text" class="ipt w310">
                     <div id="yx_err" class="errors" style="display: none"><i></i>请填写电子邮箱</div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
             <div class="group">
                 <label class="label"><em>*</em>详情地址</label>
                 <div class="control">
-                    <input value="{{getContent pageObj.contentFragmentList 54}}" validate="true" check="required" id="dz" name="dz" data-id="54" type="text" class="ipt w650">
+                    <input value="{{getContent pageObj.contentFragmentList 54}}" id="dz" name="dz" data-id="54" type="text" class="ipt w650">
                     <div id="dz_err" class="errors" style="display: none"><i></i>请填写详情地址</div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
             <div class="group">
                 <label class="label"><em>*</em>邮编</label>
                 <div class="control">
-                    <input value="{{getContent pageObj.contentFragmentList 56}}" validate="true" check="required zipcode" id="yb" name="yb" data-id="56" type="text" class="ipt w310">
+                    <input value="{{getContent pageObj.contentFragmentList 56}}" validate="true" check="zipcode" id="yb" name="yb" data-id="56" type="text" class="ipt w310">
                     <div id="yb_err" class="errors" style="display: none"><i></i>请填写邮编</div>
                 </div>
             </div>
