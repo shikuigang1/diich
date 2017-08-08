@@ -119,8 +119,8 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
     }
 
     @Override
-    public  Set<Attribute> getAttrListByCatIdAndProId(Long id, Long pid) throws Exception {
-        Set<Attribute> attrSet = new HashSet<>();
+    public List<Attribute> getAttrListByCatIdAndProId(Long id, Long pid) throws Exception {
+        List<Attribute> attrSet = new ArrayList<>();
         List<Attribute> attributeList = null;
         try{
             List<Long> listId = new ArrayList<>();

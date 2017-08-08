@@ -18,5 +18,5 @@ public interface IchCategoryService {
 
     List<Attribute> getDefAttrByTarIdAndTarType(Long id,Integer targetType) throws Exception;
 
-    Set<Attribute> getAttrListByCatIdAndProId(Long id, Long pid) throws Exception;
+    List<Attribute> getAttrListByCatIdAndProId(Long id, Long pid) throws Exception;
 }

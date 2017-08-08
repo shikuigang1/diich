@@ -147,7 +147,7 @@ public class IchCategoryController extends BaseController<IchCategory> {
         }
         Long id = null;
         Long pid = null;
-        Set<Attribute> attributeSet=null;
+        List<Attribute> attributeList=null;
         try {
             if(categoryId != null){
                 id = Long.parseLong(categoryId);
@@ -158,10 +158,10 @@ public class IchCategoryController extends BaseController<IchCategory> {
         }
 
         try {
-            attributeSet = ichCategoryService.getAttrListByCatIdAndProId(id,pid);
+            attributeList = ichCategoryService.getAttrListByCatIdAndProId(id,pid);
         } catch (Exception e) {
             return putDataToMap(e);
         }
-        return putDataToMap(attributeSet);
+        return putDataToMap(attributeList);
     }
 }
