@@ -3,15 +3,20 @@ package com.diich.service.impl;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.Attribute;
+import com.diich.core.model.ContentFragment;
 import com.diich.core.model.IchCategory;
+import com.diich.core.model.IchProject;
 import com.diich.core.service.IchCategoryService;
 import com.diich.mapper.AttributeMapper;
+import com.diich.mapper.ContentFragmentMapper;
 import com.diich.mapper.IchCategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2017/5/10.
@@ -24,6 +29,9 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
 
     @Autowired
     private AttributeMapper attributeMapper;
+
+    @Autowired
+    private ContentFragmentMapper contentFragmentMapper;
 
     public List<IchCategory> getAllCategory() throws Exception {
         List<IchCategory> categoryList = null;
@@ -108,6 +116,36 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
             }
         }
         return attributeList;
+    }
+
+    @Override
+    public  Set<Attribute> getAttrListByCatIdAndProId(Long id, Long pid) throws Exception {
+        Set<Attribute> attrSet = new HashSet<>();
+        List<Attribute> attributeList = null;
+        try{
+            attributeList = getAttrListByCatIdAndTarType(id, 0);
+            List<Long> listId = new ArrayList<>();
+            for (Attribute attribute : attributeList) {
+                listId.add(attribute.getId());
+            }
+            ContentFragment content = new ContentFragment();
+            content.setTargetId(pid);
+            content.setTargetType(0);
+            List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(content);
+            for (ContentFragment contentFragment: contentFragmentList) {
+                if(contentFragment.getAttributeId() != null){
+                    if(listId.contains(contentFragment.getAttributeId())){
+                        continue;
+                    }
+                    Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
+                    attrSet.add(attribute);
+                }
+            }
+            attrSet.addAll(attributeList);
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return attrSet;
     }
 
     //通过父id找到父对象

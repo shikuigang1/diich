@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2017/5/21.
@@ -129,5 +130,38 @@ public class IchCategoryController extends BaseController<IchCategory> {
         }
         return putDataToMap(attributeList);
     }
+    /**
+     * 通过分类id和项目id获取属性列表
+     * @return
+     */
+    @RequestMapping("getAttributeListByCatIdAndProId")
+    @ResponseBody
+    public Map<String, Object> getAttrListByCatIdAndProId(HttpServletRequest request, HttpServletResponse response) {
 
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setContentType("text/html;charset=UTF-8");
+        String categoryId = request.getParameter("categoryId");
+        String proId = request.getParameter("proId");
+        if(StringUtils.isEmpty(categoryId)){
+            categoryId = null;
+        }
+        Long id = null;
+        Long pid = null;
+        Set<Attribute> attributeSet=null;
+        try {
+            if(categoryId != null){
+                id = Long.parseLong(categoryId);
+            }
+            pid = Long.parseLong(proId);
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+
+        try {
+            attributeSet = ichCategoryService.getAttrListByCatIdAndProId(id,pid);
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+        return putDataToMap(attributeSet);
+    }
 }

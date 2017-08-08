@@ -211,7 +211,7 @@ public class IchProjectController extends BaseController<IchProject> {
     @RequestMapping("getIchProjectByUserId")
     @ResponseBody
     public Map<String, Object> getIchProjectByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> params = new HashMap<>();
         String param = request.getParameter("params");
         try{
@@ -222,12 +222,12 @@ public class IchProjectController extends BaseController<IchProject> {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
-        User user = (User)WebUtil.getCurrentUser(request);
-        if(user == null) {
-            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
-            return putDataToMap(ae);
-        }
-        params.put("userId",user.getId());
+//        User user = (User)WebUtil.getCurrentUser(request);
+//        if(user == null) {
+//            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+//            return putDataToMap(ae);
+//        }
+        params.put("userId",879254100457402368L);
         Page<IchProject> page = null;
         try{
             page = ichProjectService.getIchProjectByUserId(params);

@@ -230,7 +230,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             if( (user != null && user.getType() !=0) && (!ichProject.getLastEditorId().equals(selectProject.getLastEditorId()) || ichProject.getStatus()==0)){//当前编辑者(非管理员)是发生了改变
                 return updateProject(ichProject);
             }
-            checkIchCat(ichProject);//判断分类是否发生改变
             ichProjectMapper.updateByPrimaryKeySelective(ichProject);
         }
         List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
@@ -244,17 +243,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return ichProject;
     }
 
-    private void checkIchCat(IchProject ichProject)throws Exception{
-        Long id = ichProject.getId();
-        IchProject project = ichProjectMapper.selectIchProjectById(id);
-        Long ichCategoryId = project.getIchCategoryId();
-        if(!ichProject.getIchCategoryId().equals(ichCategoryId)){//修改了分类,删除原来分类的项目时间内容
-            List<Attribute> attributeList = ichCategoryService.getAttrListByCatIdAndTarType(ichCategoryId, 0);
-            for (Attribute attribute:attributeList) {
-                contentFragmentService.deleteContentFragmentByAttrIdAndTargetId(id, 0, attribute.getId());
-            }
-        }
-    }
     /**
      * 如果修改人不同就另存版本
      * @param ichProject
@@ -343,7 +331,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     public String preview(Long id) throws Exception {
         IchProject ichProject = getIchProjectById(id);
         String fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId().toString();
-        String uri = buildHTML("pro.ftl", ichProject, fileName);
+        String uri = buildHTML("preview_pro.ftl", ichProject, fileName);
         return uri;
     }
 

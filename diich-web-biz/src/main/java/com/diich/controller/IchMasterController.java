@@ -178,7 +178,7 @@ public class IchMasterController extends BaseController<IchMaster>{
     @RequestMapping("getIchMasterByUserId")
     @ResponseBody
     public Map<String, Object> getIchMasterByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        response.setHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> params = new HashMap<>();
         String param = request.getParameter("params");
         try{

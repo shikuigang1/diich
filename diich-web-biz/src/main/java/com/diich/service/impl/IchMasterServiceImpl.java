@@ -275,7 +275,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         try{
             IchMaster ichMaster = getIchMasterById(id);
             String fileName = PropertiesUtil.getString("freemarker.masterfilepath")+"/"+ichMaster.getId().toString();
-            String uri = buildHTML("master.ftl", ichMaster, fileName);
+            String uri = buildHTML("preview_master.ftl", ichMaster, fileName);
             return uri;
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
