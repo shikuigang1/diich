@@ -123,10 +123,12 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
         Set<Attribute> attrSet = new HashSet<>();
         List<Attribute> attributeList = null;
         try{
-            attributeList = getAttrListByCatIdAndTarType(id, 0);
             List<Long> listId = new ArrayList<>();
-            for (Attribute attribute : attributeList) {
-                listId.add(attribute.getId());
+            if(id !=null){
+                attributeList = getAttrListByCatIdAndTarType(id, 0);
+                for (Attribute attribute : attributeList) {
+                    listId.add(attribute.getId());
+                }
             }
             ContentFragment content = new ContentFragment();
             content.setTargetId(pid);
@@ -141,7 +143,9 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
                     attrSet.add(attribute);
                 }
             }
-            attrSet.addAll(attributeList);
+            if(attributeList != null && attributeList.size() > 0){
+                attrSet.addAll(attributeList);
+            }
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
