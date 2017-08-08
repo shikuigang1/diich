@@ -90,7 +90,8 @@ public class IchCategoryController extends BaseController<IchCategory> {
             }
             tarType = Integer.parseInt(targetType);
         } catch (Exception e) {
-            return putDataToMap(e);
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
         }
 
         try {
@@ -120,7 +121,8 @@ public class IchCategoryController extends BaseController<IchCategory> {
             }
             tarType = Integer.parseInt(targetType);
         } catch (Exception e) {
-            return putDataToMap(e);
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
         }
 
         try {
@@ -154,7 +156,8 @@ public class IchCategoryController extends BaseController<IchCategory> {
             }
             pid = Long.parseLong(proId);
         } catch (Exception e) {
-            return putDataToMap(e);
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
         }
 
         try {
