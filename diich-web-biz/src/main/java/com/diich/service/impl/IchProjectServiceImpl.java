@@ -185,7 +185,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         //根据项目名称查询项目是否存在
         checkProjectByName(ichProject);
         if(ichProject.getStatus() != null && ichProject.getStatus() == 3){
-            //查询自定义字段是否在本项目存在
+            //检查属性是否符合条件
             checkAttribute(ichProject,3);
         }
         try {
