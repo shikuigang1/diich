@@ -22,7 +22,7 @@
     <script src="../js/i18n.js"></script>
     <script src="../js/util.js"></script>
     <script src="../assets/js/inputs-project.js"></script>
-    <script src="../assets/js/login.js"></script>
+   <script src="../assets/js/login.js"></script>
 
 </head>
 
@@ -119,8 +119,9 @@
 
 <script>
     $(function() {
-        $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
-        //获取地址栏 参数 判断是 添加还是 编辑
+        /*loadScript("../assets/js/login.js");*/
+       // $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
+        //获取地址栏 参数 判断是 添加还是 编辑 script src="../assets/js/login.js"><
         var pid = $.getUrlParam("pid");
         if(pid == null ||  typeof(pid)=='undefined' ){
             localStorage.setItem('action',"add");
@@ -129,7 +130,6 @@
         }else{
             localStorage.setItem('action',"update");//添加修改标记状态
             var ich = getIchProByID(pid);
-
             var code="";
             $.each(ich.contentFragmentList,function (idnex,object) {
                 if(object.attributeId==4){//获取用户中文名信息
@@ -141,6 +141,7 @@
                 }
             });
             //初始化本地区域 文本数据
+            console.log(code);
             if(code != ""){
                 toArray(dic_arr_city);
                 var codeText=[];
@@ -159,12 +160,15 @@
                 }else{
                     var str="";
                     var obj=getAreaName(code,dic_arr_city);
-                    str=obj.name;
-                    while (obj.parent_id>0){
-                        obj=getAreaName(obj.parent_id,dic_arr_city);
-                        str=obj.name+str;
+                    if(obj != null && typeof(obj) != "undefined"){
+                        str=obj.name;
+                        while (obj.parent_id>0){
+                            obj=getAreaName(obj.parent_id,dic_arr_city);
+                            str=obj.name+str;
+                        }
+                        codeText.push(str);
                     }
-                    codeText.push(str);
+
                 }
                 //console.log(JSON.stringify(codeText));
                 localStorage.setItem("codeText",codeText.join(","));
@@ -176,25 +180,12 @@
 
     var newArr = new Array();
     function getAreaName(code,dic_arr_city) {
-        /*
-        for (var i=0;i<dic_arr_city.length;i++) {
-            if(dic_arr_city[i].code == code || dic_arr_city[i].id == code) {
-                   return dic_arr_city[i];
-            } else if(typeof (dic_arr_city[i].children) != "undefined"){
-                if (dic_arr_city[i].children.length>0) {
-                   return getAreaName(code,dic_arr_city[i].children); //递归遍历
-                }
-            }
-        }*/
-
         for (var i=0;i<newArr.length;i++) {
             if(newArr[i].code == code || newArr[i].id == code) {
                 return newArr[i];
             }
         }
     }
-
-
 
     function toArray(dic_arr_city){
         for(var i=0;i<dic_arr_city.length;i++){
