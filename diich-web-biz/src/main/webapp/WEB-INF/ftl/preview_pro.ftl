@@ -490,7 +490,8 @@
                                 <div class="item">
                                     <p class="data-item" data-id="${cf.attributeId}">
                                         <#if cf.content??>
-                                             ${cf.content}
+                                         <#assign content =cf.content?replace("\n", "<br>") />
+                                             ${content}
                                         </#if>
                                     </p>
                                 </div>
@@ -572,7 +573,8 @@
                         <article class="plain_text">
                             <p class="data-item" data-id="${cf.attributeId}">
                                 <#if cf.content??>
-                                    ${cf.content}
+                                 <#assign content =cf.content?replace("\n", "<br>") />
+                                     ${content}
                                 </#if>
                             </p>
 

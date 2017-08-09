@@ -135,7 +135,16 @@
                     <#list obj.contentFragmentList as cf>
                         <#if cf.attributeId == 13>
                             <#assign mastername = cf.content>
-                        <h2>${cf.content}</h2><a href="${caturi}/page/ichMasterForm.html?mid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
+                        <h2>${cf.content}</h2>
+                        <#--获取所属项目的名称-->
+                            <#if obj.ichProject?? && (obj.ichProject.contentFragmentList??) && (obj.ichProject.contentFragmentList?size>0)>
+                                <#list (obj.ichProject.contentFragmentList) as cf>
+                                    <#if cf.attributeId == 4>
+                                        <#assign pname = "${cf.content}" />
+                                    </#if>
+                                </#list>
+                            </#if>
+                            <a href="${caturi}/page/ichMasterForm.html?mid=${obj.id?c}&pname=${pname}" class="edit"><i class="icon"></i>编辑</a>
                         </#if>
                     </#list>
                 </#if>
@@ -340,7 +349,8 @@
                                 <div class="item">
                                     <p>
                                         <#if cf.content??>
-                                            ${cf.content}
+                                         <#assign content =cf.content?replace("\n", "<br>") />
+                                             ${content}
                                         </#if>
                                     </p>
                                 </div>
@@ -408,7 +418,8 @@
                         <article class="plain_text">
                             <p>
                                 <#if cf.content??>
-                                    ${cf.content}
+                                 <#assign content =cf.content?replace("\n", "<br>") />
+                                     ${content}
                                 </#if>
                             </p>
 
