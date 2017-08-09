@@ -309,7 +309,8 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         function _onSave() {
             $("#active").off("click");
 
-            if(validate() && imgUrl != "" && isMaster != "") {
+            //if(validate() && imgUrl != "" && isMaster != "") {
+            if(validate()) {
                 var params = getBasicFormData(); // 获取表单数据 构建参数
                 params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 //console.log("params -- >", params);
@@ -333,8 +334,8 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     }
                 });
             } else {
-                imgUrl == "" ? $("#img_err").html("<i></i>请上传照片 (如若已上传图片请等待图片回显后点击 下一步 操作)").show() : "";
-                isMaster == "" ? $("#isApply_err").html("<i></i>请选择是否为自己申报传承人").show() : "";
+                //imgUrl == "" ? $("#img_err").html("<i></i>请上传照片 (如若已上传图片请等待图片回显后点击 下一步 操作)").show() : "";
+                //isMaster == "" ? $("#isApply_err").html("<i></i>请选择是否为自己申报传承人").show() : "";
                 _bindingSave();
             }
         }
@@ -1084,8 +1085,9 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     // 获取基本信息表单数据 处理成参数
     function getBasicFormData() {
         var data = $("#basicForm").serializeArray(); // 获取表单数据
-        data.push({"name" : "img", "value" : imgUrl}); // 构建图片参数
-        //$("#ichProjectId")
+        if(imgUrl) {
+            data.push({"name" : "img", "value" : imgUrl}); // 构建图片参数
+        }
         return buildParams(data, pageObj); // 构建请求参数数据
     }
 
