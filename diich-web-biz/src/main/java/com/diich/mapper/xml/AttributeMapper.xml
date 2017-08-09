@@ -12,6 +12,7 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="data_type" property="dataType" jdbcType="INTEGER" />
     <result column="is_open" property="isOpen" jdbcType="INTEGER" />
+    <result column="lable" property="lable" jdbcType="CHAR" />
     <result column="seq" property="seq" jdbcType="INTEGER" />
     <result column="min_length" property="minLength" jdbcType="INTEGER" />
     <result column="max_length" property="maxLength" jdbcType="INTEGER" />
@@ -19,7 +20,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, ich_category_id, cn_name, en_name, priority, target_id, target_type, status,
-    data_type, is_open, seq, min_length, max_length, description
+    data_type, is_open, lable, seq, min_length, max_length, description
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
@@ -35,12 +36,12 @@
     insert into attribute (id, ich_category_id, cn_name,
     en_name, priority, target_id,
     target_type, status, data_type,
-    is_open, seq, min_length,
+    is_open, lable, seq, min_length,
     max_length, description)
     values (#{id,jdbcType=BIGINT}, #{ichCategoryId,jdbcType=BIGINT}, #{cnName,jdbcType=VARCHAR},
     #{enName,jdbcType=VARCHAR}, #{priority,jdbcType=INTEGER}, #{targetId,jdbcType=BIGINT},
     #{targetType,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{dataType,jdbcType=INTEGER},
-    #{isOpen,jdbcType=INTEGER}, #{seq,jdbcType=INTEGER}, #{minLength,jdbcType=INTEGER},
+    #{isOpen,jdbcType=INTEGER}, #{lable,jdbcType=CHAR}, #{seq,jdbcType=INTEGER}, #{minLength,jdbcType=INTEGER},
     #{maxLength,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.Attribute" >
@@ -75,6 +76,9 @@
       </if>
       <if test="isOpen != null" >
         is_open,
+      </if>
+      <if test="lable != null" >
+        lable,
       </if>
       <if test="seq != null" >
         seq,
@@ -120,6 +124,9 @@
       <if test="isOpen != null" >
         #{isOpen,jdbcType=INTEGER},
       </if>
+      <if test="lable != null" >
+        #{lable,jdbcType=CHAR},
+      </if>
       <if test="seq != null" >
         #{seq,jdbcType=INTEGER},
       </if>
@@ -164,6 +171,9 @@
       <if test="isOpen != null" >
         is_open = #{isOpen,jdbcType=INTEGER},
       </if>
+      <if test="lable != null" >
+        lable = #{lable,jdbcType=CHAR},
+      </if>
       <if test="seq != null" >
         seq = #{seq,jdbcType=INTEGER},
       </if>
@@ -182,18 +192,19 @@
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.Attribute" >
     update attribute
     set ich_category_id = #{ichCategoryId,jdbcType=BIGINT},
-    cn_name = #{cnName,jdbcType=VARCHAR},
-    en_name = #{enName,jdbcType=VARCHAR},
-    priority = #{priority,jdbcType=INTEGER},
-    target_id = #{targetId,jdbcType=BIGINT},
-    target_type = #{targetType,jdbcType=INTEGER},
-    status = #{status,jdbcType=INTEGER},
-    data_type = #{dataType,jdbcType=INTEGER},
-    is_open = #{isOpen,jdbcType=INTEGER},
-    seq = #{seq,jdbcType=INTEGER},
-    min_length = #{minLength,jdbcType=INTEGER},
-    max_length = #{maxLength,jdbcType=INTEGER},
-    description = #{description,jdbcType=VARCHAR}
+      cn_name = #{cnName,jdbcType=VARCHAR},
+      en_name = #{enName,jdbcType=VARCHAR},
+      priority = #{priority,jdbcType=INTEGER},
+      target_id = #{targetId,jdbcType=BIGINT},
+      target_type = #{targetType,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      data_type = #{dataType,jdbcType=INTEGER},
+      is_open = #{isOpen,jdbcType=INTEGER},
+      lable = #{lable,jdbcType=CHAR},
+      seq = #{seq,jdbcType=INTEGER},
+      min_length = #{minLength,jdbcType=INTEGER},
+      max_length = #{maxLength,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectAttrListByCatIdAndTarType" resultMap="BaseResultMap" parameterType="com.diich.core.model.Attribute">

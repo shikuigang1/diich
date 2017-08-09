@@ -23,6 +23,8 @@ public class Attribute extends BaseModel {
 
     private Integer isOpen;
 
+    private String lable;
+
     private Integer seq;
 
     private Integer minLength;
@@ -119,6 +121,14 @@ public class Attribute extends BaseModel {
 
     public void setIsOpen(Integer isOpen) {
         this.isOpen = isOpen;
+    }
+
+    public String getLable() {
+        return lable;
+    }
+
+    public void setLable(String lable) {
+        this.lable = lable;
     }
 
     public Integer getSeq() {
