@@ -949,7 +949,7 @@ var inheritorPage={
             // 简单验证稍后更新
             var localhostPaht=window.document.location.href.substring(0,window.document.location.href.indexOf(window.document.location.pathname))
             var newStr = str[0];
-            console.log("---", newStr.lastIndexOf(".jpg"));
+            //console.log("---", newStr.lastIndexOf(".jpg"));
             if(newStr.lastIndexOf(".jpg") < 0) {
                 newStr = localhostPaht + "/assets/images/inputs/play.jpg";
             }

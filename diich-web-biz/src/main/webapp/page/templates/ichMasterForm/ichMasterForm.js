@@ -43,7 +43,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     var ossPash = "http://diich-resource.oss-cn-beijing.aliyuncs.com/image/master/"; // oss图片地址存放地址
     var imgUrl = ""; // 基础信息模板图片url
     var addressCode = ""; // 联系方式信息模板居住地址code值
-    //var saveSuccessText = "保存成功";
+    var status;
 
     /**
      * 处理化数据
@@ -309,7 +309,8 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         function _onSave() {
             $("#active").off("click");
 
-            if(validate() && imgUrl != "" && isMaster != "") {
+            //if(validate() && imgUrl != "" && isMaster != "") {
+            if(validate()) {
                 var params = getBasicFormData(); // 获取表单数据 构建参数
                 params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 //console.log("params -- >", params);
@@ -333,8 +334,8 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     }
                 });
             } else {
-                imgUrl == "" ? $("#img_err").html("<i></i>请上传照片 (如若已上传图片请等待图片回显后点击 下一步 操作)").show() : "";
-                isMaster == "" ? $("#isApply_err").html("<i></i>请选择是否为自己申报传承人").show() : "";
+                //imgUrl == "" ? $("#img_err").html("<i></i>请上传照片 (如若已上传图片请等待图片回显后点击 下一步 操作)").show() : "";
+                //isMaster == "" ? $("#isApply_err").html("<i></i>请选择是否为自己申报传承人").show() : "";
                 _bindingSave();
             }
         }
@@ -841,10 +842,11 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 // 如果页面无任何已填写项， 则直接提示保存成功， 有填写项则存库
                 if(params.contentFragmentList.length > 0) {
                     onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                        //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
+                        console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
                         if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                             targetId = result.res.data.id;
                             _onMergeObj(result.res.data);
+                            console.log("--->", pageObj);
                             tipBox.init("success", "保存成功", 1500);
                             _bindingSave();
                         } else {
@@ -1018,13 +1020,15 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         var  params = {
             "isMaster": parseInt(isMaster),
             "lang": getLang()=="zh-CN" ? "chi" : "eng",
-            //"status": 2,
             "id": targetId ? targetId : "",
-
         }
 
         if(ichProjectId) {
             params.ichProjectId = ichProjectId;
+        }
+
+        if(pageObj.hasOwnProperty("contentFragmentList")) {
+            params.status = pageObj.status;
         }
 
         $.each(data, function(i, v) {
@@ -1050,8 +1054,8 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 v.resourceList = [{uri: v.value}]; // 基本信息中只有一张图片
             }
 
-            if(v.name == "birthday") {
-                v.content = new Date(parseInt(1501430400 * 1000)).format('yyyy/MM/dd');
+            if(v.name == "birthday" && v.content != "") {
+                v.content = new Date(parseInt(v.content) * 1000).format('yyyy/MM/dd');
             }
 
             if(v.imgs) {
@@ -1065,6 +1069,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 $.each(pageObj.contentFragmentList, function(j, d) {
                     if(v.attributeId == d.attributeId) {
                         v.id = d.id;
+
                         //delete params.status; // 修改的时候不填写status
                         return;
                     }
@@ -1080,8 +1085,9 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     // 获取基本信息表单数据 处理成参数
     function getBasicFormData() {
         var data = $("#basicForm").serializeArray(); // 获取表单数据
-        data.push({"name" : "img", "value" : imgUrl}); // 构建图片参数
-        //$("#ichProjectId")
+        if(imgUrl) {
+            data.push({"name" : "img", "value" : imgUrl}); // 构建图片参数
+        }
         return buildParams(data, pageObj); // 构建请求参数数据
     }
 
@@ -1329,8 +1335,8 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         reg_email: /^\w+\@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}$/i, //验证邮箱
         reg_num: /^\d+$/,         //验证数字
         reg_chinese: /^[\u4E00-\u9FA5]+$/,     //验证中文
-        reg_english: /^[A-Za-z][A-Za-z\s]*[A-Za-z]$/, // 验证英文
-        reg_pinyin: /^[A-Za-z][A-Za-z\s]*[A-Za-z]$/, // 验证拼音
+        reg_english: /^[A-Za-z\s]*[A-Za-z]$/, // 验证英文
+        reg_pinyin: /^[A-Za-z\s]*[A-Za-z]$/, // 验证拼音
         reg_mobile: /^1[3458]{1}[0-9]{9}$/,    //验证手机
         reg_idcard: /^\d{14}\d{3}?\w$/,     //验证身份证
         reg_passport: /^[a-zA-Z]{5,17}$/, // 护照格式验证
