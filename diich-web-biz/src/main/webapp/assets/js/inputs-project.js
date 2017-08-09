@@ -5,16 +5,29 @@ var saveAndnext=false;
 function renderpage(){
 
 }
-
 //页面校验
 function checkPageInputs(){
 
 }
 
 //渲染左侧菜单页面
-function renderLeftMenu(bytype,cateId) {
-    //初始化页面
-    var data = loadPageData(bytype,cateId);
+function renderLeftMenu(ich) {
+    var jsondata={} ;
+    var url="";
+    if(typeof (ich.id)=="undefined"){
+        url= "/ichCategory/getAttributeList";
+        //{targetType:targetType,categoryId:categoryId}
+        jsondata.targetType=0;
+        jsondata.categoryId=0;
+    }else{
+        url = "/ichCategory/getAttributeListByCatIdAndProId";
+        jsondata.proId=ich.id;
+        if(typeof(ich.ichCategoryId) != "undefined"){
+            jsondata.categoryId=ich.ichCategoryId;
+        }
+    }
+    var data = loadPageData(url,jsondata);
+    //console.log(data);
     initpage(data);
 }
 
@@ -35,55 +48,81 @@ function  initCertRank() {
 function initpage(data){
     //初始化 左侧菜单栏
     //<li class="active"><a href=""><i class="checkbox"></i><span>基本内容</span></a></li>
-    //console.log(data);
-    $.each(data.data,function (index,obj) {
-        ////长文本 或者图文
-        if(obj.dataType==1 || obj.dataType==5 ){
-            //过滤掉简介不再左侧显示
-            if((!(obj.id==9 || obj.id==24 || obj.id==31)) && obj.ichCategoryId == 0){
-                //中英文切换  <li><i class="icon unselected"></i><span>传承谱系</span></li>
-                if(getLang()=="zh-CN"){
-                    $("#menu").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
-                }else{
+    if(typeof (data.data) != "undefined"){
+        $("#menu").empty();
+        $("#menu2").empty();
+
+        $.each(data.data,function (index,obj) {
+            ////长文本 或者图文
+            if(obj.dataType==1 || obj.dataType==5 ){
+                //过滤掉简介不再左侧显示
+                if((!(obj.id==9 || obj.id==24 || obj.id==31)) && obj.ichCategoryId == 0){
+                    //中英文切换  <li><i class="icon unselected"></i><span>传承谱系</span></li>
+                    if(getLang()=="zh-CN"){
+                        $("#menu").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
+                    }else{
                         $("#menu").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
                     }
-            }
-
-            if((!(obj.id==9 || obj.id==24 || obj.id==31)) && obj.ichCategoryId>0){
-                //中英文切换  <li><i class="icon unselected"></i><span>传承谱系</span></li>
-                if(getLang()=="zh-CN"){
-                    $("#menu2").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
-                }else{
-                    $("#menu2").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
                 }
+
+                if((!(obj.id==9 || obj.id==24 || obj.id==31)) && obj.ichCategoryId>0){
+                    //中英文切换  <li><i class="icon unselected"></i><span>传承谱系</span></li>
+                    if(getLang()=="zh-CN"){
+                        $("#menu2").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
+                    }else{
+                        $("#menu2").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
+                    }
+                }
+            }else{
+                //右侧字段生成
             }
+        });
+    }
 
-
-        }else{
-            //右侧字段生成
-        }
-    });
     //初始化 右侧内容
 }
 //通过选中分类初始化 项目实战菜单
-function initmenu2(targetType,categoryId) {
-    var data = loadPageData(targetType,categoryId);
+function initmenu2(dataType,categoryID) {
+
+    var ich = getCurrentProject();
+    var jsondata={} ;
+    var url=""
+    if(typeof (ich.id)=="undefined"){
+        url= "/ichCategory/getAttributeList";
+        //{targetType:targetType,categoryId:categoryId}
+        jsondata.targetType=0;
+        if(typeof(ich.ichCategoryId) == "undefined"){
+            jsondata.categoryId=categoryID;
+        }
+    }else{
+        url = "/ichCategory/getAttributeListByCatIdAndProId";
+        jsondata.proId=ich.id;
+        if(typeof(ich.ichCategoryId) != "undefined"){
+            if(typeof (categoryID) != "undefined"){
+                jsondata.categoryId=categoryID;
+            }else{
+                jsondata.categoryId=ich.ichCategoryId;
+            }
+
+        }
+    }
+    var data = loadPageData(url,jsondata);
+    console.log(data);
     getDataByCateGoryId(data);
 }
 
 //请求服务器 获取 属性类型 targetType 标示类型
-function loadPageData(targetType,categoryId) {
-
+function loadPageData(url,jsondata) {
     var data ;
     $.ajax({
         type: "POST",
-        url: "../ichCategory/getAttributeList",
-        data:{targetType:targetType,categoryId:categoryId} ,
+        url: url,
+        data:jsondata,
         dataType: "json",
         async:false,
         complete: function () { },
         success: function (result) {
-            console.log(result);
+            console.log("1111--->",result);
             if(result.code==0){
                 data = result;
                 attributeData = result.data ;
@@ -111,8 +150,22 @@ function getDataByCateGoryId(data){
         }else{
             //右侧字段生成
         }
+    });
+    //项目实践 合并 状态选中 控制
+    var ich = getCurrentProject();
+    $("#menu2").children("li").each(function () {
+        var attrid = $(this).find("span").attr('data-id');
+        var flag = false;
+        $.each(ich.contentFragmentList,function (index,obj) {
+            if(attrid == obj.attributeId){
+                flag = true;
+                return false;
+            }
+        });
 
-
+        if(flag){
+            $(this).find('i').eq(0).addClass('selected');
+        }
     });
 }
 function loadContentFragmentById(cid){
@@ -216,9 +269,7 @@ function  saveCustom(next) {
     });
 }
 function  validateCustom() {
-
-  //  alert($("#attrName").val().trim().length);
-
+    //alert($("#attrName").val().trim().length);
     var flag = true;
     if($("#attrName").val()==""|| $("#attrName").val().trim().length==0){
         $("#attrName").next().show();
@@ -234,7 +285,6 @@ function  validateCustom() {
 
 //根据项目id 初始化自定义属性列表
 function init3(targetID) {
-
     $.ajax({
         type: "POST",
         url: "../ichCategory/getDefAttributeList",
@@ -246,7 +296,6 @@ function init3(targetID) {
             console.log(result);
             if(result.code==0){
                 $("#menu3").empty();
-
                 $.each(result.data,function (index,obj) {
                     if(getLang()=="zh-CN"){
                         $("#menu3").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon selected\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
@@ -258,7 +307,6 @@ function init3(targetID) {
             }else{
                 alert("获取自定义属性失败");
             }
-
         },
         error: function (result, status) {
         }
@@ -290,7 +338,7 @@ function  delContentFragment(attrId) {
         init3(ich.id);
         return false;
     }
-     console.log(cid);
+ //    console.log(cid);
     $.ajax({
         type: "POST",
         url: "../contentFragment/deleteContentFragment",
@@ -366,9 +414,6 @@ function  delContentFragment(attrId) {
                 }else{
                     $(".handle").find('a').eq(2).removeClass('empty').addClass('disabled');
                 }
-
-
-
             }else{
                 alert("保存失败");
             }
@@ -396,9 +441,8 @@ function  saveContentPragment(attrid) {
     var flag = false;
       $.each(attributeData,function (index,obj) {
             if(obj.id == attrid){
-
                 if(obj.minLength==null || obj.minLength ==0){
-                    flag = true;
+                    flag = false;
                     return false;
                 }else
                 if(obj.minLength>0 && $("#longContent").val().trim().length>0){
@@ -408,7 +452,7 @@ function  saveContentPragment(attrid) {
             }
       });
 
-    if(!flag){
+    if(flag){
         $("#longContent").next().show();
         return false;
     }
@@ -419,14 +463,12 @@ function  saveContentPragment(attrid) {
         contentFragment={};
     }
     //在页面 获取数据 封装数据
-
+/*
     if($("#longContent").val().trim()=='' || $("#longContent").val().trim().length<50){
 
         $("#longContent").next().show();
         return false;
-    }
-
-
+    }*/
     contentFragment.attributeId=attrid;
     contentFragment.content=$("#longContent").val().trim();
     contentFragment.targetType=0;
@@ -462,7 +504,6 @@ function  saveContentPragment(attrid) {
                                     flag=1;
                                     o.description=object.description;
                                 }
-
                         });
                         if(flag==0){
                             ich.contentFragmentList[idx].resourceList.push(object);
@@ -502,7 +543,6 @@ function  saveContentPragment(attrid) {
            // console.log(result);
             if(result.code==0){
                    /* var ich = getCurrentProject();
-
                     var flag =0;
                     $.each(ich.contentFragmentList,function (index,obj) {
                         if(obj.attributeId == result.data.attributeId){
@@ -541,11 +581,9 @@ function  saveContentPragment(attrid) {
 
                 var opencheck = false;
                 $.each(result.data.contentFragmentList,function (index,obj) {
-
                     if(obj.attributeId== 40 && obj.content != null && obj.content.length>0){
                         opencheck= true;
                     }
-
                 });
 
                 if(opencheck){
@@ -610,8 +648,7 @@ function saveIchProject(page) {
         //contentFragmentList = ich.contentFragmentList;
     }
 
-
-    if(page==0){
+    if( $('div[data-type=proBaseInfo]').hasClass("selected")){
         var contentFragment={};
 
         contentFragment.attributeId=9;//简介
@@ -648,7 +685,6 @@ function saveIchProject(page) {
         contentFragment={};
 
         var val=$("input:radio[name='authenticated']:checked").val();
-
         if(typeof (val)=='undefined'){
             //alert("请选择是否已认证！"); return false;
         }
@@ -712,14 +748,85 @@ function saveIchProject(page) {
         localStorage.setItem("ichProject",JSON.stringify(ich));
         ///console.log(JSON.stringify(ich));
 
-        if(!vaidateForm(ich)){
-            return ;
+        /* if(!vaidateForm(ich)){
+         return ;
+         }*/
+
+    }else{
+        //获取 条件
+        var condition = getConditionByAttributeID(attid);
+
+        if(condition.minLength>0 && $("#longContent").val().trim().length<condition.minLength){
+            $("#longContent").next().find('span').eq(0).text("文本内容的最小长度为"+condition.minLength).show();
+            return false;
+        }
+        //先通过 attributeID 在本地寻找是否有相应的 内容片断
+        var contentFragment = getContentFragmentByID(attrid);
+        if (typeof(contentFragment) == "undefined" || contentFragment== null){
+            contentFragment={};
         }
 
+        contentFragment.attributeId=attrid;
+        contentFragment.content=$("#longContent").val().trim();
+        contentFragment.targetType=0;
+
+        var resource={};
+        var resourceList=[];
+
+        //获取图片列表
+        $("#images").find(".item").each(function () {
+            var fullpath = $(this).find('img').eq(0).attr("src");
+            var desc =  $(this).find('img').eq(0).next().val();
+            var path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            resource.uri=path;
+            resource.description=desc;
+            resourceList.push(cloneObj(resource));
+        });
+        contentFragment.resourceList=resourceList;
+
+        var ich = getCurrentProject();
+        if(typeof (ich.contentFragmentList)!="undefined" || ich.contentFragmentList.length>0){
+            var flag_1 =0;
+            $.each(ich.contentFragmentList,function (idx,obj) {
+                if(obj.attributeId == attrid){
+                    flag_1=1;
+                    ich.contentFragmentList[idx].content=$("#longContent").val();
+                    if(typeof (obj.resourceList) == 'undefined'){
+                        ich.contentFragmentList[idx].resourceList = resourceList;
+                    }else{
+                        $.each(resourceList,function (index,object) {
+                            var flag = 0;
+                            $.each(obj.resourceList,function (i,o) {
+                                if(object.uri==o.uri){
+                                    flag=1;
+                                    o.description=object.description;
+                                }
+                            });
+                            if(flag==0){
+                                ich.contentFragmentList[idx].resourceList.push(object);
+                            }
+                        });
+                    }
+                }
+            });
+
+            if(flag_1==0){
+                contentFragment.targetId=ich.id;
+                contentFragment.targetType=0;
+                ich.contentFragmentList.push(contentFragment);
+            }
+        }
+        var temp={};
+        if(typeof (ich.contentFragmentList)!="undefined" || ich.contentFragmentList.length>0){
+            $.each(ich.contentFragmentList,function (idx,obj) {
+                if(obj.attributeId == attrid){
+                    temp = obj;
+                }
+            });
+        }
     }
 
-
-
+    console.log(JSON.stringify(ich));
     //获取本地
   $.ajax({
         type: "POST",
@@ -732,7 +839,6 @@ function saveIchProject(page) {
             console.log(JSON.stringify(result));
             if(result.code==0){
                 //存储本地
-                //
                 if(page == 1){
                     tipBox.init("success","保存成功",1500);
                 }
@@ -750,7 +856,7 @@ function saveIchProject(page) {
                 }
 
             //提交按钮开启
-                var opencheck = false;
+              var opencheck = false;
               $.each(result.data.contentFragmentList,function (index,obj) {
 
                   if(obj.attributeId== 40 && obj.content != null && obj.content.length>0){
@@ -758,13 +864,11 @@ function saveIchProject(page) {
                   }
                   
               });
-
               if(opencheck){
                   $(".handle").find('a').eq(2).removeClass('disabled').addClass('empty');
               }else{
                   $(".handle").find('a').eq(2).removeClass('empty').addClass('disabled');
               }
-
 
             }else if(result.code==3){
                 //tipBox.init("fail",result.msg,1500);
@@ -896,21 +1000,29 @@ function vaidateForm(ich) {
     return flag;
 }
 function  initProjectView(ich) {
-    if(ich.ichCategoryId == null || typeof (ich.ichCategoryId) == "undefined"){
-        renderLeftMenu(0,0);
+
+    //
+    if(localStorage.getItem("action")=="update" && (ich == null || typeof (ich) == "undefined")){
+        return;
+    }
+
+    if(ich.id == null || typeof (ich.id) == "undefined"){
+        ich = {};
+        renderLeftMenu(ich);
+        $('div[data-type=proBaseInfo]').click();
+        //选中状态补全
+        $('div[data-type=proBaseInfo]').find("i").addClass('selected');
     }else {
         $('div[data-type=proBaseInfo]').click();
         //选中状态补全
         $('div[data-type=proBaseInfo]').find("i").addClass('selected');
         //项目内容
-        renderLeftMenu(0,ich.ichCategoryId);
+        renderLeftMenu(ich);
         //通过分类选择 项目实战
         //initmenu2(0,ich.ichCategoryId);
-
         if(ich.contentFragmentList!= null && typeof (ich.contentFragmentList) != 'undefined'){
-
             $('li[data-type=longField]').each(function () {
-                var dataid = $(this).find('span').eq(0).attr('data-id');
+              /*  var dataid = $(this).find('span').eq(0).attr('data-id');
                 var flag = 0;
                 $.each(ich.contentFragmentList,function (idx,obj) {
                     if(obj.attributeId == dataid ){
@@ -919,8 +1031,26 @@ function  initProjectView(ich) {
                 });
                 if(flag==1){
                     $(this).find('i').eq(0).addClass("selected");
+                }*/
+              //编辑情况下默认 所有全部选中
+                if(localStorage.getItem("action")=="add"){
+
+                    var dataid = $(this).find('span').eq(0).attr('data-id');
+                    var flag = 0;
+                    $.each(ich.contentFragmentList,function (idx,obj) {
+                        if(obj.attributeId == dataid ){
+                            flag = 1;
+                        }
+                    });
+                    if(flag==1){
+                        $(this).find('i').eq(0).addClass("selected");
+                    }else{
+                        $(this).find('i').eq(0).removeClass("selected");
+                    }
+                }else{
+                    $(this).find('i').eq(0).addClass("selected");
                 }
-                //==
+
             });
         }
         //初始化 自定义属性
@@ -1005,18 +1135,128 @@ function getIchProByID(pid) {
     var ich={};
     $.ajax({
         type: "POST",
-        url: "../ichProject/getIchProjectById",
+        url: "/ichProject/getIchProjectById",
         data:{params:pid} ,
         dataType: "json",
         async:false,
         complete: function () { },
         success: function (result) {
+            console.log(result);
             if(result.code==0){
                 ich = result.data;
+                //console.log("project data---->",ich);
             }
         },
         error: function (result, status) {
         }
     });
     return ich;
+}
+//通过属性id 获取判断条件
+function getConditionByAttributeID(attid){
+    var condition={};
+    $.each(attributeData,function (index,obj) {
+        if(obj.id == attid){
+            if(obj.minLength==null || obj.minLength ==0){
+                condition.minLength=0;
+            }else if(obj.minLength>0){
+                condition.minLength=obj.minLength
+            }
+
+            if(obj.maxLength==null || obj.maxLength ==0){
+                condition.maxLength=0;
+            }else if(obj.maxLength>0){
+                condition.maxLength=obj.maxLength
+            }
+        }
+    });
+    return condition;
+}
+//判断 所有必填字段是否 已经添加
+function isMustAdd() {
+
+    var ich = getCurrentProject();
+    var hasAddMust=true;//默认所有必填 都已添加
+
+    $.each(attributeData,function (index,obj) {
+        //外层 判断是否为必填字段
+        var flag = false;//必填字段标记
+        var hasSavedata = false;//必填数据是否 已添加标记
+        if(obj.minLength != null && obj.minLength>0){
+            flag=true;
+        }
+        if(flag){
+            //当前字段为必填 查看项目是否有该数据
+            $.each(ich.contentFragmentList,function (idx,o) {
+                if(o.attributeId == obj.id){
+                    hasSavedata = true;
+                }
+            });
+            if(!hasSavedata){//必填数据未添加
+                hasAddMust = false;
+               return false;
+            }
+        }
+
+    });
+    return　hasAddMust;
+}
+//初始化
+function  initProjectData() {
+
+    var pid = $.getUrlParam("pid");
+    var ich = getCurrentProject();
+
+    if(pid == null ||  typeof(pid)=='undefined' ){
+        localStorage.setItem('action',"add");
+        $("#chiName").val(localStorage.getItem('ichProName'));
+        $(".name").text('填写申报信息-'+localStorage.getItem('ichProName'));
+    }else{
+        localStorage.setItem('action',"update");//添加修改标记状态
+ /*       var ich = getIchProByID(pid);
+        localStorage.setItem("ichProject",JSON.stringify(ich));*/
+        var code="";
+        $.each(ich.contentFragmentList,function (idnex,object) {
+            if(object.attributeId==4){//获取用户中文名信息
+                $(".name").text('编辑申报信息-'+object.content);
+                $("#chiName").val(object.content);
+            }
+            if(object.attributeId==33){//获取区域code 值
+                code = object.content;
+            }
+        });
+        //初始化本地区域 文本数据
+        if(code != ""){
+            toArray(dic_arr_city);
+            var codeText=[];
+            if(code.indexOf(",") != -1){
+                var codes = code.split(",");
+                for(var i=0;i<codes.length;i++){
+                    var str="";
+                    var obj=getAreaName(codes[i],dic_arr_city);
+                    str=obj.name;
+                    while (obj.parent_id>0){
+                        obj=getAreaName(obj.parent_id,dic_arr_city);
+                        str=obj.name+str;
+                    }
+                    codeText.push(str);
+                }
+            }else{
+                var str="";
+                var obj=getAreaName(code,dic_arr_city);
+                if(obj != null && typeof(obj) != "undefined"){
+                    str=obj.name;
+                    while (obj.parent_id>0){
+                        obj=getAreaName(obj.parent_id,dic_arr_city);
+                        str=obj.name+str;
+                    }
+                    codeText.push(str);
+                }
+            }
+            //console.log(JSON.stringify(codeText));
+            localStorage.setItem("codeText",codeText.join(","));
+        }
+        localStorage.setItem("ichProject",JSON.stringify(ich));
+    }
+    
 }
