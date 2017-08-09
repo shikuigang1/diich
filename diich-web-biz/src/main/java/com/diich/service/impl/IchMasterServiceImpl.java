@@ -185,7 +185,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             ichMasterMapper.insertSelective(ichMaster);
         } else {
             IchMaster master = ichMasterMapper.selectMasterById(ichMaster.getId());
-            if( (user != null && user.getType() !=0) && (!ichMaster.getLastEditorId().equals(master.getLastEditorId()) || ichMaster.getStatus()==0)){//当前编辑者(非管理员)是发生了改变
+            if( (user != null && user.getType() !=0) && (!ichMaster.getLastEditorId().equals(master.getLastEditorId()) || ( ichMaster.getStatus() != null && ichMaster.getStatus()==0))){//当前编辑者(非管理员)是发生了改变
                 return updateMaster(ichMaster);
             }
             ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
