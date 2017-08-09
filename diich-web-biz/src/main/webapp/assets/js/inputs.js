@@ -904,7 +904,6 @@ var inheritorPage={
     },
     uploadImage:function () {
         var _images=$('#images');
-        //
         var el=$('.ipt_base .content .edit .images .handle .file_up .icon');
         upload.submit(el,1,'http://localhost:8005/admin/upload',function (data) {
             _images.find('.handle').before(templateItem('/uploads/'+data.image_url));
@@ -934,7 +933,7 @@ var inheritorPage={
     },
     radioImage:function () {
         var _images=$('#images');
-        //
+        $(".preview").remove();
         var el=$('.ipt_base .content .edit .images .handle .file_up .icon');
         upload.submit(el,1,'/user/uploadFile?type=master',function (data) {
             _images.find('.handle').before(templateItem(data.data));
@@ -946,15 +945,15 @@ var inheritorPage={
 
         //模版
         function templateItem(str) {
-            // 简单验证稍后更新
-            var localhostPaht=window.document.location.href.substring(0,window.document.location.href.indexOf(window.document.location.pathname))
-            var newStr = str[0];
-            //console.log("---", newStr.lastIndexOf(".jpg"));
-            if(newStr.lastIndexOf(".jpg") < 0) {
-                newStr = localhostPaht + "/assets/images/inputs/play.jpg";
+            // 常用图片格式
+            var imgArr = [".BMP", ".PCX", ".PNG", ".JPEG", ".GIF", ".TIFF", ".JPG", ".ICO", ".TIF",
+                          ".bmp", ".pcx", ".png", ".jpeg", ".gif", ".tiff", ".jpg", ".ico", ".tif"];
+            if(imgArr.indexOf(str[0].substr(str[0].lastIndexOf("."), str[0].length).toString()) < 0) {
+                var localhostPaht = window.document.location.href.substring(0,window.document.location.href.indexOf(window.document.location.pathname))
+                str[0] = localhostPaht + "/assets/images/inputs/play.jpg";
             }
             var templ='<div class="item">' +
-                '<img src="' + newStr + '" alt="">' +
+                '<img src="' + str[0] + '" alt="">' +
                 '<input type="text" name="text" placeholder="请输入标题">' +
                 '</div>';
             return templ;
