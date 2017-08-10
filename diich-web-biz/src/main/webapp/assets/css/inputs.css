@@ -524,7 +524,9 @@ body,
 .ipt_base .slide .item .icon.unselected {
     background-position: 0 0;
 }
-
+.ipt_base .slide .item .icon.unselected2 {
+    background-position: 0 -54px;
+}
 .ipt_base .slide .item .icon.warning {
     background-position: 0 -36px;
 }
@@ -891,11 +893,6 @@ body,
     margin-right: 10px;
     position: relative;
 }
-.horizontal .group .control div.ipt {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space:nowrap;
-}
 .horizontal .group .control div.ipt:after {
     content: '';
     width: 8px;
@@ -1091,6 +1088,7 @@ body,
     padding:11px 4%;
     float: left;
     border-bottom: 1px solid #4283ea;
+    position: relative;
 }
 .area div.select .tab span {
     background: #e5e5e5;
@@ -1126,6 +1124,16 @@ body,
     left:50%;
     bottom:-11px;
     margin-left:-16px;
+}
+.area div.select .tab .icon_close {
+    background: #fff url(../images/inputs/close.png) 0 0 no-repeat;
+    width:18px;
+    height:18px;
+    position: absolute;
+    top:50%;
+    right:10px;
+    margin-top:-9px;
+    cursor: pointer;
 }
 .area div.select .con {
     width:100%;
