@@ -733,8 +733,6 @@ body,
     left: 0;
     margin-top: -8px;
 }
-
-
 .ipt_base .content .edit .images {
     width: 209px;
     float: left;
@@ -743,8 +741,9 @@ body,
 .ipt_base .content .edit .images .item {
     width: 100%;
     max-width: 228px;
-    float: left;
     text-align: center;
+    float: left;
+    position: relative;
 }
 .ipt_base .content .edit .images .item img {
     width: 100%;
@@ -755,6 +754,35 @@ body,
     text-align: center;
     color: #1B1B1B;
 }
+.ipt_base .content .edit .images .item .remove {
+    position: absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    background: rgba(0,0,0,.3);
+}
+.ipt_base .content .edit .images .item .remove i {
+    background: url(../images/inputs/icon_uploadImg_remove.png) 0 0 no-repeat;
+    width:42px;
+    height:42px;
+    position: absolute;
+    top:50%;
+    left:50%;
+    margin-top:-21px;
+    margin-left:-21px;
+    cursor: pointer;
+}
+.ipt_base .content .edit .images.active .item .remove i {
+    background-position: 0 -42px;
+    width:28px;
+    height:28px;
+    margin-top:-14px;
+    margin-left:-14px;
+}
+
+
+
 .ipt_base .content .edit .images .handle {
     width: 100%;
     max-width: 228px;
