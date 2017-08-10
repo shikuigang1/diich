@@ -517,17 +517,13 @@ body,
     margin-top: -9px;
 }
 
-.ipt_base .slide .item .icon.selected {
+.ipt_base .slide .item .icon.full.checked {
     background-position: 0 -18px;
 }
-
-.ipt_base .slide .item .icon.unselected {
-    background-position: 0 0;
-}
-.ipt_base .slide .item .icon.unselected2 {
+.ipt_base .slide .item .icon.empty.checked {
     background-position: 0 -54px;
 }
-.ipt_base .slide .item .icon.warning {
+.ipt_base .slide .item .icon.full.warning {
     background-position: 0 -36px;
 }
 
@@ -584,6 +580,10 @@ body,
 .ipt_base .slide .item .dd li .icon {
     left: 26px;
 }
+
+
+
+
 .ipt_base .slide .item.status {
     width: 100%;
     padding: 0 0 20px 0;
