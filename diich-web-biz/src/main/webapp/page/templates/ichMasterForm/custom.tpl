@@ -30,6 +30,6 @@
         <div class="buttons">
             <a id="delete_" href="javascript:void(0);">删除此项</a>
             <a id="next" class="next" href="javascript:void(0);" >下一步</a>
-            <a id="skip" href="javascript:void(0);">跳过此项</a>
+            <!-- <a id="skip" href="javascript:void(0);">跳过此项</a> -->
         </div>
     </div>

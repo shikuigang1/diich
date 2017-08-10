@@ -40,7 +40,8 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         pageObj.isMaster = pageObj.userId ? 1 : 0;
         isMaster = isMaster;
     }
-    var ossPash = "http://diich-resource.oss-cn-beijing.aliyuncs.com/image/master/"; // oss图片地址存放地址
+    var ossImgPash = "http://diich-resource.oss-cn-beijing.aliyuncs.com/image/master/"; // oss图片地址存放地址
+    var ossVideoPash = "http://diich-resource.oss-cn-beijing.aliyuncs.com/video/master/"; // oss视频存放地址
     var imgUrl = ""; // 基础信息模板图片url
     var addressCode = ""; // 联系方式信息模板居住地址code值
     var status;
@@ -49,7 +50,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
      * 处理化数据
      * @param dicArrCity
      */
-    function init(dicArrCity) {
+    function  init(dicArrCity) {
         // 获取浏览器url参数mid ichProjectId
         if(mid != null) {
             onRequest("GET", "/ichMaster/getIchMasterById", {params:mid}).then(function(result) {
@@ -91,6 +92,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         buildCustom(); // 初始化构建自定义菜单项
         _onPreview(); // 预览
         _isSureSumit(); // 提交按钮是否可以提交 预览是否可以预览
+        _addCustom(); // 添加自定义
     }
 
 
@@ -128,7 +130,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 // 用户点击的是基本信息模块
                 _onEffect($this);
             }
-
+            _changePage(false); // 显示 内容页面 隐藏 结束页面
             // 样式模板切换
             function _onEffect($this) {
                 // 被点击效果切换
@@ -163,7 +165,8 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 // 基础信息的
                 //console.log("#" + ids[0] + "_" + ids[1] + "_" + (ids[2] - 1));
                 var status = $("#" + ids[0] + "_" + fatherCode + "_" + (ids[2] - 1)).children("i").hasClass("selected");
-                if(status) {
+                var status1 = $("#" + ids[0] + "_" + fatherCode + "_" + (ids[2] - 1)).children("i").hasClass("unselected2");
+                if(status || status1) {
                     _onEffect($this);
                 } else {
                     tipBox.init("fail", "请完成上一项菜单填写" , 1500);
@@ -179,6 +182,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     $(this).removeClass("selected");
                 })
                 $this.addClass("selected"); //添加被点击效果
+                _changePage(false); // 显示 内容页面 隐藏 结束页面
                 switch (ids[2]) {
                     case "0":
                         // 基本信息模板
@@ -275,7 +279,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             // 回显图片
             $.each(pageObj.contentFragmentList, function(i, v) {
                 if(v.attributeId == 10) {
-                    $(".preview").attr("src", ossPash + v.resourceList[0].uri.toString()).show();
+                    $(".preview").attr("src", ossImgPash + v.resourceList[0].uri.toString()).show();
                     $(".file_up").addClass("active");
                     imgUrl = v.resourceList[0].uri.toString();
                 }
@@ -312,18 +316,18 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             //if(validate() && imgUrl != "" && isMaster != "") {
             if(validate()) {
                 var params = getBasicFormData(); // 获取表单数据 构建参数
-                params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 //console.log("params -- >", params);
                 // 发送请求
                 onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                    //console.log("result === >", result,  JSON.stringify(result.res.data));
+                    console.log("result === >", result,  JSON.stringify(result.res.data));
                     // 处理用户未登录
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
                         _onMergeObj(result.res.data);
                         //console.log("pageObj --- >", JSON.stringify(pageObj))
                         // 跳转到下一页面
-                        _onNextPage(menu_00, [menu_01]);
+                        _onNextPage(menu_00, [menu_01], result.res.data);
                         _isSureSumit();
                         _bindingSave();
                     } else {
@@ -379,7 +383,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             $("#contact_active").off("click");
             if(validate()) {
                 var params = getContactFormData();
-                params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 //console.log("params -- >", params);
                 // 发送请求
                 onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
@@ -389,7 +393,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         _onMergeObj(result.res.data); // 保存成功存储服务器返回数据
                         //console.log("pageObj --- >", JSON.stringify(pageObj))
                         // 跳转到下一页面
-                        _onNextPage(menu_01, [menu_02]);
+                        _onNextPage(menu_01, [menu_02], result.res.data);
                         _isSureSumit();
                         _bindingSave();
                     } else {
@@ -439,7 +443,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 showMsg($("#jj"), defaults.tips_success, true);
                 var params = getVocationFormData();
                 // 过滤掉重复数据
-                params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 //console.log("params -- >", params);
                 // 发送请求
                 onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
@@ -449,7 +453,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         _onMergeObj(result.res.data); // 保存成功存储服务器返回数据
                         //console.log("pageObj --- >", JSON.stringify(pageObj))
                         // 跳转到下一页面
-                        _onNextPage(menu_02, [menu_1, menu_10]);
+                        _onNextPage(menu_02, [menu_1, menu_10], result.res.data);
                         _isSureSumit();
                         _bindingSave();
                     } else {
@@ -478,7 +482,8 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
      * @param nextId 跳转到下一个页面id
      */
     function getResume(id, title, menuId, name, nextId, minLength) {
-        var resume = {title: title, name: name ? name : "menuData", menuId: menuId, startPath: ossPash, pageObj: pageObj};
+        console.log(pageObj);
+        var resume = {title: title, name: name ? name : "menuData", menuId: menuId, startPath: ossImgPash, pageObj: pageObj};
         // 更新DOM元素
         var resumenHtml = Handlebars.compile(resumeTpl)(resume);
         $("#content").html(resumenHtml);
@@ -507,15 +512,15 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
 
             if(fag) {
                 var params = getResumeFormData(resume.name);
-                params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                console.log("params --- >", params);
+                //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                    //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
+                    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
                         _onMergeObj(result.res.data);
-                        //console.log("pageObj --- >", JSON.stringify(pageObj))
                         // 跳转到下一页面
-                        _onNextPage(id, nextId);
+                        _onNextPage(id, nextId, result.res.data);
                         //_onSubmitMenu();
                         _bindingSave();
                     } else {
@@ -572,7 +577,8 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         $("#skip").on("click", function() {
             var num = parseInt(id.split("_").pop()) + 1;
             var str = id.split("_");
-            $("#" + id).children("i").addClass("selected").removeClass("unselected");
+            //$("#" + id).children("i").addClass("selected").removeClass("unselected");
+            $("#" + id).children("i").addClass("unselected2").removeClass("unselected");
             $('#' + str[0] + "_" + str[1] + "_" + num).trigger("click");
         })
     }
@@ -599,14 +605,14 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             $("#master_active").off("click");
             if(validate()) {
                 var params = getMasterFormData();
-                params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 //console.log("params --- >", params);
                 onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
                     //console.log("result ---- >", result, JSON.stringify(result.res.data));
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
                         _onMergeObj(result.res.data); // 保存成功存储服务器返回数据
-                        _onNextPage(id, [menu_13]);
+                        _onNextPage(id, [menu_13], result.res.data);
                         //_onSubmitMenu();
                         _bindingSave();
                     } else {
@@ -620,6 +626,13 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 _bindingSave();
             }
         }
+    }
+
+    // 添加自定义项
+    function _addCustom() {
+        $("#add_custom").on("click", function() {
+            $('#menu_2').trigger("click"); // 模拟点击添加自定义
+        })
     }
 
     /**
@@ -675,7 +688,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 var params = buildParams(data, pageObj);
                 //console.log("params --- >", params);
                 onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                    //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
+                    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
                         _onMergeObj(result.res.data);
@@ -702,7 +715,6 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
 
         }
     }
-
     /******************************end 传承人内容结束*********************************/
 
     /**
@@ -713,17 +725,35 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         // 防止用户多次提交
         _bindingSave();
         function _bindingSave() {
-            $("#onSend").on("click", function() {
+            //$("#onSend").on("click", function() {
+            //    _onSave($(this));
+            //})
+
+            $("a[id^='onSend_']").on("click", function() {
                 _onSave($(this));
             })
         }
         function _onSave($this) {
-            if($("#onSend").hasClass("empty")) {
-                $("#onSend").off("click"); // 解绑点击事件
-                // 可以提交
+            var code = $this.attr("id").split("_").pop();
+            //console.log("code === ", code);
+            if(code == "top") {
+                // 右上角提交
+                if($this.hasClass("empty")){
+                    _fu();
+                } else {
+                    _bindingSave(); // 重新绑定
+                    tipBox.init("fail", "请填写基本数据后提交", 1500);
+                }
+            } else {
+                // 结束页提交
+                _fu();
+            }
+
+            function _fu() {
+                $("a[id^='onSend_']").off("click"); //解绑点击事件
                 pageObj.status = 3; // 状态修改为提交状态
                 var params = pageObj;
-                params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params) }).then(function(result) {
                     //console.log("result === >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
                     // 处理用户未登录
@@ -738,10 +768,32 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         _bindingSave(); // 重新绑定
                     }
                 });
-            } else {
-                _bindingSave(); // 重新绑定
-                tipBox.init("fail", "请填写基本数据后提交", 1500);
             }
+
+            //if($("#onSend").hasClass("empty")) {
+            //    $("#onSend").off("click"); // 解绑点击事件
+            //    // 可以提交
+            //    pageObj.status = 3; // 状态修改为提交状态
+            //    var params = pageObj;
+            //    //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+            //    onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params) }).then(function(result) {
+            //        //console.log("result === >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
+            //        // 处理用户未登录
+            //        if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+            //            //alert("提交成功");
+            //            window.location.href = "ichMasterOver.html"; // 跳转成功页面
+            //            _bindingSave(); // 重新绑定
+            //        } else {
+            //            if(result.res.code != 3) {
+            //                tipBox.init("fail", result.res.msg, 1500);
+            //            }
+            //            _bindingSave(); // 重新绑定
+            //        }
+            //    });
+            //} else {
+            //    _bindingSave(); // 重新绑定
+            //    tipBox.init("fail", "请填写基本数据后提交", 1500);
+            //}
 
         }
     }
@@ -777,66 +829,66 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     case "0":
                         // 基本信息模板
                         params = getBasicFormData();
-                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         //console.log("params --- >", params);
                         break;
                     case "1":
                         // 联系方式模板
                         params = getContactFormData();
-                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         //console.log("params --- >", params);
                         break;
                     case "2":
                         // 职业信息模板
                         params = getVocationFormData();
-                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         //console.log("params --- >", params);
                         break;
                     case "3":
                         // 简历
                         params = getResumeFormData("jl");
-                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         //console.log("params --- >", params);
                         break;
                     case "4":
                         // 传承历史与现状
                         params = getResumeFormData("lsxz");
-                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         break;
                     case "5":
                         // 师徒关系
                         params = getMasterFormData();
-                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         break;
                     case "6":
                         // 技能
                         params = getResumeFormData("jn");
-                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         break;
                     case "7":
                         // 个人成就
                         params = getResumeFormData("cj");
-                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         break;
                     case "8":
                         // 传承谱系
                         params = getResumeFormData("ch");
-                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         break;
                     case "9":
                         // 获奖情况
                         params = getResumeFormData("hjqk");
-                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         break;
                     case "10":
                         // 知识产权
                         params = getResumeFormData("zscq");
-                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                         break;
                     default:
                         // 自定义项
                         params = getResumeFormData("menuData");
-                        params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 }
 
                 // 如果页面无任何已填写项， 则直接提示保存成功， 有填写项则存库
@@ -875,7 +927,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     function _isSureSumit() {
         var status = $("#" + menu_0).children("i").hasClass("selected");
         if(status) {
-            $("#onSend").addClass("empty").removeClass("disabled"); // 更新提交按钮状态为可提交
+            $("#onSend_top").addClass("empty").removeClass("disabled"); // 更新提交按钮状态为可提交
             $("#preview").addClass("empty").removeClass("disabled"); // 更新预览按钮状态为可提交
         }
     }
@@ -885,7 +937,6 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
      * @private
      */
     function _onPreview() {
-
         _bindingSave();
         function _bindingSave() {
             $("#preview").on("click", function() {
@@ -901,7 +952,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 onRequest("POST", "/ichMaster/preview", {params: targetId}).then(function(result) {
                     //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                        window.open("http://www.baidu.com");
+                        window.open(result.data);
                         _bindingSave();
                     } else {
                         _bindingSave();
@@ -953,16 +1004,77 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         }
     }
 
+    // 页面填写项ID 集中管理对象
+    var arrObj = {
+        // 基础信息 一级菜单
+        menu_0: {
+            menu_0_0: [10, 13, 14, 15, 49, 17, 18, 127, 128], // 基本信息 attributeId
+            menu_0_1: [58, 59, 55, 54, 56], // 联系方式 attributeId
+            menu_0_2: [47, 48, 50, 24] // 职业信息 attributeId
+        },
+
+        // 传承人内容 一级菜单
+        menu_1: {
+            menu_1_3: [51], // 简历 attributeId
+            menu_1_4: [119], // 传承历史与现状 attributeId
+            menu_1_5: [125, 126], // 师徒 attributeId
+            menu_1_6: [115], // 技能 attributeId
+            menu_1_7: [110], // 个人成就 attributeId
+            menu_1_8: [21], // 传承谱系 attributeId
+            menu_1_9: [129], // 个人成就 attributeId
+            menu_1_10: [131], // 知识产权 attributeId
+        }
+
+    }
+
     /**
      * 处理菜单回显是否被选中
      * @private
      */
     function _onYesMenu() {
         if(pageObj.hasOwnProperty("contentFragmentList")) {
-            $("#" + menu_0).children("i").addClass("selected").removeClass("unselected");
-            $("#" + menu_1).children("i").addClass("selected").removeClass("unselected");
-            $("#" + menu_0).next(".dd").children("ul").children("li").each(function(){$(this).children("i").addClass("selected").removeClass("unselected")});
-            $("#" + menu_1).next(".dd").children("ul").children("li").each(function(){$(this).children("i").addClass("selected").removeClass("unselected")});
+            //$("#" + menu_0).children("i").addClass("selected").removeClass("unselected");
+            //$("#" + menu_1).children("i").addClass("selected").removeClass("unselected");
+            //$("#" + menu_0).next(".dd").children("ul").children("li").each(function(){$(this).children("i").addClass("selected").removeClass("unselected")});
+            //$("#" + menu_1).next(".dd").children("ul").children("li").each(function(){$(this).children("i").addClass("selected").removeClass("unselected")});
+
+            // 迭代arrObj的menu_0..... xxx_1 ....属性
+            for(var tem in arrObj) {
+                // 迭代menu_0属性中的 menu_00.... xxx_01 ...属性
+                for(var key in arrObj[tem]) {
+                    var num = 0;
+                    $.each(arrObj[tem][key], function(i, v) {
+                        $.each(pageObj.contentFragmentList, function(j, d) {
+                            // 如果content有值或有图片 并且 attributeId也存在pageObj页面缓存对象中 则计数
+                            if(v == d.attributeId && (d.content != "" || d.resourceList.length > 0)) {
+                                num++
+                            }
+                        })
+                    })
+                    ;
+                    // 二级菜单 添加页面选中效果 页面填写项ID都存在在pageObj页面缓存对象中，则表示填写完
+                    //if(num == arrObj[tem][key].length) {
+                    //    $("#" + key).children("i").addClass("selected").removeClass("unselected");
+                    //}
+                    if(num > 0) {
+                        $("#" + key).children("i").addClass("selected").removeClass("unselected");
+                    } else {
+                        $("#" + key).children("i").addClass("unselected2").removeClass("unselected");
+                    }
+                }
+                // 判断一级菜单是否全被填写
+                var n = 0;
+                $("#" + tem).next(".dd").children("ul").children("li").each(function() {
+                    if($(this).children("i").hasClass("selected") || $(this).children("i").hasClass("unselected2")) {
+                        n++;
+                    }
+                })
+                // 一级菜单 添加页面选中效果 计数n == js对象属性个数即添加填写完毕效果
+                if(n ==  Object.getOwnPropertyNames(arrObj[tem]).length) {
+                    $("#" + tem).children("i").addClass("selected");
+                }
+                //_onSubmitMenu(); // 验证页面所有填写项是否完成， 完成提交按钮修改为可提交状态
+            }
         }
     }
 
@@ -1008,6 +1120,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             })
             return res;
         }
+        console.log("pageObj --- >", pageObj)
     }
 
     /**
@@ -1069,7 +1182,11 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 $.each(pageObj.contentFragmentList, function(j, d) {
                     if(v.attributeId == d.attributeId) {
                         v.id = d.id;
-
+                        if(v.resourceList.length > 0 && d.resourceList.length > 0) {
+                            $.each(v.resourceList, function(r, va) {
+                                va.id = d.resourceList[r].id;
+                            })
+                        }
                         //delete params.status; // 修改的时候不填写status
                         return;
                     }
@@ -1079,8 +1196,6 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         params.contentFragmentList =data;
         return params;
     }
-
-
 
     // 获取基本信息表单数据 处理成参数
     function getBasicFormData() {
@@ -1111,7 +1226,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     }
 
     // 获取长文本模板 表单数据 处理成参数
-    function getResumeFormData(name) {
+    function  getResumeFormData(name) {
         var data = [];
         data[0] = {
             name :  $("#" + name).attr("name"),
@@ -1121,7 +1236,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         var imgs = [];
         $("#images").children("div .item").each(function(i, v) {
             var img = {};
-            var uri = $(this).children("img").attr("src")
+            var uri = $(this).children("img").attr("data-src")
             img["uri"] = uri.substr(uri.lastIndexOf("/") + 1, uri.length)  ;
             img["description"] = $(this).children("input").val();
             img["type"] = 0;
@@ -1198,11 +1313,22 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
      * @param nextIds
      * @private
      */
-    function _onNextPage(id, nextIds) {
+    function _onNextPage(id, nextIds, resData) {
         console.log(id, nextIds)
         new Promise(function(resolv, reject) {
             try{
-                $("#" + id).removeClass("selected").children("i").addClass("selected").removeClass("unselected"); // 添加已完成效果
+
+                $.each(resData.contentFragmentList,function(i, v) {
+                    if(v.content != "" || v.resourceList.length > 0) {
+                        $("#" + id).removeClass("selected").children("i").addClass("selected").removeClass("unselected"); // 添加已完成效果
+                        return false;
+                    } else {
+                        $("#" + id).removeClass("selected").children("i").addClass("unselected2").removeClass("unselected"); // 添加已完成效果
+                        return false;
+                    }
+                })
+
+                //$("#" + id).removeClass("selected").children("i").addClass("selected").removeClass("unselected"); // 添加已完成效果
                 if(id.split("_")[1] == "0") {
                     _onHandle(menu_0);
                 }
@@ -1213,11 +1339,12 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 function _onHandle(id) {
                     var status = true;
                     $("#" + id).next(".dd").children("ul").children("li").each(function(i, v) {
-                        if(!$(this).children("i").hasClass("selected")) {
+                        if(!$(this).children("i").hasClass("selected") && !$(this).children("i").hasClass("unselected2")) {
                             status = false;
                             return;
                         }
                     })
+
                     if(status) {
                         $("#" + id).children("i").addClass("selected");
                     }
@@ -1227,10 +1354,29 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 reject({err: e});
             }
         }).then(function(res) {
-            $.each(nextIds, function(i, v) {
-                $('#' + v).trigger("click"); // 模拟点击传承人内容
-            })
+            if(nextIds.length > 0) {
+                $.each(nextIds, function(i, v) {
+                    $('#' + v).trigger("click"); // 模拟点击传承人内容
+                })
+            } else {
+                // 更新DOM元素
+                _changePage(true);
+            }
         })
+    }
+
+    // 切换结束页面与内容页面
+    function _changePage(status) {
+        if(status) {
+            // 显示内容页面。 隐藏结束页面
+            $("#content").hide();
+            $("#endPage").show();
+        } else {
+            // 显示结束页面。 隐藏内容页面
+            $("#content").show();
+            $("#endPage").hide();
+        }
+
     }
 
     /**
