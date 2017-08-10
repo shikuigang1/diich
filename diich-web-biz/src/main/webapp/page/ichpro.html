@@ -113,7 +113,7 @@
                 },
                 success: function(res) {
 				var data = res.data;
-				//console.log(JSON.stringify(res));
+				   console.log(JSON.stringify(res));
 				  if(data.length>0){
 					  $("#item1").empty();
 					  $(".step2").hide();
@@ -155,7 +155,6 @@
 					$("#type").val("1");
 					blurSelect();
 				  }
-                   
                 }
             });
          });
@@ -219,11 +218,13 @@
                         $("#item2").show();
                     }else{
                         localStorage.removeItem('ichProject');
+                        localStorage.removeItem('codeText');
+                        localStorage.removeItem('codes');
+                        localStorage.removeItem('ichProject');
                         localStorage.setItem('ichProName',$("#keyword").val());
                         location.href="../page/ichProForm.html?proName="+$("#keyword").val();
                     }
                 }
-
                 }
             });
 	
@@ -232,6 +233,7 @@
 	   //清楚本地缓存
         localStorage.removeItem('ichProject');
         localStorage.removeItem('codeText');
+        localStorage.removeItem('codes');
         //添加项目名称到本地
         localStorage.setItem('ichProName',$("#keyword").val());
         localStorage.setItem('action',"add");

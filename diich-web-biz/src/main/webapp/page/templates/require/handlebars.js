@@ -2201,6 +2201,10 @@ Handlebars.template = Handlebars.VM.template;
 
 (function () {
 
+    // 常量
+    var OSSIMGPASH = "http://diich-resource.oss-cn-beijing.aliyuncs.com/image/master/"; // oss图片地址存放地址
+    var OSSVIDEOPASH = "http://diich-resource.oss-cn-beijing.aliyuncs.com/video/master/"; // oss视频存放地址
+
     //判断
     Handlebars.registerHelper("eif", function (key1, key2, options) {
         var result = false,
@@ -2740,10 +2744,6 @@ Handlebars.template = Handlebars.VM.template;
                 content = v.content;
                 return;
             }
-            //} else if(keys.length == 1){
-            //    content = v.content;
-            //    return;
-            //}
         })
         return content;
     })
@@ -2813,6 +2813,7 @@ Handlebars.template = Handlebars.VM.template;
         }
     })
 
+    // 获取自定义模块名称
     Handlebars.registerHelper("getCustomName", function(keys) {
         var name = "";
         $.each(keys, function(i, v) {
@@ -2822,8 +2823,22 @@ Handlebars.template = Handlebars.VM.template;
         return name;
     })
 
-
-    //Handlebars.registerHelper("onRadio", function())
-
+    // 处理图片显示 （视频地址替换图片 展示）
+    Handlebars.registerHelper("handleUrl", function(url, code) {
+        var imgArr = [".BMP", ".PCX", ".PNG", ".JPEG", ".GIF", ".TIFF", ".JPG", ".ICO", ".TIF",
+            ".bmp", ".pcx", ".png", ".jpeg", ".gif", ".tiff", ".jpg", ".ico", ".tif"];
+        var str = "";
+        if(imgArr.indexOf(url.substr(url.lastIndexOf("."), url.length).toString()) < 0) {
+            if(code == 0) {
+                var localhostPaht = window.document.location.href.substring(0,window.document.location.href.indexOf(window.document.location.pathname))
+                str = localhostPaht + "/assets/images/inputs/play.jpg";
+            } else {
+                str = OSSVIDEOPASH + url;
+            }
+        } else {
+            str = OSSIMGPASH + url;
+        }
+        return str;
+    })
 })();
 ;

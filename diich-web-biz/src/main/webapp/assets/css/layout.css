@@ -864,15 +864,14 @@
     background: #4283EB;
 }
 
-.card article.create textarea{
+.card article.edit0 textarea{
     width:1130px;
     height:300px;
     padding:20px;
     border: 1px solid #eee;
     margin-bottom:100px;
 }
-
-.card article.edit {
+.card article.edit1 {
     width:1108px;
     border: 1px solid #e5e5e5;
     background: #fff;
@@ -880,50 +879,52 @@
     margin-bottom:100px;
     float: left;
 }
-.card article.edit .text {
+.card article.edit1 .text {
     width:847px;
     float: left;
 }
-.card article.edit .text textarea {
+.card article.edit1 .text textarea {
     width:100%;
+    min-height:460px;
     line-height:36px;
 }
-.card article.edit .images {
+.card article.edit1 .images {
     width:230px;
     float: right;
 }
-.card article.edit .images .item {
+.card article.edit1 .images .item {
     width:100%;
     float: left;
     text-align: center;
+    position: relative;
 }
-.card article.edit .images .item img{
+.card article.edit1 .images .item img{
     width:100%;
 }
-.card article.edit .images .item input {
+.card article.edit1 .images .item input {
     width:100%;
     line-height:36px;
     text-align: center;
     color: #1B1B1B;
 }
-.card article.edit .images .handle {
+.card article.edit1 .images .handle {
     width:100%;
     float: left;
     margin-top:20px;
 }
-.card article.edit .images .handle .add {
+.card article.edit1 .images .handle .add {
     width:98px;
     float: left;
     cursor: pointer;
 }
-.card article.edit .images .handle .add .icon {
+.card article.edit1 .images .handle .add .icon {
     width:100%;
     height:98px;
     border: 1px solid #e5e5e5;
     position: relative;
     float: left;
 }
-.card article.edit .images .handle .add .icon i {
+.card article.edit1 .images .handle .add .icon i {
     background: url(../images/icon_detail_edit.png) 0 0 no-repeat;
     width:29px;
     height:30px;
@@ -933,7 +934,7 @@
     margin-top:-15px;
     margin-left:-15px;
 }
-.card article.edit .images .handle .add .icon input[type=file] {
+.card article.edit1 .images .handle .add .icon input[type=file] {
     width:100%;
     position: absolute;
     top:0;
@@ -942,12 +943,12 @@
     z-index:2;
     opacity:0;
 }
-.card article.edit .images .handle .add .icon .progress {
+.card article.edit1 .images .handle .add .icon .progress {
     top:auto;
     bottom:0;
     display: none;
 }
-.card article.edit .images .handle .add span {
+.card article.edit1 .images .handle .add span {
     width:100%;
     text-align: center;
     font-size: 14px;
@@ -955,16 +956,16 @@
     line-height:36px;
     float: left;
 }
-.card article.edit .images .handle .add_image {
+.card article.edit1 .images .handle .add_image {
     margin-right:30px;
 }
-.card article.edit .images .handle .add_image .icon i {
+.card article.edit1 .images .handle .add_image .icon i {
     background-position: 0 -46px;
 }
-.card article.edit .images .handle .add_video .icon i {
+.card article.edit1 .images .handle .add_video .icon i {
     background-position: 0 -76px;
 }
-.card article.edit .images.active .item {
+.card article.edit1 .images.active .item {
     width:98px;
     height:98px;
     display: -webkit-flex;
@@ -973,7 +974,12 @@
     background: #eee;
     margin-bottom: 30px;
 }
-.card article.edit .progress .bar {
+.card article.edit1 .images.active .item input {
+    position: absolute;
+    top: 98px;
+    left: 0;
+}
+.card article.edit1 .progress .bar {
     background: #0f0;
     width: 20%;
     height: 2px;
@@ -981,7 +987,7 @@
     top: 0;
     left: 0;
 }
-.card article.edit .progress .percent {
+.card article.edit1 .progress .percent {
     position: absolute;
     top: -26px;
     left: 0;
@@ -989,9 +995,6 @@
     text-align: center;
     font-size: 12px;
 }
-
-
-
 /*--//End 图文列表--*/
 
 section.odd {
@@ -1007,7 +1010,9 @@ section.odd {
 }
 
 .card .plain_text p {
+    width:1170px;
     margin-bottom: 30px;
+    word-break:break-all;
 }
 
 .card .plain_text.column3 {
@@ -1333,7 +1338,7 @@ section.odd {
     float: left;
     font-size: 12px;
     color: #777;
-    margin: 0 10px;
+    margin: 7px 10px 0 10px;
 }
 
 .card_main .subtxt em {

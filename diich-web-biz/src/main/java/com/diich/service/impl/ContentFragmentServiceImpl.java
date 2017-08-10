@@ -202,17 +202,6 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
                 }
             }
 
-        }else{//检查自定义字段是否重名
-            Attribute attribute = new Attribute();
-            String targetType = 1+""+contentFragment.getTargetType();
-            attribute.setTargetId(contentFragment.getTargetId());
-            attribute.setTargetType(Integer.parseInt(targetType));
-            List<Attribute> attributeList = attributeMapper.selectDefAttrByTarIdAndTarType(attribute);
-            for (Attribute  attr : attributeList) {
-                if(attr.getCnName().equals(contentFragment.getAttribute().getCnName())){
-                    throw new ApplicationException(ApplicationException.PARAM_ERROR, attr.getCnName().toString()+" 字段已存在");
-                }
-            }
         }
     }
     /**
@@ -231,6 +220,7 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
         attribute.setTargetId(contentFragment.getTargetId());
         attribute.setIsOpen(1);
         attribute.setPriority(99);
+        attribute.setSeq(999);
         attributeMapper.insertSelective(attribute);
         return attributeId;
     }

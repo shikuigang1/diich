@@ -34,7 +34,7 @@
         var jsonHead = ${json.jsonHead};
     </script>
     <style>
-        br{line-height:60px;}
+        br{line-height:36px;}
         .drop_menu .content .item dl br {line-height: 20px;}
     </style>
 </head>
@@ -112,22 +112,22 @@
         <div class="card">
             <div class="card_main">
                 <div class="floor">
-                    <a class="share" title="分享"></a>
-                    <a class="praise" title="点赞" style="position: relative;"></a>
+                    <#--<a class="share" title="分享"></a>
+                    <a class="praise" title="点赞" style="position: relative;"></a>-->
                     <a class="album albums" data-id="all"><i class="icon_img"></i>
 
                     </a>
-                    <div class="share_box">
+                   <#-- <div class="share_box">
                         <div class="icons">
                             <span></span>
-                            <!--<a href="" class="facebook"></a>-->
-                            <!--<a href="" class="twitter"></a>-->
+                            <!--<a href="" class="facebook"></a>&ndash;&gt;
+                            <!--<a href="" class="twitter"></a>&ndash;&gt;
                             <a href="" class="weixin active"></a>
                         </div>
                         <div class="qrcode">
                             <img width="108" style="display:block" src="${caturi}/ichMaster/getImage?id=${obj.id?c}" alt="微信">
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <!--//End -->
                 <div class="detail_title">
@@ -135,7 +135,16 @@
                     <#list obj.contentFragmentList as cf>
                         <#if cf.attributeId == 13>
                             <#assign mastername = cf.content>
-                        <h2>${cf.content}</h2><a href="${caturi}/page/ichMasterForm.html?mid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
+                        <h2>${cf.content}</h2>
+                        <#--获取所属项目的名称-->
+                            <#if obj.ichProject?? && (obj.ichProject.contentFragmentList??) && (obj.ichProject.contentFragmentList?size>0)>
+                                <#list (obj.ichProject.contentFragmentList) as cf>
+                                    <#if cf.attributeId == 4>
+                                        <#assign pname = "${cf.content}" />
+                                    </#if>
+                                </#list>
+                            </#if>
+                            <a href="${caturi}/page/ichMasterForm.html?mid=${obj.id?c}&pname=${pname}" class="edit"><i class="icon"></i>编辑</a>
                         </#if>
                     </#list>
                 </#if>
@@ -160,7 +169,7 @@
                         <span>
                             <em><#if (obj.contentFragmentList?size>0)>
                                 <#list obj.contentFragmentList as cf>
-                                    <#if cf.attributeId == 23 && cf.content??>
+                                    <#if cf.attributeId == 23 && cf.content?? && cf.content != "">
                                         <strong>申报地区：</strong>
                                         <#assign codeList = cf.content?split(",")>
                                         <#list codeList as s>
@@ -243,10 +252,10 @@
                     <div class="tname">非遗在中国<i></i></div>
                     <div class="subcon" id="subcon">
                             <#list obj.contentFragmentList as cf>
-                                <#if cf.attributeId == 12 && cf.content??>
+                                <#if cf.attributeId == 12 && cf.content?? && cf.content != "" >
                                     <span>人类非物质文化遗产编号：${cf.content}</span>
                                 </#if>
-                                <#if cf.attributeId == 111 && cf.content??>
+                                <#if cf.attributeId == 111 && cf.content?? && cf.content != "">
                                     <span>级别：<em  style="font-size: 12px" class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em></span>
                                 </#if>
                             </#list>
@@ -340,7 +349,9 @@
                                 <div class="item">
                                     <p>
                                         <#if cf.content??>
-                                            ${cf.content}
+                                         <#assign content =cf.content?replace("\n", "<br>") />
+                                         <#assign content =cf.content?replace(" ", "&nbsp;") />
+                                             ${content}
                                         </#if>
                                     </p>
                                 </div>
@@ -408,7 +419,9 @@
                         <article class="plain_text">
                             <p>
                                 <#if cf.content??>
-                                    ${cf.content}
+                                 <#assign content =cf.content?replace("\n", "<br>") />
+                                 <#assign content =cf.content?replace(" ", "&nbsp;") />
+                                     ${content}
                                 </#if>
                             </p>
 

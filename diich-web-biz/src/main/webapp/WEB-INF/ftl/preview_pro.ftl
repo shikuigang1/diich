@@ -43,7 +43,7 @@
         var jsonHead = ${json.jsonHead};
     </script>
     <style>
-        br{line-height:60px;}
+        br{line-height:36px;}
         .drop_menu .content .item dl br {line-height: 20px;}
     </style>
 </head>
@@ -119,14 +119,14 @@
         <div class="card">
             <div class="card_main">
                 <div class="floor">
-                    <a class="share" title="分享"></a>
-                    <a class="praise" title="点赞" style="position: relative;"></a>
+                    <#--<a class="share" title="分享"></a>-->
+                    <#--<a class="praise" title="点赞" style="position: relative;"></a>-->
 
                     <a class="album albums" data-id="all"><i class="icon_img"></i>
 
                     </a>
 
-                    <div class="share_box">
+                    <#--<div class="share_box">
                         <div class="icons">
                             <span></span>
                             <a href="" class="weixin active"></a>
@@ -134,7 +134,7 @@
                         <div class="qrcode">
                             <img width="108" style="display:block" src="${caturi}/ichProject/getImage?id=${obj.id?c}" alt="微信">
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <!--//End -->
                 <div class="detail_title">
@@ -201,7 +201,7 @@
                         </span>
                 <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
-                        <#if cf.attributeId == 33 && cf.content??>
+                        <#if cf.attributeId == 33 && cf.content?? && cf.content != "">
                             <span>
                                    <strong>
                                     <#if obj.lang == "chi">
@@ -328,7 +328,7 @@
                     <div class="subcon" id="subcon">
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
-                            <#if cf.attributeId == 106 && cf.content??>
+                            <#if cf.attributeId == 106 && cf.content?? && cf.content != "">
                                 <span>
                                      <#if obj.lang == "chi">
                                          人类非物质文化遗产编号：
@@ -342,7 +342,7 @@
                     </#if>
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
-                            <#if cf.attributeId == 41 &&  cf.content??>
+                            <#if cf.attributeId == 41 &&  cf.content?? && cf.content != "">
                                 <span>
                                      <#if obj.lang == "chi">
                                          级别
@@ -490,7 +490,9 @@
                                 <div class="item">
                                     <p class="data-item" data-id="${cf.attributeId}">
                                         <#if cf.content??>
-                                             ${cf.content}
+                                         <#assign content =cf.content?replace("\n", "<br>") />
+                                         <#assign content =cf.content?replace(" ", "&nbsp;") />
+                                             ${content}
                                         </#if>
                                     </p>
                                 </div>
@@ -572,7 +574,9 @@
                         <article class="plain_text">
                             <p class="data-item" data-id="${cf.attributeId}">
                                 <#if cf.content??>
-                                    ${cf.content}
+                                 <#assign content =cf.content?replace("\n", "<br>") />
+                                 <#assign content =cf.content?replace(" ", "&nbsp;") />
+                                     ${content}
                                 </#if>
                             </p>
 
