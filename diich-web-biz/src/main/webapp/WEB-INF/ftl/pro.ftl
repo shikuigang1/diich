@@ -43,7 +43,7 @@
         var jsonHead = ${json.jsonHead};
     </script>
     <style>
-        br{line-height:60px;}
+        br{line-height:36px;}
         .drop_menu .content .item dl br {line-height: 20px;}
     </style>
 </head>
