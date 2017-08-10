@@ -1,0 +1,50 @@
+.link {
+    color:rgb(66,131,235);
+    font-size: 14px;
+    padding: 0px 4px;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.primary.edit.link {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 14px;
+    color: #333;
+}
+
+.section>.inner {
+    display:inline-block;
+}
+
+i.icon {
+    padding-right: 0px;
+}
+
+
+
+.edit-project-tool-bar {
+    border-top:solid #eee 1px;
+    text-align: center;
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    background: white;
+}
+
+.edit-project-tool-bar>.inner {
+    width:1200px;
+    text-align: right;
+    margin: 25px auto;
+
+}
+
+.ui.button {
+    margin-right: 1em!important;
+    border-radius: 2px!important;
+}
+
+i {
+    padding-right: 8px;
+}

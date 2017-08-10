@@ -1,0 +1,102 @@
+<form action="" class="bd horizontal">
+        <div class="main">
+            <div class="group">
+                <label class="label" for=""><em>*</em>分类</label>
+                <div class="control">
+                    <div class="ipt w310" data-type="selectCate">一级分类</div>
+                    <div class="errors" style="display: none"><i></i>请选择分类</div>
+                </div>
+            </div>
+            <!--//End 分类-->
+            <div class="group">
+                <label class="label" for=""><em>*</em>题图</label>
+
+                <div class="control">
+                    <div class="file_up">
+                        <span class="text">上传题图</span>
+                    <form class="upload" action="/user/uploadFile?type=project" method="post" enctype="multipart/form-data"><input class="_token" type="hidden" name="_token" value=""><div class="progress"><em class="bar"></em><em class="percent"></em></div><input class="file" type="file" name="mypic"></form><img class="preview" src=""></div>
+                    <div class="tips">建议比例：x*x，不符合的图片将进行裁剪；格式：jpg\png</div>
+                    <div class="errors" style="display: none"><i></i>请上传题图</div>
+                </div>
+            </div>
+            <!--//End 题图-->
+            <div class="group">
+                <label class="label" for=""><em>*</em>地域</label>
+                <div class="control">
+                    <div class="ipt w650 select" data-type="selectArea" value="">请选择地域（（可选择多个地域））</div>
+                    <div class="area" id="area">
+                        <div class="select" id="select"></div>
+                        <div class="selected" id="selected"></div>
+                    </div>
+                    <div class="errors" style="display: none"><i></i>请填写地域</div>
+                </div>
+            </div>
+            <!--//End 地域-->
+            <div class="group inheritor">
+                <label class="label" for="">是否为中国文化部认定的非遗项目</label>
+                <div class="control">
+                    <span class="radio"><i></i><input type="radio" name="authenticated" value="1">是</span>
+                    <span class="radio active"><i></i><input type="radio" name="authenticated" value="0">否</span>
+                </div>
+            </div>
+            <div class="group" data-type="group-drop" style="display: none">
+                <div class="group">
+                    <label class="label" for=""><em>*</em>认证时间</label>
+                    <div class="control">
+                        <!--<input id="calendar" class="ipt w310" value="" name="time" id="certTime">-->
+                        <div class="calendarWarp ipt w310">
+                            <input type="text" name="time" class="ECalendar" id="ECalendar_date" style="width:100%" value="">
+                            <div class="errors" style="display: none"><i></i>请选择认证时间</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <label class="label" for=""><em>*</em>认证级别</label>
+                    <div class="control">
+                        <select class="ipt w310" name="" id="certselect">
+                                <option value="30001">中国国家级非遗项目第一批</option><option value="30002">中国国家级非遗项目第二批</option><option value="30003">中国国家级非遗项目第三批</option><option value="30004">中国国家级非遗项目第四批</option><option value="30005">中国省级非遗项目</option><option value="30006">中国市级非遗项目</option><option value="30007">中国县级非遗项目</option><option value="30009">非遗项目</option><option value="30008">世界级非遗</option></select>
+                        <div class="errors" style="display: none"><i></i>请选择认证级别</div>
+                    </div>
+                </div>
+                <div class="group">
+                    <label class="label" for=""><em>*</em>项目代码</label>
+                    <div class="control">
+                        <input class="ipt w310" value="" name="time" id="certCode">
+                        <div class="errors" style="display: none"><i></i>请填写认证编号</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--//End 是否为自己申报传承人-->
+            <div class="group">
+                <label class="label"><em>*</em>简介</label>
+                <div class="control">
+                    <textarea name="" id="summary" cols="30" rows="10"></textarea>
+                    <div class="errors" style="display: none"><i></i>简介字符长度在20-200之间！</div>
+                </div>
+            </div>
+            <!--//End 简介-->
+            <div class="group">
+                <label class="label"><em>*</em>拼音</label>
+                <div class="control">
+                    <input type="text" id="pinyin" class="ipt w562">
+                    <div class="errors" style="display: none"><i></i>请填入正确格式的拼音且长度在1-50之间</div>
+                </div>
+            </div>
+            <!--//End 拼音-->
+            <div class="group">
+                <label class="label"><em>*</em>英文名</label>
+                <div class="control">
+                    <input type="text" class="ipt w562" id="engName">
+                    <div class="errors" style="display: none"><i></i>请填入正确格式的英文名且长度在1-50之间</div>
+                </div>
+            </div>
+            <!--//End 英文名-->
+        </div>
+        <!--//End-->
+        <div class="handle">
+            <a class="active" href="javascript:saveIchProject(0);">下一步</a>
+           <!-- <a href="">跳过此项</a>-->
+        </div>
+    </form>
