@@ -143,6 +143,7 @@
             //初始化本地区域 文本数据
             console.log(code);
             if(code != ""){
+                localStorage.setItem("codes",code);
                 toArray(dic_arr_city);
                 var codeText=[];
                 if(code.indexOf(",") != -1){
