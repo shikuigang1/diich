@@ -7,14 +7,79 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         _onGetMenus();
     }
 
+    // 因数据库无根据进行排序，定义一个菜单排序规则对象
+    var s = [
+        {
+            menusName : "基本信息",
+            sonMenus: {
+                menusName: "",
+                sonTerms: []
+            },
+
+        },
+        {
+            menusName : "联系方式",
+            sonTerms: []
+        },
+        {
+            menusName : "职业信息",
+            sonTerms: []
+        },
+        {
+            menusName : "传承人内容",
+            sonMenus : [
+                {
+                    menusName: "",
+                    sonTerms: []
+                }
+            ]
+        }
+    ]
+
+
+
+    // 获取菜单数据
     function _onGetMenus() {
         _onRequest("GET", "/ichCategory/getAttributeList", {targetType: 1}).then(function(result) {
             if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                 console.log(" --- res  ", result.res.data);
+                _onBuildMenus(result.res.data);
             } else {
                 tipBox.init("fail", result.res.msg , 1500);
             }
         })
+    }
+
+    function _onBuildMenus(menus) {
+        var menus0 = {};
+        var menus1 = {};
+        var menus2 = {};
+        var menus3 = {};
+        $.each(menus, function(i, v) {
+            switch (v.lable) {
+                case "基本信息":
+                    if(menus0.hasOwnProperty("menusName")) {
+                        menus0.sonTerms.push(v);
+                    } else {
+                        menus0.menusName = v.lable;
+                        menus0.sonTerms = [];
+                        menus0.sonTerms.push(v);
+                    }
+                    break;
+                case "联系方式":
+                    // ...
+                    break;
+                case "职业信息":
+                    // ...
+                    break;
+                default:
+
+            }
+
+        })
+
+        // 排序
+        console.log(menus0)
     }
 
     /**
