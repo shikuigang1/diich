@@ -1,15 +1,6 @@
 //添加项目相关内容
 var attributeData=[];
 var saveAndnext=false;
-//页面渲染
-function renderpage(){
-
-}
-//页面校验
-function checkPageInputs(){
-
-}
-
 //渲染左侧菜单页面
 function renderLeftMenu(ich) {
     var jsondata={} ;
@@ -103,7 +94,6 @@ function initmenu2(dataType,categoryID) {
             }else{
                 jsondata.categoryId=ich.ichCategoryId;
             }
-
         }
     }
     var data = loadPageData(url,jsondata);
@@ -135,7 +125,10 @@ function loadPageData(url,jsondata) {
 }
 //动态获取实践展示 根据分类id
 function getDataByCateGoryId(data){
+
+    console.log(data);
     $("#menu2").empty();
+    $("#menu").empty();
     $.each(data.data,function (index,obj) {
         if(obj.dataType==1 || obj.dataType==5 ){
             //过滤掉简介不再左侧显示
@@ -147,6 +140,16 @@ function getDataByCateGoryId(data){
                     $("#menu2").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
                 }
             }
+
+            if((!(obj.id==9 || obj.id==24 || obj.id==31)) && obj.ichCategoryId == 0){
+                //中英文切换  <li><i class="icon unselected"></i><span>传承谱系</span></li>
+                if(getLang()=="zh-CN"){
+                    $("#menu").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.cnName+"</span></li>");
+                }else{
+                    $("#menu").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
+                }
+            }
+
         }else{
             //右侧字段生成
         }
@@ -155,15 +158,60 @@ function getDataByCateGoryId(data){
     var ich = getCurrentProject();
     $("#menu2").children("li").each(function () {
         var attrid = $(this).find("span").attr('data-id');
-        var flag = false;
+        var dataType = $(this).attr('target-type');
+        var flag = 0;
         $.each(ich.contentFragmentList,function (index,obj) {
-            if(attrid == obj.attributeId){
-                flag = true;
-                return false;
+            if(attrid == obj.attributeId  ){
+                if(dataType == 5){
+                    if((obj.content == "" ||obj.content==null) && (obj.resourceList.length==0 || typeof(obj.resourceList)=="undefined")){
+                        flag=1;
+                    }else{
+                        flag =2;
+                    }
+                }else{
+                    if(obj.content == "" ){
+                        flag=1;
+                    }else{
+                        flag=2;
+                    }
+                }
             }
         });
 
-        if(flag){
+        if(flag == 1){
+            $(this).find('i').eq(0).addClass('unselected2');
+        }
+        if(flag==2){
+            $(this).find('i').eq(0).addClass('selected');
+        }
+
+    });
+    $("#menu").children("li").each(function () {
+        var attrid = $(this).find("span").attr('data-id');
+        var dataType = $(this).attr('target-type');
+        var flag = 0;
+        $.each(ich.contentFragmentList,function (index,obj) {
+            if(attrid == obj.attributeId){
+                if(dataType == 5){
+                    if((obj.content == "" ||obj.content==null) && (obj.resourceList.length==0 || typeof(obj.resourceList)=="undefined")){
+                        flag=1;
+                    }else{
+                        flag=2;
+                    }
+                }else{
+                    if(obj.content == "" ){
+                        flag=1;
+                    }else{
+                        flag=2;
+                    }
+                }
+            }
+        });
+
+        if(flag == 1){
+            $(this).find('i').eq(0).addClass('unselected2');
+        }
+        if(flag==2){
             $(this).find('i').eq(0).addClass('selected');
         }
     });
@@ -204,14 +252,6 @@ function  saveCustom(next) {
     contentFragment.content = $("#longContent").val();
     contentFragment.attributeId=0;
     contentFragment.targetType=0;
-
-    var attrName = $("#attrName").val().trim();
-    if(attrName.length<1 || attrName.length>50){
-        $("#attrName").next().show();
-        return false;
-    }else{
-        $("#attrName").next().hide();
-    }
 
     attr.dataType=5;//短字段
     attr.cnName=$("#attrName").val();
@@ -269,16 +309,23 @@ function  saveCustom(next) {
     });
 }
 function  validateCustom() {
-    //alert($("#attrName").val().trim().length);
     var flag = true;
-    if($("#attrName").val()==""|| $("#attrName").val().trim().length==0){
-        $("#attrName").next().show();
+    var attrName = $("#attrName").val().trim();
+    if(attrName.length<1 || attrName.length>10){
+        $("#attrName").parent().parent().next().find("span").eq(0).text("自定义名称在1-10字符之间");
+        $("#attrName").parent().parent().next().show();
+       // return false;
         flag = false;
+    }else{
+        $("#attrName").parent().next().hide();
     }
 
-    if($("#longContent").val().trim()=="" || $("#longContent").val().trim().length<50){
+    if($("#longContent").val().trim()=="" ){
+        $("#longContent").next().find("span").text("请填写自定义内容");
         $("#longContent").next().show();
         flag = false;
+    }else{
+        $("#longContent").next().hide();
     }
     return flag;
 }
@@ -383,6 +430,26 @@ function  delContentFragment(attrId) {
                  }
 
              }else{
+                 //判断当前是否有分类
+                if(ich.ichCategoryId == null || typeof (ich.ichCategoryId) == "undefined"){
+                    //无分类 情况
+                    $("li[data-type=longField]").each(function () {
+
+                        if($(this).hasClass("selected")){
+
+                        }
+
+                    });
+
+
+                }else{
+                    //有分类情况
+
+
+
+                }
+
+
                 //清空内容
                  $("#longContent").val("");
                  $("#images").empty();
@@ -591,9 +658,6 @@ function  saveContentPragment(attrid) {
                 }else{
                     $(".handle").find('a').eq(2).removeClass('empty').addClass('disabled');
                 }
-
-
-
             }else{
                 alert("保存失败");
             }
@@ -684,6 +748,17 @@ function saveIchProject(page) {
         contentFragmentList.push(cloneObj(contentFragment));
         contentFragment={};
 
+        contentFragment.attributeId=33;//区域
+        if(localStorage.getItem("codes")== null){
+            contentFragment.content="";
+        }else{
+            contentFragment.content=localStorage.getItem("codes");
+        }
+        contentFragment.targetType=0;
+
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+
         var val=$("input:radio[name='authenticated']:checked").val();
         if(typeof (val)=='undefined'){
             //alert("请选择是否已认证！"); return false;
@@ -707,7 +782,7 @@ function saveIchProject(page) {
             //contentFragment.attribute=attr;
             contentFragmentList.push(cloneObj(contentFragment));
             contentFragment={};
-            contentFragment.attributeId=108;//认证编号
+            contentFragment.attributeId=107;//认证编号
             contentFragment.content=$("#certCode").val().trim();
             // attr.dataType=0;//短文本
             contentFragment.targetType=0;
@@ -752,21 +827,64 @@ function saveIchProject(page) {
          return ;
          }*/
 
-    }else{
-        //获取 条件
-        var condition = getConditionByAttributeID(attid);
+    }else if($('div[data-type=longFieldCustom]').hasClass("selected")){
+        //添加自定义 选中
 
+        var ich = getCurrentProject();
+
+        var attr={};
+        var contentFragment={};
+
+        contentFragment.content = $("#longContent").val();
+        contentFragment.attributeId=0;
+        contentFragment.targetType=0;
+
+        attr.dataType=5;//短字段
+        attr.cnName=$("#attrName").val();
+        attr.id=0;
+
+        var resource={};
+        var resourceList=[];
+
+        //获取图片列表
+        $("#images").find(".item").each(function () {
+            var fullpath = $(this).find('img').eq(0).attr("src");
+            var desc =  $(this).find('img').eq(0).next().val();
+            var path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            resource.uri=path;
+            resource.description=desc;
+            resourceList.push(cloneObj(resource));
+        });
+
+        contentFragment.resourceList=resourceList;
+        contentFragment.attribute=attr;
+        contentFragment.targetId=ich.id;
+
+        ich.contentFragmentList.push(contentFragment);
+    }
+    else{
+        //获取 条件
+        var attid;
+        $('li[data-type=longField]').each(function () {
+
+          if($(this).hasClass('selected')){
+              attid = $(this).find('span').eq(0).attr('data-id');
+              return false;
+          }
+        });
+
+        var condition = getConditionByAttributeID(attid);
         if(condition.minLength>0 && $("#longContent").val().trim().length<condition.minLength){
             $("#longContent").next().find('span').eq(0).text("文本内容的最小长度为"+condition.minLength).show();
             return false;
         }
         //先通过 attributeID 在本地寻找是否有相应的 内容片断
-        var contentFragment = getContentFragmentByID(attrid);
+        var contentFragment = getContentFragmentByID(attid);
         if (typeof(contentFragment) == "undefined" || contentFragment== null){
             contentFragment={};
         }
 
-        contentFragment.attributeId=attrid;
+        contentFragment.attributeId=attid;
         contentFragment.content=$("#longContent").val().trim();
         contentFragment.targetType=0;
 
@@ -788,7 +906,7 @@ function saveIchProject(page) {
         if(typeof (ich.contentFragmentList)!="undefined" || ich.contentFragmentList.length>0){
             var flag_1 =0;
             $.each(ich.contentFragmentList,function (idx,obj) {
-                if(obj.attributeId == attrid){
+                if(obj.attributeId == attid){
                     flag_1=1;
                     ich.contentFragmentList[idx].content=$("#longContent").val();
                     if(typeof (obj.resourceList) == 'undefined'){
@@ -816,14 +934,19 @@ function saveIchProject(page) {
                 ich.contentFragmentList.push(contentFragment);
             }
         }
-        var temp={};
+      /*  var temp={};
         if(typeof (ich.contentFragmentList)!="undefined" || ich.contentFragmentList.length>0){
             $.each(ich.contentFragmentList,function (idx,obj) {
-                if(obj.attributeId == attrid){
+                if(obj.attributeId == attid){
                     temp = obj;
                 }
             });
-        }
+        }*/
+    }
+
+    //获取当前分类数据
+    if($("div[data-type=selectCate]").attr("value") != "undefined"){
+        ich.ichCategoryId=$("div[data-type=selectCate]").attr("value");
     }
 
     console.log(JSON.stringify(ich));
@@ -839,9 +962,9 @@ function saveIchProject(page) {
             console.log(JSON.stringify(result));
             if(result.code==0){
                 //存储本地
-                if(page == 1){
+             /*   if(page == 1){
                     tipBox.init("success","保存成功",1500);
-                }
+                }*/
                 localStorage.setItem("ichProject",JSON.stringify(result.data));
                 //跳下一步操作
                 if(page==0){
@@ -851,7 +974,8 @@ function saveIchProject(page) {
                     saveAndnext = true;
                     $("#menu").find("li")[0].click();
                 }else{
-                    $('div[data-type=proBaseInfo]').removeClass("selected");
+                    tipBox.init("success","保存成功",1500);
+                    //$('div[data-type=proBaseInfo]').removeClass("selected");
                     $('div[data-type=proBaseInfo]').find("i").addClass('selected');
                 }
 
@@ -869,6 +993,12 @@ function saveIchProject(page) {
               }else{
                   $(".handle").find('a').eq(2).removeClass('empty').addClass('disabled');
               }
+
+              if($('div[data-type=longFieldCustom]').hasClass("selected")){
+                  console.log(result.data.id)
+                  init3(result.data.id);
+              }
+
 
             }else if(result.code==3){
                 //tipBox.init("fail",result.msg,1500);
@@ -978,18 +1108,16 @@ function vaidateForm(ich) {
                 $("#certselect").next().hide();
             }
 
-            if(obj.attributeId==108 && obj.content==""){
+            if(obj.attributeId==107 && obj.content==""){
                 $("#certCode").next().show();
                 flag = false;
                 //return false;
-            }else if(obj.attributeId==108){
+            }else if(obj.attributeId==107){
                 $("#certCode").next().hide();
             }
 
         }
     });
-
-
 
     if(!isImage){
         $(".tips").next().show();
@@ -1112,10 +1240,10 @@ function ichProjectpreview(){
         async:false,
         complete: function () { },
         success: function (result) {
-            //console.log(JSON.stringify(result));
+            console.log(JSON.stringify(result));
             if(result.code==0){
                 //存储本地
-                location.href="../tmp/"+ich.id+".html";
+                location.href="./tmp/"+ich.id+".html";
             }
         },
         error: function (result, status) {
@@ -1227,6 +1355,7 @@ function  initProjectData() {
         });
         //初始化本地区域 文本数据
         if(code != ""){
+            localStorage.setItem("codes",code);
             toArray(dic_arr_city);
             var codeText=[];
             if(code.indexOf(",") != -1){

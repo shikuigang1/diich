@@ -52,11 +52,11 @@ var upload={
 
 //选择地域
 var selectArea={
-    init:function (type,callback) {
+    init:function (type,initVal,callback) {
         if(type==0){
-            this.bind(callback);
+            this.bind(initVal,callback);
         }else{
-            this.radio(callback);
+            this.radio(initVal,callback);
         }
 
     },
@@ -84,15 +84,29 @@ var selectArea={
             '</div>';
         return temp;
     },
-    bind:function (callback) {
+    bind:function (initVal,callback) {
         var _this=this;
         var result=[];
         var resultText=[];
+
+        if(initVal){
+
+            result=initVal.result;
+            resultText=initVal.resultText;
+        }
+
+        if(localStorage.getItem("action")=="add"){
+            result=[];
+            resultText=[];
+        }
+
         var area=$('#area');
         var select=$('#select');
         var selected=$('#selected');
         var isFirst=true;
-        $('div[data-type=selectArea]').on('click',function () {
+        $('div[data-type=selectArea]').on('click',function (e) {
+            e.preventDefault();
+            e.stopPropagation();
             if(isFirst){
                 isFirst=false;
                 var el=$(this);
@@ -141,7 +155,7 @@ var selectArea={
                     tab.removeClass('selected');
                     tab.eq(index).addClass('active selected').find('strong').text(text);
                     tab.eq(index+1).show();
-                    store+=code+',';
+                    store=code;
                     storeText+=text;
                     //当没有子数据的时候赋值给result
                     if(size==0 && index==0){
@@ -171,18 +185,26 @@ var selectArea={
                     selected.append('<li><span>'+data+'<i class="icon"></i></span></li>');
                 }
 
+                //关闭
+                select.on('click',function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+                $(document).on("click", function () {
+                    isFirst=true;
+                    select.hide().html('');
+                });
             }
         });
         //删除选中的数据
-        selected.on('click','.icon',function () {
+        selected.on('click','li',function () {
             var _index=$(this).index();
-            $(this).parents('li').remove();
+            $(this).remove();
             result.splice(_index,1);
             resultText.splice(_index,1);
-           // console.log(resultText);
             localStorage.setItem("codeText",resultText.join(","));
             if(callback && callback!='undefined'){
-                callback(result);
+                callback(result,resultText);
             }
             //删除本地缓存
         });
@@ -253,7 +275,7 @@ var selectArea={
                     tab.removeClass('selected');
                     tab.eq(index).addClass('active selected').find('strong').text(text);
                     tab.eq(index+1).show();
-                    store+=code+',';
+                    store=code;
                     storeText+=text;
                     selected.html('');
                     //当没有子数据的时候赋值给result
@@ -304,29 +326,65 @@ var projectPage={
         var _this=this;
         $('#tpl').load('./Tpl/proBaseInfo.html',function () {//加载基本信息页面
             _this.bind();
-            //认证级别数据添加
-            initCertRank();
             projectPage.uploadImgage(); //上传题图
         });
         this.slideBar.init(); //左侧菜单
-
         //弱当前缓存有数据则在本地 查找并添加
         var ich = getCurrentProject();
         initProjectView(ich);
     },
-    bind:function () {
+    bind:function (areaData) {
+
+        var areaData={};
+        var result = localStorage.getItem("codes");
+        var resultText = localStorage.getItem("codeText");
+
+        if(result!= null && resultText!=null){
+            if(typeof(result)!= "undefined" && result.length>0){
+                areaData.result = result.split(",");
+            }else{
+                areaData.result=[];
+            }
+
+            if(typeof(resultText)!= "undefined" &&resultText.length>0){
+                areaData.resultText = resultText.split(",") ;
+            }else{
+                areaData.resultText=[];
+            }
+        }
+
         var _data=[
             {value:1,name:'口头传说和表述'},
             {value:11,name:'表演艺术'},
-            {value:28,name:'传统手工艺技能'},
-            {value:55,name:'社会风俗、礼仪、节庆'},
-            {value:67,name:'有关自然界和宇宙知识的实践'}
+            {value:28,name:'社会风俗、礼仪、节庆'},
+            {value:55,name:'有关自然界和宇宙的知识和实践'},
+            {value:67,name:'传统的手工艺技能'}
         ];
         this.selectCate.init('div[data-type=selectCate]',_data); //选择分类
         this.declare();  //是否为自己申报传承人
-        selectArea.init(0,function (data) {//选择地址 0是选择地址的类型 0是多选 1是单选
+        selectArea.init(0,areaData,function (data) {//选择地址 0是选择地址的类型 0是多选 1是单选
+            //console.log("1111->",areaData);
+            console.log(data);
+          //把每次code 值存在本地
+            localStorage.setItem("codes",data.join(","));
 
-            console.log(JSON.stringify(data));
+         /*   var content="";
+            if(data != ""){
+
+            }
+            $.each(data,function(index,value) {
+                var codepath = value.substring(0,value.length-1);
+                if(codepath.lastIndexOf(",") != -1){
+                    content=content+codepath.substring(codepath.lastIndexOf(",")+1)+",";
+                }else{
+                    content=content+codepath+",";
+                }
+            });
+
+            console.log(content.substring(0,content.length-1));
+            localStorage.setItem("codes",localStorage.getItem("codes")+","+content.substring(0,content.length-1));*/
+
+          /*  console.log(JSON.stringify(data));
             var ich = getCurrentProject();
             var contentFragment={};
             contentFragment.attributeId=33;//区域id
@@ -358,8 +416,7 @@ var projectPage={
                     ich.contentFragmentList.push(contentFragment);
                 }
             }
-            //console.log(contentFragment);
-            localStorage.setItem("ichProject",JSON.stringify(ich));
+            localStorage.setItem("ichProject",JSON.stringify(ich));*/
         });
     },
     slideBar:{//左侧菜单
@@ -382,7 +439,6 @@ var projectPage={
                 }
 
                 var _dd=$(this).siblings('.dd');
-
                 if(_dd.length>0){
                     _dd.slideToggle(100);
                 }
@@ -402,18 +458,15 @@ var projectPage={
                             var ich = getCurrentProject();
                             if(typeof (ich)!= "undefined"){
 
-                               var str = getCategoryTextById(ich.ichCategoryId);
-
+                                var str = getCategoryTextById(ich.ichCategoryId);
                                 if(str != "非遗项目"){
                                     $('div[data-type=selectCate]').text(str);
                                 }
-
                                 //判断分类按钮是否可以编辑
-                                if(localStorage.getItem("action")=='update'&& getCurrentProject().ichCategoryId !=null ){
+                                /* if(localStorage.getItem("action")=='update'&& getCurrentProject().ichCategoryId !=null ){
                                     $('div[data-type=selectCate]').before('<div style="width: 100%;float:left;background:#fff;border: 0;z-index:2;">'+str+'</div>');
                                     $('div[data-type=selectCate]').remove();
-                                }
-
+                                }*/
                                 //填充题图
                                 //是否为已认证项目 标记
                                 var flag = 0;
@@ -429,16 +482,14 @@ var projectPage={
                                         flag=1;
                                         $("#ECalendar_date").val(obj.content);
                                     }
-                                    if(obj.attributeId == 108 && obj.content != ''){
+                                    if(obj.attributeId == 107 && obj.content != ''){
                                         flag=1;
                                         $("#certCode").val(obj.content);
                                     }
                                     if(obj.attributeId == 9 && obj.content != ''){
-
                                         $("#summary").val(obj.content);
                                     }
                                     if(obj.attributeId == 6 && obj.content != ''){
-
                                         $("#pinyin").val(obj.content);
                                     }
                                     if(obj.attributeId == 5 && obj.content != ''){
@@ -476,14 +527,26 @@ var projectPage={
 
             //点击子分类
             dd.on('click','li',function () {
-                var attrid=$(this).children("span").first().attr('data-id');
+                /*var attrid=$(this).children("span").first().attr('data-id');
                 var _dateType=$(this).attr('data-type');
 
                 if(!$(this).find('i').eq(0).hasClass('selected') && !saveAndnext ){
                     return false;
                 }
+                saveAndnext=false;*/
+                var attrid=$(this).children("span").first().attr('data-id');
+                var _dateType=$(this).attr('data-type');
 
-                saveAndnext=false;
+                var condition = getConditionByAttributeID(attrid);
+                if(condition.minLength==0){ //当前为 非必填选项
+                        if(!isMustAdd()){ //必填项 未 添加完全不可 编辑其他
+                            return;
+                        }
+                }else{
+                    //当前为必填 直接编辑
+                    //do nothing
+                }
+
 
                 if(!validateIchID()){
                     tipBox.init('fail',"请先添加基础信息",1500);
@@ -538,6 +601,7 @@ var projectPage={
                         //是否显示 添加图片
                         if(targetType==1){ //不显示 上传图片
                             $("#images").hide();
+                            $("#images").siblings('.text').css('width','100%');
                         }
 
                         $(".next").prev().attr("href","javascript:delContentFragment("+attrid+")");
@@ -627,7 +691,8 @@ var projectPage={
                 if(ich.id==null || typeof(ich.id)=="undefined"){
                         //do nothing
                 }else{
-                    if(ich.id != callData.value){
+                    //不删除 以前 数据
+                   /* if(ich.id != callData.value){
                         //清空本地 分类相关数据
                         $("#menu2").children("li").each(function () {
                             var attrid = $(this).find("span").attr('data-id');
@@ -638,11 +703,10 @@ var projectPage={
                                 }
                             });
                         });
-                    }
+                    }*/
                 }
                 ich.ichCategoryId=callData.value;
-                //}
-                localStorage.setItem("ichProject",JSON.stringify(ich));
+                //localStorage.setItem("ichProject",JSON.stringify(ich));
                 initmenu2(0,callData.value);
             });
 
