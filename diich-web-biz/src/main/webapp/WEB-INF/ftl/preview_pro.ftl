@@ -328,7 +328,7 @@
                     <div class="subcon" id="subcon">
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
-                            <#if cf.attributeId == 106 && cf.content??>
+                            <#if cf.attributeId == 106 && cf.content?? && cf.content != "">
                                 <span>
                                      <#if obj.lang == "chi">
                                          人类非物质文化遗产编号：
@@ -342,7 +342,7 @@
                     </#if>
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
-                            <#if cf.attributeId == 41 &&  cf.content??>
+                            <#if cf.attributeId == 41 &&  cf.content?? && cf.content != "">
                                 <span>
                                      <#if obj.lang == "chi">
                                          级别

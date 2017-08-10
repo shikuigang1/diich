@@ -252,10 +252,10 @@
                     <div class="tname">非遗在中国<i></i></div>
                     <div class="subcon" id="subcon">
                             <#list obj.contentFragmentList as cf>
-                                <#if cf.attributeId == 12 && cf.content??>
+                                <#if cf.attributeId == 12 && cf.content?? && cf.content != "" >
                                     <span>人类非物质文化遗产编号：${cf.content}</span>
                                 </#if>
-                                <#if cf.attributeId == 111 && cf.content??>
+                                <#if cf.attributeId == 111 && cf.content?? && cf.content != "">
                                     <span>级别：<em  style="font-size: 12px" class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em></span>
                                 </#if>
                             </#list>
