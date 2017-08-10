@@ -15,7 +15,7 @@
                         {{#equal ../menuId attributeId }}
                             {{#each resourceList}}
                                 <div class="item" {{#equal 0 @index }}style="margin-right: 10px;{{/equal}}">
-                                    <img src="{{../../../startPath}}{{uri}}" alt="">
+                                    <img data-src="{{handleUrl uri 1}}" src="{{handleUrl uri 0}}" alt="">
                                     <input type="text" name="text" placeholder="请输入标题" value="{{description}}">
                                 </div>
                             {{/each}}
@@ -39,6 +39,6 @@
         <div class="buttons">
             <a id="delete_{{name}}_{{getId pageObj.contentFragmentList menuId}}" href="javascript:void(0);">删除此项</a>
             <a id="next" class="next" href="javascript:void(0);" >下一步</a>
-            <a id="skip" href="javascript:void(0);">跳过此项</a>
+            <!-- <a id="skip" href="javascript:void(0);">跳过此项</a> -->
         </div>
     </div>
