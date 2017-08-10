@@ -350,6 +350,7 @@
                                     <p>
                                         <#if cf.content??>
                                          <#assign content =cf.content?replace("\n", "<br>") />
+                                         <#assign content =cf.content?replace(" ", "&nbsp;") />
                                              ${content}
                                         </#if>
                                     </p>
@@ -419,6 +420,7 @@
                             <p>
                                 <#if cf.content??>
                                  <#assign content =cf.content?replace("\n", "<br>") />
+                                 <#assign content =cf.content?replace(" ", "&nbsp;") />
                                      ${content}
                                 </#if>
                             </p>
