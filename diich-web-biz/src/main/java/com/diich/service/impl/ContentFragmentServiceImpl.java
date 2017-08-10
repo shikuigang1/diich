@@ -231,6 +231,7 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
         attribute.setTargetId(contentFragment.getTargetId());
         attribute.setIsOpen(1);
         attribute.setPriority(99);
+        attribute.setSeq(999);
         attributeMapper.insertSelective(attribute);
         return attributeId;
     }
