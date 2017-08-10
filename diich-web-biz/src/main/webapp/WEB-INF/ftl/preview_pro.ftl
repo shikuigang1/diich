@@ -118,24 +118,24 @@
 
         <div class="card">
             <div class="card_main">
-                <div class="floor">
-                    <a class="share" title="分享"></a>
-                    <a class="praise" title="点赞" style="position: relative;"></a>
+                <#--<div class="floor">-->
+                    <#--<a class="share" title="分享"></a>-->
+                    <#--<a class="praise" title="点赞" style="position: relative;"></a>-->
 
-                    <a class="album albums" data-id="all"><i class="icon_img"></i>
+                    <#--<a class="album albums" data-id="all"><i class="icon_img"></i>-->
 
-                    </a>
+                    <#--</a>-->
 
-                    <div class="share_box">
-                        <div class="icons">
-                            <span></span>
-                            <a href="" class="weixin active"></a>
-                        </div>
-                        <div class="qrcode">
-                            <img width="108" style="display:block" src="${caturi}/ichProject/getImage?id=${obj.id?c}" alt="微信">
-                        </div>
-                    </div>
-                </div>
+                    <#--<div class="share_box">-->
+                        <#--<div class="icons">-->
+                            <#--<span></span>-->
+                            <#--<a href="" class="weixin active"></a>-->
+                        <#--</div>-->
+                        <#--<div class="qrcode">-->
+                            <#--<img width="108" style="display:block" src="${caturi}/ichProject/getImage?id=${obj.id?c}" alt="微信">-->
+                        <#--</div>-->
+                    <#--</div>-->
+                <#--</div>-->
                 <!--//End -->
                 <div class="detail_title">
                         <#if obj.lang == "chi">
@@ -201,7 +201,7 @@
                         </span>
                 <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
-                        <#if cf.attributeId == 33 && cf.content??>
+                        <#if cf.attributeId == 33 && cf.content?? && cf.content != "">
                             <span>
                                    <strong>
                                     <#if obj.lang == "chi">
