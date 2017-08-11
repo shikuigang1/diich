@@ -1452,16 +1452,16 @@ body,
     display: none;
 }
 .modal .content .loading {
-    width:260px;
-    line-height:32px;
-    padding:10px 0;
-    background:#fff;
+    width: 260px;
+    line-height: 32px;
+    padding: 10px 0;
+    background: #fff;
     text-align: center;
-    position:absolute;
-    top:-50%;
-    left:50%;
-    z-index:2;
-    margin-left:-160px;
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    z-index: 2;
+    margin-left: -160px;
     margin-top: -27px;
 }
 .modal .content .loading img{
