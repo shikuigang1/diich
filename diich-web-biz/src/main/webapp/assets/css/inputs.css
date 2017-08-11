@@ -529,6 +529,7 @@ body,
 .ipt_base .slide .item .icon.selected {
     background-position: 0 -18px;
 }
+
 .ipt_base .slide .item .icon.unselected {
     background-position: 0 0;
 }
