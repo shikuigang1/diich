@@ -135,7 +135,7 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
             content.setTargetType(0);
             List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(content);
             for (ContentFragment contentFragment: contentFragmentList) {
-                if(contentFragment.getAttributeId() != null){
+                if(contentFragment.getAttributeId() != null && contentFragment.getContent() != null && contentFragment.getContent() != ""){
                     if(listId.contains(contentFragment.getAttributeId())){
                         continue;
                     }
