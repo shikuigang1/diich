@@ -193,6 +193,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             if(ichProject.getStatus() != null && ichProject.getStatus() == 3){
                 if(user != null && user.getType() == 0){//如果当前修改者不是admin type 代表权限 0 代表admin  1代表普通用户
                     ichProject.setStatus(0);
+                }else{//不是管理员权限
+                    IchProject project = ichProjectMapper.selectIchProjectById(ichProject.getId());
+                    if(project != null && (!project.getLastEditorId().equals(user.getId()) || project.getStatus() == 0)){//提交审核的者发生变化或者直接提交已经审核的项目
+                        ichProject = updateProject(ichProject);
+                        commit(transactionStatus);
+                        return ichProject;
+                    }
                 }
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
             }else {
@@ -227,6 +234,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         } else {//修改
             IchProject selectProject = ichProjectMapper.selectIchProjectById(ichProject.getId());
             if( (user != null && user.getType() !=0) && (!ichProject.getLastEditorId().equals(selectProject.getLastEditorId()) || ( ichProject.getStatus() != null && ichProject.getStatus()==0))){//当前编辑者(非管理员)是发生了改变
+                ichProject.setStatus(2);
                 return updateProject(ichProject);
             }
             ichProjectMapper.updateByPrimaryKeySelective(ichProject);
@@ -252,7 +260,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         Long mainId = ichProject.getId();
         long branchId = IdWorker.getId();
         ichProject.setId(branchId);
-        ichProject.setStatus(2);
         ichProject.setUri(branchId+".html");
         ichProjectMapper.insertSelective(ichProject);
         List<ContentFragment> ichProjectContentFragmentList = ichProject.getContentFragmentList();
