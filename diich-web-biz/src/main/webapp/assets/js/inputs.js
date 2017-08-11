@@ -46,6 +46,14 @@ var upload={
                 }
             });
         });
+    },
+    remove:function (callback) {
+        $('#images').on('click','.remove i',function () {
+            $(this).parents('.item').remove();
+            if(callback && callback!='undefined'){
+                callback();
+            }
+        });
     }
 };
 
@@ -184,7 +192,6 @@ var selectArea={
                 function createSelected(data) {
                     selected.append('<li><span>'+data+'<i class="icon"></i></span></li>');
                 }
-
                 //关闭
                 select.on('click',function (e) {
                     e.preventDefault();
@@ -452,6 +459,11 @@ var projectPage={
                     $('#tpl').load('./Tpl/'+_dateType+'.html',function () {
                         projectPage.bind();
                         if(_dateType == 'proBaseInfo'){
+
+                            $(".editListen").on("click",function () {
+                                editFlag = true;
+                            });
+                            
                             projectPage.uploadImgage(); //上传题图
                             //重新初始化 分类信息  认证信息
                             initCertRank();
@@ -461,6 +473,7 @@ var projectPage={
                                 var str = getCategoryTextById(ich.ichCategoryId);
                                 if(str != "非遗项目"){
                                     $('div[data-type=selectCate]').text(str);
+                                    $('div[data-type=selectCate]').attr("value",ich.ichCategoryId);
                                 }
                                 //判断分类按钮是否可以编辑
                                 /* if(localStorage.getItem("action")=='update'&& getCurrentProject().ichCategoryId !=null ){
@@ -498,6 +511,15 @@ var projectPage={
                                     if(obj.attributeId == 41 && obj.content != ''){
                                         $("#certselect").val(obj.content);
                                     }
+                                    if(obj.attributeId == 109 && obj.content != ''){
+                                        $("#beginTimes").val(obj.content);
+                                    }
+                                    if(obj.attributeId == 108 && obj.content != ''){
+                                        $("#countryCode").val(obj.content);
+                                    }
+                                    if(obj.attributeId == 32 && obj.content != ''){
+                                        $("#titleWords").val(obj.content);
+                                    }
                                 });
                                 //显示选中内容
                                 if(flag==1){
@@ -515,6 +537,8 @@ var projectPage={
                                         $('#select').hide();
                                     }
                                 }
+                                //分类值回填
+
                                 //填充 是否为 已申报传承人
                             }
                         }
@@ -527,14 +551,64 @@ var projectPage={
 
             //点击子分类
             dd.on('click','li',function () {
-                /*var attrid=$(this).children("span").first().attr('data-id');
+                var attrid=$(this).children("span").first().attr('data-id');
                 var _dateType=$(this).attr('data-type');
+                //判断当前 是否可以编辑（父菜单未完成 状态子菜单不可编辑）
+                var flag = false;//当前是否可点击标记
+                if(typeof ($(this).prev().html())!="undefined"){ //判断上一级 对象是否侧你在
+                    //查看上一级 菜单的 编辑状态
+                    if($(this).prev().find('i').eq(0).hasClass('selected') || $(this).prev().find('i').eq(0).hasClass('unselected2')){
+                        flag = true;
+                    }
+                    if($(this).find('i').eq(0).hasClass('selected') || $(this).find('i').eq(0).hasClass('unselected2')){
+                        flag = true;
+                    }
+                    //给出提示信息
+                    if(!flag){
+                        if(!validateIchID()){
+                            //tipBox.init('fail',"请先添加",1500);
+                        }
+                    }
+                }else{
+                    //上一级菜单不存在
+                    if(!validateIchID()){
+                        tipBox.init('fail',"请先添加基础信息",1500);
+                        flag = false;
+                    }else{
+                        if($(this).parent().attr("id")=="menu2"){
 
-                if(!$(this).find('i').eq(0).hasClass('selected') && !saveAndnext ){
+                           var length = $("#menu").children().length;
+                           var obj =  $("#menu").find("li").eq(length-1);
+                            //判断上一菜单栏 是否
+                           if(obj.find("i").eq(0).hasClass("selected")||obj.find("i").eq(0).hasClass("unselected2")){
+                                flag=true;
+                           }
+                           // flag = false;
+                        }else{
+                            flag = true;
+                        }
+
+                    }
+                }
+                if(!flag){
                     return false;
                 }
-                saveAndnext=false;*/
-                var attrid=$(this).children("span").first().attr('data-id');
+
+                if(editFlag){ //页面被修改 弹出是否保存
+                    if(confirm("你是否要保存当前页面信息？"))
+                    {
+                       saveIchProject();
+                    }
+
+                }
+                editFlag = false;
+/*
+                alert(($(this).parent().find('i').eq(0).hasClass('selected') || $(this).parent().find('i').eq(0).hasClass('unselected2')) );
+                if(  (!(($(this).parent().find('i').eq(0).hasClass('selected') || $(this).parent().find('i').eq(0).hasClass('unselected2')))) ||  ((!$(this).find('i').eq(0).hasClass('selected') && !$(this).find('i').eq(0).hasClass('unselected2')) ) && !saveAndnext ) {
+
+                    saveAndnext = false;
+                }*/
+              /*  var attrid=$(this).children("span").first().attr('data-id');
                 var _dateType=$(this).attr('data-type');
 
                 var condition = getConditionByAttributeID(attrid);
@@ -545,13 +619,10 @@ var projectPage={
                 }else{
                     //当前为必填 直接编辑
                     //do nothing
-                }
+                }*/
 
 
-                if(!validateIchID()){
-                    tipBox.init('fail',"请先添加基础信息",1500);
-                     return false;
-                }
+
                 //验证
                 var ich = getCurrentProject();
 
@@ -569,6 +640,9 @@ var projectPage={
                 $('#tpl').load('./Tpl/'+_dateType+'.html',function () {
                     projectPage.bind();
                     if(_dateType==='longField'){
+                        upload.remove(function () {
+                             alert("remove");
+                        });
                         //修改标签内容
                         $(".st").children("h2").text(name);
                         //初始化当前菜单数据
@@ -624,6 +698,8 @@ var projectPage={
                     var $this=$(this);
                     var index=$(this).attr('value');
                     _this.bind(index,data,function (response) {//value 选中ID data数据
+
+
                         $this.attr('value',response.value);
                         $this.attr('data-index',response.index);
                         $this.text(response.name);
@@ -865,6 +941,7 @@ var projectPage={
             var templ='<div class="item">' +
                 '<img src="'+str+'" alt="">' +
                 '<input type="text" name="text" placeholder="请输入标题">' +
+                '<span class="remove"><i></i></span>'+
                 '</div>';
             return templ;
         }
@@ -878,6 +955,9 @@ var projectPage={
             }
             _images.find('.item:even').css('margin-right','10px');
         }
+
+
+
     }
 };
 
