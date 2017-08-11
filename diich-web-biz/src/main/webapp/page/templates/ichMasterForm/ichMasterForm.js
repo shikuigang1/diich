@@ -1,85 +1,96 @@
-define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
-    "text!ichMasterForm/contact.tpl", "text!ichMasterForm/vocation.tpl",
-    "text!ichMasterForm/resume.tpl", "text!ichMasterForm/master.tpl",
-    "text!ichMasterForm/menu.tpl"], function(customTpl, basicTpl, contactTpl, vocationTpl, resumeTpl, masterTpl, menuTpl) {
+define(["text!ichMasterForm/menuList.tpl"], function(menuListTpl) {
 
     function init() {
         _onGetMenus();
     }
-
-    // 因数据库无根据进行排序，定义一个菜单排序规则对象
-    var s = [
-        {
-            menusName : "基本信息",
-            sonMenus: {
-                menusName: "",
-                sonTerms: []
-            },
-
-        },
-        {
-            menusName : "联系方式",
-            sonTerms: []
-        },
-        {
-            menusName : "职业信息",
-            sonTerms: []
-        },
-        {
-            menusName : "传承人内容",
-            sonMenus : [
-                {
-                    menusName: "",
-                    sonTerms: []
-                }
-            ]
-        }
-    ]
-
-
 
     // 获取菜单数据
     function _onGetMenus() {
         _onRequest("GET", "/ichCategory/getAttributeList", {targetType: 1}).then(function(result) {
             if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                 console.log(" --- res  ", result.res.data);
-                _onBuildMenus(result.res.data);
+                var menuss = _onBuildMenus(result.res.data);
+                var menusHtml = Handlebars.compile(menuListTpl)({menuss: menuss});
+                $("#menusAll").html(menusHtml);
+                //$("#menusAll").html(Handlebars.compile(basicTpl)({countrys: dicArrCity, pageObj: pageObj, ichProjectId: ichProjectId}));
+                console.log(" menuss --- >", menuss)
             } else {
                 tipBox.init("fail", result.res.msg , 1500);
             }
         })
     }
 
+    // 构建菜单
     function _onBuildMenus(menus) {
-        var menus0 = {};
-        var menus1 = {};
-        var menus2 = {};
-        var menus3 = {};
+        var menus0 = {}, menus1 = {}, menus2 = {}, menus3 = {}; // 声明菜单
         $.each(menus, function(i, v) {
             switch (v.lable) {
                 case "基本信息":
-                    if(menus0.hasOwnProperty("menusName")) {
-                        menus0.sonTerms.push(v);
-                    } else {
-                        menus0.menusName = v.lable;
-                        menus0.sonTerms = [];
-                        menus0.sonTerms.push(v);
-                    }
+                    _buildSort(menus0, v,  0);
                     break;
                 case "联系方式":
-                    // ...
-                    break;
+                    _buildSort(menus1, v,  0);
+                        break;
                 case "职业信息":
-                    // ...
+                    _buildSort(menus2, v,  0);
                     break;
                 default:
-
+                    _buildSort(menus3, v,  1);
+                    break;
             }
-
         })
+        function _buildSort(menusArr, v,  code) {
+            if(code == 0) {
+                if(menusArr.hasOwnProperty("menusName")) {
+                    menusArr.sonTerms.push(v);
+                } else {
+                    menusArr.menusName = v.lable;
+                    menusArr.sonTerms = [];
+                    menusArr.sonTerms.push(v);
+                }
+                // 排序
+                menusArr.sonTerms.sort(function(a, b) {
+                    return a.seq - b.seq;
+                })
+            } else {
+                if(v.lable != "") {
+                    var obj = {};
+                    obj.menusName =  v.lable;
+                    obj.sonTerms = [];
+                    obj.sonTerms.push(v);
+                    if(menusArr.hasOwnProperty("menusName")) {
+                        var status = true;
+                        $.each(menusArr.sonMenus, function(i, value) {
+                            if(value.menusName == v.lable) {
+                                value.sonTerms.push(v);
+                                status = false;
+                                return;
+                            }
+                        })
+                        if(status) {
+                            menusArr.sonMenus.push(obj);
+                        }
+                    } else {
+                        menusArr.menusName = "传承人内容";
+                        menusArr.sonMenus = [];
+                        menusArr.sonMenus.push(obj);
+                    }
+                }
+                // 排序
+                $.each(menusArr.sonMenus, function(i, vlaue) {
+                    vlaue.sonTerms.sort(function(a,b) {
+                        return a.seq - b.seq;
+                    })
+                })
+            }
+        }
 
-        // 排序
-        console.log(menus0)
+        var myMenus = new Array();
+        myMenus.push(menus0);
+        myMenus.push(menus1);
+        myMenus.push(menus2);
+        myMenus.push(menus3);
+        return myMenus;
     }
 
     /**
