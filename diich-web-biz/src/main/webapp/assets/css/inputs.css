@@ -527,6 +527,20 @@ body,
     background-position: 0 -36px;
 }
 
+.ipt_base .slide .item .icon.selected {
+    background-position: 0 -18px;
+}
+
+.ipt_base .slide .item .icon.unselected {
+    background-position: 0 0;
+}
+.ipt_base .slide .item .icon.unselected2 {
+    background-position: 0 -54px;
+}
+.ipt_base .slide .item .icon.warning {
+    background-position: 0 -36px;
+}
+
 .ipt_base .slide .item .arrow {
     background: #fff url(../images/inputs/arrow.png) 0 0 no-repeat;
     width: 14px;
