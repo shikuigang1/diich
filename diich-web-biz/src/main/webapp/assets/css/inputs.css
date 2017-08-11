@@ -526,7 +526,6 @@ body,
 .ipt_base .slide .item .icon.full.warning {
     background-position: 0 -36px;
 }
-
 .ipt_base .slide .item .icon.selected {
     background-position: 0 -18px;
 }
@@ -697,20 +696,6 @@ body,
 .ipt_base .content .st span {
     font-size: 14px;
     color: #4283eb;
-}
-
-.ipt_base .content .errors_st {
-    float:left;margin-top: -50px;margin-left: 60px;padding-left: 20px;font-size: 14px;line-height: 16px;color: #FF3E3E;
-    position: relative;
-}
-.ipt_base .content .errors i {
-    background: url(../images/inputs/errors.png);
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    margin-top: -8px;
 }
 .ipt_base .content .edit {
     width: 754px;
@@ -961,11 +946,6 @@ body,
     top: 50%;
     right: 20px;
     margin-top: -4px;
-}
-.horizontal .group .control .ipt #ECalendar_date {
-    width:100%;
-    height: 100%;
-    float: left;
 }
 
 .horizontal .group .control div.select:after {

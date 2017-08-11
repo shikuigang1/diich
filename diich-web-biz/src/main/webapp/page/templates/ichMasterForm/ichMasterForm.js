@@ -952,9 +952,11 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 onRequest("POST", "/ichMaster/preview", {params: targetId}).then(function(result) {
                     //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                        window.open(result.data);
+                        var url = result.res.data;
+                        window.open(url.substr((url.indexOf(".") + 1), url.length));
                         _bindingSave();
                     } else {
+                        tipBox.init("fail", result.res.msg, 1500);
                         _bindingSave();
                     }
                 });
@@ -1320,7 +1322,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
 
                 $.each(resData.contentFragmentList,function(i, v) {
                     if(v.content != "" || v.resourceList.length > 0) {
-                        $("#" + id).removeClass("selected").children("i").addClass("selected").removeClass("unselected"); // 添加已完成效果
+                        $("#" + id).removeClass("selected").children("i").addClass("selected").removeClass("unselected").removeClass("unselected2"); // 添加已完成效果
                         return false;
                     } else {
                         $("#" + id).removeClass("selected").children("i").addClass("unselected2").removeClass("unselected"); // 添加已完成效果
