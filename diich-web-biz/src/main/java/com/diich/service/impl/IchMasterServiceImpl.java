@@ -149,7 +149,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         try {
             ichMaster.setLastEditDate(new Date());
             if(ichMaster.getStatus() != null && ichMaster.getStatus() == 3){
-                if(user != null && user.getType() == 0){//如果当前修改者不是admin type代表权限  0 代表admin  1代表普通用户
+                if(user != null && user.getType() == 0){//如果当前修改者是admin type代表权限  0 代表admin  1代表普通用户
                     ichMaster.setStatus(0);
                 }
                 ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
@@ -184,10 +184,10 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             ichMaster.setUri(id + ".html");
             ichMasterMapper.insertSelective(ichMaster);
         } else {
-            IchMaster master = ichMasterMapper.selectMasterById(ichMaster.getId());
-            if( (user != null && user.getType() !=0) && (!ichMaster.getLastEditorId().equals(master.getLastEditorId()) || ( ichMaster.getStatus() != null && ichMaster.getStatus()==0))){//当前编辑者(非管理员)是发生了改变
-                return updateMaster(ichMaster);
-            }
+//            IchMaster master = ichMasterMapper.selectMasterById(ichMaster.getId());
+//            if( (user != null && user.getType() !=0) && (!ichMaster.getLastEditorId().equals(master.getLastEditorId()) || ( ichMaster.getStatus() != null && ichMaster.getStatus()==0))){//当前编辑者(非管理员)是发生了改变
+//                return updateMaster(ichMaster);
+//            }
             ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
         }
         List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
@@ -326,7 +326,9 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 }
             }
         }
-        return getIchMasterById(id);
+        IchMaster ichMaster = getIchMasterById(id);
+        updateMaster(ichMaster);
+        return ichMaster;
     }
 
     @Override
