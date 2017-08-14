@@ -124,31 +124,32 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
     }
 
     @Override
-    public void deleteContentFragment(Long id) throws Exception {
+    public ContentFragment deleteContentFragment(ContentFragment contentFragment) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
         try{
-            ContentFragment contentFragment = contentFragmentMapper.selectByPrimaryKey(id);
             if(contentFragment != null){
-                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(id);
+                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
                 if(contentFragmentResourceList.size()>0){
-                    contentFragmentResourceMapper.deleteByContentFragmentId(id);
-                    for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
-                        resourceMapper.deleteByPrimaryKey(contentFragmentResource.getResourceId());
+                    contentFragmentResourceMapper.deleteByContentFragmentId(contentFragment.getId());
+                }
+                if(contentFragment.getAttributeId() != null){
+                    Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
+                    if(attribute != null && (attribute.getTargetType() ==10 || attribute.getTargetType() ==11 || attribute.getTargetType() ==12)){
+                        contentFragmentMapper.deleteByPrimaryKey(contentFragment.getId());
+                        attributeMapper.deleteByPrimaryKey(contentFragment.getAttributeId());
+                    }else{
+                        contentFragment.setContent("");
+                        contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
                     }
                 }
-                contentFragmentMapper.deleteByPrimaryKey(id);
-                Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
-                if(attribute != null && (attribute.getTargetType() ==10 || attribute.getTargetType() ==11 || attribute.getTargetType() ==12)){
-                    attributeMapper.deleteByPrimaryKey(contentFragment.getAttributeId());
-                }
-            }
 
+            }
             commit(transactionStatus);
         }catch (Exception e){
             rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-
+        return contentFragment;
     }
     //用于删除项目实践部分
     @Override

@@ -62,7 +62,7 @@ public class ResourceServiceImpl extends BaseService<Resource> implements Resour
         TransactionStatus transactionStatus = getTransactionStatus();
         try{
             contentFragmentResourceMapper.deleteByResourceId(id);
-            resourceMapper.deleteByPrimaryKey(id);
+//            resourceMapper.deleteByPrimaryKey(id);
             commit(transactionStatus);
         }catch (Exception e){
             rollback(transactionStatus);
