@@ -3,16 +3,10 @@ package com.diich.service.impl;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
-import com.diich.core.model.Attribute;
-import com.diich.core.model.ContentFragment;
-import com.diich.core.model.ContentFragmentResource;
-import com.diich.core.model.Resource;
+import com.diich.core.model.*;
 import com.diich.core.service.ContentFragmentService;
 import com.diich.core.service.ResourceService;
-import com.diich.mapper.AttributeMapper;
-import com.diich.mapper.ContentFragmentMapper;
-import com.diich.mapper.ContentFragmentResourceMapper;
-import com.diich.mapper.ResourceMapper;
+import com.diich.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
@@ -40,6 +34,8 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
     private ResourceMapper resourceMapper;
     @Autowired
     private ResourceService resourceService;
+    @Autowired
+    private IchProjectMapper ichProjectMapper;
 
     @Override
     public ContentFragment getContentFragment(String id) throws Exception {
@@ -138,8 +134,18 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
                         contentFragmentMapper.deleteByPrimaryKey(contentFragment.getId());
                         attributeMapper.deleteByPrimaryKey(contentFragment.getAttributeId());
                     }else{
-                        contentFragment.setContent("");
-                        contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                        if(contentFragment.getTargetType() != null && contentFragment.getTargetType() == 0 ){
+                            IchProject project = ichProjectMapper.selectIchProjectById(contentFragment.getTargetId());
+                            if(project != null && ( !attribute.getIchCategoryId().equals(project.getIchCategory()))){
+                                contentFragmentMapper.deleteByPrimaryKey(contentFragment.getId());
+                            }else{
+                                contentFragment.setContent("");
+                                contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                            }
+                        }
+                        if(contentFragment.getTargetType() != null && contentFragment.getTargetType() == 1 ){//传承人
+                            contentFragmentMapper.deleteByPrimaryKey(contentFragment.getId());
+                        }
                     }
                 }
 
