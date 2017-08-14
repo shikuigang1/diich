@@ -118,6 +118,7 @@
 <!--//End-->
 
 <script>
+    var editFlag = false;
     $(function() {
         /*loadScript("../assets/js/login.js");*/
        // $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
@@ -140,8 +141,7 @@
                     code = object.content;
                 }
             });
-            //初始化本地区域 文本数据
-            console.log(code);
+            //初始化本地区域 文本数据;
             if(code != ""){
                 localStorage.setItem("codes",code);
                 toArray(dic_arr_city);
@@ -177,6 +177,11 @@
             localStorage.setItem("ichProject",JSON.stringify(ich));
         }
         projectPage.init();
+
+        document.onkeydown=function(event){
+            editFlag = true;
+        };
+
     });
 
     var newArr = new Array();
