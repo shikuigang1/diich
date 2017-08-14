@@ -981,14 +981,20 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 //console.log("targetId --- >", targetId);
                 onRequest("POST", "/ichMaster/preview", {params: targetId}).then(function(result) {
                     //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
-                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                        var url = result.res.data;
-                        window.open(url.substr((url.indexOf(".") + 1), url.length));
-                        _bindingSave();
-                    } else {
-                        tipBox.init("fail", result.res.msg, 1500);
-                        _bindingSave();
-                    }
+                    modal.loading({
+                        //speed:'10000000000', //可选  默认2000
+                        //text:'', //可选  默认加载中，请稍候...
+                        success:function () {
+                            if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                                var url = result.res.data;
+                                window.open(url.substr((url.indexOf(".") + 1), url.length));
+                                _bindingSave();
+                            } else {
+                                tipBox.init("fail", result.res.msg, 1500);
+                                _bindingSave();
+                            }
+                        }
+                    });
                 });
             } else {
                 tipBox.init("fail", "请填写基本数据后预览", 1500);
