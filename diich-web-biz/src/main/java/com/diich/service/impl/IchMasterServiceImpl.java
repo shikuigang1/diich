@@ -327,7 +327,11 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             }
         }
         IchMaster ichMaster = getIchMasterById(id);
-        updateMaster(ichMaster);
+        if(ichMaster !=null && (!ichMaster.getLastEditorId().equals(user.getId())) || ( ichMaster.getStatus() != null && ichMaster.getStatus()==0)){
+            ichMaster.setLastEditorId(user.getId());
+            ichMaster.setLastEditDate(new Date());
+            updateMaster(ichMaster);
+        }
         return ichMaster;
     }
 

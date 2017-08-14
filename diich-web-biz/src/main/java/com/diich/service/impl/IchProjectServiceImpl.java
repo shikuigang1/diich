@@ -302,9 +302,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             }
         }
         IchProject ichProject = getIchProjectById(id);
-        ichProject.setLastEditorId(user.getId());
-        ichProject.setLastEditDate(new Date());
-        updateProject(ichProject);
+        if(ichProject !=null && (!ichProject.getLastEditorId().equals(user.getId())) || ( ichProject.getStatus() != null && ichProject.getStatus()==0)){
+            ichProject.setLastEditorId(user.getId());
+            ichProject.setLastEditDate(new Date());
+            updateProject(ichProject);
+        }
         return ichProject;
     }
     /**
