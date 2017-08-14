@@ -305,7 +305,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         if(ichProject !=null && (!ichProject.getLastEditorId().equals(user.getId())) || ( ichProject.getStatus() != null && ichProject.getStatus()==0)){
             ichProject.setLastEditorId(user.getId());
             ichProject.setLastEditDate(new Date());
-            updateProject(ichProject);
+            ichProject  = updateProject(ichProject);
         }
         return ichProject;
     }
