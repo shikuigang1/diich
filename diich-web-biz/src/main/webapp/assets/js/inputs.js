@@ -1371,4 +1371,26 @@ var inheritorPage={
     }
 };
 
+var modal={
+    loading:function (options) {
+        var _speed,_text='';
+        _speed = (!options.speed || options.speed=='') ? 2000 : options.speed;
+        _text = (!options.text || options.text=='') ? '加载中，请稍候...' : options.text;
+        var _str='<div class="modal" id="modal">' +
+            '        <div class="content">' +
+            '            <div class="loading"><img src="../assets/images/icon_preview_loading.gif">'+_text+'</div>' +
+            '        </div>' +
+            '        <div class="bg"></div>' +
+            '    </div>';
 
+        $('body').append(_str);
+        var modal=$('#modal');
+        modal.fadeIn();
+        modal.find('.loading').stop(true).animate({'top':'50%'},300,function () {
+            setTimeout(function(){
+                options.success();
+                modal.remove();
+            },_speed);
+        });
+    }
+};
