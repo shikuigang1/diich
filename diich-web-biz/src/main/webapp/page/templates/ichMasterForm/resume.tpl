@@ -1,7 +1,7 @@
  <div class="title">传承人内容</div>
     <div class="hint"><i class="dot"></i>标有 <em>*</em> 的为必填项 · 信息越完善，申报成功的几率越高</div>
     <div class="st">
-       <h2>{{#if title}}{{title}}{{else}}{{getCustomName pageObj.contentFragmentList}}{{/if}}</h2><!-- <span>查看填写示例</span> -->
+       <h2>{{title}}</h2><!-- <span>查看填写示例</span> -->
     </div>
 
     <div id="temp">
