@@ -2814,11 +2814,13 @@ Handlebars.template = Handlebars.VM.template;
     })
 
     // 获取自定义模块名称
-    Handlebars.registerHelper("getCustomName", function(keys) {
+    Handlebars.registerHelper("getCustomName", function(keys, customId) {
         var name = "";
         $.each(keys, function(i, v) {
-            name = v.attribute.cnName;
-            return;
+            if(v.attributeId == customId) {
+                name = v.attribute.cnName;
+                return;
+            }
         })
         return name;
     })
