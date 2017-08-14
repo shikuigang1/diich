@@ -677,10 +677,10 @@ var projectPage={
                             $("#images").siblings('.text').css('width','100%');
                         }
 
-                        $(".next").prev().attr("href","javascript:delContentFragment("+attrid+")");
-                        $(".next").attr("href","javascript:saveContentPragment("+attrid+")");
-                        $(".next").next().attr("href","javascript:next("+attrid+")");
-
+                        $(".next").prev().attr("href","javascript:delContentFragment('"+attrid+"')");
+                        $(".next").attr("href","javascript:saveContentPragment('"+attrid+"')");
+                      /*  $(".next").next().attr("href","javascript:next("+attrid+")");
+*/
                         projectPage.radioImage(); //上传题图
                     }else {
                         projectPage.uploadImgage(); //上传题图
