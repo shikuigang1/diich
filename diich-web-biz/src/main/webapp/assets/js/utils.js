@@ -186,7 +186,7 @@ var Detail = { //详情页用到的效果
             if(jsonHead.headImage != null && jsonHead.headImage !='undefined'){
                 _data.headImage=jsonHead.headImage[0].uri;
             }else{
-                _data.headImage="default_avatar2.png?x-oss-process=style/head-image-style";
+                _data.headImage="default_avatar2.png";
             }
             return _data;
         },
