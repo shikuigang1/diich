@@ -32,7 +32,6 @@
                     </div>
                     <form id="form" onkeydown="if(event.keyCode==13){return false;}">
                         <input class="ipt" type="text" placeholder="请输入项目名称" id="keyword" name="keyword">
-						<input type="hidden" id="type" name="type" value="0"/>
                         <input class="btn" type="button" value="创建" ><span id="tipwords"  ></span>
                     </form>
                 </div>
@@ -100,7 +99,6 @@
 				//$("#tipwords").text("请填写项目名称！");
 				return false;
 			}
-            $("#type").val("0");
             $.ajax({
                 cache: true,
                 type: "POST",
@@ -113,122 +111,30 @@
                 },
                 success: function(res) {
 				var data = res.data;
-				   console.log(JSON.stringify(res));
-				  if(data.length>0){
-					  $("#item1").empty();
-					  $(".step2").hide();
-                      $(".tips").html("您要申报的项目已存在，请勿重复申报");
-					  var html="";
-					  $.each(data,function(index,item){
-
-						html+="<li>";
-						if(typeof(item.img)!="undefined"){
-							html+="<img src=\""+imgserver+"/image/project/"+item.img+"\" alt=\"\">";
-						}else{ 
-							//使用默认图片
-							html+="<img src=\""+defaultheadimg+"\" alt=\"\">";
-						}
-						
-						html+="<div class=\"info\">";
-
-						if(typeof (item.name) !="undefined"){
-                            html+="<p class=\"name\"><strong>"+item.name+"</strong><em>ID编码"+item.id+"</em></p>";
-                        }
-
-                        if(typeof (item.category) !="undefined"){
-                            html+="<p><strong>类型：</strong><span>"+item.category+"</span></p>";
-                        }
-
-                        if(typeof (item.dis) !="undefined"){
-                            html+="<p><strong>地区：</strong><span>"+item.dis+"</span></p>";
-                        }
-
-						html+="</div></li>";
-					  
-					  });
-					 
-					  $("#item1").append(html);
-					  $(".step2").show();
-					  $("#item2").hide();
-				  }else{
-					//模糊匹配
-					$("#type").val("1");
-					blurSelect();
-				  }
+				$("#item1").empty();
+				$(".step2").hide();
+				if(data.type==0){
+                    $(".tips").html("您要申报的项目已存在，请勿重复申报");
+                    $("#item1").append(getHtml(data.data));
+                    $(".step2").show();
+                    $("#item2").hide();
+                }else if(data.type ==1){
+                    if(data.data.length==0){
+                        gotoCreate();
+                    }else{
+                        $(".tips").html("您要申报的项目可能已存在，若有符合的项目，请勿重复申报");
+                        $("#item1").append(getHtml(data.data));
+                        $(".step2").show();
+                        $("#item2").show();
+                    }
+                }else{
+                    console.log("error");
+                }
                 }
             });
          });
 
-        $("#keyword").keyup(function(){
-           /* if($("#keyword").val()!=""){
-                $('#keyword').removeAttr("disabled")
-            }else{
-                $('#keyword').attr('disabled',"true");
-            }*/
-        });
-		
     });
-	
-	function blurSelect(){
-		 $.ajax({
-                cache: true,
-                type: "POST",
-                url: "../ichProject/getProByName",
-                data: $('#form').serialize(), // 你的formid
-                dataType: "json",
-                async: true,
-                error: function(request) {
-                    //
-                },
-                success: function(res) {
-				var data = res.data;
-				if(res.code== 0){
-                    if(data.length>0){
-                        $("#item1").empty();
-                        $(".step2").hide();
-                        $(".tips").html("您要申报的项目可能已存在，若有符合的项目，请勿重复申报");
-                        var html="";
-                        $.each(data,function(index,item){
-                            html+="<li>";
-                            if(typeof(item.img)!="undefined"){
-                                html+="<img src=\""+imgserver+"/image/project/"+item.img+"\" alt=\"\">";
-                            }else{
-                                //使用默认图片
-                                html+="<img src=\""+defaultheadimg+"\" alt=\"\">";
-                            }
-
-                            html+="<div class=\"info\">";
-                            if(typeof (item.name) !="undefined"){
-                                html+="<p class=\"name\"><strong>"+item.name+"</strong><em>ID编码"+item.id+"</em></p>";
-                            }
-
-                            if(typeof (item.category) !="undefined"){
-                                html+="<p><strong>类型：</strong><span>"+item.category+"</span></p>";
-                            }
-
-                            if(typeof (item.dis) !="undefined"){
-                                html+="<p><strong>地区：</strong><span>"+item.dis+"</span></p>";
-                            }
-                            html+="</div></li>";
-
-                        });
-
-                        $("#item1").append(html);
-                        $(".step2").show();
-                        $("#item2").show();
-                    }else{
-                        localStorage.removeItem('ichProject');
-                        localStorage.removeItem('codeText');
-                        localStorage.removeItem('codes');
-                        localStorage.removeItem('ichProject');
-                        localStorage.setItem('ichProName',$("#keyword").val());
-                        location.href="../page/ichProForm.html?proName="+$("#keyword").val();
-                    }
-                }
-                }
-            });
-	
-	}
     function gotoCreate() {
 	   //清楚本地缓存
         localStorage.removeItem('ichProject');
@@ -238,6 +144,35 @@
         localStorage.setItem('ichProName',$("#keyword").val());
         localStorage.setItem('action',"add");
         location.href="../page/ichProForm.html?proName="+$("#keyword").val();
+    }
+    
+    function getHtml(data) {
+        var html="";
+        $.each(data,function(index,item){
+            html+="<li>";
+            if(typeof(item.img)!="undefined"){
+                html+="<img src=\""+imgserver+"/image/project/"+item.img+"\" alt=\"\">";
+            }else{
+                //使用默认图片
+                html+="<img src=\""+defaultheadimg+"\" alt=\"\">";
+            }
+
+            html+="<div class=\"info\">";
+            if(typeof (item.name) !="undefined"){
+                html+="<p class=\"name\"><strong>"+item.name+"</strong><em>ID编码"+item.id+"</em></p>";
+            }
+
+            if(typeof (item.category) !="undefined"){
+                html+="<p><strong>类型：</strong><span>"+item.category+"</span></p>";
+            }
+
+            if(typeof (item.dis) !="undefined"){
+                html+="<p><strong>地区：</strong><span>"+item.dis+"</span></p>";
+            }
+            html+="</div></li>";
+
+        });
+        return html;
     }
 </script>
 

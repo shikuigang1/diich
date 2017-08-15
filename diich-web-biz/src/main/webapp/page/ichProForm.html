@@ -131,8 +131,9 @@
         }else{
             localStorage.setItem('action',"update");//添加修改标记状态
             var ich = getIchProByID(pid);
+            console.log(JSON.stringify(ich));
             var code="";
-            $.each(ich.contentFragmentList,function (idnex,object) {
+            $.each(ich.contentFragmentList,function (index,object) {
                 if(object.attributeId==4){//获取用户中文名信息
                     $(".name").text('编辑申报信息-'+object.content);
                     $("#chiName").val(object.content);
