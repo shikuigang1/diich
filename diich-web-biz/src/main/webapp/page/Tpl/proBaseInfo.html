@@ -12,7 +12,7 @@
             <div class="group">
                 <label class="label" for=""><em>*</em>分类</label>
                 <div class="control">
-                    <div class="ipt w650" style="text-overflow: ellipsis;overflow: hidden;  white-space: nowrap;" data-type="selectCate">一级分类</div>
+                    <div class="ipt w650 editListen" style="text-overflow: ellipsis;overflow: hidden;  white-space: nowrap;" data-type="selectCate">一级分类</div>
                     <div class="errors" style="display: none"><i></i>请选择分类</div>
                 </div>
             </div>
@@ -25,14 +25,14 @@
                         <span class="text">上传题图</span>
                     </div>
                     <div class="tips">建议比例：x*x，不符合的图片将进行裁剪；格式：jpg\png</div>
-                    <div class="errors" style="display: none"><i></i>请上传题图</div>
+                    <div class="errors editListen" style="display: none"><i></i>请上传题图</div>
                 </div>
             </div>
             <!--//End 题图-->
             <div class="group">
                 <label class="label" for=""><em>*</em>地域</label>
                 <div class="control">
-                    <div class="ipt w650 select" data-type="selectArea" value="">请选择地域（（可选择多个地域））</div>
+                    <div class="ipt w650 select editListen" data-type="selectArea" value="">请选择地域（（可选择多个地域））</div>
                     <div class="area" id="area">
                         <div class="select" id="select"></div>
                         <div class="selected" id="selected"></div>
@@ -54,7 +54,7 @@
                     <div class="control">
                         <!--<input id="calendar" class="ipt w310" value="" name="time" id="certTime">-->
                         <div class="calendarWarp ipt w310">
-                            <input type="text" name="time" class='ECalendar' id="ECalendar_date" style="width:100%" value=""/>
+                            <input type="text" name="time" class='ECalendar editListen' id="ECalendar_date" style="width:100%" value=""/>
                             <div class="errors" style="display: none"><i></i>请选择认证时间</div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                 <div class="group">
                     <label class="label" for=""><em>*</em>认证级别</label>
                     <div class="control">
-                        <select class="ipt w310" name="" id="certselect">
+                        <select class="ipt w310 editListen" name="" id="certselect">
                                 </select>
                         <div class="errors" style="display: none"><i></i>请选择认证级别</div>
                     </div>
@@ -99,6 +99,27 @@
                 <div class="control">
                     <input type="text" class="ipt w562" id="engName">
                     <div class="errors" style="display: none"><i></i>请填入正确格式的英文名且长度在1-50之间</div>
+                </div>
+            </div>
+            <div class="group">
+                <label class="label"><em>*</em>开始年代</label>
+                <div class="control">
+                    <input type="text" class="ipt w562" id="beginTimes">
+                    <div class="errors" style="display: none"><i></i>请填入正确格式的</div>
+                </div>
+            </div>
+            <div class="group">
+                <label class="label"><em>*</em>国家代码</label>
+                <div class="control">
+                    <input type="text" class="ipt w562" id="countryCode">
+                    <div class="errors" style="display: none"><i></i></div>
+                </div>
+            </div>
+            <div class="group">
+                <label class="label"><em>*</em>主题词</label>
+                <div class="control">
+                    <input type="text" class="ipt w562" id="titleWords">
+                    <div class="errors" style="display: none"><i></i></div>
                 </div>
             </div>
             <!--//End 英文名-->
