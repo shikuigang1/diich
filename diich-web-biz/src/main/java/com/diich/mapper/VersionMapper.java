@@ -18,5 +18,5 @@ public interface VersionMapper extends BaseMapper<Version> {
 
     int updateByPrimaryKey(Version record);
 
-    List<Version> selectVersionByLangIdAndTargetType(Version version);
+    List<Version> selectVersionByVersionIdAndTargetType(Version version);
 }

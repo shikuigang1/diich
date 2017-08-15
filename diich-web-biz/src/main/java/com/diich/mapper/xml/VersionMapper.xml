@@ -103,7 +103,7 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectVersionByLangIdAndTargetType" parameterType="com.diich.core.model.Version" resultMap="BaseResultMap">
+  <select id="selectVersionByVersionIdAndTargetType" parameterType="com.diich.core.model.Version" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from version where status =0

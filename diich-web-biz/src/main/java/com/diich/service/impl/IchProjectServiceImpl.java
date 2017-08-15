@@ -453,6 +453,50 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
     @Override
     public void audit(Long id, User user) throws Exception {
+        TransactionStatus transactionStatus = getTransactionStatus();
+        try{
+            IchProject ichProject = ichProjectMapper.selectIchProjectById(id);
+            //根据id查询版本
+            Version version = new Version();
+            version.setBranchVersionId(id);
+            version.setTargetType(0);
+            version.setVersionType(1000);
+            List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
+            if(versionList.size() > 0){//非管理员修改的项目
+                Version ver = versionList.get(0);
+                Long mainVersionId = ver.getMainVersionId();
+                ichProject.setId(mainVersionId);
+                ichProject.setStatus(0);
+                List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
+                ichProject.setContentFragmentList(contentFragmentList);
+                ichProject.setLastEditDate(new Date());
+                for (ContentFragment contentFragment:contentFragmentList) {//交换主版本和分支版本内容
+                    contentFragment.setTargetId(mainVersionId);
+                }
+                IchProject project = ichProjectMapper.selectByPrimaryKey(mainVersionId);
+                List<ContentFragment> contentFragments = getContentFragmentListByProjectId(project);
+                project.setId(id);
+                project.setStatus(1);//作废状态
+                project.setLastEditDate(new Date());
+                for (ContentFragment contentFragment : contentFragments) {
+                    contentFragment.setTargetId(id);
+                }
+                ver.setVersionType(1001);//已过期
+                versionMapper.updateByPrimaryKeySelective(versionList.get(0));
+                ichProjectMapper.updateByPrimaryKeySelective(ichProject);
+                ichProjectMapper.updateByPrimaryKeySelective(project);
+            }else{//新增待审核的项目
+                ichProject.setStatus(0);
+                ichProject.setLastEditDate(new Date());
+                ichProjectMapper.updateByPrimaryKeySelective(ichProject);
+            }
+            commit(transactionStatus);
+        }catch (Exception e){
+            rollback(transactionStatus);
+            e.printStackTrace();
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+
 
     }
 
@@ -464,13 +508,25 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     @Override
     public int deleteIchProject(Long id) throws Exception {
+        TransactionStatus transactionStatus = getTransactionStatus();
         int i = -1;
         try{
             IchProject ichProject = ichProjectMapper.selectIchProjectById(id);
             ichProject.setStatus(1);
             ichProject.setLastEditDate(new Date());
             i = ichProjectMapper.updateByPrimaryKeySelective(ichProject);
+            Version version = new Version();
+            version.setBranchVersionId(id);
+            version.setTargetType(0);
+            version.setVersionType(1000);
+            List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
+            if(versionList.size() > 0){
+                versionList.get(0).setVersionType(1001);//过期
+                versionMapper.updateByPrimaryKeySelective(versionList.get(0));
+            }
+            commit(transactionStatus);
         }catch (Exception e){
+            rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         return i;
