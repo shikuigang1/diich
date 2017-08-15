@@ -136,7 +136,7 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
                     }else{
                         if(contentFragment.getTargetType() != null && contentFragment.getTargetType() == 0 ){
                             IchProject project = ichProjectMapper.selectIchProjectById(contentFragment.getTargetId());
-                            if(project != null && ( !attribute.getIchCategoryId().equals(project.getIchCategory()))){
+                            if(project != null && ( !attribute.getIchCategoryId().equals(project.getIchCategoryId()))){
                                 contentFragmentMapper.deleteByPrimaryKey(contentFragment.getId());
                             }else{
                                 contentFragment.setContent("");
