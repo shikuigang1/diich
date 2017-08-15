@@ -446,6 +446,7 @@ function  delContentFragment(aId) {
                  $("#images").empty();
                  //删除后 去向  重新定位到以前 下标位置
                  if($("li[data-type=longField]").length > (idx) ){
+
                      $("li[data-type=longField]").eq(idx).click();
                  }else{
                      $("li[data-type=longField]").eq(idx-1).click();
@@ -523,7 +524,7 @@ function delContentFragmentLocal(attrId){
     var ich = getCurrentProject();
     $.each(ich.contentFragmentList,function (index,obj) {
         if(obj.attributeId == attrId){
-            if(obj.attribute!=null && obj.attribute.dataType==10){//自定义 对象 本地删除
+            if(obj.attribute!=null && obj.attribute.targetType==10){//自定义 对象 本地删除
                 ich.contentFragmentList.splice(index,1);
             }else {
                 ich.contentFragmentList[index].content="";
