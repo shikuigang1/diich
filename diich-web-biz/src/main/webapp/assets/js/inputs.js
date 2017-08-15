@@ -593,13 +593,13 @@ var projectPage={
                     return false;
                 }
 
-                if(editFlag){ //页面被修改 弹出是否保存
+       /*         if(editFlag){ //页面被修改 弹出是否保存
                     if(confirm("你是否要保存当前页面信息？"))
                     {
                         saveIchProject();
                     }
 
-                }
+                }*/
                 editFlag = false;
                 /*
                  alert(($(this).parent().find('i').eq(0).hasClass('selected') || $(this).parent().find('i').eq(0).hasClass('unselected2')) );
@@ -651,7 +651,7 @@ var projectPage={
                             if(obj.attributeId == attrid){
                                 // flag = true;
                                 $("#longContent").val(obj.content);
-                                if(typeof(obj.resourceList) != 'undefined'){
+                                if(typeof(obj.resourceList) != 'undefined' && obj.resourceList !=null ){
                                     var html="";
                                     $.each(obj.resourceList,function (i,resource) {
                                         if(i%2==0){
@@ -666,7 +666,6 @@ var projectPage={
                                     if(obj.resourceList.length>2){
                                         $("#images").addClass("active");
                                     }
-
                                     $("#images").prepend(html);
                                 }
                             }
