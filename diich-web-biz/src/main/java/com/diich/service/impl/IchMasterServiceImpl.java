@@ -311,7 +311,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         version.setTargetType(1);
         version.setVersionType(1000);
         version.setMainVersionId(id);
-        List<Version> versionList = versionMapper.selectVersionByLangIdAndTargetType(version);
+        List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
         if(versionList.size()>0){
             List tempList = new ArrayList();
             for(Version ver : versionList){
