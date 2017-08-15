@@ -196,13 +196,13 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
                 throw new ApplicationException(ApplicationException.INNER_ERROR);
             }
 
-            if (attribute.getMinLength() != null) {
+            if (attribute != null && attribute.getMinLength() != null) {
                 String content = contentFragment.getContent().trim();
                 if (content == null || (content.trim().length() < attribute.getMinLength())) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
                 }
             }
-            if (attribute.getMaxLength() != null) {
+            if (attribute != null && attribute.getMaxLength() != null) {
                 String content = contentFragment.getContent().trim();
                 if (content != null && content.trim().length() > attribute.getMaxLength()) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
