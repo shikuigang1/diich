@@ -529,7 +529,6 @@ body,
 .ipt_base .slide .item .icon.selected {
     background-position: 0 -18px;
 }
-
 .ipt_base .slide .item .icon.unselected {
     background-position: 0 0;
 }
@@ -774,6 +773,9 @@ body,
     bottom:39px;
     left:0;
     background: rgba(0,0,0,.3);
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    opacity:0;
 }
 .ipt_base .content .edit .images .item .remove i {
     background: url(../images/inputs/icon_uploadImg_remove.png) 0 0 no-repeat;
@@ -786,6 +788,9 @@ body,
     margin-left:-21px;
     cursor: pointer;
 }
+.ipt_base .content .edit .images .item:hover .remove {
+    opacity:1;
+}
 .ipt_base .content .edit .images.active .item .remove {
     bottom:0;
 }
@@ -796,9 +801,6 @@ body,
     margin-top:-14px;
     margin-left:-14px;
 }
-
-
-
 .ipt_base .content .edit .images .handle {
     width: 100%;
     max-width: 228px;
