@@ -357,23 +357,37 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
      * @param dicArrCity
      */
     function getContact() {
-        // 更新DOM元素
-        $("#content").html(Handlebars.compile(contactTpl)({pageObj: pageObj}));
-        var codeArra = []; // 记录地址
-        selectArea1.init(0,function (data, dataText) {
-            codeArra = data[0].split(",");
-            codeArra.splice((codeArra.length - 1), 1);
-            addressCode = codeArra[(codeArra.length - 1)];
-        })
-
-        // 回显地址
+        var dataCode;
         if(pageObj.hasOwnProperty("contentFragmentList")) {
             $.each(pageObj.contentFragmentList, function(i, v) {
                 if(v.attributeId == 55) {
+                    v.addressCodes = v.content.split(",");
                     addressCode = v.content;
+                    return;
                 }
             })
         }
+
+        // 更新DOM元素
+        $("#content").html(Handlebars.compile(contactTpl)({pageObj: pageObj}));
+        var codeArra = []; // 记录地址
+        selectArea1.init(0, addressCode, function (data, dataText) {
+            //var code = data;
+            var code = "";
+            if(data.length > 0) {
+                $.each(data, function(i, v) {
+                    console.log(i, v);
+                    var dd = v.split(",");
+                    if((i + 1) < data.length) {
+                        code += dd[dd.length - 1] + ",";
+                    } else {
+                        code += dd[dd.length - 1]
+                    }
+                })
+            }
+            addressCode = code;
+            console.log(addressCode)
+        })
 
         // 保存操作防止用户多次点击
         _bindingSave();
@@ -389,7 +403,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             if(validate()) {
                 var params = getContactFormData();
                 //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
-                //console.log("params -- >", params);
+                console.log("params -- >", params);
                 // 发送请求
                 onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
                     //console.log("result ---- >", result, JSON.stringify(result.res.data), "----pageObj ---", pageObj);
@@ -981,20 +995,22 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 //console.log("targetId --- >", targetId);
                 onRequest("POST", "/ichMaster/preview", {params: targetId}).then(function(result) {
                     //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
-                    modal.loading({
-                        //speed:'10000000000', //可选  默认2000
-                        //text:'', //可选  默认加载中，请稍候...
-                        success:function () {
-                            if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                    var url = result.res.data;
+                    window.open(url.substr((url.indexOf(".") + 1), url.length));
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        modal.loading({
+                            //speed:'10000000000', //可选  默认2000
+                            //text:'', //可选  默认加载中，请稍候...
+                            success:function () {
                                 var url = result.res.data;
                                 window.open(url.substr((url.indexOf(".") + 1), url.length));
                                 _bindingSave();
-                            } else {
-                                tipBox.init("fail", result.res.msg, 1500);
-                                _bindingSave();
                             }
-                        }
-                    });
+                        });
+                    } else {
+                        tipBox.init("fail", result.res.msg, 1500);
+                        _bindingSave();
+                    }
                 });
             } else {
                 tipBox.init("fail", "请填写基本数据后预览", 1500);
@@ -1249,7 +1265,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     // 获取联系方式表单数据 处理成参数
     function getContactFormData() {
         var data = $("#contactForm").serializeArray(); // 获取表单数据
-        data.push({"name" : "live", "value" : addressCode}); // 构建三级联动参数
+        data.push({"name" : "live", "value" : addressCode.toString()}); // 构建三级联动参数
         return buildParams(data, pageObj) // 构建请求参数数据
     }
 
