@@ -835,6 +835,17 @@ var projectPage={
                 $("#ECalendar_date").val("");
                 $("#certCode").val("");
                 $("#certselect").val("");
+                //清除本地缓存
+                var ich = getCurrentProject();
+                if(ich != null && typeof (ich.contentFragmentList) !="undefined"){
+                    $.each(ich.contentFragmentList,function (index,obj) {
+                        if(obj.attributeId==116 || obj.attributeId==41 || obj.attributeId==107){
+                            ich.contentFragmentList[index].content="";
+                        }
+                    });
+                }
+
+                localStorage.setItem("ichProject",JSON.stringify(ich));
 
             }
         });
