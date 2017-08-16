@@ -49,9 +49,11 @@ var upload={
     },
     remove:function (callback) {
         $('#images').on('click','.remove i',function () {
+            var rid = $(this).attr("data-id");
+
             $(this).parents('.item').remove();
             if(callback && callback!='undefined'){
-                callback();
+                callback(rid);
             }
         });
     }
@@ -562,6 +564,11 @@ var projectPage={
                     if($(this).find('i').eq(0).hasClass('selected') || $(this).find('i').eq(0).hasClass('unselected2')){
                         flag = true;
                     }
+
+                    /*if(){
+
+                    }*/
+
                     //给出提示信息
                     if(!flag){
                         if(!validateIchID()){
@@ -575,7 +582,6 @@ var projectPage={
                         flag = false;
                     }else{
                         if($(this).parent().attr("id")=="menu2"){
-
                             var length = $("#menu").children().length;
                             var obj =  $("#menu").find("li").eq(length-1);
                             //判断上一菜单栏 是否
@@ -620,8 +626,6 @@ var projectPage={
                  //do nothing
                  }*/
 
-
-
                 //验证
                 var ich = getCurrentProject();
 
@@ -635,12 +639,33 @@ var projectPage={
                 //当前图标选中
                 $(".dt").removeClass("selected");
 
-
                 $('#tpl').load('./Tpl/'+_dateType+'.html',function () {
                     projectPage.bind();
                     if(_dateType==='longField'){
-                       upload.remove(function () {
-                            alert("remove");
+                       upload.remove(function (rid) {
+                          if(delImage(rid)){
+                                tipBox.init("success","删除图片成功！",1500);
+                                //删除图片在本地缓存
+                                var ich = getCurrentProject();
+                                
+                                $.each(ich.contentFragmentList,function (index,obj) {
+
+                                    if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
+
+                                        $.each(obj.resourceList,function (i,o) {
+                                            if(o.id==rid){
+                                                ich.contentFragmentList[index].resourceList=obj.resourceList.slice(i,1);
+                                                return false;
+                                            }
+                                        });
+                                    }
+                                    
+                                });
+                                console.log(JSON.stringify(ich));
+                                localStorage.setItem("ichProject",JSON.stringify(ich));
+                          }else{
+                              tipBox.init("fail","删除图片失败！",1500);
+                          }
                         });
                         //修改标签内容
                         $(".st").children("h2").text(name);
@@ -660,7 +685,8 @@ var projectPage={
                                             html+="<div class=\"item\">";
                                         }
                                         html+="<img src="+imgserver+"/image/project/"+resource.uri+" alt=\"\">";
-                                        html+= "<input type=\"text\" name=\"text\" placeholder=\"请输入标题\" value=\""+resource.description+"\"></div>";
+                                        html+= "<input type=\"text\" name=\"text\" placeholder=\"请输入标题\" value=\""+resource.description+"\">";
+                                        html+="<span class=\"remove\"><i data-id='"+resource.id+"'></i></span></div>";
                                     });
 
                                     if(obj.resourceList.length>2){
@@ -696,8 +722,6 @@ var projectPage={
                     var $this=$(this);
                     var index=$(this).attr('value');
                     _this.bind(index,data,function (response) {//value 选中ID data数据
-
-
                         $this.attr('value',response.value);
                         $this.attr('data-index',response.index);
                         $this.text(response.name);
@@ -806,6 +830,12 @@ var projectPage={
                 drop.slideUp('fast');
                 $(this).siblings('span').find('input').removeAttr("checked");
                 $(this).find('input').attr("checked","true");
+
+                //清空相关内容
+                $("#ECalendar_date").val("");
+                $("#certCode").val("");
+                $("#certselect").val("");
+
             }
         });
     },
@@ -871,8 +901,7 @@ var projectPage={
                      console.log(JSON.stringify(ich));
                      localStorage.setItem("ichProject",JSON.stringify(ich));*/
                 }else{
-
-                    $('.preview').attr('src',data.data[0]).show();
+                 /*   $('.preview').attr('src',data.data[0]).show();
                     //图上传成功本地保存图片
                     var imgpath = data.data[0];
                     //获取图片名称
@@ -912,7 +941,7 @@ var projectPage={
                             ich.contentFragmentList.push(contentFragment);
                         }
                     }
-                    localStorage.setItem("ichProject",JSON.stringify(ich));
+                    localStorage.setItem("ichProject",JSON.stringify(ich));*/
                 }
             }else{
                 //文件上传出错
@@ -939,6 +968,7 @@ var projectPage={
             var templ='<div class="item">' +
                 '<img src="'+str+'" alt="">' +
                 '<input type="text" name="text" placeholder="请输入标题">' +
+                '<span class="remove"><i></i></span>'+
                 '</div>';
             return templ;
         }
