@@ -456,6 +456,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         TransactionStatus transactionStatus = getTransactionStatus();
         try{
             IchProject ichProject = ichProjectMapper.selectIchProjectById(id);
+            if(ichProject != null && ichProject.getStatus() != 3){
+                throw new ApplicationException(ApplicationException.PARAM_ERROR,"该项目不是待审核状态");
+            }
             //根据id查询版本
             Version version = new Version();
             version.setBranchVersionId(id);
@@ -494,6 +497,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         }catch (Exception e){
             rollback(transactionStatus);
             e.printStackTrace();
+
+            if(e instanceof ApplicationException){
+                ApplicationException ae = (ApplicationException) e;
+                if(ae.getCode() == 2){
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR,ae.getDetailMsg());
+                }
+            }
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
@@ -540,11 +550,16 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         for(int i=0;i<ls.size();i++) {
             Attribute attribute = attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId());
             ls.get(i).setAttribute(attribute);
-            Long contentFragmentId = ls.get(i).getId();
-            List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
-            List<Resource> resourceList = new ArrayList<>();
+            if(attribute != null && (attribute.getDataType() == 5 || attribute.getId() == 1 || attribute.getId() == 112)){
+                Long contentFragmentId = ls.get(i).getId();
+                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
+                List<Resource> resourceList = new ArrayList<>();
                 for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
-                    Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
+                    Long resourceId = contentFragmentResource.getResourceId();
+                    if(resourceId == null){
+                        continue;
+                    }
+                    Resource resource = resourceMapper.selectByPrimaryKey(resourceId);
                     if (resource != null) {
                         resource.setResOrder(contentFragmentResource.getResOrder());
                         resourceList.add(resource);
@@ -552,6 +567,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
                 ls.get(i).setResourceList(resourceList);
             }
+        }
+
         return ls;
     }
 
