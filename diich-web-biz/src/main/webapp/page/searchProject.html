@@ -113,14 +113,14 @@
                 },
                 success: function(res) {
                     var data = res.data;
-                    if(data.length>0){
+                    if(data.data.length>0){
                         $("#item1").empty();
                         $(".step2").hide();
                         $(".tips").html("您要申报的项目已存在，请勿重复申报");
                         var html="";
-                        $.each(data,function(index,item){
+                        $.each(data.data,function(index,item){
 
-                            html+="<a href='ichMasterForm.html?ichProjectId=" + item.id + "&ichProjectName=" + item.name + "'><li>";
+                            html+="<a href='ichMasterForm.html?pid=" + item.id + "&pname=" + item.name + "'><li>";
                             if(typeof(item.img)!="undefined"){
                                 html+="<img src=\""+imgserver+"/image/project/"+item.img+"\" alt=\"\">";
                             }else{
@@ -184,12 +184,12 @@
                 var data = res.data;
                 console.log("res -data", res)
                 //console.log(data);
-                if(data.length>0){
+                if(data.data.length>0){
                     $("#item1").empty();
                     $(".step2").hide();
                     $(".tips").html("您要申报的项目可能已存在，若有符合的项目，请勿重复申报");
                     var html="";
-                    $.each(data,function(index,item){
+                    $.each(data.data,function(index,item){
                         html+="<a href='ichMasterForm.html?pid=" + item.id + "&pname=" + item.name + "'><li>";
                         if(typeof(item.img)!="undefined"){
                             html+="<img src=\""+imgserver+"/image/project/"+item.img+"\" alt=\"\">";

@@ -10,28 +10,30 @@
                 <div class="text">
                     <textarea data-id="{{menuId}}" name="{{name}}" id="{{name}}" validate="true" check="required" cols="30" rows="10">{{getContent pageObj.contentFragmentList menuId }}</textarea>
                 </div>
-                <div class="images" id="images">
-                    {{#each pageObj.contentFragmentList}}
-                        {{#equal ../menuId attributeId }}
-                            {{#each resourceList}}
-                                <div class="item" {{#equal 0 @index }}style="margin-right: 10px;{{/equal}}">
-                                    <img data-src="{{handleUrl uri 1}}" src="{{handleUrl uri 0}}" alt="">
-                                    <input type="text" name="text" placeholder="请输入标题" value="{{description}}">
-                                </div>
-                            {{/each}}
-                        {{/equal}}
-                    {{/each}}
-                    <div class="handle">
-                        <div class="add file_up">
-                            <span class="icon"><i></i></span>
-                            <span>添加图片</span>
-                        </div>
-                        <div class="add file_up" style="margin-right:0;">
-                            <span class="icon icon2"><i></i></span>
-                            <span>添加视频</span>
+                {{#eif dataType 1 op="!="}}
+                    <div class="images" id="images">
+                        {{#each pageObj.contentFragmentList}}
+                            {{#equal ../menuId attributeId }}
+                                {{#each resourceList}}
+                                    <div class="item" {{#equal 0 @index }}style="margin-right: 10px;{{/equal}}">
+                                        <img data-src="{{handleUrl uri 1}}" src="{{handleUrl uri 0}}" alt="">
+                                        <input type="text" name="text" placeholder="请输入标题" value="{{description}}">
+                                    </div>
+                                {{/each}}
+                            {{/equal}}
+                        {{/each}}
+                        <div class="handle">
+                            <div class="add file_up">
+                                <span class="icon"><i></i></span>
+                                <span>添加图片</span>
+                            </div>
+                            <div class="add file_up" style="margin-right:0;">
+                                <span class="icon icon2"><i></i></span>
+                                <span>添加视频</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                {{/eif}}
             </form>
         </div>
         <div id="{{name}}_err" class="prompt" style="display:none"><i></i>此项是必添项，请填写</div>

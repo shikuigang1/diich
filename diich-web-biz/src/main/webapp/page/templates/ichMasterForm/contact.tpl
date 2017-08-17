@@ -40,7 +40,6 @@
                     <div class="area" id="area" style="{{#ifAttribute pageObj.contentFragmentList 55 }}display: block;{{/ifAttribute}}" >
                         <div class="select" id="select" style="{{#ifAttribute pageObj.contentFragmentList 55 }}display: none;{{/ifAttribute}}"></div>
                         <div class="selected" id="selected">
-
                            {{#each pageObj.contentFragmentList}}
                                 {{#equal attributeId 55}}
                                     {{#each addressCodes}}
@@ -48,7 +47,6 @@
                                     {{/each}}
                                 {{/equal}}
                            {{/each}}
-
                         </div>
                     </div>
                     <div class="errors" style="display: none"><i></i>请填写地域</div>
