@@ -48,6 +48,7 @@ function loadProperties(language){
 			$('#information').text($.i18n.prop('information'));
 			$('#official_service').text($.i18n.prop('official_service'));
 			$('#project_declare').text($.i18n.prop('project_declare'));
+			$('#center').text($.i18n.prop('center'));
 			$('#sign_in').text($.i18n.prop('sign_in'));
 
             //分类

@@ -57,6 +57,7 @@ body {
     position: absolute;
     top:0;
     left:-23px;
+    display: none;
 }
 .center .slide .nav ul.item li a.dt .arrow {
     background: #fff url(../images/inputs/arrow.png) 0 0 no-repeat;
@@ -67,7 +68,9 @@ body {
     right: 0;
     margin-top: -3px;
 }
-
+.center .slide .nav ul.item li.selected .line {
+    display: block;
+}
 
 .center .content {
     width: 887px;
@@ -103,7 +106,29 @@ body {
 }
 .center .declare .main .box {
     border: 1px solid #b9b9b9;
+    min-height:51px;
+    position: relative;
 }
+.center .declare .main .box .loading {
+    text-align: center;
+    position: absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:8;
+    background: rgba(255,255,255,.6);
+}
+.center .declare .main .box .loading img {
+    width:100px;
+    height:20px;
+    position: absolute;
+    top:50%;
+    left:50%;
+    margin-top:-10px;
+    margin-left:-50px;
+}
+
 .center .declare .main table {
     width:100%;
     border-collapse: collapse;
@@ -230,6 +255,10 @@ body {
     margin-top: 16px;
     display: block;
 }
+
+
+
+
 .center .paging {
     margin:50px 0;
 }
@@ -255,6 +284,38 @@ body {
     width:auto;
     border:0;
 }
+
+
+.page{
+    list-style: none;
+}
+.page>li{
+    float: left;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.page .pageItem{
+    border: solid thin #DDDDDD;
+    margin: 5px;
+}
+.page .pageItemActive{
+    border: solid thin #0099FF;
+    margin: 5px;
+    background-color: #0099FF;
+    color:white;
+}
+.page .pageItem:hover{
+    border: solid thin #0099FF;
+    background-color: #0099FF;
+    color:white;
+}
+.page .pageItemDisable{
+    border: solid thin #DDDDDD;
+    margin: 5px;
+    background-color: #DDDDDD;
+}
+
+
 
 .confirm {
     width:520px;

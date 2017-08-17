@@ -18,7 +18,7 @@ var renderHhtml = {
             '<li><a href="../../page/information.html?lang=' + language + '\" id=\"information\">非遗资讯</a></li>' +
             '<li><a href="../../page/official_service.html?lang=' + language + '\" id=\"official_service\">官方服务</a></li>' +
             '<li><a href="../../page/declare.html" id="project_declare">我要申报</a></li>' +
-            '<li><a href="../../page/center/declare.html" id="project_declare">个人中心</a></li>' +
+            '<li><a href="../../page/center/center.html" id="center">个人中心</a></li>' +
             '</ul>' +
             '</div>' +
             '<div class="info">' +
