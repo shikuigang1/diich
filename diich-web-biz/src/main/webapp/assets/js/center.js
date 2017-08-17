@@ -203,7 +203,6 @@ var centerPage = {
                         '       <td class="text">' + _this.getFragmentName(data[i]) + '</td>' +
                         '       <td>' + data[i].lastEditDate + '</td>' +
                         '       <td>' + data[i].lastEditDate + '</td>' +
-                        '       <td>' + data[i].lastEditDate + '</td>' +
                         '       <td>未通过原因</td>' +
                         '       <td class="handle"><a href="../../page/ichMasterForm.html?mid=' + data[i].id + '">编辑</a></td>' +
                         '     </tr>';
@@ -285,7 +284,6 @@ var centerPage = {
                         '       <td class="text">' + _this.getFragmentName(data[i]) + '</td>' +
                         '       <td>' + data[i].lastEditDate + '</td>' +
                         '       <td>' + data[i].lastEditDate + '</td>' +
-                        '       <td>' + data[i].lastEditDate + '</td>' +
                         '       <td>未通过原因</td>' +
                         '       <td class="handle"><a href="../../page/ichProForm.html?pid=' + data[i].id + '">编辑</a></td>' +
                         '     </tr>';
@@ -297,7 +295,7 @@ var centerPage = {
         getFragmentName:function (data) {//获取传承人、项目名称
             var name = data.contentFragmentList;
             for (var i = 0; i < name.length; i++) {
-                if (name[i].attributeId || name[i].attributeId == 4) {
+                if (name[i].attributeId && (name[i].attributeId == 13 || name[i].attributeId == 4)) {
                     return name[i].content;
                 }
             }
