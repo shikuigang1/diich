@@ -120,7 +120,7 @@
                         var html="";
                         $.each(data.data,function(index,item){
 
-                            html+="<a href='ichMasterForm.html?ichProjectId=" + item.id + "&ichProjectName=" + item.name + "'><li>";
+                            html+="<a href='ichMasterForm.html?pid=" + item.id + "&pname=" + item.name + "'><li>";
                             if(typeof(item.img)!="undefined"){
                                 html+="<img src=\""+imgserver+"/image/project/"+item.img+"\" alt=\"\">";
                             }else{
