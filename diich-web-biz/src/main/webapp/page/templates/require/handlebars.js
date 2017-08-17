@@ -2761,14 +2761,7 @@ Handlebars.template = Handlebars.VM.template;
     })
 
     // 获取居住地址
-    Handlebars.registerHelper("getAddressText", function (keys, menuId) {
-        var code = "";
-        $.each(keys, function(i, v) {
-            if(v.attributeId == menuId){
-                code = v.content;
-                return;
-            }
-        })
+    Handlebars.registerHelper("getAddressText", function (code) {
         var addText = "";
         var parentId = "";
         var parantId1 = "";

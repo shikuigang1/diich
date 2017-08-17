@@ -998,11 +998,11 @@ var projectPage={
 
 //选择地域
 var selectArea1={
-    init:function (type,callback) {
+    init:function (type, initValue, callback) {
         if(type==0){
-            this.bind(callback);
+            this.bind(initValue, callback);
         }else{
-            this.radio(callback);
+            this.radio(initValue, callback);
         }
 
     },
@@ -1030,9 +1030,18 @@ var selectArea1={
             '</div>';
         return temp;
     },
-    bind:function (callback) {
+    bind:function (initValue, callback) {
         var _this=this;
         var result=[];
+
+        // 初始化赋值
+        if(initValue) {
+            var arr = initValue.split(",");
+            $.each(arr, function(i, v) {
+                result.push(v);
+            })
+        }
+
         var resultText=[];
         var area=$('#area');
         var select=$('#select');
@@ -1103,10 +1112,15 @@ var selectArea1={
                     }
 
                     function assignValue() {
-                        result.push(store);
-                        resultText.push(storeText);
-                        localStorage.setItem("codeText",resultText.join(","));
-                        createSelected(storeText);
+                        var storeVal = store.substr(0, store.length - 1).split(",").pop();
+                        var num = result.indexOf(storeVal);
+                        if(num == -1) {
+                            result.push(storeVal);
+                            resultText.push(storeText.substr(0, storeText.length - 1));
+                            localStorage.setItem("codeText",resultText.join(","));
+                            createSelected(storeText);
+
+                        }
                         select.html('').hide();
                         el.attr('value',result);
                         if(callback && callback!='undefined'){
@@ -1145,7 +1159,7 @@ var selectArea1={
             //删除本地缓存
         });
     },
-    radio:function (callback) {
+    radio:function (initValue, callback) {
         var _this=this;
         var result=[];
         var resultText=[];

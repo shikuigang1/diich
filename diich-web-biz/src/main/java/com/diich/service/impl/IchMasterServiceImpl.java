@@ -273,6 +273,9 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     public String preview(Long id) throws Exception {
         try{
             IchMaster ichMaster = getIchMasterById(id);
+            Long ichProjectId = ichMaster.getIchProjectId();
+            IchProject ichProject = ichProjectService.getIchProjectById(ichProjectId);
+            ichMaster.setIchProject(ichProject);
             String fileName = PropertiesUtil.getString("freemarker.masterfilepath")+"/"+ichMaster.getId().toString();
             String str = PropertiesUtil.getString("freemarker.masterfilepath");
             String url = str.substring(str.lastIndexOf("/"));
@@ -371,6 +374,15 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             ichMaster.setStatus(1);
             ichMaster.setLastEditDate(new Date());
             i = ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
+            Version version = new Version();
+            version.setBranchVersionId(id);
+            version.setTargetType(1);
+            version.setVersionType(1000);
+            List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
+            if(versionList.size() > 0){
+                versionList.get(0).setVersionType(1001);//过期
+                versionMapper.updateByPrimaryKeySelective(versionList.get(0));
+            }
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
