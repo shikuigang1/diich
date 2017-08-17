@@ -317,12 +317,10 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         // 保存
         function _onSave() {
             $("#active").off("click");
-
-            //if(validate() && imgUrl != "" && isMaster != "") {
             if(validate()) {
                 var params = getBasicFormData(); // 获取表单数据 构建参数
                 //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
-                //console.log("params -- >", params);
+                console.log("params -- >", params);
                 // 发送请求
                 onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
                     console.log("result === >", result,  JSON.stringify(result.res.data));
@@ -817,7 +815,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 var params = pageObj;
                 //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params) }).then(function(result) {
-                    //console.log("result === >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
+                    console.log("result === >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
                     // 处理用户未登录
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         //alert("提交成功");
@@ -1578,7 +1576,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             default:
                 var fag = true;
                 var gz = _match.split("_");
-                if(_val.length > gz[1] && _val.length < gz[2]) {
+                if(_val.length >= gz[1] && _val.length <= gz[2]) {
                     showMsg(obj, defaults.tips_success, true)
                 } else {
                     fag = false;
