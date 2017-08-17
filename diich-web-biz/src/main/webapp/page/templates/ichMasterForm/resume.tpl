@@ -10,7 +10,6 @@
                 <div class="text">
                     <textarea data-id="{{menuId}}" name="{{name}}" id="{{name}}" validate="true" check="required" cols="30" rows="10">{{getContent pageObj.contentFragmentList menuId }}</textarea>
                 </div>
-               sss {{dataType}}
                 {{#eif dataType 1 op="!="}}
                     <div class="images" id="images">
                         {{#each pageObj.contentFragmentList}}
