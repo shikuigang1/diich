@@ -568,34 +568,51 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         // 删除
         function _onDelete($this) {
             $this.off("click");
-            var dataId = $this.attr("id").split("_").pop();
-            var modId = $this.attr("id").split("_")[1];
-            // 清空DOM层数据
-            $("#" + modId).val("");
-            $("#images").children("div .item").each(function() {
-                $(this).remove();
-            })
-            // 有ID则删除数据库数据
-            if(dataId) {
-                // 删除数据库中数据
-                onRequest("POST", "/contentFragment/deleteContentFragment", {params: dataId}).then(function(result) {
+            var did = $this.attr("id").split("_").pop();
+            var obj = {};
+            var index = 0; // 记录删除对象在pageObj中对应的索引位置
+            // 去除对应的数据
+            if(pageObj.hasOwnProperty("contentFragmentList")) {
+                $.each(pageObj.contentFragmentList, function(i, v) {
+                    if(v.attributeId == did) {
+                        index = i;
+                        obj = v;
+                        return;
+                    }
+                })
+            }
+
+            // 如果obj属性大于0 则表示有数据
+            if(Object.getOwnPropertyNames(obj).length > 0) {
+                onRequest("POST", "/contentFragment/deleteContentFragment", {params: JSON.stringify(obj)}).then(function(result) {
+                    console.log("result --- >", result);
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                        // 删除pageObj中对应的项
-                        $.each(pageObj.contentFragmentList, function(i, v) {
-                            if(v.id == dataId) {
-                                pageObj.contentFragmentList.splice(i, 1);
-                                console.log(" --- >")
-                                return;
-                            }
-                        })
-                        _bindingDelete();
+                        _emptyMod(); // 清空MOD层数据
+                        // 删除pageObj中对应的对象
+                        pageObj.contentFragmentList.splice(index, 1);
+                        // 更新菜单状态
+                        $("#" + id).children("i").removeClass("selected").addClass("unselected2");
                     } else {
                         if(result.res.code != 3) {
                             tipBox.init("fail", result.res.msg , 1500);
                         }
                         _bindingDelete();
                     }
+                });
+            } else {
+                // 暂留提示删除无数据
+                _emptyMod(); // 清空MOD层数据
+            }
+
+            // 清空MOD层数据
+            function _emptyMod() {
+                var modId = $this.attr("id").split("_")[1];
+                // 清空DOM层数据
+                $("#" + modId).val("");
+                $("#images").children("div .item").each(function() {
+                    $(this).remove();
                 })
+                _bindingDelete();
             }
         }
 
@@ -813,32 +830,6 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     }
                 });
             }
-
-            //if($("#onSend").hasClass("empty")) {
-            //    $("#onSend").off("click"); // 解绑点击事件
-            //    // 可以提交
-            //    pageObj.status = 3; // 状态修改为提交状态
-            //    var params = pageObj;
-            //    //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
-            //    onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params) }).then(function(result) {
-            //        //console.log("result === >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
-            //        // 处理用户未登录
-            //        if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-            //            //alert("提交成功");
-            //            window.location.href = "ichMasterOver.html"; // 跳转成功页面
-            //            _bindingSave(); // 重新绑定
-            //        } else {
-            //            if(result.res.code != 3) {
-            //                tipBox.init("fail", result.res.msg, 1500);
-            //            }
-            //            _bindingSave(); // 重新绑定
-            //        }
-            //    });
-            //} else {
-            //    _bindingSave(); // 重新绑定
-            //    tipBox.init("fail", "请填写基本数据后提交", 1500);
-            //}
-
         }
     }
 
@@ -996,7 +987,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 onRequest("POST", "/ichMaster/preview", {params: targetId}).then(function(result) {
                     //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
                     var url = result.res.data;
-                    window.open(url.substr((url.indexOf(".") + 1), url.length));
+                    //window.open(url.substr((url.indexOf(".") + 1), url.length));
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         modal.loading({
                             //speed:'10000000000', //可选  默认2000
