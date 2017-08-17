@@ -202,11 +202,11 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         break;
                     case "3":
                         // 简历
-                        getResume($this.attr("id"), "简历", 51, "jl", [menu_11], 50);
+                        getResume($this.attr("id"), "简历", 51, "jl", [menu_11], 50, 5);
                         break;
                     case "4":
                         // 传承历史与现状
-                        getResume($this.attr("id"), "传承历史与现状", 119, "lsxz", [menu_12], 50);
+                        getResume($this.attr("id"), "传承历史与现状", 119, "lsxz", [menu_12], 50, 5);
                         break;
                     case "5":
                         // 师徒关系
@@ -214,19 +214,19 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         break;
                     case "6":
                         // 技能
-                        getResume($this.attr("id"), "技能", 115, "jn", [menu_14], 50);
+                        getResume($this.attr("id"), "技能", 115, "jn", [menu_14], 50, 1);
                         break;
                     case "7":
                         // 个人成就
-                        getResume($this.attr("id"), "个人成就", 110, "cj",  [menu_15], 50);
+                        getResume($this.attr("id"), "个人成就", 110, "cj",  [menu_15], 50, 5);
                         break;
                     case "8":
                         // 传承谱系
-                        getResume($this.attr("id"), "传承谱系", 21, "ch",  [menu_16], 50);
+                        getResume($this.attr("id"), "传承谱系", 21, "ch",  [menu_16], 50, 5);
                         break;
                     case "9":
                         // 获奖情况
-                        getResume($this.attr("id"), "获奖情况", 129, "hjqk",  [menu_17], 50);
+                        getResume($this.attr("id"), "获奖情况", 129, "hjqk",  [menu_17], 50, 5);
                         break;
                     case "10":
                         // 知识产权
@@ -502,10 +502,11 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
      * @param dataId 相关填写项对应数据库ID
      * @param name 用于生成模板中id name属性
      * @param nextId 跳转到下一个页面id
+     * @param minLength 验证最小长度
+     * @param dataType 5图文  1长文本 0短文本
      */
-    function getResume(id, title, menuId, name, nextId, minLength) {
-        console.log(pageObj);
-        var resume = {title: title, name: name ? name : "menuData", menuId: menuId, startPath: ossImgPash, pageObj: pageObj};
+    function getResume(id, title, menuId, name, nextId, minLength, dataType) {
+        var resume = {title: title, name: name ? name : "menuData", menuId: menuId, startPath: ossImgPash, pageObj: pageObj, dataType: dataType};
         // 更新DOM元素
         var resumenHtml = Handlebars.compile(resumeTpl)(resume);
         $("#content").html(resumenHtml);
