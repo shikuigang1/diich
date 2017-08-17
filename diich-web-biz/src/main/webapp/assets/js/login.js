@@ -410,7 +410,9 @@ $(function () {
             if(data.code==3){
                 //获取url 地址 进行过滤
                 var url  = window.location.href;
-                var url = url.substring(0,url.indexOf("?"));
+                if(url.indexOf("?") != -1){
+                    url = url.substring(0,url.indexOf("?"));
+                }
                 var path = url.substring(url.lastIndexOf("/"));
 
                 $.grep(filterpage, function(val, key) {
