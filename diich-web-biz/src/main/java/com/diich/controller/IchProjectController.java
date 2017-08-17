@@ -154,13 +154,18 @@ public class IchProjectController extends BaseController<IchProject> {
     @ResponseBody
     public Map<String, Object> getProByName(HttpServletRequest request,HttpServletResponse response) {
 
-
+/*
         Map<String,Object> map = new HashMap<String,Object>();
 
         map.put("keyword",request.getParameter("keyword"));
         map.put("type",request.getParameter("type"));
         map.put("pageBegin",0);
-        map.put("pageSize",5);
+        String  size = request.getParameter("pageSize");
+        if(size == null){
+            map.put("pageSize",5);
+        }else{
+            map.put("pageSize",size);
+        }
 
         List<Map> ls=null;
 
@@ -172,24 +177,27 @@ public class IchProjectController extends BaseController<IchProject> {
 
         response.setHeader("Access-Control-Allow-Origin", "*");
 
-        return putDataToMap(ls);
+        return putDataToMap(ls);*/
 
-       /* Map<String,Object> map = new HashMap<String,Object>();
+        Map<String,Object> map = new HashMap<String,Object>();
         map.put("keyword",request.getParameter("keyword"));
         map.put("type",0);
         map.put("pageBegin",0);
-        map.put("pageSize",5);
-
-        Map resultMap = null;
+        String  size = request.getParameter("pageSize");
+        if(size == null){
+            map.put("pageSize",5);
+        }else{
+            map.put("pageSize",size);
+        }
         List ls = null;
         try {
             ls=ichProjectService.getIchProjectByName(map);
            if(ls==null || ls.size()==0){
                map.put("type",1);
                ls =ichProjectService.getIchProjectByName(map);
-               resultMap.put("type",1);
+
            }else{
-               resultMap.put("type",0);
+               map.put("type",0);
            }
             map.put("data",ls);
 
@@ -199,7 +207,7 @@ public class IchProjectController extends BaseController<IchProject> {
 
         response.setHeader("Access-Control-Allow-Origin", "*");
 
-        return putDataToMap(ls);*/
+        return putDataToMap(map);
     }
 
     /**

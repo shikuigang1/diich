@@ -118,6 +118,7 @@
 <!--//End-->
 
 <script>
+    var editFlag = false;
     $(function() {
         /*loadScript("../assets/js/login.js");*/
        // $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
@@ -130,8 +131,9 @@
         }else{
             localStorage.setItem('action',"update");//添加修改标记状态
             var ich = getIchProByID(pid);
+            console.log(JSON.stringify(ich));
             var code="";
-            $.each(ich.contentFragmentList,function (idnex,object) {
+            $.each(ich.contentFragmentList,function (index,object) {
                 if(object.attributeId==4){//获取用户中文名信息
                     $(".name").text('编辑申报信息-'+object.content);
                     $("#chiName").val(object.content);
@@ -140,8 +142,7 @@
                     code = object.content;
                 }
             });
-            //初始化本地区域 文本数据
-            console.log(code);
+            //初始化本地区域 文本数据;
             if(code != ""){
                 localStorage.setItem("codes",code);
                 toArray(dic_arr_city);
@@ -177,6 +178,11 @@
             localStorage.setItem("ichProject",JSON.stringify(ich));
         }
         projectPage.init();
+
+        document.onkeydown=function(event){
+            editFlag = true;
+        };
+
     });
 
     var newArr = new Array();

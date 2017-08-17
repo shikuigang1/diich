@@ -31,6 +31,7 @@ function  initCertRank() {
         selectList = getDictionaryArrayByType(103,'eng');
     }
     //console.log(selectList);
+    $("#certselect").append("<option value=''>请选择</option>");
     for(var i=0;i<selectList.length;i++) {
         $("#certselect").append("<option value='"+selectList[i].code+"'>"+selectList[i].name+"</option>");
     }
@@ -125,8 +126,7 @@ function loadPageData(url,jsondata) {
 }
 //动态获取实践展示 根据分类id
 function getDataByCateGoryId(data){
-
-    console.log(data);
+    //console.log(data);
     $("#menu2").empty();
     $("#menu").empty();
     $.each(data.data,function (index,obj) {
@@ -295,14 +295,20 @@ function  saveCustom(next) {
                     $("#longContent").val("");
                     $("#images").find('.item').remove();
                     //$(".preview").empty();
-
                     $(".ipt_base .slide .item .dd").find('li.active').next().click();
-                }
+                }else{
+                    //do nothing
+                    $("#tpl").empty();
+                    var html="<div class=\"info_check step1\">";
+                    html+="<div class=\"title\"> <i class=\"icon\"></i> <span> <strong>添加此项目特殊属性，可以提高项目通过率。</strong> <strong>点击增加自定义项进行编辑。</strong> </span>" ;
+                    html+="</div>";
+                    html+="<div class=\"buttons\"> <a href=\"javascript:addCustom()\">增加自定义项</a> <a href=\"javascript:submitCheck()\">提交审核</a></div></div>";
 
+                    $("#tpl").append(html);
+                }
             }else{
                 alert("保存失败");
             }
-
         },
         error: function (result, status) {
         }
@@ -362,12 +368,12 @@ function init3(targetID) {
 }
 
 //删除此项
-function  delContentFragment(attrId) {
+function  delContentFragment(aId) {
     //通过属性id 找到当前对应的 contentFragmentID
     var ich = getCurrentProject();
     var cid=0;
     $.each(ich.contentFragmentList,function (index,obj) {
-        if(obj.attributeId==attrId){
+        if(obj.attributeId==aId){
             cid=obj.id;
         }
     });
@@ -375,7 +381,6 @@ function  delContentFragment(attrId) {
         //清除本地数据
         $('li[data-type=longField]').each(function (idx,obj) {
             if($(this).hasClass("selected")){
-
                 $("#longContent").val("");
                 if($(this).attr("target-type")==5){
                     $("#images").find('.item').remove();
@@ -385,11 +390,16 @@ function  delContentFragment(attrId) {
         init3(ich.id);
         return false;
     }
- //    console.log(cid);
+    var contentFragment={};
+    contentFragment.id=cid;
+    contentFragment.attributeId=aId;
+    contentFragment.targetType=0;
+    contentFragment.targetId=getCurrentProject().id;
+    console.log(contentFragment);
     $.ajax({
         type: "POST",
         url: "../contentFragment/deleteContentFragment",
-        data:{params:cid} ,
+        data:{params:JSON.stringify(contentFragment)} ,
         dataType: "json",
         async:false,
         complete: function () { },
@@ -401,7 +411,7 @@ function  delContentFragment(attrId) {
              var idx=-1;
              if($("#menu3").children().length>0){
                  $("#menu3").children().each(function (index,obj) {
-                     if($(this).find('span').eq(0).attr('data-id')==attrId){
+                     if($(this).find('span').eq(0).attr('data-id')==aId){
                          flag=true;
                          idx=index;
                          return false;
@@ -409,67 +419,137 @@ function  delContentFragment(attrId) {
                  });
              }
              //是自定义 删除后刷新页面 非自定义 清空内容留在本地
-             delContentFragmentLocal(attrId);//删除本地缓存
+             delContentFragmentLocal(aId);//删除本地缓存
+             ich = getCurrentProject();
              if(flag){
                  //location.reload();
                  init3(ich.id);
                  //指定下一个选中状态   当删除 是自定义项
                  if($("#menu3").children().length>0){
-
                      if(idx==0){
                          $("#menu3").children().eq(0).click();
                      }else{
                          $("#menu3").children().eq(idx-1).click();
                      }
-
                  }else{
                      //选中上一个 菜单项 末尾子菜单
-                     if($("#menu2").children().length>0){
+                   /*  if($("#menu2").children().length>0){
                          $("#menu2").children().eq($("#menu2").children().length-1).click();
+                     }*/
+                     var clickindex=-1;
+                     var length = $("#menu2").children().length;
+                     for(var i=length-1;i>-1;i--){
+                            if( $("#menu2").children().eq(i).find("i").hasClass("selected")||$("#menu2").children().eq(i).find("i").hasClass("unselected2")){
+                                clickindex=i;
+                                break;
+                            }
                      }
+
+                     if(clickindex==-1){
+                         length = $("#menu").children().length;
+                         for(var i=length-1;i>-1;i--){
+                             if( $("#menu").children().eq(i).find("i").hasClass("selected")||$("#menu").children().eq(i).find("i").hasClass("unselected2")){
+                                 clickindex=i;
+                                 break;
+                             }
+                         }
+                         if(clickindex==-1){ //未找到位置 点击 基础信息
+                             $('div[data-type=proBaseInfo]').click();
+                         }else{
+                             $("#menu").children().eq(clickindex).click();
+                         }
+                     }else{
+                         $("#menu2").children().eq(clickindex).click();
+                     }
+
+
                  }
-
              }else{
-                 //判断当前是否有分类
-                if(ich.ichCategoryId == null || typeof (ich.ichCategoryId) == "undefined"){
-                    //无分类 情况
-                    $("li[data-type=longField]").each(function () {
-
+                 //非自定义属性 下标索引获取
+                 $("li[data-type=longField]").each(function (index) {
                         if($(this).hasClass("selected")){
-
+                                idx = index;
+                                return false;
                         }
+                 });
 
-                    });
-
-
-                }else{
-                    //有分类情况
-
-
-
-                }
-
+                 //判断当前是否有分类
+                 renderLeftMenu(ich);
+                 initMenuStatus(ich);
 
                 //清空内容
                  $("#longContent").val("");
                  $("#images").empty();
+                 var clickindex=-1;
+                 //删除后 去向  重新定位到以前 下标位置
+                 if($("li[data-type=longField]").length > (idx) ){
+                     if($("li[data-type=longField]").eq(idx).find("i").eq(0).hasClass("selected") || $("li[data-type=longField]").eq(idx).find("i").eq(0).hasClass("unselected2")){
+                         $("li[data-type=longField]").eq(idx).click();
+                     }else{
+                         //向上选择可点击位置
+                        for(var i=idx;-1<i;i--){
+                            if($("li[data-type=longField]").eq(i).find("i").eq(0).hasClass("selected") || $("li[data-type=longField]").eq(i).find("i").eq(0).hasClass("unselected2")){
+                                clickindex=i;
+                                break;
+                            }
+                        }
+                        if(clickindex>-1){
+                            $("li[data-type=longField]").eq(clickindex).click();
+                        }
+                     }
+                 }else{
+                     $("li[data-type=longField]").eq(idx-1).click();
+                 }
+
+
+
+                 if($("li[data-type=longField]").length==0 ){//基础信息点中
+                     $('div[data-type=proBaseInfo]').click();
+                 }
+                /* if(ich.ichCategoryId == null || typeof (ich.ichCategoryId) == "undefined"){
+                  //无分类 情况
+                      $("li[data-type=longField]").each(function () {
+                          if($(this).hasClass("selected")){
+                              if($(this).next()){
+                                  $(this).next().click();
+                              }else{
+                                  if($(this).prev()){
+                                      $(this).prev().click();
+                                  }
+                              }
+                          }
+                      });
+
+                  }else{
+                  //有分类情况
+                  $("li[data-type=longField]").each(function () {
+                      if($(this).hasClass("selected")){
+                      if(typeof($(this).prev().html())!="undefined"){
+                          $(this).removeClass("selected");
+                          $(this).removeClass("unselected2");
+                          $(this).prev().click();
+                          }
+                          }
+                      });
+                  }
+                */
+
                  //去掉选中标记
-                 $("#menu").children().each(function () {
-                     if($(this).find('span').eq(0).attr('data-id')==attrId){
+                /* $("#menu").children().each(function () {
+                     if($(this).find('span').eq(0).attr('data-id')==aId){
                          $(this).find('i').eq(0).removeClass('selected');
                      }
                  });
 
                  $("#menu2").children().each(function () {
-                     if($(this).find('span').eq(0).attr('data-id')==attrId){
+                     if($(this).find('span').eq(0).attr('data-id')==aId){
                          $(this).find('i').eq(0).removeClass('selected');
                      }
-                 });
+                 });*/
              }
              //提交按钮判断
-
-                $.each(ich.contentFragmentList,function (index,obj) {
-
+                $(".handle").find('a').eq(2).removeClass('disabled').addClass('empty');
+              /*  $.each(ich.contentFragmentList,function (index,obj) {
                     if(obj.attributeId < 41 && 33<obj.attributeId && obj.content != null && obj.content.length>0){
                         opencheck= true;
                     }
@@ -480,7 +560,7 @@ function  delContentFragment(attrId) {
                     $(".handle").find('a').eq(2).removeClass('disabled').addClass('empty');
                 }else{
                     $(".handle").find('a').eq(2).removeClass('empty').addClass('disabled');
-                }
+                }*/
             }else{
                 alert("保存失败");
             }
@@ -495,13 +575,17 @@ function delContentFragmentLocal(attrId){
     var ich = getCurrentProject();
     $.each(ich.contentFragmentList,function (index,obj) {
         if(obj.attributeId == attrId){
-            ich.contentFragmentList.splice(index,1);
+            if(obj.attribute!=null && obj.attribute.targetType==10){//自定义 对象 本地删除
+                ich.contentFragmentList.splice(index,1);
+            }else {
+                ich.contentFragmentList[index].content="";
+                ich.contentFragmentList[index].resourceList=null;
+            }
             return  false;
         }
     });
     localStorage.setItem("ichProject",JSON.stringify(ich));
 }
-
 
 function  saveContentPragment(attrid) {
     //验证数据
@@ -519,7 +603,7 @@ function  saveContentPragment(attrid) {
             }
       });
 
-    if(flag){
+    if(flag){//必填字段
         $("#longContent").next().show();
         return false;
     }
@@ -530,12 +614,6 @@ function  saveContentPragment(attrid) {
         contentFragment={};
     }
     //在页面 获取数据 封装数据
-/*
-    if($("#longContent").val().trim()=='' || $("#longContent").val().trim().length<50){
-
-        $("#longContent").next().show();
-        return false;
-    }*/
     contentFragment.attributeId=attrid;
     contentFragment.content=$("#longContent").val().trim();
     contentFragment.targetType=0;
@@ -597,7 +675,7 @@ function  saveContentPragment(attrid) {
     //ich.status=2;
     //alert(JSON.stringify(temp));
     console.log(JSON.stringify(ich));
-    // return false;
+    //return false;
     $.ajax({
         type: "POST",
         //url: "../contentFragment/saveContentFragment",
@@ -607,23 +685,10 @@ function  saveContentPragment(attrid) {
         async:false,
         complete: function () { },
         success: function (result) {
-           // console.log(result);
+            console.log(JSON.stringify(result));
             if(result.code==0){
-                   /* var ich = getCurrentProject();
-                    var flag =0;
-                    $.each(ich.contentFragmentList,function (index,obj) {
-                        if(obj.attributeId == result.data.attributeId){
-                            flag =1;
-                            ich.contentFragmentList[index]=result.data;
-                        }
-                    });
-                    if(flag==0){
-                        ich.contentFragmentList.push(result.data);
-                    }*/
-                    //console.log(JSON.stringify(ich));
                     localStorage.setItem("ichProject",JSON.stringify(result.data));
                     //跳转到下一菜单
-                    $('li[data-type=longField]').removeClass("selected");
                     var index=0;
                     $('li[data-type=longField]').each(function (idx,obj) {
                         if($(this).find('span').eq(0).attr('data-id')==attrid){
@@ -631,10 +696,32 @@ function  saveContentPragment(attrid) {
                         }
                     });
                     if($('li[data-type=longField]').length>index+1){
-                        $('li[data-type=longField]').eq(index).find("i").addClass('selected');
+                        if($('li[data-type=longField]').hasClass("selected")){
+                            $('li[data-type=longField]').each(function () {
+                                if($(this).hasClass('selected')){
+                                    if($("#longContent").val().trim()==""){
+                                        $(this).find("i").eq(0).removeClass("selected");
+                                        $(this).find("i").eq(0).addClass("unselected2");
+                                    }else {
+                                        $(this).find("i").eq(0).removeClass("unselected2");
+                                        $(this).find("i").eq(0).addClass("selected");
+                                    }
+                                }
+                            });
+                        }
+                        $('li[data-type=longField]').removeClass("selected");
+                       // $('li[data-type=longField]').eq(index).find("i").addClass('selected');
                         saveAndnext = true;
                         $('li[data-type=longField]').eq(index+1).click();
                     }else{
+                        if($("#longContent").val().trim()==""){
+                            $('li[data-type=longField]').eq(index).find("i").removeClass('selected');
+                            $('li[data-type=longField]').eq(index).find("i").addClass('unselected2');
+                        }else{
+                            $('li[data-type=longField]').eq(index).find("i").removeClass('unselected2');
+                            $('li[data-type=longField]').eq(index).find("i").addClass('selected');
+                        }
+
                         //do nothing
                         $("#tpl").empty();
                         var html="<div class=\"info_check step1\">";
@@ -661,7 +748,6 @@ function  saveContentPragment(attrid) {
             }else{
                 alert("保存失败");
             }
-
         },
         error: function (result, status) {
         }
@@ -709,6 +795,7 @@ function saveIchProject(page) {
         //do nothing
     }else{
         ich = JSON.parse(ichjsonStr);
+        console.log(JSON.stringify(ich));
         //contentFragmentList = ich.contentFragmentList;
     }
 
@@ -747,6 +834,31 @@ function saveIchProject(page) {
         //contentFragment.attribute=attr;
         contentFragmentList.push(cloneObj(contentFragment));
         contentFragment={};
+
+        contentFragment.attributeId=109;//开始年代
+        contentFragment.content=$("#beginTimes").val().trim();//
+        contentFragment.targetType=0;
+        //attr.dataType=0;
+        //contentFragment.attribute=attr;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+
+        contentFragment.attributeId=108;//国家代码
+        contentFragment.content=$("#countryCode").val().trim();//中文名
+        contentFragment.targetType=0;
+        //attr.dataType=0;
+        //contentFragment.attribute=attr;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+
+        contentFragment.attributeId=32;//主题词
+        contentFragment.content=$("#titleWords").val().trim();//中文名
+        contentFragment.targetType=0;
+        //attr.dataType=0;
+        //contentFragment.attribute=attr;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+
 
         contentFragment.attributeId=33;//区域
         if(localStorage.getItem("codes")== null){
@@ -816,22 +928,18 @@ function saveIchProject(page) {
                     ich.contentFragmentList = temp;
                 }else{
                     ich.contentFragmentList.push(obj);
-
                 }
             }
         });
         localStorage.setItem("ichProject",JSON.stringify(ich));
         ///console.log(JSON.stringify(ich));
-
         /* if(!vaidateForm(ich)){
          return ;
          }*/
 
     }else if($('div[data-type=longFieldCustom]').hasClass("selected")){
         //添加自定义 选中
-
         var ich = getCurrentProject();
-
         var attr={};
         var contentFragment={};
 
@@ -949,7 +1057,7 @@ function saveIchProject(page) {
         ich.ichCategoryId=$("div[data-type=selectCate]").attr("value");
     }
 
-    console.log(JSON.stringify(ich));
+    //console.log(JSON.stringify(ich));
     //获取本地
   $.ajax({
         type: "POST",
@@ -977,17 +1085,27 @@ function saveIchProject(page) {
                     tipBox.init("success","保存成功",1500);
                     //$('div[data-type=proBaseInfo]').removeClass("selected");
                     $('div[data-type=proBaseInfo]').find("i").addClass('selected');
+
+                    if($('li[data-type=longField]').hasClass("selected")){
+
+                        $('li[data-type=longField]').each(function () {
+
+                            if($(this).hasClass('selected')){
+                                if($("#longContent").val().trim()==""){
+                                    $(this).find("i").eq(0).removeClass("selected");
+                                    $(this).find("i").eq(0).addClass("unselected2");
+                                }else {
+                                    $(this).find("i").eq(0).addClass("selected");
+                                }
+                            }
+                        });
+                    }
+
                 }
 
             //提交按钮开启
-              var opencheck = false;
-              $.each(result.data.contentFragmentList,function (index,obj) {
+              var opencheck = isMustAdd();
 
-                  if(obj.attributeId== 40 && obj.content != null && obj.content.length>0){
-                      opencheck= true;
-                  }
-                  
-              });
               if(opencheck){
                   $(".handle").find('a').eq(2).removeClass('disabled').addClass('empty');
               }else{
@@ -995,7 +1113,7 @@ function saveIchProject(page) {
               }
 
               if($('div[data-type=longFieldCustom]').hasClass("selected")){
-                  console.log(result.data.id)
+                  console.log(result.data.id);
                   init3(result.data.id);
               }
 
@@ -1128,12 +1246,10 @@ function vaidateForm(ich) {
     return flag;
 }
 function  initProjectView(ich) {
-
-    //
+;
     if(localStorage.getItem("action")=="update" && (ich == null || typeof (ich) == "undefined")){
         return;
     }
-
     if(ich.id == null || typeof (ich.id) == "undefined"){
         ich = {};
         renderLeftMenu(ich);
@@ -1148,39 +1264,7 @@ function  initProjectView(ich) {
         renderLeftMenu(ich);
         //通过分类选择 项目实战
         //initmenu2(0,ich.ichCategoryId);
-        if(ich.contentFragmentList!= null && typeof (ich.contentFragmentList) != 'undefined'){
-            $('li[data-type=longField]').each(function () {
-              /*  var dataid = $(this).find('span').eq(0).attr('data-id');
-                var flag = 0;
-                $.each(ich.contentFragmentList,function (idx,obj) {
-                    if(obj.attributeId == dataid ){
-                        flag = 1;
-                    }
-                });
-                if(flag==1){
-                    $(this).find('i').eq(0).addClass("selected");
-                }*/
-              //编辑情况下默认 所有全部选中
-                if(localStorage.getItem("action")=="add"){
-
-                    var dataid = $(this).find('span').eq(0).attr('data-id');
-                    var flag = 0;
-                    $.each(ich.contentFragmentList,function (idx,obj) {
-                        if(obj.attributeId == dataid ){
-                            flag = 1;
-                        }
-                    });
-                    if(flag==1){
-                        $(this).find('i').eq(0).addClass("selected");
-                    }else{
-                        $(this).find('i').eq(0).removeClass("selected");
-                    }
-                }else{
-                    $(this).find('i').eq(0).addClass("selected");
-                }
-
-            });
-        }
+        initMenuStatus(ich);//初始化 按钮状态
         //初始化 自定义属性
         init3(ich.id);
         //修改提交按钮状态
@@ -1189,6 +1273,71 @@ function  initProjectView(ich) {
         }
     }
 }
+function initMenuStatus(ich) {
+    if(ich.contentFragmentList!= null && typeof (ich.contentFragmentList) != 'undefined'){
+        $('li[data-type=longField]').each(function () {
+            /*  var dataid = $(this).find('span').eq(0).attr('data-id');
+             var flag = 0;
+             $.each(ich.contentFragmentList,function (idx,obj) {
+             if(obj.attributeId == dataid ){
+             flag = 1;
+             }
+             });
+             if(flag==1){
+             $(this).find('i').eq(0).addClass("selected");
+             }*/
+            //编辑情况下默认 所有全部选中
+            if(localStorage.getItem("action")=="add"){
+                var dataid = $(this).find('span').eq(0).attr('data-id');
+                var flag = 0;
+                $.each(ich.contentFragmentList,function (idx,obj) {
+                    if(obj.attributeId == dataid ){
+
+                        if(obj.content==""){
+                            flag = 2;
+                        }else{
+                            flag = 1;
+                        }
+                    }
+                });
+                if(flag==1){
+                    // $(this).find('i').eq(0).addClass("full checked");
+                    $(this).find('i').eq(0).addClass("selected");
+                }else if(flag==2){
+                    //$(this).find('i').eq(0).addClass("empty checked");
+                    $(this).find('i').eq(0).addClass("unselected2");
+                }else{
+                    //$(this).find('i').eq(0).removeClass("full unchecked ");
+                }
+            }else{
+                ///$(this).find('i').eq(0).addClass("selected");
+                var dataid = $(this).find('span').eq(0).attr('data-id');
+                var flag = 0;
+                $.each(ich.contentFragmentList,function (idx,obj) {
+                    if(obj.attributeId == dataid ){
+
+                        if(obj.content==""){
+                            flag = 2;
+                        }else{
+                            flag = 1;
+                        }
+                        return false;
+                    }
+                });
+                if(flag==1){
+                    $(this).find('i').eq(0).addClass("selected");
+                }else if(flag==2){
+                    $(this).find('i').eq(0).addClass("unselected2");
+                }else{
+                    $(this).find('i').eq(0).removeClass("selected ");
+                    $(this).find('i').eq(0).removeClass("unselected2");
+                }
+            }
+
+        });
+    }
+}
+
 function  next(attrId) {
     var index=0;
     $('li[data-type=longField]').each(function (idx,obj) {
@@ -1279,6 +1428,28 @@ function getIchProByID(pid) {
         }
     });
     return ich;
+}
+
+
+function delImage(rid) {
+    var flag = false;
+    $.ajax({
+        type: "POST",
+        url: "/resource/deleteResource",
+        data:{params:rid} ,
+        dataType: "json",
+        async:false,
+        complete: function () { },
+        success: function (result) {
+            console.log(result);
+            if(result.code==0){
+                flag = true;
+            }
+        },
+        error: function (result, status) {
+        }
+    });
+    return flag;
 }
 //通过属性id 获取判断条件
 function getConditionByAttributeID(attid){

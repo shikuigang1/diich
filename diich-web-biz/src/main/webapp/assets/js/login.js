@@ -410,7 +410,9 @@ $(function () {
             if(data.code==3){
                 //获取url 地址 进行过滤
                 var url  = window.location.href;
-                var url = url.substring(0,url.indexOf("?"));
+                if(url.indexOf("?") != -1){
+                    url = url.substring(0,url.indexOf("?"));
+                }
                 var path = url.substring(url.lastIndexOf("/"));
 
                 $.grep(filterpage, function(val, key) {
@@ -422,14 +424,12 @@ $(function () {
             }
         }
     });
-
-
-
     //window.sessionStorage.setItem();
 });
+/*var callbakc = function () {
 
+}*/
 function login(){
-
     $.ajax({
         cache: true,
         type: "POST",
@@ -441,14 +441,10 @@ function login(){
             //alert("Connection error");
         },
         success: function(data) {
-            //console.log(data);
             var lang = getLang();
             if(data.code!=0){
-
-               //$(".item login").next().find('div .group').addClass('error') getMsgByCode
                 $('.box_layer .login').find('.group').addClass('error');
                 $('.box_layer .login').find('.error_txt').text(getMsgByCode(data.code,lang));
-
             }else{
                 localStorage.setItem("pid",data.data.id);
                 $('.box_layer').hide();
@@ -460,8 +456,24 @@ function login(){
                 }else{
                     $(".logined").find('a').text("hello，"+data.data.loginName);
                 }
-            }
+                //登录后续操作
+                //获取当前url 访问地址
+                var path = window.location.href;
+                if(path.indexOf("/ichProForm.html") != -1){
+                    //初始化 后续 操作
+                    var  pid = $.getUrlParam("pid");
+                    if(pid == null || typeof(pid) == "undefined"){
+                        localStorage.setItem("action","add");
+                    }else{
 
+                    }
+
+                    var ich = getIchProByID(pid);
+                    localStorage.setItem("ichProject",JSON.stringify(ich));
+                    initProjectData();
+                    initProjectView(ich);
+                }
+            }
         }
     });
 }
@@ -511,9 +523,7 @@ function registForm(){
                 }*/
             }
         }
-
     });
-
 }
 //重置密码
 function  resetPass(){
@@ -533,7 +543,6 @@ function  resetPass(){
         password.parent().parent().removeClass("error");
         password.next().text("");
     }
-
 
     $.ajax({
         cache: true,
@@ -561,4 +570,4 @@ function  resetPass(){
     });
 }
 //系统过滤页面  这些页面 未登录 需要弹出登录窗口
-var filterpage= ['/declare.html','/ichpro.html','/ichProForm.html','/ichProContent.html', '/ichMasterForm.html'];
+var filterpage= ['/declare.html','/ichpro.html','/ichProForm.html','/ichProContent.html', '/ichMasterForm.html','/center.html'];

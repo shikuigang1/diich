@@ -3,16 +3,10 @@ package com.diich.service.impl;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
-import com.diich.core.model.Attribute;
-import com.diich.core.model.ContentFragment;
-import com.diich.core.model.ContentFragmentResource;
-import com.diich.core.model.Resource;
+import com.diich.core.model.*;
 import com.diich.core.service.ContentFragmentService;
 import com.diich.core.service.ResourceService;
-import com.diich.mapper.AttributeMapper;
-import com.diich.mapper.ContentFragmentMapper;
-import com.diich.mapper.ContentFragmentResourceMapper;
-import com.diich.mapper.ResourceMapper;
+import com.diich.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
@@ -40,6 +34,8 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
     private ResourceMapper resourceMapper;
     @Autowired
     private ResourceService resourceService;
+    @Autowired
+    private IchProjectMapper ichProjectMapper;
 
     @Override
     public ContentFragment getContentFragment(String id) throws Exception {
@@ -124,31 +120,42 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
     }
 
     @Override
-    public void deleteContentFragment(Long id) throws Exception {
+    public ContentFragment deleteContentFragment(ContentFragment contentFragment) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
         try{
-            ContentFragment contentFragment = contentFragmentMapper.selectByPrimaryKey(id);
             if(contentFragment != null){
-                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(id);
+                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
                 if(contentFragmentResourceList.size()>0){
-                    contentFragmentResourceMapper.deleteByContentFragmentId(id);
-                    for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
-                        resourceMapper.deleteByPrimaryKey(contentFragmentResource.getResourceId());
+                    contentFragmentResourceMapper.deleteByContentFragmentId(contentFragment.getId());
+                }
+                if(contentFragment.getAttributeId() != null){
+                    Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
+                    if(attribute != null && (attribute.getTargetType() ==10 || attribute.getTargetType() ==11 || attribute.getTargetType() ==12)){
+                        contentFragmentMapper.deleteByPrimaryKey(contentFragment.getId());
+                        attributeMapper.deleteByPrimaryKey(contentFragment.getAttributeId());
+                    }else{
+                        if(contentFragment.getTargetType() != null && contentFragment.getTargetType() == 0 ){
+                            IchProject project = ichProjectMapper.selectIchProjectById(contentFragment.getTargetId());
+                            if(project != null && ( !attribute.getIchCategoryId().equals(project.getIchCategoryId()))){
+                                contentFragmentMapper.deleteByPrimaryKey(contentFragment.getId());
+                            }else{
+                                contentFragment.setContent("");
+                                contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                            }
+                        }
+                        if(contentFragment.getTargetType() != null && contentFragment.getTargetType() == 1 ){//传承人
+                            contentFragmentMapper.deleteByPrimaryKey(contentFragment.getId());
+                        }
                     }
                 }
-                contentFragmentMapper.deleteByPrimaryKey(id);
-                Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
-                if(attribute != null && (attribute.getTargetType() ==10 || attribute.getTargetType() ==11 || attribute.getTargetType() ==12)){
-                    attributeMapper.deleteByPrimaryKey(contentFragment.getAttributeId());
-                }
-            }
 
+            }
             commit(transactionStatus);
         }catch (Exception e){
             rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-
+        return contentFragment;
     }
     //用于删除项目实践部分
     @Override
@@ -189,13 +196,13 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
                 throw new ApplicationException(ApplicationException.INNER_ERROR);
             }
 
-            if (attribute.getMinLength() != null) {
+            if (attribute != null && attribute.getMinLength() != null) {
                 String content = contentFragment.getContent().trim();
                 if (content == null || (content.trim().length() < attribute.getMinLength())) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
                 }
             }
-            if (attribute.getMaxLength() != null) {
+            if (attribute != null && attribute.getMaxLength() != null) {
                 String content = contentFragment.getContent().trim();
                 if (content != null && content.trim().length() > attribute.getMaxLength()) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");

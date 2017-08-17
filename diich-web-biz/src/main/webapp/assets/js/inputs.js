@@ -46,6 +46,16 @@ var upload={
                 }
             });
         });
+    },
+    remove:function (callback) {
+        $('#images').on('click','.remove i',function () {
+            var rid = $(this).attr("data-id");
+
+            $(this).parents('.item').remove();
+            if(callback && callback!='undefined'){
+                callback(rid);
+            }
+        });
     }
 };
 
@@ -184,7 +194,6 @@ var selectArea={
                 function createSelected(data) {
                     selected.append('<li><span>'+data+'<i class="icon"></i></span></li>');
                 }
-
                 //关闭
                 select.on('click',function (e) {
                     e.preventDefault();
@@ -365,58 +374,58 @@ var projectPage={
         selectArea.init(0,areaData,function (data) {//选择地址 0是选择地址的类型 0是多选 1是单选
             //console.log("1111->",areaData);
             console.log(data);
-          //把每次code 值存在本地
+            //把每次code 值存在本地
             localStorage.setItem("codes",data.join(","));
 
-         /*   var content="";
-            if(data != ""){
+            /*   var content="";
+             if(data != ""){
 
-            }
-            $.each(data,function(index,value) {
-                var codepath = value.substring(0,value.length-1);
-                if(codepath.lastIndexOf(",") != -1){
-                    content=content+codepath.substring(codepath.lastIndexOf(",")+1)+",";
-                }else{
-                    content=content+codepath+",";
-                }
-            });
+             }
+             $.each(data,function(index,value) {
+             var codepath = value.substring(0,value.length-1);
+             if(codepath.lastIndexOf(",") != -1){
+             content=content+codepath.substring(codepath.lastIndexOf(",")+1)+",";
+             }else{
+             content=content+codepath+",";
+             }
+             });
 
-            console.log(content.substring(0,content.length-1));
-            localStorage.setItem("codes",localStorage.getItem("codes")+","+content.substring(0,content.length-1));*/
+             console.log(content.substring(0,content.length-1));
+             localStorage.setItem("codes",localStorage.getItem("codes")+","+content.substring(0,content.length-1));*/
 
-          /*  console.log(JSON.stringify(data));
-            var ich = getCurrentProject();
-            var contentFragment={};
-            contentFragment.attributeId=33;//区域id
-            contentFragment.targetType=0;
-            var content=""
-            $.each(data,function(index,value) {
-                var codepath = value.substring(0,value.length-1);
-                if(codepath.lastIndexOf(",") != -1){
-                    content=content+codepath.substring(codepath.lastIndexOf(",")+1)+",";
-                }else{
-                    content=content+codepath+",";
-                }
-            });
-            contentFragment.content=content.substring(0,content.length-1);
-            if( ich.contentFragmentList == null || typeof(ich.contentFragmentList)=="undefined"){
-                var contentFragmentList=[];
-                contentFragmentList.push(contentFragment);
-                ich.contentFragmentList=contentFragmentList;
-            }else{
-                //查询该数据是否已存在  存在覆盖原有数据
-                var flag = 0;
-                $.each( ich.contentFragmentList,function (idx,obj){
-                    if(obj.attributeId==33){
-                        ich.contentFragmentList[idx]=contentFragment;
-                        flag = 1;
-                    }
-                });
-                if(flag == 0){
-                    ich.contentFragmentList.push(contentFragment);
-                }
-            }
-            localStorage.setItem("ichProject",JSON.stringify(ich));*/
+            /*  console.log(JSON.stringify(data));
+             var ich = getCurrentProject();
+             var contentFragment={};
+             contentFragment.attributeId=33;//区域id
+             contentFragment.targetType=0;
+             var content=""
+             $.each(data,function(index,value) {
+             var codepath = value.substring(0,value.length-1);
+             if(codepath.lastIndexOf(",") != -1){
+             content=content+codepath.substring(codepath.lastIndexOf(",")+1)+",";
+             }else{
+             content=content+codepath+",";
+             }
+             });
+             contentFragment.content=content.substring(0,content.length-1);
+             if( ich.contentFragmentList == null || typeof(ich.contentFragmentList)=="undefined"){
+             var contentFragmentList=[];
+             contentFragmentList.push(contentFragment);
+             ich.contentFragmentList=contentFragmentList;
+             }else{
+             //查询该数据是否已存在  存在覆盖原有数据
+             var flag = 0;
+             $.each( ich.contentFragmentList,function (idx,obj){
+             if(obj.attributeId==33){
+             ich.contentFragmentList[idx]=contentFragment;
+             flag = 1;
+             }
+             });
+             if(flag == 0){
+             ich.contentFragmentList.push(contentFragment);
+             }
+             }
+             localStorage.setItem("ichProject",JSON.stringify(ich));*/
         });
     },
     slideBar:{//左侧菜单
@@ -452,6 +461,11 @@ var projectPage={
                     $('#tpl').load('./Tpl/'+_dateType+'.html',function () {
                         projectPage.bind();
                         if(_dateType == 'proBaseInfo'){
+
+                            $(".editListen").on("click",function () {
+                                editFlag = true;
+                            });
+
                             projectPage.uploadImgage(); //上传题图
                             //重新初始化 分类信息  认证信息
                             initCertRank();
@@ -461,12 +475,13 @@ var projectPage={
                                 var str = getCategoryTextById(ich.ichCategoryId);
                                 if(str != "非遗项目"){
                                     $('div[data-type=selectCate]').text(str);
+                                    $('div[data-type=selectCate]').attr("value",ich.ichCategoryId);
                                 }
                                 //判断分类按钮是否可以编辑
                                 /* if(localStorage.getItem("action")=='update'&& getCurrentProject().ichCategoryId !=null ){
-                                    $('div[data-type=selectCate]').before('<div style="width: 100%;float:left;background:#fff;border: 0;z-index:2;">'+str+'</div>');
-                                    $('div[data-type=selectCate]').remove();
-                                }*/
+                                 $('div[data-type=selectCate]').before('<div style="width: 100%;float:left;background:#fff;border: 0;z-index:2;">'+str+'</div>');
+                                 $('div[data-type=selectCate]').remove();
+                                 }*/
                                 //填充题图
                                 //是否为已认证项目 标记
                                 var flag = 0;
@@ -498,6 +513,15 @@ var projectPage={
                                     if(obj.attributeId == 41 && obj.content != ''){
                                         $("#certselect").val(obj.content);
                                     }
+                                    if(obj.attributeId == 109 && obj.content != ''){
+                                        $("#beginTimes").val(obj.content);
+                                    }
+                                    if(obj.attributeId == 108 && obj.content != ''){
+                                        $("#countryCode").val(obj.content);
+                                    }
+                                    if(obj.attributeId == 32 && obj.content != ''){
+                                        $("#titleWords").val(obj.content);
+                                    }
                                 });
                                 //显示选中内容
                                 if(flag==1){
@@ -515,6 +539,7 @@ var projectPage={
                                         $('#select').hide();
                                     }
                                 }
+                                //分类值回填
                                 //填充 是否为 已申报传承人
                             }
                         }
@@ -527,31 +552,80 @@ var projectPage={
 
             //点击子分类
             dd.on('click','li',function () {
-                /*var attrid=$(this).children("span").first().attr('data-id');
-                var _dateType=$(this).attr('data-type');
-
-                if(!$(this).find('i').eq(0).hasClass('selected') && !saveAndnext ){
-                    return false;
-                }
-                saveAndnext=false;*/
                 var attrid=$(this).children("span").first().attr('data-id');
                 var _dateType=$(this).attr('data-type');
+                //判断当前 是否可以编辑（父菜单未完成 状态子菜单不可编辑）
+                var flag = false;//当前是否可点击标记
+                if(typeof ($(this).prev().html())!="undefined"){ //判断上一级 对象是否侧你在
+                    //查看上一级 菜单的 编辑状态
+                    if($(this).prev().find('i').eq(0).hasClass('selected') || $(this).prev().find('i').eq(0).hasClass('unselected2')){
+                        flag = true;
+                    }
+                    if($(this).find('i').eq(0).hasClass('selected') || $(this).find('i').eq(0).hasClass('unselected2')){
+                        flag = true;
+                    }
 
-                var condition = getConditionByAttributeID(attrid);
-                if(condition.minLength==0){ //当前为 非必填选项
-                        if(!isMustAdd()){ //必填项 未 添加完全不可 编辑其他
-                            return;
+                    /*if(){
+
+                    }*/
+
+                    //给出提示信息
+                    if(!flag){
+                        if(!validateIchID()){
+                            //tipBox.init('fail',"请先添加",1500);
                         }
+                    }
                 }else{
-                    //当前为必填 直接编辑
-                    //do nothing
+                    //上一级菜单不存在
+                    if(!validateIchID()){
+                        tipBox.init('fail',"请先添加基础信息",1500);
+                        flag = false;
+                    }else{
+                        if($(this).parent().attr("id")=="menu2"){
+                            var length = $("#menu").children().length;
+                            var obj =  $("#menu").find("li").eq(length-1);
+                            //判断上一菜单栏 是否
+                            if(obj.find("i").eq(0).hasClass("selected")||obj.find("i").eq(0).hasClass("unselected2")){
+                                flag=true;
+                            }
+                            // flag = false;
+                        }else{
+                            flag = true;
+                        }
+
+                    }
+                }
+                if(!flag){
+                    return false;
                 }
 
+       /*         if(editFlag){ //页面被修改 弹出是否保存
+                    if(confirm("你是否要保存当前页面信息？"))
+                    {
+                        saveIchProject();
+                    }
 
-                if(!validateIchID()){
-                    tipBox.init('fail',"请先添加基础信息",1500);
-                     return false;
-                }
+                }*/
+                editFlag = false;
+                /*
+                 alert(($(this).parent().find('i').eq(0).hasClass('selected') || $(this).parent().find('i').eq(0).hasClass('unselected2')) );
+                 if(  (!(($(this).parent().find('i').eq(0).hasClass('selected') || $(this).parent().find('i').eq(0).hasClass('unselected2')))) ||  ((!$(this).find('i').eq(0).hasClass('selected') && !$(this).find('i').eq(0).hasClass('unselected2')) ) && !saveAndnext ) {
+
+                 saveAndnext = false;
+                 }*/
+                /*  var attrid=$(this).children("span").first().attr('data-id');
+                 var _dateType=$(this).attr('data-type');
+
+                 var condition = getConditionByAttributeID(attrid);
+                 if(condition.minLength==0){ //当前为 非必填选项
+                 if(!isMustAdd()){ //必填项 未 添加完全不可 编辑其他
+                 return;
+                 }
+                 }else{
+                 //当前为必填 直接编辑
+                 //do nothing
+                 }*/
+
                 //验证
                 var ich = getCurrentProject();
 
@@ -565,38 +639,62 @@ var projectPage={
                 //当前图标选中
                 $(".dt").removeClass("selected");
 
-
                 $('#tpl').load('./Tpl/'+_dateType+'.html',function () {
                     projectPage.bind();
                     if(_dateType==='longField'){
+                       upload.remove(function (rid) {
+                          if(delImage(rid)){
+                                tipBox.init("success","删除图片成功！",1500);
+                                //删除图片在本地缓存
+                                var ich = getCurrentProject();
+                                
+                                $.each(ich.contentFragmentList,function (index,obj) {
+
+                                    if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
+
+                                        $.each(obj.resourceList,function (i,o) {
+                                            if(o.id==rid){
+                                                ich.contentFragmentList[index].resourceList=obj.resourceList.slice(i,1);
+                                                return false;
+                                            }
+                                        });
+                                    }
+                                    
+                                });
+                                console.log(JSON.stringify(ich));
+                                localStorage.setItem("ichProject",JSON.stringify(ich));
+                          }else{
+                              tipBox.init("fail","删除图片失败！",1500);
+                          }
+                        });
                         //修改标签内容
                         $(".st").children("h2").text(name);
                         //初始化当前菜单数据
                         var ich = getCurrentProject();
-                       // var flag = false;//缓存命中标记
+                        // var flag = false;//缓存命中标记
                         $.each(ich.contentFragmentList,function (index,obj) {
-                                if(obj.attributeId == attrid){
-                                   // flag = true;
-                                    $("#longContent").val(obj.content);
-                                    if(typeof(obj.resourceList) != 'undefined'){
-                                        var html="";
-                                        $.each(obj.resourceList,function (i,resource) {
-                                            if(i%2==0){
-                                                html+="<div class=\"item\" style=\"margin-right: 10px;\">";
-                                            }else{
-                                                html+="<div class=\"item\">";
-                                            }
-                                            html+="<img src="+imgserver+"/image/project/"+resource.uri+" alt=\"\">";
-                                            html+= "<input type=\"text\" name=\"text\" placeholder=\"请输入标题\" value=\""+resource.description+"\"></div>";
-                                        });
-
-                                        if(obj.resourceList.length>2){
-                                            $("#images").addClass("active");
+                            if(obj.attributeId == attrid){
+                                // flag = true;
+                                $("#longContent").val(obj.content);
+                                if(typeof(obj.resourceList) != 'undefined' && obj.resourceList !=null ){
+                                    var html="";
+                                    $.each(obj.resourceList,function (i,resource) {
+                                        if(i%2==0){
+                                            html+="<div class=\"item\" style=\"margin-right: 10px;\">";
+                                        }else{
+                                            html+="<div class=\"item\">";
                                         }
+                                        html+="<img src="+imgserver+"/image/project/"+resource.uri+" alt=\"\">";
+                                        html+= "<input type=\"text\" name=\"text\" placeholder=\"请输入标题\" value=\""+resource.description+"\">";
+                                        html+="<span class=\"remove\"><i data-id='"+resource.id+"'></i></span></div>";
+                                    });
 
-                                        $("#images").prepend(html);
+                                    if(obj.resourceList.length>2){
+                                        $("#images").addClass("active");
                                     }
+                                    $("#images").prepend(html);
                                 }
+                            }
                         });
                         //是否显示 添加图片
                         if(targetType==1){ //不显示 上传图片
@@ -604,10 +702,10 @@ var projectPage={
                             $("#images").siblings('.text').css('width','100%');
                         }
 
-                        $(".next").prev().attr("href","javascript:delContentFragment("+attrid+")");
-                        $(".next").attr("href","javascript:saveContentPragment("+attrid+")");
-                        $(".next").next().attr("href","javascript:next("+attrid+")");
-
+                        $(".next").prev().attr("href","javascript:delContentFragment('"+attrid+"')");
+                        $(".next").attr("href","javascript:saveContentPragment('"+attrid+"')");
+                      /*  $(".next").next().attr("href","javascript:next("+attrid+")");
+*/
                         projectPage.radioImage(); //上传题图
                     }else {
                         projectPage.uploadImgage(); //上传题图
@@ -689,21 +787,21 @@ var projectPage={
                 var ich = getCurrentProject();
                 //if(typeof (ich.ichCategoryId) == "undefined" || ich.ichCategoryId==null){
                 if(ich.id==null || typeof(ich.id)=="undefined"){
-                        //do nothing
+                    //do nothing
                 }else{
                     //不删除 以前 数据
-                   /* if(ich.id != callData.value){
-                        //清空本地 分类相关数据
-                        $("#menu2").children("li").each(function () {
-                            var attrid = $(this).find("span").attr('data-id');
-                            $.each(ich.contentFragmentList,function (index,obj) {
-                                if(attrid == obj.attributeId){
-                                    ich.contentFragmentList.slice(index,1);
-                                    return false;
-                                }
-                            });
-                        });
-                    }*/
+                    /* if(ich.id != callData.value){
+                     //清空本地 分类相关数据
+                     $("#menu2").children("li").each(function () {
+                     var attrid = $(this).find("span").attr('data-id');
+                     $.each(ich.contentFragmentList,function (index,obj) {
+                     if(attrid == obj.attributeId){
+                     ich.contentFragmentList.slice(index,1);
+                     return false;
+                     }
+                     });
+                     });
+                     }*/
                 }
                 ich.ichCategoryId=callData.value;
                 //localStorage.setItem("ichProject",JSON.stringify(ich));
@@ -732,6 +830,23 @@ var projectPage={
                 drop.slideUp('fast');
                 $(this).siblings('span').find('input').removeAttr("checked");
                 $(this).find('input').attr("checked","true");
+
+                //清空相关内容
+                $("#ECalendar_date").val("");
+                $("#certCode").val("");
+                $("#certselect").val("");
+                //清除本地缓存
+                var ich = getCurrentProject();
+                if(ich != null && typeof (ich.contentFragmentList) !="undefined"){
+                    $.each(ich.contentFragmentList,function (index,obj) {
+                        if(obj.attributeId==116 || obj.attributeId==41 || obj.attributeId==107){
+                            ich.contentFragmentList[index].content="";
+                        }
+                    });
+                }
+
+                localStorage.setItem("ichProject",JSON.stringify(ich));
+
             }
         });
     },
@@ -748,57 +863,56 @@ var projectPage={
                     //获取属性id
                     /*var attrid=0;
 
-                   $('li[data-type=longField]').each(function () {
-                        if($(this).hasClass('selected')){
-                            attrid = $(this).find('span').eq(0).attr('data-id');
-                        }
-                    });
+                     $('li[data-type=longField]').each(function () {
+                     if($(this).hasClass('selected')){
+                     attrid = $(this).find('span').eq(0).attr('data-id');
+                     }
+                     });
 
-                    var imgpath = data.data[0];
-                    //获取图片名称
-                    var path = imgpath.substring(imgpath.lastIndexOf("/")+1);
+                     var imgpath = data.data[0];
+                     //获取图片名称
+                     var path = imgpath.substring(imgpath.lastIndexOf("/")+1);
 
-                    var ich = getCurrentProject();
+                     var ich = getCurrentProject();
 
-                    var contentFragment={};
-                    var attr={};
-                    var resource={};
-                    var resourceList=[];
+                     var contentFragment={};
+                     var attr={};
+                     var resource={};
+                     var resourceList=[];
 
-                    contentFragment.attributeId=attrid;//
+                     contentFragment.attributeId=attrid;//
 
-                    attr.dataType=5;
-                    resource.uri=path;
-                    resource.type=0;
-                    resource.description='';
-                    resourceList.push(resource);
+                     attr.dataType=5;
+                     resource.uri=path;
+                     resource.type=0;
+                     resource.description='';
+                     resourceList.push(resource);
 
-                    contentFragment.attribute=attr;
-                    contentFragment.resourceList=resourceList;
-                    contentFragment.targetType=0;
+                     contentFragment.attribute=attr;
+                     contentFragment.resourceList=resourceList;
+                     contentFragment.targetType=0;
 
-                    if( ich.contentFragmentList == null || typeof(ich.contentFragmentList)=="undefined"){
-                        var contentFragmentList=[];
-                        contentFragmentList.push(contentFragment);
-                        ich.contentFragmentList=contentFragmentList;
-                    }else{
-                        $.each( ich.contentFragmentList,function (idx,obj){
-                            if(obj.attributeId==attrid){
+                     if( ich.contentFragmentList == null || typeof(ich.contentFragmentList)=="undefined"){
+                     var contentFragmentList=[];
+                     contentFragmentList.push(contentFragment);
+                     ich.contentFragmentList=contentFragmentList;
+                     }else{
+                     $.each( ich.contentFragmentList,function (idx,obj){
+                     if(obj.attributeId==attrid){
 
-                                if(obj.resourceList.length==0 ||  typeof (obj.resourceList)=='undefined'){
-                                    obj.resourceList=resourceList;
-                                }else{
-                                    ich.contentFragmentList[idx].resourceList.push(resource);
-                                }
-                            }
-                        });
+                     if(obj.resourceList.length==0 ||  typeof (obj.resourceList)=='undefined'){
+                     obj.resourceList=resourceList;
+                     }else{
+                     ich.contentFragmentList[idx].resourceList.push(resource);
+                     }
+                     }
+                     });
 
-                    }
-                    console.log(JSON.stringify(ich));
-                    localStorage.setItem("ichProject",JSON.stringify(ich));*/
+                     }
+                     console.log(JSON.stringify(ich));
+                     localStorage.setItem("ichProject",JSON.stringify(ich));*/
                 }else{
-
-                    $('.preview').attr('src',data.data[0]).show();
+                 /*   $('.preview').attr('src',data.data[0]).show();
                     //图上传成功本地保存图片
                     var imgpath = data.data[0];
                     //获取图片名称
@@ -818,7 +932,7 @@ var projectPage={
                     resource.description='';
                     resourceList.push(resource);
 
-                   //contentFragment.attribute=attr;
+                    //contentFragment.attribute=attr;
                     contentFragment.resourceList=resourceList;
                     contentFragment.targetType=0;
 
@@ -838,7 +952,7 @@ var projectPage={
                             ich.contentFragmentList.push(contentFragment);
                         }
                     }
-                    localStorage.setItem("ichProject",JSON.stringify(ich));
+                    localStorage.setItem("ichProject",JSON.stringify(ich));*/
                 }
             }else{
                 //文件上传出错
@@ -865,6 +979,7 @@ var projectPage={
             var templ='<div class="item">' +
                 '<img src="'+str+'" alt="">' +
                 '<input type="text" name="text" placeholder="请输入标题">' +
+                '<span class="remove"><i></i></span>'+
                 '</div>';
             return templ;
         }
@@ -878,6 +993,280 @@ var projectPage={
             }
             _images.find('.item:even').css('margin-right','10px');
         }
+    }
+};
+
+//选择地域
+var selectArea1={
+    init:function (type, initValue, callback) {
+        if(type==0){
+            this.bind(initValue, callback);
+        }else{
+            this.radio(initValue, callback);
+        }
+
+    },
+    template:function (data) {
+        var _dom='';
+        if(data.length!=0){
+            for(var i=0;i<data.length;i++){
+                _dom+='<li data-code="'+data[i].code+'"><span>'+data[i].name+'</span></li>';
+            }
+            return '<ul>'+_dom+'</ul>';
+        }else {
+            return '';
+        }
+    },
+    initDom:function (data) {//获取国家
+        var temp='<div class="tab">' +
+            '  <span style="display: block;"><strong>请选择</strong><i class="icon"></i><em class="icon"></em></span>' +
+            '  <span><strong>请选择</strong><i class="icon"></i></span>' +
+            '  <span style="margin-right:0"><strong>请选择</strong><i class="icon"></i></span>' +
+            '</div>' +
+            '<div class="con">' +
+            '  <div class="items scrollbar" data-type="level1"" style="display:block">'+ this.template(data) +'</div>'+
+            '  <div class="items scrollbar" data-type="level2""></div>'+
+            '  <div class="items scrollbar" data-type="level3""></div>'+
+            '</div>';
+        return temp;
+    },
+    bind:function (initValue, callback) {
+        var _this=this;
+        var result=[];
+
+        // 初始化赋值
+        if(initValue) {
+            var arr = initValue.split(",");
+            $.each(arr, function(i, v) {
+                result.push(v);
+            })
+        }
+
+        var resultText=[];
+        var area=$('#area');
+        var select=$('#select');
+        var selected=$('#selected');
+        var isFirst=true;
+        $('div[data-type=selectArea]').on('click',function (e) {
+            e.preventDefault();
+            e.stopPropagation()
+            if(isFirst){
+                isFirst=false;
+                var el=$(this);
+                var data2=[];
+                var data3=[];
+                var store=''; //临时
+                var storeText=''; //临时
+                //初始化dom
+                select.append(_this.initDom(dic_arr_city)).show();
+                area.show();
+                var tab= select.find('.tab span');
+                var items= select.find('.items');
+                var items1=items.eq(0);
+                var items2=items.eq(1);
+                var items3=items.eq(2);
+
+                //1.点击第一个
+                items1.on('click','li',function () {
+                    var _index=$(this).index();
+                    var _text=$(this).text();
+                    var _code=$(this).attr('data-code');
+                    data2=dic_arr_city[_index].children;
+                    items.hide().html('');
+                    items2.html('').append(_this.template(data2)).show();
+                    isTab(data2.length,0,_text,_code);
+                });
+                //2.点击第二个
+                items2.on('click','li',function () {
+                    var _index=$(this).index();
+                    var _text=$(this).text();
+                    var _code=$(this).attr('data-code');
+                    data3=data2[_index].children;
+                    items.hide().html('');
+                    items3.html('').append(_this.template(data3)).show();
+                    isTab(data3.length,1,_text,_code);
+                });
+                //2.点击第三个
+                items3.on('click','li',function () {
+                    var _text=$(this).text();
+                    var _code=$(this).attr('data-code');
+                    tab.removeClass('selected');
+                    isTab(0,2,_text,_code);
+                });
+                //tab标签状态
+                function isTab(size,index,text,code) {//a索引  b选中的文字 c是code值
+                    tab.removeClass('selected');
+                    tab.eq(index).addClass('active selected').find('strong').text(text);
+                    tab.eq(index+1).show();
+                    store+=code+',';
+                    storeText+=text;
+                    //当没有子数据的时候赋值给result
+                    if(size==0 && index==0){
+                        assignValue();
+                        isFirst=true;
+                    }
+                    //当选择区县的时候把数据赋值给result
+                    if(index==2){
+                        assignValue();
+                        isFirst=true;
+                    }
+
+                    function assignValue() {
+                        var storeVal = store.substr(0, store.length - 1).split(",").pop();
+                        var num = result.indexOf(storeVal);
+                        if(num == -1) {
+                            result.push(storeVal);
+                            resultText.push(storeText.substr(0, storeText.length - 1));
+                            localStorage.setItem("codeText",resultText.join(","));
+                            createSelected(storeText);
+
+                        }
+                        select.html('').hide();
+                        el.attr('value',result);
+                        if(callback && callback!='undefined'){
+                            callback(result, resultText);
+                        }
+                    }
+                }
+                //创建选中元素
+                function createSelected(data) {
+                    selected.append('<li><span>'+data+'<i class="icon"></i></span></li>');
+                }
+
+                //关闭
+                select.on('click',function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+                $(document).on("click", function () {
+                    isFirst=true;
+                    select.hide().html('');
+                });
+
+            }
+        });
+        //删除选中的数据
+        selected.on('click','.icon',function () {
+            var _index=$(this).index();
+            $(this).parents('li').remove();
+            result.splice(_index,1);
+            resultText.splice(_index,1);
+            // console.log(resultText);
+            localStorage.setItem("codeText",resultText.join(","));
+            if(callback && callback!='undefined'){
+                callback(result);
+            }
+            //删除本地缓存
+        });
+    },
+    radio:function (initValue, callback) {
+        var _this=this;
+        var result=[];
+        var resultText=[];
+
+        var codeText = localStorage.getItem("codeText");
+        if(codeText != null && typeof (codeText) !="undefined"){
+            resultText = codeText.split(",");
+        }
+
+        var area=$('#area');
+        var select=$('#select');
+        var selected=$('#selected');
+        var isFirst=true;
+        $('div[data-type=selectArea]').on('click',function () {
+            if(isFirst){
+                isFirst=false;
+                var el=$(this);
+                var data2=[];
+                var data3=[];
+                var store=''; //临时
+                var storeText=''; //临时
+                //初始化dom
+                select.append(_this.initDom(dic_arr_city)).show();
+                area.show();
+                var tab= select.find('.tab span');
+                var items= select.find('.items');
+                var items1=items.eq(0);
+                var items2=items.eq(1);
+                var items3=items.eq(2);
+
+                //1.点击第一个
+                items1.on('click','li',function () {
+                    var _index=$(this).index();
+                    var _text=$(this).text();
+                    var _code=$(this).attr('data-code');
+                    data2=dic_arr_city[_index].children;
+                    items.hide().html('');
+                    items2.html('').append(_this.template(data2)).show();
+                    isTab(data2.length,0,_text,_code);
+                });
+
+                //2.点击第二个
+                items2.on('click','li',function () {
+                    var _index=$(this).index();
+                    var _text=$(this).text();
+                    var _code=$(this).attr('data-code');
+                    data3=data2[_index].children;
+                    items.hide().html('');
+                    items3.html('').append(_this.template(data3)).show();
+                    isTab(data3.length,1,_text,_code);
+                });
+
+                //2.点击第三个
+                items3.on('click','li',function () {
+                    var _text=$(this).text();
+                    var _code=$(this).attr('data-code');
+                    tab.removeClass('selected');
+                    isTab(0,2,_text,_code);
+                });
+
+                //tab标签状态
+                function isTab(size,index,text,code) {//a索引  b选中的文字 c是code值
+                    tab.removeClass('selected');
+                    tab.eq(index).addClass('active selected').find('strong').text(text);
+                    tab.eq(index+1).show();
+                    store+=code+',';
+                    storeText+=text;
+                    selected.html('');
+                    //当没有子数据的时候赋值给result
+                    if(size==0 && index==0){
+                        assignValue();
+                        isFirst=true;
+                    }
+                    //当选择区县的时候把数据赋值给result
+                    if(index==2){
+                        assignValue();
+                        isFirst=true;
+                    }
+
+                    function assignValue() {
+                        result=result.splice(1,1);
+                        result.push(store);
+                        resultText.push(storeText);
+                        createSelected(storeText);
+                        select.html('').hide();
+                        el.attr('value',result);
+                        if(callback && callback!='undefined'){
+                            callback(result);
+                        }
+                    }
+                }
+                //创建选中元素
+                function createSelected(data) {
+                    selected.append('<li><span>'+data+'<i class="icon"></i></span></li>');
+                }
+            }
+        });
+        //删除选中的数据
+        selected.on('click','span',function () {
+            var _index=$(this).index();
+            $(this).parents('li').remove();
+            result.splice(_index,1);
+            if(callback && callback!='undefined'){
+                callback(result);
+            }
+            //删除本地缓存数据
+        });
     }
 };
 
@@ -1009,15 +1398,16 @@ var inheritorPage={
 
         //模版
         function templateItem(str) {
+            var newStr = str[0];
             // 常用图片格式
             var imgArr = [".BMP", ".PCX", ".PNG", ".JPEG", ".GIF", ".TIFF", ".JPG", ".ICO", ".TIF",
-                          ".bmp", ".pcx", ".png", ".jpeg", ".gif", ".tiff", ".jpg", ".ico", ".tif"];
+                ".bmp", ".pcx", ".png", ".jpeg", ".gif", ".tiff", ".jpg", ".ico", ".tif"];
             if(imgArr.indexOf(str[0].substr(str[0].lastIndexOf("."), str[0].length).toString()) < 0) {
                 var localhostPaht = window.document.location.href.substring(0,window.document.location.href.indexOf(window.document.location.pathname))
-                str[0] = localhostPaht + "/assets/images/inputs/play.jpg";
+                newStr = localhostPaht + "/assets/images/inputs/play.jpg";
             }
             var templ='<div class="item">' +
-                '<img src="' + str[0] + '" alt="">' +
+                '<img data-src="' + str[0] + '" src="' + newStr + '" alt="">' +
                 '<input type="text" name="text" placeholder="请输入标题">' +
                 '</div>';
             return templ;
@@ -1035,4 +1425,26 @@ var inheritorPage={
     }
 };
 
+var modal={
+    loading:function (options) {
+        var _speed,_text='';
+        _speed = (!options.speed || options.speed=='') ? 2000 : options.speed;
+        _text = (!options.text || options.text=='') ? '加载中，请稍候...' : options.text;
+        var _str='<div class="modal" id="modal">' +
+            '        <div class="content">' +
+            '            <div class="loading"><img src="../assets/images/icon_preview_loading.gif">'+_text+'</div>' +
+            '        </div>' +
+            '        <div class="bg"></div>' +
+            '    </div>';
 
+        $('body').append(_str);
+        var modal=$('#modal');
+        modal.fadeIn();
+        modal.find('.loading').stop(true).animate({'top':'50%'},300,function () {
+            setTimeout(function(){
+                options.success();
+                modal.remove();
+            },_speed);
+        });
+    }
+};

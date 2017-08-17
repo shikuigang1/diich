@@ -1,177 +1,27 @@
 <div class="declare">
     <div class="tabs">
-        <span class="selected">已通过</span>
-        <span>未通过</span>
-        <span>审核中</span>
-        <span>草稿箱</span>
+        <span class="selected" data-id="0">已通过</span>
+        <span data-id="4">未通过</span>
+        <span data-id="3">审核中</span>
+        <span data-id="2">草稿箱</span>
     </div>
     <div class="main">
         <div class="item" style="display: block;">
+
             <div class="box">
-                <table>
-                    <tr>
-                        <th width="50">序号</th>
-                        <th>名称</th>
-                        <th width="140">最后修改时间</th>
-                        <th width="140">提交审核时间</th>
-                        <th width="140">审核通过时间</th>
-                        <th width="120">操作</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td class="text">姚慧芬（苏绣传承人）苏绣传承人苏绣传承人苏绣传承承人</td>
-                        <td>2017-03-03  12:11</td>
-                        <td>2017-03-03  12:11</td>
-                        <td>2017-03-03  12:11</td>
-                        <td class="handle">
-                            <a href="">查看</a>
-                            <a href="">编辑</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td class="text">姚慧芬（苏绣传承人）苏绣传承人苏绣传承人苏绣传承承人</td>
-                        <td>2017-03-03  12:11</td>
-                        <td>2017-03-03  12:11</td>
-                        <td>2017-03-03  12:11</td>
-                        <td class="handle">
-                            <a href="">查看</a>
-                            <a href="">编辑</a>
-                        </td>
-                    </tr>
-                </table>
+                <div id="table"></div>
             </div>
-            <div class="paging">
-                <ul>
-                    <li>&lt;</li>
-                    <li>1</li>
-                    <li class="active">2</li>
-                    <li>3</li>
-                    <li>4</li>
-                    <li>&gt;</li>
-                    <li class="total">共4页</li>
-                </ul>
-            </div>
+            <!--<div class="paging">-->
+                <!--<ul>-->
+                    <!--<li>&lt;</li>-->
+                    <!--<li>1</li>-->
+                    <!--<li class="active">2</li>-->
+                    <!--<li>3</li>-->
+                    <!--<li>4</li>-->
+                    <!--<li>&gt;</li>-->
+                    <!--<li class="total">共4页</li>-->
+                <!--</ul>-->
+            <!--</div>-->
         </div>
-        <!--//End 已通过-->
-        <div class="item" style="display: none;">
-            <div class="box">
-                <table>
-                    <tr>
-                        <th width="50">序号</th>
-                        <th>名称</th>
-                        <th width="140">最后修改时间</th>
-                        <th width="140">提交审核时间</th>
-                        <th width="140">未通过原因</th>
-                        <th width="60">操作</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td class="text">姚慧芬（苏绣传承人）苏绣传承人苏绣传承人苏绣传承承人</td>
-                        <td>2017-03-03  12:11</td>
-                        <td>2017-03-03  12:11</td>
-                        <td class="text">
-                            <span class="tips">申报未通过原因申报未通过原因，申报未通过原因申报未通过原因。</span>
-                            <a class="cause" data-type="reason">查看原因</a>
-                        </td>
-                        <td class="handle">
-                            <a href="">编辑</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td class="text">姚慧芬（苏绣传承人）苏绣传承人苏绣传承人苏绣传承承人</td>
-                        <td>2017-03-03  12:11</td>
-                        <td>2017-03-03  12:11</td>
-                        <td class="text">
-                            <span class="tips">申报未通过原因申。</span>
-                            <a class="cause" data-type="reason">查看原因</a>
-                        </td>
-                        <td class="handle">
-                            <a href="">编辑</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="paging">
-                <ul>
-                    <li>&lt;</li>
-                    <li>1</li>
-                    <li class="active">2</li>
-                    <li>3</li>
-                    <li>4</li>
-                    <li>&gt;</li>
-                    <li class="total">共4页</li>
-                </ul>
-            </div>
-        </div>
-        <!--//End 未通过-->
-        <div class="item" style="display: none;">
-            <div class="box">
-                <table>
-                    <tr>
-                        <th width="50">序号</th>
-                        <th>名称</th>
-                        <th width="140">最后修改时间</th>
-                        <th width="140">提交审核时间</th>
-                        <th width="60">操作</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td class="text">姚慧芬（苏绣传承人）苏绣传承人苏绣传承人苏绣传承承人</td>
-                        <td>2017-03-03  12:11</td>
-                        <td>2017-03-03  12:11</td>
-                        <td class="handle">
-                            <a href="">查看</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="paging">
-                <ul>
-                    <li>&lt;</li>
-                    <li>1</li>
-                    <li class="active">2</li>
-                    <li>3</li>
-                    <li>4</li>
-                    <li>&gt;</li>
-                    <li class="total">共4页</li>
-                </ul>
-            </div>
-        </div>
-        <!--//End 审核中-->
-        <div class="item" style="display: none;">
-            <div class="box">
-                <table>
-                    <tr>
-                        <th width="50">序号</th>
-                        <th>名称</th>
-                        <th width="140">最后修改时间</th>
-                        <th width="120">操作</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td class="text">姚慧芬（苏绣传承人）苏绣传承人苏绣传承人苏绣传承承人</td>
-                        <td>2017-03-03  12:11</td>
-                        <td class="handle">
-                            <a href="">编辑</a>
-                            <a data-type="delete">删除</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="paging">
-                <ul>
-                    <li>&lt;</li>
-                    <li>1</li>
-                    <li class="active">2</li>
-                    <li>3</li>
-                    <li>4</li>
-                    <li>&gt;</li>
-                    <li class="total">共4页</li>
-                </ul>
-            </div>
-        </div>
-        <!--//End 草稿箱-->
     </div>
 </div>

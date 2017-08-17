@@ -186,7 +186,7 @@ var Detail = { //详情页用到的效果
             if(jsonHead.headImage != null && jsonHead.headImage !='undefined'){
                 _data.headImage=jsonHead.headImage[0].uri;
             }else{
-                _data.headImage="default_avatar2.png?x-oss-process=style/head-image-style";
+                _data.headImage="default_avatar2.png";
             }
             return _data;
         },
@@ -590,7 +590,6 @@ var searchPage={
     init: function() {
         $('.header_detail .content .info li.login').addClass('line');
         this.slide(); //点击图标下拉
-
     },
     slide:function () {
         var _this=this;
@@ -598,9 +597,15 @@ var searchPage={
         var elIcon=$('.header_detail .content .info li.search'); //导航搜索icon
         var filter = $('.filter_search'); //下拉搜索
 
-        elIcon.on('click',function () {
+        elIcon.on('click',function (e) {
+            e.preventDefault();
+            e.stopPropagation();
             filter.stop(true).slideToggle(200);
-            console.log('asdasd')
+        });
+
+        filter.on('click',function (e) {
+            e.preventDefault();
+            e.stopPropagation();
         });
         _this.form.init(url);
         _this.select.init(filter,url);
@@ -673,8 +678,12 @@ var searchPage={
             var data=[];
             var options={};
             var drag=$('#drag');
+            drag.find('.item').html('');
+
             //点击分类和地区
-            obj.on('click','.attr span',function () {
+            obj.on('click','.attr span',function (e) {
+                e.preventDefault();
+                e.stopPropagation();
                 var _index=$(this).index();
                 if(_index==0){//所属分类
                     data=category_all;
@@ -692,13 +701,12 @@ var searchPage={
                     }
                 }
 
+                drag.find('.item').remove();
                 drag.append(_this.template(options));
                 var item=drag.find('.item');
                 var level1=drag.find('.level');
                 var level2=drag.find('.level2');
                 item.slideDown(100).css('left',$(this).offset().left+'px');
-
-
 
                 level1.find('ul').html(_this.createLi(options.type,data));
                 level1.find('li').hover(function () {
@@ -709,16 +717,23 @@ var searchPage={
                     }
                 });
 
-            });
+                isFirst=false;
 
+            });
             drag.on('click','li',function(){
                 window.location=url+ $('#keyword').val()+'&'+$(this).attr('data-type')+'='+$(this).attr('data-id');
             });
 
+
+            $(document).on('click',function () {
+                obj.slideUp();
+                drag.find('.item').remove('');
+            });
+
         }
     }
-
 };
+
 
 
 //上传图片
@@ -793,3 +808,6 @@ var upload={
     }
 };
 
+$(function () {
+    searchPage.init();
+});

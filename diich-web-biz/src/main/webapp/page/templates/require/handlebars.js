@@ -2761,14 +2761,7 @@ Handlebars.template = Handlebars.VM.template;
     })
 
     // 获取居住地址
-    Handlebars.registerHelper("getAddressText", function (keys, menuId) {
-        var code = "";
-        $.each(keys, function(i, v) {
-            if(v.attributeId == menuId){
-                code = v.content;
-                return;
-            }
-        })
+    Handlebars.registerHelper("getAddressText", function (code) {
         var addText = "";
         var parentId = "";
         var parantId1 = "";
@@ -2814,11 +2807,13 @@ Handlebars.template = Handlebars.VM.template;
     })
 
     // 获取自定义模块名称
-    Handlebars.registerHelper("getCustomName", function(keys) {
+    Handlebars.registerHelper("getCustomName", function(keys, customId) {
         var name = "";
         $.each(keys, function(i, v) {
-            name = v.attribute.cnName;
-            return;
+            if(v.attributeId == customId) {
+                name = v.attribute.cnName;
+                return;
+            }
         })
         return name;
     })

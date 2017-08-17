@@ -149,7 +149,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         try {
             ichMaster.setLastEditDate(new Date());
             if(ichMaster.getStatus() != null && ichMaster.getStatus() == 3){
-                if(user != null && user.getType() == 0){//如果当前修改者不是admin type代表权限  0 代表admin  1代表普通用户
+                if(user != null && user.getType() == 0){//如果当前修改者是admin type代表权限  0 代表admin  1代表普通用户
                     ichMaster.setStatus(0);
                 }
                 ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
@@ -184,10 +184,10 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             ichMaster.setUri(id + ".html");
             ichMasterMapper.insertSelective(ichMaster);
         } else {
-            IchMaster master = ichMasterMapper.selectMasterById(ichMaster.getId());
-            if( (user != null && user.getType() !=0) && (!ichMaster.getLastEditorId().equals(master.getLastEditorId()) || ( ichMaster.getStatus() != null && ichMaster.getStatus()==0))){//当前编辑者(非管理员)是发生了改变
-                return updateMaster(ichMaster);
-            }
+//            IchMaster master = ichMasterMapper.selectMasterById(ichMaster.getId());
+//            if( (user != null && user.getType() !=0) && (!ichMaster.getLastEditorId().equals(master.getLastEditorId()) || ( ichMaster.getStatus() != null && ichMaster.getStatus()==0))){//当前编辑者(非管理员)是发生了改变
+//                return updateMaster(ichMaster);
+//            }
             ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
         }
         List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
@@ -273,6 +273,9 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     public String preview(Long id) throws Exception {
         try{
             IchMaster ichMaster = getIchMasterById(id);
+            Long ichProjectId = ichMaster.getIchProjectId();
+            IchProject ichProject = ichProjectService.getIchProjectById(ichProjectId);
+            ichMaster.setIchProject(ichProject);
             String fileName = PropertiesUtil.getString("freemarker.masterfilepath")+"/"+ichMaster.getId().toString();
             String str = PropertiesUtil.getString("freemarker.masterfilepath");
             String url = str.substring(str.lastIndexOf("/"));
@@ -311,7 +314,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         version.setTargetType(1);
         version.setVersionType(1000);
         version.setMainVersionId(id);
-        List<Version> versionList = versionMapper.selectVersionByLangIdAndTargetType(version);
+        List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
         if(versionList.size()>0){
             List tempList = new ArrayList();
             for(Version ver : versionList){
@@ -326,7 +329,13 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 }
             }
         }
-        return getIchMasterById(id);
+        IchMaster ichMaster = getIchMasterById(id);
+        if(ichMaster !=null && (!ichMaster.getLastEditorId().equals(user.getId())) || ( ichMaster.getStatus() != null && ichMaster.getStatus()==0)){
+            ichMaster.setLastEditorId(user.getId());
+            ichMaster.setLastEditDate(new Date());
+            ichMaster = updateMaster(ichMaster);
+        }
+        return ichMaster;
     }
 
     @Override
@@ -365,6 +374,15 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             ichMaster.setStatus(1);
             ichMaster.setLastEditDate(new Date());
             i = ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
+            Version version = new Version();
+            version.setBranchVersionId(id);
+            version.setTargetType(1);
+            version.setVersionType(1000);
+            List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
+            if(versionList.size() > 0){
+                versionList.get(0).setVersionType(1001);//过期
+                versionMapper.updateByPrimaryKeySelective(versionList.get(0));
+            }
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
@@ -437,16 +455,22 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             Long attrId = contentFragment.getAttributeId();
             Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
             contentFragment.setAttribute(attribute);//添加属性
-            List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
-            List<Resource> resourceList = new ArrayList<>();
-            for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
-                Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
-                if(resource!=null){
-                    resource.setResOrder(contentFragmentResource.getResOrder());
-                    resourceList.add(resource);
+            if(attribute != null && (attribute.getDataType() == 5 || attribute.getId() == 10 || attribute.getId() == 113)){
+                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
+                List<Resource> resourceList = new ArrayList<>();
+                for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
+                    Long resourceId = contentFragmentResource.getResourceId();
+                    if(resourceId == null){
+                        continue;
+                    }
+                    Resource resource = resourceMapper.selectByPrimaryKey(resourceId);
+                    if(resource!=null){
+                        resource.setResOrder(contentFragmentResource.getResOrder());
+                        resourceList.add(resource);
+                    }
                 }
+                contentFragment.setResourceList(resourceList);
             }
-            contentFragment.setResourceList(resourceList);
         }
         return contentFragmentList;
     }

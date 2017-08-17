@@ -67,20 +67,20 @@ public class ContentFragmentController extends BaseController<ContentFragment>{
     @ResponseBody
     public  Map<String,Object> deleteContentFragment(HttpServletRequest request, HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
-        String id = request.getParameter("params");
-        if(id == null || "".equals(id)) {
+        String params = request.getParameter("params");
+        ContentFragment contentFragment = null;
+        try{
+            contentFragment  = parseObject(params, ContentFragment.class);
+        }catch (Exception e){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
         try{
-            String[] ids = id.split(",");
-            for (String cid : ids) {
-                contentFragmentService.deleteContentFragment(Long.parseLong(cid));
-            }
+            contentFragment = contentFragmentService.deleteContentFragment(contentFragment);
         }catch (Exception e){
             return putDataToMap(e);
         }
-        return putDataToMap(id);
+        return putDataToMap(contentFragment);
     }
 
 }

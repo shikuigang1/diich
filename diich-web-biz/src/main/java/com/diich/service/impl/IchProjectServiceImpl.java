@@ -225,10 +225,10 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             ichProject.setUri(proID +".html");
             ichProjectMapper.insertSelective(ichProject);
         } else {//修改
-            IchProject selectProject = ichProjectMapper.selectIchProjectById(ichProject.getId());
-            if( (user != null && user.getType() !=0) && (!ichProject.getLastEditorId().equals(selectProject.getLastEditorId()) || ( ichProject.getStatus() != null && ichProject.getStatus()==0))){//当前编辑者(非管理员)是发生了改变
-                return updateProject(ichProject);
-            }
+//            IchProject selectProject = ichProjectMapper.selectIchProjectById(ichProject.getId());
+//            if( (user != null && user.getType() !=0) && (!ichProject.getLastEditorId().equals(selectProject.getLastEditorId()) || ( ichProject.getStatus() != null && ichProject.getStatus()==0))){//当前编辑者(非管理员)是发生了改变
+//                return updateProject(ichProject);
+//            }
             ichProjectMapper.updateByPrimaryKeySelective(ichProject);
         }
         List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
@@ -301,7 +301,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
             }
         }
-        return getIchProjectById(id);
+        IchProject ichProject = getIchProjectById(id);
+        if(ichProject !=null && (!ichProject.getLastEditorId().equals(user.getId())) || ( ichProject.getStatus() != null && ichProject.getStatus()==0)){
+            ichProject.setLastEditorId(user.getId());
+            ichProject.setLastEditDate(new Date());
+            ichProject  = updateProject(ichProject);
+        }
+        return ichProject;
     }
     /**
      *  根据项目id查询项目信息 status 不做限制
@@ -447,6 +453,60 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
     @Override
     public void audit(Long id, User user) throws Exception {
+        TransactionStatus transactionStatus = getTransactionStatus();
+        try{
+            IchProject ichProject = ichProjectMapper.selectIchProjectById(id);
+            if(ichProject != null && ichProject.getStatus() != 3){
+                throw new ApplicationException(ApplicationException.PARAM_ERROR,"该项目不是待审核状态");
+            }
+            //根据id查询版本
+            Version version = new Version();
+            version.setBranchVersionId(id);
+            version.setTargetType(0);
+            version.setVersionType(1000);
+            List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
+            if(versionList.size() > 0){//非管理员修改的项目
+                Version ver = versionList.get(0);
+                Long mainVersionId = ver.getMainVersionId();
+                ichProject.setId(mainVersionId);
+                ichProject.setStatus(0);
+                List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
+                ichProject.setContentFragmentList(contentFragmentList);
+                ichProject.setLastEditDate(new Date());
+                for (ContentFragment contentFragment:contentFragmentList) {//交换主版本和分支版本内容
+                    contentFragment.setTargetId(mainVersionId);
+                }
+                IchProject project = ichProjectMapper.selectByPrimaryKey(mainVersionId);
+                List<ContentFragment> contentFragments = getContentFragmentListByProjectId(project);
+                project.setId(id);
+                project.setStatus(1);//作废状态
+                project.setLastEditDate(new Date());
+                for (ContentFragment contentFragment : contentFragments) {
+                    contentFragment.setTargetId(id);
+                }
+                ver.setVersionType(1001);//已过期
+                versionMapper.updateByPrimaryKeySelective(versionList.get(0));
+                ichProjectMapper.updateByPrimaryKeySelective(ichProject);
+                ichProjectMapper.updateByPrimaryKeySelective(project);
+            }else{//新增待审核的项目
+                ichProject.setStatus(0);
+                ichProject.setLastEditDate(new Date());
+                ichProjectMapper.updateByPrimaryKeySelective(ichProject);
+            }
+            commit(transactionStatus);
+        }catch (Exception e){
+            rollback(transactionStatus);
+            e.printStackTrace();
+
+            if(e instanceof ApplicationException){
+                ApplicationException ae = (ApplicationException) e;
+                if(ae.getCode() == 2){
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR,ae.getDetailMsg());
+                }
+            }
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+
 
     }
 
@@ -458,13 +518,25 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     @Override
     public int deleteIchProject(Long id) throws Exception {
+        TransactionStatus transactionStatus = getTransactionStatus();
         int i = -1;
         try{
             IchProject ichProject = ichProjectMapper.selectIchProjectById(id);
             ichProject.setStatus(1);
             ichProject.setLastEditDate(new Date());
             i = ichProjectMapper.updateByPrimaryKeySelective(ichProject);
+            Version version = new Version();
+            version.setBranchVersionId(id);
+            version.setTargetType(0);
+            version.setVersionType(1000);
+            List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
+            if(versionList.size() > 0){
+                versionList.get(0).setVersionType(1001);//过期
+                versionMapper.updateByPrimaryKeySelective(versionList.get(0));
+            }
+            commit(transactionStatus);
         }catch (Exception e){
+            rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         return i;
@@ -478,11 +550,16 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         for(int i=0;i<ls.size();i++) {
             Attribute attribute = attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId());
             ls.get(i).setAttribute(attribute);
-            Long contentFragmentId = ls.get(i).getId();
-            List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
-            List<Resource> resourceList = new ArrayList<>();
+            if(attribute != null && (attribute.getDataType() == 5 || attribute.getId() == 1 || attribute.getId() == 112)){
+                Long contentFragmentId = ls.get(i).getId();
+                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
+                List<Resource> resourceList = new ArrayList<>();
                 for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
-                    Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
+                    Long resourceId = contentFragmentResource.getResourceId();
+                    if(resourceId == null){
+                        continue;
+                    }
+                    Resource resource = resourceMapper.selectByPrimaryKey(resourceId);
                     if (resource != null) {
                         resource.setResOrder(contentFragmentResource.getResOrder());
                         resourceList.add(resource);
@@ -490,6 +567,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
                 ls.get(i).setResourceList(resourceList);
             }
+        }
+
         return ls;
     }
 
