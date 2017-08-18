@@ -1163,6 +1163,7 @@ section.odd {
 
 .card .text_img .side p {
     margin-bottom: 30px;
+    word-break: break-all;
 }
 
 .card .text_img .media {
