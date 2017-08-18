@@ -251,7 +251,9 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
      * @param dicArrCity
      */
     function getBasic(dicArrCity) {
-        $("#content").html(Handlebars.compile(basicTpl)({countrys: dicArrCity, pageObj: pageObj, ichProjectId: ichProjectId})); // 更新页面模板
+        var fyGrade = getDictionaryArrayByType(106);
+        console.log(fyGrade)
+        $("#content").html(Handlebars.compile(basicTpl)({countrys: dicArrCity, fyGrade: fyGrade, pageObj: pageObj, ichProjectId: ichProjectId})); // 更新页面模板
         // 回显是否为自己申报传承人
         if(isMaster) {
             if(isMaster == 1) {

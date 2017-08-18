@@ -20,6 +20,29 @@
             </div>
             <div id="inheritor"></div>
 
+            <div class="group">
+                <label class="label"><!-- <em>*</em> -->非遗等级</label>
+                <div class="control">
+                    <select id="fydj" name= "fydj" data-id="111" class="ipt w310">
+                        <option code="" value="">请选择</option>
+                        {{#each fyGrade}}
+                            {{#eif @index 0 op=">"}}
+                                <option {{#onGj ../../pageObj.contentFragmentList code 111 }}selected="selected"{{/onGj}} code="{{code}}" value="{{code}}">{{name}}</option>
+                            {{/eif}}
+                        {{/each}}
+                    </select>
+                    <div id="fydj_err" class="errors" style="display: none"><i></i>请填写国籍</div>
+                </div>
+            </div>
+
+             <div class="group">
+                <label class="label"><!-- <em>*</em> -->非遗编码</label>
+                <div class="control">
+                    <input value="{{getContent pageObj.contentFragmentList 12}}" validate="true" id="fybm" name="fybm" data-id="12" type="text" class="ipt w310">
+                    <div id="fybm_err" class="errors" style="display: none"><i></i>请填写证件号码</div>
+                </div>
+             </div>
+
             <div id="img" class="group" data-id="10">
                 <label class="label" for=""><em>*</em>照片</label>
                 <div class="control">
@@ -32,7 +55,6 @@
             </div>
 
             <!--//End 照片-->
-
             <div class="group">
                 <label class="label"><em>*</em>姓名</label>
                 <div class="control">
@@ -60,7 +82,7 @@
             </div>
             <!--//End 地域-->
             <div class="group">
-                <label class="label"><em>*</em>国籍{{ basic.gj}}</label>
+                <label class="label"><em>*</em>国籍</label>
                 <div class="control">
                     <select id="gj" name= "gj" data-id="49" class="ipt w310">
                         {{#each countrys}}
