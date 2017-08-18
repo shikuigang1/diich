@@ -5,9 +5,14 @@ var upload={
         _name=(type==1)?'mypic':'video';
         var _parent='<form class="upload" action="'+url+'" method="post" enctype="multipart/form-data">'+
             '<input class="_token" type="hidden" name="_token" value="">'+
-            '<div class="progress"><em class="bar"></em><em class="percent"></em></div>' +
+            '<div class="progress">' +
+            '<div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div>'+
+            '</div>' +
             '<input class="file" type="file" name="mypic">'+
-            '</form>'+
+            '</form>' +
+            // '<div style="position: absolute;top:0;right:0;left: 0;bottom: 0;background:rgba(224,224,224,.7);z-index:5;">'+
+            //     '<div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div>'+
+            // '</div>'+
             '<img class="preview" src="" />';
         return _parent;
     },
@@ -179,14 +184,23 @@ var selectArea={
                     }
 
                     function assignValue() {
-                        result.push(store);
-                        resultText.push(storeText);
-                        localStorage.setItem("codeText",resultText.join(","));
-                        createSelected(storeText);
-                        select.html('').hide();
-                        el.attr('value',result);
-                        if(callback && callback!='undefined'){
-                            callback(result, resultText);
+                        //去重处理
+                        var flag = true;
+                        $.each(result,function (index,obj) {
+                            if(obj==store){
+                                flag =false;
+                            }
+                        });
+                        if(flag){
+                            result.push(store);
+                            resultText.push(storeText);
+                            localStorage.setItem("codeText",resultText.join(","));
+                            createSelected(storeText);
+                            select.html('').hide();
+                            el.attr('value',result);
+                            if(callback && callback!='undefined'){
+                                callback(result, resultText);
+                            }
                         }
                     }
                 }
@@ -343,7 +357,7 @@ var projectPage={
         initProjectView(ich);
     },
     bind:function (areaData) {
-
+        //初始化区域数据
         var areaData={};
         var result = localStorage.getItem("codes");
         var resultText = localStorage.getItem("codeText");
@@ -361,22 +375,29 @@ var projectPage={
                 areaData.resultText=[];
             }
         }
-
-        var _data=[
+        //初始化 一级分类数据
+      /*  var _data=[
             {value:1,name:'口头传说和表述'},
             {value:11,name:'表演艺术'},
             {value:28,name:'社会风俗、礼仪、节庆'},
             {value:55,name:'有关自然界和宇宙的知识和实践'},
             {value:67,name:'传统的手工艺技能'}
-        ];
+        ];*/
+        var _data=[];
+        var _datatemp= getCategoryList(0); //数据库字段太长 暂不使用
+        $.each(_datatemp,function (idx,obj) {
+            var o = {};
+            o.value=obj.id;
+            o.name= obj.name;
+
+            _data.push(o);
+        });
+
         this.selectCate.init('div[data-type=selectCate]',_data); //选择分类
         this.declare();  //是否为自己申报传承人
         selectArea.init(0,areaData,function (data) {//选择地址 0是选择地址的类型 0是多选 1是单选
-            //console.log("1111->",areaData);
-            console.log(data);
             //把每次code 值存在本地
             localStorage.setItem("codes",data.join(","));
-
             /*   var content="";
              if(data != ""){
 
@@ -592,14 +613,13 @@ var projectPage={
                         }else{
                             flag = true;
                         }
-
                     }
                 }
                 if(!flag){
                     return false;
                 }
 
-       /*         if(editFlag){ //页面被修改 弹出是否保存
+                /*  if(editFlag){ //页面被修改 弹出是否保存
                     if(confirm("你是否要保存当前页面信息？"))
                     {
                         saveIchProject();
@@ -643,29 +663,51 @@ var projectPage={
                     projectPage.bind();
                     if(_dateType==='longField'){
                        upload.remove(function (rid) {
-                          if(delImage(rid)){
-                                tipBox.init("success","删除图片成功！",1500);
-                                //删除图片在本地缓存
-                                var ich = getCurrentProject();
-                                
-                                $.each(ich.contentFragmentList,function (index,obj) {
 
-                                    if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
+                           //判断本地图片是否存在
+                           var imageIsExsit=false;
+                           var ich = getCurrentProject();
+                           $.each(ich.contentFragmentList,function (index,obj) {
 
-                                        $.each(obj.resourceList,function (i,o) {
-                                            if(o.id==rid){
-                                                ich.contentFragmentList[index].resourceList=obj.resourceList.slice(i,1);
-                                                return false;
-                                            }
-                                        });
-                                    }
-                                    
-                                });
-                                console.log(JSON.stringify(ich));
-                                localStorage.setItem("ichProject",JSON.stringify(ich));
-                          }else{
-                              tipBox.init("fail","删除图片失败！",1500);
-                          }
+                               if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
+
+                                   $.each(obj.resourceList,function (i,o) {
+                                       if(o.id==rid){
+                                           return true;
+                                       }
+                                   });
+                               }
+
+                           });
+
+                           if(imageIsExsit){ //本地存在 进行删除操作
+                               if(delImage(rid)){
+                                   tipBox.init("success","删除图片成功！",1500);
+                                   //删除图片在本地缓存
+                                   var ich = getCurrentProject();
+                                   $.each(ich.contentFragmentList,function (index,obj) {
+
+                                       if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
+
+                                           $.each(obj.resourceList,function (i,o) {
+                                               if(o.id==rid){
+                                                   ich.contentFragmentList[index].resourceList=obj.resourceList.slice(i,1);
+                                                   return false;
+                                               }
+                                           });
+                                       }
+
+                                   });
+                                   console.log(JSON.stringify(ich));
+                                   localStorage.setItem("ichProject",JSON.stringify(ich));
+                               }else{
+                                   tipBox.init("fail","删除图片失败！",1500);
+                               }
+                           }else{
+                               //do nothing
+                           }
+
+
                         });
                         //修改标签内容
                         $(".st").children("h2").text(name);
@@ -704,7 +746,7 @@ var projectPage={
 
                         $(".next").prev().attr("href","javascript:delContentFragment('"+attrid+"')");
                         $(".next").attr("href","javascript:saveContentPragment('"+attrid+"')");
-                      /*  $(".next").next().attr("href","javascript:next("+attrid+")");
+                      /*  $(".next").next().attr("href","javascript:next("++attrid")");
 */
                         projectPage.radioImage(); //上传题图
                     }else {
@@ -912,7 +954,7 @@ var projectPage={
                      console.log(JSON.stringify(ich));
                      localStorage.setItem("ichProject",JSON.stringify(ich));*/
                 }else{
-                 /*   $('.preview').attr('src',data.data[0]).show();
+   /*               $('.preview').attr('src',data.data[0]).show();
                     //图上传成功本地保存图片
                     var imgpath = data.data[0];
                     //获取图片名称
@@ -1004,7 +1046,6 @@ var selectArea1={
         }else{
             this.radio(initValue, callback);
         }
-
     },
     template:function (data) {
         var _dom='';
@@ -1265,7 +1306,6 @@ var selectArea1={
             if(callback && callback!='undefined'){
                 callback(result);
             }
-            //删除本地缓存数据
         });
     }
 };
