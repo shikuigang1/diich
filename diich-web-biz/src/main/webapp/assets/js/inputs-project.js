@@ -745,6 +745,8 @@ function  saveContentPragment(attrid) {
                 }else{
                     $(".handle").find('a').eq(2).removeClass('empty').addClass('disabled');
                 }
+
+                initMainMenuStatus();
             }else{
                 alert("保存失败");
             }
@@ -800,7 +802,26 @@ function saveIchProject(page) {
     }
 
     if( $('div[data-type=proBaseInfo]').hasClass("selected")){
+
+
         var contentFragment={};
+
+        //图上传成功本地保存图片
+        var imgpath =  $('.preview').attr('src');
+        //获取图片名称
+        var path = imgpath.substring(imgpath.lastIndexOf("/")+1);
+        //var attr={};
+        var resource={};
+        var resourceList=[];
+        contentFragment.attributeId=1;//题图
+        resource.uri=path;
+        resource.type=0;
+        resource.description='';
+        resourceList.push(resource);
+        contentFragment.resourceList=resourceList;
+        contentFragment.targetType=0;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
 
         contentFragment.attributeId=9;//简介
         contentFragment.content=$("#summary").val().trim();
@@ -877,7 +898,6 @@ function saveIchProject(page) {
         }
 
         if(val=="1"){
-
             contentFragment.attributeId=116;//认证时间
             contentFragment.content=$("#ECalendar_date").val().trim();
             //attr.dataType=0;//短文本
@@ -911,9 +931,8 @@ function saveIchProject(page) {
                     if(obj.attributeId == o.attributeId){
                         flag = 1;
 
-                        if(obj.attributeId==1){//图片
+                        if(obj.attributeId==1 && ich.contentFragmentList[idx].resourceList.length>0){//图片
                             ich.contentFragmentList[idx].resourceList[0].uri=obj.resourceList[0].uri;
-
                         }else{
                             ich.contentFragmentList[idx].content=obj.content;
                         }
@@ -1116,8 +1135,7 @@ function saveIchProject(page) {
                   console.log(result.data.id);
                   init3(result.data.id);
               }
-
-
+              initMainMenuStatus();
             }else if(result.code==3){
                 //tipBox.init("fail",result.msg,1500);
                 $('.header .content .info li.login').click();
@@ -1276,17 +1294,6 @@ function  initProjectView(ich) {
 function initMenuStatus(ich) {
     if(ich.contentFragmentList!= null && typeof (ich.contentFragmentList) != 'undefined'){
         $('li[data-type=longField]').each(function () {
-            /*  var dataid = $(this).find('span').eq(0).attr('data-id');
-             var flag = 0;
-             $.each(ich.contentFragmentList,function (idx,obj) {
-             if(obj.attributeId == dataid ){
-             flag = 1;
-             }
-             });
-             if(flag==1){
-             $(this).find('i').eq(0).addClass("selected");
-             }*/
-            //编辑情况下默认 所有全部选中
             if(localStorage.getItem("action")=="add"){
                 var dataid = $(this).find('span').eq(0).attr('data-id');
                 var flag = 0;
@@ -1333,11 +1340,39 @@ function initMenuStatus(ich) {
                     $(this).find('i').eq(0).removeClass("unselected2");
                 }
             }
-
         });
+
+        //修改主菜单 状态 查看当前内容是否完整
+        initMainMenuStatus();
     }
 }
 
+function initMainMenuStatus() {
+    var flag = 0;
+    $("#menu").find("li").each(function () {
+        if(!$(this).find("i").eq(0).hasClass("selected")&&!$(this).find("i").eq(0).hasClass("unselected2")){
+            flag = 1;
+            return false;
+        }
+    });
+    if(flag == 0){
+        $("#menu").parent().prev().find("i").eq(0).addClass("selected");
+    }else{
+        $("#menu").parent().prev().find("i").eq(0).removeClass("selected");
+    }
+    flag = 0;
+    $("#menu2").find("li").each(function () {
+        if(!$(this).find("i").eq(0).hasClass("selected")&&!$(this).find("i").eq(0).hasClass("unselected2")){
+            flag = 1;
+            return false;
+        }
+    });
+    if(flag == 0){
+        $("#menu2").parent().prev().find("i").eq(0).addClass("selected");
+    }else{
+        $("#menu2").parent().prev().find("i").eq(0).removeClass("selected");
+    }
+}
 function  next(attrId) {
     var index=0;
     $('li[data-type=longField]').each(function (idx,obj) {
