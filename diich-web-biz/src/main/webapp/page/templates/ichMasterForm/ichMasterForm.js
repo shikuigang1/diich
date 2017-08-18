@@ -1,18 +1,27 @@
-define(["text!ichMasterForm/menuList.tpl"], function(menuListTpl) {
+define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
+        "text!ichMasterForm/contact.tpl", "text!ichMasterForm/vocation.tpl",
+        "text!ichMasterForm/master.tpl", "text!ichMasterForm/resume.tpl",
+        "text!ichMasterForm/custom.tpl"], function(menuListTpl, basicTpl, contactTpl, vocationTpl, masterTpl, resumeTpl, customTpl) {
 
-    function init() {
+
+    var menuss = []; // 菜单项目
+    var menussIds = []; // 为保证菜单项ID与数据库一致 记录获取的组、项 的id
+    function _init() {
         _onGetMenus();
+        _menusOne();
+        _menusTwo();
     }
 
+    /**************************************************** 构建菜单 *****************************************************/
     // 获取菜单数据
     function _onGetMenus() {
         _onRequest("GET", "/ichCategory/getAttributeList", {targetType: 1}).then(function(result) {
             if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                 console.log(" --- res  ", result.res.data);
-                var menuss = _onBuildMenus(result.res.data);
-                var menusHtml = Handlebars.compile(menuListTpl)({menuss: menuss});
-                $("#menusAll").html(menusHtml);
-                //$("#menusAll").html(Handlebars.compile(basicTpl)({countrys: dicArrCity, pageObj: pageObj, ichProjectId: ichProjectId}));
+                menuss = _onBuildMenus(result.res.data);
+                $("#menusAll").html(Handlebars.compile(menuListTpl)({menuss: menuss})); // 添加菜单
+                //inheritorPage.slideBar.init();
+                _getBasicTpl();
                 console.log(" menuss --- >", menuss)
             } else {
                 tipBox.init("fail", result.res.msg , 1500);
@@ -22,7 +31,7 @@ define(["text!ichMasterForm/menuList.tpl"], function(menuListTpl) {
 
     // 构建菜单
     function _onBuildMenus(menus) {
-        var menus0 = {}, menus1 = {}, menus2 = {}, menus3 = {}; // 声明菜单
+        var menus0 = {}, menus1 = {}, menus2 = {}, menus3 = {}, menus4 = {}; // 声明菜单
         $.each(menus, function(i, v) {
             switch (v.lable) {
                 case "基本信息":
@@ -34,8 +43,11 @@ define(["text!ichMasterForm/menuList.tpl"], function(menuListTpl) {
                 case "职业信息":
                     _buildSort(menus2, v,  0);
                     break;
+                case  "师徒关系":
+                    _buildSort(menus3, v,  0);
+                    break;
                 default:
-                    _buildSort(menus3, v,  1);
+                    _buildSort(menus4, v,  1);
                     break;
             }
         })
@@ -90,7 +102,162 @@ define(["text!ichMasterForm/menuList.tpl"], function(menuListTpl) {
         myMenus.push(menus1);
         myMenus.push(menus2);
         myMenus.push(menus3);
+        myMenus.push(menus4);
         return myMenus;
+    }
+
+    //
+    function _buildMenuIds() {
+
+    }
+
+    /**************************************************** 监听菜单模本 *****************************************************/
+
+    // 监听一级菜单
+    function _menusOne() {
+        $("body").delegate(".dt", "click", function(){
+            var $this = $(this);
+            var type = $this.attr("id").split("_").pop();
+            if(type != 1) {
+                var idArr = $this.attr("id").split("_");
+                var status = $("#" + idArr[0] + "_" + (parseInt(idArr[1]) - 1)).children("i").hasClass("selected");
+                var status1 = $("#" + idArr[0] + "_" + (parseInt(idArr[1]) - 1)).children("i").hasClass("unselected2");
+                if(status || status1) {
+                    _onSelected($this, type);
+                } else {
+                    tipBox.init("fail", "请先完成上一级填写项" , 1500);
+                }
+            } else {
+                _onSelected($this, type);
+            }
+        })
+
+        // 选中效果
+        function _onSelected($this, type) {
+            $(".dt").each(function(i, v) {
+                $(this).removeClass("selected");
+                if(type != 5) {
+                    $(this).next(".dd").hide();
+                }
+            })
+            $this.addClass("selected"); // 添加被点击效果
+            $this.next(".dd").show();
+
+            // 根据不同的type加载不同的模板
+            switch (type) {
+                case "1":
+                    _getBasicTpl();// 基本信息
+                    break;
+                case "2":
+                    _getContactTpl();// 联系方式
+                    break;
+                case "3":
+                    _getVocationTpl();// 职业信息
+                    break;
+                case "4":
+                    _getMasterTpl();// 师徒关系
+                    break;
+                case "5":
+                    // 传承人内容
+                    break;
+                default:
+                    _getCustomTpl();// 自定义项
+                    break;
+            }
+        }
+    }
+
+    // 监听二级菜单
+    function _menusTwo() {
+        $("body").delegate("li[id^='menutwo_']", "click", function() {
+            var $this = $(this);
+            var ids = $this.attr("id").split("_");
+            console.log("ids -- >", ids);
+            // 传承人内容二级菜单
+            if(ids[1] == 5) {
+                if(ids[2] != 0) {
+                    var status = $("#" + ids[0] + "_" + ids[1] + "_" + (ids[2] - 1)).children("i").hasClass("selected");
+                    var status1 = $("#" + ids[0] + "_" + ids[1] + "_" + (ids[2] - 1)).children("i").hasClass("unselected2");
+                    if(status || status1) {
+                        _onSelected($this, ids[2]);
+                    } else {
+                        tipBox.init("fail", "请先完成上一级填写项" , 1500);
+                    }
+                } else {
+                    _onSelected($this, ids[2]);
+                }
+            }
+        })
+
+        // 选中效果
+        function _onSelected($this, type) {
+            // 被点击效果切换
+            $("li[id^='menutwo_']").each(function(i, v) {
+                $(this).removeClass("selected");
+            })
+            $this.addClass("selected"); //添加被点击效果
+            _getCommonTpl( menuss[4].sonMenus[type]); // 调用通用模板
+        }
+    }
+
+    /**************************************************** 右侧模本 *****************************************************/
+
+    var isMaster = 0; // 是否申请传承人 0否 1是
+    var imgUrl = ""; // 上传图片地址
+    var zjCode = ""; // 证件Code
+    // 基本信息模板
+    function _getBasicTpl() {
+        $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms})); // 更新页面模板
+        // 是否申请传承人
+        $("span[name^='isApply_']").on("click", function() {
+            $("span[name^='isApply_']").each(function() {
+                $(this).removeClass("active");
+            })
+            $(this).addClass("active");
+            isMaster = $(this).attr("name").split("_").pop();
+            console.log(isMaster)
+        })
+        // 上传图片
+        upload.submit($('.horizontal .group .control .file_up'),1,'/user/uploadFile?type=master',function (res) {
+            //console.log("res -- >", res);
+            imgUrl = res.data[0].substr((res.data[0].lastIndexOf ("/")+1), res.data[0].length);
+            $('.preview').attr('src', res.data[0]).show();
+            $('._token').val($('meta[name=token]').attr('content'));
+            console.log(imgUrl)
+        });
+        //时间
+        $("#basic_18").ECalendar({type:"date", skin:2, offset:[0,2]});
+        // 监听证件选择框 更新证件验证方式
+        $("#zj_type").change(function(){
+            var code = $(this).val();
+            zjCode = coede;
+            console.log(zjCode)
+        });
+    }
+
+    // 联系方式模板
+    function _getContactTpl() {
+        $("#content").html(Handlebars.compile(contactTpl)({sonterms: menuss[1].sonTerms})); // 更新页面模板
+    }
+
+    // 职业信息模板
+    function _getVocationTpl() {
+        $("#content").html(Handlebars.compile(vocationTpl)({sonterms: menuss[2].sonTerms})); // 更新页面模板
+    }
+
+    // 师徒信息模板
+    function _getMasterTpl() {
+        $("#content").html(Handlebars.compile(masterTpl)({sonterms: menuss[3].sonTerms})); // 更新页面模板
+    }
+
+    // 通用模板（长文本）
+    function _getCommonTpl(sonterms) {
+        $("#content").html(Handlebars.compile(resumeTpl)({sonterms: sonterms})); // 更新页面模板
+    }
+
+    // 自定义模板
+    function _getCustomTpl() {
+        $("#content").html(Handlebars.compile(customTpl)()); // 更新页面模板
     }
 
     /**
@@ -123,7 +290,7 @@ define(["text!ichMasterForm/menuList.tpl"], function(menuListTpl) {
     }
 
     return {
-        init: init
+        init: _init
     }
 })
 

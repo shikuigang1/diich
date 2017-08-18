@@ -9,22 +9,19 @@
 
     <form id="masterForm" action="" class="bd horizontal">
         <div class="main">
-            <div class="group">
-                <label class="label"><em>*</em>师</label>
-                <div class="control">
-                    <input value="{{#each pageObj.contentFragmentList}}{{#equal '125' attributeId }}{{content}}{{/equal}}{{/each}}" id="sf" name="sf" data-id="125"  type="text" class="ipt w650">
-                    <div id="sf_err" class="errors" style="display: none" ><i></i>请填写师</div>
-                </div>
-            </div>
-            <!--//End 师-->
 
-            <div class="group">
-                <label class="label">徒</label>
-                <div class="control">
-                    <input value="{{#each pageObj.contentFragmentList}}{{#equal '126' attributeId }}{{content}}{{/equal}}{{/each}}" id="td" name="td" data-id="126" type="text" class="ipt w650">
-                </div>
-            </div>
-            <!--//End 名-->
+             {{#each sonterms}}
+                {{#equal dataType 0}}
+                    <div class="group">
+                        <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
+                        <div class="control">
+                            <input value="" id="master_{{id}}" name="master_{{id}}" data-id="{{id}}"  type="text" class="ipt w650">
+                            <div id="sf_err" class="errors" style="display: none" ><i></i>请填写师</div>
+                        </div>
+                    </div>
+                {{/equal}}
+             {{/each}}
+
         </div>
         <!--//End-->
         <div class="handle">
