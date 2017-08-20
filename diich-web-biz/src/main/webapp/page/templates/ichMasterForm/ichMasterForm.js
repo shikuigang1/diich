@@ -84,7 +84,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
      */
     function _onInitLoad(dicArrCity) {
         getBasic(dicArrCity);// 初始化第一个呈现页面为基础信息页面
-        menusOne(); // 一级菜单监听
+        menusOne(dicArrCity); // 一级菜单监听
         menusTwo(dicArrCity); // 二级菜单监听
         _onWholeSave(); // 全局保存操作
         _onSubmit(); // 全局提交操作
@@ -99,33 +99,26 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     /**
      * 一级菜单选择项监听
      */
-    function menusOne() {
+    function menusOne(dicArrCity) {
         $("body").delegate(".dt", "click", function(){
             var $this = $(this);
             var type = $this.attr("id").split("_").pop();
             if(type != 0) {
                 // 用户点击的是 基本信息之外的模块
                 var thisId = $this.attr("id").split("_")
-                //console.log(thisId[0], (parseInt(thisId[1]) - 1));
                 var status = $("#" + thisId[0] + "_" + (parseInt(thisId[1]) - 1)).children("i").hasClass("selected");
-                //console.log("status --- >", status);
                 if(status) {
                     // 可以点击
                     _onEffect($this);
                     // 添加自定义项  加载模板
                     if(type == 2) {
-                       // $("#onSubmit").addClass("disabled").removeClass("active");// 修改当前按钮为不可点击
+                        // $("#onSubmit").addClass("disabled").removeClass("active");// 修改当前按钮为不可点击
                         getCustom();
                     }
                 } else {
                     // 不可以点击
                     tipBox.init("fail", "请先完成上一级填写项" , 1500);
                 }
-                //_onEffect($this);
-                //if(type == 2) {
-                //    $("#onSubmit").addClass("disabled").removeClass("active");// 修改当前按钮为不可点击
-                //    getCustom($this.attr("id").toString());
-                //}
             } else {
                 // 用户点击的是基本信息模块
                 _onEffect($this);
@@ -141,6 +134,14 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     }
                 })
                 $this.addClass("selected"); // 添加被点击效果
+                $this.siblings(".dd").children("ul").children("li:first").addClass("selected"); // 选中一级菜单下第一个二级菜单
+                $("li[id^='menu_']").each(function(i, v) {
+                    $(this).removeClass("selected");
+                })
+                if($this.attr("id") != menu_2) {
+                    $('#' + $this.siblings(".dd").children("ul").children("li:first").attr("id")).trigger("click");
+                }
+
                 $this.next(".dd").show();
             }
         });
@@ -234,10 +235,8 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         break;
                     default:
                         // 自定义项
-                        getCustom($this.attr("data-id"));
-                        //var titile = $this.children("span").text();
-                        //var menuId = $this.attr("data-id");
-                        //getResume($this.attr("id"), titile, menuId);
+                        getCustom($this.attr("id"), $this.attr("data-id"));
+                        console.log("----------------->", )
                 }
             }
         });
@@ -361,7 +360,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         if(pageObj.hasOwnProperty("contentFragmentList")) {
             $.each(pageObj.contentFragmentList, function(i, v) {
                 if(v.attributeId == 55) {
-                    v.addressCodes = v.content.split(",");
+                    v.addressCodes = v.content != "" ? v.content.split(",") : [];
                     addressCode = v.content;
                     return;
                 }
@@ -682,7 +681,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     /**
      * 自定义项模板
      */
-    function getCustom(customId) {
+    function getCustom(menuId, customId) {
         // 更新DOM元素
         console.log("pageObj ---- >", pageObj);
         var resumenHtml = Handlebars.compile(customTpl)({pageObj: pageObj, customId : customId});
@@ -701,22 +700,22 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             $("a[id^='custom_save']").off("click");
             var fag = true;
             var name = $("#customName").val()
-            var content = $("#customContent").val();
+            //var content = $("#customContent").val();
             // 验证
             if(!name) {
                 $("#customName_err").html("<i></i>请填写自定义名称").show();
                 fag = false;
-            } else if (name.length > 9) {
-                $("#customName_err").html("<i></i>自定义名称最多可输入9个字").show();
+            } else if (name.length > 10) {
+                $("#customName_err").html("<i></i>自定义名称最多可输入10个字").show();
                 fag = false;
             }
 
-            if(!content) {
-                $("#customContent_err").html("<i></i>请填写自定义内容，请填写").show();
-                fag = false;
-            } else if (content.length >= 50 && content.length <= 200) {
-                $("#customContent_err").html("<i></i>请最少输入(50字)").show();
-            }
+            //if(!content) {
+            //    $("#customContent_err").html("<i></i>请填写自定义内容，请填写").show();
+            //    fag = false;
+            //} else if (content.length >= 50 && content.length <= 200) {
+            //    $("#customContent_err").html("<i></i>请最少输入(50字)").show();
+            //}
 
             if(fag) {
                 // 构建参数
@@ -757,14 +756,18 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                             var menuHtml = Handlebars.compile(menuTpl)({"id" : id, "name": name, "menuId" : result.res.data.contentFragmentList[0].attributeId, code: $("#menu_2").next(".dd").children("ul").children("li").length});
                             $("#" + menu_2).next(".dd").children("ul").append(menuHtml);
                             $("#" + menu_2 + "_" + mLength).children("i").addClass("selected").removeClass("unselected");
-                        } else {
-                            mLength = $("#menu_2").next(".dd").children("ul").children("li:last-child").attr("id").split("_").pop();
                         }
 
-                        if(code == "next") {
+                        if(code == "add") {
                             $("#" + menu_2).trigger("click");
                         } else {
-                            $("#" + menu_2 + "_" + mLength).trigger("click");
+                            console.log("menuId --- >", menuId);
+                            var nextId = $("#" + menuId).next("li").attr("id");
+                            if(nextId) {
+                                _onNextPage("menu_2" + "_" + mLength, [nextId], result.res.data);
+                            } else {
+                                _onNextPage("menu_2" + "_" + mLength, [], result.res.data);
+                            }
                         }
                     } else {
                         if(result.res.code != 3) {
@@ -787,10 +790,6 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         // 防止用户多次提交
         _bindingSave();
         function _bindingSave() {
-            //$("#onSend").on("click", function() {
-            //    _onSave($(this));
-            //})
-
             $("a[id^='onSend_']").on("click", function() {
                 _onSave($(this));
             })
@@ -851,7 +850,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             if($("#onSubmit").hasClass("active")) {
                 $("#onSubmit").off("click");
                 // 得到当前停留的页面
-                var type = "0"; // 默认是基本信息模板页面
+                var type = "custom"; // 默认是基本信息模板页面
                 $("li[id^='menu_']").each(function() {
                     if($(this).hasClass("selected")) {
                         type = $(this).attr("id").split("_").pop();
@@ -923,9 +922,11 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                         break;
                     default:
                         // 自定义项
-                        params = getResumeFormData("menuData");
-                        //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+                        params = getCustomFormData("menuData");
+                    //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
                 }
+
+                console.log(params);
 
                 // 如果页面无任何已填写项， 则直接提示保存成功， 有填写项则存库
                 if(params.contentFragmentList.length > 0) {
@@ -1191,7 +1192,6 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         }
 
         $.each(data, function(i, v) {
-            //console.log("  --- >", i, v);
             v.attributeId = $("#" + v.name).attr("data-id") ? $("#" + v.name).attr("data-id") : 0 ;
             v.content = v.value;
             v.status = 0;
@@ -1241,7 +1241,8 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 })
             }
         })
-        params.contentFragmentList =data;
+
+        params.contentFragmentList = data;
         return params;
     }
 
@@ -1365,16 +1366,6 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         console.log(id, nextIds)
         new Promise(function(resolv, reject) {
             try{
-
-                //$.each(resData.contentFragmentList,function(i, v) {
-                //    if(v.content != "" || v.resourceList.length > 0) {
-                //        $("#" + id).removeClass("selected").children("i").addClass("selected").removeClass("unselected").removeClass("unselected2"); // 添加已完成效果
-                //        return false;
-                //    } else {
-                //        $("#" + id).removeClass("selected").children("i").addClass("unselected2").removeClass("unselected"); // 添加已完成效果
-                //        return false;
-                //    }
-                //})
                 var status = false;
                 $.each(resData.contentFragmentList,function(i, v) {
                     if(v.content != "" || v.resourceList.length > 0) {
@@ -1414,15 +1405,15 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 reject({err: e});
             }
         }).then(function(res) {
-            if(nextIds.length > 0) {
-                $.each(nextIds, function(i, v) {
-                    $('#' + v).trigger("click"); // 模拟点击传承人内容
-                })
-            } else {
-                // 更新DOM元素
-                _changePage(true);
-            }
-        })
+                if(nextIds.length > 0) {
+                    $.each(nextIds, function(i, v) {
+                        $('#' + v).trigger("click"); // 模拟点击传承人内容
+                    })
+                } else {
+                    // 更新DOM元素
+                    _changePage(true);
+                }
+            })
     }
 
     // 切换结束页面与内容页面
