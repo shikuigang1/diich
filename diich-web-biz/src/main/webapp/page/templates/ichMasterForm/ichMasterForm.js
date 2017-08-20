@@ -726,8 +726,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
-                        console.log("result -- >", result, "pageObj -- >", pageObj)
-
+                        //console.log("result -- >", result, "pageObj -- >", pageObj)
                         var fag = false;
                         // 判断是否存在页面缓存对象中
                         if(pageObj.hasOwnProperty("contentFragmentList")) {
@@ -776,6 +775,59 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                 });
             } else {
                 _bindingSave();
+            }
+        }
+
+        // 删除操作防止用户多次点击
+        _bindingDelete();
+        function _bindingDelete() {
+            $("a[id^='delete_']").on("click", function() {
+                _onDelete($(this));
+            })
+        }
+
+        // 删除
+        function _onDelete($this) {
+            $this.off("click");
+            var did = $this.attr("id").split("_").pop();
+            var obj = {};
+            var index = 0; // 记录删除对象在pageObj中对应的索引位置
+            // 去除对应的数据
+            if(pageObj.hasOwnProperty("contentFragmentList")) {
+                $.each(pageObj.contentFragmentList, function(i, v) {
+                    if(v.attributeId == did) {
+                        index = i;
+                        obj = v;
+                        return;
+                    }
+                })
+            }
+
+            // 如果obj属性大于0 则表示有数据
+            if(Object.getOwnPropertyNames(obj).length > 0) {
+                onRequest("POST", "/contentFragment/deleteContentFragment", {params: JSON.stringify(obj)}).then(function(result) {
+                    console.log("result --- >", result);
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        _emptyMod(); // 清空MOD层数据
+                        // 删除pageObj中对应的对象
+                        pageObj.contentFragmentList.splice(index, 1);
+                    } else {
+                        if(result.res.code != 3) {
+                            tipBox.init("fail", result.res.msg , 1500);
+                        }
+                        _bindingDelete();
+                    }
+                });
+            } else {
+                // 暂留提示删除无数据
+                _emptyMod(); // 清空MOD层数据
+            }
+
+            // 清空菜单 删除数据页面
+            function _emptyMod() {
+                $("#" + menuId).remove(); // 删除菜单
+                $("#" + menu_2).trigger("click");
+                _bindingDelete();
             }
         }
     }
