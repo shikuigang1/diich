@@ -236,7 +236,6 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
                     default:
                         // 自定义项
                         getCustom($this.attr("id"), $this.attr("data-id"));
-                        console.log("----------------->", )
                 }
             }
         });
