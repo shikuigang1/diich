@@ -7,8 +7,6 @@ import java.util.Date;
 public class User extends BaseModel {
     private Long id;
 
-    private Long organizationId;
-
     private String loginName;
 
     private String password;
@@ -39,14 +37,6 @@ public class User extends BaseModel {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(Long organizationId) {
-        this.organizationId = organizationId;
     }
 
     public String getLoginName() {
