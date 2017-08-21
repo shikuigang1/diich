@@ -34,7 +34,7 @@
             <!--//End 电子邮箱-->
 
             <div class="group">
-                <label class="label" for=""><em>*</em>居住地址</label>
+                <label class="label" for=""><!-- <em>*</em> -->居住地址</label>
                 <div class="control">
                     <div id="live" class="ipt w650 select" data-type="selectArea" value="" data-id="55" >请选择地域</div>
                     <div class="area" id="area" style="{{#ifAttribute pageObj.contentFragmentList 55 }}display: block;{{/ifAttribute}}" >
@@ -55,7 +55,7 @@
             <!--//End 地域-->
 
             <div class="group">
-                <label class="label"><em>*</em>详情地址</label>
+                <label class="label"><!-- <em>*</em> -->详情地址</label>
                 <div class="control">
                     <input value="{{getContent pageObj.contentFragmentList 54}}" id="dz" name="dz" data-id="54" type="text" class="ipt w650">
                     <div id="dz_err" class="errors" style="display: none"><i></i>请填写详情地址</div>
@@ -64,7 +64,7 @@
             <!--//End 详情地址-->
 
             <div class="group">
-                <label class="label"><em>*</em>邮编</label>
+                <label class="label"><!-- <em>*</em> -->邮编</label>
                 <div class="control">
                     <input value="{{getContent pageObj.contentFragmentList 56}}" validate="true" check="zipcode" id="yb" name="yb" data-id="56" type="text" class="ipt w310">
                     <div id="yb_err" class="errors" style="display: none"><i></i>请填写邮编</div>
