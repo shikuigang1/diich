@@ -44,6 +44,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
     var ossVideoPash = "http://diich-resource.oss-cn-beijing.aliyuncs.com/video/master/"; // oss视频存放地址
     var imgUrl = ""; // 基础信息模板图片url
     var addressCode = ""; // 联系方式信息模板居住地址code值
+    var declareCode = ""; // 基本信息模块申报地址code值
     var status;
 
     /**
@@ -250,7 +251,15 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
      */
     function getBasic(dicArrCity) {
         var fyGrade = getDictionaryArrayByType(106);
-        console.log(fyGrade)
+        if(pageObj.hasOwnProperty("contentFragmentList")) {
+            $.each(pageObj.contentFragmentList, function(i, v) {
+                if(v.attributeId == 23) {
+                    v.addressCodes = v.content != "" ? v.content.split(",") : [];
+                    declareCode = v.content;
+                    return;
+                }
+            })
+        }
         $("#content").html(Handlebars.compile(basicTpl)({countrys: dicArrCity, fyGrade: fyGrade, pageObj: pageObj, ichProjectId: ichProjectId})); // 更新页面模板
         // 回显是否为自己申报传承人
         if(isMaster) {
@@ -271,6 +280,13 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
             $(this).addClass("active");
             isMaster = $(this).attr("name").split("_").pop();
         })
+
+
+        selectArea1.init(1, declareCode, function (data, dataText) {
+            console.log(data, dataText)
+            declareCode = data.toString();
+        })
+
 
         // 上传图片
         upload.submit($('.horizontal .group .control .file_up'),1,'/user/uploadFile?type=master',function (res) {
@@ -355,7 +371,6 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
      * @param dicArrCity
      */
     function getContact() {
-        var dataCode;
         if(pageObj.hasOwnProperty("contentFragmentList")) {
             $.each(pageObj.contentFragmentList, function(i, v) {
                 if(v.attributeId == 55) {
@@ -1303,6 +1318,7 @@ define(["text!ichMasterForm/custom.tpl", "text!ichMasterForm/basic.tpl",
         if(imgUrl) {
             data.push({"name" : "img", "value" : imgUrl}); // 构建图片参数
         }
+        data.push({"name" : "declare", "value" : declareCode.toString()}); // 构建三级联动参数
         return buildParams(data, pageObj); // 构建请求参数数据
     }
 

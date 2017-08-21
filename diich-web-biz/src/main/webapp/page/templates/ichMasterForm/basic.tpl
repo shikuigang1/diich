@@ -21,6 +21,26 @@
             <div id="inheritor"></div>
 
             <div class="group">
+                <label class="label" for=""><em>*</em>申报地址</label>
+                <div class="control">
+                    <div id="declare" class="ipt w650 select" data-type="selectArea" value="" data-id="23" >请选择地域</div>
+                    <div class="area" id="area" style="{{#ifAttribute pageObj.contentFragmentList 23 }}display: block;{{/ifAttribute}}" >
+                        <div class="select" id="select" style="{{#ifAttribute pageObj.contentFragmentList 23 }}display: none;{{/ifAttribute}}"></div>
+                        <div class="selected" id="selected">
+                           {{#each pageObj.contentFragmentList}}
+                                {{#equal attributeId 23}}
+                                    {{#each addressCodes}}
+                                        <li><span>{{getAddressText this}}<i class="icon"></i></span></li>
+                                    {{/each}}
+                                {{/equal}}
+                           {{/each}}
+                        </div>
+                    </div>
+                    <div class="errors" style="display: none"><i></i>请填写地域</div>
+                </div>
+            </div>
+
+            <div class="group">
                 <label class="label"><!-- <em>*</em> -->非遗等级</label>
                 <div class="control">
                     <select id="fydj" name= "fydj" data-id="111" class="ipt w310">
