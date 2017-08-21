@@ -12,16 +12,16 @@
                     <textarea data-id="{{customId}}" name="customContent" id="customContent" validate="true" check="required" cols="30" rows="10">{{getContent pageObj.contentFragmentList customId}}</textarea>
                 </div>
                 <div class="images" id="images">
-                 {{#each pageObj.contentFragmentList}}
-                                        {{#equal ../customId attributeId }}
-                                            {{#each resourceList}}
-                                                <div class="item" {{#equal 0 @index }}style="margin-right: 10px;{{/equal}}">
-                                                    <img data-src="{{handleUrl uri 1}}" src="{{handleUrl uri 0}}" alt="">
-                                                    <input type="text" name="text" placeholder="请输入标题" value="{{description}}">
-                                                </div>
-                                            {{/each}}
-                                        {{/equal}}
-                                    {{/each}}
+                     {{#each pageObj.contentFragmentList}}
+                        {{#equal ../customId attributeId }}
+                            {{#each resourceList}}
+                                <div class="item" {{#equal 0 @index }}style="margin-right: 10px;{{/equal}}">
+                                    <img data-src="{{handleUrl uri 1}}" src="{{handleUrl uri 0}}" alt="">
+                                    <input type="text" name="text" placeholder="请输入标题" value="{{description}}">
+                                </div>
+                            {{/each}}
+                        {{/equal}}
+                     {{/each}}
                     <div class="handle">
                         <div class="add file_up">
                             <span class="icon"><i></i></span>
@@ -38,7 +38,11 @@
         <div id="customContent_err" class="prompt" style="display: none"><i></i>此项是必添项，请填写</div>
         <!--//edit End-->
         <div class="buttons">
-            <a id="custom_save_next" class="next" href="javascript:void(0);"style="width: 180px;">保存并添加一项</a>
-            <a id="custom_save" class="next" href="javascript:void(0);">保存</a>
+            {{#if customId}}
+                <a id="delete_customContent_{{customId}}" href="javascript:void(0);">删除此项</a>
+            {{else}}
+                <a id="custom_save_add" class="next" href="javascript:void(0);"style="width: 180px;">保存并添加一项</a>
+            {{/if}}
+            <a id="custom_save" class="next" href="javascript:void(0);">下一步</a>
         </div>
     </div>

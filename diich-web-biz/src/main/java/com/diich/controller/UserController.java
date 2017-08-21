@@ -297,6 +297,25 @@ public class UserController extends BaseController<User> {
         return putDataToMap(phone);
     }
 
+    @RequestMapping("updateUser")
+    @ResponseBody
+    public  Map<String, Object> updateUser (HttpServletRequest request,HttpServletResponse response ) throws Exception{
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        String params = request.getParameter("params");
+        User user = null;
+        try {
+            user = parseObject(params, User.class);
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        try{
+            userService.updateUser(user);
+        }catch (Exception e){
+            return putDataToMap(e);
+        }
+        return putDataToMap(user);
+    }
     /**
      * 验证码是否正确
      * @param session

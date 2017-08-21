@@ -24,5 +24,7 @@ public interface UserService {
 
     //保存用户信息
     void saveUser(User user) throws Exception;
+    //更新用户信息
+    User updateUser(User user) throws Exception;
 
 }
