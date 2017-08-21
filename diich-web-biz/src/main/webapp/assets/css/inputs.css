@@ -1,4 +1,4 @@
-html,
+﻿html,
 body,
 .container {
     height: auto;
@@ -730,6 +730,7 @@ body,
     padding: 0 4%;
     border: 1px solid #E5E5E5;
     line-height: 42px;
+    float:left;
 }
 
 .ipt_page .create_project .step3 .group .control .btn {
@@ -1948,6 +1949,7 @@ body,
     float: left;
 }
 .ipt_over .content .judge .control {
+	width:40%;
     float: left;
 }
 .ipt_over .content .buttons {
