@@ -155,9 +155,10 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     public User updateUser(User user) throws Exception {
         try{
             userMapper.updateByPrimaryKeySelective(user);
+            user = userMapper.selectByPrimaryKey(user.getId());
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-        return null;
+        return user;
     }
 }

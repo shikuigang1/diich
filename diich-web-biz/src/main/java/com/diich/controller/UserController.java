@@ -299,18 +299,22 @@ public class UserController extends BaseController<User> {
 
     @RequestMapping("updateUser")
     @ResponseBody
-    public  Map<String, Object> updateUser (HttpServletRequest request,HttpServletResponse response ) throws Exception{
+    public  Map<String, Object> updateUser (HttpServletRequest request,HttpServletResponse response ,User user) throws Exception{
         response.setHeader("Access-Control-Allow-Origin", "*");
-        String params = request.getParameter("params");
-        User user = null;
-        try {
-            user = parseObject(params, User.class);
-        } catch (Exception e) {
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+
+        //判断用户是否登陆
+        User user1 = (User) WebUtil.getCurrentUser(request);
+        if(user1 == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
+
         try{
-            userService.updateUser(user);
+            user.setId(user1.getId());
+            user = userService.updateUser(user);
+            HttpSession session = request.getSession();
+            user.setPassword(null);
+            session.setAttribute("CURRENT_USER",user);
         }catch (Exception e){
             return putDataToMap(e);
         }
