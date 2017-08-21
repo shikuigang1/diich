@@ -137,7 +137,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
                throw new ApplicationException(ApplicationException.INNER_ERROR);
            }
        }else{
-           try{
+           try{//重置密码
                String password = SecurityUtil.encryptMd5(user.getPassword());
                user.setPassword(password);
                userMapper.updateByPrimaryKeySelective(user);
@@ -149,5 +149,15 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
        }
 
 
+    }
+
+    @Override
+    public User updateUser(User user) throws Exception {
+        try{
+            userMapper.updateByPrimaryKeySelective(user);
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return null;
     }
 }
