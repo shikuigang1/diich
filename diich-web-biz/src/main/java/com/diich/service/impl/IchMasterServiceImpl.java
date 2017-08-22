@@ -174,7 +174,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         if(StringUtils.isEmpty(ichMaster.getLang())){
             ichMaster.setLang("chi");
         }
-        if(ichMaster.getIsMaster() == 1){//1 为自己申报传承人 将当前登陆用户id存入userId  0 不为自己申报传承人 不作处理
+        if(user.getType() != null && user.getType() == 2){//0管理员账户 1普通用户 2传承人用户  3 机构用户
             ichMaster.setUserId(ichMaster.getLastEditorId());
         }
         if(ichMaster.getId() == null) {

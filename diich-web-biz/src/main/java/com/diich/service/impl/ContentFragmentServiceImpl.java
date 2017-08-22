@@ -68,7 +68,6 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
 
     @Override
     public ContentFragment saveContentFragment(ContentFragment contentFragment) throws Exception {
-//        TransactionStatus transactionStatus = getTransactionStatus();
         checkSaveField(contentFragment);//校验字段
         try{
             if(contentFragment.getId() == null){
@@ -83,7 +82,7 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
             }else{
                 contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
                 Attribute attribute = contentFragment.getAttribute();
-                if(attribute != null && (attribute.getTargetType() ==10 || attribute.getTargetType() ==11 || attribute.getTargetType() ==12)){//更新自定义属性的名称
+                if(attribute != null && (attribute.getTargetType() ==10 || attribute.getTargetType() ==11 || attribute.getTargetType() ==12 || attribute.getTargetType() ==13)){//更新自定义属性的名称
                     attributeMapper.updateByPrimaryKeySelective(contentFragment.getAttribute());
                 }
             }
@@ -110,10 +109,8 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
                 }
 
             }
-//            commit(transactionStatus);
         }catch (Exception e){
             e.printStackTrace();
-//            rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         return contentFragment;
@@ -130,11 +127,11 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
                 }
                 if(contentFragment.getAttributeId() != null){
                     Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
-                    if(attribute != null && (attribute.getTargetType() ==10 || attribute.getTargetType() ==11 || attribute.getTargetType() ==12)){
+                    if(attribute != null && (attribute.getTargetType() ==10 || attribute.getTargetType() ==11 || attribute.getTargetType() ==12 || attribute.getTargetType() ==13)){
                         contentFragmentMapper.deleteByPrimaryKey(contentFragment.getId());
                         attributeMapper.deleteByPrimaryKey(contentFragment.getAttributeId());
                     }else{
-                        if(contentFragment.getTargetType() != null && contentFragment.getTargetType() == 0 ){
+                        if(contentFragment.getTargetType() != null && contentFragment.getTargetType() == 0 ){//项目
                             IchProject project = ichProjectMapper.selectIchProjectById(contentFragment.getTargetId());
                             if(project != null && ( !attribute.getIchCategoryId().equals(project.getIchCategoryId()))){
                                 contentFragmentMapper.deleteByPrimaryKey(contentFragment.getId());
@@ -143,7 +140,7 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
                                 contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
                             }
                         }
-                        if(contentFragment.getTargetType() != null && contentFragment.getTargetType() == 1 ){//传承人
+                        if(contentFragment.getTargetType() != null && (contentFragment.getTargetType() == 1 || contentFragment.getTargetType() == 2 || contentFragment.getTargetType() == 3)){//其他
                             contentFragmentMapper.deleteByPrimaryKey(contentFragment.getId());
                         }
                     }

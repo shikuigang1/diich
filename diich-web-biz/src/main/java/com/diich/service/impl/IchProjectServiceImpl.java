@@ -468,22 +468,24 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             if(versionList.size() > 0){//非管理员修改的项目
                 Version ver = versionList.get(0);
                 Long mainVersionId = ver.getMainVersionId();
-                ichProject.setId(mainVersionId);
                 ichProject.setStatus(0);
                 List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
                 ichProject.setContentFragmentList(contentFragmentList);
                 ichProject.setLastEditDate(new Date());
-                for (ContentFragment contentFragment:contentFragmentList) {//交换主版本和分支版本内容
-                    contentFragment.setTargetId(mainVersionId);
-                }
                 IchProject project = ichProjectMapper.selectByPrimaryKey(mainVersionId);
                 List<ContentFragment> contentFragments = getContentFragmentListByProjectId(project);
-                project.setId(id);
+                for (ContentFragment contentFragment:contentFragmentList) {//交换主版本和分支版本内容
+                    contentFragment.setTargetId(mainVersionId);
+                    contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                }
                 project.setStatus(1);//作废状态
                 project.setLastEditDate(new Date());
                 for (ContentFragment contentFragment : contentFragments) {
                     contentFragment.setTargetId(id);
+                    contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
                 }
+                ichProject.setId(mainVersionId);
+                project.setId(id);
                 ver.setVersionType(1001);//已过期
                 versionMapper.updateByPrimaryKeySelective(versionList.get(0));
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
