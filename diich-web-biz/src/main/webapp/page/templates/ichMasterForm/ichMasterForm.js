@@ -507,7 +507,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
     // 通用模板（长文本）
     function _getCommonTpl(sonterms) {
-        $("#content").html(Handlebars.compile(resumeTpl)({sonterms: sonterms})); // 更新页面模板
+        $("#content").html(Handlebars.compile(resumeTpl)({sonterms: sonterms, pageObj: pageObj})); // 更新页面模板
     }
 
     // 自定义模板
