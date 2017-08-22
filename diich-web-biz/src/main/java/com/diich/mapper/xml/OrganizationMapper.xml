@@ -3,11 +3,16 @@
 <mapper namespace="com.diich.mapper.OrganizationMapper" >
   <resultMap id="BaseResultMap" type="com.diich.core.model.Organization" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="last_edit_date" property="lastEditDate" jdbcType="TIMESTAMP" />
+    <result column="last_editor_id" property="lastEditorId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="edit_rank" property="editRank" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="uri" property="uri" jdbcType="VARCHAR" />
+    <result column="lang" property="lang" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, status
+    id, last_edit_date, last_editor_id, user_id, edit_rank, status, uri, lang
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
@@ -20,10 +25,12 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.Organization" >
-    insert into organization (id, name, status
-      )
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
-      )
+    insert into organization (id, last_edit_date, last_editor_id,
+    user_id, edit_rank, status,
+    uri, lang)
+    values (#{id,jdbcType=BIGINT}, #{lastEditDate,jdbcType=TIMESTAMP}, #{lastEditorId,jdbcType=BIGINT},
+    #{userId,jdbcType=BIGINT}, #{editRank,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+    #{uri,jdbcType=VARCHAR}, #{lang,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.Organization" >
     insert into organization
@@ -31,41 +38,91 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="name != null" >
-        name,
+      <if test="lastEditDate != null" >
+        last_edit_date,
+      </if>
+      <if test="lastEditorId != null" >
+        last_editor_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="editRank != null" >
+        edit_rank,
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="uri != null" >
+        uri,
+      </if>
+      <if test="lang != null" >
+        lang,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+      <if test="lastEditDate != null" >
+        #{lastEditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastEditorId != null" >
+        #{lastEditorId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="editRank != null" >
+        #{editRank,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="uri != null" >
+        #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="lang != null" >
+        #{lang,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.Organization" >
     update organization
     <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+      <if test="lastEditDate != null" >
+        last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastEditorId != null" >
+        last_editor_id = #{lastEditorId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="editRank != null" >
+        edit_rank = #{editRank,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="uri != null" >
+        uri = #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="lang != null" >
+        lang = #{lang,jdbcType=CHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.Organization" >
     update organization
-    set name = #{name,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER}
+    set last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
+      last_editor_id = #{lastEditorId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      edit_rank = #{editRank,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      uri = #{uri,jdbcType=VARCHAR},
+      lang = #{lang,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

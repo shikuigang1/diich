@@ -1,19 +1,23 @@
-html,
+﻿html,
 body,
 .container {
     height: auto;
 }
+
 .hd {
     width: 1167px;
     margin: 0 auto;
 }
+
 .main965 {
     width: 965px;
     margin: 0 auto;
 }
+
 .red {
     color: #D0011b;
 }
+
 /*--//End--*/
 .checkbox {
     background: #fff url(../images/inputs/check.png) 0 0 no-repeat;
@@ -23,6 +27,7 @@ body,
     top: 0;
     left: 0;
 }
+
 .radio {
     padding-left: 26px;
     line-height: 48px;
@@ -30,6 +35,7 @@ body,
     margin-right: 20px;
     cursor: pointer;
 }
+
 .radio i {
     background: url(../images/inputs/radio.png) 0 0 no-repeat;
     width: 20px;
@@ -38,12 +44,15 @@ body,
     top: 0;
     left: 0;
 }
+
 .radio input[type=radio] {
     display: none;
 }
+
 .radio.active i {
     background-position: 0 -20px;
 }
+
 /*--//End--*/
 .file_up .file {
     width: 100%;
@@ -54,28 +63,41 @@ body,
     z-index: 2;
     opacity: 0;
 }
+
 .file_up .progress {
-    top: auto;
+    background: rgba(224, 224, 224, 1);
+    height: 100%;
+    top: 0;
+    right: 0;
     bottom: 0;
+    left: 0;
     z-index: 4;
     display: none;
 }
-.file_up .progress .bar {
-    background: #4283EB;
-    width: 0;
-    height: 2px;
+
+.file_up .progress .loader {
+    width: 40px;
+    height: 40px;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    margin-left: -2px;
+    display: block;
 }
-.file_up .progress .percent {
+
+.file_up .progress .font {
     width: 100%;
-    text-align: center;
+    height: 12px;
+    line-height: 12px;
     font-size: 12px;
+    text-align: center;
+    color: #000;
     position: absolute;
-    top: -26px;
+    top: 50%;
     left: 0;
+    margin-top: 30px;
 }
+
 .file_up .preview {
     width: 100%;
     height: 100%;
@@ -85,19 +107,402 @@ body,
     z-index: 3;
     display: none;
 }
+
 /*--//End 上传图片--*/
-.calendarWarp .icon {display: none;}
-.ECalendarNoneSelect,.ECalendarNoneSelect input{-moz-user-select:-moz-none;-moz-user-select:none;-o-user-select:none;-khtml-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}.calendarWarp{position:relative;display:inline-block;font-weight:100}\ .calendarWarp .icon{position:absolute;right:20px;top:50%;margin-top:-9px}.calendarWarp h2{margin:0;font-weight:400}.ECalendarBox{border:1px solid #ee3f2f}.ECalendarBox div,.ECalendarBox li,.ECalendarBox ul{float:none;margin:0;padding:0;font-weight:100}.ECalendarBox li{list-style-type:none}.ECalendarBox ol,.ECalendarBox ul{list-style:none}.ECalendarBox .ilasttext{cursor:pointer}.ECalendarBox{position:absolute;width:290px;background:#fff;color:#fff;font-weight:100;font-size:12px;line-height:1em}.ECalendarBox .currentyear{position:relative}.ECalendarBox .currentyear:after{position:absolute;top:-1px;left:35px;display:block;overflow:hidden;width:8px;height:8px;border:1px solid #fff;border-top:0;border-left:0;content:"";-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);transform:rotate(45deg)}.ECalendarBox ul:after{clear:both;display:block;visibility:hidden;height:0;content:""}.ECalendarBox ul{zoom:1}.ECalendarBox li{float:left;text-align:center;font-size:14px;cursor:pointer}.ECalendarBox .head1{position:relative;border-style:solid;border-top-width:3px;border-left-width:10px;border-right-width:10px;border-bottom-width:0}.ECalendarBox ul.day{border:10px solid #fff}.ECalendarBox .day li,.ECalendarBox ul.week li{width:14.25%;height:24px;line-height:24px}.ECalendarBox ul.week{margin-top:10px}.ECalendarBox ul.week li:hover{background:0}.ECalendarBox .currentdate{padding:4px 4px 0 4px;height:42px;cursor:pointer}.ECalendarBox .currentdate h2,.ECalendarBox .currentdate h2 span{margin-left:2px;font-size:34px;line-height:1.2em}.ECalendarBox .currentdate h2 i {font-size:30px;}.ECalendarBox .imonth,.ECalendarBox .iyear{position:relative}.ECalendarBox h2 i{position:absolute;left:0;z-index:9;display:block;height:26px;background:rgba(0,0,0,.2);line-height:26px}.ECalendarBox i.a1{top:38px;opacity:.6}.ECalendarBox i.a2{top:64px;opacity:.4}.ECalendarBox i.a3{top:90px;opacity:.2}.ECalendarBox i.r1{top:-20px;opacity:.6}.ECalendarBox i.r2{top:-46px;opacity:.4}.ECalendarBox i.r3{top:-72px;opacity:.2}.ECalendarBox .currentlastgo{position:relative;top:5px;cursor:pointer}.ECalendarBox .currenttime{position:relative;padding:6px;font-size:14px}.ECalendarBox .currenttime .itime{position:relative;top:1px;font-size:16px}.ECalendarBox .currenttime .itimebox{margin-left:10px}.ECalendarBox .currenttime li:hover{background:rgba(0,0,0,.1)}.ECalendarBox .oper{position:absolute;top:11px;right:4px}.ECalendarBox .oper li{margin-left:5px;width:28px;height:28px;background:rgba(255,255,255,.1);line-height:28px}.ECalendarBox .oper li:hover{background:0;background:rgba(255,255,255,.3)}.ECalendarBox ul.day li{position:relative;overflow:hidden;height:30px;color:#444;line-height:30px}.ECalendarBox ul.day li::after{position:absolute;top:50%;left:50%;z-index:7;margin:-15px 0 0 -50px;width:100px;height:30px;color:#000;content:attr(data-settime);text-align:center;font-size:20px;line-height:30px}.ECalendarBox .at12,.ECalendarBox .at12::after,.ECalendarBox .at24,.ECalendarBox .at24::after{position:absolute;top:50%;left:50%;z-index:5;border:1px solid rgba(0,0,0,.4);background:rgba(255,255,255,.9);box-shadow:0 0 10px rgba(0,0,0,.2)}.ECalendarBox .at12{margin:-61px 0 0 -61px;width:120px;height:120px;border-radius:100px}.ECalendarBox .at12::after{margin:-101px 0 0 -101px;width:200px;height:200px;border-radius:200px;content:" ";opacity:.2}.ECalendarBox .at24{margin:-101px 0 0 -101px;width:200px;height:200px;border-radius:200px}.ECalendarBox .at24::after{margin:-61px 0 0 -61px;width:120px;height:120px;border-radius:120px;content:" ";opacity:.2}.ECalendarBox .pointer{position:absolute;top:50%;left:50%;z-index:6;margin:-60px 0 0 -60px;width:120px;height:120px}.ECalendarBox .at24 .pointer{margin:-100px 0 0 -100px;width:200px;height:200px}.ECalendarBox .pointer::before{position:absolute;top:50%;right:14px;left:50%;height:1px;background:rgba(0,0,0,.1);content:""}.ECalendarBox .pointer::after{position:absolute;top:50%;right:-10px;margin-top:-10px;width:18px;height:18px;border:1px solid rgba(0,0,0,.4);border-radius:30px;border-bottom-left-radius:0;background:rgba(255,255,255,.8);content:"";transform:rotate(45deg)}.ECalendarBox li:hover{background:#f6f6f6}.ECalendarBox li.activ{color:#fff!important;background:rgba(0,0,0,.6)}.ECalendarBox li.other{background:#fff;color:#ddd!important}.ECalendarBox .select{overflow:hidden;margin:0 -10px;height:20px;height:0;background:rgba(0,0,0,.1)}.ECalendarBox .select li{padding:0 10px;color:rgba(255,255,255,.6);font-size:12px;line-height:20px;line-height:20px}.ECalendarBox .select li:first-child{margin-left:8px}.ECalendarBox .select li:hover{background:rgba(255,255,255,.1)}
+.calendarWarp .icon {
+    display: none;
+}
+
+.ECalendarNoneSelect, .ECalendarNoneSelect input {
+    -moz-user-select: -moz-none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.calendarWarp {
+    position: relative;
+    display: inline-block;
+    font-weight: 100
+}
+
+\ .calendarWarp .icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    margin-top: -9px
+}
+
+.calendarWarp h2 {
+    margin: 0;
+    font-weight: 400
+}
+
+.ECalendarBox {
+    border: 1px solid #ee3f2f
+}
+
+.ECalendarBox div, .ECalendarBox li, .ECalendarBox ul {
+    float: none;
+    margin: 0;
+    padding: 0;
+    font-weight: 100
+}
+
+.ECalendarBox li {
+    list-style-type: none
+}
+
+.ECalendarBox ol, .ECalendarBox ul {
+    list-style: none
+}
+
+.ECalendarBox .ilasttext {
+    cursor: pointer
+}
+
+.ECalendarBox {
+    position: absolute;
+    width: 290px;
+    background: #fff;
+    color: #fff;
+    font-weight: 100;
+    font-size: 12px;
+    line-height: 1em
+}
+
+.ECalendarBox .currentyear {
+    position: relative
+}
+
+.ECalendarBox .currentyear:after {
+    position: absolute;
+    top: -1px;
+    left: 35px;
+    display: block;
+    overflow: hidden;
+    width: 8px;
+    height: 8px;
+    border: 1px solid #fff;
+    border-top: 0;
+    border-left: 0;
+    content: "";
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    transform: rotate(45deg)
+}
+
+.ECalendarBox ul:after {
+    clear: both;
+    display: block;
+    visibility: hidden;
+    height: 0;
+    content: ""
+}
+
+.ECalendarBox ul {
+    zoom: 1
+}
+
+.ECalendarBox li {
+    float: left;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer
+}
+
+.ECalendarBox .head1 {
+    position: relative;
+    border-style: solid;
+    border-top-width: 3px;
+    border-left-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 0
+}
+
+.ECalendarBox ul.day {
+    border: 10px solid #fff
+}
+
+.ECalendarBox .day li, .ECalendarBox ul.week li {
+    width: 14.25%;
+    height: 24px;
+    line-height: 24px
+}
+
+.ECalendarBox ul.week {
+    margin-top: 10px
+}
+
+.ECalendarBox ul.week li:hover {
+    background: 0
+}
+
+.ECalendarBox .currentdate {
+    padding: 4px 4px 0 4px;
+    height: 42px;
+    cursor: pointer
+}
+
+.ECalendarBox .currentdate h2, .ECalendarBox .currentdate h2 span {
+    margin-left: 2px;
+    font-size: 34px;
+    line-height: 1.2em
+}
+
+.ECalendarBox .currentdate h2 i {
+    font-size: 30px;
+}
+
+.ECalendarBox .imonth, .ECalendarBox .iyear {
+    position: relative
+}
+
+.ECalendarBox h2 i {
+    position: absolute;
+    left: 0;
+    z-index: 9;
+    display: block;
+    height: 26px;
+    background: rgba(0, 0, 0, .2);
+    line-height: 26px
+}
+
+.ECalendarBox i.a1 {
+    top: 38px;
+    opacity: .6
+}
+
+.ECalendarBox i.a2 {
+    top: 64px;
+    opacity: .4
+}
+
+.ECalendarBox i.a3 {
+    top: 90px;
+    opacity: .2
+}
+
+.ECalendarBox i.r1 {
+    top: -20px;
+    opacity: .6
+}
+
+.ECalendarBox i.r2 {
+    top: -46px;
+    opacity: .4
+}
+
+.ECalendarBox i.r3 {
+    top: -72px;
+    opacity: .2
+}
+
+.ECalendarBox .currentlastgo {
+    position: relative;
+    top: 5px;
+    cursor: pointer
+}
+
+.ECalendarBox .currenttime {
+    position: relative;
+    padding: 6px;
+    font-size: 14px
+}
+
+.ECalendarBox .currenttime .itime {
+    position: relative;
+    top: 1px;
+    font-size: 16px
+}
+
+.ECalendarBox .currenttime .itimebox {
+    margin-left: 10px
+}
+
+.ECalendarBox .currenttime li:hover {
+    background: rgba(0, 0, 0, .1)
+}
+
+.ECalendarBox .oper {
+    position: absolute;
+    top: 11px;
+    right: 4px
+}
+
+.ECalendarBox .oper li {
+    margin-left: 5px;
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, .1);
+    line-height: 28px
+}
+
+.ECalendarBox .oper li:hover {
+    background: 0;
+    background: rgba(255, 255, 255, .3)
+}
+
+.ECalendarBox ul.day li {
+    position: relative;
+    overflow: hidden;
+    height: 30px;
+    color: #444;
+    line-height: 30px
+}
+
+.ECalendarBox ul.day li::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 7;
+    margin: -15px 0 0 -50px;
+    width: 100px;
+    height: 30px;
+    color: #000;
+    content: attr(data-settime);
+    text-align: center;
+    font-size: 20px;
+    line-height: 30px
+}
+
+.ECalendarBox .at12, .ECalendarBox .at12::after, .ECalendarBox .at24, .ECalendarBox .at24::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 5;
+    border: 1px solid rgba(0, 0, 0, .4);
+    background: rgba(255, 255, 255, .9);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2)
+}
+
+.ECalendarBox .at12 {
+    margin: -61px 0 0 -61px;
+    width: 120px;
+    height: 120px;
+    border-radius: 100px
+}
+
+.ECalendarBox .at12::after {
+    margin: -101px 0 0 -101px;
+    width: 200px;
+    height: 200px;
+    border-radius: 200px;
+    content: " ";
+    opacity: .2
+}
+
+.ECalendarBox .at24 {
+    margin: -101px 0 0 -101px;
+    width: 200px;
+    height: 200px;
+    border-radius: 200px
+}
+
+.ECalendarBox .at24::after {
+    margin: -61px 0 0 -61px;
+    width: 120px;
+    height: 120px;
+    border-radius: 120px;
+    content: " ";
+    opacity: .2
+}
+
+.ECalendarBox .pointer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 6;
+    margin: -60px 0 0 -60px;
+    width: 120px;
+    height: 120px
+}
+
+.ECalendarBox .at24 .pointer {
+    margin: -100px 0 0 -100px;
+    width: 200px;
+    height: 200px
+}
+
+.ECalendarBox .pointer::before {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    left: 50%;
+    height: 1px;
+    background: rgba(0, 0, 0, .1);
+    content: ""
+}
+
+.ECalendarBox .pointer::after {
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    margin-top: -10px;
+    width: 18px;
+    height: 18px;
+    border: 1px solid rgba(0, 0, 0, .4);
+    border-radius: 30px;
+    border-bottom-left-radius: 0;
+    background: rgba(255, 255, 255, .8);
+    content: "";
+    transform: rotate(45deg)
+}
+
+.ECalendarBox li:hover {
+    background: #f6f6f6
+}
+
+.ECalendarBox li.activ {
+    color: #fff !important;
+    background: rgba(0, 0, 0, .6)
+}
+
+.ECalendarBox li.other {
+    background: #fff;
+    color: #ddd !important
+}
+
+.ECalendarBox .select {
+    overflow: hidden;
+    margin: 0 -10px;
+    height: 20px;
+    height: 0;
+    background: rgba(0, 0, 0, .1)
+}
+
+.ECalendarBox .select li {
+    padding: 0 10px;
+    color: rgba(255, 255, 255, .6);
+    font-size: 12px;
+    line-height: 20px;
+    line-height: 20px
+}
+
+.ECalendarBox .select li:first-child {
+    margin-left: 8px
+}
+
+.ECalendarBox .select li:hover {
+    background: rgba(255, 255, 255, .1)
+}
+
 /*--//ENd 认证时间--*/
 .ipt_page .create_project {
     min-height: 500px;
 }
+
 .ipt_page .create_project .back {
     margin: 60px 0;
 }
+
 .ipt_page .create_project .back a {
     color: #777;
 }
+
 .ipt_page .create_project .back i {
     background: url(../images/inputs/back.png) no-repeat 0 0;
     width: 21px;
@@ -105,21 +510,25 @@ body,
     float: left;
     margin-right: 8px;
 }
+
 .ipt_page .create_project .step1 {
     width: 100%;
     float: left;
 }
+
 .ipt_page .create_project .step1 .dt {
     font-size: 24px;
     color: #1b1b1b;
     font-weight: 800;
 }
+
 .ipt_page .create_project .step1 .dd {
     color: #949494;
     line-height: 24px;
     margin-top: 20px;
     margin-bottom: 40px;
 }
+
 .ipt_page .create_project .step1 form .ipt {
     background: #fff;
     width: 520px;
@@ -128,6 +537,7 @@ body,
     border: 1px solid #E5E5E5;
     float: left;
 }
+
 .ipt_page .create_project .step1 form .btn {
     background: #4283EA;
     width: 96px;
@@ -142,20 +552,24 @@ body,
     -webkit-transition: all .3s;
     transition: all .3s;
 }
+
 .ipt_page .create_project .step1 form .btn:hover {
     background: #376dc3;
 }
+
 .ipt_page .create_project .step2 {
     width: 100%;
     float: left;
     margin-top: 80px;
 }
+
 .ipt_page .create_project .step2 .tips {
     background: #FFD58E;
     line-height: 38px;
     padding: 0 16px;
     float: left;
 }
+
 .ipt_page .create_project .step2 .tips i {
     background: url(../images/inputs/tips.png) no-repeat 0 0;
     width: 19px;
@@ -163,6 +577,7 @@ body,
     float: left;
     margin: 10px 17px 10px 0;
 }
+
 .ipt_page .create_project .step2 .btn_create {
     width: 270px;
     line-height: 58px;
@@ -173,25 +588,30 @@ body,
     float: left;
     background: #fff;
 }
+
 .ipt_page .create_project .step2 .result {
     width: 100%;
     float: left;
     margin-top: 30px;
 }
+
 .ipt_page .create_project .step2 .result .item {
     width: 50%;
     float: left;
 }
+
 .ipt_page .create_project .step2 .result .dt {
     width: 100%;
     color: #949494;
     float: left;
     margin-bottom: 20px;
 }
+
 .ipt_page .create_project .step2 .result .dd {
     width: 560px;
     float: left;
 }
+
 .ipt_page .create_project .step2 .result .dd li {
     width: 100%;
     height: 177px;
@@ -201,16 +621,19 @@ body,
     background: #fff;
     position: relative;
 }
+
 .ipt_page .create_project .step2 .result .dd li img {
     width: 236px;
     height: 177px;
     float: left;
 }
+
 .ipt_page .create_project .step2 .result .dd li .info {
     width: 252px;
     padding: 40px 36px;
     float: left;
 }
+
 .ipt_page .create_project .step2 .result .dd li .info p {
     width: 100%;
     height: 26px;
@@ -220,24 +643,33 @@ body,
     overflow: hidden;
     float: left;
 }
+
 .ipt_page .create_project .step2 .result .dd li .info span {
     font-size: 14px;
     color: #000;
 }
+
 .ipt_page .create_project .step2 .result .dd li .info strong {
     font-size: 14px;
     color: #949494;
 }
+
 .ipt_page .create_project .step2 .result .dd li .info p.name {
     margin-bottom: 20px;
 }
+
 .ipt_page .create_project .step2 .result .dd li .info p.name strong {
+    width:100%;
     font-size: 20px;
     height: 21px;
     line-height: 21px;
     color: #1b1b1b;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+    overflow: hidden;
     float: left;
 }
+
 .ipt_page .create_project .step2 .result .dd li .info p.name em {
     background: #4283EB;
     padding: 0 10px;
@@ -247,7 +679,9 @@ body,
     color: #fff;
     float: left;
     margin-left: 4px;
+    display: none;
 }
+
 .ipt_page .create_project .step2 .result .dd .btn_create {
     width: 200px;
     line-height: 46px;
@@ -258,59 +692,67 @@ body,
     float: left;
     background: #fff;
 }
+
 .ipt_page .create_project .step3 {
-    width:100%;
+    width: 100%;
     float: left;
 }
+
 .ipt_page .create_project .step3 .dt {
-    width:100%;
-    line-height:22px;
+    width: 100%;
+    line-height: 22px;
     float: left;
 }
+
 .ipt_page .create_project .step3 .group {
-    width:100%;
+    width: 100%;
     float: left;
-    margin-top:46px;
+    margin-top: 46px;
 }
-.ipt_page .create_project .step3 .group .label{
-    width:8%;
-    line-height:42px;
+
+.ipt_page .create_project .step3 .group .label {
+    width: 8%;
+    line-height: 42px;
     float: left;
 }
+
 .ipt_page .create_project .step3 .group .label em {
     color: #f00;
 }
+
 .ipt_page .create_project .step3 .group .control {
-    width:50%;
+    width: 50%;
     float: left;
 }
+
 .ipt_page .create_project .step3 .group .control .ipt {
-    width:92%;
-    padding:0 4%;
+    width: 92%;
+    padding: 0 4%;
     border: 1px solid #E5E5E5;
-    line-height:42px;
+    line-height: 42px;
+    float:left;
 }
+
 .ipt_page .create_project .step3 .group .control .btn {
-    width:104px;
-    line-height:48px;
+    width: 104px;
+    line-height: 48px;
     background: #4283EA;
     color: #fff;
-    font-size:20px;
+    font-size: 20px;
     text-align: center;
     float: right;
-    margin-bottom:50px;
+    margin-bottom: 50px;
     cursor: pointer;
 }
-
-
-
 
 .ipt_inheritor .create_project .step2 .result .item {
     width: 774px;
 }
+
 .ipt_inheritor .create_project .step2 .result .dd {
     width: 100%;
 }
+
 .ipt_inheritor .create_project .step2 .result .dd li .btn_create {
     width: 140px;
     position: absolute;
@@ -318,18 +760,22 @@ body,
     right: 43px;
     margin-top: -24px;
 }
+
 .ipt_inheritor .create_project .step2 .result .item2 {
     width: 280px;
     line-height: 26px;
     float: right;
 }
+
 .ipt_inheritor .create_project .step2 .result .dd li .info p.name em {
     margin-left: 10px;
 }
+
 .ipt_inheritor .create_project .step2 .result .dd .btn_create {
     width: auto;
     padding: 0 20px;
 }
+
 .ipt_inheritor .create_project .step2 .result .dd .btn_create span {
     max-width: 120px;
     font-size: 20px;
@@ -340,7 +786,6 @@ body,
     vertical-align: top;
     margin: 0 8px;
 }
-
 
 /*--//End 创建项目页--*/
 
@@ -441,7 +886,6 @@ body,
     background: #3e6cb5;
 }
 
-
 /*--我要申报--*/
 
 .ipt_base {
@@ -490,7 +934,6 @@ body,
     float: left;
 }
 
-
 /*---项目/创承人名称-----*/
 
 .ipt_base .slide {
@@ -498,7 +941,7 @@ body,
     border: 2px solid #d7d7d8;
     background: #fff;
     float: left;
-    margin-bottom:120px;
+    margin-bottom: 120px;
 }
 
 .ipt_base .slide .item {
@@ -520,21 +963,27 @@ body,
 .ipt_base .slide .item .icon.full.checked {
     background-position: 0 -18px;
 }
+
 .ipt_base .slide .item .icon.empty.checked {
     background-position: 0 -54px;
 }
+
 .ipt_base .slide .item .icon.full.warning {
     background-position: 0 -36px;
 }
+
 .ipt_base .slide .item .icon.selected {
     background-position: 0 -18px;
 }
+
 .ipt_base .slide .item .icon.unselected {
     background-position: 0 0;
 }
+
 .ipt_base .slide .item .icon.unselected2 {
     background-position: 0 -54px;
 }
+
 .ipt_base .slide .item .icon.warning {
     background-position: 0 -36px;
 }
@@ -585,22 +1034,22 @@ body,
     cursor: pointer;
     margin-bottom: 20px;
 }
+
 .ipt_base .slide .item .dd li.selected {
     color: #4283EA;
-    font-weight:bolder;
+    font-weight: bolder;
 }
+
 .ipt_base .slide .item .dd li .icon {
     left: 26px;
 }
-
-
-
 
 .ipt_base .slide .item.status {
     width: 100%;
     padding: 0 0 20px 0;
     border-top: 1px solid #d7d7d8;
 }
+
 .ipt_base .slide .item.status li {
     font-size: 14px;
     line-height: 18px;
@@ -608,24 +1057,29 @@ body,
     text-indent: 0;
     padding-left: 50px;
 }
+
 .ipt_base .slide .item.status li .icon {
     top: 9px
 }
+
 .ipt_base .slide .item.custom {
-    margin-bottom:20px;
+    margin-bottom: 20px;
 }
+
 .ipt_base .slide .item.custom .dt {
-    font-size:16px;
+    font-size: 16px;
 }
+
 .ipt_base .slide .item.custom .dt i {
     background: url(../images/inputs/icon_add.png) no-repeat 0 0;
-    width:20px;
-    height:20px;
+    width: 20px;
+    height: 20px;
     position: absolute;
     top: 50%;
     left: 0;
     margin-top: -10px;
 }
+
 /*--------slide--------*/
 .ipt_base .content {
     width: 876px;
@@ -634,12 +1088,14 @@ body,
     float: right;
     margin-bottom: 100px;
 }
+
 .ipt_base .content .title {
     font-size: 24px;
     line-height: 92px;
     padding: 0 60px;
     background: #F5F6F8;
 }
+
 .ipt_base .content .hint {
     padding: 0 60px;
     line-height: 44px;
@@ -648,12 +1104,14 @@ body,
     position: relative;
     margin-bottom: 13px;
 }
+
 .ipt_base .content .hint em {
     color: #f00;
     line-height: 48px;
     position: relative;
     top: 5px
 }
+
 .ipt_base .content .hint .dot {
     width: 2px;
     height: 2px;
@@ -663,12 +1121,14 @@ body,
     left: 52px;
     margin-top: -1px;
 }
+
 .ipt_base .content .st {
     padding: 0 60px;
     height: 60px;
     position: relative;
     margin-bottom: 60px;
 }
+
 .ipt_base .content .st:after {
     content: '';
     width: 24px;
@@ -678,29 +1138,40 @@ body,
     bottom: 0;
     left: 60px;
 }
+
 .ipt_base .content .st h2 {
     font-size: 20px;
     display: inline-block;
     margin-right: 10px;
     font-weight: normal
 }
+
 .ipt_base .content .st h2.custom {
-    width:100%;
+    width: 100%;
 }
-.ipt_base .content .st h2.custom input{
-    width:100%;
-    font-size:20px;
+
+.ipt_base .content .st h2.custom input {
+    width: 100%;
+    font-size: 20px;
     color: #333;
 }
+
 .ipt_base .content .st span {
     font-size: 14px;
     color: #4283eb;
 }
 
 .ipt_base .content .errors_st {
-    float:left;margin-top: -50px;margin-left: 60px;padding-left: 20px;font-size: 14px;line-height: 16px;color: #FF3E3E;
+    float: left;
+    margin-top: -50px;
+    margin-left: 60px;
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 16px;
+    color: #FF3E3E;
     position: relative;
 }
+
 .ipt_base .content .errors i {
     background: url(../images/inputs/errors.png);
     width: 16px;
@@ -710,23 +1181,27 @@ body,
     left: 0;
     margin-top: -8px;
 }
+
 .ipt_base .content .edit {
     width: 754px;
     border: 1px solid #e5e5e5;
     float: left;
     margin: 0 60px 30px 60px;
 }
+
 .ipt_base .content .edit .text {
     width: 70%;
     float: left;
     position: relative;
 }
+
 .ipt_base .content .edit .text textarea {
     width: 92%;
     padding: 3% 4%;
     min-height: 500px;
     line-height: 26px;
 }
+
 .ipt_base .content .edit .text .errors {
     padding-left: 20px;
     font-size: 14px;
@@ -736,6 +1211,7 @@ body,
     bottom: -26px;
     left: 0;
 }
+
 .ipt_base .content .edit .text .errors i {
     background: url(../images/inputs/errors.png);
     width: 16px;
@@ -745,11 +1221,13 @@ body,
     left: 0;
     margin-top: -8px;
 }
+
 .ipt_base .content .edit .images {
     width: 209px;
     float: left;
     margin-top: 3%;
 }
+
 .ipt_base .content .edit .images .item {
     width: 100%;
     max-width: 228px;
@@ -757,62 +1235,72 @@ body,
     float: left;
     position: relative;
 }
+
 .ipt_base .content .edit .images .item img {
     width: 100%;
 }
+
 .ipt_base .content .edit .images .item input {
     width: 100%;
     line-height: 36px;
     text-align: center;
     color: #1B1B1B;
 }
+
 .ipt_base .content .edit .images .item .remove {
     position: absolute;
-    top:0;
-    right:0;
-    bottom:39px;
-    left:0;
-    background: rgba(0,0,0,.3);
+    top: 0;
+    right: 0;
+    bottom: 39px;
+    left: 0;
+    background: rgba(0, 0, 0, .3);
     -webkit-transition: all .3s;
     transition: all .3s;
-    opacity:0;
+    opacity: 0;
 }
+
 .ipt_base .content .edit .images .item .remove i {
     background: url(../images/inputs/icon_uploadImg_remove.png) 0 0 no-repeat;
-    width:42px;
-    height:42px;
+    width: 42px;
+    height: 42px;
     position: absolute;
-    top:50%;
-    left:50%;
-    margin-top:-21px;
-    margin-left:-21px;
+    top: 50%;
+    left: 50%;
+    margin-top: -21px;
+    margin-left: -21px;
     cursor: pointer;
 }
+
 .ipt_base .content .edit .images .item:hover .remove {
-    opacity:1;
+    opacity: 1;
 }
+
 .ipt_base .content .edit .images.active .item .remove {
-    bottom:0;
+    bottom: 0;
 }
+
 .ipt_base .content .edit .images.active .item .remove i {
     background-position: 0 -42px;
-    width:28px;
-    height:28px;
-    margin-top:-14px;
-    margin-left:-14px;
+    width: 28px;
+    height: 28px;
+    margin-top: -14px;
+    margin-left: -14px;
 }
+
 .ipt_base .content .edit .images .handle {
     width: 100%;
     max-width: 228px;
     float: left;
     margin-top: 20px;
 }
+
 .ipt_base .content .edit .images .handle .add {
     width: 98px;
     cursor: pointer;
     float: left;
     margin-right: 11px;
 }
+
 .ipt_base .content .edit .images .handle .add .icon {
     width: 100%;
     height: 98px;
@@ -820,6 +1308,7 @@ body,
     position: relative;
     float: left;
 }
+
 .ipt_base .content .edit .images .handle .add .icon i {
     background: url(../images/icon_detail_edit.png) 0 0 no-repeat;
     width: 29px;
@@ -830,6 +1319,7 @@ body,
     margin-top: -15px;
     margin-left: -15px;
 }
+
 .ipt_base .content .edit .images .handle .add span {
     width: 100%;
     text-align: center;
@@ -838,12 +1328,15 @@ body,
     line-height: 36px;
     float: left;
 }
+
 .ipt_base .content .edit .images .handle .add .icon i {
     background-position: 0 -46px;
 }
+
 .ipt_base .content .edit .images .handle .add .icon2 i {
     background-position: 0 -76px;
 }
+
 .ipt_base .content .edit .images.active .item {
     width: 98px;
     height: 98px;
@@ -854,15 +1347,18 @@ body,
     margin-bottom: 30px;
     position: relative;
 }
+
 .ipt_base .content .edit .images.active .item input {
     position: absolute;
     top: 98px;
     left: 0;
 }
+
 .ipt_base .content .buttons {
     float: right;
     margin: 40px 30px;
 }
+
 .ipt_base .content .buttons a {
     width: 102px;
     line-height: 42px;
@@ -873,10 +1369,16 @@ body,
     float: left;
     margin-left: 14px;
 }
+
 .ipt_base .content .buttons a.next {
     background: #4283ea;
     color: #fff;
 }
+
+.ipt_organization {
+    margin-top: 58px;
+}
+
 /*--//End--*/
 
 .horizontal .main {
@@ -929,7 +1431,7 @@ body,
 }
 
 .horizontal .group .label em,
-.horizontal .group .label i{
+.horizontal .group .label i {
     line-height: 10px;
     font-size: 20px;
     color: #D0021B;
@@ -954,6 +1456,7 @@ body,
     margin-right: 10px;
     position: relative;
 }
+
 .horizontal .group .control div.ipt:after {
     content: '';
     width: 8px;
@@ -967,8 +1470,9 @@ body,
     right: 20px;
     margin-top: -4px;
 }
+
 .horizontal .group .control .ipt #ECalendar_date {
-    width:100%;
+    width: 100%;
     height: 100%;
     float: left;
 }
@@ -1134,181 +1638,209 @@ body,
 .area {
     display: none;
 }
+
 .area .icon {
     background: url(../images/inputs/icon_area.png) 0 0 no-repeat;
     position: absolute;
-    top:50%;
+    top: 50%;
 }
+
 .area div.select {
     background: #fff;
-    width:457px;
-    min-height:200px;
+    width: 457px;
+    min-height: 200px;
     border: 1px solid #e5e5e5;
     position: absolute;
-    top:46px;
-    right:-2px;
-    z-index:2
+    top: 46px;
+    right: -2px;
+    z-index: 2
 }
+
 .area div.select .tab {
-    width:92%;
-    padding:11px 4%;
+    width: 92%;
+    padding: 11px 4%;
     float: left;
     border-bottom: 1px solid #4283ea;
     position: relative;
 }
+
 .area div.select .tab span {
     background: #e5e5e5;
-    padding:0 30px 0 10px;
-    line-height:28px;
+    padding: 0 30px 0 10px;
+    line-height: 28px;
     text-align: center;
-    font-size:14px;
+    font-size: 14px;
     float: left;
     margin-right: 20px;
     position: relative;
     cursor: pointer;
     display: none;
 }
+
 .area div.select .tab span i.icon {
     background-position: 0 0;
-    width:28px;
-    height:28px;
-    right:0;
-    margin-top:-14px;
+    width: 28px;
+    height: 28px;
+    right: 0;
+    margin-top: -14px;
 }
+
 .area div.select .tab span.active {
     background: #fff;
     color: #4283ea;
 }
+
 .area div.select .tab span.active i.icon {
     background-position: 0 -28px;
 }
+
 .area div.select .tab span.selected em.icon {
     background-position: 0 -56px;
-    width:14px;
-    height:9px;
-    top:auto;
-    left:50%;
-    bottom:-11px;
-    margin-left:-16px;
+    width: 14px;
+    height: 9px;
+    top: auto;
+    left: 50%;
+    bottom: -11px;
+    margin-left: -16px;
 }
+
 .area div.select .tab .icon_close {
     background: #fff url(../images/inputs/close.png) 0 0 no-repeat;
-    width:18px;
-    height:18px;
+    width: 18px;
+    height: 18px;
     position: absolute;
-    top:50%;
-    right:10px;
-    margin-top:-9px;
+    top: 50%;
+    right: 10px;
+    margin-top: -9px;
     cursor: pointer;
 }
+
 .area div.select .con {
-    width:100%;
+    width: 100%;
     float: left;
-    padding-bottom:11px;
+    padding-bottom: 11px;
 }
+
 .area div.select .con .items.scrollbar {
-    width:100%;
-    max-height:320px;
+    width: 100%;
+    max-height: 320px;
     overflow-x: hidden;
     overflow-y: auto;
     display: none;
 }
+
 .area div.select .con .items ul {
-    width:96%;
-    padding:0 5%;
+    width: 96%;
+    padding: 0 5%;
     float: left
 }
-.area div.select .con .items li{
-    width:86px;
+
+.area div.select .con .items li {
+    width: 86px;
     float: left;
-    margin-right:10px;
+    margin-right: 10px;
     margin-top: 10px;
     cursor: pointer;
 }
+
 .area div.select .con .items li span {
-    font-size:12px;
-    line-height:13px;
-    padding:3px 6px;
+    font-size: 12px;
+    line-height: 13px;
+    padding: 3px 6px;
     float: left;
 }
+
 .area div.select .con .items li.active span {
     background: #4283ea;
     color: #fff;
 }
+
 .area div.selected,
-.area div.selected li{
-    width:100%;
+.area div.selected li {
+    width: 100%;
     float: left;
 }
-.area div.selected li span{
-    line-height:36px;
-    padding-left:10px;
-    padding-right:26px;
+
+.area div.selected li span {
+    line-height: 36px;
+    padding-left: 10px;
+    padding-right: 26px;
     background: #4283ea;
     color: #fff;
-    font-size:14px;
+    font-size: 14px;
     float: left;
     margin-top: 10px;
     position: relative;
     cursor: pointer;
 }
+
 .area div.selected i.icon {
     background-position: -18px -56px;
-    width:10px;
-    height:10px;
-    right:10px;
-    margin-top:-5px;
+    width: 10px;
+    height: 10px;
+    right: 10px;
+    margin-top: -5px;
 }
+
 /*--//End 地域--*/
 .tipbox {
-    width:240px;
-    height:150px;
+    width: 240px;
+    height: 150px;
     position: fixed;
-    top:50%;
-    left:50%;
-    margin-top:-75px;
-    margin-left:-120px;
+    top: 50%;
+    left: 50%;
+    margin-top: -75px;
+    margin-left: -120px;
 }
+
 .tipbox .head {
     color: #fff;
-    line-height:40px;
+    line-height: 40px;
     text-align: center;
     border-radius: 6px 6px 0 0;
 }
+
 .tipbox .content {
     border-radius: 0 0 6px 6px;
     border: 1px solid #E5E5E5;
     border-top: 0;
-    height:110px;
+    height: 110px;
     text-align: center;
     background: #fff;
 }
+
 .tipbox .content span {
     font-size: 20px;
     color: #1B1B1B;
     display: block;
     text-align: center;
 }
+
 .tipbox .content .icon {
     background: #fff url(../images/inputs/icon_tipbox.png) no-repeat;
-    width:37px;
-    height:37px;
+    width: 37px;
+    height: 37px;
     display: inline-block;
-    margin-top:17px;
+    margin-top: 17px;
     margin-bottom: 10px;
 }
+
 .tipbox.success .head {
     background: #2ed832;
 }
+
 .tipbox.success .content .icon {
     background-position: 0 0;
 }
+
 .tipbox.fail .head {
     background: #ff3e3e;
 }
+
 .tipbox.fail .content .icon {
     background-position: 0 -37px;
 }
+
 /*--//End 提示框--*/
 .info_check {
     width: 876px;
@@ -1317,105 +1849,186 @@ body,
     float: right;
 
 }
+
 .info_check .title {
-    width:320px;
-    padding-left:118px;
+    width: 320px;
+    padding-left: 118px;
     position: relative;
-    margin:120px auto 50px auto;
+    margin: 120px auto 50px auto;
 }
+
 .info_check .title span {
     font-size: 14px;
     color: #949494;
     display: block;
 }
+
 .info_check .title strong {
-    line-height:48px;
+    line-height: 48px;
     color: #1b1b1b;
 }
+
 .info_check .title .icon {
     background: #fff url(../images/inputs/icon_info_check.png) no-repeat;
-    width:48px;
-    height:48px;
+    width: 48px;
+    height: 48px;
     position: absolute;
     top: 0;
-    left:60px;
+    left: 60px;
 }
+
 .info_check .buttons {
-    width:420px;
-    margin:0 auto 120px auto;
+    width: 420px;
+    margin: 0 auto 120px auto;
 }
+
 .info_check .buttons a {
-    width:184px;
-    height:56px;
-    line-height:56px;
+    width: 184px;
+    height: 56px;
+    line-height: 56px;
     background: #4283ea;
     text-align: center;
     color: #fff;
     font-size: 20px;
     border-radius: 6px;
     display: inline-block;
-    margin:0 10px;
+    margin: 0 10px;
 }
+
 .info_check.step1 span {
-    line-height:22px;
+    line-height: 22px;
 }
+
 .info_check.step1 strong {
-    line-height:22px;
+    line-height: 22px;
 }
+
 .info_check.step1 .icon {
-    background-position:0 -48px;
+    background-position: 0 -48px;
 }
+
 /*--//End 信息填写完成，可以提交审核--*/
 .ipt_over {
-    width:100%;
-    padding:190px 0 150px 0;
+    width: 100%;
+    padding: 190px 0 150px 0;
     float: left;
     background: #fff;
     border-top: 1px solid #E5E5E5;
 }
 .ipt_over .content {
-    width: 508px;
-    background: #fff;
-    margin:0 auto;
+    width: 384px;
+    margin: 0 auto;
 }
-.ipt_over .title {
-    width:320px;
-    padding-left:88px;
+.ipt_over .content .title {
+    width: 100%;
     position: relative;
-    margin:0 auto 130px auto;
 }
-.ipt_over .title span {
-    line-height:28px;
+.ipt_over .content .title span {
+    line-height: 28px;
     font-size: 20px;
     color: #000;
     display: block;
 }
-.ipt_over .title .icon {
+.ipt_over .content .title .icon {
     background: #fff url(../images/inputs/icon_info_check.png) no-repeat 0 -48px;
-    width:48px;
-    height:48px;
+    width: 48px;
+    height: 48px;
     position: absolute;
     top: 5px;
-    left: 22px;
+    left: -67px;
 }
-.ipt_over .buttons {
-    width:508px;
-    margin:0 auto 120px auto;
+.ipt_over .content .judge {
+    width: 100%;
+    float: left;
+    margin: 50px 0;
 }
-.ipt_over .buttons a {
-    width:184px;
-    height:56px;
-    line-height:56px;
+.ipt_over .content .judge .label {
+    width: 60%;
+    font-size: 20px;
+    line-height: 48px;
+    float: left;
+}
+.ipt_over .content .judge .control {
+	width:40%;
+    float: left;
+}
+.ipt_over .content .buttons {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto 120px auto;
+}
+.ipt_over .content .buttons a {
+    width: 184px;
+    height: 56px;
+    line-height: 56px;
     background: #4283ea;
     text-align: center;
     color: #fff;
     font-size: 20px;
     border-radius: 6px;
     display: inline-block;
-    margin:0 10px;
+    margin: 0 10px;
 }
-.ipt_over .buttons a.btn2 {
+.ipt_over .judge_box {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index:11;
+}
+.ipt_over .judge_box .main {
+    width: 574px;
+    height: 316px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -158px;
+    margin-left: -287px;
+    background: #fff;
+    z-index: 6;
+}
+.ipt_over .judge_box .main .title {
+    width: 220px;
+    padding-left: 60px;
+    position: relative;
+    margin: 60px auto 70px auto;
+}
+.ipt_over .judge_box .main .title .icon {
+    background: #fff url(../images/inputs/icon_info_check.png) no-repeat;
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.ipt_over .judge_box .main .title span {
+    font-size: 20px;
+    line-height: 48px;
+    color: #000;
+    display: block;
+}
+.ipt_over .judge_box .main .buttons {
+    width: 454px;
+    text-align: center;
+    margin: 0 auto;
+}
+.ipt_over .judge_box .main .buttons a {
+    width: 184px;
+    height: 56px;
+    line-height: 56px;
+    background: #4283ea;
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 6px;
+    float: left;
+}
+.ipt_over .judge_box .main .buttons a.btn2 {
     float: right;
+}
+.ipt_over .judge_box .overbg {
+    background: rgba(0,0,0,0.12);
 }
 /*--//End 信息填写完成，可以提交审核--*/
 .organization {
@@ -1423,36 +2036,45 @@ body,
     border: 1px solid #bdbdbd;
     background: #fff;
     float: right;
+    margin-bottom: 100px;
 }
+
 .organization .horizontal .main {
-    width:757px;
-    margin-top:50px;
+    width: 757px;
+    margin-top: 50px;
 }
+
 .organization .horizontal .group .label {
-    width:16%;
+    width: 16%;
 }
+
 .organization .horizontal .group .control {
-    width:84%;
+    width: 84%;
 }
+
 .organization .horizontal .group .control textarea {
-    width:552px
+    width: 552px
 }
+
 .organization .horizontal .group.inheritor .label {
-    width:40%;
+    width: 40%;
 }
+
 .organization .horizontal .group.inheritor .control {
-    width:60%;
+    width: 60%;
 }
+
 /*--//End 是否为自己申报--*/
 .modal {
     position: fixed;
-    top:0;
-    right:0;
-    bottom:0;
-    left:0;
-    z-index:12;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 12;
     display: none;
 }
+
 .modal .content .loading {
     width: 260px;
     line-height: 32px;
@@ -1466,19 +2088,22 @@ body,
     margin-left: -160px;
     margin-top: -27px;
 }
-.modal .content .loading img{
-    vertical-align:middle;
+
+.modal .content .loading img {
+    vertical-align: middle;
     display: inline-block;
-    margin-right:20px;
+    margin-right: 20px;
 }
-.modal .bg{
-    position:fixed;
-    top:0;
-    right:0;
-    bottom:0;
-    left:0;
-    z-index:1;
-    background:rgba(0,0,0,.7);
-    display:block;
+
+.modal .bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, .7);
+    display: block;
 }
+
 /*--//End 预览loading框--*/

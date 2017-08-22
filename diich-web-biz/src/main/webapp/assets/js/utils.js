@@ -626,12 +626,13 @@ var searchPage={
             return str;
         },
         bind:function (url) {
-            var form=$('#form');
+            var form=$('.filter_search');
             var options={
                 category:'所属类别',
                 citys:'地区'
             };
-            form.append(this.template(options,url));
+           // form.find('.form').remove();
+            //form.append(this.template(options,url));
 
             //1.输入框
             var _ipt=form.find('.ipt'); //输入框

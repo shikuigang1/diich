@@ -9,14 +9,14 @@
 
 <form id="basicForm" action="" class="bd horizontal">
     <div class="main">
-        <div class="group inheritor">
+        <!-- <div class="group inheritor">
             <label class="label" for=""><em>*</em>是否为自己申报传承人</label>
             <div class="control">
                 <span name="isApply_1" class="radio"><i></i><input type="radio" name="">是</span>
                 <span name="isApply_0" class="radio active"><i></i><input type="radio" name="">否</span>
                 <div id="isApply_err" class="errors" style="display: none" ><i></i>请选择是否为自己申报传承人</div>
             </div>
-        </div>
+        </div> -->
         <div id="inheritor"></div>
 
         {{#each sonterms}}
@@ -50,8 +50,8 @@
                      <div class="group">
                         <label class="label">{{#equal id 13}}<em>*</em>{{/equal}}<!-- <em>*</em> -->{{cnName}}</label>
                         <div class="control">
-                            <input value="" id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" type="text" data-maxLength="{{maxLength}}" data-maxLength="{{minLength}}" validate="true" check="required chinese" class="ipt w310">
-                            <div id="cnName_err" class="errors" style="display: none"><i></i>请填写姓名</div>
+                            <input value="" id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" type="text" data-maxLength="{{maxLength}}" data-minLength="{{minLength}}" class="ipt w310">
+                            <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填写姓名</div>
                         </div>
                      </div>
                     {{/equal}}
@@ -69,6 +69,21 @@
                                 {{/each}}
                              </select>
                         <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填写国籍</div>
+                    </div>
+                 </div>
+            {{/equal}}
+            {{#equal dataType 106}}
+                 <div class="group">
+                    <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
+                        <div class="control">
+                            <select id="basic_{{id}}" name= "basic_{{id}}" data-id="{{id}}" class="ipt w310">
+                                {{#each ../../countrys}}
+                                    {{#eif @index 0 op=">"}}
+                                        <option code="{{code}}" value="{{code}}">{{name}}</option>
+                                    {{/eif}}
+                                {{/each}}
+                            </select>
+                        <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填非遗等级</div>
                     </div>
                  </div>
             {{/equal}}
@@ -94,8 +109,8 @@
          <div class="group">
             <label class="label"><em>*</em>项目ID</label>
             <div class="control">
-                <input value="{{ichProjectId}}" validate="true" id="pid" type="text" class="ipt w310">
-                <div id="pid_err" class="errors" style="display: none"><i></i>请填写证件号码</div>
+                <input value="{{ichProjectId}}" validate="true" id="basic_pid" type="text" class="ipt w310">
+                <div id="basic_pid_err" class="errors" style="display: none"><i></i>请填写证件号码</div>
             </div>
          </div>
     </div>

@@ -5,7 +5,10 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
 
     var menuss = []; // 菜单项目
-    var menussIds = []; // 为保证菜单项ID与数据库一致 记录获取的组、项 的id
+    var pageObj = {}; // 页面缓存对象
+    var targetId = "";
+    var ichProjectId = getQueryString("pid"); // 所属项目ID
+
     function _init() {
         _onGetMenus();
         _menusOne();
@@ -21,7 +24,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 menuss = _onBuildMenus(result.res.data);
                 $("#menusAll").html(Handlebars.compile(menuListTpl)({menuss: menuss})); // 添加菜单
                 //inheritorPage.slideBar.init();
-                _getBasicTpl();
+                _getBasicTpl($("#menu_1"));
                 console.log(" menuss --- >", menuss)
             } else {
                 tipBox.init("fail", result.res.msg , 1500);
@@ -106,11 +109,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         return myMenus;
     }
 
-    //
-    function _buildMenuIds() {
-
-    }
-
     /**************************************************** 监听菜单模本 *****************************************************/
 
     // 监听一级菜单
@@ -146,7 +144,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             // 根据不同的type加载不同的模板
             switch (type) {
                 case "1":
-                    _getBasicTpl();// 基本信息
+                    _getBasicTpl($this);// 基本信息
                     break;
                 case "2":
                     _getContactTpl();// 联系方式
@@ -204,10 +202,10 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
     var isMaster = 0; // 是否申请传承人 0否 1是
     var imgUrl = ""; // 上传图片地址
-    var zjCode = ""; // 证件Code
+    var zjCode = "0"; // 证件Code 默认身份证
     // 基本信息模板
-    function _getBasicTpl() {
-        $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms})); // 更新页面模板
+    function _getBasicTpl($this) {
+        $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, pageObj : pageObj})); // 更新页面模板
         // 是否申请传承人
         $("span[name^='isApply_']").on("click", function() {
             $("span[name^='isApply_']").each(function() {
@@ -223,16 +221,87 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             imgUrl = res.data[0].substr((res.data[0].lastIndexOf ("/")+1), res.data[0].length);
             $('.preview').attr('src', res.data[0]).show();
             $('._token').val($('meta[name=token]').attr('content'));
-            console.log(imgUrl)
         });
         //时间
         $("#basic_18").ECalendar({type:"date", skin:2, offset:[0,2]});
         // 监听证件选择框 更新证件验证方式
-        $("#zj_type").change(function(){
-            var code = $(this).val();
-            zjCode = coede;
-            console.log(zjCode)
+        $("#basic_127").change(function(){
+            zjCode =  $(this).val();
         });
+
+        // 下一步监听
+        _monitorNext();
+        function _monitorNext() {
+            $("#basic_active").on("click", function() {  // 监听提交
+                _onSave();
+            })
+        }
+
+        function _onSave() {
+            var data = $("#basicForm").serializeArray();
+            data.push({name: "basic_pid", value: $("#basic_pid").val()})
+            var status = true, errNum = 0;
+            // 验证
+            $.each(data, function(i, v) {
+                var id = v.name.split("_").pop();
+                var maxlength = $("#" + v.name).attr("data-maxLength");
+                var minlength = $("#" + v.name).attr("data-minLength");
+                //if(v.value) {
+                    var rule = ""; // 正则规则
+                    var rule2 = ""; // 正则验证2
+                    var isNull = false; // 是否为空验证
+                    switch (id) {
+                        case "13": // 中文名
+                            rule = "reg_chinese";
+                            isNull = true;
+                            break;
+                        case "14": // 英文名
+                            rule = "reg_english";
+                            break;
+                        case "15": // 拼音
+                            rule = "reg_pinyin";
+                            break
+                        case "128": // 证件号码
+                            if(zjCode == "0") {
+                                rule = "reg_idcard";
+                            } else if(zjCode == "2") {
+                                rule = "reg_passport";
+                                rule2 = "reg_passport1";
+                            }
+                            break
+                        case "pid": // 拼音
+                            rule = "";
+                            isNull = true;
+                            break
+                        default:
+                            break;
+                    }
+                    if(!_onChk(v, rule, rule2, isNull, maxlength, minlength)) {
+                        errNum++;
+                    }
+                //}
+            })
+            // 更新状态
+            status = errNum > 0 ? false : true;
+            if(status) {
+                // 可以提交
+                if(imgUrl) {
+                    data.push({"name" : "img", "value" : imgUrl}); // 构建图片参数
+                }
+                var params = buildParams(data, pageObj);
+                console.log("params --- >", params);
+                _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+                    console.log("result === >", result,  JSON.stringify(result.res.data));
+                    // 处理用户未登录
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        _onMergeObj(result.res.data);
+                        _onNextPage($this.attr("id"), ["menu_2"], result.res.data);
+                    } else {
+
+                    }
+                });
+            }
+        }
     }
 
     // 联系方式模板
@@ -258,6 +327,239 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     // 自定义模板
     function _getCustomTpl() {
         $("#content").html(Handlebars.compile(customTpl)()); // 更新页面模板
+    }
+
+    /**
+     * 下一步 跳转下一页
+     * @param id
+     * @param nextIds
+     * @private
+     */
+    function _onNextPage(id, nextIds, resData) {
+        new Promise(function(resolv, reject) {
+            try{
+                $.each(resData.contentFragmentList,function(i, v) {
+                    if(v.content != "" || v.resourceList.length > 0) {
+                        $("#" + id).removeClass("selected").children("i").addClass("selected").removeClass("unselected"); // 添加已完成效果
+                        return false;
+                    } else {
+                        $("#" + id).removeClass("selected").children("i").addClass("unselected2").removeClass("unselected"); // 添加已完成效果
+                        return false;
+                    }
+                })
+                resolv();
+            } catch(e) {
+                reject({err: e});
+            }
+        }).then(function(res) {
+            $.each(nextIds, function(i, v) {
+                $('#' + v).trigger("click"); // 模拟点击传承人内容
+            })
+        })
+    }
+
+    /**
+     * 构建请求参数
+     * @param data
+     * @param updateData
+     * @returns {{contentFragmentList: *, isMaster: Number, lang: string, status: number, id: string}}
+     */
+    function buildParams(data, pageObj) {
+        var  params = {
+            "isMaster": parseInt(isMaster),
+            "lang": getLang()=="zh-CN" ? "chi" : "eng",
+            "id": targetId ? targetId : "",
+        }
+
+        if(ichProjectId) {
+            params.ichProjectId = ichProjectId;
+        }
+
+        if(pageObj.hasOwnProperty("contentFragmentList")) {
+            params.status = pageObj.status;
+        }
+
+        $.each(data, function(i, v) {
+            //console.log("  --- >", i, v);
+            v.attributeId = $("#" + v.name).attr("data-id") ? $("#" + v.name).attr("data-id") : 0 ;
+            v.content = v.value;
+            v.status = 0;
+            v.targetType = 1;
+            v.targetId = targetId? targetId : "";
+            v.resourceList = v.imgs ? v.imgs : [];
+
+            // 自定义
+            if(v.attributeId == 0) {
+                v.attribute = {
+                    "cnName": v.coustomName,
+                    "dataType": 5,
+                }
+                delete v.coustomName;
+            }
+
+            if(v.name == "img") {
+                v.content = "";
+                v.resourceList = [{uri: v.value}]; // 基本信息中只有一张图片
+            }
+
+            if(v.name == "birthday" && v.content != "") {
+                v.content = new Date(parseInt(v.content) * 1000).format('yyyy/MM/dd');
+            }
+
+            if(v.imgs) {
+                delete v.imgs
+            }
+            delete v.name;
+            delete v.value;
+
+            // 修改时候添加ID
+            if(pageObj.hasOwnProperty("contentFragmentList")) {
+                $.each(pageObj.contentFragmentList, function(j, d) {
+                    if(v.attributeId == d.attributeId) {
+                        v.id = d.id;
+                        if(v.resourceList.length > 0) {
+                            $.each(v.resourceList, function(r, va) {
+                                va.id = d.resourceList[r].id;
+                            })
+                        }
+                        //delete params.status; // 修改的时候不填写status
+                        return;
+                    }
+                })
+            }
+        })
+        params.contentFragmentList =data;
+        return params;
+    }
+
+    var defaults = {
+        // 正则
+        reg_email: /^\w+\@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}$/i, //验证邮箱
+        reg_num: /^\d+$/,         //验证数字
+        reg_chinese: /^[\u4E00-\u9FA5]+$/,     //验证中文
+        reg_english: /^[A-Za-z\s]*[A-Za-z]$/, // 验证英文
+        reg_pinyin: /^[A-Za-z\s]*[A-Za-z]$/, // 验证拼音
+        reg_mobile: /^1[3458]{1}[0-9]{9}$/,    //验证手机
+        reg_idcard: /^\d{14}\d{3}?\w$/,     //验证身份证
+        reg_passport: /^[a-zA-Z]{5,17}$/, // 护照格式验证
+        reg_passport1: /^[a-zA-Z0-9]{5,17}$/, // 护照格式验证1
+        reg_zipcode: /^[1-9][0-9]{5}$/,
+        reg_length: "/^.{min,max}$\/",
+        reg_minLengh: "/^\w{min,}$/",
+
+        tips_sucess :"", // 验证成功时候的提示语，默认是空
+        tips_required: '此项是必添项，请填写',
+        tips_email: '邮箱地址格式有误',
+        tips_num: '请填写数字',
+        tips_chinese: '请填写中文',
+        tips_english: '请填写英文',
+        tips_pinyin: '请填写拼音',
+        tips_mobile: '手机号码格式有误',
+        tips_idcard: '身份证号码格式有误',
+        tips_pwdequal: '两次密码不一致',
+        tips_passport: '护照号码格式有误',
+        tips_zipcode: '邮编格式有误',
+    };
+    // 验证
+    function _onChk (obj, reg, reg2, isNull, maxlength, minlength) {
+
+        var errId = obj.name + "_err";
+        // 是否为空
+        if(isNull) {
+            if(!obj.value) {
+                $("#" + errId).html("<i></i>" +defaults["tips_required"]).show(); // 显示提示语
+                return false;
+            }
+        }  else {
+            $("#" + errId).hide();
+        }
+
+        // 验证正则 用户输入值了就验证正则
+        if(obj.value != "") {
+            if(reg2 != "") {
+                if(defaults[reg].test(obj.value) || defaults[reg2].test(obj.value)) {
+                    $("#" + errId).hide();
+                    return true;
+                } else {
+                    $("#" + errId).html("<i></i>" +defaults["tips" + reg.substr(reg.indexOf("_"), reg.length)]).show(); // 显示提示语
+                    return false;
+                }
+            } else if(reg != ""){
+                if(!defaults[reg].test(obj.value)) {
+                    $("#" + errId).html("<i></i>" +defaults["tips" + reg.substr(reg.indexOf("_"), reg.length)]).show(); // 显示提示语
+                    return false;
+                } else {
+                    $("#" + errId).hide();
+                }
+            }
+        }
+
+        // 验证长度
+        if(maxlength && minlength) {
+            if(obj.value > parseInt(maxlength) && obj.value < parseInt(minlength)) {
+                $("#" + errId).html("<i></i>请输入(" + minlength + "-" + maxlength + "字)").show(); // 显示提示语
+                return false;
+            }
+        } else if(maxlength) {
+            if(obj.value > parseInt(maxlength)) {
+                $("#" + errId).html("<i></i>请最多输入(" + maxlength + "字)").show(); // 显示提示语
+                return false;
+            }
+        } else if(minlength) {
+            if(obj.value < parseInt(minlength)) {
+                $("#" + errId).html("<i></i>请最少输入(" + maxlength + "字)").show(); // 显示提示语
+                return false;
+            }
+        } else {
+            $("#" + errId).hide();
+        }
+        return true;
+    }
+
+
+    /**
+     * 公共调用 合并js对象。
+     * @param obj1
+     * @param obj2
+     * @private
+     */
+    function _onMergeObj(obj2) {
+        if(pageObj.hasOwnProperty("contentFragmentList")) {
+            for(var tem in pageObj) {
+                if(pageObj[tem] instanceof Array && tem == "contentFragmentList") {
+                    // pageObj.contentFragmentList = pageObj.contentFragmentList.concat(obj2.contentFragmentList);
+                    $.each(obj2.contentFragmentList, function(i, v) {
+                        var res = onFilterRepeat(v.attributeId);
+                        if(res.fag) {
+                            pageObj.contentFragmentList = pageObj.contentFragmentList.concat(obj2.contentFragmentList);
+                        } else {
+                            // 不合并数据 但更新对象
+                            Object.assign(pageObj[tem][res.index], v);
+                        }
+                    })
+                } else {
+                    pageObj[tem] = obj2[tem];
+                }
+            }
+        } else {
+            pageObj = obj2;
+        }
+
+        // 过滤掉重复的数据
+        function onFilterRepeat(attributeId) {
+            var res = {};
+            res.fag = true;
+            $.each(pageObj.contentFragmentList, function(i, v) {
+                if(v.attributeId == attributeId) {
+                    //console.log("检查出来的重复的对象", v);
+                    res.fag = false;
+                    res.index = i; // 重复数据在pageObj.contentFragmentList中重复的
+                    return;
+                }
+            })
+            return res;
+        }
+        console.log("pageObj --- >", pageObj)
     }
 
     /**
