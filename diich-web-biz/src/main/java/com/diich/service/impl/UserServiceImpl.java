@@ -153,10 +153,14 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
 
     @Override
     public User updateUser(User user) throws Exception {
+        //获取当前事务状态
+        TransactionStatus transactionStatus = getTransactionStatus();
         try{
             userMapper.updateByPrimaryKeySelective(user);
             user = userMapper.selectByPrimaryKey(user.getId());
+            commit(transactionStatus);
         }catch (Exception e){
+            rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         return user;
