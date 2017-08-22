@@ -20,8 +20,8 @@
             <div class="group">
                 <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
                 <div class="control">
-                    <input value="" validate="true" check="mobile" id="contact_{{id}}" name="contact_{{id}}" data-id="{{id}}" data-maxLength="{{maxLength}}" data-maxLength="{{minLength}}" type="text" class="ipt w310" {{#equal id 58}}placeholder="+86"{{/equal}}>
-                    <div id="sj_err" class="errors" style="display: none"><i></i>请填写手机</div>
+                    <input value="{{getContent ../../pageObj.contentFragmentList id}}" validate="true" check="mobile" id="contact_{{id}}" name="contact_{{id}}" data-id="{{id}}" data-maxLength="{{maxLength}}" data-maxLength="{{minLength}}" type="text" class="ipt w310" {{#equal id 58}}placeholder="+86"{{/equal}}>
+                    <div id="contact_{{id}}_err" class="errors" style="display: none"><i></i>请填写手机</div>
                 </div>
             </div>
         {{/equal}}
@@ -30,9 +30,17 @@
                 <label class="label" for=""><!-- <em>*</em> -->{{cnName}}</label>
                 <div class="control">
                     <div id="live" class="ipt w650 select" data-type="selectArea" value="" data-id="{{id}}" >请选择地域</div>
-                    <div class="area" id="area" style="{{#ifAttribute pageObj.contentFragmentList 55 }}display: block;{{/ifAttribute}}" >
+                    <div class="area" id="area" style="{{#ifAttribute ../../pageObj.contentFragmentList 55 }}display: block;{{/ifAttribute}}" >
                         <div class="select" id="select" style="display: none"></div>
-                        <div class="selected" id="selected"></div>
+                        <div class="selected" id="selected">
+                         {{#each ../../pageObj.contentFragmentList}}
+                            {{#equal attributeId 55}}
+                                {{#each addressCodes}}
+                                    <li><span>{{getAddressText this}}<i class="icon"></i></span></li>
+                                {{/each}}
+                            {{/equal}}
+                         {{/each}}
+                        </div>
                     </div>
                     <div class="errors" style="display: none"><i></i>请填写地域</div>
                 </div>

@@ -177,7 +177,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     _getBasicTpl($this);// 基本信息
                     break;
                 case "2":
-                    _getContactTpl();// 联系方式
+                    _getContactTpl($this);// 联系方式
                     break;
                 case "3":
                     _getVocationTpl();// 职业信息
@@ -342,7 +342,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     // 处理用户未登录
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         _onMergeObj(result.res.data);
-                        _onNextPage($this.attr("id"), ["menu_2"], result.res.data);
+                        _onNextPage($this.attr("id"), ["menu_3"], result.res.data);
                     } else {
 
                     }
@@ -352,7 +352,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     }
 
     // 联系方式模板
-    function _getContactTpl() {
+    function _getContactTpl($this) {
         if(pageObj.hasOwnProperty("contentFragmentList")) {
             $.each(pageObj.contentFragmentList, function(i, v) {
                 if(v.attributeId == 55) {
@@ -362,7 +362,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 }
             })
         }
-        $("#content").html(Handlebars.compile(contactTpl)({sonterms: menuss[1].sonTerms, pageObj : pageObj})); // 更新页面模板
+        $("#content").html(Handlebars.compile(contactTpl)({sonterms: menuss[1].sonTerms, pageObj: pageObj})); // 更新页面模板
         selectArea1.init(0, addressCode, function (data, dataText) {
             var code = "";
             if(data.length > 0) {
@@ -389,52 +389,50 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         function onSave() {
             var data = $("#contactForm").serializeArray();
             console.log("data --- >", data);
-            var rule = ""; // 正则规则
-            var rule2 = ""; // 正则验证2
-            var isNull = false; // 是否为空验证
-            switch (id) {
-                case "58": // 手机号
-                    rule = "reg_mobile";
-                    isNull = true;
-                    break;
-                case "59": // 邮箱
-                    rule = "reg_email";
-                    break;
-                case "56": // 邮编
-                    rule = "reg_pinyin";
-                    break
-                default:
-                    break;
+            var status = true, errNum = 0;
+            // 验证
+            $.each(data, function(i, v) {
+                var id = v.name.split("_").pop();
+                var maxlength = $("#" + v.name).attr("data-maxLength");
+                var minlength = $("#" + v.name).attr("data-minLength");
+                var rule = ""; // 正则规则
+                var rule2 = ""; // 正则验证2
+                var isNull = false; // 是否为空验证
+                switch (id) {
+                    case "58": // 手机号
+                        rule = "reg_mobile";
+                        break;
+                    case "59": // 邮箱
+                        rule = "reg_email";
+                        break;
+                    case "56": // 邮编
+                        rule = "reg_zipcode";
+                        break
+                    default:
+                        break;
+                }
+                if(!_onChk(v, rule, rule2, isNull, maxlength, minlength)) {
+                    errNum++;
+                }
+            })
+            // 更新状态
+            status = errNum > 0 ? false : true;
+            if(status) {
+                // 可以提交
+                data.push({"name" : "live", "value" : addressCode.toString()}); // 构建三级联动参数
+                var params = buildParams(data, pageObj);
+                console.log("params --- >", params);
+                _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+                    console.log("result === >", result,  JSON.stringify(result.res.data));
+                    // 处理用户未登录
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        _onMergeObj(result.res.data);
+                        _onNextPage($this.attr("id"), ["menu_3"], result.res.data);
+                    } else {
+
+                    }
+                });
             }
-            if(!_onChk(v, rule, rule2, isNull, maxlength, minlength)) {
-                errNum++;
-            }
-            //$("#contact_active").off("click");
-            //if(validate()) {
-            //    var params = getContactFormData();
-            //    //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
-            //    console.log("params -- >", params);
-            //    // 发送请求
-            //    onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-            //        //console.log("result ---- >", result, JSON.stringify(result.res.data), "----pageObj ---", pageObj);
-            //        if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-            //            targetId = result.res.data.id;
-            //            _onMergeObj(result.res.data); // 保存成功存储服务器返回数据
-            //            //console.log("pageObj --- >", JSON.stringify(pageObj))
-            //            // 跳转到下一页面
-            //            _onNextPage(menu_01, [menu_02], result.res.data);
-            //            _isSureSumit();
-            //            _bindingSave();
-            //        } else {
-            //            if(result.res.code != 3) {
-            //                tipBox.init("fail", result.res.msg , 1500);
-            //            }
-            //            _bindingSave();
-            //        }
-            //    });
-            //} else {
-            //    _bindingSave();
-            //}
         }
     }
 
@@ -572,7 +570,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         reg_idcard: /^\d{14}\d{3}?\w$/,     //验证身份证
         reg_passport: /^[a-zA-Z]{5,17}$/, // 护照格式验证
         reg_passport1: /^[a-zA-Z0-9]{5,17}$/, // 护照格式验证1
-        reg_zipcode: /^[1-9][0-9]{5}$/,
+        reg_zipcode: /^[1-9][0-9]{5}$/, // 邮编
         reg_length: "/^.{min,max}$\/",
         reg_minLengh: "/^\w{min,}$/",
 
