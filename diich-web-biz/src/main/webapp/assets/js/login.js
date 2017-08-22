@@ -125,15 +125,21 @@ var loginPage = {
         });
     },
     template: function () {
-        var html = `<div class="box_layer">
+        var html = `
+        <style>.form_area .title {text-indent:86px}
+        .form_area .group .name {width: 16%}
+        .form_area .group .name span {width: 100%}
+        .form_area .group .area {width: 80%;float: right}
+        .form_area .group .ipt {width: 90%;padding:0 5%;}
+        .form_area .group .ipt::-webkit-input-placeholder { color:#ccc; }</style><div class="box_layer">
                     <div class="item login" style="display: block;">
                         <form class="form_area" id="loginForm" action="" onkeydown="if(event.keyCode==13)return false;" >
                             <input type="hidden" id="backurl" value="" >
                             <div class="title" >登录<span class="close"></span></div>
                             <div class="group">
-                                <div class="name"><span id="nickname">用户名</span></div>
+                                <div class="name"><span id="nickname">登录名</span></div>
                                 <div class="area">
-                                    <input class="ipt"  name="loginName" type="text" placeholder="用户名">
+                                    <input class="ipt"  name="loginName" type="text" placeholder="用户名/手机号">
                                 </div>
                             </div>
                             <div class="group">
@@ -148,7 +154,7 @@ var loginPage = {
                                 <div class="name">&nbsp;</div>
                                 <div class="area">
                                     <input class="btn" type="button" value="登录" onclick="login()">
-                                    <a class="arrow_right js-to-register" href="javascript:;">暂无账号，去注册</a>
+                                    <a class="arrow_right js-to-register" href="javascript:;">去注册</a>
                                 </div>
                             </div>
                         </form>
@@ -178,7 +184,7 @@ var loginPage = {
                                 <div class="area">
                                     <input type="text" class="ipt" value=""  name="code" maxlength="10">
                                     <div class="code">
-                                        <span data-type="0">获取验证码</span>
+                                        <span style="cursor: pointer;" data-type="0">获取验证码</span>
                                     </div>
                                     <div class="error_txt"></div>
                                 </div>
@@ -242,6 +248,7 @@ var loginPage = {
                                 </div>
                             </div>
                         </form>
+                        
                     </div>
                     <!--//End 重置密码-->
                 
@@ -260,7 +267,7 @@ var loginPage = {
                             <div class="group">
                                 <div class="name"><span style="font-size:16px;">Name</span></div>
                                 <div class="area">
-                                    <input class="ipt" name="loginName" id="loginName" type="text" placeholder="Please enter your name">
+                                    <input class="ipt" name="loginName" id="loginName" type="text" placeholder="name/mobile">
                                 </div>
                             </div>
                             <div class="group">
@@ -292,7 +299,7 @@ var loginPage = {
                                 </div>
                             </div>
                             <div class="group">
-                                <div class="name"><span style="font-size:16px;">Phone</span></div>
+                                <div class="name"><span style="font-size:16px;">Mobile</span></div>
                                 <div class="area">
                                     <input type="text" class="ipt" id="phone" name="phone" value="">
                                     <div class="error_txt"></div>
@@ -303,13 +310,13 @@ var loginPage = {
                                 <div class="area">
                                     <input type="text" class="ipt" value="" id="code" name="code" maxlength="10">
                                     <div class="code">
-                                        <span style="font-size:16px;" data-type="0">Get validation code</span>
+                                        <span style="font-size:14px;cursor: pointer" data-type="0">Get validation code</span>
                                     </div>
                                     <div class="error_txt"></div>
                                 </div>
                             </div>
                             <div class="group">
-                                <div class="name"><span style="font-size:16px;">PWD</span></div>
+                                <div class="name"><span style="font-size:16px;">Password</span></div>
                                 <div class="area">
                                     <input type="password" class="ipt" id="password" name="password" value="">
                                 </div>
@@ -326,7 +333,7 @@ var loginPage = {
                                 <div class="name">&nbsp;</div>
                                 <div class="area">
                                     <input class="btn" type="submit" value="register"  onclick="registForm()">
-                                    <a class="arrow_right js-to-login" href="javascript:;" style="font-size:16px;">Have an account to log on</a>
+                                    <a class="arrow_right js-to-login" href="javascript:;" style="font-size:16px;">login</a>
                                 </div>
                             </div>
                         </form>
@@ -336,9 +343,9 @@ var loginPage = {
                         <form action="" class="form_area" id="resetForm"  onkeydown="if(event.keyCode==13)return false;" >
                             <div class="title">reset password<span class="close"></span></div>
                             <div class="group">
-                                <div class="name"><span style="font-size:16px;">Phone</span></div>
+                                <div class="name"><span style="font-size:16px;">Mobile</span></div>
                                 <div class="area">
-                                    <input type="text" class="ipt" name="phone" value="">
+                                    <input type="text" class="ipt" name="Mobile" value="">
                                     <div class="error_txt"></div>
                                 </div>
                             </div>
@@ -347,7 +354,7 @@ var loginPage = {
                                 <div class="area">
                                     <input type="text" class="ipt" value="" name="code" maxlength="10">
                                     <div class="code">
-                                        <span style="font-size:16px;" data-type="1">Get validation code</span>
+                                        <span style="font-size:16px;cursor: pointer;" data-type="1">Get validation code</span>
                                         <div class="error_txt"></div>
                                     </div>
                                     
