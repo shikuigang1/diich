@@ -310,15 +310,54 @@ public class UserController extends BaseController<User> {
         }
 
         try{
-            user.setId(user1.getId());
+            user = copyUser(user1, user);
             user = userService.updateUser(user);
             HttpSession session = request.getSession();
-            user.setPassword(null);
             session.setAttribute("CURRENT_USER",user);
         }catch (Exception e){
             return putDataToMap(e);
         }
         return putDataToMap(user);
+    }
+
+    private User copyUser(User user1 , User user) throws Exception{
+        if(StringUtils.isEmpty(user.getId())){
+            user.setId(user1.getId());
+        }
+        if(StringUtils.isEmpty(user.getName())){
+            user.setName(user1.getName());
+        }
+        if(StringUtils.isEmpty(user.getCredit())){
+            user.setCredit(user1.getCredit());
+        }
+        if(StringUtils.isEmpty(user.getGender())){
+            user.setGender(user1.getGender());
+        }
+        if(StringUtils.isEmpty(user.getLastLoginDate())){
+            user.setLastLoginDate(user1.getLastLoginDate());
+        }
+        if(StringUtils.isEmpty(user.getLastLoginIp())){
+            user.setLastLoginIp(user1.getLastLoginIp());
+        }
+        if(StringUtils.isEmpty(user.getMail())){
+            user.setMail(user1.getMail());
+        }
+        if(StringUtils.isEmpty(user.getRank())){
+            user.setRank(user1.getRank());
+        }
+        if(StringUtils.isEmpty(user.getType())){
+            user.setType(user1.getType());
+        }
+        if(StringUtils.isEmpty(user.getStatus())){
+            user.setStatus(user1.getStatus());
+        }
+        if(StringUtils.isEmpty(user.getLoginName())){
+            user.setLoginName(user1.getLoginName());
+        }
+        if(StringUtils.isEmpty(user.getPhone())){
+            user.setPhone(user1.getPhone());
+        }
+        return user;
     }
     /**
      * 验证码是否正确
