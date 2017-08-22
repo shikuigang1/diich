@@ -20,7 +20,7 @@
                     <div class="group">
                         <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
                         <div class="control">
-                            <input value="" validate="true" check="mobile" id="vocation_{{id}}" name="vocation_{{id}}" data-id="{{id}}" data-maxLength="{{maxLength}}" data-maxLength="{{minLength}}" type="text" class="ipt w310">
+                            <input value="" validate="true" check="mobile" id="vocation_{{id}}" name="vocation_{{id}}" data-id="{{id}}" data-minLength="{{maxLength}}" data-maxLength="{{minLength}}" type="text" class="ipt w310">
                             <div id="vocation_{{id}}_err" class="errors" style="display: none"><i></i>请填写手机</div>
                         </div>
                     </div>
@@ -29,7 +29,7 @@
                     <div class="group">
                         <label class="label"><!-- <em>*</em> -->简介</label>
                         <div class="control">
-                            <textarea value="" name="vocation_{{id}}" id="vocation_{{id}}" data-id="{{id}}" data-maxLength="{{maxLength}}" data-maxLength="{{minLength}}" cols="30" rows="10"></textarea>
+                            <textarea value="" name="vocation_{{id}}" id="vocation_{{id}}" data-id="{{id}}" data-maxLength="{{maxLength}}" data-minLength="{{minLength}}" cols="30" rows="10"></textarea>
                             <div id="vocation_{{id}}_err" class="errors" style="display: none"><i></i>请填写简写</div>
                         </div>
                     </div>

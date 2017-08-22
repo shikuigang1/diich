@@ -180,10 +180,10 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     _getContactTpl($this);// 联系方式
                     break;
                 case "3":
-                    _getVocationTpl();// 职业信息
+                    _getVocationTpl($this);// 职业信息
                     break;
                 case "4":
-                    _getMasterTpl();// 师徒关系
+                    _getMasterTpl($this);// 师徒关系
                     break;
                 case "5":
                     // 传承人内容
@@ -276,8 +276,8 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             declareCode = data.toString();
         })
         // 下一步监听
-        _monitorNext();
-        function _monitorNext() {
+        _bindingSave();
+        function _bindingSave() {
             $("#basic_active").on("click", function() {  // 监听提交
                 _onSave();
             })
@@ -343,8 +343,10 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         _onMergeObj(result.res.data);
                         _onNextPage($this.attr("id"), ["menu_3"], result.res.data);
+                        _bindingSave();
                     } else {
-
+                        tipBox.init("fail", result.res.msg, 1500);
+                        _bindingSave();
                     }
                 });
             }
@@ -387,6 +389,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         }
         // 保存
         function onSave() {
+            $("#contactForm").off("click");
             var data = $("#contactForm").serializeArray();
             console.log("data --- >", data);
             var status = true, errNum = 0;
@@ -428,8 +431,10 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         _onMergeObj(result.res.data);
                         _onNextPage($this.attr("id"), ["menu_3"], result.res.data);
+                        _bindingSave();
                     } else {
-
+                        tipBox.init("fail", result.res.msg, 1500);
+                        _bindingSave();
                     }
                 });
             }
@@ -437,12 +442,79 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     }
 
     // 职业信息模板
-    function _getVocationTpl() {
+    function _getVocationTpl($this) {
         $("#content").html(Handlebars.compile(vocationTpl)({sonterms: menuss[2].sonTerms})); // 更新页面模板
+        _bindingSave();
+        function _bindingSave() {
+            $("#vocation_active").on("click", function() {     // 监听提交
+                onSave();
+            })
+        }
+
+        // 保存
+        function onSave() {
+            var data = $("#contactForm").serializeArray();
+            var params = buildParams(data, pageObj);
+            console.log("params -- >", params);
+            // 发送请求
+            _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+                //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
+                if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                    _onMergeObj(result.res.data);
+                    _onNextPage($this.attr("id"), ["menu_4"], result.res.data);
+                    _bindingSave();
+                } else {
+                    tipBox.init("fail", result.res.msg , 1500);
+                    _bindingSave();
+                }
+            });
+            //$("#vocation_active").off("click");
+            //var jvalue = $("#jj").val();
+            //var minLength = 50;
+            //var maxLength = 200;
+            //var fag = true;
+            //if(jvalue) {
+            //    fag = jvalue ? showMsg($("#jj"), defaults.tips_success, true) : showMsg($("#jj"), defaults.tips_required, false);
+            //    if(jvalue.length > minLength && jvalue.length < maxLength) {
+            //        showMsg($("#jj"), defaults.tips_success, true)
+            //    } else {
+            //        fag = false;
+            //        showMsg($("#jj"), defaults.tips_length.replace("min", minLength).replace("max", maxLength), false);
+            //    }
+            //}
+            //
+            //if(fag) {
+            //    showMsg($("#jj"), defaults.tips_success, true);
+            //    var params = getVocationFormData();
+            //    // 过滤掉重复数据
+            //    //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+            //    //console.log("params -- >", params);
+            //    // 发送请求
+            //    onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+            //        //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
+            //        if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+            //            targetId = result.res.data.id;
+            //            _onMergeObj(result.res.data); // 保存成功存储服务器返回数据
+            //            //console.log("pageObj --- >", JSON.stringify(pageObj))
+            //            // 跳转到下一页面
+            //            _onNextPage(menu_02, [menu_1, menu_10], result.res.data);
+            //            _isSureSumit();
+            //            _bindingSave();
+            //        } else {
+            //            if(result.res.code != 3) {
+            //                tipBox.init("fail", result.res.msg , 1500);
+            //            }
+            //            _bindingSave();
+            //        }
+            //    });
+            //} else {
+            //    _bindingSave();
+            //}
+        }
     }
 
     // 师徒信息模板
-    function _getMasterTpl() {
+    function _getMasterTpl($this) {
         $("#content").html(Handlebars.compile(masterTpl)({sonterms: menuss[3].sonTerms})); // 更新页面模板
     }
 
@@ -465,15 +537,19 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     function _onNextPage(id, nextIds, resData) {
         new Promise(function(resolv, reject) {
             try{
-                $.each(resData.contentFragmentList,function(i, v) {
-                    if(v.content != "" || v.resourceList.length > 0) {
-                        $("#" + id).removeClass("selected").children("i").addClass("selected").removeClass("unselected"); // 添加已完成效果
-                        return false;
-                    } else {
-                        $("#" + id).removeClass("selected").children("i").addClass("unselected2").removeClass("unselected"); // 添加已完成效果
-                        return false;
-                    }
-                })
+                if(resData.contentFragmentList.length > 0) {
+                    $.each(resData.contentFragmentList,function(i, v) {
+                        if(v.content != "" || v.resourceList.length > 0) {
+                            $("#" + id).removeClass("selected").children("i").addClass("selected").removeClass("unselected"); // 添加已完成效果
+                            return false;
+                        } else {
+                            $("#" + id).removeClass("selected").children("i").addClass("unselected2").removeClass("unselected"); // 添加已完成效果
+                            return false;
+                        }
+                    })
+                } else {
+                    $("#" + id).removeClass("selected").children("i").addClass("unselected2").removeClass("unselected"); // 添加已完成效果
+                }
                 resolv();
             } catch(e) {
                 reject({err: e});
