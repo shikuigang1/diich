@@ -341,6 +341,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     console.log("result === >", result,  JSON.stringify(result.res.data));
                     // 处理用户未登录
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        targetId = result.res.data.id;
                         _onMergeObj(result.res.data);
                         _onNextPage($this.attr("id"), ["menu_3"], result.res.data);
                         _bindingSave();
@@ -429,6 +430,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     console.log("result === >", result,  JSON.stringify(result.res.data));
                     // 处理用户未登录
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        targetId = result.res.data.id;
                         _onMergeObj(result.res.data);
                         _onNextPage($this.attr("id"), ["menu_3"], result.res.data);
                         _bindingSave();
@@ -443,7 +445,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
     // 职业信息模板
     function _getVocationTpl($this) {
-        $("#content").html(Handlebars.compile(vocationTpl)({sonterms: menuss[2].sonTerms})); // 更新页面模板
+        $("#content").html(Handlebars.compile(vocationTpl)({sonterms: menuss[2].sonTerms, pageObj: pageObj})); // 更新页面模板
         _bindingSave();
         function _bindingSave() {
             $("#vocation_active").on("click", function() {     // 监听提交
@@ -453,13 +455,14 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
         // 保存
         function onSave() {
-            var data = $("#contactForm").serializeArray();
+            var data = $("#vocationForm").serializeArray();
             var params = buildParams(data, pageObj);
             console.log("params -- >", params);
             // 发送请求
             _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
+                console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
                 if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                    targetId = result.res.data.id;
                     _onMergeObj(result.res.data);
                     _onNextPage($this.attr("id"), ["menu_4"], result.res.data);
                     _bindingSave();
@@ -468,54 +471,38 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     _bindingSave();
                 }
             });
-            //$("#vocation_active").off("click");
-            //var jvalue = $("#jj").val();
-            //var minLength = 50;
-            //var maxLength = 200;
-            //var fag = true;
-            //if(jvalue) {
-            //    fag = jvalue ? showMsg($("#jj"), defaults.tips_success, true) : showMsg($("#jj"), defaults.tips_required, false);
-            //    if(jvalue.length > minLength && jvalue.length < maxLength) {
-            //        showMsg($("#jj"), defaults.tips_success, true)
-            //    } else {
-            //        fag = false;
-            //        showMsg($("#jj"), defaults.tips_length.replace("min", minLength).replace("max", maxLength), false);
-            //    }
-            //}
-            //
-            //if(fag) {
-            //    showMsg($("#jj"), defaults.tips_success, true);
-            //    var params = getVocationFormData();
-            //    // 过滤掉重复数据
-            //    //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
-            //    //console.log("params -- >", params);
-            //    // 发送请求
-            //    onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-            //        //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
-            //        if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-            //            targetId = result.res.data.id;
-            //            _onMergeObj(result.res.data); // 保存成功存储服务器返回数据
-            //            //console.log("pageObj --- >", JSON.stringify(pageObj))
-            //            // 跳转到下一页面
-            //            _onNextPage(menu_02, [menu_1, menu_10], result.res.data);
-            //            _isSureSumit();
-            //            _bindingSave();
-            //        } else {
-            //            if(result.res.code != 3) {
-            //                tipBox.init("fail", result.res.msg , 1500);
-            //            }
-            //            _bindingSave();
-            //        }
-            //    });
-            //} else {
-            //    _bindingSave();
-            //}
         }
     }
 
     // 师徒信息模板
     function _getMasterTpl($this) {
-        $("#content").html(Handlebars.compile(masterTpl)({sonterms: menuss[3].sonTerms})); // 更新页面模板
+        $("#content").html(Handlebars.compile(masterTpl)({sonterms: menuss[3].sonTerms, pageObj: pageObj})); // 更新页面模板
+        _bindingSave();
+        function _bindingSave() {
+            $("#master_active").on("click", function() {
+                onSave();
+            })
+        }
+
+        // 防止用户多次点击下一步按钮  处理过程解绑点击事件 处理完成后重新绑定
+        function onSave() {
+            //$("#master_active").off("click");
+            var data = $("#masterForm").serializeArray();
+            var params = buildParams(data, pageObj);
+            console.log("params -- >", params);
+            _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+                //console.log("result ---- >", result, JSON.stringify(result.res.data));
+                if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                    targetId = result.res.data.id;
+                    _onMergeObj(result.res.data); // 保存成功存储服务器返回数据
+                    _onNextPage($this.attr("id"), ["menu_5","menutwo_5_0"], result.res.data);
+                    _bindingSave();
+                } else {
+                    tipBox.init("fail", result.res.msg , 1500);
+                    _bindingSave();
+                }
+            });
+        }
     }
 
     // 通用模板（长文本）
