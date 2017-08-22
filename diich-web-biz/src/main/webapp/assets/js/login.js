@@ -8,31 +8,34 @@ var loginPage = {
         //去除表单最后一组的下边距
         this.show();
     },
+    showLoginWindow:function (url) {
+
+        var _this = this;
+        var lang = getLang();
+        if(lang == 'zh-CN'){
+            _this.template();
+            var $box_layer=$('.box_layer');
+            $box_layer.removeClass('box_layer_en');
+        }else{
+            _this.templateEn();
+            var $box_layer=$('.box_layer');
+            $box_layer.addClass('box_layer_en');
+        }
+        _this.close();
+        _this.code();
+        _this.tabItem();
+        $("#backurl").val(url);
+    },
     show: function () {//点击展示
         var _this = this;
         var el = $('.header .content .info li.login');
         el.on('click', function () {
-            var lang = getLang();
-
-           if(lang == 'zh-CN'){
-               _this.template();
-               var $box_layer=$('.box_layer');
-               $box_layer.removeClass('box_layer_en');
-           }else{
-               _this.templateEn();
-               var $box_layer=$('.box_layer');
-               $box_layer.addClass('box_layer_en');
-           }
-
-            _this.close();
-            _this.code();
-            _this.tabItem();
+            _this.showLoginWindow("");
         });
     },
     code: function () { //验证码
-        var _form = $('.form_area');null
+        var _form = $('.form_area');
         var _span = _form.find('.code span');
-
 
         var time = 60;
         _span.on('click', function () {
@@ -94,9 +97,6 @@ var loginPage = {
                     }
                 }
             });
-
-
-
         });
     },
     close: function () {//移出弹层
@@ -128,11 +128,12 @@ var loginPage = {
         var html = `<div class="box_layer">
                     <div class="item login" style="display: block;">
                         <form class="form_area" id="loginForm" action="" onkeydown="if(event.keyCode==13)return false;" >
+                            <input type="hidden" id="backurl" value="" >
                             <div class="title" >登录<span class="close"></span></div>
                             <div class="group">
-                                <div class="name"><span id="nickname">昵&nbsp;&nbsp;称</span></div>
+                                <div class="name"><span id="nickname">用户名</span></div>
                                 <div class="area">
-                                    <input class="ipt"  name="loginName" type="text" placeholder="请输入昵称">
+                                    <input class="ipt"  name="loginName" type="text" placeholder="用户名">
                                 </div>
                             </div>
                             <div class="group">
@@ -157,7 +158,7 @@ var loginPage = {
                         <form action="" class="form_area" id="registForm" onkeydown="if(event.keyCode==13)return false;" >
                             <div class="title">注册<span class="close"></span></div>
                             <div class="group">
-                                <div class="name"><span>昵称</span></div>
+                                <div class="name"><span>用户名</span></div>
                                 <div class="area">
                                     <input type="text" class="ipt" name="loginName"  value="">
                                     <div class="error_txt"></div>
@@ -254,11 +255,12 @@ var loginPage = {
         var html = `<div class="box_layer">
                     <div class="item login" style="display: block;">
                         <form class="form_area" id="loginForm" action="" onkeydown="if(event.keyCode==13)return false;" >
+                            <input type="hidden" id="backurl" value="" >
                             <div class="title">Sign in<span class="close"></span></div>
                             <div class="group">
                                 <div class="name"><span style="font-size:16px;">Name</span></div>
                                 <div class="area">
-                                    <input class="ipt" name="loginName" id="loginName" type="text" placeholder="Please enter your nickname">
+                                    <input class="ipt" name="loginName" id="loginName" type="text" placeholder="Please enter your name">
                                 </div>
                             </div>
                             <div class="group">
@@ -378,7 +380,7 @@ var loginPage = {
 $(function () {
     loginPage.init();
     //判断当前用户是否登录
-    console.log(localStorage.getItem("pid"));
+    //console.log(localStorage.getItem("pid"));
     $.ajax({
         cache: true,
         type: "POST",
@@ -393,14 +395,22 @@ $(function () {
             var lang = getLang();
             console.log(data);
             //隐藏 显示数据
+            var url  = window.location.href;
+            var path = url.substring(url.lastIndexOf("/"));
             if(typeof (data.data)!='undefined' && data.code==0){
                 $(".login").hide();
                 $(".logined").show();
                 //根据当前 语言环境判断
-                if(lang=='zh-CN'){
+                /*if(lang=='zh-CN'){
                     $(".logined").find('a').text("你好，"+data.data.loginName);
                 }else{
                     $(".logined").find('a').text("hello，"+data.data.loginName);
+                }*/
+                if(path.indexOf("/userinfoAdd.html") != -1){
+                    //用户信息 回填 显示
+                    $("#name").val(data.data.name);
+                    $("#phone").val(data.data.phone);
+                    $("#mail").val(data.data.mail);
                 }
             }else{
                 $(".login").show();
@@ -409,14 +419,11 @@ $(function () {
             //通过url 地址判断是否弹出登录框
             if(data.code==3){
                 //获取url 地址 进行过滤
-                var url  = window.location.href;
                 if(url.indexOf("?") != -1){
                     url = url.substring(0,url.indexOf("?"));
                 }
-                var path = url.substring(url.lastIndexOf("/"));
-
                 $.grep(filterpage, function(val, key) {
-                    if (filterpage[key] == path) {
+                    if (path.indexOf(filterpage[key]) != -1) {
                         $('.header .content .info li.login').click();
                         return false;
                     }
@@ -442,6 +449,7 @@ function login(){
         },
         success: function(data) {
             var lang = getLang();
+            console.log(data);
             if(data.code!=0){
                 $('.box_layer .login').find('.group').addClass('error');
                 $('.box_layer .login').find('.error_txt').text(getMsgByCode(data.code,lang));
@@ -451,11 +459,11 @@ function login(){
                 $(".login").hide();
                 $(".logined").show();
                 //根据当前 语言环境判断   默认显示英文
-                if(lang=='zh-CN'){
+             /*   if(lang=='zh-CN'){
                     $(".logined").find('a').text("你好，"+ data.data.loginName);
                 }else{
                     $(".logined").find('a').text("hello，"+data.data.loginName);
-                }
+                }*/
                 //登录后续操作
                 //获取当前url 访问地址
                 var path = window.location.href;
@@ -467,11 +475,30 @@ function login(){
                     }else{
 
                     }
-
                     var ich = getIchProByID(pid);
                     localStorage.setItem("ichProject",JSON.stringify(ich));
                     initProjectData();
                     initProjectView(ich);
+                }
+                //用户信息回填
+                if(path.indexOf("/userinfoAdd.html") != -1){
+                    //用户信息 回填 显示
+                    $("#name").val(data.data.name);
+                    $("#phone").val(data.data.phone);
+                    $("#mail").val(data.data.mail);
+                }
+
+                if($("#backurl").val().trim() != ""){
+
+                    if($("#backurl").val().trim()=="userinfoAdd.html"){
+                        //判断该用户是否 已经选择了  机构 或者 传承人
+                        if(data.data.type==1){
+                            location.href=$("#backurl").val().trim();
+                        }else{
+                            location.href="ichpro.html";
+                        }
+                    }
+
                 }
             }
         }
@@ -516,7 +543,7 @@ function registForm(){
                 $('.box_layer').fadeOut(100).remove();
             }else {
                 $("#registForm input[name=code]").next().next().text(getMsgByCode(code,lang));
-           /*     if(lang=='zh-CN'){
+                /* if(lang=='zh-CN'){
                     $("#registForm input[name=code]").next().next().text(res.msg);
                 }else{
                     $("#registForm input[name=code]").next().next().text(res.enMsg);
@@ -570,4 +597,7 @@ function  resetPass(){
     });
 }
 //系统过滤页面  这些页面 未登录 需要弹出登录窗口
-var filterpage= ['/declare.html','/ichpro.html','/ichProForm.html','/ichProContent.html', '/ichMasterForm.html','/center.html'];
+var filterpage= ['/ichpro.html','/ichProForm.html','/ichProContent.html',
+    '/ichMasterForm.html','/center.html','/userinfoAdd.html',
+    '/createMastorSelect.html'
+    ,'/organization.html'];
