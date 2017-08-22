@@ -398,55 +398,6 @@ var projectPage={
         selectArea.init(0,areaData,function (data) {//选择地址 0是选择地址的类型 0是多选 1是单选
             //把每次code 值存在本地
             localStorage.setItem("codes",data.join(","));
-            /*   var content="";
-             if(data != ""){
-
-             }
-             $.each(data,function(index,value) {
-             var codepath = value.substring(0,value.length-1);
-             if(codepath.lastIndexOf(",") != -1){
-             content=content+codepath.substring(codepath.lastIndexOf(",")+1)+",";
-             }else{
-             content=content+codepath+",";
-             }
-             });
-
-             console.log(content.substring(0,content.length-1));
-             localStorage.setItem("codes",localStorage.getItem("codes")+","+content.substring(0,content.length-1));*/
-
-            /*  console.log(JSON.stringify(data));
-             var ich = getCurrentProject();
-             var contentFragment={};
-             contentFragment.attributeId=33;//区域id
-             contentFragment.targetType=0;
-             var content=""
-             $.each(data,function(index,value) {
-             var codepath = value.substring(0,value.length-1);
-             if(codepath.lastIndexOf(",") != -1){
-             content=content+codepath.substring(codepath.lastIndexOf(",")+1)+",";
-             }else{
-             content=content+codepath+",";
-             }
-             });
-             contentFragment.content=content.substring(0,content.length-1);
-             if( ich.contentFragmentList == null || typeof(ich.contentFragmentList)=="undefined"){
-             var contentFragmentList=[];
-             contentFragmentList.push(contentFragment);
-             ich.contentFragmentList=contentFragmentList;
-             }else{
-             //查询该数据是否已存在  存在覆盖原有数据
-             var flag = 0;
-             $.each( ich.contentFragmentList,function (idx,obj){
-             if(obj.attributeId==33){
-             ich.contentFragmentList[idx]=contentFragment;
-             flag = 1;
-             }
-             });
-             if(flag == 0){
-             ich.contentFragmentList.push(contentFragment);
-             }
-             }
-             localStorage.setItem("ichProject",JSON.stringify(ich));*/
         });
     },
     slideBar:{//左侧菜单
