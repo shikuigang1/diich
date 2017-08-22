@@ -37,50 +37,69 @@
                         <div class="group">
                             <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
                             <div class="control">
-                            <select id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" class="ipt w310" name="">
-                                <option value="0">身份证</option>
-                                <option value="1">签证</option>
-                                <option value="2">护照</option>
-                                <option value="3">军人证</option>
-                            </select>
-                            <div class="errors" style="display: none"><i></i>请填写证件类型</div>
+                                <select id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" class="ipt w310" name="">
+                                    <option value="0">身份证</option>
+                                    <option value="1">签证</option>
+                                    <option value="2">护照</option>
+                                    <option value="3">军人证</option>
+                                </select>
+                                <div class="errors" style="display: none"><i></i>请填写证件类型</div>
+                            </div>
                         </div>
-                    </div>
                     {{else}}
-                     <div class="group">
-                        <label class="label">{{#equal id 13}}<em>*</em>{{/equal}}<!-- <em>*</em> -->{{cnName}}</label>
-                        <div class="control">
-                            <input value="" id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" type="text" data-maxLength="{{maxLength}}" data-minLength="{{minLength}}" class="ipt w310">
-                            <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填写姓名</div>
-                        </div>
-                     </div>
+                         <div class="group">
+                            <label class="label">{{#equal id 13}}<em>*</em>{{/equal}}<!-- <em>*</em> -->{{cnName}}</label>
+                            <div class="control">
+                                <input value="{{getContent ../../../../pageObj.contentFragmentList id}}" id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" type="text" data-maxLength="{{maxLength}}" data-minLength="{{minLength}}" class="ipt w310">
+                                <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填写姓名</div>
+                            </div>
+                         </div>
                     {{/equal}}
                 {{/equal}}
             {{/equal}}
             {{#equal dataType 101}}
-                 <div class="group">
-                    <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
+                {{#equal id 23}}
+                     <div class="group">
+                        <label class="label" for=""><!-- <em>*</em> -->{{cnName}}</label>
+                        <div class="control">
+                            <div id="declare" class="ipt w650 select" data-type="selectArea" value="" data-id="{{id}}" >请选择申报地</div>
+                            <div class="area" id="area" style="{{#ifAttribute pageObj.contentFragmentList id }}display: block;{{/ifAttribute}}" >
+                                <div class="select" id="select" style="{{#ifAttribute pageObj.contentFragmentList id }}display: none;{{/ifAttribute}}"></div>
+                                <div class="selected" id="selected">
+                                    {{#each ../../../pageObj.contentFragmentList}}
+                                        {{#equal attributeId 23}}
+                                            {{#each addressCodes}}
+                                                <li><span>{{getAddressText this}}<i class="icon"></i></span></li>
+                                            {{/each}}
+                                        {{/equal}}
+                                    {{/each}}
+                                </div>
+                            </div>
+                            <div class="errors" style="display: none"><i></i>请选择申报地</div>
+                        </div>
+                     </div>
+                {{else}}
+                    <div class="group">
+                        <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
                         <div class="control">
                             <select id="basic_{{id}}" name= "basic_{{id}}" data-id="{{id}}" class="ipt w310">
-                                {{#each ../../countrys}}
-                                    {{#eif @index 0 op=">"}}
-                                        <option code="{{code}}" value="{{code}}">{{name}}</option>
-                                     {{/eif}}
+                                {{#each ../../../countrys}}
+                                    <option {{#onGj ../../../../pageObj.contentFragmentList code ../id }}selected="selected"{{/onGj}} code="{{code}}" value="{{code}}">{{name}}</option>
                                 {{/each}}
-                             </select>
-                        <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填写国籍</div>
+                            </select>
+                            <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填写国籍</div>
+                        </div>
                     </div>
-                 </div>
+                {{/equal}}
             {{/equal}}
             {{#equal dataType 106}}
                  <div class="group">
                     <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
                         <div class="control">
                             <select id="basic_{{id}}" name= "basic_{{id}}" data-id="{{id}}" class="ipt w310">
-                                {{#each ../../countrys}}
-                                    {{#eif @index 0 op=">"}}
-                                        <option code="{{code}}" value="{{code}}">{{name}}</option>
-                                    {{/eif}}
+                                <option code="" value="">请选择</option>
+                                {{#each ../../fyGrade}}
+                                    <option {{#onGj ../../../pageObj.contentFragmentList code ../id }}selected="selected"{{/onGj}} code="{{code}}" value="{{code}}">{{name}}</option>
                                 {{/each}}
                             </select>
                         <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填非遗等级</div>
@@ -91,7 +110,7 @@
                 <div class="group">
                     <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
                     <div class="control">
-                        <input value="" validate="true" id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" data-maxLength="{{maxLength}}" data-maxLength="{{minLength}}" type="text" class="ipt w310">
+                        <input value="{{getContent ../../pageObj.contentFragmentList id}}" validate="true" id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" data-maxLength="{{maxLength}}" data-maxLength="{{minLength}}" type="text" class="ipt w310">
                         <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填写民族</div>
                     </div>
                     </div>
@@ -100,7 +119,7 @@
                 <div class="group">
                     <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
                     <div class="control">
-                        <input value="" validate="true" check="required" id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" type="text" class="ipt w310">
+                        <input value="{{getContent ../../pageObj.contentFragmentList id}}" validate="true" check="required" id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" type="text" class="ipt w310">
                         <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>出生日期</div>
                     </div>
                 </div>

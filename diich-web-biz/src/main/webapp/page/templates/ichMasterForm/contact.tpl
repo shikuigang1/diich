@@ -20,7 +20,7 @@
             <div class="group">
                 <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
                 <div class="control">
-                    <input value="" validate="true" check="mobile" id="contact_{{id}}" name="contact_{{id}}" data-id="{{id}}" data-maxLength="{{maxLength}}" data-maxLength="{{minLength}}" type="text" class="ipt w310" placeholder="+86">
+                    <input value="" validate="true" check="mobile" id="contact_{{id}}" name="contact_{{id}}" data-id="{{id}}" data-maxLength="{{maxLength}}" data-maxLength="{{minLength}}" type="text" class="ipt w310" {{#equal id 58}}placeholder="+86"{{/equal}}>
                     <div id="sj_err" class="errors" style="display: none"><i></i>请填写手机</div>
                 </div>
             </div>

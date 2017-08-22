@@ -8,8 +8,38 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     var pageObj = {}; // 页面缓存对象
     var targetId = "";
     var ichProjectId = getQueryString("pid"); // 所属项目ID
-
+    var addressCode = ""; // 联系方式信息模板居住地址code值
+    var declareCode = ""; // 申报地址
+    var ossImgPash = "http://diich-resource.oss-cn-beijing.aliyuncs.com/image/master/"; // oss图片地址存放地址
+    var mid = getQueryString("mid");
     function _init() {
+        if(mid != null) {
+            _onRequest("GET", "/ichMaster/getIchMasterById", {params:mid}).then(function(result) {
+                console.log("result -- >", result);
+                // 处理用户未登录
+                if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                    if(result.res.data) {
+                        _onMergeObj(result.res.data);
+                    }
+                } else {
+                    if(result.res.code != 3) {
+                        tipBox.init("fail", result.res.msg, 1500);
+                    }
+                }
+            }).then(function() {
+                targetId = pageObj.hasOwnProperty("contentFragmentList") ? pageObj.id : mid;
+                ichProjectId = pageObj.ichProjectId;
+                // 加载其他模块
+                _onInitLoad();
+            })
+        } else {
+            // 加载其他模块
+            _onInitLoad();
+        }
+
+    }
+
+    function _onInitLoad() {
         _onGetMenus();
         _menusOne();
         _menusTwo();
@@ -205,16 +235,18 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     var zjCode = "0"; // 证件Code 默认身份证
     // 基本信息模板
     function _getBasicTpl($this) {
-        $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, pageObj : pageObj})); // 更新页面模板
-        // 是否申请传承人
-        $("span[name^='isApply_']").on("click", function() {
-            $("span[name^='isApply_']").each(function() {
-                $(this).removeClass("active");
+        var fyGrade = getDictionaryArrayByType(106); // 获取到非遗等级
+        // 显示 申报地 国籍
+        if(pageObj.hasOwnProperty("contentFragmentList")) {
+            $.each(pageObj.contentFragmentList, function(i, v) {
+                if(v.attributeId == 23) {
+                    v.addressCodes = v.content != "" ? v.content.split(",") : [];
+                    declareCode = v.content;
+                    return;
+                }
             })
-            $(this).addClass("active");
-            isMaster = $(this).attr("name").split("_").pop();
-            console.log(isMaster)
-        })
+        }
+        $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, pageObj : pageObj, fyGrade: fyGrade})); // 更新页面模板
         // 上传图片
         upload.submit($('.horizontal .group .control .file_up'),1,'/user/uploadFile?type=master',function (res) {
             //console.log("res -- >", res);
@@ -222,13 +254,27 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             $('.preview').attr('src', res.data[0]).show();
             $('._token').val($('meta[name=token]').attr('content'));
         });
+        // 回显图片
+        if(pageObj.hasOwnProperty("contentFragmentList")) {
+            $.each(pageObj.contentFragmentList, function(i, v) {
+                if(v.attributeId == 10) {
+                    $(".preview").attr("src", ossImgPash + v.resourceList[0].uri.toString()).show();
+                    $(".file_up").addClass("active");
+                    imgUrl = v.resourceList[0].uri.toString();
+                }
+            })
+        }
         //时间
         $("#basic_18").ECalendar({type:"date", skin:2, offset:[0,2]});
         // 监听证件选择框 更新证件验证方式
         $("#basic_127").change(function(){
             zjCode =  $(this).val();
         });
-
+        // 申报地址
+        selectArea1.init(1, declareCode, function (data, dataText) {
+            console.log(data, dataText)
+            declareCode = data.toString();
+        })
         // 下一步监听
         _monitorNext();
         function _monitorNext() {
@@ -238,6 +284,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         }
 
         function _onSave() {
+            $("#basicForm").off("click");
             var data = $("#basicForm").serializeArray();
             data.push({name: "basic_pid", value: $("#basic_pid").val()})
             var status = true, errNum = 0;
@@ -306,7 +353,89 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
     // 联系方式模板
     function _getContactTpl() {
-        $("#content").html(Handlebars.compile(contactTpl)({sonterms: menuss[1].sonTerms})); // 更新页面模板
+        if(pageObj.hasOwnProperty("contentFragmentList")) {
+            $.each(pageObj.contentFragmentList, function(i, v) {
+                if(v.attributeId == 55) {
+                    v.addressCodes = v.content != "" ? v.content.split(",") : [];
+                    addressCode = v.content;
+                    return;
+                }
+            })
+        }
+        $("#content").html(Handlebars.compile(contactTpl)({sonterms: menuss[1].sonTerms, pageObj : pageObj})); // 更新页面模板
+        selectArea1.init(0, addressCode, function (data, dataText) {
+            var code = "";
+            if(data.length > 0) {
+                $.each(data, function(i, v) {
+                    console.log(i, v);
+                    var dd = v.split(",");
+                    if((i + 1) < data.length) {
+                        code += dd[dd.length - 1] + ",";
+                    } else {
+                        code += dd[dd.length - 1]
+                    }
+                })
+            }
+            addressCode = code;
+        })
+        // 保存操作防止用户多次点击
+        _bindingSave();
+        function _bindingSave() {
+            $("#contact_active").on("click", function() {     // 监听提交
+                onSave();
+            })
+        }
+        // 保存
+        function onSave() {
+            var data = $("#contactForm").serializeArray();
+            console.log("data --- >", data);
+            var rule = ""; // 正则规则
+            var rule2 = ""; // 正则验证2
+            var isNull = false; // 是否为空验证
+            switch (id) {
+                case "58": // 手机号
+                    rule = "reg_mobile";
+                    isNull = true;
+                    break;
+                case "59": // 邮箱
+                    rule = "reg_email";
+                    break;
+                case "56": // 邮编
+                    rule = "reg_pinyin";
+                    break
+                default:
+                    break;
+            }
+            if(!_onChk(v, rule, rule2, isNull, maxlength, minlength)) {
+                errNum++;
+            }
+            //$("#contact_active").off("click");
+            //if(validate()) {
+            //    var params = getContactFormData();
+            //    //params.contentFragmentList = _onFilterNull(params.contentFragmentList);
+            //    console.log("params -- >", params);
+            //    // 发送请求
+            //    onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+            //        //console.log("result ---- >", result, JSON.stringify(result.res.data), "----pageObj ---", pageObj);
+            //        if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+            //            targetId = result.res.data.id;
+            //            _onMergeObj(result.res.data); // 保存成功存储服务器返回数据
+            //            //console.log("pageObj --- >", JSON.stringify(pageObj))
+            //            // 跳转到下一页面
+            //            _onNextPage(menu_01, [menu_02], result.res.data);
+            //            _isSureSumit();
+            //            _bindingSave();
+            //        } else {
+            //            if(result.res.code != 3) {
+            //                tipBox.init("fail", result.res.msg , 1500);
+            //            }
+            //            _bindingSave();
+            //        }
+            //    });
+            //} else {
+            //    _bindingSave();
+            //}
+        }
     }
 
     // 职业信息模板
@@ -402,7 +531,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 v.resourceList = [{uri: v.value}]; // 基本信息中只有一张图片
             }
 
-            if(v.name == "birthday" && v.content != "") {
+            if(v.name == "basic_18" && v.content != "") {
                 v.content = new Date(parseInt(v.content) * 1000).format('yyyy/MM/dd');
             }
 
@@ -590,6 +719,34 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             });
         })
     }
+
+    /**
+     * 扩展DATE
+     * @param format
+     * @returns {*}
+     */
+    Date.prototype.format = function(format) {
+        var date = {
+            "M+": this.getMonth() + 1,
+            "d+": this.getDate(),
+            "h+": this.getHours(),
+            "m+": this.getMinutes(),
+            "s+": this.getSeconds(),
+            "q+": Math.floor((this.getMonth() + 3) / 3),
+            "S+": this.getMilliseconds()
+        };
+        if (/(y+)/i.test(format)) {
+            format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+        }
+        for (var k in date) {
+            if (new RegExp("(" + k + ")").test(format)) {
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1
+                    ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+            }
+        }
+        return format;
+    }
+
 
     return {
         init: _init
