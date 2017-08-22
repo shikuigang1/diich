@@ -24,8 +24,6 @@ public class IchMaster extends IchObject {
 
     private String lang;//语言
 
-    private Integer isMaster;//是否为自己申报传承人标示 1是 0否
-
     private IchProject ichProject;//项目
 
     private List<Works> worksList;//作品列表
@@ -108,14 +106,6 @@ public class IchMaster extends IchObject {
 
     public void setLang(String lang) {
         this.lang = lang;
-    }
-
-    public Integer getIsMaster() {
-        return isMaster;
-    }
-
-    public void setIsMaster(Integer isMaster) {
-        this.isMaster = isMaster;
     }
 
     public List<Works> getWorksList() {

@@ -3,6 +3,7 @@ package com.diich.core.model;
 import com.diich.core.base.BaseModel;
 
 import java.util.Date;
+import java.util.List;
 
 public class Organization extends BaseModel {
     private Long id;
@@ -20,6 +21,8 @@ public class Organization extends BaseModel {
     private String uri;
 
     private String lang;
+
+    private List<ContentFragment> contentFragmentList;
 
     public Long getId() {
         return id;
@@ -83,5 +86,13 @@ public class Organization extends BaseModel {
 
     public void setLang(String lang) {
         this.lang = lang == null ? null : lang.trim();
+    }
+
+    public List<ContentFragment> getContentFragmentList() {
+        return contentFragmentList;
+    }
+
+    public void setContentFragmentList(List<ContentFragment> contentFragmentList) {
+        this.contentFragmentList = contentFragmentList;
     }
 }
