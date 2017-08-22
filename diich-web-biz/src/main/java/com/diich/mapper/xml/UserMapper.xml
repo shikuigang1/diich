@@ -3,7 +3,6 @@
 <mapper namespace="com.diich.mapper.UserMapper" >
   <resultMap id="BaseResultMap" type="com.diich.core.model.User" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="organization_id" property="organizationId" jdbcType="BIGINT" />
     <result column="login_name" property="loginName" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="CHAR" />
     <result column="rank" property="rank" jdbcType="INTEGER" />
@@ -18,39 +17,36 @@
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, organization_id, login_name, password, rank, credit, name, gender, type, mail,
-    phone, last_login_ip, last_login_date, status
+    id, login_name, password, rank, credit, name, gender, type, mail, phone, last_login_ip,
+    last_login_date, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
     <include refid="Base_Column_List" />
     from user
-    where id = #{id,jdbcType=BIGINT} and status = 0
+    where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from user
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.User" >
-    insert into user (id, organization_id, login_name,
-    password, rank, credit,
-    name, gender, type,
-    mail, phone, last_login_ip,
-    last_login_date, status)
-    values (#{id,jdbcType=BIGINT}, #{organizationId,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR},
-    #{password,jdbcType=CHAR}, #{rank,jdbcType=INTEGER}, #{credit,jdbcType=INTEGER},
-    #{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},
-    #{mail,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR}, #{lastLoginIp,jdbcType=VARCHAR},
-    #{lastLoginDate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+    insert into user (id, login_name, password,
+    rank, credit, name,
+    gender, type, mail,
+    phone, last_login_ip, last_login_date,
+    status)
+    values (#{id,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=CHAR},
+    #{rank,jdbcType=INTEGER}, #{credit,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+    #{gender,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{mail,jdbcType=VARCHAR},
+    #{phone,jdbcType=CHAR}, #{lastLoginIp,jdbcType=VARCHAR}, #{lastLoginDate,jdbcType=TIMESTAMP},
+    #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.User" >
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
-      </if>
-      <if test="organizationId != null" >
-        organization_id,
       </if>
       <if test="loginName != null" >
         login_name,
@@ -93,9 +89,6 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="organizationId != null" >
-        #{organizationId,jdbcType=BIGINT},
-      </if>
       <if test="loginName != null" >
         #{loginName,jdbcType=VARCHAR},
       </if>
@@ -137,9 +130,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.User" >
     update user
     <set >
-      <if test="organizationId != null" >
-        organization_id = #{organizationId,jdbcType=BIGINT},
-      </if>
       <if test="loginName != null" >
         login_name = #{loginName,jdbcType=VARCHAR},
       </if>
@@ -181,8 +171,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.User" >
     update user
-    set organization_id = #{organizationId,jdbcType=BIGINT},
-      login_name = #{loginName,jdbcType=VARCHAR},
+    set login_name = #{loginName,jdbcType=VARCHAR},
       password = #{password,jdbcType=CHAR},
       rank = #{rank,jdbcType=INTEGER},
       credit = #{credit,jdbcType=INTEGER},

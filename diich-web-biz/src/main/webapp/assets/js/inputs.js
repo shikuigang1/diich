@@ -1232,8 +1232,9 @@ var selectArea1={
                     }
 
                     function assignValue() {
+                        var storeVal = store.substr(0, store.length - 1).split(",").pop();
                         result=result.splice(1,1);
-                        result.push(store);
+                        result.push(storeVal);
                         resultText.push(storeText);
                         createSelected(storeText);
                         select.html('').hide();
