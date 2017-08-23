@@ -1,0 +1,26 @@
+.header .content .logo {
+    background: url(../images/logo@1x.png) no-repeat!important;
+}
+
+.header .icon {
+    background-image: url(../images/icon@1x.png);
+    height:18px;
+    top:14px;
+}
+
+.header .content .info li.login i {
+    background-position: -18px -20px;
+}
+
+
+.header_detail .content .info li.search i {
+    background-position: -18px 0;
+}
+.footer .diich .logo {
+    background: url(../images/footer_logo@1x.png) 0 0 no-repeat;
+}
+/*--//End--*/
+.side_fixed li:after,
+.side_fixed li.active:after{
+    display: none;
+}
