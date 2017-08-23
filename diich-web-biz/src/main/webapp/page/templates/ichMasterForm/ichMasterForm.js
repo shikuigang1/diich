@@ -187,6 +187,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     break;
                 case "5":
                     // 传承人内容
+                    $('#menutwo_5_0').trigger("click"); // 模拟点击传承人内容下第一个子菜单
                     break;
                 default:
                     _getCustomTpl();// 自定义项
@@ -224,7 +225,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 $(this).removeClass("selected");
             })
             $this.addClass("selected"); //添加被点击效果
-            _getCommonTpl( menuss[4].sonMenus[type]); // 调用通用模板
+            _getCommonTpl($this, menuss[4].sonMenus[type]); // 调用通用模板
         }
     }
 
@@ -506,8 +507,69 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     }
 
     // 通用模板（长文本）
-    function _getCommonTpl(sonterms) {
+    function _getCommonTpl($this, sonterms) {
         $("#content").html(Handlebars.compile(resumeTpl)({sonterms: sonterms, pageObj: pageObj})); // 更新页面模板
+        inheritorPage.radioImage(); // 加载上传视频， 上传图片
+
+        _bindingSave();
+        function _bindingSave() {
+            $("#next").on("click", function() {
+                _onSave();
+            })
+        }
+
+        function _onSave() {
+            //$("#next").off("click");
+            var $textarea = $("textarea[id^='resum_']");
+            var v = {name: $textarea.attr("id"), value:$textarea.val()};
+            var maxlength = $textarea.attr("data-maxLength");
+            var minlength = $textarea.attr("data-minLength");
+            // 验证
+            var status = true, errNum = 0;
+            if(!_onChk(v, "", "", false, maxlength, minlength)) {
+                errNum++;
+            }
+            // 更新状态
+            status = errNum > 0 ? false : true;
+            if(status) {
+                var params = _getResumeFormData($textarea);
+                console.log("params --- >", params);
+                _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+                    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        targetId = result.res.data.id;
+                        _onMergeObj(result.res.data); // 保存成功存储服务器返回数据
+                        _onNextPage($this.attr("id"), ["menutwo_5_1"], result.res.data);
+                        _bindingSave();
+                    } else {
+                        tipBox.init("fail", result.res.msg , 1500);
+                        _bindingSave();
+                    }
+                });
+            }
+        }
+
+        // 获取长文本模板 表单数据 处理成参数
+        function  _getResumeFormData($textarea) {
+            var data = [];
+            data[0] = {
+                name :  $textarea.attr("name"),
+                value : $textarea.val()
+            }
+            console.log("data --- >", data);
+            var imgs = [];
+            $("#images").children("div .item").each(function(i, v) {
+                var img = {};
+                var uri = $(this).children("img").attr("data-src")
+                img["uri"] = uri.substr(uri.lastIndexOf("/") + 1, uri.length)  ;
+                img["description"] = $(this).children("input").val();
+                img["type"] = 0;
+                img["status"] = 0;
+                imgs.push(img);
+            })
+            data[0].imgs = imgs;
+            return buildParams(data, pageObj);
+        }
     }
 
     // 自定义模板
@@ -656,7 +718,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         var errId = obj.name + "_err";
         // 是否为空
         if(isNull) {
-            if(!obj.value) {
+            if(!obj.value && obj) {
                 $("#" + errId).html("<i></i>" +defaults["tips_required"]).show(); // 显示提示语
                 return false;
             }
@@ -665,7 +727,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         }
 
         // 验证正则 用户输入值了就验证正则
-        if(obj.value != "") {
+        if(obj && obj.value != "") {
             if(reg2 != "") {
                 if(defaults[reg].test(obj.value) || defaults[reg2].test(obj.value)) {
                     $("#" + errId).hide();
