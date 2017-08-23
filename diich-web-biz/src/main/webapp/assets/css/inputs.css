@@ -800,7 +800,7 @@ body,
     text-align: center;
 }
 
-.ipt_page .explain section {
+.ipt_page .explain .section {
     background: #fff;
     width: 885px;
     padding: 30px 40px;
@@ -808,24 +808,24 @@ body,
     margin-bottom: 40px;
 }
 
-.ipt_page .explain section .dt {
+.ipt_page .explain .section .dt {
     font-size: 24px;
     color: #4283EB;
     line-height: 33px;
     margin-bottom: 20px;
 }
 
-.ipt_page .explain section .dd p {
+.ipt_page .explain .section .dd p {
     line-height: 30px;
     color: #777;
 }
 
-.ipt_page .explain section .dd strong {
+.ipt_page .explain .section .dd strong {
     color: #1b1b1b;
     display: block;
 }
 
-.ipt_page .explain section .dd .item {
+.ipt_page .explain .section .dd .item {
     margin-bottom: 20px;
 }
 
