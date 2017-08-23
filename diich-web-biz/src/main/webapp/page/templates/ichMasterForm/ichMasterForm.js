@@ -193,12 +193,14 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     _getCustomTpl();// 自定义项
                     break;
             }
+            _changePage(false); // 显示 内容页面 隐藏 结束页面
         }
     }
 
     // 监听二级菜单
     function _menusTwo() {
         $("body").delegate("li[id^='menutwo_']", "click", function() {
+
             var $this = $(this);
             var ids = $this.attr("id").split("_");
             console.log("ids -- >", ids);
@@ -226,6 +228,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             })
             $this.addClass("selected"); //添加被点击效果
             _getCommonTpl($this, menuss[4].sonMenus[type]); // 调用通用模板
+            _changePage(false); // 显示 内容页面 隐藏 结束页面
         }
     }
 
@@ -344,7 +347,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
                         _onMergeObj(result.res.data);
-                        _onNextPage($this.attr("id"), ["menu_3"], result.res.data);
+                        _onNextPage($this.attr("id"), ["menu_2"], result.res.data);
                         _bindingSave();
                     } else {
                         tipBox.init("fail", result.res.msg, 1500);
@@ -510,7 +513,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     function _getCommonTpl($this, sonterms) {
         $("#content").html(Handlebars.compile(resumeTpl)({sonterms: sonterms, pageObj: pageObj})); // 更新页面模板
         inheritorPage.radioImage(); // 加载上传视频， 上传图片
-
+        var id = parseInt($this.attr("id").split("_").pop());
         _bindingSave();
         function _bindingSave() {
             $("#next").on("click", function() {
@@ -539,7 +542,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
                         _onMergeObj(result.res.data); // 保存成功存储服务器返回数据
-                        _onNextPage($this.attr("id"), ["menutwo_5_1"], result.res.data);
+                        _onNextPage($this.attr("id"), ["menutwo_5_" + (id + 1)], result.res.data);
                         _bindingSave();
                     } else {
                         tipBox.init("fail", result.res.msg , 1500);
@@ -605,9 +608,30 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             }
         }).then(function(res) {
             $.each(nextIds, function(i, v) {
-                $('#' + v).trigger("click"); // 模拟点击传承人内容
+                // 判断向下是否还有匹配的节点 有则模拟点击  没有则提示是否添加自定义项页面
+                if($('#' + v).length > 0) {
+                    $('#' + v).trigger("click"); // 模拟点击传承人内容
+                } else {
+                    var i = v.split("_").pop();
+                    var num = v.replace(i, (parseInt(i) -1));
+                    $("#" + num).parent().parent().siblings().children("i").addClass("selected").removeClass("unselected");
+                    _changePage(true);
+                }
             })
         })
+    }
+
+    // 切换结束页面与内容页面
+    function _changePage(status) {
+        if(status) {
+            // 显示内容页面。 隐藏结束页面
+            $("#content").hide();
+            $("#endPage").show();
+        } else {
+            // 显示结束页面。 隐藏内容页面
+            $("#content").show();
+            $("#endPage").hide();
+        }
     }
 
     /**
@@ -669,9 +693,11 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 $.each(pageObj.contentFragmentList, function(j, d) {
                     if(v.attributeId == d.attributeId) {
                         v.id = d.id;
-                        if(v.resourceList.length > 0) {
+                        if(d.resourceList.length > 0) {
                             $.each(v.resourceList, function(r, va) {
-                                va.id = d.resourceList[r].id;
+                                if(d.resourceList[r]) {
+                                    va.id = d.resourceList[r].id;
+                                }
                             })
                         }
                         //delete params.status; // 修改的时候不填写status
