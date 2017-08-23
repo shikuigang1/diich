@@ -1268,6 +1268,7 @@ var organizationPage = {
         _this.judge();
         $('#tpl').load('./Tpl/org_basic.html', function () {//加载基本信息页面
             _this.slideBar();
+            _this.uploadImgage();
         });
     },
     slideBar: function () {
@@ -1290,6 +1291,20 @@ var organizationPage = {
             });
             projectPage.selectCate.init();
         });
+    },
+    uploadImgage:function () {//上传图片
+
+        var el=$('.horizontal .group .control .file_up');
+        upload.submit(el,1,'/user/uploadFile?type=project',function (data) {
+            console.log(data);
+            if(data.code==0){
+                $('.preview').attr('src',data.data[0]).show();
+
+            }else{
+
+            }
+        });
+        $('._token').val($('meta[name=token]').attr('content'));
     },
     radioImage: function () {
         var _images = $('#images');
