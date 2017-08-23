@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>我要申报-项目表单</title>
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/inputs.css">
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/Ecalendar.jquery.min.js"></script>
+    <script src="../assets/js/system.js"></script>
+    <script src="../assets/js/inputs.js"></script>
+    <script src="../assets/js/login.js"></script>
+    <script src="../js/user.js"></script>
+</head>
+
+<body style="background-color: rgb(245, 246, 247)">
+    <div class="header fixed header_detail"></div>
+    <!--//End header-->
+
+    <div class="ipt_over">
+        <div class="content">
+            <div class="title">
+                <i class="icon"></i>
+                <span>项目正在审核中，可以申报此项目传承人。</span>
+                <span>前往个人中心查询项目审核状态</span>
+            </div>
+            <div class="judge">
+                <label class="label" for="">是否申报传承人？</label>
+                <div class="control">
+                    <span class="radio" ><i></i><input type="radio" value="0">是</span>
+                    <span class="radio"><i></i><input type="radio" value="1">否</span>
+                </div>
+            </div>
+            <div class="buttons">
+                <a href="">个人中心</a>
+            </div>
+        </div>
+
+        <div class="judge_box" style="display: none;">
+            <div class="main">
+                <div class="title">
+                    <i class="icon"></i>
+                    <span>是否代表机构进行申报？</span>
+                </div>
+                <div class="buttons">
+                    <a class="btn1" href="">是</a>
+                    <a class="btn2" href="javascript:void(0)">否</a>
+                </div>
+            </div>
+            <div class="overbg"></div>
+        </div>
+
+    </div>
+
+    <div class="footer"></div>
+    <!--//End-->
+
+    <script>
+        $(function() {
+            $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
+            $(".radio").on("click",function () {
+
+                var value = $(this).find("input").eq(0).val();
+                console.log(value);
+                if(value == 0){
+                    var ich = localStorage.getItem("ichProject");
+                    //console.log(ich);
+                    if(typeof(ich) == "undefined" || ich == null||ich==''){
+                        ich={};
+                    }else{
+                        ich = JSON.parse(ich);
+                    }
+                    var pname = "";
+                    $.each(ich.contentFragmentList,function (index,obj) {
+                        if(obj.attributeId==4){
+                            pname = obj.content;
+                        }
+                    });
+                    location.href="ichMasterForm.html?pid="+ich.id+"&pname="+pname;
+                }else{
+                    var result = getUserInfo();
+                    console.log(result);
+                    console.log($(this).attr("class"));
+                    if(result.code == 0){
+                            if(result.data.type==3){
+                                location.href="organization/organization.html";
+                            }else {
+                                //停在本地并增加选中状态
+                                if($(this).hasClass("active")){
+                                    $(this).removeClass("active");
+                                }else{
+                                    $(this).addClass("active");
+                                }
+                            }
+                    }else{
+                        //弹出登录窗口
+
+                    }
+                }
+            })
+        });
+        //organizationPage.init();
+    </script>
+</body>
+</html>
