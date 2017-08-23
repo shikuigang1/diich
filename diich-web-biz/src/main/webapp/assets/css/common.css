@@ -1,3 +1,4 @@
+
 @font-face {
     font-family: DINPro;
     src: url('../font/DINPro-Regular.otf');
@@ -291,43 +292,30 @@ textarea {
 .header .content .nav li.active a:after {
     width: 100%;
 }
-
 .header .content .info {
     float: right;
     margin-right: 4%;
 }
-
 .header .content .info li {
     float: left;
 }
-
 .header .content .info li em {
     font-size: 12px;
     color: #fff;
 }
-
 .header .content .info li.login,
 .header .content .info li.logined {
     margin-right: 18px;
     padding-right: 18px;
     position: relative;
 }
-
-.header .content .info li.logined a {
-    width: 84px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
 .header .content .info li.login i {
     background-position: 0 -23px;
     float: left;
     margin-right: 6px;
 }
-
 .header .content .info li.login:after,
-.header .content .info li.logined:after {
+.header .content .info li.logined:after{
     content: '';
     width: 1px;
     height: 8px;
@@ -338,19 +326,92 @@ textarea {
     margin-top: -2px;
     background: #fff;
 }
+.header .content .info li.logined {
+    width: 92px;
+    padding-left: 14px;
+    padding-right: 14px;
+    border: 1px solid transparent;
+    position: absolute;
+    top:33px;
+    right:132px;
+    z-index:2;
+}
+.header .content .info li.logined .main .item {
+    width:100%;
+    float: left;
+    padding-top:20px;
+    padding-bottom:20px;
+    text-align: center;
+    border-top: 1px solid #E5E5E5;
+    display: none;
+}
+.header .content .info li.logined .main .item a {
+    font-size: 14px;
+    height:14px;
+    line-height:14px;
+    float: none;
+}
+.header .content .info li.logined .main .user {
+    border:0;
+}
+.header .content .info li.logined .main .user a {
+    width: 33px;
+    height: 33px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    float: left;
+    margin-right: 5px;
+    background: #eee;
+}
+.header .content .info li.logined .main .user img {
+    width: 33px;
+    height: 33px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    float: left;
+}
+.header .content .info li.logined .main .user span {
+    width: 52px;
+    line-height: 33px;
+    font-size: 12px;
+    color: #fff;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    float: left;
+}
+.header .content .info li.logined .main .user {
+    display: block;
+}
+.header .content .info li.logined.active {
+    border: 1px solid #fff;
+    background: #fff;
+    display: block;
+}
+.header .content .info li.logined.active .item {
+    display: block;
+}
+.header .content .info li.logined.active .main .item a {
+    color: #666!important;
+}
+.header .content .info li.logined.active .main .user span {
+    color: #666!important;
+}
+.header .content .info li.logined.active:after {
+    display: none;
+}
+
+
 
 .header .content .info li.language a.zh {
     margin-right: 6px;
 }
-
 .header .content .info li.search {
     display: none;
 }
-
 .header .content .info li.search i {
     background-position: 0 0;
 }
-
 .header.active {
     padding: 18px 0;
     background: #fff;
@@ -358,11 +419,9 @@ textarea {
     box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
     position: fixed;
 }
-
 .header.active .content a {
     color: #1b1b1b !important;
 }
-
 .header.active .content .logo {
     background: url(../images/logo_fixed@2x.png) no-repeat 0 0;
     -webkit-background-size: 210px auto;
@@ -371,57 +430,66 @@ textarea {
     height: 80px;
     margin-top: -18px;
 }
-
 .header.active .content .nav a:after {
     background: #1b1b1b;
 }
-
 .header.active .content .info li.login i {
     background-position: -18px -23px;
 }
-
 .header.active .content .info li.login em {
     color: #333;
 }
-
 .header.active .content .info li.login:after {
     background: #D8D8D8;
 }
-
 .header.active .content .info li.language {
     display: none;
 }
-
 .header.active .content .info li.search {
     display: block;
 }
-
 .header.active .content .info li.search i {
     background-position: -19px 0;
     cursor: pointer;
 }
 
+.header.active .content .info li.logined {
+    top:5px;
+    right: 98px;
+}
+.header.active .content .info li.logined:after {
+    background: #D8D8D8;
+    top:36px
+}
+.header.active .content .info li.logined .main .user span {
+    color: #666!important;
+}
+.header.active .content .info li.logined.active {
+    border: 1px solid #e5e5e5;
+}
+
+
+
+
+
+
+
 .header_detail {
     background: #fff;
     position: relative;
 }
-
 .header_detail .content a {
     color: #333;
 }
-
 .header_detail .content .nav a:after {
     background: #000;
 }
-
 .header_detail .content .language {
     display: none;
 }
-
 .header_detail .content .info li.search {
     display: block;
 }
-
 .header_detail .content .info li.search i {
     background-position: -19px 0;
     cursor: pointer;
@@ -429,23 +497,39 @@ textarea {
 .header_detail .content .info li.search.active i {
     background: url(../images/icon_search_close.png) 0 0 no-repeat;
 }
-
-
 .header_detail .content .info li.login:after {
     background: #D8D8D8;
 }
-
 .header_detail .content .info li.login.line:after {
     background: #fff;
 }
-
 .header_detail .content .info li em {
     color: #1B1B1B;
 }
-
 .header_detail .content .info li.login i {
     background-position: -19px -24px
 }
+
+.header_detail .content .info li.logined {
+    right:98px;
+}
+.header_detail .content .info li.logined:after{
+    content: '';
+    width: 1px;
+    height: 8px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-top: -2px;
+    background: #D8D8D8;
+}
+.header_detail .content .info li.logined .main .user span {
+    color: #666!important;
+}
+.header_detail .content .info li.logined.active {
+    border-color: #e5e5e5;
+}
+
 
 /*--//End header 基本--*/
 
@@ -510,7 +594,7 @@ textarea {
 }
 
 .drop_menu.active .item dt a {
-    color: #fff!important;
+    color: #fff !important;
 }
 
 .drop_menu_en .content .item {
@@ -544,7 +628,7 @@ textarea {
     position: fixed !important;
     left: 0;
     right: 0;
-    z-index:11;
+    z-index: 11;
     display: none
 }
 
@@ -636,6 +720,7 @@ textarea {
     position: relative;
     top: 60px;
 }
+
 .dropbox .item {
     background: #fff;
     padding: 48px;
@@ -645,25 +730,30 @@ textarea {
     top: 0;
     display: none;
 }
+
 .dropbox .item dl {
     width: 232px;
     padding-right: 10px;
     float: left;
 }
+
 .dropbox .item dt div {
     width: 100%;
     float: left;
 }
+
 .dropbox .item dt .title {
     font-size: 15px;
     color: #949494;
     margin-bottom: 22px;
 }
+
 .dropbox .item dt .subtitle {
     font-size: 20px;
     color: #4990E2;
     margin-bottom: 10px;
 }
+
 .dropbox .item dd {
     width: 202px;
     padding-right: 30px;
@@ -671,6 +761,7 @@ textarea {
     float: left;
     overflow-y: auto;
 }
+
 .dropbox .item dd li,
 .dropbox .item dd li a {
     width: 100%;
@@ -680,22 +771,27 @@ textarea {
     margin: 8px 0;
     cursor: pointer;
 }
+
 .dropbox .item dd li span {
     color: #333;
     float: right;
 }
+
 .dropbox .item dd li.active,
 .dropbox .item dd li:hover {
     color: #4990E2;
 }
+
 .dropbox .item dl.level2,
-.dropbox .item dl.level3{
+.dropbox .item dl.level3 {
     padding-right: 18px;
     display: none;
 }
+
 .dropbox .item dl.level2 dt {
     padding-left: 38px;
 }
+
 .dropbox .item dl.level2 dd {
     padding-left: 38px;
 }
@@ -1031,27 +1127,31 @@ textarea {
 .detail_title {
     position: relative;
 }
+
 .detail_title h2 {
     padding-right: 340px;
     font-size: 44px;
     line-height: 50px;
     color: #333;
 }
+
 .detail_title .edit {
     color: #4283ea;
-    padding-left:16px;
+    padding-left: 16px;
     position: absolute;
-    top:-20px;
-    right:0;
+    top: -20px;
+    right: 0;
 }
+
 .detail_title .edit .icon {
     background: url(../images/icon_detail_edit2.png) 0 0 no-repeat;
-    width:12px;
-    height:15px;
+    width: 12px;
+    height: 15px;
     position: absolute;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
 }
+
 .detail_title .doi_code {
     background: #4283EA;
     line-height: 28px;
@@ -1500,20 +1600,25 @@ a.arrow_right:hover:after {
 }
 
 .box_layer_en .item {
-    width:500px;
+    width: 500px;
 }
+
 .box_layer_en .form_area .group .area {
-    width:400px;
+    width: 400px;
 }
+
 .box_layer_en .form_area .title {
     text-indent: 100px;
 }
+
 .box_layer_en .form_area .name {
-    width:100px;
+    width: 100px;
 }
+
 .box_layer_en .form_area .ipt {
-    width:356px;
+    width: 356px;
 }
+
 /*--//End 表单相关--*/
 .progress {
     background: #000;
