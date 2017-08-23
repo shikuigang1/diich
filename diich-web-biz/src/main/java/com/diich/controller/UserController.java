@@ -122,7 +122,7 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = new ApplicationException(ApplicationException.USER_UNCOMPLETE);
             return putDataToMap(ae);
         }
-        if(StringUtils.isEmpty(user.getLoginName())){
+        if(StringUtils.isEmpty(user.getPassword())){
             ApplicationException ae = new ApplicationException(ApplicationException.USER_UNCOMPLETE);
             return putDataToMap(ae);
         }
