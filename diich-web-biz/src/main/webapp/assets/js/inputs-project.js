@@ -149,7 +149,6 @@ function getDataByCateGoryId(data){
                     $("#menu").append("<li data-type='longField' target-type=\""+obj.dataType+"\"><i class=\"icon\"></i><span data-id=\""+obj.id+"\">"+obj.enName+"</span></li>");
                 }
             }
-
         }else{
             //右侧字段生成
         }
@@ -433,9 +432,6 @@ function  delContentFragment(aId) {
                      }
                  }else{
                      //选中上一个 菜单项 末尾子菜单
-                   /*  if($("#menu2").children().length>0){
-                         $("#menu2").children().eq($("#menu2").children().length-1).click();
-                     }*/
                      var clickindex=-1;
                      var length = $("#menu2").children().length;
                      for(var i=length-1;i>-1;i--){
@@ -461,8 +457,6 @@ function  delContentFragment(aId) {
                      }else{
                          $("#menu2").children().eq(clickindex).click();
                      }
-
-
                  }
              }else{
                  //非自定义属性 下标索引获取
@@ -801,8 +795,7 @@ function saveIchProject(page) {
         //contentFragmentList = ich.contentFragmentList;
     }
 
-    if( $('div[data-type=proBaseInfo]').hasClass("selected")){
-
+    if( $('div[data-type=proBaseInfo]').hasClass("selected")){//基础信息 点中
 
         var contentFragment={};
 
@@ -950,13 +943,11 @@ function saveIchProject(page) {
                 }
             }
         });
-        localStorage.setItem("ichProject",JSON.stringify(ich));
-        ///console.log(JSON.stringify(ich));
-        /* if(!vaidateForm(ich)){
-         return ;
-         }*/
+        //统一验证
 
-    }else if($('div[data-type=longFieldCustom]').hasClass("selected")){
+        localStorage.setItem("ichProject",JSON.stringify(ich));
+
+    }else if($('div[data-type=longFieldCustom]').hasClass("selected")){//添加自定义选中
         //添加自定义 选中
         var ich = getCurrentProject();
         var attr={};
@@ -989,11 +980,9 @@ function saveIchProject(page) {
 
         ich.contentFragmentList.push(contentFragment);
     }
-    else{
-        //获取 条件
+    else{  //修改其他子信息内容选中
         var attid;
         $('li[data-type=longField]').each(function () {
-
           if($(this).hasClass('selected')){
               attid = $(this).find('span').eq(0).attr('data-id');
               return false;
@@ -1076,8 +1065,6 @@ function saveIchProject(page) {
         ich.ichCategoryId=$("div[data-type=selectCate]").attr("value");
     }
 
-    //console.log(JSON.stringify(ich));
-    //获取本地
   $.ajax({
         type: "POST",
         url: "../ichProject/saveIchProject",
@@ -1089,7 +1076,7 @@ function saveIchProject(page) {
             console.log(JSON.stringify(result));
             if(result.code==0){
                 //存储本地
-             /*   if(page == 1){
+                /*if(page == 1){
                     tipBox.init("success","保存成功",1500);
                 }*/
                 localStorage.setItem("ichProject",JSON.stringify(result.data));
@@ -1099,7 +1086,9 @@ function saveIchProject(page) {
                     $('div[data-type=proBaseInfo]').removeClass("selected");
                     $('div[data-type=proBaseInfo]').find("i").addClass('selected');
                     saveAndnext = true;
-                    $("#menu").find("li")[0].click();
+                    if( $("#menu").find("li").length>0){
+                        $("#menu").find("li")[0].click();
+                    }
                 }else{
                     tipBox.init("success","保存成功",1500);
                     //$('div[data-type=proBaseInfo]').removeClass("selected");
@@ -1264,7 +1253,7 @@ function vaidateForm(ich) {
     return flag;
 }
 function  initProjectView(ich) {
-;
+
     if(localStorage.getItem("action")=="update" && (ich == null || typeof (ich) == "undefined")){
         return;
     }
@@ -1407,7 +1396,7 @@ function submitCheck() {
             console.log(JSON.stringify(result));
             if(result.code==0){
                 //存储本地
-                location.href="../page/ichProjectOver.html";
+                location.href="../page/createMastorSelect.html";
             }
         },
         error: function (result, status) {
@@ -1508,7 +1497,6 @@ function getConditionByAttributeID(attid){
 }
 //判断 所有必填字段是否 已经添加
 function isMustAdd() {
-
     var ich = getCurrentProject();
     var hasAddMust=true;//默认所有必填 都已添加
 
@@ -1531,13 +1519,11 @@ function isMustAdd() {
                return false;
             }
         }
-
     });
     return　hasAddMust;
 }
 //初始化
 function  initProjectData() {
-
     var pid = $.getUrlParam("pid");
     var ich = getCurrentProject();
 
@@ -1547,8 +1533,6 @@ function  initProjectData() {
         $(".name").text('填写申报信息-'+localStorage.getItem('ichProName'));
     }else{
         localStorage.setItem('action',"update");//添加修改标记状态
- /*       var ich = getIchProByID(pid);
-        localStorage.setItem("ichProject",JSON.stringify(ich));*/
         var code="";
         $.each(ich.contentFragmentList,function (idnex,object) {
             if(object.attributeId==4){//获取用户中文名信息
@@ -1593,5 +1577,7 @@ function  initProjectData() {
         }
         localStorage.setItem("ichProject",JSON.stringify(ich));
     }
+}
+function validateBasicInfo() {
     
 }
