@@ -188,7 +188,8 @@
   <select id="selectByLogNameAndPwd" parameterType="com.diich.core.model.User" resultMap="BaseResultMap">
     select * from user where status = 0
     <if test="loginName != null" >
-      and login_name = #{loginName,jdbcType=VARCHAR}
+      and (login_name = #{loginName,jdbcType=VARCHAR}
+      or phone = #{loginName,jdbcType=CHAR})
     </if>
     <if test="password != null" >
       and password = #{password,jdbcType=CHAR}
