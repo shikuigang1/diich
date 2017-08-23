@@ -104,8 +104,7 @@ var selectArea={
         var result=[];
         var resultText=[];
 
-        if(initVal){
-
+        if(initVal && initVal.result){
             result=initVal.result;
             resultText=initVal.resultText;
         }
@@ -1262,7 +1261,102 @@ var selectArea1={
     }
 };
 
+//是否为自己申报
+var organizationPage = {
+    init: function () {
+        var _this = this;
+        _this.judge();
+        $('#tpl').load('./Tpl/org_basic.html', function () {//加载基本信息页面
+            _this.slideBar();
+        });
+    },
+    slideBar: function () {
+        var _this = this;
+        var slide = $('.ipt_base .slide');
+        var dt = slide.find('.dt');
+        var dd = slide.find('.dd');
+        dd.find('li:last-child').css('margin-bottom', '0');
+        //点击dt 展开收起
+        dt.on('click', function () {
+            var _dd = $(this).siblings('.dd');
+            var _dateType = $(this).attr('data-type');
+            if (_dd.length > 0) {
+                _dd.slideToggle(100);
+            }
+            $('#tpl').load('/Tpl/' + _dateType + '.html', function () {
+                if (_dateType === 'longFieldCustom') {
+                    projectPage.radioImage(); //上传题图
+                }
+            });
+            projectPage.selectCate.init();
+        });
+    },
+    radioImage: function () {
+        var _images = $('#images');
+        //
+        var el = $('.ipt_base .content .edit .images .handle .file_up .icon');
+        upload.submit(el, 1, 'user/uploadFile', function (data) {
+            _images.find('.handle').before(templateItem(data));
+            isItemStatus();
+        });
+        //赋值token  有用则留无用则删除
+        $('._token').val($('meta[name=token]').attr('content'));
 
+        //模版
+        function templateItem(str) {
+            var templ = '<div class="item">' +
+                '<img src="' + str + '" alt="">' +
+                '<input type="text" name="text" placeholder="请输入标题">' +
+                '<span class="remove"><i></i></span>' +
+                '</div>';
+            return templ;
+        }
+
+        isItemStatus();
+
+        //判断上传图片的状态
+        function isItemStatus() {
+            var _item = _images.find('.item');
+            if (_item.length >= 3) {
+                _images.addClass('active');
+            }
+            _images.find('.item:even').css('margin-right', '10px');
+        }
+
+        upload.remove(function () {
+            //todo
+        });
+    },
+    judge: function () {//是否申报传承人
+        var parent = $('.ipt_over');
+        var judgeBox=parent.find('.judge_box');
+        //1.是否申报传承人
+        parent.on('click', '.radio', function () {
+            var _index = $(this).index();
+            //去掉选中的兄弟(选中效果)
+            parent.find('.radio').removeClass('active');
+            parent.find('input[type=radio]').removeAttr('checked');
+            //当前选中效果
+            $(this).addClass('active');
+            $(this).find('input[type=radio]').attr('checked', true);
+            //如果点击否
+            if (_index != 0) {
+                judgeBox.fadeIn('fast');
+            }
+        });
+
+        //2.是否代表机构进行申报
+        judgeBox.on('click','.buttons a',function () {
+            var _index = $(this).index();
+            if(_index==0){
+                alert('你点击的是')
+            }else {
+                judgeBox.fadeOut('fast');
+            }
+        });
+
+    }
+};
 
 //传承人认证
 var inheritorPage={
