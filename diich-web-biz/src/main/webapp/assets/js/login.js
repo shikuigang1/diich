@@ -406,13 +406,8 @@ $(function () {
             var path = url.substring(url.lastIndexOf("/"));
             if(typeof (data.data)!='undefined' && data.code==0){
                 $(".login").hide();
-                $(".logined").show();
+                $(".logined").show().html(loginedTemplate(data.data));
                 //根据当前 语言环境判断
-                /*if(lang=='zh-CN'){
-                    $(".logined").find('a').text("你好，"+data.data.loginName);
-                }else{
-                    $(".logined").find('a').text("hello，"+data.data.loginName);
-                }*/
                 if(path.indexOf("/userinfoAdd.html") != -1){
                     //用户信息 回填 显示
                     $("#name").val(data.data.name);
@@ -464,13 +459,14 @@ function login(){
                 localStorage.setItem("pid",data.data.id);
                 $('.box_layer').hide();
                 $(".login").hide();
-                $(".logined").show();
                 //根据当前 语言环境判断   默认显示英文
-             /*   if(lang=='zh-CN'){
-                    $(".logined").find('a').text("你好，"+ data.data.loginName);
-                }else{
-                    $(".logined").find('a').text("hello，"+data.data.loginName);
-                }*/
+
+                $(".logined").show().html(loginedTemplate(data.data));
+                // if(lang=='zh-CN'){
+                //     $(".logined").find('a').text("你好，"+ data.data.loginName);
+                // }else{
+                //     $(".logined").find('a').text("hello，"+data.data.loginName);
+                // }
                 //登录后续操作
                 //获取当前url 访问地址
                 var path = window.location.href;
@@ -608,3 +604,42 @@ var filterpage= ['/ichpro.html','/ichProForm.html','/ichProContent.html',
     '/ichMasterForm.html','/center.html','/userinfoAdd.html',
     '/createMastorSelect.html'
     ,'/organization.html'];
+
+//登录后显示
+function loginedTemplate(data) {
+    var str='<div class="main">' +
+        '      <div class="item user">' +
+        '          <a href="javascript:void(0)"><img src="http://resource.efeiyi.com/image/uploads/head.png" alt=""></a><span>'+data.loginName+'</span>' +
+        '      </div>' +
+        // '      <div class="item account"><a href="">账户管理</a></div>' +
+        '      <div class="item logout"><a href="javascript:void(0)">退出</a></div>' +
+        '   </div>';
+
+    $(".logined").html(str);
+
+    //鼠标滑过
+    $(".logined").hover(function () {
+        $(this).addClass('active');
+    },function () {
+        $(this).removeClass('active');
+    });
+
+    //推出
+    $(".logined").on('click','.logout',function () {
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: "/user/logoff",
+            data: {params:localStorage.getItem("pid")}, // 你的formid
+            dataType: "json",
+            async: true,
+            success:function (res) {
+                if(res.code===0){
+                    $(".logined").hide().html('');
+                    $(".login").show();
+                }
+            }
+        })
+    });
+
+}

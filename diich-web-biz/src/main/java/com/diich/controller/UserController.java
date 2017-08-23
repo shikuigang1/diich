@@ -198,11 +198,10 @@ public class UserController extends BaseController<User> {
     @RequestMapping("logoff")
     @ResponseBody
     public Map<String, Object> logoff(HttpServletRequest request,HttpServletResponse response) {
-        String loginName = request.getParameter("loginName");
         HttpSession session = request.getSession();
         session.removeAttribute("CURRENT_USER");
         response.setHeader("Access-Control-Allow-Origin", "*");
-        return putDataToMap(loginName);
+        return putDataToMap(null);
     }
 
 
