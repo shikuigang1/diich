@@ -104,6 +104,12 @@ public class OrganizationController extends BaseController<Organization>{
         return putDataToMap(organization);
     }
 
+    @RequestMapping("organizationInfo")
+    @ResponseBody
+    public  Map<String, Object> organizationInfo(HttpServletRequest request,HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(request.getSession().getAttribute("Constants.CURRENT_ORG"));
+    }
     /**
      * 预览
      * @param request
