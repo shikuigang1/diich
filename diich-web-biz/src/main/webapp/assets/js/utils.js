@@ -153,35 +153,43 @@ var Detail = { //详情页用到的效果
         },
         filter:function () {//判断页面添加基本属性
             var body=$('body');
-            var isPage=body.is('.js-project');
+            var isPage=body.attr('class');
             var _data={};
 
             //判断中英文
             if(jsonHead.lang=='chi'){
-                if(isPage){
+                if(isPage=='js-project'){
                     _data.unesco='UNESCO 认证项目';
-                }else {
+                }else if(isPage=='js-master'){
                     _data.unesco='UNESCO 认证传承人';
+                }else if(isPage=='js-organization'){
+                    _data.unesco='UNESCO 认证机构';
                 }
                 _data.tabs='<span>图片</span><span>视频</span>';
-            }else{
-                if(isPage){
+            }else {
+                if(isPage=='js-project'){
                     _data.unesco='UNESCO certification of non-legacy projects';
-                }else {
+                }else if(isPage=='js-master') {
                     _data.unesco='UNESCO certification of non-legacy masters';
+                }else if(isPage=='js-organization'){
+                    _data.unesco='UNESCO certification of organization';
                 }
                 _data.tabs='<span>Picture</span><span>Video</span>';
             }
 
             //判断页面
-            if(isPage){
+            if(isPage=='js-project'){
                 _data.baseUrl='http://resource.efeiyi.com/image/project/';
                 _data.name=jsonHead.projectName;
                 _data.page='project';
-            }else{
+            }else if(isPage=='js-master'){
                 _data.baseUrl='http://resource.efeiyi.com/image/master/';
                 _data.name=jsonHead.masterName;
                 _data.page='master';
+            }else if(isPage=='js-organization'){
+                _data.baseUrl='http://resource.efeiyi.com/image/organization/';
+                _data.name=jsonHead.organizationName;
+                _data.page='organization';
             }
             if(jsonHead.headImage != null && jsonHead.headImage !='undefined'){
                 _data.headImage=jsonHead.headImage[0].uri;
