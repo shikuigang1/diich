@@ -609,7 +609,7 @@ var filterpage= ['/ichpro.html','/ichProForm.html','/ichProContent.html',
 function loginedTemplate(data) {
     var str='<div class="main">' +
         '      <div class="item user">' +
-        '          <a href="javascript:void(0)"><img src="http://resource.efeiyi.com/image/uploads/head.png" alt=""></a><span>'+data.loginName+'</span>' +
+        '          <a href="javascript:void(0)"><img src="../assets/images/user_head.png" alt=""></a><span>'+data.loginName+'</span>' +
         '      </div>' +
         // '      <div class="item account"><a href="">账户管理</a></div>' +
         '      <div class="item logout"><a href="javascript:void(0)">退出</a></div>' +

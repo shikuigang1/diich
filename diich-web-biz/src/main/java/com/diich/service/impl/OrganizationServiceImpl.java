@@ -1,5 +1,6 @@
 package com.diich.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.baomidou.mybatisplus.toolkit.StringUtils;
 import com.diich.core.base.BaseService;
@@ -7,14 +8,16 @@ import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
 import com.diich.core.service.ContentFragmentService;
 import com.diich.core.service.OrganizationService;
+import com.diich.core.service.VersionService;
+import com.diich.core.util.BuildHTMLEngine;
+import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/8/21.
@@ -35,6 +38,10 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
     private ContentFragmentResourceMapper contentFragmentResourceMapper;
     @Autowired
     private ResourceMapper resourceMapper;
+    @Autowired
+    private VersionService versionService;
+    @Autowired
+    private VersionMapper versionMapper;
     /**
      * 根据id获取机构信息
      * @param id
@@ -88,12 +95,134 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         return organization;
     }
 
+    /**
+     * 生成静态页面
+     * @param templateName
+     * @param organization
+     * @param fileName
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public String buildHTML(String templateName, Organization organization, String fileName) throws Exception {
+        try{
+            Map map = getJson(organization);
+            String uri = BuildHTMLEngine.buildHTML(templateName, organization,map, fileName);
+            return uri;
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+    }
+
+    /**
+     * 预览
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public String preview(long id) throws Exception {
+        try{
+            Organization organization = getOrganizationById(id);
+            String fileName = PropertiesUtil.getString("freemarker.organizationfilepath")+"/"+organization.getId().toString();
+            String str = PropertiesUtil.getString("freemarker.organizationfilepath");
+            String url = str.substring(str.lastIndexOf("/"));
+            String s = buildHTML("preview_organization.ftl", organization, fileName);
+            String uri = "." + url + "/" + id + ".html";
+            return uri;
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+    }
+
+    @Override
+    public Organization getOrganizationByIdAndIUser(long id, User user) throws Exception {
+        if(user.getType() != null && user.getType() == 0){//是管理员
+            return getOrganizationById(id);
+        }
+        Version version = new Version();
+        version.setTargetType(3);
+        version.setVersionType(1000);
+        version.setMainVersionId(id);
+        List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
+        if(versionList.size()>0) {
+            List tempList = new ArrayList();
+            for (Version ver : versionList) {
+                tempList.add(ver.getBranchVersionId());
+            }
+            List<Organization> organizationList = organizationMapper.selectOrganizationByUserId(user.getId());
+            for (Organization organization : organizationList) {
+                Long organizationId = organization.getId();
+                if(tempList.contains(organizationId)){
+                    List<ContentFragment> contentFragmentList = getContentFragmentListByOrganization(organization);
+                    organization.setContentFragmentList(contentFragmentList);
+                    return organization;
+                }
+            }
+        }
+        Organization organization = getOrganizationById(id);
+        if(organization !=null && (!organization.getLastEditorId().equals(user.getId())) || ( organization.getStatus() != null && organization.getStatus()==0)){
+            organization.setLastEditorId(user.getId());
+            organization.setLastEditDate(new Date());
+            organization  = updateOrganization(organization);
+        }
+        return organization;
+    }
+
+    private Organization updateOrganization(Organization organization) throws Exception {
+        Long mainId = organization.getId();
+        long branchId = IdWorker.getId();
+        organization.setId(branchId);
+        organization.setStatus(2);
+        organization.setUri(branchId+".html");
+        organizationMapper.insertSelective(organization);
+        List<ContentFragment> ichProjectContentFragmentList = organization.getContentFragmentList();
+        if(ichProjectContentFragmentList != null && ichProjectContentFragmentList.size()>0){
+            for (ContentFragment contentFragment : ichProjectContentFragmentList) {
+                contentFragment.setId(null);
+                contentFragment.setTargetId(branchId);
+                List<Resource> resourceList = contentFragment.getResourceList();
+                if(resourceList != null && resourceList.size()>0){
+                    for(int i = 0 ; i <  resourceList.size() ; i++ ){
+                        Resource resource = resourceList.get(i);
+                        resource.setId(null);
+                    }
+                }
+                contentFragmentService.saveContentFragment(contentFragment);
+            }
+        }
+        //保存version表
+        Version version = new Version();
+        version.setTargetType(3);
+        version.setMainVersionId(mainId);
+        version.setBranchVersionId(branchId);
+        version.setVersionType(1000);//版本  修改中, 已过期
+        versionService.save(version);
+
+        return organization;
+    }
+
+    private Organization getOrganizationById(long id) throws Exception{
+        Organization organization =null;
+        try{
+            organization = organizationMapper.selectOrganizationById(id);
+            if(organization != null){
+                //内容片断列表
+                List<ContentFragment> contentFragmentList = getContentFragmentListByOrganization(organization);
+                organization.setContentFragmentList(contentFragmentList);
+            }
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return organization;
+    }
+
     private void saveOrgan(Organization organization, User user) throws Exception{
         if(StringUtils.isEmpty(organization.getLang())){
             organization.setLang("chi");
         }
         if(user.getType() != null && user.getType() == 3){//0管理员账户 1普通用户 2传承人用户  3 机构用户
-            organization.setUserId(organization.getLastEditorId());
+            organization.setUserId(user.getId());
         }
         if(organization.getId() == null){
             long id = IdWorker.getId();
@@ -207,4 +336,56 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         return contentFragmentList;
     }
 
+    /**
+     * 获取前端所需要的资源数据
+     * @param organization
+     * @return
+     */
+    private Map getJson(Organization organization) throws Exception{
+        //list用于向前端传输按模块划分的图片资源   用于显示在详情页特定模块的资源
+        List<Map<String,Object>> list = new ArrayList<>();
+        //allMap 所有去除重复图片和视频后的资源容器  用于显示在详情页得查看所有图片
+        Map<String,Object> allMap = new HashedMap();
+        Map<String,Object> headMap = new HashedMap();           //放公共数据
+        Set<Resource> imgdist = new HashSet<>();                //去重后的所有图片集合
+        Set<Resource> videosdist = new HashSet<>();              //去重后的所有视频集合
+        List<ContentFragment> ContentFragmentList = organization.getContentFragmentList();
+        for (ContentFragment contentFragment:ContentFragmentList) {
+            Map<String, Object> map = new HashMap<>();          //存放每个模块的图片和视频
+            List<Resource> img = new ArrayList<>();             //图片资源文件的集合
+            List<Resource> video = new ArrayList<>();           //视频资源文件的集合
+            Long contentFragmentId = contentFragment.getId();
+            List<Resource> resourceList = contentFragment.getResourceList();
+            if(resourceList !=null && resourceList.size()>0){
+                for (Resource resource:resourceList) {
+                    if (resource.getType() == 0) {
+                        img.add(resource);
+                        imgdist.addAll(img);
+                    }
+                    if (resource.getType() == 1) {
+                        video.add(resource);
+                        videosdist.addAll(video);
+                    }
+                }
+            }
+            map.put("contentFragmentId", contentFragmentId);
+            map.put("imgs", img);
+            map.put("videos", video);
+            if("chi".equals(organization.getLang())){
+                if(contentFragment.getAttributeId()==132){
+                    headMap.put("organizationName",contentFragment.getContent());
+                }
+            }
+
+            list.add(map);
+        }
+        allMap.put("imgs",imgdist);
+        allMap.put("videos",videosdist);
+        headMap.put("lang",organization.getLang());
+        Map map = new HashMap();
+        map.put("json", JSONObject.toJSON(list).toString());
+        map.put("jsonAll",JSONObject.toJSON(allMap).toString());
+        map.put("jsonHead",JSONObject.toJSON(headMap).toString());
+        return map;
+    }
 }

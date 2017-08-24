@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.diich.core.model.IchProject" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="ich_category_id" property="ichCategoryId" jdbcType="BIGINT" />
+    <result column="creator_id" property="creatorId" jdbcType="BIGINT" />
     <result column="last_editor_id" property="lastEditorId" jdbcType="BIGINT" />
     <result column="last_edit_date" property="lastEditDate" jdbcType="TIMESTAMP" />
     <result column="edit_rank" property="editRank" jdbcType="INTEGER" />
@@ -12,7 +13,8 @@
     <result column="lang" property="lang" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, ich_category_id, last_editor_id, last_edit_date, edit_rank, status, uri, lang
+    id, ich_category_id, creator_id, last_editor_id, last_edit_date, edit_rank, status,
+    uri, lang
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
@@ -25,12 +27,12 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.IchProject" >
-    insert into ich_project (id, ich_category_id, last_editor_id,
-    last_edit_date, edit_rank, status,
-    uri, lang)
-    values (#{id,jdbcType=BIGINT}, #{ichCategoryId,jdbcType=BIGINT}, #{lastEditorId,jdbcType=BIGINT},
-    #{lastEditDate,jdbcType=TIMESTAMP}, #{editRank,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
-    #{uri,jdbcType=VARCHAR}, #{lang,jdbcType=CHAR})
+    insert into ich_project (id, ich_category_id, creator_id,
+    last_editor_id, last_edit_date, edit_rank,
+    status, uri, lang)
+    values (#{id,jdbcType=BIGINT}, #{ichCategoryId,jdbcType=BIGINT}, #{creatorId,jdbcType=BIGINT},
+    #{lastEditorId,jdbcType=BIGINT}, #{lastEditDate,jdbcType=TIMESTAMP}, #{editRank,jdbcType=INTEGER},
+    #{status,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR}, #{lang,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.IchProject" >
     insert into ich_project
@@ -40,6 +42,9 @@
       </if>
       <if test="ichCategoryId != null" >
         ich_category_id,
+      </if>
+      <if test="creatorId != null" >
+        creator_id,
       </if>
       <if test="lastEditorId != null" >
         last_editor_id,
@@ -67,6 +72,9 @@
       <if test="ichCategoryId != null" >
         #{ichCategoryId,jdbcType=BIGINT},
       </if>
+      <if test="creatorId != null" >
+        #{creatorId,jdbcType=BIGINT},
+      </if>
       <if test="lastEditorId != null" >
         #{lastEditorId,jdbcType=BIGINT},
       </if>
@@ -93,6 +101,9 @@
       <if test="ichCategoryId != null" >
         ich_category_id = #{ichCategoryId,jdbcType=BIGINT},
       </if>
+      <if test="creatorId != null" >
+        creator_id = #{creatorId,jdbcType=BIGINT},
+      </if>
       <if test="lastEditorId != null" >
         last_editor_id = #{lastEditorId,jdbcType=BIGINT},
       </if>
@@ -117,12 +128,13 @@
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.IchProject" >
     update ich_project
     set ich_category_id = #{ichCategoryId,jdbcType=BIGINT},
-    last_editor_id = #{lastEditorId,jdbcType=BIGINT},
-    last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
-    edit_rank = #{editRank,jdbcType=INTEGER},
-    status = #{status,jdbcType=INTEGER},
-    uri = #{uri,jdbcType=VARCHAR},
-    lang = #{lang,jdbcType=CHAR}
+      creator_id = #{creatorId,jdbcType=BIGINT},
+      last_editor_id = #{lastEditorId,jdbcType=BIGINT},
+      last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
+      edit_rank = #{editRank,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      uri = #{uri,jdbcType=VARCHAR},
+      lang = #{lang,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectIchProjectList" parameterType="java.util.Map" resultMap="BaseResultMap">

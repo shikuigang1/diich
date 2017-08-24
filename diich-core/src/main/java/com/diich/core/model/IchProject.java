@@ -12,6 +12,8 @@ public class IchProject extends IchObject {
 
     private Long ichCategoryId;
 
+    private Long creatorId;//创建人id
+
     private Long lastEditorId;
 
     private Date lastEditDate;
@@ -46,6 +48,14 @@ public class IchProject extends IchObject {
 
     public void setIchCategoryId(Long ichCategoryId) {
         this.ichCategoryId = ichCategoryId;
+    }
+
+    public Long getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(Long creatorId) {
+        this.creatorId = creatorId;
     }
 
     public Long getLastEditorId() {

@@ -9,7 +9,7 @@
     <title id="title">
     <#if (obj.contentFragmentList?size>0)>
                <#list obj.contentFragmentList as cf>
-                    <#if cf.attributeId == 13>
+                    <#if cf.attributeId == 132>
                         ${cf.content}
                     </#if>
                 </#list>
@@ -59,7 +59,7 @@
 
 <#assign propage = "http://project.efeiyi.com/p/"/>
 <#assign workspage = "http://works.efeiyi.com/w/"/>
-<#assign prouri="http://resource.efeiyi.com/image/project/" />
+<#assign orguri="http://resource.efeiyi.com/image/organization/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
 <#assign str="http:" />
 <#assign strs="https:" />
@@ -71,13 +71,13 @@
                    <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/head.png">
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
-                            <#if cf.attributeId == 10>
-                                <#if (cf.resourceList?size>0)>
+                            <#if cf.attributeId == 136>
+                                <#if (cf.resourceList??) && (cf.resourceList?size>0)>
                                     <#list cf.resourceList as res>
                                         <#if res.type==0 && res.status==0>
                                             <#if res.uri??>
                                                 <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                                    <img src="${masteruri}${res.uri}" alt="" id="detailTopic" style="display:none">
+                                                    <img src="${orguri}${res.uri}" alt="" id="detailTopic" style="display:none">
                                                 </#if>
                                                 <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
                                                     <img src="${res.uri}" alt="" id="detailTopic" style="display:none">
@@ -91,12 +91,12 @@
                     </#if>
                    <#if (obj.contentFragmentList?size>0)>
                        <#list obj.contentFragmentList as cf>
-                           <#if cf.attributeId == 10>
-                               <#if (cf.resourceList?size>0)>
+                           <#if cf.attributeId == 136>
+                               <#if (cf.resourceList??) && (cf.resourceList?size>0)>
                                    <#list cf.resourceList as res>
                                        <#if res.type==1 && res.status==0>
                                            <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                               <video poster="${backImgUrl}" src="${masteruri}${res.uri}"> </video>
+                                               <video poster="${backImgUrl}" src="${orguri}${res.uri}"> </video>
                                            </#if>
                                            <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
                                                <video poster="${backImgUrl}" src="${res.uri}"> </video>
@@ -119,34 +119,24 @@
             <div class="card_main">
                 <div class="floor">
                     <a class="album albums" data-id="all"><i class="icon_img"></i>
-                    </a>
 
+                    </a>
                 </div>
                 <!--//End -->
                 <div class="detail_title">
                 <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
-                        <#if cf.attributeId == 13>
-                            <#assign mastername = cf.content>
+                        <#if cf.attributeId == 132>
                         <h2>${cf.content}</h2>
                         </#if>
                     </#list>
                 </#if>
-                <#--获取所属项目的名称-->
-                <#assign pname = "" />
-                <#if obj.ichProject?? && (obj.ichProject.contentFragmentList??) && (obj.ichProject.contentFragmentList?size>0)>
-                    <#list (obj.ichProject.contentFragmentList) as cf>
-                        <#if cf.attributeId == 4>
-                            <#assign pname = "${cf.content}" />
-                        </#if>
-                    </#list>
-                </#if>
-                    <a href="${caturi}/page/ichMasterForm.html?mid=${obj.id?c}&pname=${pname}" class="edit"><i class="icon"></i>编辑</a>
+                    <a href="${caturi}/page/ichMasterForm.html?mid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
                     <div class="doi_code">
                         <i class="icon">ID</i>
                         <span>：<em id="doi_code"><#if (obj.contentFragmentList?size>0)>
                                         <#list obj.contentFragmentList as cf>
-                                            <#if cf.attributeId == 11>
+                                            <#if cf.attributeId == 137>
                                                 ${cf.content}
                                             </#if>
                                         </#list>
@@ -158,108 +148,20 @@
                     </div>
                 </div>
                 <!--//End title-->
-
                 <div class="bd subtxt">
-                        <span>
-                            <em><#if (obj.contentFragmentList?size>0)>
-                                <#list obj.contentFragmentList as cf>
-                                    <#if cf.attributeId == 23 && cf.content?? && cf.content != "">
-                                        <strong>申报地区：</strong>
-                                        <#assign codeList = cf.content?split(",")>
-                                        <#list codeList as s>
-                                            <em class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${s}</em>
-                                            <#if s_index+1 < (codeList?size)>
-                                                <i>|</i>
-                                            </#if>
-                                        </#list>
-                                    </#if>
-                                </#list>
-                            </#if></em>
-                        </span>
+
                 </div>
                 <!--//End-->
 
-        <#if obj.ichProject??>
                 <div class="bd inheritor">
-                    <div class="tname">传承项目</div>
-                    <div class="pro">
-                        <div class="img">
-                            <#if (obj.ichProject.contentFragmentList?size>0)>
-                                <#assign proPic="http://resource.efeiyi.com/image/uploads/head.png"/>
-                                <#list (obj.ichProject.contentFragmentList) as cf>
-                                    <#if cf.attributeId == 112>
-                                        <#if (cf.resourceList??)&&(cf.resourceList?size>0)>
-                                            <#list cf.resourceList as r>
-                                                <#if r.type==0 && r.status==0>
-                                                    <#if r.uri??>
-                                                        <#assign proPic="${prouri}${r.uri}?x-oss-process=style/head-image-style" />
-                                                    </#if>
-                                                </#if>
-                                            </#list>
-                                        </#if>
-                                    </#if>
-                                </#list>
-                            </#if>
-                            <a href="${propage}${obj.ichProject.id?c}.html"><img src="${proPic}" width="94" height="70" alt=""></a>
-                        </div>
-                        <div class="txt">
-                            <p class="t">
-                                <#if (obj.ichProject.contentFragmentList?size>0)>
-                                    <#list (obj.ichProject.contentFragmentList) as cf>
-                                        <#if cf.attributeId == 4>
-                                        <a href="${propage}${obj.ichProject.id?c}.html">${cf.content}</a>
-                                        </#if>
-                                    </#list>
-                                </#if>
-                            </p>
-                            <p><#if (obj.ichProject??)>
-                                <#if (obj.ichProject.ichCategoryId??)>
-                                    类别：<em style="font-size: 12px" id="category" category-id="${obj.ichProject.ichCategoryId}"></em>
-                                </#if>
-                                <#if !(obj.ichProject.ichCategoryId??)>
-                                    类别：<em  style="font-size: 12px" id="category" category-id=""></em>
-                                </#if>
-                            </#if>
-                                 <#if (obj.ichProject.contentFragmentList?size>0)>
-                                                 <#list (obj.ichProject.contentFragmentList) as cf>
-                                                            <#if cf.attributeId == 33 && cf.content?? && cf.content !="" >
-                                                                | 地域： <em style="font-size: 12px" class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em>
-                                                            </#if>
-                                                </#list>
-                                            </#if>
-                            </p>
-                            <p><#if (obj.ichProject.contentFragmentList?size>0)>
-                                        <#list obj.ichProject.contentFragmentList as cf>
-                                            <#if cf.attributeId == 2 && cf.content?? && cf.content !="">
-                                                ID：${cf.content}
-                                            </#if>
-                                        </#list>
-                                     </#if>
-                            </p>
-                        </div>
-                    </div>
+
                 </div>
-        </#if>
                 <!--//ENd-->
-            <#if (obj.contentFragmentList??) &&(obj.contentFragmentList?size>0)>
                 <div class="bd batch" id="mas">
-                    <div class="tname">非遗在中国<i></i></div>
-                    <div class="subcon" id="subcon">
-                            <#list obj.contentFragmentList as cf>
-                                <#if cf.attributeId == 12 && cf.content?? && cf.content != "" >
-                                    <span>非遗编码：${cf.content}</span>
-                                </#if>
-                                <#if cf.attributeId == 111 && cf.content?? && cf.content != "">
-                                    <span>非遗等级：<em  style="font-size: 12px" class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em></span>
-                                </#if>
-                            </#list>
-                    </div>
+
                 </div>
-            </#if>
                 <!--//ENd-->
-
             </div>
-
             <div class="card_base">
                 <duv class="detail_title">
                     <h2>基础信息</h2>
@@ -268,7 +170,7 @@
                     <ul>
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
-                            <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.content !="" && cf.attributeId != 11 && cf.attributeId != 12 && cf.attributeId != 111 && cf.attributeId != 23>
+                            <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.content !="" && cf.attributeId != 132 && cf.attributeId != 136 && cf.attributeId != 137>
                                 <li>
                                         <span class="key">${cf.attribute.cnName}：</span>
                                         <span class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
@@ -282,52 +184,6 @@
             <!--//End 基本信息-->
         </div>
     <#assign odd_even =0 />
-
-    <#if (obj.worksList??) && (obj.worksList?size>0)>
-        <section class="bd floor odd">
-            <div class="card">
-                <header><h4>代表作品 </h4><em>共${obj.worksList?size}项</em></header>
-                <article class="product_list">
-                    <ul>
-                        <#list obj.worksList as work>
-                            <#if  work.contentFragmentList??>
-                                <li>
-                                    <!-- 保证图片在上面-->
-                                    <#list work.contentFragmentList as c>
-                                        <#if c.attributeId==114>
-                                            <#if c.resourceList??>
-                                                <#list c.resourceList as p>
-                                                    <a href="${workspage}${work.id?c}.html"><img src="${p.uri}?x-oss-process=style/head-image-style" alt=""></a>
-                                                </#list>
-                                            </#if>
-                                        </#if>
-                                    </#list>
-
-                                    <#list work.contentFragmentList as c>
-                                        <#if c.attributeId==28>
-                                            <p class="name"><a href="${workspage}${work.id?c}.html">${c.content}</a> </p>
-                                        </#if>
-                                    </#list>
-                                    <#list work.contentFragmentList as c>
-                                        <#if c.attributeId==114>
-                                            <#if c.resourceList??>
-                                                <#list c.resourceList as p>
-                                                    <p class="master"><#if p.description??>${p.description}</#if></p>
-                                                </#list>
-                                            </#if>
-                                        </#if>
-                                    </#list>
-                                </li>
-                            </#if>
-                        </#list>
-                        <#assign odd_even = odd_even+1 />
-                    </ul>
-                    <div class="page"></div>
-                </article>
-            </div>
-        </section>
-    </#if>
-
 
         <!--//主内容-->
 
@@ -355,7 +211,7 @@
                                         <li>
                                             <#if r.type ==0>
                                                 <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                    <img src="${masteruri}${r.uri}" alt="">
+                                                    <img src="${orguri}${r.uri}" alt="">
                                                 </#if>
                                                 <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
                                                     <img src="${r.uri}" alt="">
@@ -371,7 +227,7 @@
                                                     <div class="time">30:24</div>
                                                     <div class="play"></div>
                                                     <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${masteruri}${r.uri}" type="video/mp4" style="width: 100%;">
+                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${orguri}${r.uri}" type="video/mp4" style="width: 100%;">
                                                         </video>
                                                     </#if>
                                                     <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
