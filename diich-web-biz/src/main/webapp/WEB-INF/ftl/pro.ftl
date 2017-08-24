@@ -4,6 +4,8 @@
 <head>
 <#assign caturi="http://diich.efeiyi.com" />
     <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title id="title">
     <#if (obj.contentFragmentList?size>0)>
        <#list obj.contentFragmentList as cf>
@@ -25,6 +27,10 @@
     <link rel="shortcut icon" type="image/x-icon" href="${caturi}/assets/images/logo.png" media="screen" />
     <link rel="stylesheet" href="${caturi}/assets/css/common.css">
     <link rel="stylesheet" href="${caturi}/assets/css/layout.css">
+    <!--[if IE]>
+    <link rel="stylesheet" href="${caturi}/assets/css/ie.css">
+    <script src="${caturi}/assets/js/html5.js"></script>
+    <![endif]-->
     <script src="${caturi}/data/keyword.js"></script>
     <script src="${caturi}/assets/js/jquery.min.js"></script>
     <script src="${caturi}/assets/js/system.js"></script>

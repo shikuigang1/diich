@@ -21,6 +21,12 @@ public interface Constants {
     public static final String USERLANGUAGE = "userLanguage";
     /** 客户端主题 */
     public static final String WEBTHEME = "webTheme";
+    /** 组织 */
+    public static final String CURRENT_ORG = "CURRENT_ORG";
+    /** 项目 */
+    public static final String CURRENT_PROJECT = "CURRENT_PROJECT";
+    /** 传承人 */
+    public static final String CURRENT_MASTER = "CURRENT_MASTER";
     /** 当前用户 */
     public static final String CURRENT_USER = "CURRENT_USER";
     /** 上次请求地址 */

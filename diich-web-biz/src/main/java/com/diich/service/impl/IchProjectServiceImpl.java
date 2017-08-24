@@ -285,11 +285,15 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         if(user.getType() != null && user.getType() == 0){//是管理员
             return getIchProjectById(id);
         }
-        List<Version> versionList = versionService.getVersionByLangIdAndTargetType(id, null, 0, 1000);
+        Version version = new Version();
+        version.setTargetType(0);
+        version.setVersionType(1000);
+        version.setMainVersionId(id);
+        List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
         if(versionList.size()>0){
             List tempList = new ArrayList();
-            for(Version version : versionList){
-                tempList.add(version.getBranchVersionId());
+            for(Version ver : versionList){
+                tempList.add(ver.getBranchVersionId());
             }
             List<IchProject> ichProjectList = ichProjectMapper.selectIchProjectByUserId(user.getId());
             for (IchProject ichProject : ichProjectList) {

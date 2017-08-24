@@ -125,4 +125,16 @@
       lang = #{lang,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectOrganizationById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from organization
+    where id = #{id,jdbcType=BIGINT} and status != 1
+  </select>
+  <select id="selectOrganizationByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from organization
+    where last_editor_id = #{lastEditorId,jdbcType=BIGINT} and status != 1
+  </select>
 </mapper>

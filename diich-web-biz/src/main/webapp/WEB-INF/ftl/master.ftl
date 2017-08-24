@@ -4,6 +4,8 @@
 <head>
 <#assign caturi="http://diich.efeiyi.com" />
     <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title id="title">
     <#if (obj.contentFragmentList?size>0)>
                <#list obj.contentFragmentList as cf>
@@ -16,6 +18,10 @@
     <link rel="shortcut icon" type="image/x-icon" href="${caturi}/assets/images/logo.png" media="screen" />
     <link rel="stylesheet" href="${caturi}/assets/css/common.css">
     <link rel="stylesheet" href="${caturi}/assets/css/layout.css">
+    <!--[if IE]>
+    <link rel="stylesheet" href="${caturi}/assets/css/ie.css">
+    <script src="${caturi}/assets/js/html5.js"></script>
+    <![endif]-->
     <script src="${caturi}/assets/js/jquery.min.js"></script>
     <script src="${caturi}/assets/js/system.js"></script>
     <script src="${caturi}/assets/js/utils.js"></script>
@@ -136,19 +142,19 @@
                         <#if cf.attributeId == 13>
                             <#assign mastername = cf.content>
                         <h2>${cf.content}</h2>
-                            <#--获取所属项目的名称-->
-                            <#assign pname = "" />
-                            <#if obj.ichProject?? && (obj.ichProject.contentFragmentList??) && (obj.ichProject.contentFragmentList?size>0)>
-                                <#list (obj.ichProject.contentFragmentList) as cf>
-                                    <#if cf.attributeId == 4>
-                                        <#assign pname = "${cf.content}" />
-                                    </#if>
-                                </#list>
-                            </#if>
-                            <a href="${caturi}/page/ichMasterForm.html?mid=${obj.id?c}&pname=${pname}" class="edit"><i class="icon"></i>编辑</a>
                         </#if>
                     </#list>
                 </#if>
+                <#--获取所属项目的名称-->
+                <#assign pname = "" />
+                <#if obj.ichProject?? && (obj.ichProject.contentFragmentList??) && (obj.ichProject.contentFragmentList?size>0)>
+                    <#list (obj.ichProject.contentFragmentList) as cf>
+                        <#if cf.attributeId == 4>
+                            <#assign pname = "${cf.content}" />
+                        </#if>
+                    </#list>
+                </#if>
+                    <a href="${caturi}/page/ichMasterForm.html?mid=${obj.id?c}&pname=${pname}" class="edit"><i class="icon"></i>编辑</a>
                     <div class="doi_code">
                         <i class="icon">ID</i>
                         <span>：<em id="doi_code"><#if (obj.contentFragmentList?size>0)>

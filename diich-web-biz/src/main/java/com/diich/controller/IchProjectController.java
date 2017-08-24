@@ -101,7 +101,7 @@ public class IchProjectController extends BaseController<IchProject> {
     @RequestMapping("getIchProjectList")
     @ResponseBody
     public Map<String, Object> getIchProjectList(HttpServletRequest request,HttpServletResponse response) {
-        Map<String, Object> params = new HashMap<>();;
+        Map<String, Object> params = new HashMap<>();
         String param = request.getParameter("params");
         try{
             if(param !=null){
