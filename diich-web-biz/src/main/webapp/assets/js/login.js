@@ -125,260 +125,253 @@ var loginPage = {
         });
     },
     template: function () {
-        var html = `
-        <style>.form_area .title {text-indent:86px}
-        .form_area .group .name {width: 16%}
-        .form_area .group .name span {width: 100%}
-        .form_area .group .area {width: 80%;float: right}
-        .form_area .group .ipt {width: 90%;padding:0 5%;}
-        .form_area .group .ipt::-webkit-input-placeholder { color:#ccc; }</style><div class="box_layer">
-                    <div class="item login" style="display: block;">
-                        <form class="form_area" id="loginForm" action="" onkeydown="if(event.keyCode==13)return false;" >
-                            <input type="hidden" id="backurl" value="" >
-                            <div class="title" >登录<span class="close"></span></div>
-                            <div class="group">
-                                <div class="name"><span id="nickname">登录名</span></div>
-                                <div class="area">
-                                    <input class="ipt"  name="loginName" type="text" placeholder="用户名/手机号">
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="name"><span>密&nbsp;&nbsp;码</span></div>
-                                <div class="area">
-                                    <input class="ipt"  type="password" name="password" placeholder="请输入密码">
-                                    <a class="forget js-to-reset" href="javascript:;">忘记登录密码</a>
-                                     <div class="error_txt"></div>
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="name">&nbsp;</div>
-                                <div class="area">
-                                    <input class="btn" type="button" value="登录" onclick="login()">
-                                    <a class="arrow_right js-to-register" href="javascript:;">去注册</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!--//End 登录-->
-                    <div class="item register" style="display: none;">
-                        <form action="" class="form_area" id="registForm" onkeydown="if(event.keyCode==13)return false;" >
-                            <div class="title">注册<span class="close"></span></div>
-                            <div class="group">
-                                <div class="name"><span>用户名</span></div>
-                                <div class="area">
-                                    <input type="text" class="ipt" name="loginName"  value="">
-                                    <div class="error_txt"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="group">
-                                <div class="name"><span>手机号</span></div>
-                                <div class="area">
-                                    <input type="text" class="ipt"  name="phone" value="">
-                                    <div class="error_txt"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="group">
-                                <div class="name"><span>验证码</span></div>
-                                <div class="area">
-                                    <input type="text" class="ipt" value=""  name="code" maxlength="10">
-                                    <div class="code">
-                                        <span style="cursor: pointer;" data-type="0">获取验证码</span>
-                                    </div>
-                                    <div class="error_txt"></div>
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="name"><span>密码</span></div>
-                                <div class="area">
-                                    <input type="password"  name="password" class="ipt" value="">
-                                    <div class="error_txt"></div>
-                                </div>
-                            </div>
-                
-                            <div class="group policy">
-                                <div class="name">&nbsp;</div>
-                                <div class="area">
-                                    <label for="policy"><input id="policy" type="checkbox" checked>我已仔细阅读并同意《法律声明及隐私权政策》</label>
-                                </div>
-                            </div>
-                            <div class="group" style="margin-bottom: 0">
-                                <div class="name">&nbsp;</div>
-                                <div class="area">
-                                    <input class="btn" type="button" value="注册" name="regbtn" onclick="registForm()" />
-                                    <a class="arrow_right js-to-login" href="javascript:;">已有账号，去登录</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!--//End 注册-->
-                    <div class="item reset" style="display: none;" >
-                        <form action="" class="form_area" id="resetForm" onkeydown="if(event.keyCode==13)return false;" >
-                             <div class="title">重置密码<span class="close"></span></div>
-                            <div class="group">
-                                <div class="name"><span>手机号</span></div>
-                                <div class="area">
-                                    <input type="text" class="ipt" name="phone" value="">
-                                    <div class="error_txt"></div>
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="name"><span>验证码</span></div>
-                                <div class="area">
-                                    <input type="text" class="ipt" name="code" value="" maxlength="10">
-                                    <div class="code">
-                                        <span data-type="1">获取验证码</span>
-                                    </div>
-                                    <div class="error_txt"></div>
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="name"><span>新密码</span></div>
-                                <div class="area">
-                                    <input type="password" class="ipt" name="password" value="">
-                                     <div class="error_txt"></div>
-                                </div>
-                            </div>
-                            <div class="group" style="margin-bottom: 0;">
-                                <div class="name">&nbsp;</div>
-                                <div class="area">
-                                    <input class="btn" type="button" onclick="resetPass()" value="确认">
-                                    <a class="arrow_right js-to-login" href="javascript:;">去登录</a>
-                                </div>
-                            </div>
-                        </form>
-                        
-                    </div>
-                    <!--//End 重置密码-->
-                
-                
-                    <div class="overbg0" style="z-index:11;"></div>
-                </div>`;
+        var html = '<style>'+
+            '.form_area .title {text-indent:86px}'+
+            '.form_area .group .name {width: 16%}'+
+            '.form_area .group .name span {width: 100%}'+
+            '.form_area .group .area {width: 80%;float: right}'+
+            '.form_area .group .ipt {width: 90%;padding:0 5%;}'+
+            '.form_area .group .ipt::-webkit-input-placeholder {color:#ccc}'+
+            '</style>'+
+            '<div class="box_layer">'+
+            '    <div class="item login" style="display: block;">'+
+            '        <form class="form_area" id="loginForm" action="" onkeydown="if(event.keyCode==13)return false;" >'+
+            '            <input type="hidden" id="backurl" value="" >'+
+            '            <div class="title" >登录<span class="close"></span></div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span id="nickname">登录名</span></div>'+
+            '                <div class="area">'+
+            '                    <input class="ipt"  name="loginName" type="text" placeholder="用户名/手机号">'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span>密&nbsp;&nbsp;码</span></div>'+
+            '                <div class="area">'+
+            '                    <input class="ipt"  type="password" name="password" placeholder="请输入密码">'+
+            '                    <a class="forget js-to-reset" href="javascript:;">忘记登录密码</a>'+
+            '                    <div class="error_txt"></div>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group">'+
+            '                <div class="name">&nbsp;</div>'+
+            '                <div class="area">'+
+            '                    <input class="btn" type="button" value="登录" onclick="login()">'+
+            '                    <a class="arrow_right js-to-register" href="javascript:;">去注册</a>'+
+            '                </div>'+
+            '            </div>'+
+            '        </form>'+
+            '    </div>'+
+            '    <!--//End 登录-->'+
+            '    <div class="item register" style="display: none;">'+
+            '        <form action="" class="form_area" id="registForm" onkeydown="if(event.keyCode==13)return false;" >'+
+            '            <div class="title">注册<span class="close"></span></div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span>用户名</span></div>'+
+            '                <div class="area">'+
+            '                    <input type="text" class="ipt" name="loginName"  value="">'+
+            '                    <div class="error_txt"></div>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span>手机号</span></div>'+
+            '                <div class="area">'+
+            '                    <input type="text" class="ipt"  name="phone" value="">'+
+            '                    <div class="error_txt"></div>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span>验证码</span></div>'+
+            '                <div class="area">'+
+            '                    <input type="text" class="ipt" value=""  name="code" maxlength="10">'+
+            '                    <div class="code">'+
+            '                        <span style="cursor: pointer;" data-type="0">获取验证码</span>'+
+            '                    </div>'+
+            '                    <div class="error_txt"></div>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span>密码</span></div>'+
+            '                <div class="area">'+
+            '                    <input type="password"  name="password" class="ipt" value="">'+
+            '                    <div class="error_txt"></div>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group policy">'+
+            '                <div class="name">&nbsp;</div>'+
+            '                <div class="area">'+
+            '                    <label for="policy"><input id="policy" type="checkbox" checked>我已仔细阅读并同意《法律声明及隐私权政策》</label>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group" style="margin-bottom: 0">'+
+            '                <div class="name">&nbsp;</div>'+
+            '                <div class="area">'+
+            '                    <input class="btn" type="button" value="注册" name="regbtn" onclick="registForm()" />'+
+            '                    <a class="arrow_right js-to-login" href="javascript:;">已有账号，去登录</a>'+
+            '                </div>'+
+            '            </div>'+
+            '        </form>'+
+            '    </div>'+
+            '    <!--//End 注册-->'+
+            '    <div class="item reset" style="display: none;" >'+
+            '        <form action="" class="form_area" id="resetForm" onkeydown="if(event.keyCode==13)return false;" >'+
+            '            <div class="title">重置密码<span class="close"></span></div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span>手机号</span></div>'+
+            '                <div class="area">'+
+            '                    <input type="text" class="ipt" name="phone" value="">'+
+            '                    <div class="error_txt"></div>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span>验证码</span></div>'+
+            '                <div class="area">'+
+            '                    <input type="text" class="ipt" name="code" value="" maxlength="10">'+
+            '                    <div class="code">'+
+            '                        <span data-type="1">获取验证码</span>'+
+            '                    </div>'+
+            '                    <div class="error_txt"></div>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span>新密码</span></div>'+
+            '                <div class="area">'+
+            '                    <input type="password" class="ipt" name="password" value="">'+
+            '                    <div class="error_txt"></div>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group" style="margin-bottom: 0;">'+
+            '                <div class="name">&nbsp;</div>'+
+            '                <div class="area">'+
+            '                    <input class="btn" type="button" onclick="resetPass()" value="确认">'+
+            '                    <a class="arrow_right js-to-login" href="javascript:;">去登录</a>'+
+            '                </div>'+
+            '            </div>'+
+            '        </form>'+
+            '    </div>'+
+            '    <!--//End 重置密码-->'+
+            '    <div class="overbg0" style="z-index:11;"></div>'+
+            '</div>';
 
         $('body').append(html);
     },
     templateEn:function () {
-        var html = `<div class="box_layer">
-                    <div class="item login" style="display: block;">
-                        <form class="form_area" id="loginForm" action="" onkeydown="if(event.keyCode==13)return false;" >
-                            <input type="hidden" id="backurl" value="" >
-                            <div class="title">Sign in<span class="close"></span></div>
-                            <div class="group">
-                                <div class="name"><span style="font-size:16px;">Name</span></div>
-                                <div class="area">
-                                    <input class="ipt" name="loginName" id="loginName" type="text" placeholder="name/mobile">
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="name"><span style="font-size:16px;">Password</span></div>
-                                <div class="area">
-                                    <input class="ipt" type="password" name="password" placeholder="Please input a password">
-                                    <a class="forget js-to-reset" href="javascript:;">Forgot login password</a>
-                                    <div class="error_txt"></div>
-                                </div>
-                                
-                            </div>
-                            <div class="group">
-                                <div class="name">&nbsp;</div>
-                                <div class="area">
-                                    <input class="btn" type="button" value="Sign in" onclick="login()">
-                                    <a class="arrow_right js-to-register" href="javascript:;">No account to register</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!--//End 登录-->
-                    <div class="item register" style="display: none;">
-                        <form action="" class="form_area" id="registForm" onkeydown="if(event.keyCode==13)return false;" >
-                            <div class="title">register<span class="close"></span></div>
-                            <div class="group">
-                                <div class="name"><span style="font-size:16px;">Name</span></div>
-                                <div class="area">
-                                    <input type="text" class="ipt" name="loginName" id="loginName" value="">
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="name"><span style="font-size:16px;">Mobile</span></div>
-                                <div class="area">
-                                    <input type="text" class="ipt" id="phone" name="phone" value="">
-                                    <div class="error_txt"></div>
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="name"><span style="font-size:16px;">Verification</span></div>
-                                <div class="area">
-                                    <input type="text" class="ipt" value="" id="code" name="code" maxlength="10">
-                                    <div class="code">
-                                        <span style="font-size:14px;cursor: pointer" data-type="0">Get validation code</span>
-                                    </div>
-                                    <div class="error_txt"></div>
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="name"><span style="font-size:16px;">Password</span></div>
-                                <div class="area">
-                                    <input type="password" class="ipt" id="password" name="password" value="">
-                                </div>
-                                <div class="error_txt"></div>
-                            </div>
-                
-                            <div class="group policy">
-                                <div class="name">&nbsp;</div>
-                                <div class="area">
-                                    <label for="policy"><input id="policy" type="checkbox" checked>I have read and agreed to the legal declaration and privacy policy</label>
-                                </div>
-                            </div>
-                            <div class="group" style="margin-bottom: 0">
-                                <div class="name">&nbsp;</div>
-                                <div class="area">
-                                    <input class="btn" type="submit" value="register"  onclick="registForm()">
-                                    <a class="arrow_right js-to-login" href="javascript:;" style="font-size:16px;">login</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!--//End 注册-->
-                    <div class="item reset" style="display: none;">
-                        <form action="" class="form_area" id="resetForm"  onkeydown="if(event.keyCode==13)return false;" >
-                            <div class="title">reset password<span class="close"></span></div>
-                            <div class="group">
-                                <div class="name"><span style="font-size:16px;">Mobile</span></div>
-                                <div class="area">
-                                    <input type="text" class="ipt" name="Mobile" value="">
-                                    <div class="error_txt"></div>
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="name"><span style="font-size:16px;">Verification</span></div>
-                                <div class="area">
-                                    <input type="text" class="ipt" value="" name="code" maxlength="10">
-                                    <div class="code">
-                                        <span style="font-size:16px;cursor: pointer;" data-type="1">Get validation code</span>
-                                        <div class="error_txt"></div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            <div class="group">
-                                <div class="name"><span style="font-size:16px;">Password</span></div>
-                                <div class="area">
-                                    <input type="password" class="ipt" name="password" value="">
-                                    <div class="error_txt"></div>
-                                </div>
-                            </div>
-                            <div class="group" style="margin-top:50px;margin-bottom: 0;">
-                                <div class="name" style="font-size:16px;">&nbsp;</div>
-                                <div class="area">
-                                    <input class="btn" type="submit" value="confirm">
-                                    <a class="arrow_right js-to-login" href="javascript:;">Log in</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!--//End 重置密码-->
-                    <div class="overbg0" style="z-index:11;"></div>
-                </div>`;
+        var html = '<div class="box_layer">'+
+            '    <div class="item login" style="display: block;">'+
+            '        <form class="form_area" id="loginForm" action="" onkeydown="if(event.keyCode==13)return false;" >'+
+            '            <input type="hidden" id="backurl" value="" >'+
+            '            <div class="title">Sign in<span class="close"></span></div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span style="font-size:16px;">Name</span></div>'+
+            '                <div class="area">'+
+            '                    <input class="ipt" name="loginName" id="loginName" type="text" placeholder="name/mobile">'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span style="font-size:16px;">Password</span></div>'+
+            '                <div class="area">'+
+            '                    <input class="ipt" type="password" name="password" placeholder="Please input a password">'+
+            '                    <a class="forget js-to-reset" href="javascript:;">Forgot login password</a>'+
+            '                    <div class="error_txt"></div>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group">'+
+            '                <div class="name">&nbsp;</div>'+
+            '                <div class="area">'+
+            '                    <input class="btn" type="button" value="Sign in" onclick="login()">'+
+            '                    <a class="arrow_right js-to-register" href="javascript:;">No account to register</a>'+
+            '                </div>'+
+            '            </div>'+
+            '        </form>'+
+            '    </div>'+
+            '    <!--//End 登录-->'+
+            '    <div class="item register" style="display: none;">'+
+            '        <form action="" class="form_area" id="registForm" onkeydown="if(event.keyCode==13)return false;" >'+
+            '            <div class="title">register<span class="close"></span></div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span style="font-size:16px;">Name</span></div>'+
+            '                <div class="area">'+
+            '                    <input type="text" class="ipt" name="loginName" id="loginName" value="">'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span style="font-size:16px;">Mobile</span></div>'+
+            '                <div class="area">'+
+            '                    <input type="text" class="ipt" id="phone" name="phone" value="">'+
+            '                    <div class="error_txt"></div>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span style="font-size:16px;">Verification</span></div>'+
+            '                <div class="area">'+
+            '                    <input type="text" class="ipt" value="" id="code" name="code" maxlength="10">'+
+            '                    <div class="code">'+
+            '                        <span style="font-size:14px;cursor: pointer" data-type="0">Get validation code</span>'+
+            '                    </div>'+
+            '                    <div class="error_txt"></div>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span style="font-size:16px;">Password</span></div>'+
+            '                <div class="area">'+
+            '                    <input type="password" class="ipt" id="password" name="password" value="">'+
+            '                </div>'+
+            '                <div class="error_txt"></div>'+
+            '            </div>'+
+            '            <div class="group policy">'+
+            '                <div class="name">&nbsp;</div>'+
+            '                <div class="area">'+
+            '                    <label for="policy"><input id="policy" type="checkbox" checked>I have read and agreed to the legal declaration and privacy policy</label>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group" style="margin-bottom: 0">'+
+            '                <div class="name">&nbsp;</div>'+
+            '                <div class="area">'+
+            '                    <input class="btn" type="submit" value="register"  onclick="registForm()">'+
+            '                    <a class="arrow_right js-to-login" href="javascript:;" style="font-size:16px;">login</a>'+
+            '                </div>'+
+            '            </div>'+
+            '        </form>'+
+            '    </div>'+
+            '    <!--//End 注册-->'+
+            '    <div class="item reset" style="display: none;">'+
+            '        <form action="" class="form_area" id="resetForm"  onkeydown="if(event.keyCode==13)return false;" >'+
+            '            <div class="title">reset password<span class="close"></span></div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span style="font-size:16px;">Mobile</span></div>'+
+            '                <div class="area">'+
+            '                    <input type="text" class="ipt" name="Mobile" value="">'+
+            '                    <div class="error_txt"></div>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span style="font-size:16px;">Verification</span></div>'+
+            '                <div class="area">'+
+            '                    <input type="text" class="ipt" value="" name="code" maxlength="10">'+
+            '                    <div class="code">'+
+            '                        <span style="font-size:16px;cursor: pointer;" data-type="1">Get validation code</span>'+
+            '                        <div class="error_txt"></div>'+
+            '                    </div>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group">'+
+            '                <div class="name"><span style="font-size:16px;">Password</span></div>'+
+            '                <div class="area">'+
+            '                    <input type="password" class="ipt" name="password" value="">'+
+            '                    <div class="error_txt"></div>'+
+            '                </div>'+
+            '            </div>'+
+            '            <div class="group" style="margin-top:50px;margin-bottom: 0;">'+
+            '                <div class="name" style="font-size:16px;">&nbsp;</div>'+
+            '                <div class="area">'+
+            '                    <input class="btn" type="submit" value="confirm">'+
+            '                    <a class="arrow_right js-to-login" href="javascript:;">Log in</a>'+
+            '                </div>'+
+            '            </div>'+
+            '        </form>'+
+            '    </div>'+
+            '    <!--//End 重置密码-->'+
+            '    <div class="overbg0" style="z-index:11;"></div>'+
+            '</div>';
         $('body').append(html);
     }
 };
@@ -437,7 +430,7 @@ $(function () {
 });
 /*var callbakc = function () {
 
-}*/
+ }*/
 function login(){
     $.ajax({
         cache: true,
@@ -492,7 +485,6 @@ function login(){
                 }
 
                 if($("#backurl").val().trim() != ""){
-
                     if($("#backurl").val().trim()=="userinfoAdd.html"){
                         //判断该用户是否 已经选择了  机构 或者 传承人
                         if(data.data.type==1){
@@ -501,7 +493,6 @@ function login(){
                             location.href="ichpro.html";
                         }
                     }
-
                 }
             }
         }
@@ -547,10 +538,10 @@ function registForm(){
             }else {
                 $("#registForm input[name=code]").next().next().text(getMsgByCode(code,lang));
                 /* if(lang=='zh-CN'){
-                    $("#registForm input[name=code]").next().next().text(res.msg);
-                }else{
-                    $("#registForm input[name=code]").next().next().text(res.enMsg);
-                }*/
+                 $("#registForm input[name=code]").next().next().text(res.msg);
+                 }else{
+                 $("#registForm input[name=code]").next().next().text(res.enMsg);
+                 }*/
             }
         }
     });
@@ -581,7 +572,7 @@ function  resetPass(){
         data: $('#resetForm').serialize(),
         dataType: "json",
         async: true,
-       /* scriptCharset: 'utf-8',*/
+        /* scriptCharset: 'utf-8',*/
         error: function(ajaxobj) {
         },
         success: function(res) {
