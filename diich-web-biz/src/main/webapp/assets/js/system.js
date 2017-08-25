@@ -18,12 +18,17 @@ var renderHhtml = {
             '<li><a href="' + renderHhtml.uri + '/page/information.html?lang=' + language + '\" id=\"information\">非遗资讯</a></li>' +
             '<li><a href="' + renderHhtml.uri + '/page/official_service.html?lang=' + language + '\" id=\"official_service\">官方服务</a></li>' +
             '<li><a href="' + renderHhtml.uri + '/page/declare.html" id="project_declare">我要申报</a></li>' +
-            '<li><a href="' + renderHhtml.uri + '/page/center/center.html" id="center">个人中心</a></li>' +
             '</ul>' +
             '</div>' +
             '<div class="info">' +
             '<ul>' +
-            '<li class="logined"><a></a></li>'+
+            ' <li class="logined"> <div class="main">'+
+            '<div class="item user">'+
+            '<a href=""><img src="http://diich-resource.oss-cn-beijing.aliyuncs.com/image/project/150243426306300025-LRG.jpg" alt=""></a><span>管理员管理员</span>'+
+            '</div>'+
+            '<div class="item account"><a href="">账户管理</a></div>'+
+            '<div class="item logout"><a href="">退出</a></div>'+
+            '</div></li>'+
             '<li class="login"><a class="active" href="javascript:;"><i class="icon"></i><em id="sign_in">登录</em></a></li>' +
             '<li class="language">' +
             '<a class="zh active" href="javascript:switchLanguage(\'zh-CN\');"><em>中文</em></a>' +
