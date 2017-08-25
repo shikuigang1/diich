@@ -648,7 +648,8 @@ var searchPage={
             //2.提交
             $(document).keyup(function(e){
                 if(e.keyCode ==13){
-                    window.location=url+$('#keyword').val();
+                    // window.location=url+$('#keyword').val();
+                    return false;
                 }
             });
         }
