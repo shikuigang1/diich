@@ -13,7 +13,6 @@ var inheritorlPage = {
         Detail.judgeDom(); //判断doi和非遗中国是否存在
         Detail.code_arr(); //替换资源数据
         Detail.catgary(); //查询分类
-        searchPage.init();
     }
 };
 
