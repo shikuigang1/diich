@@ -3,9 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title>机构信息</title>
     <link rel="stylesheet" href="../../assets/css/common.css">
     <link rel="stylesheet" href="../../assets/css/inputs.css">
+    <!--[if IE]>
+    <link rel="stylesheet" href="../../assets/css/ie.css">
+    <script src="../../assets/js/html5.js"></script>
+    <![endif]-->
     <script src="../../assets/js/jquery.min.js"></script>
     <script src="../../assets/js/Ecalendar.jquery.min.js"></script>
     <script src="../../assets/js/jQuery.Form.js"></script>
@@ -13,6 +19,7 @@
     <script src="../../assets/js/inputs.js"></script>
     <script src="../../assets/js/login.js"></script>
     <script src="../../js/organization.js"></script>
+    <script src="../../js/serverinfo.js"></script>
 </head>
 
 <body style="background-color: rgb(245, 246, 247)">
@@ -24,9 +31,9 @@
                 <div class="hd">
                     <div class="name">添加机构信息</div>
                     <div class="handle">
-                        <a class="active" href="">保存</a>
-                        <a class="empty" href="">预览</a>
-                        <a class="empty" href="">提交</a>
+                        <a class="active" href="javascript:void(0)" onclick="saveOrganiztionOnTop()">保存</a>
+                        <a class="empty" href="javascript:void(0)" onclick="organizationPreview()">预览</a>
+                        <a class="empty" href="javascript:void(0)" onclick="submitOrganization()">提交</a>
                     </div>
                 </div>
             </div>
@@ -35,12 +42,12 @@
             <div class="hd">
                 <div class="slide">
                     <div class="item">
-                        <div data-type="organization" class="dt selected"><i class="icon selected"></i>基础信息</div>
+                        <div data-type="org_basic" class="dt selected"><i class="icon selected"></i>基础信息</div>
                     </div>
                     <!--//End 基础信息-->
 
                     <div class="item custom">
-                        <div data-type="longFieldCustom" class="dt selected"><i></i>添加自定义项</div>
+                        <div data-type="longFieldCustom" class="dt"><i></i>添加自定义项</div>
                         <div class="dd">
                             <ul id ="menu3">
 
@@ -74,8 +81,20 @@
     <script>
         $(function() {
             $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
+            //
+            var orgid = $.getUrlParam("orgid");
+
+            if(orgid == null ||  typeof(orgid)=='undefined' ){
+
+            }else{
+                getOrganizationById(orgid);
+            }
             getOrganizationAttributes();
             organizationPage.init();
+            var org = getCurrentOrganization();
+            if(org!=null){
+                initCustomMenu(org.id);
+            }
         });
 
     </script>
