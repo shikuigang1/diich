@@ -309,6 +309,7 @@ public class UserController extends BaseController<User> {
         }
 
         try{
+            user.setId(user1.getId());
             user = userService.updateUser(user);
             user = copyUser(user1, user);
             HttpSession session = request.getSession();
@@ -320,9 +321,6 @@ public class UserController extends BaseController<User> {
     }
 
     private User copyUser(User user1 , User user) throws Exception{
-        if(StringUtils.isEmpty(user.getId())){
-            user.setId(user1.getId());
-        }
         if(StringUtils.isEmpty(user.getName())){
             user.setName(user1.getName());
         }
