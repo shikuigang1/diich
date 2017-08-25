@@ -68,5 +68,10 @@ var error_message=[
     code:13,
     msg:"用户名,密码错误",
     enMsg:"User name, password error"
+    },
+    {
+    code:14,
+    msg:"新老手机号不能相同",
+    enMsg:"Phone numbers can not be the same"
     }
 ];

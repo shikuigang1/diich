@@ -308,6 +308,13 @@ public class UserController extends BaseController<User> {
             return putDataToMap(ae);
         }
 
+        if(!StringUtils.isEmpty(user.getPhone())){//修改手机号
+            String code = request.getParameter("code");
+            Map<String, Object> map = updatePhone(user.getPhone(), code, request);
+            if(map != null){
+               return map;
+            }
+        }
         try{
             user.setId(user1.getId());
             user = userService.updateUser(user);
@@ -318,6 +325,28 @@ public class UserController extends BaseController<User> {
             return putDataToMap(e);
         }
         return putDataToMap(user);
+    }
+
+    /**
+     * 更换手机号时验证手机号
+     * @param phone
+     * @param code
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    private Map<String, Object> updatePhone(String phone, String code, HttpServletRequest request) throws Exception{
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("CURRENT_USER");
+        if(phone.equals(user.getPhone())){
+            ApplicationException ae = new ApplicationException(ApplicationException.PHONE_SAME);
+            return putDataToMap(ae);
+        }
+        Map<String, Object> checkResult = checkVerifyCode(session, phone, code);
+        if((int)checkResult.get("code")!= 0){
+            return checkResult;
+        }
+        return null;
     }
 
     private User copyUser(User user1 , User user) throws Exception{

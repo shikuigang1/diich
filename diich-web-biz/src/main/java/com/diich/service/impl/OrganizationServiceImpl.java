@@ -97,6 +97,38 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         return organization;
     }
 
+    private void saveOrgan(Organization organization, User user) throws Exception{
+        if(StringUtils.isEmpty(organization.getLang())){
+            organization.setLang("chi");
+        }
+        if(user.getType() != null && user.getType() == 3){//0管理员账户 1普通用户 2传承人用户  3 机构用户
+            organization.setUserId(user.getId());
+        }
+        if(organization.getId() == null){
+            //校验该用户是否申报过机构信息
+//            List<Organization> organizationList = organizationMapper.selectOrganizationByUserId(user.getId());
+//            if(organizationList.size() > 0){
+//                throw new ApplicationException(ApplicationException.PARAM_ERROR,"当前账号已申报过机构信息");
+//            }
+            long id = IdWorker.getId();
+            organization.setId(id);
+            organization.setLastEditorId(user.getId());
+            organization.setUri(id +".html");
+            organization.setStatus(2);//草稿状态
+            organizationMapper.insertSelective(organization);
+        }else{
+            organizationMapper.updateByPrimaryKeySelective(organization);
+        }
+        List<ContentFragment> contentFragmentList = organization.getContentFragmentList();
+        if (contentFragmentList !=null && contentFragmentList.size()>0){
+            for (ContentFragment contentFragment: contentFragmentList) {
+                contentFragment.setTargetId(organization.getId());
+                //新增内容片断
+                contentFragmentService.saveContentFragment(contentFragment);
+            }
+        }
+    }
+
     /**
      * 生成静态页面
      * @param templateName
@@ -255,32 +287,6 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         return organization;
     }
 
-    private void saveOrgan(Organization organization, User user) throws Exception{
-        if(StringUtils.isEmpty(organization.getLang())){
-            organization.setLang("chi");
-        }
-        if(user.getType() != null && user.getType() == 3){//0管理员账户 1普通用户 2传承人用户  3 机构用户
-            organization.setUserId(user.getId());
-        }
-        if(organization.getId() == null){
-            long id = IdWorker.getId();
-            organization.setId(id);
-            organization.setLastEditorId(user.getId());
-            organization.setUri(id +".html");
-            organization.setStatus(2);//草稿状态
-            organizationMapper.insertSelective(organization);
-        }else{
-            organizationMapper.updateByPrimaryKeySelective(organization);
-        }
-        List<ContentFragment> contentFragmentList = organization.getContentFragmentList();
-        if (contentFragmentList !=null && contentFragmentList.size()>0){
-            for (ContentFragment contentFragment: contentFragmentList) {
-                contentFragment.setTargetId(organization.getId());
-                //新增内容片断
-                contentFragmentService.saveContentFragment(contentFragment);
-            }
-        }
-    }
 
     /**
      * 校验字段
