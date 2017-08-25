@@ -76,7 +76,7 @@
                    <div class="col2">
                       <div class="con">
                           <div class="txt">项目简介、基本信息、项目说明等， 辅助资料：包括录音、录像资料、代表性图片、证明材料、授权书，以及其他有关资料</div>
-                          <a href="ichpro.html">申报非遗项目</a>
+                          <a href="javascript:logined('userinfoAdd.html')">申报非遗项目</a>
                       </div>
                    </div>
                     <div class="col2">
@@ -100,7 +100,49 @@
 <script>
     $(function() {
         $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
-    })
+    });
+    function logined(backurl) {
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: "/user/userinfo",
+            dataType: "json",
+            async: true,
+            error: function(request) {
+                //alert("Connection error");
+            },
+            success: function(data) {
+                var lang = getLang();
+                //隐藏 显示数据
+                if(typeof (data.data)!='undefined' && data.code==0){
+                    $(".login").hide();
+                    $(".logined").show();
+                    //根据当前 语言环境判断
+                    if(lang=='zh-CN'){
+                        $(".logined").find('a').text("你好，"+data.data.loginName);
+                    }else{
+                        $(".logined").find('a').text("hello，"+data.data.loginName);
+                    }
+
+                    if(data.data.type==1 ){
+                        location.href=backurl;
+                    }else if(data.data.type>1){
+                        location.href="ichpro.html";
+                    }
+
+                }else{
+                    $(".login").show();
+                    $(".logined").hide();
+                }
+                //通过url 地址判断是否弹出登录框
+                if(data.code==3){
+                    //$('.header .content .info li.login').click();
+                    loginPage.showLoginWindow(backurl);
+                }
+            }
+        });
+    }
+
 </script>
 
 </html>
