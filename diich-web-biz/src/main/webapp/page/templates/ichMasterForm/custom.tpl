@@ -41,8 +41,8 @@
             {{#if customId}}
                 <a id="delete_customContent_{{customId}}" href="javascript:void(0);">删除此项</a>
             {{else}}
-                <a id="custom_save_next" class="next" href="javascript:void(0);"style="width: 180px;">保存并添加一项</a>
+                <a id="custom_save_new" class="next" href="javascript:void(0);"style="width: 180px;">保存并添加一项</a>
             {{/if}}
-            <a id="custom_save" class="next" href="javascript:void(0);">下一步</a>
+            <a id="custom_save_next" class="next" href="javascript:void(0);">下一步</a>
         </div>
     </div>

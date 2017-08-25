@@ -606,9 +606,10 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
     // 自定义模板
     function _getCustomTpl($this) {
-        console.log("---->", $this.attr("id"))
         $("#content").html(Handlebars.compile(customTpl)({pageObj: pageObj, customId: $this.attr("data-id")})); // 更新页面模板
         inheritorPage.radioImage(); // 加载上传视频， 上传图片
+
+        // 保存
         _bindingSave();
         function _bindingSave() {
             $("a[id^='custom_save']").on("click", function() {
@@ -617,6 +618,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         }
 
         function _onSave($sthis) {
+            var code = $sthis.attr("id").split("_").pop();
             var data = [];
             data.push({name: "customName", value: $("#customName").val()});
             data.push( {name: "customContent", value: $("#customContent").val()});
@@ -628,7 +630,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     errNum++;
                 }
             })
-
             // 更新状态
             status = errNum > 0 ? false : true;
             var p = {name: "customContent", value: $("#customContent").val(), coustomName: $("#customName").val()};
@@ -639,14 +640,56 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
+                        var fag = false;
+                        // 判断是否存在页面缓存对象中
+                        if(pageObj.hasOwnProperty("contentFragmentList")) {
+                            $.each(pageObj.contentFragmentList, function(i, v) {
+                                $.each(result.res.data.contentFragmentList, function(j, k) {
+                                    if(v.attributeId == k.attributeId) {
+                                        fag = true;
+                                        return;
+                                    }
+                                })
+                            })
+                        }
                         _onMergeObj(result.res.data); // 保存成功存储服务器返回数据
-                        // 添加自定义菜单项目
-                        var le = $this.next(".dd").children("ul").children("li").length;
-                        var mid = "menutwo_" + $this.attr("id").split("_").pop() + "_" + (le == 0 ? le : le + 1);
-                        $this.next(".dd").children("ul").append(Handlebars.compile(menuTpl)({mid: mid, name: data[0]["value"], menuId: result.res.data.contentFragmentList[0].attributeId}));
-                        $("#" + mid).children("i").addClass("selected").removeClass("unselected");
+                        if(!fag) {
+                            // 添加自定义菜单项目
+                            //var le = $this.next(".dd").children("ul").children("li").length;
+                            //var mid = ;
+                            //$this.next(".dd").children("ul").append(Handlebars.compile(menuTpl)({mid: mid, name: data[0]["value"], menuId: result.res.data.contentFragmentList[0].attributeId}));
+                            //$("#" + mid).children("i").addClass("selected").removeClass("unselected");
+
+                            var arrLi = $this.next(".dd").children("ul").children("li:last-child");
+                            var mid = "menutwo_" + $this.attr("id").split("_").pop() + "_";
+                            if(arrLi.length > 0) {
+                                console.log(arrLi.attr("id").split("_").pop())
+                                mid += parseInt(arrLi.attr("id").split("_").pop()) + 1;
+                            } else {
+                                mid += "0";
+                            }
+                            console.log("mid --- >", mid);
+                            $this.next(".dd").children("ul").append(Handlebars.compile(menuTpl)({mid: mid, name: data[0]["value"], menuId: result.res.data.contentFragmentList[0].attributeId}));
+                            $("#" + mid).children("i").addClass("selected").removeClass("unselected");
+
+                        }
+
+                        if(code == "next") {
+                            // 跳转到下一个页面
+                            var cidStr = $this.attr("id");
+                            cidStr = cidStr.replace(cidStr.split("_").pop(), (parseInt(cidStr.split("_").pop()) + 1));
+                            if($("#" + cidStr).length > 0) {
+                                // 存在
+                                _onNextPage($this.attr("id"), [cidStr], result.res.data);
+                            } else {
+                                // 不存在
+                                _onNextPage($this.attr("id"), [], result.res.data);
+                            }
+                        }
+                        _bindingSave();
                     } else {
                         tipBox.init("fail", result.res.msg , 1500);
+                        _bindingSave();
                     }
                 })
             }
@@ -668,8 +711,61 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
                 // 构建参数
                 data[0].imgs = imgs;
-                //data[0].coustomName = name;
                 return buildParams(data, pageObj);
+            }
+        }
+
+        // 删除操作防止用户多次点击
+        _bindingDelete();
+        function _bindingDelete() {
+            $("a[id^='delete_']").on("click", function() {
+                _onDelete($(this));
+            })
+        }
+
+        // 删除
+        function _onDelete($dthis) {
+            $dthis.off("click");
+            var did = $dthis.attr("id").split("_").pop();
+            var obj = {};
+            var index = 0; // 记录删除对象在pageObj中对应的索引位置
+            // 去除对应的数据
+            if(pageObj.hasOwnProperty("contentFragmentList")) {
+                $.each(pageObj.contentFragmentList, function(i, v) {
+                    if(v.attributeId == did) {
+                        index = i;
+                        obj = v;
+                        return;
+                    }
+                })
+            }
+
+            // 如果obj属性大于0 则表示有数据
+            if(Object.getOwnPropertyNames(obj).length > 0) {
+                _onRequest("POST", "/contentFragment/deleteContentFragment", {params: JSON.stringify(obj)}).then(function(result) {
+                    console.log("result --- >", result);
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        _emptyMod(); // 清空MOD层数据
+                        // 删除pageObj中对应的对象
+                        pageObj.contentFragmentList.splice(index, 1);
+                    } else {
+                        if(result.res.code != 3) {
+                            tipBox.init("fail", result.res.msg , 1500);
+                        }
+                        _bindingDelete();
+                    }
+                });
+            } else {
+                // 暂留提示删除无数据
+                _emptyMod(); // 清空MOD层数据
+            }
+
+            // 清空菜单 删除数据页面
+            function _emptyMod() {
+                //var oli = $("#" + $this.attr("id"));
+                $("#" + $this.parent().parent().prev().attr("id")).trigger("click");
+                $this.remove(); // 删除菜单
+                _bindingDelete();
             }
         }
     }
@@ -701,17 +797,22 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 reject({err: e});
             }
         }).then(function(res) {
-            $.each(nextIds, function(i, v) {
-                // 判断向下是否还有匹配的节点 有则模拟点击  没有则提示是否添加自定义项页面
-                if($('#' + v).length > 0) {
-                    $('#' + v).trigger("click"); // 模拟点击传承人内容
+                if(nextIds.length > 0) {
+                    $.each(nextIds, function(i, v) {
+                        // 判断向下是否还有匹配的节点 有则模拟点击  没有则提示是否添加自定义项页面
+                        if($('#' + v).length > 0) {
+                            $('#' + v).trigger("click"); // 模拟点击传承人内容
+                        } else {
+                            var i = v.split("_").pop();
+                            var num = v.replace(i, (parseInt(i) -1));
+                            $("#" + num).parent().parent().siblings().children("i").addClass("selected").removeClass("unselected");
+                            _changePage(true);
+                        }
+                    })
                 } else {
-                    var i = v.split("_").pop();
-                    var num = v.replace(i, (parseInt(i) -1));
-                    $("#" + num).parent().parent().siblings().children("i").addClass("selected").removeClass("unselected");
+                    // 更新DOM元素
                     _changePage(true);
                 }
-            })
         })
     }
 
