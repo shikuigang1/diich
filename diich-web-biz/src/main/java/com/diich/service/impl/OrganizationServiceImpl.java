@@ -1,6 +1,7 @@
 package com.diich.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.baomidou.mybatisplus.toolkit.StringUtils;
 import com.diich.core.base.BaseService;
@@ -13,6 +14,7 @@ import com.diich.core.util.BuildHTMLEngine;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
@@ -131,6 +133,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             String uri = "." + url + "/" + id + ".html";
             return uri;
         }catch (Exception e){
+            e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
     }
@@ -167,6 +170,41 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             organization  = updateOrganization(organization);
         }
         return organization;
+    }
+
+    /**
+     * 根据用户id获取机构信息
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Page<Organization> getOrganizationByUserId(Map<String, Object> params) throws Exception {
+        Integer current = 1;
+        Integer pageSize = 10;
+        if(params != null && params.containsKey("current")){
+            current = (Integer) params.get("current");
+        }
+        if(params != null && params.containsKey("pageSize")){
+            pageSize = (Integer) params.get("pageSize");
+        }
+        int offset = (current - 1) * pageSize;
+        RowBounds rowBounds = new RowBounds(offset,pageSize);
+        Page<Organization> page = new Page();
+        try{
+            List<Organization> organizationList = organizationMapper.selectOrganizationByUserAndStatus(params,rowBounds);
+            for (Organization organization : organizationList) {
+                List<ContentFragment> contentFragmentList = getContentFragmentListByOrganization(organization);
+                organization.setContentFragmentList(contentFragmentList);
+            }
+            //查询数量
+            int total = organizationMapper.selectOrganizationCountByUserAndStatus(params);
+            page.setRecords(organizationList);
+            page.setTotal(total);
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return page;
     }
 
     private Organization updateOrganization(Organization organization) throws Exception {
@@ -316,7 +354,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             Long attrId = contentFragment.getAttributeId();
             Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
             contentFragment.setAttribute(attribute);//添加属性
-            if(attribute != null && (attribute.getDataType() == 5)){
+            if(attribute != null && (attribute.getDataType() == 5 || attribute.getId() == 136)){
                 List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
                 List<Resource> resourceList = new ArrayList<>();
                 for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {

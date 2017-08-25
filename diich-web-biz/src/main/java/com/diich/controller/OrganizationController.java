@@ -1,5 +1,7 @@
 package com.diich.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.Constants;
 import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -108,7 +111,7 @@ public class OrganizationController extends BaseController<Organization>{
     @ResponseBody
     public  Map<String, Object> organizationInfo(HttpServletRequest request,HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
-        return putDataToMap(request.getSession().getAttribute("Constants.CURRENT_ORG"));
+        return putDataToMap(request.getSession().getAttribute(Constants.CURRENT_ORG));
     }
     /**
      * 预览
@@ -134,5 +137,41 @@ public class OrganizationController extends BaseController<Organization>{
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(uri);
+    }
+    /**
+     *个人中心
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("getOrganizationByUserId")
+    @ResponseBody
+    public Map<String, Object> getOrganizationByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        Map<String, Object> params = new HashMap<>();
+        String param = request.getParameter("params");
+        try{
+            if(param !=null){
+                params = JSON.parseObject(param, Map.class);
+            }
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        params.put("userId",user.getId());
+        Page<Organization> page = null;
+        try{
+            page = organizationService.getOrganizationByUserId(params);
+        }catch (Exception e){
+            return putDataToMap(e);
+        }
+
+        return putDataToMap(page);
     }
 }

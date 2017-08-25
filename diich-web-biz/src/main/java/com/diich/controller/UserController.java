@@ -255,7 +255,7 @@ public class UserController extends BaseController<User> {
        return putDataToMap(user);
     }
     /**
-     *  重置密码
+     *  忘记密码
      * @param request
      * @param response
      * @return
@@ -309,8 +309,8 @@ public class UserController extends BaseController<User> {
         }
 
         try{
-            user = copyUser(user1, user);
             user = userService.updateUser(user);
+            user = copyUser(user1, user);
             HttpSession session = request.getSession();
             session.setAttribute("CURRENT_USER",user);
         }catch (Exception e){
@@ -356,6 +356,7 @@ public class UserController extends BaseController<User> {
         if(StringUtils.isEmpty(user.getPhone())){
             user.setPhone(user1.getPhone());
         }
+        user.setPassword(null);
         return user;
     }
     /**

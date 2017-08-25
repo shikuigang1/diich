@@ -1,7 +1,10 @@
 package com.diich.core.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.model.Organization;
 import com.diich.core.model.User;
+
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/8/21.
@@ -17,4 +20,6 @@ public interface OrganizationService {
     String preview(long id) throws Exception;
 
     Organization getOrganizationByIdAndIUser(long id, User user) throws Exception;
+
+    Page<Organization> getOrganizationByUserId(Map<String, Object> params) throws Exception;
 }
