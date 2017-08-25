@@ -596,7 +596,6 @@ var Detail = { //详情页用到的效果
 //静态页面搜素
 var searchPage={
     init: function() {
-        $('.header_detail .content .info li.login').addClass('line');
         this.slide(); //点击图标下拉
     },
     slide:function () {
