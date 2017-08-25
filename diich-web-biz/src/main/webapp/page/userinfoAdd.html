@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>我要申报-2.1创建项目页</title>
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/inputs.css">
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/system.js"></script>
+    <script src="../assets/js/inputs.js"></script>
+    <script src="../assets/js/login.js"></script>
+</head>
+
+<body style="background-color: rgb(245, 246, 247)">
+    <div class="header fixed header_detail"></div>
+    <!--//End header-->
+
+    <div class="container ipt_page">
+        <div class="hd">
+            <div class="bd create_project">
+                <div class="bd back"><a href="javascript:history.go(-1);"><i></i>返回</a></div>
+                <div class="step3">
+                    <div class="dt">申报项目之前，请完善个人基本信息，提高审核通过率。留下联系方式，方便及时通知你项目申请情况。</div>
+                    <form  id="form" onkeydown="if(event.keyCode==13)return false;" >
+                        <div class="group">
+                            <label class="label" for=""><em>*</em>真实姓名</label>
+                            <div class="control">
+                                <input class="ipt" type="text" id="name" name="name" placeholder="请输入真实姓名">
+                                <div class="errors" style="display: none"><i></i><span>123</span></div>
+                            </div>
+
+                        </div>
+                        <div class="group">
+                            <label class="label" for=""><em>*</em>联系电话</label>
+                            <div class="control">
+                                <input class="ipt" type="text" id="phone" value="" disabled>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <label class="label" for=""><em>*</em>邮件</label>
+                            <div class="control">
+                                <input class="ipt" type="text" name="mail" id="mail" placeholder="请输入邮件" >
+                                <div class="errors" style="display: none"><i></i><span></span></div>
+                            </div>
+
+                        </div>
+
+                        <div class="group">
+                            <label class="label" for=""><em>*</em>你代表</label>
+                            <div class="control">
+                                <span class="radio"><i></i><input type="radio" name="type" value="3">机构</span>
+                                <span class="radio active"><i></i><input type="radio" name="type" value="2">传承人</span>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <label class="label" for="">&nbsp;</label>
+                            <div class="control">
+                                <a class="btn" href="javascript:create()">下一步</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--//End 创建项目页-->
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="footer"></div>
+    <!--//End-->
+
+
+
+</body>
+<script>
+    $(function() {
+        $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
+
+        $('.create_project').on('click', '.radio', function () {
+            var index = $(this).index();
+            $(this).addClass('active').siblings('.radio').removeClass('active');
+            if (index == 0) {
+                $(this).siblings('span').find('input').removeAttr("checked");
+                $(this).find('input').attr("checked", "true");
+            } else {
+                $(this).siblings('span').find('input').removeAttr("checked");
+                $(this).find('input').attr("checked", "true");
+            }
+        });
+
+    });
+    
+    function create() {
+        var para={};
+        para.name = $("#name").val().trim();
+        para.mail=$("#mail").val();
+        para.type = $(".radio.active").find("input").eq(0).val();
+
+        //验证消息
+        var flag = false;
+        if($("#name").val().trim().length<2 || $("#name").val().trim().length>20){
+            $("#name").next().text("真实姓名长度2-20字符");
+            $("#name").next().show();
+            flag = true;
+        }else{
+            $("#name").next().hide();
+        }
+
+        var mailreg = /^\w+\@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}$/i;//邮箱正则
+        if(!mailreg.test($("#mail").val().trim())){
+            $("#mail").next().text("邮箱格式不正确！");
+            $("#mail").next().show();
+            flag = true;
+        }else{
+            $("#mail").next().hide();
+        }
+
+        if(flag){
+            return  false;
+        }
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: "/user/updateUser",
+            data: para, // 你的formid
+            dataType: "json",
+            async: true,
+            error: function(request) {
+                //alert("Connection error");
+            },
+            success: function(data) {
+              if(data.code==0){
+                    location.href="ichpro.html";
+              }else if(data.code==3){//未登录
+                  loginPage.showLoginWindow();
+              }else{
+
+              }
+            }
+        });
+
+    }
+    
+</script>
+
+</html>
