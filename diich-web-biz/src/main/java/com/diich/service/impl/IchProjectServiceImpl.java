@@ -222,6 +222,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             long proID = IdWorker.getId();
             ichProject.setId(proID);
             ichProject.setStatus(2);
+            ichProject.setCreatorId(user.getId());
             ichProject.setUri(proID +".html");
             ichProjectMapper.insertSelective(ichProject);
         } else {//修改

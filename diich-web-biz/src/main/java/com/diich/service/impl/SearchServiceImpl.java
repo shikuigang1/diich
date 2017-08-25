@@ -39,6 +39,9 @@ public class SearchServiceImpl implements SearchService {
                 (Integer) condition.get("limit"));
 
         List<?> list = ichObjectMapper.searchList(condition, rowBounds);
+        if(list.size() == 0){
+            return -1;
+        }
         FillIchObjectList((List<IchObject>)list.get(0));
 
         ichObjectList.addAll((List<IchObject>)list.get(0));

@@ -255,7 +255,7 @@ public class UserController extends BaseController<User> {
        return putDataToMap(user);
     }
     /**
-     *  重置密码
+     *  忘记密码
      * @param request
      * @param response
      * @return
@@ -308,9 +308,17 @@ public class UserController extends BaseController<User> {
             return putDataToMap(ae);
         }
 
+        if(!StringUtils.isEmpty(user.getPhone())){//修改手机号
+            String code = request.getParameter("code");
+            Map<String, Object> map = updatePhone(user.getPhone(), code, request);
+            if(map != null){
+               return map;
+            }
+        }
         try{
-            user = copyUser(user1, user);
+            user.setId(user1.getId());
             user = userService.updateUser(user);
+            user = copyUser(user1, user);
             HttpSession session = request.getSession();
             session.setAttribute("CURRENT_USER",user);
         }catch (Exception e){
@@ -319,10 +327,29 @@ public class UserController extends BaseController<User> {
         return putDataToMap(user);
     }
 
-    private User copyUser(User user1 , User user) throws Exception{
-        if(StringUtils.isEmpty(user.getId())){
-            user.setId(user1.getId());
+    /**
+     * 更换手机号时验证手机号
+     * @param phone
+     * @param code
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    private Map<String, Object> updatePhone(String phone, String code, HttpServletRequest request) throws Exception{
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("CURRENT_USER");
+        if(phone.equals(user.getPhone())){
+            ApplicationException ae = new ApplicationException(ApplicationException.PHONE_SAME);
+            return putDataToMap(ae);
         }
+        Map<String, Object> checkResult = checkVerifyCode(session, phone, code);
+        if((int)checkResult.get("code")!= 0){
+            return checkResult;
+        }
+        return null;
+    }
+
+    private User copyUser(User user1 , User user) throws Exception{
         if(StringUtils.isEmpty(user.getName())){
             user.setName(user1.getName());
         }
@@ -356,6 +383,7 @@ public class UserController extends BaseController<User> {
         if(StringUtils.isEmpty(user.getPhone())){
             user.setPhone(user1.getPhone());
         }
+        user.setPassword(null);
         return user;
     }
     /**

@@ -45,7 +45,7 @@
     </style>
 </head>
 
-<body class="js-master">
+<body class="js-organization">
 <div class="header header_detail"></div>
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
