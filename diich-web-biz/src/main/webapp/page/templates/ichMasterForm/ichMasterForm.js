@@ -1,7 +1,7 @@
 define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         "text!ichMasterForm/contact.tpl", "text!ichMasterForm/vocation.tpl",
         "text!ichMasterForm/master.tpl", "text!ichMasterForm/resume.tpl",
-        "text!ichMasterForm/custom.tpl"], function(menuListTpl, basicTpl, contactTpl, vocationTpl, masterTpl, resumeTpl, customTpl) {
+        "text!ichMasterForm/custom.tpl", "text!ichMasterForm/menu.tpl"], function(menuListTpl, basicTpl, contactTpl, vocationTpl, masterTpl, resumeTpl, customTpl, menuTpl) {
 
 
     var menuss = []; // 菜单项目
@@ -16,7 +16,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         if(mid != null) {
             _onRequest("GET", "/ichMaster/getIchMasterById", {params:mid}).then(function(result) {
                 console.log("result -- >", result);
-                // 处理用户未登录
                 if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                     if(result.res.data) {
                         _onMergeObj(result.res.data);
@@ -53,6 +52,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 console.log(" --- res  ", result.res.data);
                 menuss = _onBuildMenus(result.res.data);
                 $("#menusAll").html(Handlebars.compile(menuListTpl)({menuss: menuss})); // 添加菜单
+                _buildCustom(); // 生成自定义菜单
                 //inheritorPage.slideBar.init();
                 _getBasicTpl($("#menu_1"));
                 console.log(" menuss --- >", menuss)
@@ -139,6 +139,21 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         return myMenus;
     }
 
+    // 初始化构建自定义菜单项
+    function _buildCustom() {
+        if(pageObj.hasOwnProperty("contentFragmentList")) {
+            $.each(pageObj.contentFragmentList, function(i, v) {
+                if(v.attribute.targetType == 11) {
+                    var coustomId = $("#menus_custom").children(".dt").attr("id"); // 获取自定义项一级菜单ID
+                    var $ul = $("#" + coustomId).next(".dd").children("ul");
+                    var lengt = $ul.children("li").length == 0 ? $ul.children("li").length : $ul.children("li").length + 1;
+                    var menuHtml = Handlebars.compile(menuTpl)({mid: "menutwo_" + coustomId.split("_")[1] + "_" + lengt, name: v.attribute.cnName, menuId : v.attributeId});
+                    $ul.append(menuHtml);
+                    $("#menutwo_" + coustomId.split("_")[1] + "_" + lengt).children(i).addClass("selected").removeClass("unselected"); // 因为自定义项添加时的限制，已确保添加后的是已完成的
+                }
+            })
+        }
+    }
     /**************************************************** 监听菜单模本 *****************************************************/
 
     // 监听一级菜单
@@ -190,7 +205,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     $('#menutwo_5_0').trigger("click"); // 模拟点击传承人内容下第一个子菜单
                     break;
                 default:
-                    _getCustomTpl();// 自定义项
+                    _getCustomTpl($this, null);// 自定义项
                     break;
             }
             _changePage(false); // 显示 内容页面 隐藏 结束页面
@@ -200,34 +215,48 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     // 监听二级菜单
     function _menusTwo() {
         $("body").delegate("li[id^='menutwo_']", "click", function() {
-
             var $this = $(this);
+            console.log("1-- >", $this.attr("id"))
             var ids = $this.attr("id").split("_");
             console.log("ids -- >", ids);
             // 传承人内容二级菜单
-            if(ids[1] == 5) {
+            var inheritId = $("#menus_inherit").children(".dt").attr("id").split("_").pop();
+            if(ids[1] == inheritId) {
                 if(ids[2] != 0) {
                     var status = $("#" + ids[0] + "_" + ids[1] + "_" + (ids[2] - 1)).children("i").hasClass("selected");
                     var status1 = $("#" + ids[0] + "_" + ids[1] + "_" + (ids[2] - 1)).children("i").hasClass("unselected2");
                     if(status || status1) {
-                        _onSelected($this, ids[2]);
+                        _onSelected($this, ids[2], 0);
                     } else {
                         tipBox.init("fail", "请先完成上一级填写项" , 1500);
                     }
                 } else {
-                    _onSelected($this, ids[2]);
+                    _onSelected($this, ids[2], 0);
                 }
             }
+            // 自定义项
+            var customId = $("#menus_custom").children(".dt").attr("id").split("_").pop();
+            if(ids[1] == customId) {
+                 _onSelected($this, ids[2], 1);
+            }
+
         })
 
-        // 选中效果
-        function _onSelected($this, type) {
+        // 选中效果 code 0加载通用模板  1加载自定义项模板
+        function _onSelected($this, type, code) {
             // 被点击效果切换
             $("li[id^='menutwo_']").each(function(i, v) {
                 $(this).removeClass("selected");
             })
             $this.addClass("selected"); //添加被点击效果
-            _getCommonTpl($this, menuss[4].sonMenus[type]); // 调用通用模板
+
+            if(code == 0) {
+                _getCommonTpl($this, menuss[4].sonMenus[type]); // 调用通用模板
+            } else {
+                console.log("2-- >", $this.attr("id"))
+                _getCustomTpl($this);
+            }
+
             _changePage(false); // 显示 内容页面 隐藏 结束页面
         }
     }
@@ -524,7 +553,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         function _onSave() {
             //$("#next").off("click");
             var $textarea = $("textarea[id^='resum_']");
-            var v = {name: $textarea.attr("id"), value:$textarea.val()};
+            var v = {name: $textarea.attr("id"), value: $textarea.val()};
             var maxlength = $textarea.attr("data-maxLength");
             var minlength = $textarea.attr("data-minLength");
             // 验证
@@ -576,8 +605,73 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     }
 
     // 自定义模板
-    function _getCustomTpl() {
-        $("#content").html(Handlebars.compile(customTpl)()); // 更新页面模板
+    function _getCustomTpl($this) {
+        console.log("---->", $this.attr("id"))
+        $("#content").html(Handlebars.compile(customTpl)({pageObj: pageObj, customId: $this.attr("data-id")})); // 更新页面模板
+        inheritorPage.radioImage(); // 加载上传视频， 上传图片
+        _bindingSave();
+        function _bindingSave() {
+            $("a[id^='custom_save']").on("click", function() {
+                _onSave($(this));
+            })
+        }
+
+        function _onSave($sthis) {
+            var data = [];
+            data.push({name: "customName", value: $("#customName").val()});
+            data.push( {name: "customContent", value: $("#customContent").val()});
+            var status = true, errNum = 0;
+            $.each(data, function(i, v) {
+                //var maxlength = $textarea.attr("data-maxLength");
+                //var minlength = $textarea.attr("data-minLength");
+                if(!_onChk(v, "", "", true, null, null)) {
+                    errNum++;
+                }
+            })
+
+            // 更新状态
+            status = errNum > 0 ? false : true;
+            var p = {name: "customContent", value: $("#customContent").val(), coustomName: $("#customName").val()};
+            if(status) {
+                var params = getCustomFormData(p);
+                console.log("params --- >", params);
+                _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
+                    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        targetId = result.res.data.id;
+                        _onMergeObj(result.res.data); // 保存成功存储服务器返回数据
+                        // 添加自定义菜单项目
+                        var le = $this.next(".dd").children("ul").children("li").length;
+                        var mid = "menutwo_" + $this.attr("id").split("_").pop() + "_" + (le == 0 ? le : le + 1);
+                        $this.next(".dd").children("ul").append(Handlebars.compile(menuTpl)({mid: mid, name: data[0]["value"], menuId: result.res.data.contentFragmentList[0].attributeId}));
+                        $("#" + mid).children("i").addClass("selected").removeClass("unselected");
+                    } else {
+                        tipBox.init("fail", result.res.msg , 1500);
+                    }
+                })
+            }
+
+            // 获取自定义模块 表单数据 处理成参数
+            function getCustomFormData(v) {
+                var data = [];
+                data[0] = v;
+                var imgs = [];
+                $("#images").children("div .item").each(function(i, v) {
+                    var img = {};
+                    var uri = $(this).children("img").attr("data-src")
+                    img["uri"] = uri.substr(uri.lastIndexOf("/") + 1, uri.length);
+                    img["description"] = $(this).children("input").val();
+                    img["type"] = 0;
+                    img["status"] = 0;
+                    imgs.push(img);
+                })
+
+                // 构建参数
+                data[0].imgs = imgs;
+                //data[0].coustomName = name;
+                return buildParams(data, pageObj);
+            }
+        }
     }
 
     /**
@@ -665,10 +759,12 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             v.resourceList = v.imgs ? v.imgs : [];
 
             // 自定义
-            if(v.attributeId == 0) {
+            if(v.hasOwnProperty("coustomName") ) {
                 v.attribute = {
                     "cnName": v.coustomName,
                     "dataType": 5,
+                    "id": v.attributeId,
+                    "targetType": 11
                 }
                 delete v.coustomName;
             }

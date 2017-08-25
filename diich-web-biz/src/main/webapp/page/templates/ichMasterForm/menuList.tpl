@@ -1,5 +1,5 @@
 {{#each menuss}}
-    <div class="item">
+    <div {{#if sonMenus}}id="menus_inherit"{{/if}} class="item">
         <div id="menu_{{addOne @index}}" class="dt {{#equal 0 @index}}selected{{/equal}}"><i class="icon"></i>{{menusName}}<em class="arrow"></em></div>
         {{#if sonMenus}}
             <div class="dd" id="menuTwo" style="display: none">
@@ -12,7 +12,7 @@
         {{/if}}
     </div>
 {{/each}}
-<div class="item custom">
+<div id="menus_custom" class="item custom">
     <div id="menu_{{addOne menuss.length}}" class="dt"><i></i>添加自定义项</div>
     <div class="dd"  style="display: none">
         <ul></ul>
