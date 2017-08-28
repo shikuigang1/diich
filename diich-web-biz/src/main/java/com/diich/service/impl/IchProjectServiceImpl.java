@@ -333,22 +333,46 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 Long ichProjectId = ichProject.getId();
                 if(tempList.contains(ichProjectId)){
                     //获取传承人列表
-                    List<IchMaster> ichMasterList = ichMasterService.getIchMasterByIchProjectId(ichProjectId);
-                    ichProject.setIchMasterList(ichMasterList);
-                    //作品列表
-                    List<Works> worksList =worksService.getWorksByIchProjectId(ichProjectId);
-                    ichProject.setWorksList(worksList);
-                    List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
-                    ichProject.setContentFragmentList(contentFragmentList);
+                    ichProject = getIchProject(ichProject);
                     return ichProject;
                 }
             }
         }
-        IchProject ichProject = getIchProject(String.valueOf(id));
+        IchProject ichProject = getIchProjectById(id);
+        ichProject = getIchProject(ichProject);//获取项目相关的其他信息
         if(ichProject !=null && (!ichProject.getLastEditorId().equals(user.getId())) || ( ichProject.getStatus() != null && ichProject.getStatus()==0)){
             ichProject.setLastEditorId(user.getId());
             ichProject.setLastEditDate(new Date());
             ichProject  = updateProject(ichProject);
+        }
+        return ichProject;
+    }
+
+    /**
+     * 获取项目相关的其他信息
+     * @param ichProject
+     * @return
+     * @throws Exception
+     */
+    private IchProject getIchProject(IchProject ichProject) throws Exception{
+        Long ichProjectId = ichProject.getId();
+        List<IchMaster> ichMasterList = ichMasterService.getIchMasterByIchProjectId(ichProjectId);
+        ichProject.setIchMasterList(ichMasterList);
+        //作品列表
+        List<Works> worksList =worksService.getWorksByIchProjectId(ichProjectId);
+        ichProject.setWorksList(worksList);
+        List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
+        ichProject.setContentFragmentList(contentFragmentList);
+        //根据id和targetType和versionType查询中间表看是否有对应的版本
+        List<Version> verList = null;
+        if("chi".equals(ichProject.getLang())){
+            verList = versionService.getVersionByLangIdAndTargetType(ichProject.getId(), null, 0, 0);
+        }
+        if("eng".equals(ichProject.getLang())){
+            verList = versionService.getVersionByLangIdAndTargetType(null, ichProject.getId(), 0, 0);
+        }
+        if(verList.size()>0){
+            ichProject.setVersion( verList.get(0));
         }
         return ichProject;
     }
