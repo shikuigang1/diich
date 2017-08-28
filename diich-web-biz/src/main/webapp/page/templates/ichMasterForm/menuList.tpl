@@ -1,11 +1,11 @@
 {{#each menuss}}
     <div {{#if sonMenus}}id="menus_inherit"{{/if}} class="item">
-        <div id="menu_{{addOne @index}}" class="dt {{#equal 0 @index}}selected{{/equal}}"><i class="icon"></i>{{menusName}}<em class="arrow"></em></div>
+        <div id="{{muid}}" class="dt {{#equal 0 @index}}selected{{/equal}}"><i class="icon"></i>{{menusName}}<em class="arrow"></em></div>
         {{#if sonMenus}}
             <div class="dd" id="menuTwo" style="display: none">
                 <ul>
                     {{#each sonMenus}}
-                        <li id="menutwo_{{../_index}}_{{@index}}" class=""><i class="icon"></i><span>{{menusName}}</span></li>
+                        <li id="{{muid}}" class=""><i class="icon"></i><span>{{menusName}}</span></li>
                     {{/each}}
                 </ul>
             </div>

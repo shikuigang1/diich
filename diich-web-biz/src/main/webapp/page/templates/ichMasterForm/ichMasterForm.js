@@ -38,10 +38,40 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
     }
 
+    // 加载项
     function _onInitLoad() {
         _onGetMenus();
         _menusOne();
         _menusTwo();
+    }
+
+    function _onYesMenu() {
+        if(pageObj.hasOwnProperty("contentFragmentList")) {
+            $.each(menuss, function(i, v) {
+
+                if(menuss[i].sonTerms) {
+                    // 验证基本信息项
+                    var num = 0;
+                    $.each(menuss[i].sonTerms, function(i2, v2) {
+                        $.each(pageObj.contentFragmentList, function(i3, v3) {
+                            // 菜单填写项中 有一个填写项填写了，或者有图片就算过了
+                            if(v2.id == v3.attributeId && (v3.content != "" || v3.resourceList.length > 0)) {
+                                num++;
+                                return;
+                            }
+                        })
+                    })
+
+                    if(num > 0) {
+                        $("#" + menuss[i].muid).children("i").addClass("selected").removeClass("unselected");
+                    } else {
+                        $("#" + menuss[i].muid).children("i").addClass("unselected2").removeClass("unselected");
+                    }
+                }
+
+
+            })
+        }
     }
 
     /**************************************************** 构建菜单 *****************************************************/
@@ -53,8 +83,8 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 menuss = _onBuildMenus(result.res.data);
                 $("#menusAll").html(Handlebars.compile(menuListTpl)({menuss: menuss})); // 添加菜单
                 _buildCustom(); // 生成自定义菜单
-                //inheritorPage.slideBar.init();
-                _getBasicTpl($("#menu_1"));
+                _getBasicTpl($("#menu_1")); // 加载基本信息模板
+                _onYesMenu(); // 自动检索各个表单是否填写完成
                 console.log(" menuss --- >", menuss)
             } else {
                 tipBox.init("fail", result.res.msg , 1500);
@@ -68,25 +98,27 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         $.each(menus, function(i, v) {
             switch (v.lable) {
                 case "基本信息":
-                    _buildSort(menus0, v,  0);
+                    _buildSort(menus0, v, 0, "menu_1");
                     break;
                 case "联系方式":
-                    _buildSort(menus1, v,  0);
+                    _buildSort(menus1, v, 0, "menu_2");
                         break;
                 case "职业信息":
-                    _buildSort(menus2, v,  0);
+                    _buildSort(menus2, v, 0, "menu_3");
                     break;
                 case  "师徒关系":
-                    _buildSort(menus3, v,  0);
+                    _buildSort(menus3, v, 0, "menu_4");
                     break;
                 default:
-                    _buildSort(menus4, v,  1);
+                    _buildSort(menus4, v, 1, "menu_5");
                     break;
             }
         })
-        function _buildSort(menusArr, v,  code) {
+        function _buildSort(menusArr, v, code, muid) {
             if(code == 0) {
+                // 基本信息菜单
                 if(menusArr.hasOwnProperty("menusName")) {
+                    menusArr.muid = muid;
                     menusArr.sonTerms.push(v);
                 } else {
                     menusArr.menusName = v.lable;
@@ -98,6 +130,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     return a.seq - b.seq;
                 })
             } else {
+                // 传承人菜单
                 if(v.lable != "") {
                     var obj = {};
                     obj.menusName =  v.lable;
@@ -116,6 +149,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                             menusArr.sonMenus.push(obj);
                         }
                     } else {
+                        menusArr.muid = muid;
                         menusArr.menusName = "传承人内容";
                         menusArr.sonMenus = [];
                         menusArr.sonMenus.push(obj);
@@ -130,6 +164,10 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             }
         }
 
+        // 传承人子菜单生成ID
+        $.each(menus4.sonMenus, function(i, v) {
+            v.muid = "menutwo_" +menus4.muid.split("_").pop() + "_" + (i + 1);
+        })
         var myMenus = new Array();
         myMenus.push(menus0);
         myMenus.push(menus1);
@@ -655,11 +693,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                         _onMergeObj(result.res.data); // 保存成功存储服务器返回数据
                         if(!fag) {
                             // 添加自定义菜单项目
-                            //var le = $this.next(".dd").children("ul").children("li").length;
-                            //var mid = ;
-                            //$this.next(".dd").children("ul").append(Handlebars.compile(menuTpl)({mid: mid, name: data[0]["value"], menuId: result.res.data.contentFragmentList[0].attributeId}));
-                            //$("#" + mid).children("i").addClass("selected").removeClass("unselected");
-
                             var arrLi = $this.next(".dd").children("ul").children("li:last-child");
                             var mid = "menutwo_" + $this.attr("id").split("_").pop() + "_";
                             if(arrLi.length > 0) {
@@ -671,7 +704,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                             console.log("mid --- >", mid);
                             $this.next(".dd").children("ul").append(Handlebars.compile(menuTpl)({mid: mid, name: data[0]["value"], menuId: result.res.data.contentFragmentList[0].attributeId}));
                             $("#" + mid).children("i").addClass("selected").removeClass("unselected");
-
                         }
 
                         if(code == "next") {
