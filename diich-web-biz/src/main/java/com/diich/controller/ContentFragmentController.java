@@ -60,6 +60,7 @@ public class ContentFragmentController extends BaseController<ContentFragment>{
             contentFragment = contentFragmentService.saveContentFragment(contentFragment);
             setSessionAttribute(request,contentFragment);
         } catch (Exception e) {
+            e.printStackTrace();
             return putDataToMap(e);
         }
 
@@ -90,21 +91,27 @@ public class ContentFragmentController extends BaseController<ContentFragment>{
     private void setSessionAttribute(HttpServletRequest request,ContentFragment contentFragment)throws Exception{
         if(contentFragment !=null && contentFragment.getTargetType() == 0){
             IchProject ichProject = (IchProject) request.getSession().getAttribute(Constants.CURRENT_PROJECT);
-            List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
-            contentFragmentList.add(contentFragment);
-            request.getSession().setAttribute(Constants.CURRENT_PROJECT,ichProject);
+            if(ichProject != null){
+                List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
+                contentFragmentList.add(contentFragment);
+                request.getSession().setAttribute(Constants.CURRENT_PROJECT,ichProject);
+            }
         }
         if(contentFragment !=null && contentFragment.getTargetType() == 1){
             IchMaster ichMaster = (IchMaster) request.getSession().getAttribute(Constants.CURRENT_MASTER);
-            List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
-            contentFragmentList.add(contentFragment);
-            request.getSession().setAttribute(Constants.CURRENT_MASTER,ichMaster);
+            if(ichMaster != null){
+                List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
+                contentFragmentList.add(contentFragment);
+                request.getSession().setAttribute(Constants.CURRENT_MASTER,ichMaster);
+            }
         }
         if(contentFragment !=null && contentFragment.getTargetType() == 3){
             Organization organization = (Organization) request.getSession().getAttribute(Constants.CURRENT_ORG);
-            List<ContentFragment> contentFragmentList = organization.getContentFragmentList();
-            contentFragmentList.add(contentFragment);
-            request.getSession().setAttribute(Constants.CURRENT_ORG,organization);
+            if(organization != null){
+                List<ContentFragment> contentFragmentList = organization.getContentFragmentList();
+                contentFragmentList.add(contentFragment);
+                request.getSession().setAttribute(Constants.CURRENT_ORG,organization);
+            }
         }
     }
     private void removeSessionAttribute(HttpServletRequest request,ContentFragment contentFragment)throws Exception{
