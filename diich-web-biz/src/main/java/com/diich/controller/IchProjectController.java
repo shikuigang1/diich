@@ -165,31 +165,6 @@ public class IchProjectController extends BaseController<IchProject> {
     @ResponseBody
     public Map<String, Object> getProByName(HttpServletRequest request,HttpServletResponse response) {
 
-/*
-        Map<String,Object> map = new HashMap<String,Object>();
-
-        map.put("keyword",request.getParameter("keyword"));
-        map.put("type",request.getParameter("type"));
-        map.put("pageBegin",0);
-        String  size = request.getParameter("pageSize");
-        if(size == null){
-            map.put("pageSize",5);
-        }else{
-            map.put("pageSize",size);
-        }
-
-        List<Map> ls=null;
-
-        try {
-            ls =ichProjectService.getIchProjectByName(map);
-        } catch (Exception e) {
-            return putDataToMap(e);
-        }
-
-        response.setHeader("Access-Control-Allow-Origin", "*");
-
-        return putDataToMap(ls);*/
-
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("keyword",request.getParameter("keyword"));
         map.put("type",0);
