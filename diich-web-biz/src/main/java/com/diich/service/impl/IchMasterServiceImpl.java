@@ -8,6 +8,7 @@ import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
 import com.diich.core.service.*;
+import com.diich.core.util.AliOssUtil;
 import com.diich.core.util.BuildHTMLEngine;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.*;
 
 /**
@@ -181,13 +184,12 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             long id = IdWorker.getId();
             ichMaster.setId(id);
             ichMaster.setStatus(2);
+            if(user != null && user.getType() == 0){
+                ichMaster.setStatus(0);
+            }
             ichMaster.setUri(id + ".html");
             ichMasterMapper.insertSelective(ichMaster);
         } else {
-//            IchMaster master = ichMasterMapper.selectMasterById(ichMaster.getId());
-//            if( (user != null && user.getType() !=0) && (!ichMaster.getLastEditorId().equals(master.getLastEditorId()) || ( ichMaster.getStatus() != null && ichMaster.getStatus()==0))){//当前编辑者(非管理员)是发生了改变
-//                return updateMaster(ichMaster);
-//            }
             ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
         }
         List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
@@ -198,9 +200,31 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 contentFragmentService.saveContentFragment(contentFragment);
             }
         }
+        if (user != null && user.getType() == 0){//管理员权限
+            ichMaster = getAttribute(ichMaster);
+            String str = PropertiesUtil.getString("freemarker.masterfilepath");
+            String fileName = str+"/"+ichMaster.getId().toString();
+            String s = buildHTML("master.ftl", ichMaster, fileName);//生成静态页面
+            String bucketName = PropertiesUtil.getString("img_bucketName");
+            String type = PropertiesUtil.getString("pc_mhtml_server");
+            File file = new File(fileName+".html");
+            AliOssUtil.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichMaster.getId()+".html",file.length());//上传到阿里云
+        }
         return ichMaster;
     }
 
+    private IchMaster getAttribute(IchMaster ichMaster) throws Exception{
+        List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
+        if(contentFragmentList != null && contentFragmentList.size() > 0){
+            for (ContentFragment contentFragment : contentFragmentList) {
+                if(contentFragment.getAttribute() == null && contentFragment.getAttributeId() != null){
+                    Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
+                    contentFragment.setAttribute(attribute);
+                }
+            }
+        }
+        return  ichMaster;
+    }
     /**
      * 如果修改人不同就另存版本
      * @param ichMaster

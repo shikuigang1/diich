@@ -8,17 +8,23 @@ import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
 import com.diich.core.service.*;
+import com.diich.core.util.AliOssUtil;
 import com.diich.core.util.BuildHTMLEngine;
 import com.diich.core.util.FileType;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -77,7 +83,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 //作品列表
                 List<Works> worksList =worksService.getWorksByIchProjectId(Long.parseLong(id));
                 ichProject.setWorksList(worksList);
-            }
+
 
             //获取项目的field
             List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
@@ -93,6 +99,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             if(versionList.size()>0){
                 ichProject.setVersion( versionList.get(0));
             }
+          }
         } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
@@ -222,6 +229,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             long proID = IdWorker.getId();
             ichProject.setId(proID);
             ichProject.setStatus(2);
+            if(user != null && user.getType() == 0){
+                ichProject.setStatus(0);
+            }
             ichProject.setCreatorId(user.getId());
             ichProject.setUri(proID +".html");
             ichProjectMapper.insertSelective(ichProject);
@@ -240,9 +250,31 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 contentFragmentService.saveContentFragment(contentFragment);
             }
         }
+        if (user != null && user.getType() == 0){//管理员权限
+            ichProject = getAttribute(ichProject);//获取attribute
+            String str = PropertiesUtil.getString("freemarker.projectfilepath");
+            String fileName = str+"/"+ichProject.getId().toString();
+            String s = buildHTML("pro.ftl", ichProject, fileName);//生成静态页面
+            String bucketName = PropertiesUtil.getString("img_bucketName");
+            String type = PropertiesUtil.getString("pc_phtml_server");
+            File file = new File(fileName+".html");
+            AliOssUtil.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichProject.getId()+".html",file.length());//上传到阿里云
+        }
         return ichProject;
     }
 
+    private IchProject getAttribute(IchProject ichProject) throws Exception{
+        List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
+        if(contentFragmentList != null && contentFragmentList.size() > 0){
+            for (ContentFragment contentFragment : contentFragmentList) {
+                if(contentFragment.getAttribute() == null && contentFragment.getAttributeId() != null){
+                    Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
+                    contentFragment.setAttribute(attribute);
+                }
+            }
+        }
+        return  ichProject;
+    }
     /**
      * 如果修改人不同就另存版本
      * @param ichProject
@@ -284,7 +316,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Override
     public IchProject getIchProjectByIdAndIUser(Long id, User user) throws Exception {
         if(user.getType() != null && user.getType() == 0){//是管理员
-            return getIchProjectById(id);
+            return getIchProject(String.valueOf(id));
         }
         Version version = new Version();
         version.setTargetType(0);
@@ -300,13 +332,19 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             for (IchProject ichProject : ichProjectList) {
                 Long ichProjectId = ichProject.getId();
                 if(tempList.contains(ichProjectId)){
+                    //获取传承人列表
+                    List<IchMaster> ichMasterList = ichMasterService.getIchMasterByIchProjectId(ichProjectId);
+                    ichProject.setIchMasterList(ichMasterList);
+                    //作品列表
+                    List<Works> worksList =worksService.getWorksByIchProjectId(ichProjectId);
+                    ichProject.setWorksList(worksList);
                     List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
                     ichProject.setContentFragmentList(contentFragmentList);
                     return ichProject;
                 }
             }
         }
-        IchProject ichProject = getIchProjectById(id);
+        IchProject ichProject = getIchProject(String.valueOf(id));
         if(ichProject !=null && (!ichProject.getLastEditorId().equals(user.getId())) || ( ichProject.getStatus() != null && ichProject.getStatus()==0)){
             ichProject.setLastEditorId(user.getId());
             ichProject.setLastEditDate(new Date());
