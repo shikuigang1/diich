@@ -160,7 +160,7 @@
                         <#if cf.attributeId == 1>
                             <#if (cf.resourceList??) && (cf.resourceList?size>0)>
                                 <#list cf.resourceList as res>
-                                    <#if res.type==0 && res.status==0>
+                                    <#if res.type==0 && res.status==0 && res.uri?? && res.uri != "">
                                         <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
                                             <img src="${prouri}${res.uri}" alt="" id="detailTopic" style="display:none" data-id="1" class="data-item">
                                         </#if>
@@ -179,7 +179,7 @@
                         <#if cf.attributeId == 1>
                             <#if (cf.resourceList??) && (cf.resourceList?size>0)>
                                 <#list cf.resourceList as res>
-                                    <#if res.type==1 && res.status==0>
+                                    <#if res.type==1 && res.status==0 && res.uri?? && res.uri != "">
                                         <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
                                             <video poster="${backImgUrl}" src="${prouri}${res.uri}"> </video>
                                         </#if>
