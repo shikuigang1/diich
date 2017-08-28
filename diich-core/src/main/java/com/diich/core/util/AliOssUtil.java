@@ -129,7 +129,7 @@ public class AliOssUtil {
 
         // 必须设置ContentLength
         meta.setContentLength(length);
-
+        meta.setContentType("text/html");
         // 上传Object.
         PutObjectResult result = client.putObject(bucketName, uploadName, content, meta);
 
