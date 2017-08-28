@@ -117,36 +117,42 @@ public class ContentFragmentController extends BaseController<ContentFragment>{
     private void removeSessionAttribute(HttpServletRequest request,ContentFragment contentFragment)throws Exception{
         if(contentFragment !=null && contentFragment.getTargetType() == 0){
             IchProject ichProject = (IchProject) request.getSession().getAttribute(Constants.CURRENT_PROJECT);
-            List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
-            for (ContentFragment content : contentFragmentList) {
-                if(content.getId().equals(contentFragment.getId())){
-                    contentFragmentList.remove(content);
-                    break;
+            if(ichProject != null){
+                List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
+                for (ContentFragment content : contentFragmentList) {
+                    if(content.getId().equals(contentFragment.getId())){
+                        contentFragmentList.remove(content);
+                        break;
+                    }
                 }
+                request.getSession().setAttribute(Constants.CURRENT_PROJECT,ichProject);
             }
-            request.getSession().setAttribute(Constants.CURRENT_PROJECT,ichProject);
         }
         if(contentFragment !=null && contentFragment.getTargetType() == 1){
             IchMaster ichMaster = (IchMaster) request.getSession().getAttribute(Constants.CURRENT_MASTER);
-            List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
-            for (ContentFragment content : contentFragmentList) {
-                if(content.getId().equals(contentFragment.getId())){
-                    contentFragmentList.remove(content);
-                    break;
+            if(ichMaster != null){
+                List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
+                for (ContentFragment content : contentFragmentList) {
+                    if(content.getId().equals(contentFragment.getId())){
+                        contentFragmentList.remove(content);
+                        break;
+                    }
                 }
+                request.getSession().setAttribute(Constants.CURRENT_MASTER,ichMaster);
             }
-            request.getSession().setAttribute(Constants.CURRENT_MASTER,ichMaster);
         }
         if(contentFragment !=null && contentFragment.getTargetType() == 3){
             Organization organization = (Organization) request.getSession().getAttribute(Constants.CURRENT_ORG);
-            List<ContentFragment> contentFragmentList = organization.getContentFragmentList();
-            for (ContentFragment content : contentFragmentList) {
-                if(content.getId().equals(contentFragment.getId())){
-                    contentFragmentList.remove(content);
-                    break;
+            if(organization != null){
+                List<ContentFragment> contentFragmentList = organization.getContentFragmentList();
+                for (ContentFragment content : contentFragmentList) {
+                    if(content.getId().equals(contentFragment.getId())){
+                        contentFragmentList.remove(content);
+                        break;
+                    }
                 }
+                request.getSession().setAttribute(Constants.CURRENT_ORG,organization);
             }
-            request.getSession().setAttribute(Constants.CURRENT_ORG,organization);
         }
     }
 }
