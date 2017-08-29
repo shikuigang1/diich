@@ -1,4 +1,4 @@
- <div class="title">基础信息</div>
+ <div class="title" id="page_vocation">基础信息</div>
     <div class="hint"><i class="dot"></i>标有 <em>*</em> 的为必填项 · 信息越完善，申报成功的几率越高</div>
     <!--//End-->
 
@@ -15,38 +15,26 @@
             </div>
             <!--//End 没什么用就是解决一个*的bug-->
 
-            <div class="group">
-                <label class="label">职业</label>
-                <div class="control">
-                    <input value="{{getContent pageObj.contentFragmentList 47}}" id="zy" name="zy" data-id="47" type="text" class="ipt w310">
-                </div>
-            </div>
-            <!--//End 手机-->
-
-            <div class="group">
-                <label class="label">职务职称</label>
-                <div class="control">
-                    <input value="{{getContent pageObj.contentFragmentList 48}}" id="zc" name="zc" data-id="48" type="text" class="ipt w310">
-                </div>
-            </div>
-            <!--//End 电子邮箱-->
-
-            <div class="group">
-                <label class="label">荣誉称号</label>
-                <div class="control">
-                    <input value="{{getContent pageObj.contentFragmentList 50}}" id="ch" name="ch" data-id="50" type="text" class="ipt w650">
-                </div>
-            </div>
-            <!--//End 详情地址-->
-
-            <div class="group">
-                <label class="label"><em>*</em>简介</label>
-                <div class="control">
-                    <textarea value="" name="jj" id="jj" data-id="24" cols="30" rows="10">{{getContent pageObj.contentFragmentList 24}}</textarea>
-                    <div id="jj_err" class="errors" style="display: none"><i></i>请填写简写</div>
-                </div>
-            </div>
-            <!--//End 简介-->
+           {{#each sonterms}}
+                {{#equal dataType 0}}
+                    <div class="group">
+                        <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
+                        <div class="control">
+                            <input value="{{getContent ../../pageObj.contentFragmentList id}}" validate="true" check="mobile" id="vocation_{{id}}" name="vocation_{{id}}" data-id="{{id}}" data-minLength="{{maxLength}}" data-maxLength="{{minLength}}" type="text" class="ipt w310">
+                            <div id="vocation_{{id}}_err" class="errors" style="display: none"><i></i>请填写手机</div>
+                        </div>
+                    </div>
+                {{/equal}}
+                {{#equal dataType 1}}
+                    <div class="group">
+                        <label class="label"><!-- <em>*</em> -->简介</label>
+                        <div class="control">
+                            <textarea value="" name="vocation_{{id}}" id="vocation_{{id}}" data-id="{{id}}" data-maxLength="{{maxLength}}" data-minLength="{{minLength}}" cols="30" rows="10">{{getContent ../../pageObj.contentFragmentList id}}</textarea>
+                            <div id="vocation_{{id}}_err" class="errors" style="display: none"><i></i>请填写简写</div>
+                        </div>
+                    </div>
+                {{/equal}}
+           {{/each}}
 
         </div>
         <!--//End-->
