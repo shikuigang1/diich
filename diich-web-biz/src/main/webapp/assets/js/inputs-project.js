@@ -155,6 +155,11 @@ function getDataByCateGoryId(data){
     });
     //项目实践 合并 状态选中 控制
     var ich = getCurrentProject();
+
+    if(typeof ich.contentFragmentList == "undefined" ||  typeof ich.contentFragmentList.length==0){
+        return false;
+    }
+
     $("#menu2").children("li").each(function () {
         var attrid = $(this).find("span").attr('data-id');
         var dataType = $(this).attr('target-type');
@@ -315,7 +320,7 @@ function  saveCustom(next) {
 }
 function  validateCustom() {
     var flag = true;
-    var attrName = $("#attrName").val().trim();
+    var attrName = $("#attrName").val();
     if(attrName.length<1 || attrName.length>10){
         $("#attrName").parent().parent().next().find("span").eq(0).text("自定义名称在1-10字符之间");
         $("#attrName").parent().parent().next().show();
@@ -325,7 +330,7 @@ function  validateCustom() {
         $("#attrName").parent().next().hide();
     }
 
-    if($("#longContent").val().trim()=="" ){
+    if($("#longContent").val()=="" ){
         $("#longContent").next().find("span").text("请填写自定义内容");
         $("#longContent").next().show();
         flag = false;
@@ -590,7 +595,7 @@ function  saveContentPragment(attrid) {
                     flag = false;
                     return false;
                 }else
-                if(obj.minLength>0 && $("#longContent").val().trim().length>0){
+                if(obj.minLength>0 && $("#longContent").val().length>0){
                     flag=true;
                     return false;
                 }
@@ -609,7 +614,7 @@ function  saveContentPragment(attrid) {
     }
     //在页面 获取数据 封装数据
     contentFragment.attributeId=attrid;
-    contentFragment.content=$("#longContent").val().trim();
+    contentFragment.content=$("#longContent").val();
     contentFragment.targetType=0;
 
     var resource={};
@@ -693,7 +698,7 @@ function  saveContentPragment(attrid) {
                         if($('li[data-type=longField]').hasClass("selected")){
                             $('li[data-type=longField]').each(function () {
                                 if($(this).hasClass('selected')){
-                                    if($("#longContent").val().trim()==""){
+                                    if($("#longContent").val()==""){
                                         $(this).find("i").eq(0).removeClass("selected");
                                         $(this).find("i").eq(0).addClass("unselected2");
                                     }else {
@@ -708,7 +713,7 @@ function  saveContentPragment(attrid) {
                         saveAndnext = true;
                         $('li[data-type=longField]').eq(index+1).click();
                     }else{
-                        if($("#longContent").val().trim()==""){
+                        if($("#longContent").val()==""){
                             $('li[data-type=longField]').eq(index).find("i").removeClass('selected');
                             $('li[data-type=longField]').eq(index).find("i").addClass('unselected2');
                         }else{
@@ -727,12 +732,7 @@ function  saveContentPragment(attrid) {
                     }
                     //判断开启提交按钮
 
-                var opencheck = false;
-                $.each(result.data.contentFragmentList,function (index,obj) {
-                    if(obj.attributeId== 40 && obj.content != null && obj.content.length>0){
-                        opencheck= true;
-                    }
-                });
+                var opencheck = isMustAdd();
 
                 if(opencheck){
                     $(".handle").find('a').eq(2).removeClass('disabled').addClass('empty');
@@ -804,20 +804,24 @@ function saveIchProject(page) {
         //获取图片名称
         var path = imgpath.substring(imgpath.lastIndexOf("/")+1);
         //var attr={};
-        var resource={};
-        var resourceList=[];
-        contentFragment.attributeId=1;//题图
-        resource.uri=path;
-        resource.type=0;
-        resource.description='';
-        resourceList.push(resource);
-        contentFragment.resourceList=resourceList;
-        contentFragment.targetType=0;
-        contentFragmentList.push(cloneObj(contentFragment));
-        contentFragment={};
+
+        if(path !=""){
+            var resource={};
+            var resourceList=[];
+            contentFragment.attributeId=1;//题图
+            resource.uri=path;
+            resource.type=0;
+            resource.description='';
+            resourceList.push(resource);
+            contentFragment.resourceList=resourceList;
+            contentFragment.targetType=0;
+            contentFragmentList.push(cloneObj(contentFragment));
+            contentFragment={};
+        }
+
 
         contentFragment.attributeId=9;//简介
-        contentFragment.content=$("#summary").val().trim();
+        contentFragment.content=$("#summary").val();
         contentFragment.targetType=0;
         //attr.dataType=1;//长文本
         //contentFragment.targetType=0;
@@ -825,7 +829,7 @@ function saveIchProject(page) {
         contentFragmentList.push(cloneObj(contentFragment));
         contentFragment={};
         contentFragment.attributeId=6;//拼音
-        contentFragment.content=$("#pinyin").val().trim();
+        contentFragment.content=$("#pinyin").val();
         //attr.dataType=0;//短文本
         contentFragment.targetType=0;
         //contentFragment.attribute=attr;
@@ -833,7 +837,7 @@ function saveIchProject(page) {
         contentFragment={};
 
         contentFragment.attributeId=5;//英文名
-        contentFragment.content=$("#engName").val().trim();
+        contentFragment.content=$("#engName").val();
         //attr.dataType=0;//短文本
         contentFragment.targetType=0;
 
@@ -842,7 +846,7 @@ function saveIchProject(page) {
         contentFragment={};
 
         contentFragment.attributeId=4;//中文名
-        contentFragment.content=$("#chiName").val().trim();//中文名
+        contentFragment.content=$("#chiName").val();//中文名
         contentFragment.targetType=0;
         //attr.dataType=0;
         //contentFragment.attribute=attr;
@@ -850,7 +854,7 @@ function saveIchProject(page) {
         contentFragment={};
 
         contentFragment.attributeId=109;//开始年代
-        contentFragment.content=$("#beginTimes").val().trim();//
+        contentFragment.content=$("#beginTimes").val();//
         contentFragment.targetType=0;
         //attr.dataType=0;
         //contentFragment.attribute=attr;
@@ -858,7 +862,7 @@ function saveIchProject(page) {
         contentFragment={};
 
         contentFragment.attributeId=108;//国家代码
-        contentFragment.content=$("#countryCode").val().trim();//中文名
+        contentFragment.content=$("#countryCode").val();//中文名
         contentFragment.targetType=0;
         //attr.dataType=0;
         //contentFragment.attribute=attr;
@@ -866,7 +870,7 @@ function saveIchProject(page) {
         contentFragment={};
 
         contentFragment.attributeId=32;//主题词
-        contentFragment.content=$("#titleWords").val().trim();//中文名
+        contentFragment.content=$("#titleWords").val();//中文名
         contentFragment.targetType=0;
         //attr.dataType=0;
         //contentFragment.attribute=attr;
@@ -892,7 +896,7 @@ function saveIchProject(page) {
 
         if(val=="1"){
             contentFragment.attributeId=116;//认证时间
-            contentFragment.content=$("#ECalendar_date").val().trim();
+            contentFragment.content=$("#ECalendar_date").val();
             //attr.dataType=0;//短文本
             contentFragment.targetType=0;
 
@@ -901,14 +905,14 @@ function saveIchProject(page) {
             contentFragment={};
 
             contentFragment.attributeId=41;//认证级别
-            contentFragment.content=$("#certselect").val().trim();
+            contentFragment.content=$("#certselect").val();
             //attr.dataType=103;//字典码
             contentFragment.targetType=0;
             //contentFragment.attribute=attr;
             contentFragmentList.push(cloneObj(contentFragment));
             contentFragment={};
             contentFragment.attributeId=107;//认证编号
-            contentFragment.content=$("#certCode").val().trim();
+            contentFragment.content=$("#certCode").val();
             // attr.dataType=0;//短文本
             contentFragment.targetType=0;
             //contentFragment.attribute=attr;
@@ -990,7 +994,7 @@ function saveIchProject(page) {
         });
 
         var condition = getConditionByAttributeID(attid);
-        if(condition.minLength>0 && $("#longContent").val().trim().length<condition.minLength){
+        if(condition.minLength>0 && $("#longContent").val().length<condition.minLength){
             $("#longContent").next().find('span').eq(0).text("文本内容的最小长度为"+condition.minLength).show();
             return false;
         }
@@ -1001,7 +1005,7 @@ function saveIchProject(page) {
         }
 
         contentFragment.attributeId=attid;
-        contentFragment.content=$("#longContent").val().trim();
+        contentFragment.content=$("#longContent").val();
         contentFragment.targetType=0;
 
         var resource={};
@@ -1099,7 +1103,7 @@ function saveIchProject(page) {
                         $('li[data-type=longField]').each(function () {
 
                             if($(this).hasClass('selected')){
-                                if($("#longContent").val().trim()==""){
+                                if($("#longContent").val()==""){
                                     $(this).find("i").eq(0).removeClass("selected");
                                     $(this).find("i").eq(0).addClass("unselected2");
                                 }else {
@@ -1416,7 +1420,7 @@ function ichProjectpreview(){
             console.log(JSON.stringify(result));
             if(result.code==0){
                 //存储本地
-                location.href="./tmp/"+ich.id+".html";
+                location.href="/tmp/"+ich.id+".html";
             }
         },
         error: function (result, status) {
@@ -1433,6 +1437,7 @@ function  validateIchID() {
     }
 }
 function getIchProByID(pid) {
+    console.log(pid);
     var ich={};
     $.ajax({
         type: "POST",
@@ -1445,7 +1450,6 @@ function getIchProByID(pid) {
             console.log(result);
             if(result.code==0){
                 ich = result.data;
-                //console.log("project data---->",ich);
             }
         },
         error: function (result, status) {
@@ -1504,21 +1508,7 @@ function isMustAdd() {
         //外层 判断是否为必填字段
         var flag = false;//必填字段标记
         var hasSavedata = false;//必填数据是否 已添加标记
-        if(obj.minLength != null && obj.minLength>0){
-            flag=true;
-        }
-        if(flag){
-            //当前字段为必填 查看项目是否有该数据
-            $.each(ich.contentFragmentList,function (idx,o) {
-                if(o.attributeId == obj.id){
-                    hasSavedata = true;
-                }
-            });
-            if(!hasSavedata){//必填数据未添加
-                hasAddMust = false;
-               return false;
-            }
-        }
+
     });
     return　hasAddMust;
 }

@@ -456,44 +456,47 @@ var projectPage={
                                 //填充题图
                                 //是否为已认证项目 标记
                                 var flag = 0;
-                                $.each(ich.contentFragmentList,function (idx,obj) {
-                                    //填充题图
-                                    if(obj.attributeId == 1 && obj.resourceList.length>0){
-                                        var uri = obj.resourceList[0].uri;
-                                        $(".preview").attr("src",imgserver+"/image/project/"+uri).show();
-                                        $(".preview").parent().addClass('active');
-                                    }
+                               if(typeof ich.contentFragmentList != "undefined"){
+                                   $.each(ich.contentFragmentList,function (idx,obj) {
+                                       //填充题图
+                                       if(obj.attributeId == 1 && obj.resourceList.length>0){
+                                           var uri = obj.resourceList[0].uri;
+                                           $(".preview").attr("src",imgserver+"/image/project/"+uri).show();
+                                           $(".preview").parent().addClass('active');
+                                       }
 
-                                    if(obj.attributeId == 116 && obj.content != ''){
-                                        flag=1;
-                                        $("#ECalendar_date").val(obj.content);
-                                    }
-                                    if(obj.attributeId == 107 && obj.content != ''){
-                                        flag=1;
-                                        $("#certCode").val(obj.content);
-                                    }
-                                    if(obj.attributeId == 9 && obj.content != ''){
-                                        $("#summary").val(obj.content);
-                                    }
-                                    if(obj.attributeId == 6 && obj.content != ''){
-                                        $("#pinyin").val(obj.content);
-                                    }
-                                    if(obj.attributeId == 5 && obj.content != ''){
-                                        $("#engName").val(obj.content);
-                                    }
-                                    if(obj.attributeId == 41 && obj.content != ''){
-                                        $("#certselect").val(obj.content);
-                                    }
-                                    if(obj.attributeId == 109 && obj.content != ''){
-                                        $("#beginTimes").val(obj.content);
-                                    }
-                                    if(obj.attributeId == 108 && obj.content != ''){
-                                        $("#countryCode").val(obj.content);
-                                    }
-                                    if(obj.attributeId == 32 && obj.content != ''){
-                                        $("#titleWords").val(obj.content);
-                                    }
-                                });
+                                       if(obj.attributeId == 116 && obj.content != ''){
+                                           flag=1;
+                                           $("#ECalendar_date").val(obj.content);
+                                       }
+                                       if(obj.attributeId == 107 && obj.content != ''){
+                                           flag=1;
+                                           $("#certCode").val(obj.content);
+                                       }
+                                       if(obj.attributeId == 9 && obj.content != ''){
+                                           $("#summary").val(obj.content);
+                                       }
+                                       if(obj.attributeId == 6 && obj.content != ''){
+                                           $("#pinyin").val(obj.content);
+                                       }
+                                       if(obj.attributeId == 5 && obj.content != ''){
+                                           $("#engName").val(obj.content);
+                                       }
+                                       if(obj.attributeId == 41 && obj.content != ''){
+                                           $("#certselect").val(obj.content);
+                                       }
+                                       if(obj.attributeId == 109 && obj.content != ''){
+                                           $("#beginTimes").val(obj.content);
+                                       }
+                                       if(obj.attributeId == 108 && obj.content != ''){
+                                           $("#countryCode").val(obj.content);
+                                       }
+                                       if(obj.attributeId == 32 && obj.content != ''){
+                                           $("#titleWords").val(obj.content);
+                                       }
+                                   });
+                               }
+
                                 //显示选中内容
                                 if(flag==1){
                                     $('.horizontal .group .radio').eq(0).click();
@@ -527,7 +530,8 @@ var projectPage={
                 var _dateType=$(this).attr('data-type');
                 //判断当前 是否可以编辑（父菜单未完成 状态子菜单不可编辑）
                 var flag = false;//当前是否可点击标记
-                if(typeof ($(this).prev().html())!="undefined"){ //判断上一级 对象是否侧你在
+
+                if(typeof ($(this).prev().html())!="undefined" && $(this).prev().html()!=null){ //判断上一级 对象是否侧你在
                     //查看上一级 菜单的 编辑状态
                     if($(this).prev().find('i').eq(0).hasClass('selected') || $(this).prev().find('i').eq(0).hasClass('unselected2')){
                         flag = true;
@@ -535,12 +539,6 @@ var projectPage={
                     if($(this).find('i').eq(0).hasClass('selected') || $(this).find('i').eq(0).hasClass('unselected2')){
                         flag = true;
                     }
-
-                    /*if(){
-
-                    }*/
-
-                    //给出提示信息
                     if(!flag){
                         if(!validateIchID()){
                             //tipBox.init('fail',"请先添加",1500);
@@ -1269,6 +1267,9 @@ var organizationPage = {
         $('#tpl').load('./Tpl/org_basic.html', function () {//加载基本信息页面
             _this.slideBar();
             _this.uploadImgage();
+            //处理必填项
+            mustInputflag();
+            initBasicInfo();
         });
     },
     slideBar: function () {
@@ -1284,22 +1285,109 @@ var organizationPage = {
             if (_dd.length > 0) {
                 _dd.slideToggle(100);
             }
-            $('#tpl').load('/Tpl/' + _dateType + '.html', function () {
+            $('#tpl').load('./Tpl/' + _dateType + '.html', function () {
                 if (_dateType === 'longFieldCustom') {
-                    projectPage.radioImage(); //上传题图
+                    organizationPage.radioImage(); //上传题图
+                    if($('div[data-type=org_basic]').hasClass('selected')){
+                        $('div[data-type=org_basic]').removeClass('selected')
+                    }
+
+                    if(!$('div[data-type=longFieldCustom]').hasClass('selected')){
+                        $('div[data-type=longFieldCustom]').addClass('selected')
+                    }
+                    $("#menu3 li").removeClass("selected");
+
+                }else{
+                    organizationPage.uploadImgage(); //上传题图
+                    if(!$('div[data-type=org_basic]').hasClass('selected')){
+                        $('div[data-type=org_basic]').addClass('selected')
+                    }
+
+                    if($('div[data-type=longFieldCustom]').hasClass('selected')){
+                        $('div[data-type=longFieldCustom]').removeClass('selected')
+                    }
+                    $("#menu3 li").removeClass("selected");
+                    mustInputflag();//添加必选标记
+                    initBasicInfo();
                 }
             });
-            projectPage.selectCate.init();
+        });
+        dd.on('click','li',function () {
+            var attrid=$(this).find("span").first().attr('data-id');
+            $('div[data-type=org_basic]').removeClass("selected");
+            $('div[data-type=longFieldCustom]').removeClass("selected");
+            $(this).siblings("li").removeClass("selected");
+            $(this).addClass("selected");
+
+            var _dateType=$(this).attr('data-type');
+            var name = $(this).find("span").first().text();
+            var targetType=$(this).attr('target-type');
+            $('#tpl').load('./Tpl/'+_dateType+'.html',function () {
+               _this.radioImage();
+                if(_dateType==='longField'){
+                    upload.remove(function (rid) {
+                        //判断本地图片是否存在
+                        var imageIsExsit=false;
+                        $.each(organization.contentFragmentList,function (index,obj) {
+                            if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
+                                $.each(obj.resourceList,function (i,o) {
+                                    if(o.id==rid){
+                                        imageIsExsit = true;
+                                        return false;
+                                    }
+                                });
+                            }
+                        });
+
+                        if(imageIsExsit){ //本地存在 进行删除操作
+                            if(delResourceImage(rid)){
+                                tipBox.init("success","删除图片成功！",1500);
+                                //删除图片在本地缓存
+                                $.each(organization.contentFragmentList,function (index,obj) {
+                                    if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
+                                        $.each(obj.resourceList,function (i,o) {
+                                            if(o.id==rid){
+                                                organization.contentFragmentList[index].resourceList.splice(i,1);
+                                                setCurrentOrganization(organization);
+                                                return false;
+                                            }
+                                        });
+                                    }
+                                });
+
+                            }else{
+                                tipBox.init("fail","删除图片失败！",1500);
+                            }
+                        }else{
+                            //do nothing
+                        }
+                    });
+                    //修改标签内容
+                    $("#attrName").val(name);
+                    /*$(".st").children("h2").text(name);*/
+                    //初始化当前菜单数据
+                    // var flag = false;//缓存命中标记
+                    initCustomAttribute(attrid);
+                    //是否显示 添加图片
+                    if(targetType==1){ //不显示 上传图片
+                        $("#images").hide();
+                        $("#images").siblings('.text').css('width','100%');
+                    }
+                    $(".next").prev().attr("href","javascript:delOrgCustom('"+attrid+"')");
+                    $(".next").attr("href","javascript:saveOrganization()");
+
+                   //organizationPage.radioImage(); //上传题图
+                }
+            });
+
         });
     },
     uploadImgage:function () {//上传图片
-
         var el=$('.horizontal .group .control .file_up');
-        upload.submit(el,1,'/user/uploadFile?type=project',function (data) {
+        upload.submit(el,1,'/user/uploadFile?type=organization',function (data) {
             console.log(data);
             if(data.code==0){
                 $('.preview').attr('src',data.data[0]).show();
-
             }else{
 
             }
@@ -1310,13 +1398,14 @@ var organizationPage = {
         var _images = $('#images');
         //
         var el = $('.ipt_base .content .edit .images .handle .file_up .icon');
-        upload.submit(el, 1, 'user/uploadFile', function (data) {
-            _images.find('.handle').before(templateItem(data));
+        upload.submit(el, 1, '/user/uploadFile?type=organization', function (data) {
+            _images.find('.handle').before(templateItem(data.data));
+           // $('.preview').remove();
+            _images.find('.preview').remove();
             isItemStatus();
         });
         //赋值token  有用则留无用则删除
         $('._token').val($('meta[name=token]').attr('content'));
-
         //模版
         function templateItem(str) {
             var templ = '<div class="item">' +
@@ -1339,7 +1428,7 @@ var organizationPage = {
         }
 
         upload.remove(function () {
-            //todo
+            //todonothing
         });
     },
     judge: function () {//是否申报传承人
@@ -1425,31 +1514,31 @@ var inheritorPage={
         }
     },
     template:function () {
-        var str=`<div class="edit">
-                    <form action="">
-                        <div class="text">
-                            <textarea name="" id="" cols="30" rows="10"></textarea>
-                        </div>
-                        <div class="images" id="images">
-                            <div class="handle">
-                                <div class="add file_up">
-                                    <span class="icon"><i></i></span>
-                                    <span>添加图片</span>
-                                </div>
-                                <div class="add file_up" style="margin-right:0;">
-                                    <span class="icon icon2"><i></i></span>
-                                    <span>添加视频</span>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <!--//edit End-->
-                <div class="buttons">
-                    <a href="">删除此项</a>
-                    <a class="next" href="">下一步</a>
-                    <a href="">跳过此项</a>
-                </div>`;
+        var str='<div class="edit">'+
+            '    <form action="">'+
+            '        <div class="text">'+
+            '            <textarea name="" id="" cols="30" rows="10"></textarea>'+
+            '        </div>'+
+            '        <div class="images" id="images">'+
+            '            <div class="handle">'+
+            '                <div class="add file_up">'+
+            '                    <span class="icon"><i></i></span>'+
+            '                    <span>添加图片</span>'+
+            '                </div>'+
+            '                <div class="add file_up" style="margin-right:0;">'+
+            '                    <span class="icon icon2"><i></i></span>'+
+            '                    <span>添加视频</span>'+
+            '                </div>'+
+            '            </div>'+
+            '        </div>'+
+            '    </form>'+
+            '</div>'+
+            '<!--//edit End-->'+
+            '<div class="buttons">'+
+            '    <a href="">删除此项</a>'+
+            '    <a class="next" href="">下一步</a>'+
+            '    <a href="">跳过此项</a>'+
+            '</div>';
         return str;
     },
     create:function () {
