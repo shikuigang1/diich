@@ -152,14 +152,12 @@
                             <#if cf.attributeId == 10>
                                 <#if (cf.resourceList?size>0)>
                                     <#list cf.resourceList as res>
-                                        <#if res.type==0 && res.status==0>
-                                            <#if res.uri??>
-                                                <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                                    <img src="${masteruri}${res.uri}" alt="" id="detailTopic" style="display:none">
-                                                </#if>
-                                                <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
-                                                    <img src="${res.uri}" alt="" id="detailTopic" style="display:none">
-                                                </#if>
+                                        <#if res.type==0 && res.status==0 && res.uri?? && res.uri != "">
+                                            <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
+                                                <img src="${masteruri}${res.uri}" alt="" id="detailTopic" style="display:none">
+                                            </#if>
+                                            <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
+                                                <img src="${res.uri}" alt="" id="detailTopic" style="display:none">
                                             </#if>
                                         </#if>
                                     </#list>
@@ -172,7 +170,7 @@
                            <#if cf.attributeId == 10>
                                <#if (cf.resourceList?size>0)>
                                    <#list cf.resourceList as res>
-                                       <#if res.type==1 && res.status==0>
+                                       <#if res.type==1 && res.status==0 && res.uri?? && res.uri != "">
                                            <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
                                                <video poster="${backImgUrl}" src="${masteruri}${res.uri}"> </video>
                                            </#if>

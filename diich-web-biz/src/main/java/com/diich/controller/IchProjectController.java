@@ -2,6 +2,7 @@ package com.diich.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.diich.core.Constants;
 import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.IchProject;
@@ -26,6 +27,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -143,6 +145,8 @@ public class IchProjectController extends BaseController<IchProject> {
 
         try {
             ichProject = ichProjectService.saveIchProject(ichProject,user);
+            HttpSession session = request.getSession();
+            session.setAttribute(Constants.CURRENT_PROJECT,ichProject);
         } catch (Exception e) {
             return putDataToMap(e);
         }
@@ -150,34 +154,16 @@ public class IchProjectController extends BaseController<IchProject> {
         return putDataToMap(ichProject);
     }
 
+    @RequestMapping("ichProjectInfo")
+    @ResponseBody
+    public  Map<String, Object> organizationInfo(HttpServletRequest request,HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(request.getSession().getAttribute(Constants.CURRENT_PROJECT));
+    }
+
     @RequestMapping("getProByName")
     @ResponseBody
     public Map<String, Object> getProByName(HttpServletRequest request,HttpServletResponse response) {
-
-/*
-        Map<String,Object> map = new HashMap<String,Object>();
-
-        map.put("keyword",request.getParameter("keyword"));
-        map.put("type",request.getParameter("type"));
-        map.put("pageBegin",0);
-        String  size = request.getParameter("pageSize");
-        if(size == null){
-            map.put("pageSize",5);
-        }else{
-            map.put("pageSize",size);
-        }
-
-        List<Map> ls=null;
-
-        try {
-            ls =ichProjectService.getIchProjectByName(map);
-        } catch (Exception e) {
-            return putDataToMap(e);
-        }
-
-        response.setHeader("Access-Control-Allow-Origin", "*");
-
-        return putDataToMap(ls);*/
 
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("keyword",request.getParameter("keyword"));
