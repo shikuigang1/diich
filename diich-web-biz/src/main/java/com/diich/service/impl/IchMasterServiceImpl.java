@@ -64,15 +64,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         try{
             ichMaster = ichMasterMapper.selectByPrimaryKey(Long.parseLong(id));
             if(ichMaster !=null){
-                //所属项目
-                IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
-                ichMaster.setIchProject(ichProject);
-                //作品列表
-                List<Works> worksList =worksService.getWorksByIchMasterId(ichMaster.getId());
-                ichMaster.setWorksList(worksList);
-                //内容片断列表
-                List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
-                ichMaster.setContentFragmentList(contentFragmentList);
+                ichMaster = getIchMaster(ichMaster);
             }
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
@@ -81,6 +73,18 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         return  ichMaster;
     }
 
+    private IchMaster getIchMaster(IchMaster ichMaster) throws Exception{
+        //所属项目
+        IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
+        ichMaster.setIchProject(ichProject);
+        //作品列表
+        List<Works> worksList =worksService.getWorksByIchMasterId(ichMaster.getId());
+        ichMaster.setWorksList(worksList);
+        //内容片断列表
+        List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
+        ichMaster.setContentFragmentList(contentFragmentList);
+        return ichMaster;
+    }
     /**
      * 根据条件查询分页列表
      * @param params
@@ -332,7 +336,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     @Override
     public IchMaster getIchMasterByIdAndUser(Long id, User user) throws Exception {
         if(user.getType() != null && user.getType() == 0){//是管理员
-            return getIchMasterById(id);
+            return getIchMaster(String.valueOf(id));
         }
         Version version = new Version();
         version.setTargetType(1);
@@ -347,13 +351,13 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             List<IchMaster> ichMasterList = ichMasterMapper.selectIchMasterByUserId(user.getId());
             for (IchMaster ichMaster: ichMasterList) {
                 if(tempList.contains(ichMaster.getId())){
-                    List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);
-                    ichMaster.setContentFragmentList(contentFragmentList);
+                    ichMaster = getIchMaster(ichMaster);//获取传承人其他信息
                     return ichMaster;
                 }
             }
         }
-        IchMaster ichMaster = getIchMasterById(id);
+        IchMaster ichMaster = ichMasterMapper.selectMasterById(id);
+        ichMaster = getIchMaster(ichMaster);//获取传承人其他信息
         if(ichMaster !=null && (!ichMaster.getLastEditorId().equals(user.getId())) || ( ichMaster.getStatus() != null && ichMaster.getStatus()==0)){
             ichMaster.setLastEditorId(user.getId());
             ichMaster.setLastEditDate(new Date());
