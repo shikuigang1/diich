@@ -3,9 +3,7 @@
 }
 
 /*--//End--*/
-.home .slider form .ipt::-moz-placeholder { color: #CCC; }
-.home .slider form .ipt::-webkit-input-placeholder { color:#fff; }
-.home .slider form .ipt:-ms-input-placeholder { color:#fff; }
+
 .home_title {
     height: 94px;
     position: relative;
@@ -297,7 +295,7 @@
     width: 300px;
     padding: 40px;
     position: absolute;
-    z-index: 9;
+    z-index: 2;
 }
 
 .home .global .map .dots .modal .icon {
@@ -2683,7 +2681,9 @@ section.odd {
     min-width: 1200px;
     height: 100%;
     z-index: 11;
-    background-color: rgba(25, 27, 29, 0.94);
+    background: #191b1d;
+    opacity:0.94;
+    filter:alpha(opacity=94);
 }
 
 .media_layer .content .head {
