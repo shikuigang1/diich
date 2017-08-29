@@ -46,7 +46,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         _onOverallSave();
         _onOveraPreview();
         _onOveraSubmit();
-
+        _addCustom();
     }
 
     // 判断哪些菜单是填写完成的
@@ -1026,6 +1026,13 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 });
            }
         }
+    }
+
+    // 添加自定义项
+    function _addCustom() {
+        $("#add_custom").on("click", function() {
+            $('#menu_5').trigger("click"); // 模拟点击添加自定义
+        })
     }
 
     /************************************************************* 通用封装函数 ***************************************************/
