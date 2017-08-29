@@ -2705,6 +2705,9 @@ Handlebars.template = Handlebars.VM.template;
     });
 
     Handlebars.registerHelper("onZjType", function (keys, key1, menuId, options) {
+        if(!keys) {
+            return options.inverse(this);
+        }
         var fag = false;
         $.each(keys, function(i, v) {
             if(v.attributeId == menuId && key1 == v.content) {
@@ -2721,6 +2724,9 @@ Handlebars.template = Handlebars.VM.template;
     })
 
     Handlebars.registerHelper("onGj", function (keys, key1, menuId, options) {
+        if(!keys) {
+            return options.inverse(this);
+        }
         var fag = false;
         $.each(keys, function(i, v) {
             if(v.attributeId == menuId && key1 == v.content) {
@@ -2739,6 +2745,9 @@ Handlebars.template = Handlebars.VM.template;
     // 获取到接口返回值content值(传承人)
     Handlebars.registerHelper("getContent", function (keys, menuId) {
         var content = "";
+        if(!keys) {
+            return content;
+        }
         $.each(keys, function(i, v) {
             if(v.attributeId == menuId) {
                 content = v.content;
@@ -2751,6 +2760,9 @@ Handlebars.template = Handlebars.VM.template;
     // 获取到接口返回值cnName (传承人)
     Handlebars.registerHelper("getCnname", function (keys, menuId) {
         var content = "";
+        if(!keys) {
+            return content;
+        }
         $.each(keys, function(i, v) {
             if(v.attributeId == menuId) {
                 content = v.attribute.cnName;
@@ -2763,6 +2775,9 @@ Handlebars.template = Handlebars.VM.template;
     //  获取到接口返回值id值(传承人)
     Handlebars.registerHelper("getId", function (keys, menuId) {
         var id = "";
+        if(!keys) {
+            return id;
+        }
         $.each(keys, function(i, v) {
             if(v.attributeId == menuId) {
                 id = v.id;
@@ -2803,6 +2818,9 @@ Handlebars.template = Handlebars.VM.template;
 
     // 判断接口返回集合数据中是否包含对应的attributeId
     Handlebars.registerHelper("ifAttribute", function(keys, menuId, options) {
+        if(!keys) {
+            return options.inverse(this);
+        }
         var fag = false;
         $.each(keys, function(i, v) {
             if(v.attributeId == menuId){
@@ -2821,6 +2839,9 @@ Handlebars.template = Handlebars.VM.template;
     // 获取自定义模块名称
     Handlebars.registerHelper("getCustomName", function(keys, customId) {
         var name = "";
+        if(!keys) {
+            return name;
+        }
         $.each(keys, function(i, v) {
             if(v.attributeId == customId) {
                 name = v.attribute.cnName;

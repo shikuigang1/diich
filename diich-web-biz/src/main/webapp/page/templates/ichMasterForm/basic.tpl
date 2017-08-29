@@ -59,6 +59,7 @@
             {{/equal}}
             {{#equal dataType 101}}
                 {{#equal id 23}}
+                  11 {{../../../pageObj}}
                      <div class="group">
                         <label class="label" for=""><!-- <em>*</em> -->{{cnName}}</label>
                         <div class="control">

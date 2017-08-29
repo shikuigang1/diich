@@ -178,13 +178,14 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                         menusArr.sonMenus = [];
                         menusArr.sonMenus.push(obj);
                     }
-                }
-                // 排序
-                $.each(menusArr.sonMenus, function(i, vlaue) {
-                    vlaue.sonTerms.sort(function(a,b) {
-                        return a.seq - b.seq;
+
+                    // 排序
+                    $.each(menusArr.sonMenus, function(i, vlaue) {
+                        vlaue.sonTerms.sort(function(a,b) {
+                            return a.seq - b.seq;
+                        })
                     })
-                })
+                }
             }
         }
 
@@ -217,7 +218,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         }
     }
     /**************************************************** 监听菜单模本 *****************************************************/
-
     // 监听一级菜单
     function _menusOne() {
         $("body").delegate(".dt", "click", function(){
