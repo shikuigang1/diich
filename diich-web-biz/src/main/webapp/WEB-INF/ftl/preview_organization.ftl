@@ -209,7 +209,7 @@
                         </#if>
                     </#list>
                 </#if>
-                    <a href="${caturi}/page/ichMasterForm.html?mid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
+                    <a href="${caturi}/page/organization/organization.html?oid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
                     <div class="doi_code">
                         <i class="icon">ID</i>
                         <span>：<em id="doi_code"><#if (obj.contentFragmentList?size>0)>

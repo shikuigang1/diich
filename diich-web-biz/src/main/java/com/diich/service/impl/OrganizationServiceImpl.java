@@ -173,7 +173,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
     @Override
     public Organization getOrganizationByIdAndIUser(long id, User user) throws Exception {
         if(user.getType() != null && user.getType() == 0){//是管理员
-            return getOrganizationById(id);
+            return getOrganization(id);
         }
         Version version = new Version();
         version.setTargetType(3);
