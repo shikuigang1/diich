@@ -160,15 +160,15 @@
                    <div class="col2">
                       <div class="con">
                           <div class="txt">项目简介、基本信息、项目说明等， 辅助资料：包括录音、录像资料、代表性图片、证明材料、授权书，以及其他有关资料</div>
-                      <a href="javascript:logined('userinfoAdd.html')">申报非遗项目</a>
+                          <a href="javascript:logined('userinfoAdd.html?code=0')">申报非遗项目</a>
                           <!--<a href="ichpro.html">申报非遗项目</a>-->
                       </div>
                    </div>
                     <div class="col2">
                         <div class="con">
                             <div class="txt">传承人基本信息、组织机构、联系方式、传承谱系、个人成就等，其他相关辅助材料同申报项目</div>
+                            <a href="javascript:logined('userinfoAdd.html?code=1')">申报非遗传承人</a>
                             <!--<a href="ichMasterForm.html">申报非遗传承人</a>-->
-                            <a href="searchProject.html">申报非遗传承人</a>
                         </div>
                     </div>
                 </div>
@@ -186,7 +186,8 @@
     $(function() {
         $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
     });
-    function logined(backurl) {
+    // code 0申请项目 1申请传承人
+    function logined(backurl, code) {
         $.ajax({
             cache: true,
             type: "POST",
@@ -212,7 +213,12 @@
                     if(data.data.type==1 ){
                         location.href=backurl;
                     }else if(data.data.type>1){
-                        location.href="ichpro.html";
+                        if(code == 0) {
+                            location.href="ichpro.html";
+                        } else {
+                            location.href="searchProject.html";
+                        }
+
                     }
 
                 }else{
