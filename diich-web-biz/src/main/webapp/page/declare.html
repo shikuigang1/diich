@@ -11,14 +11,98 @@
     <script src="/assets/js/system.js"></script>
     <script src="../assets/js/utils.js"></script>
     <script src="/assets/js/inputs.js"></script>
-    <script src="/assets/js/login.js"></script>
     <script type="text/javascript" src="/js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="../js/i18n.js"></script>
+    <script src="/assets/js/login.js"></script>
+    <script src="../js/citys.js"></script>
 </head>
 
 <body style="background-color: rgb(245, 246, 247)">
     <div class="header fixed header_detail"></div>
     <!--//End header-->
+
+    <div class="filter_search filter_search_fixed">
+        <div class="content">
+            <form class="form" action="http://diich.efeiyi.com/page/search.html">
+                <input class="ipt" type="text" id="keyword" name="keyword" value="" autocomplete="off">
+                <input type="hidden" id="area_code" name="area_code" value=""/>
+                <input type="hidden" id="gb_category_code" name="gb_category_code" value=""/>
+                <input type="hidden" id="type" name="type" value=""/>
+                <input class="submit" type="button" value="搜索" onclick="submit()">
+                <div class="suggest" style="display: none;">
+                    <ul>
+
+                    </ul>
+                </div>
+            </form>
+            <!--//End form-->
+
+            <div class="attr">
+                <span id="attr_text">所属类别</span>
+                <span id="area_text">全球</span>
+            </div>
+            <!--//End attribute-->
+
+            <div class="dropbox" id="drag">
+                <!--//ENd 全部-->
+
+                <div class="item" id="item_1">
+                    <dl class="level">
+                        <dt>
+                        <div class="title">一级分类</div>
+                        <div class="subtitle">所有分类</div>
+                        </dt>
+                        <dd>
+                            <ul id="mainCategory">
+
+                            </ul>
+                        </dd>
+                    </dl>
+                    <dl class="level2">
+                        <dt>
+                        <div class="title">二级分类</div>
+                        <div class="subtitle">所有二级分类</div>
+                        </dt>
+                        <dd>
+                            <ul id="catecontent">
+
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <!--//End 所属分类-->
+
+                <div class="item">
+                    <dl class="level">
+                        <dt>
+                        <div class="title">位置</div>
+                        </dt>
+                        <dd>
+                            <ul>
+                                <li>中国</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <dl class="level2">
+                        <dt>
+                        <div class="title">按照字母顺序</div>
+                        </dt>
+                        <dd>
+                            <ul id="citycontent">
+
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <!--//End 位置-->
+
+            </div>
+            <!--//End attribute-->
+        </div>
+    </div>
+    <!--//End filter_search -->
+
+
 
     <div class="container ipt_page">
         <div class="explain">
@@ -76,7 +160,8 @@
                    <div class="col2">
                       <div class="con">
                           <div class="txt">项目简介、基本信息、项目说明等， 辅助资料：包括录音、录像资料、代表性图片、证明材料、授权书，以及其他有关资料</div>
-                          <a href="javascript:logined('userinfoAdd.html')">申报非遗项目</a>
+                      <a href="javascript:logined('userinfoAdd.html')">申报非遗项目</a>
+                          <!--<a href="ichpro.html">申报非遗项目</a>-->
                       </div>
                    </div>
                     <div class="col2">
