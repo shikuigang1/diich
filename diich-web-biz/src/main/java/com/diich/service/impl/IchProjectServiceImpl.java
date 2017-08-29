@@ -74,32 +74,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         try {
             ichProject = ichProjectMapper.selectByPrimaryKey(Long.parseLong(id));
 
-
             if(ichProject != null) {
-                //获取传承人列表
-                List<IchMaster> ichMasterList = ichMasterService.getIchMasterByIchProjectId(Long.parseLong(id));
-
-                ichProject.setIchMasterList(ichMasterList);
-                //作品列表
-                List<Works> worksList =worksService.getWorksByIchProjectId(Long.parseLong(id));
-                ichProject.setWorksList(worksList);
-
-
-            //获取项目的field
-            List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
-            ichProject.setContentFragmentList(contentFragmentList);
-            //根据id和targetType和versionType查询中间表看是否有对应的版本
-            List<Version> versionList = null;
-            if("chi".equals(ichProject.getLang())){
-                versionList = versionService.getVersionByLangIdAndTargetType(ichProject.getId(), null, 0, 0);
+                ichProject = getIchProject(ichProject);
             }
-            if("eng".equals(ichProject.getLang())){
-                versionList = versionService.getVersionByLangIdAndTargetType(null, ichProject.getId(), 0, 0);
-            }
-            if(versionList.size()>0){
-                ichProject.setVersion( versionList.get(0));
-            }
-          }
         } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
@@ -338,7 +315,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
             }
         }
-        IchProject ichProject = getIchProjectById(id);
+        IchProject ichProject = ichProjectMapper.selectIchProjectById(id);
         ichProject = getIchProject(ichProject);//获取项目相关的其他信息
         if(ichProject !=null && (!ichProject.getLastEditorId().equals(user.getId())) || ( ichProject.getStatus() != null && ichProject.getStatus()==0)){
             ichProject.setLastEditorId(user.getId());
