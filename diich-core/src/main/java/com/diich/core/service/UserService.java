@@ -27,4 +27,5 @@ public interface UserService {
     //更新用户信息
     User updateUser(User user) throws Exception;
 
+    String getMailCode(String mail) throws Exception;
 }

@@ -59,7 +59,7 @@ public class UserController extends BaseController<User> {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_PHONE);
             return putDataToMap(ae);
         }
-        if("0".equals(type)){//0 注册时获取验证码  1密码重置获取验证码
+        if("0".equals(type)){//0 注册时获取验证码  1忘记密码获取验证码
             //检查手机号是否被占用
             List<User> userList = userService.checkUserByPhone(phone);
             if(userList.size()>0){
@@ -315,6 +315,13 @@ public class UserController extends BaseController<User> {
                return map;
             }
         }
+        if(!StringUtils.isEmpty(user.getLoginName())){//校验用户名
+            List<User> userList = userService.checkUser(user.getLoginName());
+            if(userList.size() > 0){
+                ApplicationException ae = new ApplicationException(ApplicationException.LOGNAME_USED);
+                return putDataToMap(ae);
+            }
+        }
         try{
             user.setId(user1.getId());
             user = userService.updateUser(user);
@@ -327,6 +334,76 @@ public class UserController extends BaseController<User> {
         return putDataToMap(user);
     }
 
+    @RequestMapping("updateMail")
+    @ResponseBody
+    public Map<String, Object> updateMail (HttpServletRequest request,HttpServletResponse response ,User user) throws Exception{
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        //判断用户是否登陆
+        User user1 = (User) WebUtil.getCurrentUser(request);
+        if(user1 == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        String code = request.getParameter("code");
+        String mail = user.getMail();
+        //判断验证码是否超时和正确
+        Map<String, Object> checkResult = checkVerifyCode(request.getSession(), mail, code);
+        if((int)checkResult.get("code") != 0){
+            return checkResult;
+        }
+        try{
+            user.setId(user1.getId());
+            user = userService.updateUser(user);
+            user = copyUser(user1, user);
+            HttpSession session = request.getSession();
+            session.setAttribute("CURRENT_USER",user);
+        }catch (Exception e){
+            return putDataToMap(e);
+        }
+        return putDataToMap(user);
+    }
+    @RequestMapping("getMailCode")
+    @ResponseBody
+    public Map<String, Object> getMailCode (HttpServletRequest request,HttpServletResponse response ,User user) throws Exception{
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        //判断用户是否登陆
+        User user1 = (User) WebUtil.getCurrentUser(request);
+        if(user1 == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        String mail = user.getMail();
+        if(StringUtils.isEmpty(mail)){
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        HttpSession session = request.getSession();
+        //验证码是否存在和是否超时
+        String begindate = (String) session.getAttribute("begindate"+mail);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(begindate !=null){
+            Date bdate = df.parse(begindate);
+            long time = (new Date().getTime() - bdate.getTime())/1000;
+            if(time>60){//验证码有效期1分钟
+                session.removeAttribute(mail);
+                session.removeAttribute("begindate"+mail);
+            }
+        }
+        String  code = (String) session.getAttribute(mail);
+        if(code !=null){
+            ApplicationException ae = new ApplicationException(ApplicationException.CODE_AGAIN);
+            return putDataToMap(ae);
+        }
+        try{
+            code = userService.getMailCode(mail);
+            //返回成功 将验证码和当前时间存入session
+            session.setAttribute(mail,code);
+            session.setAttribute("begindate"+mail,df.format(new Date()));
+        }catch(Exception e){
+            return putDataToMap(e);
+        }
+        return putDataToMap(code);
+    }
     /**
      * 更换手机号时验证手机号
      * @param phone
