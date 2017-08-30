@@ -59,13 +59,12 @@
             {{/equal}}
             {{#equal dataType 101}}
                 {{#equal id 23}}
-                  11 {{../../../pageObj}}
                      <div class="group">
                         <label class="label" for=""><!-- <em>*</em> -->{{cnName}}</label>
                         <div class="control">
                             <div id="declare" class="ipt w650 select" data-type="selectArea" value="" data-id="{{id}}" >请选择申报地</div>
-                            <div class="area" id="area" style="{{#ifAttribute pageObj.contentFragmentList id }}display: block;{{/ifAttribute}}" >
-                                <div class="select" id="select" style="{{#ifAttribute pageObj.contentFragmentList id }}display: none;{{/ifAttribute}}"></div>
+                            <div class="area" id="area" style="{{#ifAttribute ../../../pageObj.contentFragmentList id }}display: block;{{/ifAttribute}}" >
+                                <div class="select" id="select" style="{{#ifAttribute ../../../pageObj.contentFragmentList id }}display: none;{{/ifAttribute}}"></div>
                                 <div class="selected" id="selected">
                                     {{#each ../../../pageObj.contentFragmentList}}
                                         {{#equal attributeId 23}}

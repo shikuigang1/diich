@@ -433,6 +433,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 if(imgUrl) {
                     data.push({"name" : "img", "value" : imgUrl}); // 构建图片参数
                 }
+                data.push({"name" : "declare", "value" : declareCode.toString()}); // 构建三级联动参数
                 var params = buildParams(data, pageObj);
                 console.log("params --- >", params);
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
