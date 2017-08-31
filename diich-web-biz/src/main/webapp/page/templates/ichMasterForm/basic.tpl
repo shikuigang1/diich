@@ -125,10 +125,17 @@
                 </div>
             {{/equal}}
         {{/each}}
-         <div class="group">
+        <!-- <div class="group">
             <label class="label"><em>*</em>项目ID</label>
             <div class="control">
-                <input value="{{ichProjectId}}" validate="true" id="basic_pid" type="text" class="ipt w310">
+                <input value="{{ichProjectId}}" readonly="readonly" validate="true" id="basic_pid" type="text" class="ipt w310">
+                <div id="basic_pid_err" class="errors" style="display: none"><i></i>请填写证件号码</div>
+            </div>
+         </div> -->
+         <div class="group">
+            <label class="label"><em>*</em>所属项目</label>
+            <div class="control">
+                <input data-id="{{ichProjectId}}" value="{{ichProjectName}}" readonly="readonly" validate="true" id="basic_pid" type="text" class="ipt w310">
                 <div id="basic_pid_err" class="errors" style="display: none"><i></i>请填写证件号码</div>
             </div>
          </div>

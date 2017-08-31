@@ -16,14 +16,10 @@
     <script src="../js/i18n.js"></script>
 </head>
 
-<body style="background-color: rgb(245, 246, 247)">
-<div class="header fixed header_detail"></div>
-<!--//End header-->
-
+<body>
 <div class="container ipt_page">
     <div class="hd">
         <div class="bd create_project">
-            <div class="bd back"><a href="javascript:history.go(-1);"><i></i>返回</a></div>
             <div class="step1">
                 <div class="dt">搜索非遗项目</div>
                 <div class="dd">
@@ -66,27 +62,19 @@
                             </div>
                         </div>
                         <!--//End-->
-                        <div class="item" id="item2" >
-                            <div class="dt">若非遗国际尚未收录该项目：</div>
-                            <div class="dd">
-                                <a class="btn_create" href="javascript:void(0)" onclick="gotoCreate()">创建新项目</a>
-                            </div>
-                        </div>
+                        <!--<div class="item" id="item2" >-->
+                            <!--<div class="dt">若非遗国际尚未收录该项目：</div>-->
+                            <!--<div class="dd">-->
+                                <!--<a class="btn_create" href="javascript:void(0)" onclick="gotoCreate()">创建新项目</a>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </div>
             <!--//End 有模糊匹配-->
-
-
         </div>
     </div>
 </div>
-
-
-<div class="footer"></div>
-<!--//End-->
-
-
 
 </body>
 <script>
@@ -151,7 +139,9 @@
     function getHtml(data) {
         var html="";
         $.each(data,function(index,item){
-            html+="<a href='ichMasterForm.html?pid=" + item.id + "&pname=" + item.name + "'><li>";
+            console.log(" --- >", item)
+
+            html+="<li id='search_" + item.id +"' data-name='" + item.name + "' >";
             if(typeof(item.img)!="undefined"){
                 html+="<img src=\""+imgserver+"/image/project/"+item.img+"\" alt=\"\">";
             }else{
@@ -171,11 +161,17 @@
             if(typeof (item.dis) !="undefined"){
                 html+="<p><strong>地区：</strong><span>"+item.dis+"</span></p>";
             }
-            html+="</div></li></a>";
+            html+="</div></li>";
 
         });
         return html;
     }
+
+    // 往父页面传值
+    $("body").delegate("li[id^='search_']", "click", function(){
+//        console.log($(this).attr("id").split("_").pop(), $(this).attr("data-name"));
+        window.parent.oncloseWindow($(this).attr("id").split("_").pop(), $(this).attr("data-name"));
+    });
 </script>
 
 </html>
