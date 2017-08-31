@@ -36,16 +36,16 @@ public class ResourceServiceImpl extends BaseService<Resource> implements Resour
                 resource.setStatus(0);
                 //判断上传的文件类型 0图片 1 视频 2 音频
                 String sType = FileType.fileType(resource.getUri());
-                if("图片".equals(sType)){
+                if("image".equals(sType)){
                     resource.setType(0);
                 }
-                if("视频".equals(sType)){
+                if("vedio".equals(sType)){
                     resource.setType(1);
                 }
-                if("音乐".equals(sType)){
+                if("music".equals(sType)){
                     resource.setType(2);
                 }
-                if("文档".equals(sType)){
+                if("doc".equals(sType)){
                     resource.setType(3);
                 }
                 //保存resource
