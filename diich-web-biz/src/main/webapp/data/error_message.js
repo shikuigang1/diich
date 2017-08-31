@@ -73,5 +73,10 @@ var error_message=[
     code:14,
     msg:"新老手机号不能相同",
     enMsg:"Phone numbers can not be the same"
+    },
+    {
+    code:15,
+    msg:"用户名已被占用",
+    enMsg:"LoginName has used"
     }
 ];
