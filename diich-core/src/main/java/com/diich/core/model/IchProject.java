@@ -1,7 +1,6 @@
 package com.diich.core.model;
 
 import com.diich.core.base.BaseModel;
-import com.sun.tools.doclets.internal.toolkit.Content;
 
 import java.util.Date;
 import java.util.List;
