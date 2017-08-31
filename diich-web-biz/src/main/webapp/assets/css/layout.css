@@ -1168,7 +1168,7 @@ section.odd {
 
 .card .text_img .media {
     width: 370px;
-    float: right;
+    float: left;
 }
 
 .card .text_img .text_more {
