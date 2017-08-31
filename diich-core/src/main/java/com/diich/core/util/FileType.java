@@ -20,7 +20,7 @@ public class FileType {
                     "cdr", "pcd", "dxf", "ufo", "eps", "ai", "raw", "wmf" };
             for (int i = 0; i < img.length; i++) {
                 if (img[i].equals(fileType)) {
-                    return "图片";
+                    return "image";
                 }
             }
 
@@ -29,14 +29,14 @@ public class FileType {
             String document[] = { "txt", "doc", "docx", "xls", "htm", "html", "jsp", "rtf", "wpd", "pdf", "ppt" };
             for (int i = 0; i < document.length; i++) {
                 if (document[i].equals(fileType)) {
-                    return "文档";
+                    return "doc";
                 }
             }
             // 创建视频类型数组
             String video[] = { "mp4", "avi", "mov", "wmv", "asf", "navi", "3gp", "mkv", "f4v", "rmvb", "webm" };
             for (int i = 0; i < video.length; i++) {
                 if (video[i].equals(fileType)) {
-                    return "视频";
+                    return "vedio";
                 }
             }
             // 创建音乐类型数组
@@ -44,13 +44,13 @@ public class FileType {
                     "m4a", "vqf" };
             for (int i = 0; i < music.length; i++) {
                 if (music[i].equals(fileType)) {
-                    return "音乐";
+                    return "music";
                 }
             }
 
 
         }
-        return "其他";
+        return "other";
     }
 
     public static void main(String[] args) {
