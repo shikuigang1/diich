@@ -10,6 +10,7 @@ import com.diich.core.model.*;
 import com.diich.core.service.ContentFragmentService;
 import com.diich.core.service.OrganizationService;
 import com.diich.core.service.VersionService;
+import com.diich.core.util.AliOssUtil;
 import com.diich.core.util.BuildHTMLEngine;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
@@ -19,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.*;
 
 /**
@@ -115,6 +118,9 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             organization.setLastEditorId(user.getId());
             organization.setUri(id +".html");
             organization.setStatus(2);//草稿状态
+            if(user != null && user.getType() == 0){
+                organization.setStatus(0);
+            }
             organizationMapper.insertSelective(organization);
         }else{
             organizationMapper.updateByPrimaryKeySelective(organization);
@@ -127,8 +133,30 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
                 contentFragmentService.saveContentFragment(contentFragment);
             }
         }
+        if (user != null && user.getType() == 0){//管理员权限
+            organization = getAttribute(organization);//获取attribute
+            String str = PropertiesUtil.getString("freemarker.organizationfilepath");
+            String fileName = str+"/"+organization.getId().toString();
+            String s = buildHTML("organization.ftl", organization, fileName);//生成静态页面
+            String bucketName = PropertiesUtil.getString("img_bucketName");
+            String type = PropertiesUtil.getString("pc_ohtml_server");
+            File file = new File(fileName+".html");
+            AliOssUtil.uploadFile(new FileInputStream(file),bucketName,type+"/"+organization.getId()+".html",file.length());//上传到阿里云
+        }
     }
 
+    private Organization getAttribute(Organization organization) throws Exception{
+        List<ContentFragment> contentFragmentList = organization.getContentFragmentList();
+        if(contentFragmentList != null && contentFragmentList.size() > 0){
+            for (ContentFragment contentFragment : contentFragmentList) {
+                if(contentFragment.getAttribute() == null && contentFragment.getAttributeId() != null){
+                    Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
+                    contentFragment.setAttribute(attribute);
+                }
+            }
+        }
+        return  organization;
+    }
     /**
      * 生成静态页面
      * @param templateName

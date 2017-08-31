@@ -8,15 +8,21 @@ import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.Organization;
 import com.diich.core.model.User;
 import com.diich.core.service.OrganizationService;
+import com.diich.core.util.QRCodeGenerator;
 import com.diich.core.util.WebUtil;
+import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -174,4 +180,28 @@ public class OrganizationController extends BaseController<Organization>{
 
         return putDataToMap(page);
     }
+    @RequestMapping("/getImage")
+    public void exportQRCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String id=request.getParameter("id");
+        String url = "http://organization.efeiyi.com/o/"+ id +".html";
+        QRCodeGenerator qrCode = new QRCodeGenerator(url);
+        qrCode.createQRCode(108, 108);
+        BufferedImage bufferedImage = qrCode.getImageResult();
+        ServletOutputStream stream = response.getOutputStream();
+        byte[] buffer = getBuffer(bufferedImage);
+        stream.write(buffer);
+    }
+
+    public byte[] getBuffer(BufferedImage image){
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(bos);
+        try {
+            encoder.encode(image);
+        } catch(Exception e) {
+            return new byte[]{};
+        }
+        byte[] imageBts = bos.toByteArray();
+        return imageBts;
+    }
+
 }
