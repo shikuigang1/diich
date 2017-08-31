@@ -371,7 +371,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         });
         // 申报地址
         selectArea1.init(1, declareCode, function (data, dataText) {
-            console.log(data, dataText)
+            //console.log(data, dataText)
             declareCode = data.toString();
         })
 
@@ -442,7 +442,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 }
                 data.push({"name" : "declare", "value" : declareCode.toString()}); // 构建三级联动参数
                 var params = buildParams(data, pageObj);
-                console.log("params --- >", params);
+                //console.log("params --- >", params);
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
                     console.log("result === >", result,  JSON.stringify(result.res.data));
                     // 处理用户未登录
@@ -487,7 +487,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             var code = "";
             if(data.length > 0) {
                 $.each(data, function(i, v) {
-                    console.log(i, v);
+                    //console.log(i, v);
                     var dd = v.split(",");
                     if((i + 1) < data.length) {
                         code += dd[dd.length - 1] + ",";
@@ -509,7 +509,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         function onSave() {
             $("#contactForm").off("click");
             var data = $("#contactForm").serializeArray();
-            console.log("data --- >", data);
+            //console.log("data --- >", data);
             var status = true, errNum = 0;
             // 验证
             $.each(data, function(i, v) {
@@ -542,9 +542,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 // 可以提交
                 data.push({"name" : "live", "value" : addressCode.toString()}); // 构建三级联动参数
                 var params = buildParams(data, pageObj);
-                console.log("params --- >", params);
+                //console.log("params --- >", params);
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                    console.log("result === >", result,  JSON.stringify(result.res.data));
+                    //console.log("result === >", result,  JSON.stringify(result.res.data));
                     // 处理用户未登录
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
@@ -574,10 +574,10 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         function onSave() {
             var data = $("#vocationForm").serializeArray();
             var params = buildParams(data, pageObj);
-            console.log("params -- >", params);
+            //console.log("params -- >", params);
             // 发送请求
             _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
+                //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
                 if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                     targetId = result.res.data.id;
                     _onMergeObj(result.res.data);
@@ -607,7 +607,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             //$("#master_active").off("click");
             var data = $("#masterForm").serializeArray();
             var params = buildParams(data, pageObj);
-            console.log("params -- >", params);
+            //console.log("params -- >", params);
             _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
                 //console.log("result ---- >", result, JSON.stringify(result.res.data));
                 if(result.res.code == 0 && result.res.msg == "SUCCESS") {
@@ -650,9 +650,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             status = errNum > 0 ? false : true;
             if(status) {
                 var params = _getResumeFormData($textarea);
-                console.log("params --- >", params);
+                //console.log("params --- >", params);
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
+                    //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
                         _onMergeObj(result.res.data); // 保存成功存储服务器返回数据
@@ -677,7 +677,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         // 删除
         function _onDelete($this) {
             var did = sonterms.sonTerms[0].id;
-            console.log("id === ", id);
+            //console.log("id === ", id);
             $this.off("click");
             var obj = {};
             var index = 0; // 记录删除对象在pageObj中对应的索引位置
@@ -695,7 +695,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             // 如果obj属性大于0 则表示有数据
             if(Object.getOwnPropertyNames(obj).length > 0) {
                 _onRequest("POST", "/contentFragment/deleteContentFragment", {params: JSON.stringify(obj)}).then(function(result) {
-                    console.log("result --- >", result);
+                    //console.log("result --- >", result);
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         _emptyMod(); // 清空MOD层数据
                         // 删除pageObj中对应的对象
@@ -779,9 +779,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             var p = {name: "customContent", value: $("#customContent").val(), coustomName: $("#customName").val()};
             if(status) {
                 var params = getCustomFormData(p);
-                console.log("params --- >", params);
+                //console.log("params --- >", params);
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
+                    //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
                         var fag = false;
@@ -802,12 +802,12 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                             var arrLi = $this.next(".dd").children("ul").children("li:last-child");
                             var mid = "menutwo_" + $this.attr("id").split("_").pop() + "_";
                             if(arrLi.length > 0) {
-                                console.log(arrLi.attr("id").split("_").pop())
+                                //console.log(arrLi.attr("id").split("_").pop())
                                 mid += parseInt(arrLi.attr("id").split("_").pop()) + 1;
                             } else {
                                 mid += "0";
                             }
-                            console.log("mid --- >", mid);
+                            //console.log("mid --- >", mid);
                             $this.next(".dd").children("ul").append(Handlebars.compile(menuTpl)({mid: mid, name: data[0]["value"], menuId: result.res.data.contentFragmentList[0].attributeId}));
                             $("#" + mid).children("i").addClass("selected").removeClass("unselected");
                         }
@@ -860,9 +860,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
             // 如果obj属性大于0 则表示有数据
             if(Object.getOwnPropertyNames(obj).length > 0) {
-                console.log("obj --- >", obj);
+                //console.log("obj --- >", obj);
                 _onRequest("POST", "/contentFragment/deleteContentFragment", {params: JSON.stringify(obj)}).then(function(result) {
-                    console.log("result --- >", result);
+                    //console.log("result --- >", result);
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         _emptyMod(); // 清空MOD层数据
                         // 删除pageObj中对应的对象
@@ -955,10 +955,10 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 default:
                     break;
             }
-            console.log("params --- >", params);
+            //console.log("params --- >", params);
             if(params != "") {
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
+                    //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
                         _onMergeObj(result.res.data);
@@ -992,7 +992,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             $("#preview").off("click");
             if($this.hasClass("empty")) {
                 _onRequest("POST", "/ichMaster/preview", {params: targetId}).then(function(result) {
-                    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
+                    //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         window.open(result.data);
                         _bindingSave();
@@ -1029,16 +1029,16 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 $("a[id^='onSend_']").off("click"); //解绑点击事件
                 pageObj.status = 3; // 状态修改为提交状态
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(pageObj) }).then(function(result) {
-                    console.log("result === >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
+                    //console.log("result === >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
                     // 处理用户未登录
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         //alert("提交成功");
                         window.location.href = "ichMasterOver.html"; // 跳转成功页面
                         _bindingSave(); // 重新绑定
                     } else {
-                        if(result.res.code != 3) {
-                            tipBox.init("fail", result.res.msg, 1500);
-                        }
+
+                        tipBox.init("fail", result.res.msg, 1500);
+
                         _bindingSave(); // 重新绑定
                     }
                 });
@@ -1079,15 +1079,19 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         new Promise(function(resolv, reject) {
             try{
                 if(resData.contentFragmentList.length > 0) {
+                    var num = 0;
                     $.each(resData.contentFragmentList,function(i, v) {
                         if(v.content != "" || v.resourceList.length > 0) {
-                            $("#" + id).removeClass("selected").children("i").addClass("selected").removeClass("unselected").removeClass("unselected2"); // 添加已完成效果
-                            return false;
-                        } else {
-                            $("#" + id).removeClass("selected").children("i").addClass("unselected2").removeClass("unselected"); // 添加已完成效果
-                            return false;
+                            num++;
                         }
                     })
+
+                    if(num > 0) {
+                        $("#" + id).removeClass("selected").children("i").addClass("selected").removeClass("unselected").removeClass("unselected2"); // 添加已完成效果
+                    } else {
+                        $("#" + id).removeClass("selected").children("i").addClass("unselected2").removeClass("unselected"); // 添加已完成效果
+                        return false;
+                    }
                 } else {
                     $("#" + id).removeClass("selected").children("i").addClass("unselected2").removeClass("unselected"); // 添加已完成效果
                 }
@@ -1333,7 +1337,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             })
             return res;
         }
-        console.log("pageObj --- >", pageObj)
+        //console.log("pageObj --- >", pageObj)
     }
 
     /**
@@ -1345,12 +1349,36 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
      */
     function _onRequest(mode, url, params) {
         return new Promise(function (resolve, reject) {
+            //
+            //
+            //// 统一处理 ajax获取数据code != 0的自定义异常
+            //$(document).ajaxSuccess(function(e, x, o){
+            //    // o为ajax请求本身 x.responseJSON是返回结果
+            //    console.log("e --- >", e);
+            //    console.log("x --- >", x);
+            //    console.log("o --- >", o);
+            //
+            //    if(x.responseJSON.code != 0) {
+            //        console.log("登录")
+            //    }
+            //});
+            //
+            //// 设置AJAX的全局默认选项
+            //$.ajaxSetup({
+            //    async: false,
+            //    dataType: "json",
+            //    error: function (xhr, status, e) {
+            //        console.log(xhr, status, e)
+            //    },
+            //});
+
             $.ajax({
                 type: mode,
                 url: url,
                 data: params, // {params: JSON.stringify(params)}
-                dataType: "json",
-                async: false,
+                error: function (err) {
+                    reject(err)
+                },
                 success: function (res) {
                     if(res.code == 0) {
                         resolve({res: res })
@@ -1358,9 +1386,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                         resolve({res: res ? res : null})
                     }
                 },
-                error: function (err) {
-                    reject(err)
-                }
             });
         })
     }
@@ -1391,7 +1416,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         }
         return format;
     }
-
 
     return {
         init: _init,

@@ -38,10 +38,10 @@
                             <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
                             <div class="control">
                                 <select id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" class="ipt w310" name="">
-                                    <option value="0">身份证</option>
-                                    <option value="1">签证</option>
-                                    <option value="2">护照</option>
-                                    <option value="3">军人证</option>
+                                    <option value="身份证">身份证</option>
+                                    <option value="签证">签证</option>
+                                    <option value="护照">护照</option>
+                                    <option value="军人证">军人证</option>
                                 </select>
                                 <div class="errors" style="display: none"><i></i>请填写证件类型</div>
                             </div>
@@ -84,7 +84,9 @@
                         <div class="control">
                             <select id="basic_{{id}}" name= "basic_{{id}}" data-id="{{id}}" class="ipt w310">
                                 {{#each ../../../countrys}}
-                                    <option {{#onGj ../../../../pageObj.contentFragmentList code ../id }}selected="selected"{{/onGj}} code="{{code}}" value="{{code}}">{{name}}</option>
+                                    {{#if code}}
+                                        <option {{#onGj ../../../../pageObj.contentFragmentList code ../id }}selected="selected"{{/onGj}} code="{{code}}" value="{{code}}">{{name}}</option>
+                                    {{/if}}
                                 {{/each}}
                             </select>
                             <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填写国籍</div>
