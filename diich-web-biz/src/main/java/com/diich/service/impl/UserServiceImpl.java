@@ -8,6 +8,7 @@ import com.diich.core.model.User;
 import com.diich.core.service.UserService;
 import com.diich.core.util.IdGenerator;
 import com.diich.core.util.SecurityUtil;
+import com.diich.core.util.SendMailUtil;
 import com.diich.core.util.SendMsgUtil;
 import com.diich.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,7 +116,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
            }
 
            if(userList.size() >0){
-               throw new ApplicationException(ApplicationException.PARAM_ERROR);
+               throw new ApplicationException(ApplicationException.LOGNAME_USED);
            }
 
            try{
@@ -126,7 +127,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
            }
 
            if(users.size() > 0){
-               throw new ApplicationException(ApplicationException.PARAM_ERROR);
+               throw new ApplicationException(ApplicationException.PHONE_USED);
            }
 
            try {
@@ -169,5 +170,21 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         return user;
+    }
+
+    @Override
+    public String getMailCode(String mail) throws Exception {
+        String code =null;
+        try{
+            code = IdGenerator.gensalt_num(4);
+            String txt="您的邮箱证码为："+code+"，60秒之内有效。请不要把验证码泄漏给其他人，如非本人操作请忽略。";
+            String subject="邮箱验证码";
+            //发送信息
+            SendMailUtil.send(txt,mail,subject);
+        }catch(Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+
+        return code;
     }
 }
