@@ -164,7 +164,7 @@
   <select id="selectByIchProjectId" parameterType="java.lang.Long" resultMap="BaseResultMap">
   select
     <include refid="Base_Column_List" />
-   from ich_master where ich_project_id = #{ichProjectId,jdbcType=BIGINT} and status != 1
+   from ich_master where ich_project_id = #{ichProjectId,jdbcType=BIGINT} and status = 0
   </select>
   <select id="selectMasterById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
