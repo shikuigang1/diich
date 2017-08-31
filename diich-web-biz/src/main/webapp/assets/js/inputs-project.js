@@ -278,20 +278,24 @@ function  saveCustom(next) {
     contentFragment.attribute=attr;
     contentFragment.targetId=getCurrentProject().id;
 
+
+    var ich = getCurrentProject();
+    ich.contentFragmentList.push(contentFragment);
    // console.log(JSON.stringify(contentFragment));
     $.ajax({
         type: "POST",
-        url: "../contentFragment/saveContentFragment",
-        data:{params:JSON.stringify(contentFragment)} ,
+        //url: "/contentFragment/saveContentFragment",
+        url: " /ichProject/saveIchProject",
+        data:{params:JSON.stringify(ich)} ,
         dataType: "json",
         async:false,
         complete: function () { },
         success: function (result) {
             console.log(result);
             if(result.code==0){
-                var ich = getCurrentProject();
-                ich.contentFragmentList.push(result.data);
-                localStorage.setItem("ichProject",JSON.stringify(ich));
+               /* var ich = getCurrentProject();
+                ich.contentFragmentList.push(result.data);*/
+                localStorage.setItem("ichProject",JSON.stringify(result.data));
                 //根据分类重新初始化 左侧菜单
                 init3(result.data.targetId);
                 if(next==1){
