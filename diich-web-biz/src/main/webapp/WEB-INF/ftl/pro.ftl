@@ -572,16 +572,16 @@
                             </#if>
                         </h4></header>
                         <article class="text_img">
-                            <div class="side">
+                            <#if cf.content?? && cf.content != "">
+                            <div class="side" style="margin-right:30px;">
                                 <div class="item">
                                     <p class="data-item" data-id="${cf.attributeId}">
-                                        <#if cf.content??>
-                                           <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
-                                             ${content}
-                                        </#if>
+                                       <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
+                                         ${content}
                                     </p>
                                 </div>
                             </div>
+                            </#if>
                             <div class="media">
                                 <ul>
                                     <#list cf.resourceList as r>

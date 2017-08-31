@@ -428,16 +428,16 @@
                     <div class="card" data-id="${cf.id?c}">
                         <header><h4>${cf.attribute.cnName} </h4></header>
                         <article class="text_img">
-                            <div class="side">
-                                <div class="item">
-                                    <p>
-                                        <#if cf.content??>
-                                        <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
-                                        ${content}
-                                        </#if>
-                                    </p>
+                            <#if cf.content??>
+                                <div class="side" style="margin-right:30px;">
+                                    <div class="item">
+                                        <p>
+                                            <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
+                                            ${content}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
+                            </#if>
                             <div class="media">
                                 <ul>
                                     <#list cf.resourceList as r>
