@@ -8,6 +8,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     var pageObj = {}; // 页面缓存对象
     var targetId = "";
     var ichProjectId = getQueryString("pid"); // 所属项目ID
+    var ichProjectName = getQueryString("pname"); // 所属项目ID
     var addressCode = ""; // 联系方式信息模板居住地址code值
     var declareCode = ""; // 申报地址
     var ossImgPash = "http://diich-resource.oss-cn-beijing.aliyuncs.com/image/master/"; // oss图片地址存放地址
@@ -344,7 +345,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 }
             })
         }
-        $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, pageObj : pageObj, fyGrade: fyGrade})); // 更新页面模板
+        $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, ichProjectName: ichProjectName, pageObj : pageObj, fyGrade: fyGrade})); // 更新页面模板
         // 上传图片
         upload.submit($('.horizontal .group .control .file_up'),1,'/user/uploadFile?type=master',function (res) {
             //console.log("res -- >", res);
@@ -373,6 +374,13 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             console.log(data, dataText)
             declareCode = data.toString();
         })
+
+        // 選擇項目
+        $("#basic_pid").on("click", function() {
+            var d = dialog({id: "project", width: 800, height: 500, fixed: true, hide:true, title: '搜索非遗项目', content: $('#ff'), modal:true});
+            d.show();
+        })
+
         // 下一步监听
         _bindingSave();
         function _bindingSave() {
@@ -380,7 +388,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 _onSave();
             })
         }
-
         function _onSave() {
             $("#basicForm").off("click");
             var data = $("#basicForm").serializeArray();
@@ -452,6 +459,16 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 });
             }
         }
+    }
+
+    // 关闭窗口
+    function _closeWindow(id, name) {
+        //console.log("关闭窗口", id, name);
+        ichProjectId = id;
+        ichProjectName = name;
+        $("#basic_pid").val(name);
+        $("#basic_pid").attr("data-id", id);
+        dialog.list['project'].close(); // 关闭窗口
     }
 
     // 联系方式模板
@@ -1377,7 +1394,8 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
 
     return {
-        init: _init
+        init: _init,
+        closeWindow: _closeWindow
     }
 })
 
