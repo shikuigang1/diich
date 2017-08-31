@@ -285,7 +285,7 @@ function  saveCustom(next) {
     $.ajax({
         type: "POST",
         //url: "/contentFragment/saveContentFragment",
-        url: " /ichProject/saveIchProject",
+        url: "/ichProject/saveIchProject",
         data:{params:JSON.stringify(ich)} ,
         dataType: "json",
         async:false,
