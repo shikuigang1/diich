@@ -102,17 +102,18 @@ function  saveOrganization() {
         var path = $(".preview").attr("src");
         if(path != ""){
             path = path.substring(path.lastIndexOf("/")+1);
+            contentFragment.content=path;
+
+            var resource={};
+            var resourceList=[];
+            resource.uri=path;
+            resource.type=0;
+            resource.description='';
+            resourceList.push(resource);
+            contentFragment.resourceList=resourceList;
         }
 
-        contentFragment.content=path;
 
-        var resource={};
-        var resourceList=[];
-        resource.uri=path;
-        resource.type=0;
-        resource.description='';
-        resourceList.push(resource);
-        contentFragment.resourceList=resourceList;
         contentFragment.targetType=3;
         contentFragmentList.push(cloneObj(contentFragment));
 
@@ -771,17 +772,17 @@ function  saveOrganiztionOnTop() {
         var path = $(".preview").attr("src");
         if(path != ""){
             path = path.substring(path.lastIndexOf("/")+1);
+            contentFragment.content=path;
+
+            var resource={};
+            var resourceList=[];
+            resource.uri=path;
+            resource.type=0;
+            resource.description='';
+            resourceList.push(resource);
+            contentFragment.resourceList=resourceList;
         }
 
-        contentFragment.content=path;
-
-        var resource={};
-        var resourceList=[];
-        resource.uri=path;
-        resource.type=0;
-        resource.description='';
-        resourceList.push(resource);
-        contentFragment.resourceList=resourceList;
         contentFragment.targetType=3;
         contentFragmentList.push(cloneObj(contentFragment));
 
