@@ -297,7 +297,7 @@ function  saveCustom(next) {
                 ich.contentFragmentList.push(result.data);*/
                 localStorage.setItem("ichProject",JSON.stringify(result.data));
                 //根据分类重新初始化 左侧菜单
-                init3(result.data.targetId);
+                init3(result.data.id);
                 if(next==1){
                     $("#attrName").val("");
                     $("#longContent").val("");
