@@ -64,14 +64,14 @@ public class OrganizationController extends BaseController<Organization>{
     @RequestMapping("getOrganizationById")
     @ResponseBody
     public Map<String, Object> getOrganizationById(HttpServletRequest request,HttpServletResponse response) {
-        String id = request.getParameter("params");
-        if(id == null || "".equals(id)) {
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return putDataToMap(ae);
-        }
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        String id = request.getParameter("params");
+        if(id == null || "".equals(id)) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
         Organization organization = null;
@@ -87,6 +87,12 @@ public class OrganizationController extends BaseController<Organization>{
     @RequestMapping("saveOrganization")
     @ResponseBody
     public Map<String, Object> saveOrganization (HttpServletRequest request, HttpServletResponse response) throws Exception{
+
+        User user = (User) WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
         String params = request.getParameter("params");
         Organization organization = null;
 
@@ -94,12 +100,6 @@ public class OrganizationController extends BaseController<Organization>{
             organization = parseObject(params, Organization.class);
         } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return putDataToMap(ae);
-        }
-
-        User user = (User) WebUtil.getCurrentUser(request);
-        if(user == null) {
-            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
         try {
@@ -155,6 +155,11 @@ public class OrganizationController extends BaseController<Organization>{
     @ResponseBody
     public Map<String, Object> getOrganizationByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setHeader("Access-Control-Allow-Origin", "*");
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
         Map<String, Object> params = new HashMap<>();
         String param = request.getParameter("params");
         try{
@@ -163,11 +168,6 @@ public class OrganizationController extends BaseController<Organization>{
             }
         }catch (Exception e){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return putDataToMap(ae);
-        }
-        User user = (User)WebUtil.getCurrentUser(request);
-        if(user == null) {
-            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
         params.put("userId",user.getId());

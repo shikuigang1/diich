@@ -116,6 +116,11 @@ public class IchMasterController extends BaseController<IchMaster>{
     @RequestMapping("saveIchMaster")
     @ResponseBody
     public Map<String, Object> saveIchMaster(HttpServletRequest request,HttpServletResponse response) {
+        User user = (User) WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
         String params = request.getParameter("params");
         IchMaster ichMaster = null;
 
@@ -123,12 +128,6 @@ public class IchMasterController extends BaseController<IchMaster>{
             ichMaster = parseObject(params, IchMaster.class);
         } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return putDataToMap(ae);
-        }
-
-        User user = (User) WebUtil.getCurrentUser(request);
-        if(user == null) {
-            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
 
@@ -179,6 +178,11 @@ public class IchMasterController extends BaseController<IchMaster>{
     @ResponseBody
     public Map<String, Object> getIchMasterByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setHeader("Access-Control-Allow-Origin", "*");
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
         Map<String, Object> params = new HashMap<>();
         String param = request.getParameter("params");
         try{
@@ -187,11 +191,6 @@ public class IchMasterController extends BaseController<IchMaster>{
             }
         }catch (Exception e){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return putDataToMap(ae);
-        }
-        User user = (User)WebUtil.getCurrentUser(request);
-        if(user == null) {
-            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
         params.put("userId",user.getId());
@@ -215,6 +214,11 @@ public class IchMasterController extends BaseController<IchMaster>{
     @RequestMapping("delete")
     @ResponseBody
     public Map<String, Object> delete(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
         String id = request.getParameter("params");
         if(id == null){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
