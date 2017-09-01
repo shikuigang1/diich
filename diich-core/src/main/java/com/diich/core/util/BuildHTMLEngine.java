@@ -40,12 +40,11 @@ public class BuildHTMLEngine {
         Map dataMap = new HashMap<>();
         dataMap.put("obj",entity);
         dataMap.put("json",map);
-        String outPutPath = outputFileName + ".html";
-        Writer out =  new OutputStreamWriter(new FileOutputStream(outPutPath),"utf-8");
+        Writer out =  new OutputStreamWriter(new FileOutputStream(outputFileName),"utf-8");
         template.process(dataMap, out);
         out.flush();
         out.close();
-        return outPutPath;
+        return outputFileName;
     }
 
     /**

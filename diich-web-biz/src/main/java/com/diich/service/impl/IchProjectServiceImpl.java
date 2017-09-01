@@ -230,11 +230,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         if (user != null && user.getType() == 0){//管理员权限
             ichProject = getAttribute(ichProject);//获取attribute
             String str = PropertiesUtil.getString("freemarker.projectfilepath");
-            String fileName = str+"/"+ichProject.getId().toString();
+            String fileName = str+"/"+ichProject.getId().toString() + ".html";
             String s = buildHTML("pro.ftl", ichProject, fileName);//生成静态页面
             String bucketName = PropertiesUtil.getString("img_bucketName");
             String type = PropertiesUtil.getString("pc_phtml_server");
-            File file = new File(fileName+".html");
+            File file = new File(fileName);
             AliOssUtil.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichProject.getId()+".html",file.length());//上传到阿里云
         }
         return ichProject;
@@ -379,8 +379,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Override
     public String preview(Long id) throws Exception {
         IchProject ichProject = getIchProjectById(id);
-        String fileName = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId().toString();
         String str = PropertiesUtil.getString("freemarker.projectfilepath");
+        String fileName = str + "/" + ichProject.getId().toString() + ".html";
         String url = str.substring(str.lastIndexOf("/"));
         String s = buildHTML("preview_pro.ftl", ichProject, fileName);
         String uri = "." + url + "/" + id + ".html";
@@ -448,7 +448,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
            Map<String,Object> resultMap = new HashMap<String,Object>();
 
            Long id= (Long)ls.get(i).get("id");
-           resultMap.put("id",id);
+           resultMap.put("id",String.valueOf(id));
            resultMap.put("name",ls.get(i).get("name"));
            String lang = ls.get(i).get("lang").toString();
 

@@ -207,11 +207,11 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         if (user != null && user.getType() == 0){//管理员权限
             ichMaster = getAttribute(ichMaster);
             String str = PropertiesUtil.getString("freemarker.masterfilepath");
-            String fileName = str+"/"+ichMaster.getId().toString();
+            String fileName = str+"/"+ichMaster.getId().toString() + ".html";
             String s = buildHTML("master.ftl", ichMaster, fileName);//生成静态页面
             String bucketName = PropertiesUtil.getString("img_bucketName");
             String type = PropertiesUtil.getString("pc_mhtml_server");
-            File file = new File(fileName+".html");
+            File file = new File(fileName);
             AliOssUtil.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichMaster.getId()+".html",file.length());//上传到阿里云
         }
         return ichMaster;
@@ -304,8 +304,8 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             Long ichProjectId = ichMaster.getIchProjectId();
             IchProject ichProject = ichProjectService.getIchProjectById(ichProjectId);
             ichMaster.setIchProject(ichProject);
-            String fileName = PropertiesUtil.getString("freemarker.masterfilepath")+"/"+ichMaster.getId().toString();
             String str = PropertiesUtil.getString("freemarker.masterfilepath");
+            String fileName = str + "/" + ichMaster.getId().toString() + ".html";
             String url = str.substring(str.lastIndexOf("/"));
             String s = buildHTML("preview_master.ftl", ichMaster, fileName);
             String uri = "." + url + "/" + id + ".html";
