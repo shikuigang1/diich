@@ -52,12 +52,13 @@ public class OperateFileUtil {
 
                     String fileUrl = "http://diich-resource.oss-cn-beijing.aliyuncs.com/" + url.toString();
                     //将图片上传至阿里云
-                    /*boolean bool = SimpleUpload.uploadFile(file, "diich-resource", url.toString());
 
-                    if(bool) {
-                        list.add(fileUrl);
-                    }*/
-                    boolean bool = MultipartUpload.fileUpload(file, url.toString());
+                    boolean bool;
+                    if(contentType.indexOf("video") > -1) {
+                        bool = MultipartUpload.fileUpload(file, url.toString());
+                    } else {
+                        bool = SimpleUpload.uploadFile(file, url.toString());
+                    }
 
                     if(bool) {
                         list.add(fileUrl);

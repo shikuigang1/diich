@@ -29,8 +29,10 @@ public class SimpleUpload {
     private static String accessKeyId = "maTnALCpSvWjxyAy";
     private static String accessKeySecret = "0Ou6P67WhuSHESKrwJClFqCKo5BuBf";
 
-    public static Boolean uploadFile(MultipartFile multipartFile, String bucketName, String key) throws IOException {
+    public static Boolean uploadFile(MultipartFile multipartFile, String key) throws IOException {
         OSSClient client = new OSSClient(PropertiesUtil.getString("img_Server_Path"),PropertiesUtil.getString("accessKeyId") , PropertiesUtil.getString("accessKeySecret"));
+
+        String bucketName = PropertiesUtil.getString("img_bucketName");
 
         // 获取Bucket的存在信息
         boolean exists = client.doesBucketExist(bucketName);
@@ -54,11 +56,7 @@ public class SimpleUpload {
         // 上传Object.
         PutObjectResult result = client.putObject(bucketName, key, content, meta);
 
-        // 打印ETag
-        System.out.println(result.getETag());
-
         return true;
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
 
