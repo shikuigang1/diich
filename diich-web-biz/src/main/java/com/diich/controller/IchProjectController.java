@@ -127,17 +127,17 @@ public class IchProjectController extends BaseController<IchProject> {
     @ResponseBody
     public Map<String, Object> saveIchProject(HttpServletRequest request,HttpServletResponse response) {
         response.setContentType("text/html;charset=UTF-8");
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
         String params = request.getParameter("params");
         IchProject ichProject = null;
         try {
             ichProject = parseObject(params, IchProject.class);
         } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return putDataToMap(ae);
-        }
-        User user = (User)WebUtil.getCurrentUser(request);
-        if(user == null) {
-            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
 
@@ -207,7 +207,6 @@ public class IchProjectController extends BaseController<IchProject> {
     @ResponseBody
     public Map<String, Object> preview(HttpServletRequest request, HttpServletResponse response) throws Exception{
 
-       // System.out.println("----------------------------:"+request.getServletContext().getRealPath("/"));
         String id = request.getParameter("params");
         if(id == null || "".equals(id)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
@@ -234,6 +233,11 @@ public class IchProjectController extends BaseController<IchProject> {
     @ResponseBody
     public Map<String, Object> getIchProjectByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setHeader("Access-Control-Allow-Origin", "*");
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
         Map<String, Object> params = new HashMap<>();
         String param = request.getParameter("params");
         try{
@@ -242,11 +246,6 @@ public class IchProjectController extends BaseController<IchProject> {
             }
         }catch (Exception e){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return putDataToMap(ae);
-        }
-        User user = (User)WebUtil.getCurrentUser(request);
-        if(user == null) {
-            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
         params.put("userId",user.getId());
@@ -263,14 +262,14 @@ public class IchProjectController extends BaseController<IchProject> {
     @RequestMapping("audit")
     @ResponseBody
     public Map<String, Object> audit(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        String id = request.getParameter("params");
-        if(id == null){
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return putDataToMap(ae);
-        }
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        String id = request.getParameter("params");
+        if(id == null){
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
         try{
@@ -291,6 +290,11 @@ public class IchProjectController extends BaseController<IchProject> {
     @RequestMapping("delete")
     @ResponseBody
     public Map<String, Object> delete(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
         String id = request.getParameter("params");
         if(id == null){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);

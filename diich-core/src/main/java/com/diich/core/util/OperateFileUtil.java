@@ -1,6 +1,5 @@
 package com.diich.core.util;
 
-import org.apache.commons.fileupload.FileItem;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -53,7 +52,12 @@ public class OperateFileUtil {
 
                     String fileUrl = "http://diich-resource.oss-cn-beijing.aliyuncs.com/" + url.toString();
                     //将图片上传至阿里云
-                    boolean bool = AliOssUtil.uploadFile(file, "diich-resource", url.toString());
+                    /*boolean bool = SimpleUpload.uploadFile(file, "diich-resource", url.toString());
+
+                    if(bool) {
+                        list.add(fileUrl);
+                    }*/
+                    boolean bool = MultipartUpload.fileUpload(file, url.toString());
 
                     if(bool) {
                         list.add(fileUrl);

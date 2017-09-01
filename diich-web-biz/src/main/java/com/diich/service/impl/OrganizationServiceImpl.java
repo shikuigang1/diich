@@ -10,7 +10,7 @@ import com.diich.core.model.*;
 import com.diich.core.service.ContentFragmentService;
 import com.diich.core.service.OrganizationService;
 import com.diich.core.service.VersionService;
-import com.diich.core.util.AliOssUtil;
+import com.diich.core.util.SimpleUpload;
 import com.diich.core.util.BuildHTMLEngine;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
@@ -136,12 +136,12 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         if (user != null && user.getType() == 0){//管理员权限
             organization = getAttribute(organization);//获取attribute
             String str = PropertiesUtil.getString("freemarker.organizationfilepath");
-            String fileName = str+"/"+organization.getId().toString();
+            String fileName = str+"/"+organization.getId().toString() + ".html";
             String s = buildHTML("organization.ftl", organization, fileName);//生成静态页面
             String bucketName = PropertiesUtil.getString("img_bucketName");
             String type = PropertiesUtil.getString("pc_ohtml_server");
-            File file = new File(fileName+".html");
-            AliOssUtil.uploadFile(new FileInputStream(file),bucketName,type+"/"+organization.getId()+".html",file.length());//上传到阿里云
+            File file = new File(fileName);
+            SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+organization.getId()+".html",file.length());//上传到阿里云
         }
     }
 
@@ -186,8 +186,8 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
     public String preview(long id) throws Exception {
         try{
             Organization organization = getOrganizationById(id);
-            String fileName = PropertiesUtil.getString("freemarker.organizationfilepath")+"/"+organization.getId().toString();
             String str = PropertiesUtil.getString("freemarker.organizationfilepath");
+            String fileName = str + "/" +organization.getId().toString() + ".html";
             String url = str.substring(str.lastIndexOf("/"));
             String s = buildHTML("preview_organization.ftl", organization, fileName);
             String uri = "." + url + "/" + id + ".html";

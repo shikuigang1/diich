@@ -5,12 +5,9 @@ import com.aliyun.openservices.oss.OSSException;
 import com.aliyun.openservices.oss.model.*;
 import com.aliyun.oss.ClientException;
 import com.diich.core.support.cache.JedisHelper;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +20,7 @@ import java.util.Map;
  * Time: 下午3:04
  * To change this template use File | Settings | File Templates.
  */
-public class AliOssUtil {
+public class SimpleUpload {
 
     //存放文件下载进度
     public static Map<String, String> processMap = new HashMap<String, String>();
@@ -32,7 +29,7 @@ public class AliOssUtil {
     private static String accessKeyId = "maTnALCpSvWjxyAy";
     private static String accessKeySecret = "0Ou6P67WhuSHESKrwJClFqCKo5BuBf";
 
-    public static Boolean uploadFile(MultipartFile multipartFile, String bucketName, String uploadName) throws IOException {
+    public static Boolean uploadFile(MultipartFile multipartFile, String bucketName, String key) throws IOException {
         OSSClient client = new OSSClient(PropertiesUtil.getString("img_Server_Path"),PropertiesUtil.getString("accessKeyId") , PropertiesUtil.getString("accessKeySecret"));
 
         // 获取Bucket的存在信息
@@ -55,7 +52,7 @@ public class AliOssUtil {
         meta.setContentLength(multipartFile.getSize());
 
         // 上传Object.
-        PutObjectResult result = client.putObject(bucketName, uploadName, content, meta);
+        PutObjectResult result = client.putObject(bucketName, key, content, meta);
 
         // 打印ETag
         System.out.println(result.getETag());
