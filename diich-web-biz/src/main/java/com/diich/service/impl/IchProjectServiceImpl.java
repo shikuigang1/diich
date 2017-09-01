@@ -8,7 +8,7 @@ import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
 import com.diich.core.service.*;
-import com.diich.core.util.AliOssUtil;
+import com.diich.core.util.SimpleUpload;
 import com.diich.core.util.BuildHTMLEngine;
 import com.diich.core.util.FileType;
 import com.diich.core.util.PropertiesUtil;
@@ -235,7 +235,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             String bucketName = PropertiesUtil.getString("img_bucketName");
             String type = PropertiesUtil.getString("pc_phtml_server");
             File file = new File(fileName);
-            AliOssUtil.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichProject.getId()+".html",file.length());//上传到阿里云
+            SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichProject.getId()+".html",file.length());//上传到阿里云
         }
         return ichProject;
     }
