@@ -23,7 +23,7 @@ import com.aliyun.oss.model.UploadPartResult;
 /**
  * Created by Administrator on 2017/8/31.
  */
-public class AliyunOSSUpload implements Runnable {
+public class UploadPart implements Runnable {
     private MultipartFile localFile;
     private long startPos;
 
@@ -52,14 +52,14 @@ public class AliyunOSSUpload implements Runnable {
      * @param key
      *            上传到OSS后的文件名
      */
-    public AliyunOSSUpload(MultipartFile localFile, long startPos, long partSize, int partNumber, String uploadId, String key , String bucketName) {
+    public UploadPart(MultipartFile localFile, long startPos, long partSize, int partNumber, String uploadId, String key , String bucketName) {
         this.localFile = localFile;
         this.startPos = startPos;
         this.partSize = partSize;
         this.partNumber = partNumber;
         this.uploadId = uploadId;
-        AliyunOSSUpload.key = key;
-        AliyunOSSUpload.bucketName = bucketName;
+        UploadPart.key = key;
+        UploadPart.bucketName = bucketName;
     }
 
     /**

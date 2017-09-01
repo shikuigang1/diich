@@ -28,7 +28,7 @@ public class MultipartUpload {
         // 创建OSSClient实例
         client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
         try {
-            String uploadId = AliyunOSSUpload.claimUploadId(bucketName, key);
+            String uploadId = UploadPart.claimUploadId(bucketName, key);
             // 设置每块为 5M(除最后一个分块以外，其他的分块大小都要大于5MB)
             final long partSize = 5 * 1024 * 1024L;
             // 计算分块数目
@@ -51,7 +51,7 @@ public class MultipartUpload {
                 long curPartSize = (i + 1 == partCount) ? (fileLength - startPos) : partSize;
 
                 // 线程执行。将分好的文件块加入到list集合中
-                executorService.execute(new AliyunOSSUpload(file, startPos, curPartSize, i + 1, uploadId, key, bucketName));
+                executorService.execute(new UploadPart(file, startPos, curPartSize, i + 1, uploadId, key, bucketName));
             }
 
             /**
@@ -72,8 +72,8 @@ public class MultipartUpload {
             /**
              * partETags(上传块的ETag与块编号（PartNumber）的组合) 如果校验与之前计算的分块大小不同，则抛出异常
              */
-            System.out.println(AliyunOSSUpload.partETags.size()  +" -----   "+partCount);
-            if (AliyunOSSUpload.partETags.size() != partCount) {
+            System.out.println(UploadPart.partETags.size()  +" -----   "+partCount);
+            if (UploadPart.partETags.size() != partCount) {
                 throw new IllegalStateException("OSS分块大小与文件所计算的分块大小不一致");
             } else {
                 //logger.info("将要上传的文件名  " + key + "\n");
@@ -82,12 +82,12 @@ public class MultipartUpload {
             /*
              * 列出文件所有的分块清单并打印到日志中，该方法仅仅作为输出使用
              */
-            //AliyunOSSUpload.listAllParts(uploadId);
+            //UploadPart.listAllParts(uploadId);
 
             /*
              * 完成分块上传
              */
-            AliyunOSSUpload.completeMultipartUpload(uploadId);
+            UploadPart.completeMultipartUpload(uploadId);
 
             // 返回上传文件的URL地址
             return endpoint + "/" + bucketName + "/" + client.getObject(bucketName, key).getKey();
@@ -96,7 +96,7 @@ public class MultipartUpload {
             //logger.error("上传失败！", e);
             return "上传失败！";
         } finally {
-            AliyunOSSUpload.partETags.clear();
+            UploadPart.partETags.clear();
             if (client != null) {
                 client.shutdown();
             }
