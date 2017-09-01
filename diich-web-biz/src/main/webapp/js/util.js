@@ -115,6 +115,7 @@ function getCategoryById(id) {
             text = parent_text + text;
         }
     }
+
     return text;
 }
 
@@ -184,14 +185,13 @@ function uploadFile(uri) {
     });
 }
 
-function getTemplateUi(fileName) {
+function getTemplateUi(fileName, callback) {
     $.ajax({
         url: fileName,
-        async: false,
         contentType: 'text/plain;charset=utf-8',
         dataType: 'text',
         success: function(data, status) {
-            alert(typeof data);
+            callback(data);
         }
     });
 }
@@ -205,4 +205,13 @@ function getMsgByCode(code,lang) {
     }
 
 
+}
+
+function generateMathRand(num) {
+    var v = "";
+    for(var i = 0; i < num; i++)
+    {
+        v += Math.floor(Math.random() * 10);
+    }
+    return v;
 }

@@ -6,11 +6,11 @@ import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.User;
 import com.diich.core.service.UserService;
 import com.diich.core.support.cache.JedisHelper;
-import com.diich.core.util.AliOssUtil;
+import com.diich.core.util.SimpleUpload;
 import com.diich.core.util.OperateFileUtil;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.core.util.WebUtil;
-import org.apache.commons.collections.map.HashedMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
@@ -575,7 +575,7 @@ public class UserController extends BaseController<User> {
                 response.getWriter().flush();
                 response.getWriter().close();
 
-                AliOssUtil.uploadProcessFile(jedisHelper,files, PropertiesUtil.getString("img_bucketName"), list);
+                SimpleUpload.uploadProcessFile(jedisHelper,files, PropertiesUtil.getString("img_bucketName"), list);
             } catch (IOException e) {
                 e.printStackTrace();
             }

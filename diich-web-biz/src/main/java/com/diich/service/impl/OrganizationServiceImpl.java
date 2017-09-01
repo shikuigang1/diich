@@ -10,7 +10,7 @@ import com.diich.core.model.*;
 import com.diich.core.service.ContentFragmentService;
 import com.diich.core.service.OrganizationService;
 import com.diich.core.service.VersionService;
-import com.diich.core.util.AliOssUtil;
+import com.diich.core.util.SimpleUpload;
 import com.diich.core.util.BuildHTMLEngine;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
@@ -141,7 +141,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             String bucketName = PropertiesUtil.getString("img_bucketName");
             String type = PropertiesUtil.getString("pc_ohtml_server");
             File file = new File(fileName);
-            AliOssUtil.uploadFile(new FileInputStream(file),bucketName,type+"/"+organization.getId()+".html",file.length());//上传到阿里云
+            SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+organization.getId()+".html",file.length());//上传到阿里云
         }
     }
 
