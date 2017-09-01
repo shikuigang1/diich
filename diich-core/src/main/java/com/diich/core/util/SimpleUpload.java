@@ -5,12 +5,9 @@ import com.aliyun.openservices.oss.OSSException;
 import com.aliyun.openservices.oss.model.*;
 import com.aliyun.oss.ClientException;
 import com.diich.core.support.cache.JedisHelper;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;

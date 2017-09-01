@@ -19,12 +19,12 @@ public class MultipartUpload {
 
     protected static OSSClient client = null;
 
-    public static String fileUpload(MultipartFile file) {
+    public static boolean fileUpload(MultipartFile file, String key) {
 
         // 创建一个可重用固定线程数的线程池。若同一时间线程数大于10，则多余线程会放入队列中依次执行
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-        String key = "video/project/" + file.getOriginalFilename(); // 获取上传文件的名称，作为在OSS上的文件名
+        //String key = "video/project/" + file.getOriginalFilename(); // 获取上传文件的名称，作为在OSS上的文件名
         // 创建OSSClient实例
         client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
         try {
@@ -75,8 +75,6 @@ public class MultipartUpload {
             System.out.println(UploadPart.partETags.size()  +" -----   "+partCount);
             if (UploadPart.partETags.size() != partCount) {
                 throw new IllegalStateException("OSS分块大小与文件所计算的分块大小不一致");
-            } else {
-                //logger.info("将要上传的文件名  " + key + "\n");
             }
 
             /*
@@ -90,11 +88,11 @@ public class MultipartUpload {
             UploadPart.completeMultipartUpload(uploadId);
 
             // 返回上传文件的URL地址
-            return endpoint + "/" + bucketName + "/" + client.getObject(bucketName, key).getKey();
-
+            //return endpoint + "/" + bucketName + "/" + client.getObject(bucketName, key).getKey();
+            return true;
         } catch (Exception e) {
             //logger.error("上传失败！", e);
-            return "上传失败！";
+            return false;
         } finally {
             UploadPart.partETags.clear();
             if (client != null) {
