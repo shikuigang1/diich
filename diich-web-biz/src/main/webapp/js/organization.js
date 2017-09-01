@@ -398,21 +398,25 @@ function saveOrgCustom(next) {
     contentFragment.attribute=attr;
     contentFragment.targetId=organization.id;
 
+
+    var org = getCurrentOrganization();
+    org.contentFragmentList.push(contentFragment);
+
     // console.log(JSON.stringify(contentFragment));
     $.ajax({
         type: "POST",
-        url: "/contentFragment/saveContentFragment",
-        data:{params:JSON.stringify(contentFragment)} ,
+        url: "/organization/saveOrganization",
+        data:{params:JSON.stringify(org)} ,
         dataType: "json",
         async:false,
         complete: function () { },
         success: function (result) {
             console.log(result);
             if(result.code==0){
-                organization.contentFragmentList.push(result.data);
-                setCurrentOrganization(organization);
+
+                setCurrentOrganization(result.data);
                 //根据分类重新初始化 左侧菜单
-                initCustomMenu(result.data.targetId);
+                initCustomMenu(result.data.id);
                 if(next==1){
                     $("#attrName").val("");
                     $("#longContent").val("");
