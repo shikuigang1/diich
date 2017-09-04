@@ -3,10 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>我要申报-项目基础信息</title>
+    <title id="title">我要申报-项目基础信息</title>
     <link rel="shortcut icon" type="image/x-icon" href="../assets/images/logo.png" media="screen" />
     <link rel="stylesheet" href="../assets/css/common.css">
     <link rel="stylesheet" href="../assets/css/inputs.css">
+    <link rel="stylesheet" href="../css/loader.min.css">
+    <link rel="stylesheet" href="../../css/segment.min.css">
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/js/jQuery.Form.js"></script>
     <script src="../assets/js/Ecalendar.jquery.min.js"></script>
@@ -120,21 +122,25 @@
 <script>
     var editFlag = false;
     $(function() {
-        /*loadScript("../assets/js/login.js");*/
-       // $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
+        //样式选中
+        $(".header .content .nav li").eq(0).removeClass("active");
+        $(".header .content .nav li").eq(6).addClass("active");
         //获取地址栏 参数 判断是 添加还是 编辑 script src="../assets/js/login.js"><
         var pid = $.getUrlParam("pid");
         if(pid == null ||  typeof(pid)=='undefined' ){
             localStorage.setItem('action',"add");
+            //保存本地中文名
             $("#chiName").val(localStorage.getItem('ichProName'));
+            //修改名名称
             $(".name").text('填写申报信息-'+localStorage.getItem('ichProName'));
         }else{
             localStorage.setItem('action',"update");//添加修改标记状态
-            var ich = getIchProByID(pid);
+            var ich = getIchProByID(pid);//获取对象数据
+            var code="";//区域code 存储
             console.log(JSON.stringify(ich));
-            var code="";
             $.each(ich.contentFragmentList,function (index,object) {
                 if(object.attributeId==4){//获取用户中文名信息
+                    $("#title").text('编辑申报信息-'+object.content);
                     $(".name").text('编辑申报信息-'+object.content);
                     $("#chiName").val(object.content);
                 }
@@ -172,17 +178,15 @@
                     }
 
                 }
-                //console.log(JSON.stringify(codeText));
-                localStorage.setItem("codeText",codeText.join(","));
+                localStorage.setItem("codeText",codeText.join(","));//存储要显示的区域值
             }
             localStorage.setItem("ichProject",JSON.stringify(ich));
         }
+        //页面信息初始化
         projectPage.init();
-
-        document.onkeydown=function(event){
+        /* document.onkeydown=function(event){
             editFlag = true;
-        };
-
+        };*/
     });
 
     var newArr = new Array();

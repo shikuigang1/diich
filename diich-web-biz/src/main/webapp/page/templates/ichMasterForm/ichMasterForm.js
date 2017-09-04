@@ -828,7 +828,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 var params = getCustomFormData(p);
                 //console.log("params --- >", params);
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                    //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
+                    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
                         var fag = false;
@@ -857,6 +857,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                             //console.log("mid --- >", mid);
                             $this.next(".dd").children("ul").append(Handlebars.compile(menuTpl)({mid: mid, name: data[0]["value"], menuId: result.res.data.contentFragmentList[0].attributeId}));
                             $("#" + mid).children("i").addClass("selected").removeClass("unselected");
+                        } else {
+                            // 修改自定义项目
+                            $("#" + $this.attr("id")).children("span").text(result.res.data.contentFragmentList[0].attribute.cnName); // 更新自定义菜单名字
                         }
 
                         if(code == "next") {
@@ -870,6 +873,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                                 // 不存在
                                 _onNextPage($this.attr("id"), [], result.res.data);
                             }
+                        } else {
+                            // 模拟点击添加自定义
+                            $('#' + $this.attr("id")).trigger("click");
                         }
                         _bindingSave();
                     } else {
@@ -1146,7 +1152,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
     // 添加自定义项
     function _addCustom() {
-
         $("#add_custom").on("click", function() {
             var id = $("#menus_custom").children(".dt").attr("id");
             $('#' + id).trigger("click"); // 模拟点击添加自定义
