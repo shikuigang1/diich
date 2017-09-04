@@ -15,18 +15,8 @@
     <link rel="stylesheet" href="../assets/css/inputs.css">
     <link rel="stylesheet" href="../css/project-detail.css?7">
 
-    <link rel="stylesheet" href="../css/form.min.css">
-    <link rel="stylesheet" href="../css/input.min.css">
-    <link rel="stylesheet" href="../css/label.min.css">
-    <link rel="stylesheet" href="../css/grid.min.css">
-    <link rel="stylesheet" href="../css/loader.min.css">
-
-    <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="../ueditor/_examples/editor_api.js"> </script>
-    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
-    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-    <script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
-
+    <link rel="stylesheet" href="../tinyeditor/style.css" />
+    <script type="text/javascript" src="../tinyeditor/tinyeditor.js"></script>
 
     <script src="http://diich.efeiyi.com/data/keyword.js"></script>
     <script src="http://diich.efeiyi.com/assets/js/jquery.min.js"></script>
@@ -51,69 +41,6 @@
     <style>
         br{line-height:60px;}
         .drop_menu .content .item dl br {line-height: 20px;}
-
-        .editor {
-            display: none;
-            margin-bottom: 50px;
-        }
-
-        .detail_title .edit {
-            padding-left: 0px;
-            position: inherit;
-            top: 0px;
-        }
-
-        .ui.form .fields .wide.field {
-            padding-right:3em;
-        }
-
-        .edui-default .edui-editor-bottomContainer td {
-            border-top: none!important;
-        }
-
-        .edui-default .edui-editor-toolbarboxouter {
-            border-bottom: none!important;
-            background-color:#fff!important;
-            background-image:none!important;
-            -webkit-box-shadow: none!important;
-            -moz-box-shadow: none!important;
-            box-shadow: none!important;
-        }
-
-        .edui-default .edui-editor-toolbarbox {
-            -webkit-box-shadow: none!important;
-            -moz-box-shadow: none!important;
-            box-shadow: none!important;
-        }
-
-        .even .edui-default .edui-editor {
-            border: none;
-        }
-
-        .file-handle {
-            text-align: center;
-            width:103px;
-            cursor: pointer;
-            position: inherit;
-        }
-
-        .file-handle .icon {
-            margin-bottom: 5px;
-            border: 1px solid #eee;
-            padding: 33px;
-            font-size: 2em;
-        }
-
-        .file-handle .file {
-            width: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            z-index: 2;
-            opacity: 0;
-        }
-
     </style>
 </head>
 
@@ -142,7 +69,7 @@
         <!--//End crumbs-->
 
         <div class="card">
-            <div class="card_main section" data-type="short-text">
+            <div class="card_main section">
                 <div class="floor">
                     <a class="share" title="分享"></a>
                     <a class="praise" title="点赞" style="position: relative;"></a>
@@ -162,15 +89,15 @@
                     </div>
                 </div>
                 <!--//End -->
-                <div class="read-piece">
                     <div class="detail_title">
-                        <h2 data-id="4" class="data-item title" label="标题">
+                    <h2 data-id="4" class="data-item title">
                             Bisalhães 黑陶制作工艺
                         </h2>
                         <div class="doi_code">
                             <i class="icon">ID</i>
                             <span>
-                                <em id="doi_code" data-id="2" class="data-item" label="ID">
+                                                标识码：
+                                            <em id="doi_code" data-id="2" class="data-item">
                                     ICH.pj.E0601.cn.0000017
                                 </em>
                             </span>
@@ -187,14 +114,14 @@
                                 <strong>
                                         类别：
                                 </strong>
-                                <em id="category" category-id="94" class="data-item" label="类别"></em>
+                            <em id="category" category-id="94" class="data-item"></em>
 
                             </span>
                                 <span>
                                        <strong>
                                             地区：
                                     </strong>
-                                            <em class="value dic data-item" dic-type="101" lang="chi" data-id="33" label="地区">PRT</em>
+                                        <em class="value dic data-item" dic-type="101" lang="chi" data-id="33" >PRT</em>
                                 </span>
                         <span class="language" id="trans_lang">
                                 <a href="" id="trans"></a>

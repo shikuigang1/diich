@@ -393,7 +393,7 @@ $(function () {
         },
         success: function(data) {
             var lang = getLang();
-            console.log(data);
+            //console.log(data);
             //隐藏 显示数据
             var url  = window.location.href;
             var path = url.substring(url.lastIndexOf("/"));

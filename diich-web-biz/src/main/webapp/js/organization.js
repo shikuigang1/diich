@@ -402,7 +402,7 @@ function saveOrgCustom(next) {
     var org = getCurrentOrganization();
     org.contentFragmentList.push(contentFragment);
 
-    // console.log(JSON.stringify(contentFragment));
+   // console.log(JSON.stringify(contentFragment));
     $.ajax({
         type: "POST",
         url: "/organization/saveOrganization",
