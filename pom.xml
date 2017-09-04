@@ -282,5 +282,10 @@
         <artifactId>jackson-annotations</artifactId>
         <version>${jackson.version}</version>
     </dependency>
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>2.2.3</version>
+        </dependency>
     </dependencies>
 </project>
