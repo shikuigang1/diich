@@ -79,9 +79,11 @@
                     });
                     location.href="ichMasterForm.html?pid="+ich.id+"&pname="+pname;
                 }else{
-                    var result = getUserOrganizationInfo();
+                    var result = getUserInfo();
+                    console.log(result);
+                    console.log($(this).attr("class"));
                     if(result.code == 0){
-                            if(result.total==0){
+                            if(result.data.type==3){
                                 location.href="organization/organization.html";
                             }else {
                                 //停在本地并增加选中状态
@@ -99,32 +101,6 @@
             })
         });
         //organizationPage.init();
-
-        function getUserOrganizationInfo(){
-            var id = localStorage.getItem("pid");
-            if(id == null){
-                return null;
-            }
-
-            var result= null;
-            $.ajax({
-                cache: true,
-                type: "POST",
-                url: "/organization/organization/getOrganizationByUserId",
-                data: {params:id}, // 你的formid
-                dataType: "json",
-                async: false,
-                error: function(request) {
-                    console.log(request);
-                },
-                success: function(data) {
-                    result = data;
-                }
-            });
-            return result;
-        }
     </script>
-
-
 </body>
 </html>
