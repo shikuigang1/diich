@@ -1,5 +1,5 @@
 var renderHhtml = {
-    uri: 'http://diich.efeiyi.com',
+    uri: 'http://localhost:8081/',
     init: function () {
         this.header();
         this.footer();

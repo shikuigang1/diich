@@ -75,6 +75,7 @@
 
 </body>
 <script>
+    var code =  getQueryString("code"); // 0项目 1测试
     $(function() {
         $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
 
@@ -132,7 +133,11 @@
             },
             success: function(data) {
               if(data.code==0){
-                    location.href="ichpro.html";
+                  if(code == 0) {
+                      location.href="ichpro.html";
+                  } else {
+                      location.href="searchProject.html";
+                  }
               }else if(data.code==3){//未登录
                   loginPage.showLoginWindow();
               }else{

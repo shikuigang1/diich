@@ -105,6 +105,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                 console.log(" --- res  ", result.res.data);
                 menuss = _onBuildMenus(result.res.data);
+                console.log("menuss --- >", menuss)
                 $("#menusAll").html(Handlebars.compile(menuListTpl)({menuss: menuss})); // 添加菜单
                 _buildCustom(); // 生成自定义菜单
                 _getBasicTpl($("#menu_1")); // 加载基本信息模板
@@ -348,10 +349,11 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, ichProjectName: ichProjectName, pageObj : pageObj, fyGrade: fyGrade})); // 更新页面模板
         // 上传图片
         upload.submit($('.horizontal .group .control .file_up'),1,'/user/uploadFile?type=master',function (res) {
-            //console.log("res -- >", res);
-            imgUrl = res.data[0].substr((res.data[0].lastIndexOf ("/")+1), res.data[0].length);
-            $('.preview').attr('src', res.data[0]).show();
-            $('._token').val($('meta[name=token]').attr('content'));
+            if(res.data.length > 0) {
+                imgUrl = res.data[0].substr((res.data[0].lastIndexOf ("/")+1), res.data[0].length);
+                $('.preview').attr('src', res.data[0]).show();
+                $('._token').val($('meta[name=token]').attr('content'));
+            }
         });
         // 回显图片
         if(pageObj.hasOwnProperty("contentFragmentList")) {
@@ -652,7 +654,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 var params = _getResumeFormData($textarea);
                 //console.log("params --- >", params);
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                    //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
+                    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
                         _onMergeObj(result.res.data); // 保存成功存储服务器返回数据
@@ -666,7 +668,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             }
         }
 
-        // 删除操作防止用户多次点击
+        // 删除数据操作防止用户多次点击
         _bindingDelete();
         function _bindingDelete() {
             $("a[id='delete']").on("click", function() {
@@ -677,7 +679,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         // 删除
         function _onDelete($this) {
             var did = sonterms.sonTerms[0].id;
-            //console.log("id === ", id);
             $this.off("click");
             var obj = {};
             var index = 0; // 记录删除对象在pageObj中对应的索引位置
@@ -716,13 +717,58 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
             // 清空MOD层数据
             function _emptyMod() {
-                //var modId = $this.attr("id").split("_")[1];
                 // 清空DOM层数据
                 $("#resum_" + did).val("");
                 $("#images").children("div .item").each(function() {
                     $(this).remove();
                 })
                 _bindingDelete();
+            }
+        }
+
+        // 删除图片操作
+        _bindingDeleteImg();
+        function _bindingDeleteImg() {
+            $("body").delegate("span[id^='remove_']", "click", function(){
+                _deleteImg($(this));
+            })
+        }
+
+        function _deleteImg($this) {
+            var pop = $this.attr("id").split("_").pop(); // 图片Id
+            var mid = $this.attr("data-id");
+            if(pop != "delete") {
+                console.log("pop -- >", pop);
+                // 删除数据库存储数据
+                _onRequest("POST", "/resource/deleteResource", {params: pop}).then(function(result) {
+                    console.log("result --- >", result);
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        // 删掉页面缓存对象中的数据
+                        if(pageObj.hasOwnProperty("contentFragmentList")){
+                            $.each(pageObj.contentFragmentList, function(i, v) {
+                                if(v.attributeId == mid) {
+                                    $.each(v.resourceList, function(i1, v1) {
+                                        if(v1.id == pop) {
+                                            v.resourceList.splice(i1,1);
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                        // 清空dom层
+                        $this.parent(".item").remove();
+                        _bindingDeleteImg();
+                    } else {
+                        if(result.res.code != 3) {
+                            tipBox.init("fail", result.res.msg , 1500);
+                        }
+                        _bindingDeleteImg();
+                    }
+                });
+            } else {
+                // 清空dom层
+                $this.parent(".item").remove();
+                _bindingDeleteImg();
             }
         }
     }
@@ -842,8 +888,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         }
 
         // 删除
-        function _onDelete($dthis) {
-            $dthis.off("click");
+        function _onDelete($this) {
             var did = $dthis.attr("id").split("_").pop();
             var obj = {};
             var index = 0; // 记录删除对象在pageObj中对应的索引位置
@@ -886,7 +931,61 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 $this.remove(); // 删除菜单
                 _bindingDelete();
             }
+
+            _onRemoveImg(); // 删除图片
+
+    }
+
+
+    function _onRemoveImg() {
+        // 删除图片操作
+        _bindingDeleteImg();
+        function _bindingDeleteImg() {
+            $("body").delegate("span[id^='remove_']", "click", function(){
+                _deleteImg($(this));
+            })
         }
+
+        function _deleteImg($pthis) {
+            $pthis.off("click");
+            var $this = $(this);
+            var pop = $this.attr("id").split("_").pop(); // 图片Id
+            var mid = $this.attr("data-id");
+            if(pop != "delete") {
+                console.log("pop -- >", pop);
+                // 删除数据库存储数据
+                _onRequest("POST", "/resource/deleteResource", {params: pop}).then(function(result) {
+                    console.log("result --- >", result);
+                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                        // 删掉页面缓存对象中的数据
+                        if(pageObj.hasOwnProperty("contentFragmentList")){
+                            $.each(pageObj.contentFragmentList, function(i, v) {
+                                if(v.attributeId == mid) {
+                                    $.each(v.resourceList, function(i1, v1) {
+                                        if(v1.id == pop) {
+                                            v.resourceList.splice(i1,1);
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                        // 清空dom层
+                        $this.parent(".item").remove();
+                        _bindingDeleteImg();
+                    } else {
+                        if(result.res.code != 3) {
+                            tipBox.init("fail", result.res.msg , 1500);
+                        }
+                        _bindingDeleteImg();
+                    }
+                });
+            } else {
+                // 清空dom层
+                $this.parent(".item").remove();
+                _bindingDeleteImg();
+            }
+        }
+    }
     }
 
     // 获取自定义模块 表单数据 处理成参数
@@ -955,7 +1054,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 default:
                     break;
             }
-            //console.log("params --- >", params);
+            console.log("params --- >", params);
             if(params != "") {
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
                     //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
@@ -1048,8 +1147,10 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
     // 添加自定义项
     function _addCustom() {
+
         $("#add_custom").on("click", function() {
-            $('#menu_5').trigger("click"); // 模拟点击添加自定义
+            var id = $("#menus_custom").children(".dt").attr("id");
+            $('#' + id).trigger("click"); // 模拟点击添加自定义
         })
     }
 
@@ -1090,7 +1191,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                         $("#" + id).removeClass("selected").children("i").addClass("selected").removeClass("unselected").removeClass("unselected2"); // 添加已完成效果
                     } else {
                         $("#" + id).removeClass("selected").children("i").addClass("unselected2").removeClass("unselected"); // 添加已完成效果
-                        return false;
                     }
                 } else {
                     $("#" + id).removeClass("selected").children("i").addClass("unselected2").removeClass("unselected"); // 添加已完成效果
