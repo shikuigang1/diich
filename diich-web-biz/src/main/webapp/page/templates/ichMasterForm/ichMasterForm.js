@@ -35,8 +35,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         } else {
             // 加载其他模块
             _onInitLoad();
+            // 获取用户信息
+            // 判断用户type
         }
-
     }
 
     // 加载项
@@ -1121,7 +1122,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             if(status) {
                 _fu();
             } else {
-                tipBox.init("fail", "请填写基本数据后提交", 1500);
+                $this.attr("data-status")? _fu() : tipBox.init("fail", "请填写基本数据后提交", 1500);
             }
 
             function _fu() {
@@ -1135,9 +1136,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                         window.location.href = "ichMasterOver.html"; // 跳转成功页面
                         _bindingSave(); // 重新绑定
                     } else {
-
                         tipBox.init("fail", result.res.msg, 1500);
-
                         _bindingSave(); // 重新绑定
                     }
                 });
