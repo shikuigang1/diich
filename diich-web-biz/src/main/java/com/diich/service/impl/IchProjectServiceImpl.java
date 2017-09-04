@@ -213,10 +213,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             ichProject.setUri(proID +".html");
             ichProjectMapper.insertSelective(ichProject);
         } else {//修改
-//            IchProject selectProject = ichProjectMapper.selectIchProjectById(ichProject.getId());
-//            if( (user != null && user.getType() !=0) && (!ichProject.getLastEditorId().equals(selectProject.getLastEditorId()) || ( ichProject.getStatus() != null && ichProject.getStatus()==0))){//当前编辑者(非管理员)是发生了改变
-//                return updateProject(ichProject);
-//            }
             ichProjectMapper.updateByPrimaryKeySelective(ichProject);
         }
         List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
