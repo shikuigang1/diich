@@ -171,7 +171,8 @@ body,
     color: #fff;
     font-weight: 100;
     font-size: 12px;
-    line-height: 1em
+    line-height: 1em;
+    z-index:2;
 }
 
 .ECalendarBox .currentyear {
@@ -1448,7 +1449,9 @@ body,
     float: left;
     position: relative;
 }
-
+.horizontal .group .control .icon {
+    display: none;
+}
 .horizontal .group .control .ipt {
     height: 46px;
     line-height: 46px;
