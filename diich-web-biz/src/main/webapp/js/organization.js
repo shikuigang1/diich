@@ -950,3 +950,7 @@ function getOrganizationById(orgid){
     });
 
 }
+//添加自定义
+function addCustom(){
+    $('div[data-type=longFieldCustom]').click();
+}
