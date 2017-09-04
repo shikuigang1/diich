@@ -60,7 +60,6 @@
         $(function() {
             $('.header .content .nav li').eq(6).addClass('active').siblings('li').removeClass('active');
             $(".radio").on("click",function () {
-
                 var value = $(this).find("input").eq(0).val();
                 console.log(value);
                 if(value == 0){
@@ -79,11 +78,9 @@
                     });
                     location.href="ichMasterForm.html?pid="+ich.id+"&pname="+pname;
                 }else{
-                    var result = getUserInfo();
-                    console.log(result);
-                    console.log($(this).attr("class"));
+                    var result = getUserOrganizationInfo();
                     if(result.code == 0){
-                            if(result.data.type==3){
+                            if(result.total==0){
                                 location.href="organization/organization.html";
                             }else {
                                 //停在本地并增加选中状态
@@ -101,6 +98,32 @@
             })
         });
         //organizationPage.init();
+
+        function getUserOrganizationInfo(){
+            var id = localStorage.getItem("pid");
+            if(id == null){
+                return null;
+            }
+
+            var result= null;
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url: "/organization/getOrganizationByUserId",
+//                data: {params:id}, // 你的formid
+                dataType: "json",
+                async: false,
+                error: function(request) {
+                    console.log(request);
+                },
+                success: function(data) {
+                    result = data;
+                }
+            });
+            return result;
+        }
     </script>
+
+
 </body>
 </html>
