@@ -45,7 +45,7 @@
                                 <div class="dt">搜索结果：</div>
                                 <div class="dd">
                                     <ul id="item1">
-                                        <li>
+                                     <!--   <li>
                                             <img src="../assets/uploads/inputs_01.jpg" alt="">
                                             <div class="info">
                                                 <p class="name"><strong>银器</strong><em>ID编码x1231233</em></p>
@@ -60,7 +60,7 @@
                                                 <p><strong>类型：</strong><span>传统技艺传统技艺传统技艺传统技艺</span></p>
                                                 <p><strong>地区：</strong><span>中国江苏省</span></p>
                                             </div>
-                                        </li>
+                                        </li>-->
                                     </ul>
                                 </div>
                             </div>
@@ -110,6 +110,8 @@
                     //
                 },
                 success: function(res) {
+				//var data_ = JSON.stringify(res.data);
+				//var data = eval(res.data);
 				var data = res.data;
 				$("#item1").empty();
 				$(".step2").hide();
@@ -147,6 +149,7 @@
     }
     
     function getHtml(data) {
+        console.log(data);
         var html="";
         $.each(data,function(index,item){
             html+="<li>";
