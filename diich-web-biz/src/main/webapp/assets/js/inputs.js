@@ -1375,6 +1375,7 @@ var organizationPage = {
                     /*$(".st").children("h2").text(name);*/
                     //初始化当前菜单数据
                     // var flag = false;//缓存命中标记
+                    organization = getCurrentOrganization();
                     $.each(organization.contentFragmentList,function (index,obj) {
                         if(obj.attributeId == attrid){
                             $("#longContent").val(obj.content);
