@@ -72,7 +72,7 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
         try{
             if(contentFragment.getId() == null){
                 Long attributeId = contentFragment.getAttributeId();
-                if(attributeId == 0 || attributeId == null){
+                if(attributeId == null || attributeId == 0){
                     attributeId = saveAttribute(contentFragment);
                 }
                 contentFragment.setId(IdWorker.getId());
