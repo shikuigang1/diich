@@ -870,6 +870,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                                 // 不存在
                                 _onNextPage($this.attr("id"), [], result.res.data);
                             }
+                        } else {
+                            // 模拟点击添加自定义
+                            $('#' + $this.attr("id")).trigger("click");
                         }
                         _bindingSave();
                     } else {
