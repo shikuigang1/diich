@@ -4,10 +4,7 @@ var upload={
         var _name='';
         _name=(type==1)?'mypic':'video';
         var _parent='<form class="upload" action="'+url+'" method="post" enctype="multipart/form-data">'+
-            '<input class="_token" type="hidden" name="_token" value="">'+
-            '<div class="progress">' +
-            '<div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div>'+
-            '</div>' +
+            '<div class="progress" style="display: none;"><div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div></div>'+
             '<input class="file" type="file" name="mypic">'+
             '</form>' +
             // '<div style="position: absolute;top:0;right:0;left: 0;bottom: 0;background:rgba(224,224,224,.7);z-index:5;">'+
@@ -1131,7 +1128,6 @@ var selectArea1={
                     isFirst=true;
                     select.hide().html('');
                 });
-
             }
         });
         //删除选中的数据
@@ -1162,7 +1158,9 @@ var selectArea1={
         var select=$('#select');
         var selected=$('#selected');
         var isFirst=true;
-        $('div[data-type=selectArea]').on('click',function () {
+        $('div[data-type=selectArea]').on('click',function (e) {
+            e.preventDefault();
+            e.stopPropagation();
             if(isFirst){
                 isFirst=false;
                 var el=$(this);
@@ -1245,6 +1243,16 @@ var selectArea1={
                 function createSelected(data) {
                     selected.append('<li><span>'+data+'<i class="icon"></i></span></li>');
                 }
+
+                //关闭
+                select.on('click',function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+                $(document).on("click", function () {
+                    isFirst=true;
+                    select.hide().html('');
+                });
             }
         });
         //删除选中的数据
@@ -1560,6 +1568,7 @@ var inheritorPage={
             var templ='<div class="item">' +
                 '<img src="'+str+'" alt="">' +
                 '<input type="text" name="text" placeholder="请输入标题">' +
+                '<span class="remove"><i></i></span>'+
                 '</div>';
             return templ;
         }
@@ -1579,9 +1588,11 @@ var inheritorPage={
         $(".preview").remove();
         var el=$('.ipt_base .content .edit .images .handle .file_up .icon');
         upload.submit(el,1,'/user/uploadFile?type=master',function (data) {
-            _images.find('.handle').before(templateItem(data.data));
-            isItemStatus();
-            _images.find('.preview').remove();
+            if(data.data.length > 0) {
+                _images.find('.handle').before(templateItem(data.data));
+                isItemStatus();
+                _images.find('.preview').remove();
+            }
         });
         //赋值token  有用则留无用则删除
         $('._token').val($('meta[name=token]').attr('content'));
@@ -1599,6 +1610,7 @@ var inheritorPage={
             var templ='<div class="item">' +
                 '<img data-src="' + str[0] + '" src="' + newStr + '" alt="">' +
                 '<input type="text" name="text" placeholder="请输入标题">' +
+                '<span id="remove_delete" class="remove"><i></i></span>'+
                 '</div>';
             return templ;
         }
