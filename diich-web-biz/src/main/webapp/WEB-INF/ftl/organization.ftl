@@ -137,7 +137,9 @@
 
 <#assign propage = "http://project.efeiyi.com/p/"/>
 <#assign workspage = "http://works.efeiyi.com/w/"/>
+<#assign masterpage = "http://inheritor.efeiyi.com/m/"/>
 <#assign orguri="http://resource.efeiyi.com/image/organization/" />
+<#assign orgvuri="http://resource.efeiyi.com/video/organization/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
 <#assign str="http:" />
 <#assign strs="https:" />
@@ -174,7 +176,7 @@
                                    <#list cf.resourceList as res>
                                        <#if res.type==1 && res.status==0>
                                            <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                               <video poster="${backImgUrl}" src="${orguri}${res.uri}"> </video>
+                                               <video poster="${backImgUrl}" src="${orgvuri}${res.uri}"> </video>
                                            </#if>
                                            <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
                                                <video poster="${backImgUrl}" src="${res.uri}"> </video>
@@ -221,7 +223,7 @@
                         </#if>
                     </#list>
                 </#if>
-                    <a href="${caturi}/page/organization/organization.html?oid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
+                    <a href="${caturi}/page/organization/organization.html?orgid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
                     <div class="doi_code">
                         <i class="icon">ID</i>
                         <span>：<em id="doi_code"><#if (obj.contentFragmentList?size>0)>

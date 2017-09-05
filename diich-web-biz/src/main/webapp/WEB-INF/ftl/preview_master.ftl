@@ -139,6 +139,7 @@
 <#assign workspage = "http://works.efeiyi.com/w/"/>
 <#assign prouri="http://resource.efeiyi.com/image/project/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
+<#assign mastervuri="http://resource.efeiyi.com/video/master/" />
 <#assign str="http:" />
 <#assign strs="https:" />
 <div class="container">
@@ -172,7 +173,7 @@
                                    <#list cf.resourceList as res>
                                        <#if res.type==1 && res.status==0 && res.uri?? && res.uri != "">
                                            <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                               <video poster="${backImgUrl}" src="${masteruri}${res.uri}"> </video>
+                                               <video poster="${backImgUrl}" src="${mastervuri}${res.uri}"> </video>
                                            </#if>
                                            <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
                                                <video poster="${backImgUrl}" src="${res.uri}"> </video>
@@ -447,7 +448,7 @@
                                                     <div class="time">30:24</div>
                                                     <div class="play"></div>
                                                     <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${masteruri}${r.uri}" type="video/mp4" style="width: 100%;">
+                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${mastervuri}${r.uri}" type="video/mp4" style="width: 100%;">
                                                         </video>
                                                     </#if>
                                                     <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
