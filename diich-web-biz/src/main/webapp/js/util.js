@@ -215,3 +215,43 @@ function generateMathRand(num) {
     }
     return v;
 }
+
+/**
+ * 通用自定义请求
+ * @param mode 请求方式
+ * @param url 请求地址
+ * @param params 参数
+ * @returns {Promise}
+ * @private
+ */
+function _onRequest(mode, url, params) {
+    return new Promise(function (resolve, reject) {
+        // 监听ajax请求成功后出发统一处理 ajax获取数据code != 0的自定义异常
+        $(document).ajaxSuccess(function(e, x, o){
+            // o为ajax请求本身 x.responseJSON是返回结果
+            //console.log("e --- >", e);
+            //console.log("x --- >", x);
+            //console.log("o --- >", o);
+
+            if(x.responseJSON.code != 0) {
+                console.log("登录");
+            }
+        });
+        // jquery ajax
+        $.ajax({
+            async: true, // 异步请求
+            dataType: "json", // 服务器返回的数据类型
+            type: mode,
+            url: url,
+            data: params, // {params: JSON.stringify(params)}
+            error: function (err) {
+                reject(err)
+            },
+            success: function (res) {
+                if(res.code == 0) {
+                    resolve({res: res })
+                }
+            },
+        });
+    })
+}
