@@ -435,12 +435,9 @@ function login(){
 
     $.ajax({
         type: "POST",
-        url: "/user/login",
+        url: "http://192.168.1.41:8080/user/login",
         data: $('#loginForm').serialize(), // 你的formid
         dataType: "json",
-        xhrFields:{
-            withCredentials:true
-        },
         error: function(request) {
             //alert("Connection error");
         },
