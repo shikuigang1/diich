@@ -147,7 +147,9 @@
 <#assign masterpage = "http://inheritor.efeiyi.com/m/"/>
 <#assign workspage = "http://works.efeiyi.com/w/"/>
 <#assign prouri="http://resource.efeiyi.com/image/project/" />
+<#assign provuri="http://resource.efeiyi.com/video/project/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
+<#assign worksuri="http://resource.efeiyi.com/image/works/" />
 <#assign str="http:" />
 <#assign strs="https:" />
 <div class="container data-item" data-id="${obj.id?c}">
@@ -182,7 +184,7 @@
                                 <#list cf.resourceList as res>
                                     <#if res.type==1 && res.status==0 && res.uri?? && res.uri != "">
                                         <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                            <video poster="${backImgUrl}" src="${prouri}${res.uri}"> </video>
+                                            <video poster="${backImgUrl}" src="${provuri}${res.uri}"> </video>
                                         </#if>
                                         <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
                                             <video poster="${backImgUrl}" src="${res.uri}"> </video>
@@ -604,7 +606,7 @@
                                                     <div class="time">30:24</div>
                                                     <div class="play" data-type="1" data-id="1" ></div>
                                                     <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${prouri}${r.uri}" type="video/mp4" style="width: 100%;" class="data-item" data-id="${cf.attributeId}">
+                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${provuri}${r.uri}" type="video/mp4" style="width: 100%;" class="data-item" data-id="${cf.attributeId}">
                                                         </video>
                                                     </#if>
                                                     <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
