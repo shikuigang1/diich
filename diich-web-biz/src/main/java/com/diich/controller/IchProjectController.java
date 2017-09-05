@@ -9,6 +9,7 @@ import com.diich.core.model.IchProject;
 import com.diich.core.model.User;
 import com.diich.core.service.IchProjectService;
 import com.diich.core.support.cache.JedisHelper;
+import com.diich.core.util.PropertiesUtil;
 import com.diich.core.util.QRCodeGenerator;
 import com.diich.core.util.WebUtil;
 import com.sun.image.codec.jpeg.JPEGCodec;
@@ -96,7 +97,7 @@ public class IchProjectController extends BaseController<IchProject> {
         }catch (Exception e){
             return putDataToMap(e);
         }
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        //response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(ichProject);
     }
 
@@ -331,6 +332,31 @@ public class IchProjectController extends BaseController<IchProject> {
         byte[] imageBts = bos.toByteArray();
         return imageBts;
     }
+
+    @RequestMapping("test")
+    @ResponseBody
+    public Map<String, Object> test(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        String id = request.getParameter("params");
+        if(id == null || "".equals(id)) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return ae.toMap();
+        }
+        IchProject ichProject = null;
+        try{
+            ichProject = ichProjectService.getIchProject(id);
+            String outPutPath = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId().toString()+".html";
+            String s = ichProjectService.buildHTML("pro_tmp.ftl", ichProject, outPutPath);
+//            String bucketName = PropertiesUtil.getString("img_bucketName");
+//            File file = new File(outPutPath);
+//            SimpleUpload.uploadFile(new FileInputStream(file),bucketName,"p/"+ichProject.getId()+".html",file.length());
+        }catch (Exception e){
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toMap();
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(ichProject);
+    }
+
 
 
 }

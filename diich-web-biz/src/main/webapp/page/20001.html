@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <title id="title">
+            Bisalhães 黑陶制作工艺eeddd
+    </title>
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/logo.png" media="screen" />
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+
+    <link rel="stylesheet" href="../css/icon.min.css">
+    <link rel="stylesheet" href="../css/button.min.css">
+    <link rel="stylesheet" href="../assets/css/inputs.css">
+    <link rel="stylesheet" href="../css/project-detail.css?7">
+
+    <!--[if IE]>
+    <link rel="stylesheet" href="../assets/css/ie.css">
+    <script src="../assets/js/html5.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../ueditor/_examples/editor_api.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
+
+    <script src="../data/keyword.js"></script>
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/system.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/detail-project.js"></script>
+    <script src="../assets/js/login.js"></script>
+    <script src="../data/category.js"></script>
+    <script src="../js/citys.js"></script>
+    <script src="../js/jquery.i18n.properties-1.0.9.js"></script>
+    <script src="../js/i18n.js"></script>
+    <script src="../data/dictionary.js"></script>
+    <script src="../js/util.js"></script>
+
+    <script src="../assets/js/Ecalendar.jquery.min.js"></script>
+    <script src="../js/ajaxfileupload.js"></script>
+    <script src="../js/project-detail.js?3"></script>
+
+    <script>
+        var json = [{"contentFragmentId":3047505955256062,"imgs":[],"videos":[]},{"contentFragmentId":2415213432549697,"imgs":[{"description":"","id":5643198617401718,"type":0,"uri":"150459009981142166d224f4a20a49e4c57a394529822720ed000.jpg","status":0}],"videos":[]},{"contentFragmentId":900285389686755328,"imgs":[],"videos":[]},{"contentFragmentId":3891953531552063,"imgs":[],"videos":[]},{"contentFragmentId":6226559864568114,"imgs":[],"videos":[]},{"contentFragmentId":6532466585312473,"imgs":[],"videos":[]},{"contentFragmentId":7011757946584148,"imgs":[{"description":"","id":9545421747067404,"type":0,"uri":"10178-BIG.jpg","status":0},{"description":"","id":3510721975481810,"type":0,"uri":"10176-BIG.jpg","status":0},{"description":"","id":8323258791419918,"type":0,"uri":"10177-BIG.jpg","status":0},{"description":"","resOrder":4,"id":902847166723186688,"type":0,"uri":"15040905030034ec2d5628535e5dd624293d676c6a7efce1b6248.jpg","status":0}],"videos":[]},{"contentFragmentId":5883409134935037,"imgs":[],"videos":[]},{"contentFragmentId":904639960991182848,"imgs":[],"videos":[]}];
+        var jsonAll = {"imgs":[{"description":"","id":8323258791419918,"type":0,"uri":"10177-BIG.jpg","status":0},{"description":"","id":3510721975481810,"type":0,"uri":"10176-BIG.jpg","status":0},{"description":"","id":9545421747067404,"type":0,"uri":"10178-BIG.jpg","status":0},{"description":"","resOrder":4,"id":902847166723186688,"type":0,"uri":"15040905030034ec2d5628535e5dd624293d676c6a7efce1b6248.jpg","status":0},{"description":"","id":5643198617401718,"type":0,"uri":"150459009981142166d224f4a20a49e4c57a394529822720ed000.jpg","status":0}],"videos":[]};
+        var jsonHead = {"lang":"chi","projectName":"Bisalhães 黑陶制作工艺eeddd"};
+    </script>
+    <style>
+        br{line-height:36px;}
+        .drop_menu .content .item dl br {line-height: 20px;}
+    </style>
+</head>
+
+<body class="js-project">
+<div class="header header_detail"></div>
+<!--//End header -->
+<div class="filter_search filter_search_fixed">
+    <div class="content">
+        <form class="form" action="http://diich.efeiyi.com/page/search.html">
+            <input class="ipt" type="text" id="keyword" name="keyword" value="" autocomplete="off">
+            <input type="hidden" id="area_code" name="area_code" value=""/>
+            <input type="hidden" id="gb_category_code" name="gb_category_code" value=""/>
+            <input type="hidden" id="type" name="type" value=""/>
+            <input class="submit" type="button" value="搜索" onclick="submit()">
+            <div class="suggest" style="display: none;">
+                <ul>
+
+                </ul>
+            </div>
+        </form>
+        <!--//End form-->
+
+        <div class="attr">
+            <span id="attr_text">所属类别</span>
+            <span id="area_text">全球</span>
+        </div>
+        <!--//End attribute-->
+
+        <div class="dropbox" id="drag">
+            <!--//ENd 全部-->
+
+            <div class="item" id="item_1">
+                <dl class="level">
+                    <dt>
+                    <div class="title">一级分类</div>
+                    <div class="subtitle">所有分类</div>
+                    </dt>
+                    <dd>
+                        <ul id="mainCategory">
+
+                        </ul>
+                    </dd>
+                </dl>
+                <dl class="level2">
+                    <dt>
+                    <div class="title">二级分类</div>
+                    <div class="subtitle">所有二级分类</div>
+                    </dt>
+                    <dd>
+                        <ul id="catecontent">
+
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <!--//End 所属分类-->
+
+            <div class="item">
+                <dl class="level">
+                    <dt>
+                    <div class="title">位置</div>
+                    </dt>
+                    <dd>
+                        <ul>
+                            <li>中国</li>
+                        </ul>
+                    </dd>
+                </dl>
+                <dl class="level2">
+                    <dt>
+                    <div class="title">按照字母顺序</div>
+                    </dt>
+                    <dd>
+                        <ul id="citycontent">
+                            <li>安微</li>
+                            <li>澳门</li>
+                            <li>北京</li>
+                            <li>上海</li>
+                            <li>福建</li>
+                            <li>甘肃</li>
+                            <li>广东</li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <!--//End 位置-->
+
+        </div>
+        <!--//End attribute-->
+    </div>
+</div>
+<!--//End filter_search -->
+<!--//End filter_search -->
+<div class="container data-item" data-id="20001">
+    <div class="bd detail">
+        <div class="mainbg">
+            <div class="content" id="detailContent">
+                <div class="mask_left"></div>
+                                            <img src="http://resource.efeiyi.com/image/project/150459009981142166d224f4a20a49e4c57a394529822720ed000.jpg" alt="" id="detailTopic" style="display:none" data-id="1" class="data-item">
+                <div class="mask_right"></div>
+            </div>
+
+        </div>
+        <!--//End main-->
+
+        <!--//End crumbs-->
+
+        <div class="card">
+            <div class="card_main section" data-type="main-text">
+                <div class="floor">
+                    <a class="share" title="分享"></a>
+                    <a class="praise" title="点赞" style="position: relative;"></a>
+
+                    <a class="album albums" data-id="all"><i class="icon_img"></i>
+
+                    </a>
+
+                    <div class="share_box">
+                        <div class="icons">
+                            <span></span>
+                            <a href="" class="weixin active"></a>
+                        </div>
+                        <div class="qrcode">
+                            <img width="108" style="display:block" src="../ichProject/getImage?id=20001" alt="微信">
+                        </div>
+                    </div>
+                </div>
+                <!--//End -->
+                <div class="main-info-button handle-button"></div>
+                <div class="read-piece">
+                <div class="detail_title">
+                    <h2 data-id="4" class="data-item title">
+                                        Bisalhães 黑陶制作工艺eeddd
+                        <span class="primary edit link"><i class="icon"></i>编辑</span>
+                    </h2>
+                                        <div class="doi_code">
+                                            <i class="icon">ID</i>
+                                            <span>
+                                            <em id="doi_code" data-id="2" class="data-item">
+                                               ：ICH.pj.E0601.cn.0000017ee
+                                            </em></span>
+                                            <em class="icon"></em>
+                                            <div class="drop">
+                                                <img src="" alt="">
+                                            </div>
+                                        </div>
+                </div>
+                <!--//End title-->
+
+                <div class="bd subtxt">
+                        <span >
+                            <strong>
+                                    类别：
+                            </strong>
+                            <em id="category" category-id="3" class="data-item"></em>
+
+                        </span>
+                            <span>
+                                   <strong>
+                                        地区：
+                                </strong>
+                                        <em class="value dic data-item" dic-type="101" lang="chi" data-id="33" >ALB</em>
+                            </span>
+                    <span class="language" id="trans_lang">
+                            <a href="" id="trans"></a>
+                    </span>
+                </div>
+                <!--//End-->
+
+                <!--//ENd-->
+                <div class="bd batch" id="mas">
+                    <div class="tname">
+                        非遗在中国
+                        <i></i>
+                </div>
+                    <div class="subcon" id="subcon">
+                                <span>
+                                         级别
+                                    ： <em style="font-size: 12px" class="value dic data-item" dic-type="103" lang="chi" data-id="41">30004</em> </span>
+
+                    </div>
+                </div>
+                </div>
+                <!--//ENd-->
+            </div>
+            <!--//End 主内容-->
+
+            <div class="card_base section" data-type="short-text">
+                <duv class="detail_title handle-button">
+                    <h2 class="title">
+                            基础信息
+                    </h2>
+                </duv>
+                <div class="info read-piece" id="info">
+                    <ul>
+                                <li>
+                                    <span class="key">
+                                            项目名称
+                                        ：</span>
+                                    <span class="value dic data-item" dic-type="0" lang="chi" data-id="4">Bisalhães 黑陶制作工艺eeddd</span>
+                                </li>
+                                <li>
+                                    <span class="key">
+                                            国家代码
+                                        ：</span>
+                                    <span class="value dic data-item" dic-type="0" lang="chi" data-id="108">PRTss</span>
+                                </li>
+                    </ul>
+                </div>
+            </div>
+            <!--//End 基本信息-->
+        </div>
+
+
+
+
+
+
+                <section class="bd floor odd" data-type="image-text">
+                    <div class="card" data-id="3891953531552063">
+                        <header class="title handle-button"><h4>
+                                简介
+                        </h4></header>
+                        <article class="plain_text read-piece">
+                            <p class="data-item" data-id="9">
+                                    &lt;p>葡萄牙的Bisalhães被誉为&quot;陶器之乡&quot;，黑陶制品尤其著名，主要做装饰和日常烹饪之用。这种带有村落标志传统工艺是部族文化身份的重要组成部分，为了制作与过去相似的产品，今天依然沿用古老的方法。dsfd&lt;/p>
+
+                            </p>
+
+                        </article>
+                    </div>
+                </section>
+
+
+
+
+                <section  name="tuwen" class="bd floor even" data-type="image-text">
+                    <div class="card" data-id="7011757946584148">
+                        <header class="title handle-button"><h4>
+                                 基本内容
+                        </h4></header>
+                        <article class="text_img read-piece">
+                            <div class="side" style="margin-right:30px;">
+                                <div class="item">
+                                    <p class="data-item" data-id="35">
+                                         &lt;p>葡萄牙的Bisalhães被誉为&quot;陶器之乡&quot;，黑陶制品尤其著名，主要做装饰和日常烹饪之用。这种带有村落标志传统工艺是部族文化身份的重要组成部分，为了制作与过去相似的产品，今天依然沿用古老的方法。制作黑陶需要几个步骤：首先，用木锤把石槽里的陶土碾碎，过筛加水，用不同形状的板条捏制定形，利用鹅卵石进行平滑处理，用枝条装饰，最后送入窑中烧制。制作分工随着时间不断演化，今天，男人主要负责劳动密集型的陶土准备阶段，女人则主要负责装饰。另外，今天使用的陶土来自当地的砖厂，不再是从深坑中开采。这项工艺几乎只限亲属间传承，工匠数量的减少、年轻一代兴趣的减弱和工业发展的冲击正威胁着这一传统手工艺的传承。dsfdsfe&lt;/p>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <ul>
+                                        <li>
+                                                    <img src="http://resource.efeiyi.com/image/project/10178-BIG.jpg" alt="" class="data-item" data-id="35">
+
+
+                                        </li>
+                                        <li>
+                                                    <img src="http://resource.efeiyi.com/image/project/10176-BIG.jpg" alt="" class="data-item" data-id="35">
+
+
+                                </ul>
+
+                                    <div class="more">
+                                        <a class="albums arrow_right" data-id="7011757946584148" href="javascript:;">
+                                                查看完整图集
+                                            </a>
+                                    </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+
+
+
+                <section class="bd floor odd" data-type="image-text">
+                    <div class="card" data-id="904639960991182848">
+                        <header class="title handle-button"><h4>
+                                sfdfedsf
+                        </h4></header>
+                        <article class="plain_text read-piece">
+                            <p class="data-item" data-id="904639794586365952">
+                                    &lt;p>dsfefdsfe&lt;/p>
+
+                            </p>
+
+                        </article>
+                    </div>
+                </section>
+
+
+
+        <!--//ENd-->
+    </div>
+    <!--//End detail -->
+</div>
+
+
+
+<div class="bd footer"></div>
+<!--//End--footer-->
+
+<div class="side_fixed">
+    <ul></ul>
+    <a class="gotop" href="javascript:void(0)" title="返回顶部"></a>
+</div>
+<!--//End 右侧悬浮-->
+
+</body>
+<script>
+    $(function() {
+
+        //控制header中英文显示
+                $("#trans").text("English version");
+                $("#trans").attr('href',30001+ ".html");
+
+
+        //去掉头部标记
+        $(".header .content .nav li").eq(0).removeClass("active");
+        //给logo加首页链接
+        $('.logo').attr('href','../page/index.html');
+
+    });
+
+</script>
+<script>
+    //详情页题图居中遮罩
+    (function () {
+        var $img = $('#detailTopic');
+        var $content = $('#detailContent');
+        var img = document.getElementById('detailTopic');
+
+        img.onload = function () {
+            // 加载完成
+            var imgW = parseInt($img.width());
+            $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
+            $content.css({width:imgW+'px'});
+            $img.fadeIn(800);
+        };
+
+
+        var imgW = parseInt($img.width());
+        $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
+        $content.css({width:imgW+'px'});
+        $img.fadeIn(800);
+    })();
+</script>
+</html>
