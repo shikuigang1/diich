@@ -435,7 +435,7 @@ function login(){
 
     $.ajax({
         type: "POST",
-        url: "http://192.168.1.41:8080/user/login",
+        url: "/user/login",
         data: $('#loginForm').serialize(), // 你的formid
         dataType: "json",
         error: function(request) {
