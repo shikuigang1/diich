@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <#assign caturi="http://diich.efeiyi.com" />
+    <#assign h5uri="http://47.95.32.236/lntang" />
     <title>
     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
        <#list obj.contentFragmentList as cf>
@@ -30,15 +31,15 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Pragma" content="no-cache">
     <meta name="description" content="...." />
-    <link rel="stylesheet" type="text/css" href="css/project.css"/>
-    <link rel="stylesheet" type="text/css" href="links/js/reset.css"/>
-    <script src="links/js/rem.js" type="text/javascript" charset="utf-8"></script>
-    <script src="links/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="assets/js/Menu2.js" type="text/javascript" charset="utf-8"></script>
-    <script src="assets/js/scrollBar.js" type="text/javascript" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="links/css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="css/swiper.min.css"/>
-    <script src="links/js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="${h5uri}/css/project.css"/>
+    <link rel="stylesheet" type="text/css" href="${h5uri}/links/js/reset.css"/>
+    <script src="${h5uri}/links/js/rem.js" type="text/javascript" charset="utf-8"></script>
+    <script src="${h5uri}/links/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="${h5uri}/assets/js/Menu2.js" type="text/javascript" charset="utf-8"></script>
+    <script src="${h5uri}/assets/js/scrollBar.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="${h5uri}/links/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="${h5uri}/css/swiper.min.css"/>
+    <script src="${h5uri}/links/js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="${caturi}/data/dictionary.js"></script>
     <script src="${caturi}/data/category.js"></script>
     <script src="${caturi}/js/util.js"></script>
@@ -53,28 +54,28 @@
     <div class="box_list" id="box_list">
         <ul>
             <li id="li1">
-                <a href="javascript:;"><img src="links/img/souye.png"/></a>
-                <a href="javascript:;"><img src="assets/images/home.png"/></a>
+                <a href="javascript:;"><img src="${h5uri}/links/img/souye.png"/></a>
+                <a href="javascript:;"><img src="${h5uri}/assets/images/home.png"/></a>
                 <span>首页</span>
             </li>
             <li id="box_list_search">
-                <a href="javascript:;"><img src="links/img/feiyiminglu.png"/></a>
-                <a href="javascript:;"><img src="assets/images/feiyi.png"/></a>
+                <a href="javascript:;"><img src="${h5uri}/links/img/feiyiminglu.png"/></a>
+                <a href="javascript:;"><img src="${h5uri}/assets/images/feiyi.png"/></a>
                 <span>搜索</span>
             </li>
             <li class="lii"  id="li2">
-                <a href="javascript:;"><img src="links/img/minglupass.png"/></a>
-                <a href="javascript:;"><img src="assets/images/pass.png"/></a>
+                <a href="javascript:;"><img src="${h5uri}/links/img/minglupass.png"/></a>
+                <a href="javascript:;"><img src="${h5uri}/assets/images/pass.png"/></a>
                 <span>非遗名录</span>
             </li>
             <li id="li3">
-                <a href="javascript:;"><img src="links/img/shenbao.png"/></a>
-                <a href="javascript:;"><img src="assets/images/shenbao.png"/></a>
+                <a href="javascript:;"><img src="${h5uri}/links/img/shenbao.png"/></a>
+                <a href="javascript:;"><img src="${h5uri}/assets/images/shenbao.png"/></a>
                 <span>我要申报</span>
             </li>
             <li id="li4">
-                <a href="javascript:;"><img src="links/img/Group 13.png"/></a>
-                <a href="javascript:;"><img src="assets/images/Group 13.png"/></a>
+                <a href="javascript:;"><img src="${h5uri}/links/img/Group 13.png"/></a>
+                <a href="javascript:;"><img src="${h5uri}/assets/images/Group 13.png"/></a>
                 <span>官方服务</span>
             </li>
         </ul>
@@ -94,13 +95,13 @@
             <div class="banner_remove" id="">
                 <a href="javascript:;">
                     <span>|</span>
-                    <img src="links/img/Combined Shape.png" id="val_rem"/>
+                    <img src="${h5uri}/links/img/Combined Shape.png" id="val_rem"/>
                 </a>
             </div>
             <!--搜索-->
             <div class="banner_search">
                 <input type="text" placeholder="请输入非遗相关内容" id="Text_inp"/>
-                <input type="image" src="links/img/sousuo.png" id="Text"/>
+                <input type="image" src="${h5uri}/links/img/sousuo.png" id="Text"/>
             </div>
         </div>
 
@@ -292,14 +293,14 @@
                 </ul>
 
                 <p class="Load_la" id="Load_la">
-                    <img src="images/hide.png" class="shOp" id="img1"/>
-                    <img src="images/shop.png" id="img2"/>
+                    <img src="${h5uri}/images/hide.png" class="shOp" id="img1"/>
+                    <img src="${h5uri}/images/shop.png" id="img2"/>
                 </p>
             </div>
         </#if>
             <div class="inherit_content2">
                 <#if obj.lang == "chi">
-                    <h4>非遗在中国<img src="images/logo123.png"></h4>
+                    <h4><span>非遗在中国</span><img src="${h5uri}/images/logo123.png"></h4>
                     <#list obj.contentFragmentList as cf>
                         <#if cf.attributeId == 106 && cf.content?? && cf.content != "" >
                             <p>
@@ -321,7 +322,7 @@
 
                 </#if>
                 <#if obj.lang == "eng">
-                    <h4>The heritage in China<img src="images/logo123.png"></h4>
+                    <h4><span>The heritage in China</span><img src="${h5uri}/images/logo123.png"></h4>
                     <#list obj.contentFragmentList as cf>
                         <#if cf.attributeId == 106 && cf.content?? && cf.content != "" >
                             <p>
@@ -431,7 +432,7 @@
             <!--基本内容-->
             <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                 <#list obj.contentFragmentList as cf>
-                    <#if (cf.attribute.dataType == 5 || cf.attribute.dataType == 1)>
+                    <#if cf.attribute?? && (cf.attribute.dataType == 5 || cf.attribute.dataType == 1)>
                         <div class="inFormation2" id="Essential_${cf.id?c}">
                             <h3><#if obj.lang == "chi">
                                 ${cf.attribute.cnName}
@@ -488,7 +489,7 @@
                                 </ul>
                                 <div class="show_num">
                                     <span class="numBerStr"></span>
-                                    <img src="assets/iocn/Group .png"/>
+                                    <img src="${h5uri}/assets/iocn/Group .png"/>
                                 </div>
                             </div>
                             <#if cf.resourceList?? && (cf.resourceList?size>0)>
@@ -547,6 +548,14 @@
                     <div class="swiper-button-next swiper-button-white"></div>
                 </div>
             </div>
+        </div>
+    </div>
+
+
+    <div class="box_layer_tow" id="box_layer_tow_show">
+        <span id="Close_tow">关闭</span>
+        <div id="box_layer_tow">
+
         </div>
     </div>
 
