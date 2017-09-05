@@ -13,6 +13,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     var declareCode = ""; // 申报地址
     var ossImgPash = "http://diich-resource.oss-cn-beijing.aliyuncs.com/image/master/"; // oss图片地址存放地址
     var mid = getQueryString("mid");
+    var userType = 1; // 用户类型
     function _init() {
         if(mid != null) {
             _onRequest("GET", "/ichMaster/getIchMasterById", {params:mid}).then(function(result) {
@@ -49,6 +50,14 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         _onOveraPreview();
         _onOveraSubmit();
         _addCustom();
+        _getUserInfo();
+    }
+
+    // 获取用户信息
+    function _getUserInfo() {
+        _onRequest("POST", "/user/userinfo", {params: ""}).then(function(data){
+            userType = data.res.data.type;
+        })
     }
 
     // 判断哪些菜单是填写完成的
@@ -1138,8 +1147,11 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     //console.log("result === >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
                     // 处理用户未登录
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                        //alert("提交成功");
-                        window.location.href = "ichMasterOver.html"; // 跳转成功页面
+                        if(userType != null && userType == 3) {
+                            window.location.href = "organization/organization.html"; // 跳转到机构
+                        } else {
+                            window.location.href = "ichMasterOver.html"; // 跳转成功页面
+                        }
                         _bindingSave(); // 重新绑定
                     } else {
                         tipBox.init("fail", result.res.msg, 1500);
@@ -1441,57 +1453,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             })
             return res;
         }
-        //console.log("pageObj --- >", pageObj)
-    }
-
-    /**
-     * 请求
-     * @param mode  请求方式
-     * @param url   请求地址
-     * @param params    参数
-     * @returns {Promise}
-     */
-    function _onRequest(mode, url, params) {
-        return new Promise(function (resolve, reject) {
-            //
-            //
-            //// 统一处理 ajax获取数据code != 0的自定义异常
-            //$(document).ajaxSuccess(function(e, x, o){
-            //    // o为ajax请求本身 x.responseJSON是返回结果
-            //    console.log("e --- >", e);
-            //    console.log("x --- >", x);
-            //    console.log("o --- >", o);
-            //
-            //    if(x.responseJSON.code != 0) {
-            //        console.log("登录")
-            //    }
-            //});
-            //
-            //// 设置AJAX的全局默认选项
-            //$.ajaxSetup({
-            //    async: false,
-            //    dataType: "json",
-            //    error: function (xhr, status, e) {
-            //        console.log(xhr, status, e)
-            //    },
-            //});
-
-            $.ajax({
-                type: mode,
-                url: url,
-                data: params, // {params: JSON.stringify(params)}
-                error: function (err) {
-                    reject(err)
-                },
-                success: function (res) {
-                    if(res.code == 0) {
-                        resolve({res: res })
-                    } else {
-                        resolve({res: res ? res : null})
-                    }
-                },
-            });
-        })
     }
 
     /**
