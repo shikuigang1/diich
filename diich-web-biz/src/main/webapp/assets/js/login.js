@@ -432,18 +432,20 @@ $(function () {
 
  }*/
 function login(){
+
     $.ajax({
-        cache: true,
         type: "POST",
         url: "/user/login",
         data: $('#loginForm').serialize(), // 你的formid
         dataType: "json",
-        async: true,
+        xhrFields:{
+            withCredentials:true
+        },
         error: function(request) {
             //alert("Connection error");
         },
         success: function(data) {
-            var lang = getLang();
+            var lang = getLang();-
             console.log(data);
             if(data.code!=0){
                 $('.box_layer .login').find('.group').addClass('error');
