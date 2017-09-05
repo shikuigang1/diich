@@ -372,13 +372,13 @@ var projectPage={
             }
         }
         //初始化 一级分类数据
-      /*  var _data=[
-            {value:1,name:'口头传说和表述'},
-            {value:11,name:'表演艺术'},
-            {value:28,name:'社会风俗、礼仪、节庆'},
-            {value:55,name:'有关自然界和宇宙的知识和实践'},
-            {value:67,name:'传统的手工艺技能'}
-        ];*/
+        /*  var _data=[
+         {value:1,name:'口头传说和表述'},
+         {value:11,name:'表演艺术'},
+         {value:28,name:'社会风俗、礼仪、节庆'},
+         {value:55,name:'有关自然界和宇宙的知识和实践'},
+         {value:67,name:'传统的手工艺技能'}
+         ];*/
         var _data=[];
         var _datatemp= getCategoryList(0); //数据库字段太长 暂不使用
         $.each(_datatemp,function (idx,obj) {
@@ -453,46 +453,46 @@ var projectPage={
                                 //填充题图
                                 //是否为已认证项目 标记
                                 var flag = 0;
-                               if(typeof ich.contentFragmentList != "undefined"){
-                                   $.each(ich.contentFragmentList,function (idx,obj) {
-                                       //填充题图
-                                       if(obj.attributeId == 1 && obj.resourceList.length>0){
-                                           var uri = obj.resourceList[0].uri;
-                                           $(".preview").attr("src",imgserver+"/image/project/"+uri).show();
-                                           $(".preview").parent().addClass('active');
-                                       }
+                                if(typeof ich.contentFragmentList != "undefined"){
+                                    $.each(ich.contentFragmentList,function (idx,obj) {
+                                        //填充题图
+                                        if(obj.attributeId == 1 && obj.resourceList.length>0){
+                                            var uri = obj.resourceList[0].uri;
+                                            $(".preview").attr("src",imgserver+"/image/project/"+uri).show();
+                                            $(".preview").parent().addClass('active');
+                                        }
 
-                                       if(obj.attributeId == 116 && obj.content != ''){
-                                           flag=1;
-                                           $("#ECalendar_date").val(obj.content);
-                                       }
-                                       if(obj.attributeId == 107 && obj.content != ''){
-                                           flag=1;
-                                           $("#certCode").val(obj.content);
-                                       }
-                                       if(obj.attributeId == 9 && obj.content != ''){
-                                           $("#summary").val(obj.content);
-                                       }
-                                       if(obj.attributeId == 6 && obj.content != ''){
-                                           $("#pinyin").val(obj.content);
-                                       }
-                                       if(obj.attributeId == 5 && obj.content != ''){
-                                           $("#engName").val(obj.content);
-                                       }
-                                       if(obj.attributeId == 41 && obj.content != ''){
-                                           $("#certselect").val(obj.content);
-                                       }
-                                       if(obj.attributeId == 109 && obj.content != ''){
-                                           $("#beginTimes").val(obj.content);
-                                       }
-                                       if(obj.attributeId == 108 && obj.content != ''){
-                                           $("#countryCode").val(obj.content);
-                                       }
-                                       if(obj.attributeId == 32 && obj.content != ''){
-                                           $("#titleWords").val(obj.content);
-                                       }
-                                   });
-                               }
+                                        if(obj.attributeId == 116 && obj.content != ''){
+                                            flag=1;
+                                            $("#ECalendar_date").val(obj.content);
+                                        }
+                                        if(obj.attributeId == 107 && obj.content != ''){
+                                            flag=1;
+                                            $("#certCode").val(obj.content);
+                                        }
+                                        if(obj.attributeId == 9 && obj.content != ''){
+                                            $("#summary").val(obj.content);
+                                        }
+                                        if(obj.attributeId == 6 && obj.content != ''){
+                                            $("#pinyin").val(obj.content);
+                                        }
+                                        if(obj.attributeId == 5 && obj.content != ''){
+                                            $("#engName").val(obj.content);
+                                        }
+                                        if(obj.attributeId == 41 && obj.content != ''){
+                                            $("#certselect").val(obj.content);
+                                        }
+                                        if(obj.attributeId == 109 && obj.content != ''){
+                                            $("#beginTimes").val(obj.content);
+                                        }
+                                        if(obj.attributeId == 108 && obj.content != ''){
+                                            $("#countryCode").val(obj.content);
+                                        }
+                                        if(obj.attributeId == 32 && obj.content != ''){
+                                            $("#titleWords").val(obj.content);
+                                        }
+                                    });
+                                }
 
                                 //显示选中内容
                                 if(flag==1){
@@ -565,12 +565,12 @@ var projectPage={
                 }
 
                 /*  if(editFlag){ //页面被修改 弹出是否保存
-                    if(confirm("你是否要保存当前页面信息？"))
-                    {
-                        saveIchProject();
-                    }
+                 if(confirm("你是否要保存当前页面信息？"))
+                 {
+                 saveIchProject();
+                 }
 
-                }*/
+                 }*/
                 editFlag = false;
                 /*
                  alert(($(this).parent().find('i').eq(0).hasClass('selected') || $(this).parent().find('i').eq(0).hasClass('unselected2')) );
@@ -607,50 +607,50 @@ var projectPage={
                 $('#tpl').load('./Tpl/'+_dateType+'.html',function () {
                     projectPage.bind();
                     if(_dateType==='longField'){
-                       upload.remove(function (rid) {
+                        upload.remove(function (rid) {
 
-                           //判断本地图片是否存在
-                           var imageIsExsit=false;
-                           var ich = getCurrentProject();
-                           $.each(ich.contentFragmentList,function (index,obj) {
+                            //判断本地图片是否存在
+                            var imageIsExsit=false;
+                            var ich = getCurrentProject();
+                            $.each(ich.contentFragmentList,function (index,obj) {
 
-                               if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
+                                if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
 
-                                   $.each(obj.resourceList,function (i,o) {
-                                       if(o.id==rid){
-                                           return true;
-                                       }
-                                   });
-                               }
+                                    $.each(obj.resourceList,function (i,o) {
+                                        if(o.id==rid){
+                                            return true;
+                                        }
+                                    });
+                                }
 
-                           });
+                            });
 
-                           if(imageIsExsit){ //本地存在 进行删除操作
-                               if(delImage(rid)){
-                                   tipBox.init("success","删除图片成功！",1500);
-                                   //删除图片在本地缓存
-                                   var ich = getCurrentProject();
-                                   $.each(ich.contentFragmentList,function (index,obj) {
+                            if(imageIsExsit){ //本地存在 进行删除操作
+                                if(delImage(rid)){
+                                    tipBox.init("success","删除图片成功！",1500);
+                                    //删除图片在本地缓存
+                                    var ich = getCurrentProject();
+                                    $.each(ich.contentFragmentList,function (index,obj) {
 
-                                       if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
+                                        if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
 
-                                           $.each(obj.resourceList,function (i,o) {
-                                               if(o.id==rid){
-                                                   ich.contentFragmentList[index].resourceList=obj.resourceList.slice(i,1);
-                                                   return false;
-                                               }
-                                           });
-                                       }
+                                            $.each(obj.resourceList,function (i,o) {
+                                                if(o.id==rid){
+                                                    ich.contentFragmentList[index].resourceList=obj.resourceList.slice(i,1);
+                                                    return false;
+                                                }
+                                            });
+                                        }
 
-                                   });
-                                   console.log(JSON.stringify(ich));
-                                   localStorage.setItem("ichProject",JSON.stringify(ich));
-                               }else{
-                                   tipBox.init("fail","删除图片失败！",1500);
-                               }
-                           }else{
-                               //do nothing
-                           }
+                                    });
+                                    console.log(JSON.stringify(ich));
+                                    localStorage.setItem("ichProject",JSON.stringify(ich));
+                                }else{
+                                    tipBox.init("fail","删除图片失败！",1500);
+                                }
+                            }else{
+                                //do nothing
+                            }
 
 
                         });
@@ -691,8 +691,8 @@ var projectPage={
 
                         $(".next").prev().attr("href","javascript:delContentFragment('"+attrid+"')");
                         $(".next").attr("href","javascript:saveContentPragment('"+attrid+"')");
-                      /*  $(".next").next().attr("href","javascript:next("++attrid")");
-*/
+                        /*  $(".next").next().attr("href","javascript:next("++attrid")");
+                         */
                         projectPage.radioImage(); //上传题图
                     }else {
                         projectPage.uploadImgage(); //上传题图
@@ -899,47 +899,47 @@ var projectPage={
                      console.log(JSON.stringify(ich));
                      localStorage.setItem("ichProject",JSON.stringify(ich));*/
                 }else{
-   /*               $('.preview').attr('src',data.data[0]).show();
-                    //图上传成功本地保存图片
-                    var imgpath = data.data[0];
-                    //获取图片名称
-                    var path = imgpath.substring(imgpath.lastIndexOf("/")+1);
-                    var ich = getCurrentProject();
+                    /*               $('.preview').attr('src',data.data[0]).show();
+                     //图上传成功本地保存图片
+                     var imgpath = data.data[0];
+                     //获取图片名称
+                     var path = imgpath.substring(imgpath.lastIndexOf("/")+1);
+                     var ich = getCurrentProject();
 
-                    var contentFragment={};
-                    //var attr={};
-                    var resource={};
-                    var resourceList=[];
+                     var contentFragment={};
+                     //var attr={};
+                     var resource={};
+                     var resourceList=[];
 
-                    contentFragment.attributeId=1;//题图
-                    //contentFragment.content=$("#titu").val();//题图对应链接
-                    //attr.dataType=0;
-                    resource.uri=path;
-                    resource.type=0;
-                    resource.description='';
-                    resourceList.push(resource);
+                     contentFragment.attributeId=1;//题图
+                     //contentFragment.content=$("#titu").val();//题图对应链接
+                     //attr.dataType=0;
+                     resource.uri=path;
+                     resource.type=0;
+                     resource.description='';
+                     resourceList.push(resource);
 
-                    //contentFragment.attribute=attr;
-                    contentFragment.resourceList=resourceList;
-                    contentFragment.targetType=0;
+                     //contentFragment.attribute=attr;
+                     contentFragment.resourceList=resourceList;
+                     contentFragment.targetType=0;
 
-                    if( ich.contentFragmentList == null || typeof(ich.contentFragmentList)=="undefined"){
-                        var contentFragmentList=[];
-                        contentFragmentList.push(contentFragment);
-                        ich.contentFragmentList=contentFragmentList;
-                    }else{
-                        var flag = 0;
-                        $.each( ich.contentFragmentList,function (idx,obj){
-                            if(obj.attributeId==1){
-                                ich.contentFragmentList[idx].resourceList[0].uri=contentFragment.resourceList[0].uri;
-                                flag = 1;
-                            }
-                        });
-                        if(flag == 0){
-                            ich.contentFragmentList.push(contentFragment);
-                        }
-                    }
-                    localStorage.setItem("ichProject",JSON.stringify(ich));*/
+                     if( ich.contentFragmentList == null || typeof(ich.contentFragmentList)=="undefined"){
+                     var contentFragmentList=[];
+                     contentFragmentList.push(contentFragment);
+                     ich.contentFragmentList=contentFragmentList;
+                     }else{
+                     var flag = 0;
+                     $.each( ich.contentFragmentList,function (idx,obj){
+                     if(obj.attributeId==1){
+                     ich.contentFragmentList[idx].resourceList[0].uri=contentFragment.resourceList[0].uri;
+                     flag = 1;
+                     }
+                     });
+                     if(flag == 0){
+                     ich.contentFragmentList.push(contentFragment);
+                     }
+                     }
+                     localStorage.setItem("ichProject",JSON.stringify(ich));*/
                 }
             }else{
                 //文件上传出错
@@ -1331,7 +1331,7 @@ var organizationPage = {
             var name = $(this).find("span").first().text();
             var targetType=$(this).attr('target-type');
             $('#tpl').load('./Tpl/'+_dateType+'.html',function () {
-               _this.radioImage();
+                _this.radioImage();
                 if(_dateType==='longField'){
                     upload.remove(function (rid) {
                         //判断本地图片是否存在
@@ -1375,6 +1375,13 @@ var organizationPage = {
                     /*$(".st").children("h2").text(name);*/
                     //初始化当前菜单数据
                     // var flag = false;//缓存命中标记
+                    organization = getCurrentOrganization();
+                    $.each(organization.contentFragmentList,function (index,obj) {
+                        if(obj.attributeId == attrid){
+                            $("#longContent").val(obj.content);
+                            return false;
+                        }
+                    });
                     initCustomAttribute(attrid);
                     //是否显示 添加图片
                     if(targetType==1){ //不显示 上传图片
@@ -1384,7 +1391,7 @@ var organizationPage = {
                     $(".next").prev().attr("href","javascript:delOrgCustom('"+attrid+"')");
                     $(".next").attr("href","javascript:saveOrganization()");
 
-                   //organizationPage.radioImage(); //上传题图
+                    //organizationPage.radioImage(); //上传题图
                 }
             });
 
@@ -1408,7 +1415,7 @@ var organizationPage = {
         var el = $('.ipt_base .content .edit .images .handle .file_up .icon');
         upload.submit(el, 1, '/user/uploadFile?type=organization', function (data) {
             _images.find('.handle').before(templateItem(data.data));
-           // $('.preview').remove();
+            // $('.preview').remove();
             _images.find('.preview').remove();
             isItemStatus();
         });

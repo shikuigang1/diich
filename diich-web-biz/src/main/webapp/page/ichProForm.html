@@ -137,7 +137,7 @@
             localStorage.setItem('action',"update");//添加修改标记状态
             var ich = getIchProByID(pid);//获取对象数据
             var code="";//区域code 存储
-            console.log(JSON.stringify(ich));
+            //console.log(JSON.stringify(ich));
             $.each(ich.contentFragmentList,function (index,object) {
                 if(object.attributeId==4){//获取用户中文名信息
                     $("#title").text('编辑申报信息-'+object.content);
