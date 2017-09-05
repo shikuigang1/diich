@@ -319,7 +319,7 @@
                                                     <div class="time">30:24</div>
                                                     <div class="play"></div>
                                                     <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${orguri}${r.uri}" type="video/mp4" style="width: 100%;">
+                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${orgvuri}${r.uri}" type="video/mp4" style="width: 100%;">
                                                         </video>
                                                     </#if>
                                                     <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
