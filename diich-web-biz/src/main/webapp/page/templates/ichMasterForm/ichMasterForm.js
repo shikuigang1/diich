@@ -912,9 +912,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             var obj = {};
             var index = 0; // 记录删除对象在pageObj中对应的索引位置
             // 去除对应的数据
-            if(pageObj.hasOwnProperty("contentFragmentList")) {
-                $.each(pageObj.contentFragmentList, function(i, v) {
-                    if(v.attributeId == did) {
+            if (pageObj.hasOwnProperty("contentFragmentList")) {
+                $.each(pageObj.contentFragmentList, function (i, v) {
+                    if (v.attributeId == did) {
                         index = i;
                         obj = v;
                         return;
@@ -923,17 +923,17 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             }
 
             // 如果obj属性大于0 则表示有数据
-            if(Object.getOwnPropertyNames(obj).length > 0) {
+            if (Object.getOwnPropertyNames(obj).length > 0) {
                 //console.log("obj --- >", obj);
-                _onRequest("POST", "/contentFragment/deleteContentFragment", {params: JSON.stringify(obj)}).then(function(result) {
+                _onRequest("POST", "/contentFragment/deleteContentFragment", {params: JSON.stringify(obj)}).then(function (result) {
                     //console.log("result --- >", result);
-                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                    if (result.res.code == 0 && result.res.msg == "SUCCESS") {
                         _emptyMod(); // 清空MOD层数据
                         // 删除pageObj中对应的对象
                         pageObj.contentFragmentList.splice(index, 1);
                     } else {
-                        if(result.res.code != 3) {
-                            tipBox.init("fail", result.res.msg , 1500);
+                        if (result.res.code != 3) {
+                            tipBox.init("fail", result.res.msg, 1500);
                         }
                         _bindingDelete();
                     }
@@ -950,13 +950,12 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 $this.remove(); // 删除菜单
                 _bindingDelete();
             }
-            _onRemoveImg(); // 删除图片
+
+
             $("#menus_custom").children(".dd").children("ul").children(".selected").remove();// 删除菜单
 
-    }
+        }
 
-
-    function _onRemoveImg() {
         // 删除图片操作
         _bindingDeleteImg();
         function _bindingDeleteImg() {
@@ -965,9 +964,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             })
         }
 
-        function _deleteImg($pthis) {
-            $pthis.off("click");
-            var $this = $(this);
+        function _deleteImg($this) {
+            $this.off("click");
+            //var $this = $(this);
             var pop = $this.attr("id").split("_").pop(); // 图片Id
             var mid = $this.attr("data-id");
             if(pop != "delete") {
@@ -1004,7 +1003,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 _bindingDeleteImg();
             }
         }
-    }
     }
 
     // 获取自定义模块 表单数据 处理成参数
