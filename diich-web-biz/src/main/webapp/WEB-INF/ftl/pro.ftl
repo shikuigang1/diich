@@ -577,7 +577,7 @@
                             <#if cf.content?? && cf.content != "">
                             <div class="side" style="margin-right:30px;">
                                 <div class="item">
-                                    <p class="data-item" data-id="${cf.attributeId}">
+                                    <p class="data-item" data-id="${cf.attributeId?c}">
                                        <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
                                          ${content}
                                     </p>
@@ -590,10 +590,10 @@
                                         <li>
                                             <#if r.type ==0>
                                                 <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                    <img src="${prouri}${r.uri}" alt="" class="data-item" data-id="${cf.attributeId}">
+                                                    <img src="${prouri}${r.uri}" alt="" class="data-item" data-id="${cf.attributeId?c}">
                                                 </#if>
                                                 <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
-                                                    <img src="${r.uri}" alt="" class="data-item" data-id="${cf.attributeId}">
+                                                    <img src="${r.uri}" alt="" class="data-item" data-id="${cf.attributeId?c}">
                                                 </#if>
 
                                                 <#if r.description??>
@@ -617,7 +617,7 @@
 
                                                 </div>
                                                 <#if r.description??>
-                                                    <span class="data-item" data-id="${cf.attributeId}">${r.description}</span>
+                                                    <span class="data-item" data-id="${cf.attributeId?c}">${r.description}</span>
                                                 </#if>
                                             </#if>
                                             <#if (r_index == 1)>
@@ -659,7 +659,7 @@
                             </#if>
                         </h4></header>
                         <article class="plain_text">
-                            <p class="data-item" data-id="${cf.attributeId}">
+                            <p class="data-item" data-id="${cf.attributeId?c}">
                                 <#if cf.content??>
                                     <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
                                     ${content}
