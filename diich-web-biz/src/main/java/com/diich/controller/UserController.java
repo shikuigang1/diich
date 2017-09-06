@@ -6,10 +6,7 @@ import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.User;
 import com.diich.core.service.UserService;
 import com.diich.core.support.cache.JedisHelper;
-import com.diich.core.util.SimpleUpload;
-import com.diich.core.util.OperateFileUtil;
-import com.diich.core.util.PropertiesUtil;
-import com.diich.core.util.WebUtil;
+import com.diich.core.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -148,9 +145,8 @@ public class UserController extends BaseController<User> {
      */
     @RequestMapping("login")
     @ResponseBody
-    public  Map<String, Object> login(HttpServletRequest request,HttpServletResponse response) {
-        response.setContentType("text/html;charset=UTF-8");
-        response.setHeader("Access-Control-Allow-Origin", "*");
+    public  Map<String, Object> login(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        setHeader(request,response);
         String loginName = request.getParameter("loginName");
         String password = request.getParameter("password");
         if(StringUtils.isEmpty(loginName) || StringUtils.isEmpty(password)){
@@ -160,11 +156,9 @@ public class UserController extends BaseController<User> {
         User user =null;
         try{
             user = userService.login(loginName,password);
-            //jedisHelper.set(String.valueOf(user.getId()),JSON.toJSONString(user),60);
             HttpSession session = request.getSession();
             user.setPassword(null);
             session.setAttribute("CURRENT_USER",user);
-//            jedisHelper.set(String.valueOf(user.getId()),user,600);
         }catch (Exception e){
             return putDataToMap(e);
         }
@@ -173,12 +167,8 @@ public class UserController extends BaseController<User> {
 
     @RequestMapping("userinfo")
     @ResponseBody
-    public  Map<String, Object> userinfo(HttpServletRequest request,HttpServletResponse response) {
-
-        response.setHeader("Access-Control-Allow-Origin", "*");
-//        String id = request.getParameter("params");
-//        String o = (String)jedisHelper.get(id);
-//        Object obj = JSON.parse(o);
+    public  Map<String, Object> userinfo(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        setHeader(request,response);
         User obj = (User) WebUtil.getCurrentUser(request);
         if(obj == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
@@ -197,10 +187,10 @@ public class UserController extends BaseController<User> {
      */
     @RequestMapping("logoff")
     @ResponseBody
-    public Map<String, Object> logoff(HttpServletRequest request,HttpServletResponse response) {
+    public Map<String, Object> logoff(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        setHeader(request , response);
         HttpSession session = request.getSession();
         session.removeAttribute("CURRENT_USER");
-        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(null);
     }
 
