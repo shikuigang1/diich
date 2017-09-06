@@ -271,7 +271,6 @@ function displayEditMode() {
             var attribute = {};
             attribute.cnName = title;
             attribute.dataType = 5;
-            attribute.ichCategoryId = 0;
             contentFragment.content = content;
             contentFragment.targetType = 0;
             contentFragment.attribute = attribute;
