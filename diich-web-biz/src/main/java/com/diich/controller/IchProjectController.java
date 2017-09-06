@@ -80,7 +80,8 @@ public class IchProjectController extends BaseController<IchProject> {
      */
     @RequestMapping("getIchProjectById")
     @ResponseBody
-    public Map<String, Object> getIchProjectById(HttpServletRequest request,HttpServletResponse response) {
+    public Map<String, Object> getIchProjectById(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        setHeader(request,response);
         String id = request.getParameter("params");
         if(id == null || "".equals(id)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
@@ -97,7 +98,6 @@ public class IchProjectController extends BaseController<IchProject> {
         }catch (Exception e){
             return putDataToMap(e);
         }
-        //response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(ichProject);
     }
 
@@ -126,8 +126,8 @@ public class IchProjectController extends BaseController<IchProject> {
 
     @RequestMapping("saveIchProject")
     @ResponseBody
-    public Map<String, Object> saveIchProject(HttpServletRequest request,HttpServletResponse response) {
-        response.setContentType("text/html;charset=UTF-8");
+    public Map<String, Object> saveIchProject(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        setHeader(request,response);
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
@@ -151,7 +151,6 @@ public class IchProjectController extends BaseController<IchProject> {
         } catch (Exception e) {
             return putDataToMap(e);
         }
-        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(ichProject);
     }
 
@@ -332,31 +331,5 @@ public class IchProjectController extends BaseController<IchProject> {
         byte[] imageBts = bos.toByteArray();
         return imageBts;
     }
-
-    @RequestMapping("test")
-    @ResponseBody
-    public Map<String, Object> test(HttpServletRequest request,HttpServletResponse response) throws Exception {
-        String id = request.getParameter("params");
-        if(id == null || "".equals(id)) {
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
-            return ae.toMap();
-        }
-        IchProject ichProject = null;
-        try{
-            ichProject = ichProjectService.getIchProject(id);
-            String outPutPath = PropertiesUtil.getString("freemarker.projectfilepath")+"/"+ichProject.getId().toString()+".html";
-            String s = ichProjectService.buildHTML("pro_tmp.ftl", ichProject, outPutPath);
-//            String bucketName = PropertiesUtil.getString("img_bucketName");
-//            File file = new File(outPutPath);
-//            SimpleUpload.uploadFile(new FileInputStream(file),bucketName,"p/"+ichProject.getId()+".html",file.length());
-        }catch (Exception e){
-            ApplicationException ae = (ApplicationException) e;
-            return ae.toMap();
-        }
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        return putDataToMap(ichProject);
-    }
-
-
 
 }

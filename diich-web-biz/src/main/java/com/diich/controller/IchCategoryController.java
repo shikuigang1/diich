@@ -72,10 +72,9 @@ public class IchCategoryController extends BaseController<IchCategory> {
      */
     @RequestMapping("getAttributeList")
     @ResponseBody
-    public Map<String, Object> getAttrListByCatIdAndTarType(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> getAttrListByCatIdAndTarType(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("text/html;charset=UTF-8");
+        setHeader(request,response);
         String categoryId = request.getParameter("categoryId");
         String targetType = request.getParameter("targetType");
         if(StringUtils.isEmpty(categoryId)){
@@ -107,9 +106,9 @@ public class IchCategoryController extends BaseController<IchCategory> {
      */
     @RequestMapping("getDefAttributeList")
     @ResponseBody
-    public Map<String, Object> getDefAttrListByTarIdAndTarType(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> getDefAttrListByTarIdAndTarType(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        setHeader(request,response);
         String targetId = request.getParameter("targetId");
         String targetType = request.getParameter("targetType");
         Long id = null;
@@ -138,9 +137,9 @@ public class IchCategoryController extends BaseController<IchCategory> {
      */
     @RequestMapping("getAttributeListByCatIdAndProId")
     @ResponseBody
-    public Map<String, Object> getAttrListByCatIdAndProId(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> getAttrListByCatIdAndProId(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        setHeader(request,response);
         response.setContentType("text/html;charset=UTF-8");
         String categoryId = request.getParameter("categoryId");
         String proId = request.getParameter("proId");
