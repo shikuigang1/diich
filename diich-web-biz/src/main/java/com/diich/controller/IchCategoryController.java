@@ -72,9 +72,13 @@ public class IchCategoryController extends BaseController<IchCategory> {
      */
     @RequestMapping("getAttributeList")
     @ResponseBody
-    public Map<String, Object> getAttrListByCatIdAndTarType(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        setHeader(request,response);
+    public Map<String, Object> getAttrListByCatIdAndTarType(HttpServletRequest request, HttpServletResponse response) {
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
         String categoryId = request.getParameter("categoryId");
         String targetType = request.getParameter("targetType");
         if(StringUtils.isEmpty(categoryId)){
@@ -106,9 +110,13 @@ public class IchCategoryController extends BaseController<IchCategory> {
      */
     @RequestMapping("getDefAttributeList")
     @ResponseBody
-    public Map<String, Object> getDefAttrListByTarIdAndTarType(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        setHeader(request,response);
+    public Map<String, Object> getDefAttrListByTarIdAndTarType(HttpServletRequest request, HttpServletResponse response) {
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
         String targetId = request.getParameter("targetId");
         String targetType = request.getParameter("targetType");
         Long id = null;
@@ -137,10 +145,14 @@ public class IchCategoryController extends BaseController<IchCategory> {
      */
     @RequestMapping("getAttributeListByCatIdAndProId")
     @ResponseBody
-    public Map<String, Object> getAttrListByCatIdAndProId(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public Map<String, Object> getAttrListByCatIdAndProId(HttpServletRequest request, HttpServletResponse response) {
 
-        setHeader(request,response);
-        response.setContentType("text/html;charset=UTF-8");
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
         String categoryId = request.getParameter("categoryId");
         String proId = request.getParameter("proId");
         if(StringUtils.isEmpty(categoryId)){

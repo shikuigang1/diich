@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -43,11 +44,11 @@ public class UserController extends BaseController<User> {
      * 获取验证码
      * @param request
      * @return
-     * @throws Exception
+     *
      */
     @RequestMapping("getVerifycode")
     @ResponseBody
-    public Map<String, Object> getVerifyCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public Map<String, Object> getVerifyCode(HttpServletRequest request, HttpServletResponse response){
         response.setContentType("text/html;charset=UTF-8");
         Map<String, Object> result=new HashMap<>();
         String phone = request.getParameter("phone");
@@ -58,8 +59,13 @@ public class UserController extends BaseController<User> {
         }
         if("0".equals(type)){//0 注册时获取验证码  1忘记密码获取验证码
             //检查手机号是否被占用
-            List<User> userList = userService.checkUserByPhone(phone);
-            if(userList.size()>0){
+            List<User> userList = null;
+            try{
+                userList = userService.checkUserByPhone(phone);
+            }catch (Exception e){
+                return putDataToMap(e);
+            }
+            if(userList != null && userList.size()>0){
                 ApplicationException ae = new ApplicationException(ApplicationException.PHONE_USED);
                 return putDataToMap(ae);
             }
@@ -69,7 +75,12 @@ public class UserController extends BaseController<User> {
         String begindate = (String) session.getAttribute("begindate"+phone);
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if(begindate !=null){
-            Date bdate = df.parse(begindate);
+            Date bdate = null;
+            try {
+                bdate = df.parse(begindate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             long time = (new Date().getTime() - bdate.getTime())/1000;
             if(time>60){//验证码有效期1分钟
                 session.removeAttribute(phone);
@@ -100,11 +111,11 @@ public class UserController extends BaseController<User> {
      * 验证完成后保存用户信息
      * @param request
      * @return
-     * @throws Exception
+     *
      */
     @RequestMapping("register")
     @ResponseBody
-    public Map<String, Object> register(HttpServletRequest request,HttpServletResponse response,User user) throws Exception {
+    public Map<String, Object> register(HttpServletRequest request,HttpServletResponse response,User user) {
         response.setContentType("text/html;charset=UTF-8");
         response.setHeader("Access-Control-Allow-Origin", "*");
         Map<String, Object> result = new HashMap<>();
@@ -145,8 +156,13 @@ public class UserController extends BaseController<User> {
      */
     @RequestMapping("login")
     @ResponseBody
-    public  Map<String, Object> login(HttpServletRequest request,HttpServletResponse response) throws Exception {
-        setHeader(request,response);
+    public  Map<String, Object> login(HttpServletRequest request,HttpServletResponse response) {
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
         String loginName = request.getParameter("loginName");
         String password = request.getParameter("password");
         if(StringUtils.isEmpty(loginName) || StringUtils.isEmpty(password)){
@@ -167,8 +183,13 @@ public class UserController extends BaseController<User> {
 
     @RequestMapping("userinfo")
     @ResponseBody
-    public  Map<String, Object> userinfo(HttpServletRequest request,HttpServletResponse response) throws Exception {
-        setHeader(request,response);
+    public  Map<String, Object> userinfo(HttpServletRequest request,HttpServletResponse response) {
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
         User obj = (User) WebUtil.getCurrentUser(request);
         if(obj == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
@@ -187,8 +208,13 @@ public class UserController extends BaseController<User> {
      */
     @RequestMapping("logoff")
     @ResponseBody
-    public Map<String, Object> logoff(HttpServletRequest request,HttpServletResponse response) throws Exception {
-        setHeader(request , response);
+    public Map<String, Object> logoff(HttpServletRequest request,HttpServletResponse response) {
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
         HttpSession session = request.getSession();
         session.removeAttribute("CURRENT_USER");
         return putDataToMap(null);
@@ -288,7 +314,7 @@ public class UserController extends BaseController<User> {
 
     @RequestMapping("updateUser")
     @ResponseBody
-    public  Map<String, Object> updateUser (HttpServletRequest request,HttpServletResponse response ,User user) throws Exception{
+    public  Map<String, Object> updateUser (HttpServletRequest request,HttpServletResponse response ,User user){
         response.setHeader("Access-Control-Allow-Origin", "*");
 
         //判断用户是否登陆
@@ -306,8 +332,14 @@ public class UserController extends BaseController<User> {
             }
         }
         if(!StringUtils.isEmpty(user.getLoginName())){//校验用户名
-            List<User> userList = userService.checkUser(user.getLoginName());
-            if(userList.size() > 0){
+            List<User> userList = null;
+            try{
+                userList = userService.checkUser(user.getLoginName());
+            }catch (Exception e){
+                return putDataToMap(e);
+            }
+
+            if(userList != null && userList.size() > 0){
                 ApplicationException ae = new ApplicationException(ApplicationException.LOGNAME_USED);
                 return putDataToMap(ae);
             }
@@ -326,7 +358,7 @@ public class UserController extends BaseController<User> {
 
     @RequestMapping("updateMail")
     @ResponseBody
-    public Map<String, Object> updateMail (HttpServletRequest request,HttpServletResponse response ,User user) throws Exception{
+    public Map<String, Object> updateMail (HttpServletRequest request,HttpServletResponse response ,User user){
         response.setHeader("Access-Control-Allow-Origin", "*");
         //判断用户是否登陆
         User user1 = (User) WebUtil.getCurrentUser(request);
@@ -354,7 +386,7 @@ public class UserController extends BaseController<User> {
     }
     @RequestMapping("getMailCode")
     @ResponseBody
-    public Map<String, Object> getMailCode (HttpServletRequest request,HttpServletResponse response ,User user) throws Exception{
+    public Map<String, Object> getMailCode (HttpServletRequest request,HttpServletResponse response ,User user){
         response.setHeader("Access-Control-Allow-Origin", "*");
         //判断用户是否登陆
         User user1 = (User) WebUtil.getCurrentUser(request);
@@ -372,7 +404,12 @@ public class UserController extends BaseController<User> {
         String begindate = (String) session.getAttribute("begindate"+mail);
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if(begindate !=null){
-            Date bdate = df.parse(begindate);
+            Date bdate = null;
+            try {
+                bdate = df.parse(begindate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             long time = (new Date().getTime() - bdate.getTime())/1000;
             if(time>60){//验证码有效期1分钟
                 session.removeAttribute(mail);
@@ -400,9 +437,9 @@ public class UserController extends BaseController<User> {
      * @param code
      * @param request
      * @return
-     * @throws Exception
+     *
      */
-    private Map<String, Object> updatePhone(String phone, String code, HttpServletRequest request) throws Exception{
+    private Map<String, Object> updatePhone(String phone, String code, HttpServletRequest request){
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("CURRENT_USER");
         if(phone.equals(user.getPhone())){
@@ -416,7 +453,7 @@ public class UserController extends BaseController<User> {
         return null;
     }
 
-    private User copyUser(User user1 , User user) throws Exception{
+    private User copyUser(User user1 , User user){
         if(StringUtils.isEmpty(user.getName())){
             user.setName(user1.getName());
         }
@@ -459,16 +496,21 @@ public class UserController extends BaseController<User> {
      * @param phone
      * @param code
      * @return
-     * @throws Exception
+     *
      */
 
-    private  Map<String, Object> checkVerifyCode(HttpSession session,String phone,String code) throws Exception{
+    private  Map<String, Object> checkVerifyCode(HttpSession session,String phone,String code){
         Map<String, Object> result = new HashMap();
         //判断验证码是否超时
         String begindate = (String) session.getAttribute("begindate"+phone);
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if(begindate !=null){
-            Date bdate = df.parse(begindate);
+            Date bdate = null;
+            try {
+                bdate = df.parse(begindate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             long time = (new Date().getTime() - bdate.getTime())/1000;
             if(time>60){
                 session.removeAttribute(phone);

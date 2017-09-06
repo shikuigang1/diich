@@ -86,7 +86,7 @@ public class OrganizationController extends BaseController<Organization>{
 
     @RequestMapping("saveOrganization")
     @ResponseBody
-    public Map<String, Object> saveOrganization (HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public Map<String, Object> saveOrganization (HttpServletRequest request, HttpServletResponse response){
 
         User user = (User) WebUtil.getCurrentUser(request);
         if(user == null) {
@@ -124,11 +124,11 @@ public class OrganizationController extends BaseController<Organization>{
      * @param request
      * @param response
      * @return
-     * @throws Exception
+     *
      */
     @RequestMapping("preview")
     @ResponseBody
-    public Map<String, Object> preview(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public Map<String, Object> preview(HttpServletRequest request, HttpServletResponse response) {
 
         String id = request.getParameter("params");
         if(id == null || "".equals(id)) {
@@ -153,7 +153,7 @@ public class OrganizationController extends BaseController<Organization>{
      */
     @RequestMapping("getOrganizationByUserId")
     @ResponseBody
-    public Map<String, Object> getOrganizationByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public Map<String, Object> getOrganizationByUserId(HttpServletRequest request, HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
