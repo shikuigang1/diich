@@ -80,8 +80,13 @@ public class IchProjectController extends BaseController<IchProject> {
      */
     @RequestMapping("getIchProjectById")
     @ResponseBody
-    public Map<String, Object> getIchProjectById(HttpServletRequest request,HttpServletResponse response) throws Exception {
-        setHeader(request,response);
+    public Map<String, Object> getIchProjectById(HttpServletRequest request,HttpServletResponse response) {
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
         String id = request.getParameter("params");
         if(id == null || "".equals(id)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
@@ -126,8 +131,13 @@ public class IchProjectController extends BaseController<IchProject> {
 
     @RequestMapping("saveIchProject")
     @ResponseBody
-    public Map<String, Object> saveIchProject(HttpServletRequest request,HttpServletResponse response) throws Exception {
-        setHeader(request,response);
+    public Map<String, Object> saveIchProject(HttpServletRequest request,HttpServletResponse response)  {
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
@@ -201,11 +211,11 @@ public class IchProjectController extends BaseController<IchProject> {
      * @param request
      * @param response
      * @return
-     * @throws Exception
+     *
      */
     @RequestMapping("preview")
     @ResponseBody
-    public Map<String, Object> preview(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public Map<String, Object> preview(HttpServletRequest request, HttpServletResponse response) {
 
         String id = request.getParameter("params");
         if(id == null || "".equals(id)) {
@@ -227,11 +237,11 @@ public class IchProjectController extends BaseController<IchProject> {
      * @param request
      * @param response
      * @return
-     * @throws Exception
+     *
      */
     @RequestMapping("getIchProjectByUserId")
     @ResponseBody
-    public Map<String, Object> getIchProjectByUserId(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public Map<String, Object> getIchProjectByUserId(HttpServletRequest request, HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
@@ -261,7 +271,7 @@ public class IchProjectController extends BaseController<IchProject> {
 
     @RequestMapping("audit")
     @ResponseBody
-    public Map<String, Object> audit(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public Map<String, Object> audit(HttpServletRequest request, HttpServletResponse response){
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
@@ -285,11 +295,11 @@ public class IchProjectController extends BaseController<IchProject> {
      * @param request
      * @param response
      * @return
-     * @throws Exception
+     *
      */
     @RequestMapping("delete")
     @ResponseBody
-    public Map<String, Object> delete(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public Map<String, Object> delete(HttpServletRequest request, HttpServletResponse response){
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
