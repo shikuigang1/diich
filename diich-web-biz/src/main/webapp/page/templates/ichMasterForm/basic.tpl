@@ -18,7 +18,6 @@
             </div>
         </div> -->
         <div id="inheritor"></div>
-
         {{#each sonterms}}
             {{#equal dataType 0}}
                 {{#equal id 127}}
