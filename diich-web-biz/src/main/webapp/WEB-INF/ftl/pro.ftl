@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://diich.efeiyi.com" />
+<#assign caturi=".." />
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -27,10 +27,23 @@
     <link rel="shortcut icon" type="image/x-icon" href="${caturi}/assets/images/logo.png" media="screen" />
     <link rel="stylesheet" href="${caturi}/assets/css/common.css">
     <link rel="stylesheet" href="${caturi}/assets/css/layout.css">
+
+    <link rel="stylesheet" href="${caturi}/css/icon.min.css">
+    <link rel="stylesheet" href="${caturi}/css/button.min.css">
+    <link rel="stylesheet" href="${caturi}/assets/css/inputs.css">
+    <link rel="stylesheet" href="${caturi}/css/project-detail.css?7">
+
     <!--[if IE]>
     <link rel="stylesheet" href="${caturi}/assets/css/ie.css">
     <script src="${caturi}/assets/js/html5.js"></script>
     <![endif]-->
+
+    <script type="text/javascript" charset="utf-8" src="${caturi}/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${caturi}/ueditor/_examples/editor_api.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="${caturi}/ueditor/lang/zh-cn/zh-cn.js"></script>
+
     <script src="${caturi}/data/keyword.js"></script>
     <script src="${caturi}/assets/js/jquery.min.js"></script>
     <script src="${caturi}/assets/js/system.js"></script>
@@ -43,6 +56,11 @@
     <script src="${caturi}/js/i18n.js"></script>
     <script src="${caturi}/data/dictionary.js"></script>
     <script src="${caturi}/js/util.js"></script>
+
+    <script src="${caturi}/assets/js/Ecalendar.jquery.min.js"></script>
+    <script src="${caturi}/js/ajaxfileupload.js"></script>
+    <script src="${caturi}/js/project-detail.js?3"></script>
+
     <script>
         var json = ${json.json};
         var jsonAll = ${json.jsonAll};
@@ -205,7 +223,7 @@
         <!--//End crumbs-->
 
         <div class="card">
-            <div class="card_main">
+            <div class="card_main section" data-type="main-text">
                 <div class="floor">
                     <a class="share" title="分享"></a>
                     <a class="praise" title="点赞" style="position: relative;"></a>
@@ -225,6 +243,8 @@
                     </div>
                 </div>
                 <!--//End -->
+                <div class="main-info-button handle-button"></div>
+                <div class="read-piece">
                 <div class="detail_title">
                         <#if obj.lang == "chi">
                             <#assign cNid = 4/>
@@ -232,7 +252,7 @@
                         <#if obj.lang == "eng">
                                 <#assign cNid = 5/>
                         </#if>
-                    <h2 data-id="${cNid}" class="data-item"><#if (obj.contentFragmentList?size>0)>
+                    <h2 data-id="${cNid}" class="data-item title"><#if (obj.contentFragmentList?size>0)>
                                 <#list obj.contentFragmentList as cf>
                                     <#if obj.lang == "chi">
                                         <#if cf.attributeId == 4>
@@ -246,7 +266,8 @@
                                     </#if>
                                 </#list>
                          </#if>
-                    </h2><a href="${caturi}/page/ichProForm.html?pid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
+                        <span class="primary edit link" project-id="${obj.id?c}"><i class="icon"></i>编辑</span>
+                    </h2><#--<a href="${caturi}/page/ichProForm.html?pid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>-->
                     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 2>
@@ -445,13 +466,14 @@
 
                     </div>
                 </div>
+                </div>
                 <!--//ENd-->
             </div>
             <!--//End 主内容-->
 
-            <div class="card_base">
-                <duv class="detail_title">
-                    <h2>
+            <div class="card_base section" data-type="short-text">
+                <duv class="detail_title handle-button">
+                    <h2 class="title">
                         <#if obj.lang == "chi">
                             基础信息
                         </#if>
@@ -460,7 +482,7 @@
                         </#if>
                     </h2>
                 </duv>
-                <div class="info" id="info">
+                <div class="info read-piece" id="info">
                     <ul>
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
@@ -563,9 +585,9 @@
     <#if (obj.contentFragmentList?size>0)>
         <#list obj.contentFragmentList as cf>
             <#if (cf.attribute.dataType == 5  && cf.resourceList?? && cf.resourceList?size>0)>
-                <section  name="tuwen" class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
+                <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>" data-type="image-text">
                     <div class="card" data-id="${cf.id?c}">
-                        <header><h4>
+                        <header class="title handle-button"><h4>
                             <#if obj.lang == "chi">
                                  ${cf.attribute.cnName}
                             </#if>
@@ -573,7 +595,7 @@
                                  ${cf.attribute.enName}
                             </#if>
                         </h4></header>
-                        <article class="text_img">
+                        <article class="text_img read-piece">
                             <#if cf.content?? && cf.content != "">
                             <div class="side" style="margin-right:30px;">
                                 <div class="item">
@@ -597,7 +619,7 @@
                                                 </#if>
 
                                                 <#if r.description??>
-                                                    <span class="data-item" data-id="${cf.attributeId}">${r.description}</span>
+                                                    <#--<span class="data-item" data-id="${cf.attributeId}">${r.description}</span>-->
                                                 </#if>
                                             </#if>
 
@@ -606,18 +628,18 @@
                                                     <div class="time">30:24</div>
                                                     <div class="play" data-type="1" data-id="1" ></div>
                                                     <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${provuri}${r.uri}" type="video/mp4" style="width: 100%;" class="data-item" data-id="${cf.attributeId}">
+                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${prouri}${r.uri}" type="video/mp4" style="width: 100%;" class="data-item" data-id="${cf.attributeId?c}">
                                                         </video>
                                                     </#if>
                                                     <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
-                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${r.uri}" type="video/mp4" style="width: 100%;" class="data-item" data-id="${cf.attributeId}">
+                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${r.uri}" type="video/mp4" style="width: 100%;" class="data-item" data-id="${cf.attributeId?c}">
                                                         </video>
                                                     </#if>
 
 
                                                 </div>
                                                 <#if r.description??>
-                                                    <span class="data-item" data-id="${cf.attributeId?c}">${r.description}</span>
+                                                    <#--<span class="data-item" data-id="${cf.attributeId}">${r.description}</span>-->
                                                 </#if>
                                             </#if>
                                             <#if (r_index == 1)>
@@ -648,9 +670,9 @@
             </#if>
             <#if ((cf.attribute.dataType == 5 || cf.attribute.dataType == 1) && (!cf.resourceList?? || cf.resourceList?size==0)) && cf.content?? && cf.content != "">
 
-                <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
+                <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>" data-type="image-text">
                     <div class="card" data-id="${cf.id?c}">
-                        <header><h4>
+                        <header class="title handle-button"><h4>
                             <#if obj.lang == "chi">
                                 ${cf.attribute.cnName}
                             </#if>
@@ -658,7 +680,7 @@
                                 ${cf.attribute.enName}
                             </#if>
                         </h4></header>
-                        <article class="plain_text">
+                        <article class="plain_text read-piece">
                             <p class="data-item" data-id="${cf.attributeId?c}">
                                 <#if cf.content??>
                                     <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
