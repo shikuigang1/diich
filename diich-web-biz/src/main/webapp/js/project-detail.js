@@ -66,9 +66,9 @@ function loadProjectFromServer(projectId) {
         type: 'get',
         url: base_url + '/ichProject/getIchProjectById?params=' + projectId,
         async: false,
-        /*xhrFields:{
+        xhrFields:{
             withCredentials:true
-        },*/
+        },
         success: function (data) {
             if(data == null || data.code == 3) {
                 alert('您还没有登录，请登录后操作！');
@@ -107,9 +107,6 @@ function loadAttributesFromServer() {
     $.ajax({
         type: 'post',
         url: url,
-        /*xhrFields:{
-            withCredentials:true
-        },*/
         success: function (data) {
             if(data == null || data.code == 3) {
                 return;
@@ -220,6 +217,8 @@ function displayEditMode() {
     });
     
     $('a.albums').hide();
+    $('a.share').hide();
+    $('a.praise').hide();
     
     $('.add.button').on('click', function () {
         if(has_edit == true) {
@@ -647,10 +646,13 @@ function saveProjectToClient($section) {
 
         var data_id;
         var editor_id;
-        if(data_type == 'long-text' || data_type == 'image-text') {
+        if(data_type == 'image-text') {
             data_id = $section.find('.read-piece .data-item').attr('data-id');
             editor_id = $(item_arr[i]).attr('id');
             data_value = UE.getEditor(editor_id).getContent();
+            if(data_value.indexOf('<p>') == 0) {
+                data_value = data_value.substring(3, data_value.length - 4);
+            }
         } else {
             data_id = $(item_arr[i]).attr('data-id');
             if($(item_arr[i]).is('input[type="text"]') || $(item_arr[i]).is('select')) {
@@ -699,13 +701,10 @@ function showProjectUi($section) {
             var contentFragment = contentFragmentList[j];
 
             if($item.attr('data-id') == contentFragment.attributeId) {
-                if($section.find('.editor') != null && $section.find('.editor').length > 0) {
-                    var editor_id = $section.find('.editor').attr('id');
-                    $item.html(UE.getEditor(editor_id).getContent());
-                } else if($item.hasClass('dic')) {
+                if($item.hasClass('dic')) {
                     $item.text(getTextByTypeAndCode($item.attr('dic-type'), contentFragment.content, 'chi'));
                 } else {
-                    $item.text(contentFragment.content);
+                    $item.html(contentFragment.content);
                 }
                 break;
             }
