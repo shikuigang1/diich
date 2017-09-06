@@ -356,6 +356,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 }
             })
         }
+        console.log(" menuss[0].sonTerms --- >",  menuss[0].sonTerms);
         $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, ichProjectName: ichProjectName, pageObj : pageObj, fyGrade: fyGrade})); // 更新页面模板
         // 上传图片
         upload.submit($('.horizontal .group .control .file_up'),1,'/user/uploadFile?type=master',function (res) {
@@ -1149,7 +1150,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 _onRequest("POST", "/ichMaster/preview", {params: targetId}).then(function(result) {
                     //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                        window.open(result.data);
+                        window.open(result.res.data.replace('./',''));
                         _bindingSave();
                     } else {
                         _bindingSave();

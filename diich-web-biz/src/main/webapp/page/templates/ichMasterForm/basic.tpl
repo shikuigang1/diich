@@ -21,41 +21,40 @@
 
         {{#each sonterms}}
             {{#equal dataType 0}}
-                {{#equal id 10}}
-                    <div id="img" class="group" data-id="{{id}}">
-                        <label class="label" for=""><!-- <em>*</em> -->照片</label>
+                {{#equal id 127}}
+                    <div class="group">
+                        <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
                         <div class="control">
-                            <div class="file_up">
-                                <span class="text">上传题图</span>
-                            </div>
-                            <div class="tips">建议比例：x*x，不符合的图片将进行裁剪；格式：jpg\png</div>
-                            <div id="basic_{{id}}_err" class="errors" style="display: none" ><i></i>请上传图片</div>
+                            <select id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" class="ipt w310" name="">
+                                <option value="身份证">身份证</option>
+                                <option value="签证">签证</option>
+                                <option value="护照">护照</option>
+                                <option value="军人证">军人证</option>
+                            </select>
+                            <div class="errors" style="display: none"><i></i>请填写证件类型</div>
                         </div>
                     </div>
                 {{else}}
-                    {{#equal id 127}}
-                        <div class="group">
-                            <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
-                            <div class="control">
-                                <select id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" class="ipt w310" name="">
-                                    <option value="身份证">身份证</option>
-                                    <option value="签证">签证</option>
-                                    <option value="护照">护照</option>
-                                    <option value="军人证">军人证</option>
-                                </select>
-                                <div class="errors" style="display: none"><i></i>请填写证件类型</div>
-                            </div>
+                    <div class="group">
+                        <label class="label">{{#equal id 13}}<em>*</em>{{/equal}}<!-- <em>*</em> -->{{cnName}}</label>
+                        <div class="control">
+                            <input value="{{getContent ../../../pageObj.contentFragmentList id}}" id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" type="text" data-maxLength="{{maxLength}}" data-minLength="{{minLength}}" class="ipt w310">
+                            <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填写姓名</div>
                         </div>
-                    {{else}}
-                         <div class="group">
-                            <label class="label">{{#equal id 13}}<em>*</em>{{/equal}}<!-- <em>*</em> -->{{cnName}}</label>
-                            <div class="control">
-                                <input value="{{getContent ../../../../pageObj.contentFragmentList id}}" id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" type="text" data-maxLength="{{maxLength}}" data-minLength="{{minLength}}" class="ipt w310">
-                                <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填写姓名</div>
-                            </div>
-                         </div>
-                    {{/equal}}
+                    </div>
                 {{/equal}}
+            {{/equal}}
+            {{#equal dataType 7}}
+                <div id="img" class="group" data-id="{{id}}">
+                    <label class="label" for=""><!-- <em>*</em> -->照片</label>
+                    <div class="control">
+                        <div class="file_up">
+                            <span class="text">上传题图</span>
+                        </div>
+                        <div class="tips">建议比例：x*x，不符合的图片将进行裁剪；格式：jpg\png</div>
+                        <div id="basic_{{id}}_err" class="errors" style="display: none" ><i></i>请上传图片</div>
+                    </div>
+                </div>
             {{/equal}}
             {{#equal dataType 101}}
                 {{#equal id 23}}
