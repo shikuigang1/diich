@@ -356,6 +356,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 }
             })
         }
+        console.log(" menuss[0].sonTerms --- >",  menuss[0].sonTerms);
         $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, ichProjectName: ichProjectName, pageObj : pageObj, fyGrade: fyGrade})); // 更新页面模板
         // 上传图片
         upload.submit($('.horizontal .group .control .file_up'),1,'/user/uploadFile?type=master',function (res) {
@@ -835,7 +836,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             var p = {name: "customContent", value: $("#customContent").val(), coustomName: $("#customName").val()};
             if(status) {
                 var params = getCustomFormData(p);
-                //console.log("params --- >", params);
+                console.log("自定义参数 --- >", params);
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
                     console.log("返回数据 -- >", result,  JSON.stringify(result.res.data),  "----pageObj ---", pageObj);
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
@@ -905,7 +906,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
         // 删除
         function _onDelete($this) {
-            var did = $dthis.attr("id").split("_").pop();
+            var did = $this.attr("id").split("_").pop();
             var obj = {};
             var index = 0; // 记录删除对象在pageObj中对应的索引位置
             // 去除对应的数据
@@ -947,8 +948,8 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 $this.remove(); // 删除菜单
                 _bindingDelete();
             }
-
             _onRemoveImg(); // 删除图片
+            $("#menus_custom").children(".dd").children("ul").children(".selected").remove();// 删除菜单
 
     }
 
@@ -1030,7 +1031,11 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         _bindingSave();
         function _bindingSave() {
             $("#onSubmit").on("click", function() {
-                _onSave();
+                if(!$("#content").is(":hidden")) {
+                    _onSave();
+                } else {
+                    tipBox.init("fail", "当前页面无保存项", 1500);
+                }
             })
         }
 
@@ -1065,18 +1070,37 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     break;
                 case "custom": // 自定义模块
                     var p = {name: "customContent", value: $("#customContent").val(), coustomName: $("#customName").val()};
-                    params = getCustomFormData(p).contentFragmentList[0].attributeId != 0 ? getCustomFormData(p) : "";
+                    var fag = true;
+                    if(p.coustomName.length < 1 || p.coustomName.length >10) {
+                        msg = "自定义名称在1-10字符之间";
+                        $("#customName_err").html("<i></i>" + msg).show();
+                        fag = false;
+                    } else {
+                        $("#customName_err").html("").hide();
+                    }
+                    if(p.value == "") {
+                        msg = "请填写自定义内容";
+                        $("#customContent_err").html("<i></i>" + msg).show();
+                        fag = false;
+                    } else {
+                        $("#customName_err").html("").hide();
+                    }
+                    if(fag) {
+                        params = getCustomFormData(p);
+                    }
                     break;
                 default:
                     break;
             }
-            console.log("params --- >", params);
             if(params != "") {
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
                     //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
                         _onMergeObj(result.res.data);
+                        if(strCode == "custom") {
+                            _generateMenu(result.res.data);
+                        }
                         tipBox.init("success", "保存成功", 1500);
                         _onOverallSave();
                     } else {
@@ -1087,8 +1111,25 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     }
                 });
             } else {
-                tipBox.init("fail", "当前页面不可保存", 1500);
                 _onOverallSave();
+            }
+
+            // 自定义生成菜单
+            function _generateMenu(data) {
+                console.log("data -- >", data);
+                var id = $("#menus_custom").children(".dt").attr("id");
+                // 添加自定义菜单项目
+                var arrLi = $("#" + id).next(".dd").children("ul").children("li:last-child");
+                var mid = "menutwo_" + $("#" + id).attr("id").split("_").pop() + "_";
+                if(arrLi.length > 0) {
+                    //console.log(arrLi.attr("id").split("_").pop())
+                    mid += parseInt(arrLi.attr("id").split("_").pop()) + 1;
+                } else {
+                    mid += "0";
+                }
+                //console.log("mid --- >", mid);
+                $("#" + id).next(".dd").children("ul").append(Handlebars.compile(menuTpl)({mid: mid, name: $("#customName").val(), menuId: data.contentFragmentList[0].attributeId}));
+                $("#" + mid).children("i").addClass("selected").removeClass("unselected");
             }
         }
     }
@@ -1109,7 +1150,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 _onRequest("POST", "/ichMaster/preview", {params: targetId}).then(function(result) {
                     //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                        window.open(result.data);
+                        window.open(result.res.data.replace('./',''));
                         _bindingSave();
                     } else {
                         _bindingSave();
@@ -1255,6 +1296,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
      * @returns {{contentFragmentList: *, isMaster: Number, lang: string, status: number, id: string}}
      */
     function buildParams(data, pageObj) {
+        console.log("data -- >", data);
         var  params = {
             "isMaster": parseInt(isMaster),
             "lang": getLang()=="zh-CN" ? "chi" : "eng",
@@ -1270,9 +1312,12 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         }
 
         $.each(data, function(i, v) {
-            //console.log("  --- >", i, v);
+            if(i == data.length) {
+                return;
+            }
+            console.log("  --- >", i, v, data.length);
             v.attributeId = $("#" + v.name).attr("data-id") ? $("#" + v.name).attr("data-id") : 0 ;
-            v.content = v.value;
+            v.content = v.content? v.content: v.value;
             v.status = 0;
             v.targetType = 1;
             v.targetId = targetId? targetId : "";
