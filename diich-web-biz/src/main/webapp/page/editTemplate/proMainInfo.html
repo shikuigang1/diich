@@ -1,0 +1,138 @@
+<form class="bd horizontal">
+
+        <div class="group">
+            <label class="label"><em>*</em>名称</label>
+            <div class="control">
+                <input type="text" class="ipt w562 data-item" data-id="4">
+                <div class="errors" style="display: none"><i></i>请填入正确格式的拼音且长度在1-50之间</div>
+            </div>
+        </div>
+        <div class="group">
+            <label class="label"><em>*</em>doi编码</label>
+            <div class="control">
+                <input type="text" class="ipt w562 data-item" data-id="2">
+                <div class="errors" style="display: none"><i></i>请填入正确格式的拼音且长度在1-50之间</div>
+            </div>
+        </div>
+        <div class="group">
+            <label class="label" for=""><em>*</em>分类</label>
+            <div class="control">
+                <div class="ipt w650 editListen data-item category" id="category_temp" style="text-overflow: ellipsis;overflow: hidden;  white-space: nowrap;">选择分类</div>
+                <div class="errors" style="display: none"><i></i>请选择分类</div>
+            </div>
+            <div class="dropbox">
+                <div class="item">
+                    <dl class="level">
+                        <dt>
+                        <div class="title" id="first_category">一级分类</div>
+                        </dt>
+                        <dd>
+                            <ul id="mainCategory">
+                                <li data-id="0">选择分类</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <dl class="level2">
+                        <dt>
+                        <div class="title" id="second_category">二级分类</div>
+                        </dt>
+                        <dd>
+                            <ul id="catecontent">
+                                <li data-id="0">选择分类</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <!--//End 所属分类-->
+            </div>
+        </div>
+        <!--//End 分类-->
+        <div class="group">
+            <label class="label" for=""><em>*</em>题图</label>
+
+            <div class="control">
+                <div class="file_up">
+                    <span class="text">上传题图</span>
+                    <input class="file" type="file">
+                    <!--<img class="preview" src="http://diich-resource.oss-cn-beijing.aliyuncs.com/image/project/09382-BIG.jpg" style="display: inline;z-index: 0;">-->
+                </div>
+                <div class="tips">建议比例：x*x，不符合的图片将进行裁剪；格式：jpg\png</div>
+                <div class="errors editListen" style="display: none"><i></i>请上传题图</div>
+            </div>
+        </div>
+        <!--//End 题图-->
+        <div class="group">
+            <label class="label" for=""><em>*</em>地域</label>
+            <div class="control">
+                <div class="ipt w650 select editListen data-item" data-id="33" id="area_temp" value="">请选择地域</div>
+                <div class="errors" style="display: none"><i></i>请填写地域</div>
+            </div>
+            <div class="dropbox">
+                <div class="item">
+                    <dl class="level">
+                        <dt>
+                        <div class="title" id="search_position">位置</div>
+                        </dt>
+                        <dd>
+                            <ul id="country">
+
+                            </ul>
+                        </dd>
+                    </dl>
+                    <dl class="level2">
+                        <dt>
+                        <div class="title" id="alphabetical_order">按照字母顺序</div>
+                        </dt>
+                        <dd>
+                            <ul id="citycontent">
+
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <!--//End 位置-->
+            </div>
+        </div>
+        <!--//End 地域-->
+        <!--<div class="group inheritor">
+            <label class="label" for="">是否为中国文化部认定的非遗项目</label>
+            <div class="control">
+                <span class="radio" value="1"><i></i>是</span>
+                <span class="radio active" value="0"><i></i>否</span>
+            </div>
+        </div>-->
+        <div class="group">
+            <label class="label" for=""><em>*</em>认证级别</label>
+            <div class="control">
+                <select class="ipt w310 editListen data-item" data-id="41" name="" id="certselect"></select>
+                <div class="errors" style="display: none"><i></i>请选择认证级别</div>
+            </div>
+        </div>
+        <!--<div class="group" data-type="group-drop" style="display: none">
+            <div class="group">
+                <label class="label" for=""><em>*</em>认证时间</label>
+                <div class="control">
+                    <div class="calendarWarp ipt w310">
+                        <input type="text" name="time" class="ECalendar editListen data-item identified-ich" id="ECalendar_date" style="width:100%"/>
+                        <div class="errors" style="display: none"><i></i>请选择认证时间</div>
+                    </div>
+                </div>
+            </div>
+            <div class="group">
+                <label class="label" for=""><em>*</em>认证级别</label>
+                <div class="control">
+                    <select class="ipt w310 editListen data-item identified-ich" name="" id="certselect"></select>
+                    <div class="errors" style="display: none"><i></i>请选择认证级别</div>
+                </div>
+            </div>
+            <div class="group">
+                <label class="label" for=""><em>*</em>项目代码</label>
+                <div class="control">
+                    <input class="ipt w310 data-item identified-ich" name="time">
+                    <div class="errors" style="display: none"><i></i>请填写认证编号</div>
+                </div>
+            </div>
+        </div>-->
+
+
+</form>

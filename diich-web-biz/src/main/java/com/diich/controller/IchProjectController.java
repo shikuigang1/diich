@@ -9,6 +9,7 @@ import com.diich.core.model.IchProject;
 import com.diich.core.model.User;
 import com.diich.core.service.IchProjectService;
 import com.diich.core.support.cache.JedisHelper;
+import com.diich.core.util.PropertiesUtil;
 import com.diich.core.util.QRCodeGenerator;
 import com.diich.core.util.WebUtil;
 import com.sun.image.codec.jpeg.JPEGCodec;
@@ -79,7 +80,8 @@ public class IchProjectController extends BaseController<IchProject> {
      */
     @RequestMapping("getIchProjectById")
     @ResponseBody
-    public Map<String, Object> getIchProjectById(HttpServletRequest request,HttpServletResponse response) {
+    public Map<String, Object> getIchProjectById(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        setHeader(request,response);
         String id = request.getParameter("params");
         if(id == null || "".equals(id)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
@@ -96,7 +98,6 @@ public class IchProjectController extends BaseController<IchProject> {
         }catch (Exception e){
             return putDataToMap(e);
         }
-        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(ichProject);
     }
 
@@ -125,8 +126,8 @@ public class IchProjectController extends BaseController<IchProject> {
 
     @RequestMapping("saveIchProject")
     @ResponseBody
-    public Map<String, Object> saveIchProject(HttpServletRequest request,HttpServletResponse response) {
-        response.setContentType("text/html;charset=UTF-8");
+    public Map<String, Object> saveIchProject(HttpServletRequest request,HttpServletResponse response) throws Exception {
+        setHeader(request,response);
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
@@ -150,7 +151,6 @@ public class IchProjectController extends BaseController<IchProject> {
         } catch (Exception e) {
             return putDataToMap(e);
         }
-        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(ichProject);
     }
 
@@ -331,6 +331,5 @@ public class IchProjectController extends BaseController<IchProject> {
         byte[] imageBts = bos.toByteArray();
         return imageBts;
     }
-
 
 }

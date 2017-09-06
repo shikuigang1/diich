@@ -1,7 +1,7 @@
 //引入其他js 文件
 document.write("<script type=\"text/javascript\" src=\"../../data/error_message.js\"></script>");
 document.write("<script type=\"text/javascript\" src=\"../../js/util.js\"></script>");
-
+var baseUrl="http://localhost:8080";
 //登录注册
 var loginPage = {
     init: function () {
@@ -384,10 +384,13 @@ $(function () {
     $.ajax({
         cache: true,
         type: "POST",
-        url: "/user/userinfo",
+        url: ""+baseUrl+"/user/userinfo",
         data: {params:localStorage.getItem("pid")}, // 你的formid
         dataType: "json",
         async: true,
+        xhrFields:{
+            withCredentials:true
+        },
         error: function(request) {
             //alert("Connection error");
         },
@@ -432,18 +435,20 @@ $(function () {
 
  }*/
 function login(){
+
     $.ajax({
-        cache: true,
         type: "POST",
-        url: "/user/login",
+        url: ""+baseUrl+"/user/login",
         data: $('#loginForm').serialize(), // 你的formid
         dataType: "json",
-        async: true,
+        xhrFields:{
+            withCredentials:true
+        },
         error: function(request) {
             //alert("Connection error");
         },
         success: function(data) {
-            var lang = getLang();
+            var lang = getLang();-
             console.log(data);
             if(data.code!=0){
                 $('.box_layer .login').find('.group').addClass('error');
@@ -620,10 +625,13 @@ function loginedTemplate(data) {
         $.ajax({
             cache: true,
             type: "POST",
-            url: "/user/logoff",
+            url: "http://localhost:8080/user/logoff",
             data: {params:localStorage.getItem("pid")}, // 你的formid
             dataType: "json",
             async: true,
+            xhrFields:{
+                withCredentials:true
+            },
             success:function (res) {
                 if(res.code===0){
                     $(".logined").hide().html('');

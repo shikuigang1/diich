@@ -25,8 +25,12 @@
             url : '../user/uploadFile',
             secureuri : false,
             fileElementId : 'file_upload',
-            dataType : 'json',
+            dataType : 'JSON',
             success : function(data) {
+                if(typeof data == 'string') {
+                    data = JSON.parse(data);
+                }
+
                 if(data.code != 0) {
                     alert(data.msg);
                     return;
@@ -40,7 +44,7 @@
                 }
             },
             error : function(e) {
-                alert(e.responseText);
+                alert('上传失败');
             }
         });
     });

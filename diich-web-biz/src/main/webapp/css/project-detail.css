@@ -4,14 +4,14 @@
     padding: 0px 4px;
     cursor: pointer;
     font-weight: normal;
+    float:right;
 }
 
 .primary.edit.link {
-    position: absolute;
-    top: 8px;
     right: 8px;
     font-size: 14px;
-    color: #333;
+    float:none!important;
+    /*color: #333;*/
 }
 
 .section>.inner {
@@ -21,8 +21,6 @@
 i.icon {
     padding-right: 0px;
 }
-
-
 
 .edit-project-tool-bar {
     border-top:solid #eee 1px;
@@ -47,4 +45,147 @@ i.icon {
 
 i {
     padding-right: 8px;
+}
+
+.editor {
+    margin-bottom: 50px;
+}
+
+.detail_title .edit {
+    position: inherit;
+    top: 0px;
+}
+
+.edui-default .edui-editor-bottomContainer td {
+    border-top: none!important;
+}
+
+.edui-default .edui-editor-toolbarboxouter {
+    border-bottom: none!important;
+    background-color:#fff!important;
+    background-image:none!important;
+    -webkit-box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    box-shadow: none!important;
+}
+
+.edui-default .edui-editor-toolbarbox {
+    -webkit-box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    box-shadow: none!important;
+}
+
+.edui-default .edui-editor {
+    border: none!important;
+}
+
+.main-info-button {
+    height: 20px;
+}
+
+section .handle-button {
+    margin-right: 45px;
+}
+
+.card .image-text {
+    width: 100%;
+    border: 1px solid #e5e5e5;
+    float: left;
+    margin: 0 0px 30px 0px;
+    background: white;
+}
+
+.card .image-text .text {
+    width: 70%;
+    float: left;
+    position: relative;
+}
+
+.card .image-text .text textarea {
+    width: 92%;
+    padding: 3% 4%;
+    min-height: 500px;
+    line-height: 26px;
+}
+
+.card .image-text .text .errors {
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 16px;
+    color: #FF3E3E;
+    position: absolute;
+    bottom: -26px;
+    left: 0;
+}
+
+.card .image-text .images {
+    width: 209px;
+    float: left;
+    margin-top: 3%;
+    margin-left: 58px;
+}
+
+.card .image-text .images .handle {
+    width: 100%;
+    max-width: 228px;
+    float: left;
+    margin-top: 20px;
+}
+
+.card .image-text .images .handle .add {
+    width: 98px;
+    cursor: pointer;
+    float: left;
+    margin-right: 11px;
+}
+
+.card .image-text .images .handle .add .icon {
+    width: 100%;
+    height: 98px;
+    border: 1px solid #e5e5e5;
+    position: relative;
+    float: left;
+}
+
+.card .image-text .images .handle .add span {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #949494;
+    line-height: 36px;
+    float: left;
+}
+
+.card .image-text .images .handle .add .icon i {
+    background: url('../assets/images/icon_detail_edit.png') 0 0 no-repeat;
+    width: 29px;
+    height: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -15px;
+    margin-left: -15px;
+}
+
+.card .image-text .images .handle .add .icon i {
+    background-position: 0 -46px;
+}
+
+.card .image-text .images .handle .add .icon2 i {
+    background-position: 0 -76px;
+}
+
+.group .dropbox {
+    z-index: 3;
+    margin-left: 129px;
+    top:15px!important;
+}
+/*
+.card .text_img {
+    width: calc(100% - 50px) !important;
+}*/
+
+.file_up .preview {
+    display: inline;
+    z-index: 0;
 }

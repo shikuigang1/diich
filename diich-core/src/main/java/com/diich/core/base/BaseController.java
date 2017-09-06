@@ -4,16 +4,14 @@
 package com.diich.core.base;
 
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
 import com.diich.core.exception.ApplicationException;
+import com.diich.core.util.PropertiesUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -162,4 +160,15 @@ public abstract class BaseController<T extends BaseModel> {
         return object;
     }
 
+    public void setHeader(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		String []  allowDomain= {PropertiesUtil.getString("_host"),PropertiesUtil.getString("_master"),PropertiesUtil.getString("_works"),PropertiesUtil.getString("_organization"),PropertiesUtil.getString("_project")};
+		Set<String> allowedOrigins= new HashSet<String>(Arrays.asList(allowDomain));
+		String originHeader=request.getHeader("Origin");
+		if (allowedOrigins.contains(originHeader)){
+			response.setHeader("Access-Control-Allow-Origin", originHeader);
+			response.setHeader("Access-Control-Allow-Credentials", "true");
+			response.setContentType("text/html;charset=UTF-8");
+		}
+
+	}
 }

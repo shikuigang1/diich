@@ -227,11 +227,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             ichProject = getAttribute(ichProject);//获取attribute
             String str = PropertiesUtil.getString("freemarker.projectfilepath");
             String fileName = str+"/"+ichProject.getId().toString() + ".html";
-            String s = buildHTML("pro.ftl", ichProject, fileName);//生成静态页面
-            String bucketName = PropertiesUtil.getString("img_bucketName");
-            String type = PropertiesUtil.getString("pc_phtml_server");
-            File file = new File(fileName);
-            SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichProject.getId()+".html",file.length());//上传到阿里云
+            //String s = buildHTML("pro.ftl", ichProject, fileName);//生成静态页面
+            //String bucketName = PropertiesUtil.getString("img_bucketName");
+            //String type = PropertiesUtil.getString("pc_phtml_server");
+            //File file = new File(fileName);
+            //SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichProject.getId()+".html",file.length());//上传到阿里云
         }
         return ichProject;
     }
