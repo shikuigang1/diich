@@ -189,3 +189,7 @@ section .handle-button {
     display: inline;
     z-index: 0;
 }
+
+.card .plain_text p {
+    margin-bottom: 0px;
+}
