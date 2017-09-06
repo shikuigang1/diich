@@ -1,7 +1,7 @@
 //引入其他js 文件
 document.write("<script type=\"text/javascript\" src=\"../../data/error_message.js\"></script>");
 document.write("<script type=\"text/javascript\" src=\"../../js/util.js\"></script>");
-
+var baseUrl="http://localhost:8080";
 //登录注册
 var loginPage = {
     init: function () {
@@ -384,7 +384,7 @@ $(function () {
     $.ajax({
         cache: true,
         type: "POST",
-        url: "http://localhost:8080/user/userinfo",
+        url: ""+baseUrl+"/user/userinfo",
         data: {params:localStorage.getItem("pid")}, // 你的formid
         dataType: "json",
         async: true,
@@ -438,7 +438,7 @@ function login(){
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/user/login",
+        url: ""+baseUrl+"/user/login",
         data: $('#loginForm').serialize(), // 你的formid
         dataType: "json",
         xhrFields:{
