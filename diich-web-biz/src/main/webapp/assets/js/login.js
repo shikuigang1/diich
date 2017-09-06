@@ -384,10 +384,13 @@ $(function () {
     $.ajax({
         cache: true,
         type: "POST",
-        url: "/user/userinfo",
+        url: "http://localhost:8080/user/userinfo",
         data: {params:localStorage.getItem("pid")}, // 你的formid
         dataType: "json",
         async: true,
+        xhrFields:{
+            withCredentials:true
+        },
         error: function(request) {
             //alert("Connection error");
         },
@@ -435,9 +438,12 @@ function login(){
 
     $.ajax({
         type: "POST",
-        url: "/user/login",
+        url: "http://localhost:8080/user/login",
         data: $('#loginForm').serialize(), // 你的formid
         dataType: "json",
+        xhrFields:{
+            withCredentials:true
+        },
         error: function(request) {
             //alert("Connection error");
         },
@@ -619,10 +625,13 @@ function loginedTemplate(data) {
         $.ajax({
             cache: true,
             type: "POST",
-            url: "/user/logoff",
+            url: "http://localhost:8080/user/logoff",
             data: {params:localStorage.getItem("pid")}, // 你的formid
             dataType: "json",
             async: true,
+            xhrFields:{
+                withCredentials:true
+            },
             success:function (res) {
                 if(res.code===0){
                     $(".logined").hide().html('');
