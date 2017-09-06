@@ -7,6 +7,8 @@ var attributes = null;
 var edit_main_info_tmp;
 var edit_image_text_tmp;
 
+var base_url = '..';
+
 $(function() {
     init();
 });
@@ -42,18 +44,31 @@ var custom_show_tmp = ' <article class="text_img read-piece"> <div class="side">
     /*'<img src="http://resource.efeiyi.com/image/project/10178-BIG.jpg"> ' +*/
     '</li> </ul><div class="more"></div> </div> </article>';
 
+var to_image_text_tmp = '<div class="side" style="margin-right:30px;"> ' +
+    '<div class="item"> ' +
+    '<p class="data-item" data-id="35"> <p>dsfdsfe&lt;/p> </p> ' +
+    '</div> </div> ' +
+    '<div class="media"> <ul> <li> <img src="" alt="" class="data-item" data-id="35"> </li> </ul> </div>';
+
 function init() {
     $('.edit.link').on('click', function() {
-        var projectId = 20001;
+        var projectId = $(this).attr('project-id');
+        if(projectId == null) {
+            alert('获取项目信息失败');
+            return;
+        }
         loadProjectFromServer(projectId);
     });
 }
 
 function loadProjectFromServer(projectId) {
     $.ajax({
-        type: 'post',
-        url: '../ichProject/getIchProjectById?params=' + projectId,
+        type: 'get',
+        url: base_url + '/ichProject/getIchProjectById?params=' + projectId,
         async: false,
+        /*xhrFields:{
+            withCredentials:true
+        },*/
         success: function (data) {
             if(data == null || data.code == 3) {
                 alert('您还没有登录，请登录后操作！');
@@ -86,12 +101,15 @@ function loadAttributesFromServer() {
         return;
     }
 
-    var url = '../ichCategory/getAttributeListByCatIdAndProId?proId=' +
+    var url = base_url + '/ichCategory/getAttributeListByCatIdAndProId?proId=' +
         project.id + '&categoryId' + project.ichCategoryId;
 
     $.ajax({
         type: 'post',
         url: url,
+        /*xhrFields:{
+            withCredentials:true
+        },*/
         success: function (data) {
             if(data == null || data.code == 3) {
                 return;
@@ -129,8 +147,11 @@ function displayEditMode() {
 
         $.ajax({
             type: 'post',
-            url: '../ichProject/saveIchProject',
+            url: base_url + '/ichProject/saveIchProject',
             data: {'params': params},
+            /*xhrFields:{
+                withCredentials:true
+            },*/
             success: function (data) {
                 if(data.code == 0) {
                     alert('提交成功！通过审核后，会及时通知你呦！');
@@ -294,7 +315,7 @@ function displayEditMode() {
             $ui.find('.edit.link').hide();
             has_edit = true;*/
 
-            alert('自定义编辑功能马上上线，敬请期待！');
+            alert('自定义项编辑功能马上上线，敬请期待！');
         });
 
         var file_id = generateMathRand(8);
@@ -776,6 +797,7 @@ function addMainInfoCompListener($section) {
         }
 
         var contentFragmentList = project.contentFragmentList;
+        var has_head_img = false;
         for(var i = 0; i < contentFragmentList.length; i++) {
             var contentFragment = contentFragmentList[i];
             if(contentFragment.attributeId == 1) {
@@ -789,8 +811,29 @@ function addMainInfoCompListener($section) {
                 } else {
                     resourceList[0].uri = uri_str;
                 }
+                has_head_img = true;
                 break;
             }
+        }
+
+        if(!has_head_img) {
+            var contentFragment = {};
+            contentFragment.attributeId = 1;
+            contentFragment.targetId = project.id;
+            contentFragment.targetType = 0;
+            contentFragment.status = 0;
+
+            var resource = {};
+            resource.type = 0;
+            resource.status = 0;
+            resource.uri = uri_str;
+
+            var resourceList = [];
+            resourceList.push(resource);
+
+            contentFragment.resourceList = resourceList;
+
+            contentFragmentList.push(contentFragment);
         }
 
         $('#' + file_id).replaceWith('<input class="file" ' +
