@@ -388,7 +388,6 @@ var Detail = { //详情页用到的效果
             if(_data.videoSize != 0){
                 videoHandle();
             }
-
             function videoHandle() {
                 var videoTitle = video.find('.title');
                 var media = video.find('.media');
@@ -396,10 +395,21 @@ var Detail = { //详情页用到的效果
                 var next=video.find('.next');
 
 
+                var isPage=$('body').attr('class');
+                var baseUrl='';
+                //判断页面
+                if(isPage=='js-project'){
+                    baseUrl='http://resource.efeiyi.com/image/project/';
+                }else if(isPage=='js-master'){
+                    baseUrl='http://resource.efeiyi.com/image/master/';
+                }else if(isPage=='js-organization'){
+                    baseUrl='http://resource.efeiyi.com/image/organization/';
+                }
+
                 bindData(cur);
                 var liStr='';
                 for(var i=0;i<_data.videos.length;i++){
-                    liStr+='<li style="display: none;"><video controls src="' + _data.videos[i].uri +'"></video></li>';
+                    liStr+='<li style="display: none;"><video controls src="' + baseUrl+ _data.videos[i].uri +'"></video></li>';
                 }
                 media.html(liStr).find('li').eq(0).show();
 
