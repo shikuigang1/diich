@@ -50,15 +50,15 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         _onOveraPreview();
         _onOveraSubmit();
         _addCustom();
-        //_getUserInfo();
+        _getUserInfo();
     }
 
     // 获取用户信息
-    //function _getUserInfo() {
-    //    _onRequest("POST", "/user/userinfo", {params: ""}).then(function(data){
-    //        userType = data.res.data.type;
-    //    })
-    //}
+    function _getUserInfo() {
+        _onRequest("POST", "/user/userinfo", {params: ""}).then(function(data){
+            userType = data.res.data.type ? data.res.data.type: 1;
+        })
+    }
 
     // 判断哪些菜单是填写完成的
     function _onYesMenu() {

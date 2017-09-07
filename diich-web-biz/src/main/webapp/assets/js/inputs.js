@@ -1,28 +1,50 @@
 //上传图片
 var upload={
-    template:function (type,url) {//0是视频  1是图片 url上传的地址
+    template:function (type) {//0是视频  1是图片 url上传的地址
         var _name='';
-        _name=(type==1)?'mypic':'video';
-        var _parent='<form class="upload" action="'+url+'" method="post" enctype="multipart/form-data">'+
-            '<div class="progress" style="display: none;"><div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div></div>'+
-            '<input class="file" type="file" name="mypic">'+
-            '</form>' +
-            // '<div style="position: absolute;top:0;right:0;left: 0;bottom: 0;background:rgba(224,224,224,.7);z-index:5;">'+
-            //     '<div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div>'+
-            // '</div>'+
-            '<img class="preview" src="" />';
+        _name=(type==1)?'file':'video';
+        var _parent='<form class="upload" method = "POST" action="" method="post" enctype="multipart/form-data">'+
+            '<input class="_token" type="hidden" name="OSSAccessKeyId" value="">'+
+            '<input class="_token" type="hidden" name="policy" value="">'+
+            '<input class="_token" type="hidden" name="Signature" value="">'+
+            '<input class="_token" type="hidden" name="key" value="">'+
+            '<input class="_token" type="hidden" name="Filename" value="">'+
+            '<input class="_token" type="hidden" name="success_action_status" value="200">'+
+            '<div class="progress">' +
+            '<div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div>'+
+            '</div>' +
+            '<input class="file" type="file" id="file" name="file">'+
+            '</form>';
         return _parent;
     },
-    submit:function (obj,type,url,callback) {
+    submit:function (filePath,callback) {
+        //获取相关信息
         var _this=this;
-        $(obj).append(this.template(type,url));
-        $(document).on('change','.file',function () {
+        $('.file_up').append(_this.template());
+        // $(document).find('.file').off();
+        $('.file').change(function () {
             var parent=$(this).parents('.file_up');
             var preview=parent.find('.preview');
             var _form = $(this).parents('.upload');
             var progress=_form.find('.progress');
             var bar=progress.find('.bar');
             var percent=progress.find('.percent');
+            var path = $(this).val();
+            var imgType  = path.substring(path.lastIndexOf(".")+1);
+            var  serverInfo = send_request();
+            var host =serverInfo["host"];
+            var accessId =serverInfo["accessid"];
+            var policy = serverInfo["policy"];
+            var signature = serverInfo["signature"];
+            var key =filePath+ serverInfo["filename"]+"."+imgType;//生成文件路径
+            var signature = serverInfo["signature"];
+            //
+            $("input[name='OSSAccessKeyId']").val(accessId);
+            $("input[name='policy']").val(policy);
+            $("input[name='Signature']").val(signature);
+            $("input[name='key']").val(key);
+            _form.attr("action",host);
+
             _form.ajaxSubmit({
                 dataType: 'json',
                 beforeSend: function () {
@@ -34,32 +56,167 @@ var upload={
                     var percentVal = percentComplete + '%';
                     bar.width(percentVal);
                 },
-                success: function (data) {
-                    if(callback || callback!='undefinied'){
-                        callback(data);
-                        bar.width('');
-                        parent.addClass('active');
-                        progress.hide();
+                success: function () {
+                    var data={};
+                    data.code=0;
+                    data.src=host+"/"+key;
+                    bar.width('');
+                    parent.addClass('active');
+                    progress.hide();
+
+                    var _images=$('#images');
+                    //长字段
+                    if(!$('div').hasClass('control')){
+                        var d=/\.[^\.]+$/.exec(data.src);
+
+                        if(d=='.mp4'){
+
+                            var templ = '<div class="item">' +
+                                '<video style="width: 100%;" src="' + data.src + '" controls></video>' +
+                                '<input type="text" name="text" placeholder="请输入标题">' +
+                                '<span class="remove"><i></i></span>' +
+                                '</div>';
+
+                            _images.find('.handle').before(templ);
+                        }else if (d=='.jpg' || d=='.gif' || d=='.png' || d=='.JPEG') {
+                            var templ = '<div class="item">' +
+                                '<img src="' + data.src + '" alt="">' +
+                                '<input type="text" name="text" placeholder="请输入标题">' +
+                                '<span class="remove"><i></i></span>' +
+                                '</div>';
+                            _images.find('.handle').before(templ);
+                        }
+
+                    }else {//题图
+                        $('.file_up').find('.preview').remove();
+                        $('.file_up').append('<img style="display: block;" class="preview" src="'+data.src+'">')
                     }
+
+                    upload.isItemStatus();
+
+
+
+
+                    if(callback && callback!='undefined'){
+                        callback(data);
+                    }
+
                 },
                 error: function (xhr) {
-                    //todo
+                    //  console.log(xhr)
                 }
             });
         });
-    },
-    remove:function (callback) {
-        $('#images').on('click','.remove i',function () {
-            var rid = $(this).attr("data-id");
 
-            $(this).parents('.item').remove();
-            if(callback && callback!='undefined'){
-                callback(rid);
+
+        //删除图片
+        upload.remove(filePath);
+
+
+    },
+    isItemStatus:function () {
+        //判断上传图片的状态
+        var _images=$('#images');
+        var _item = _images.find('.item');
+        if (_item.length >= 3) {
+            _images.addClass('active');
+        }
+        _images.find('.item:even').css('margin-right', '10px');
+    },
+    remove:function (filePath) {
+        $('#images').on('click','.remove i',function () {
+            //console.log(filePath);
+            var rid = $(this).attr("data-id");
+            if(filePath.indexOf("organization") != -1){
+                var imageIsExsit=false;
+                $.each(organization.contentFragmentList,function (index,obj) {
+                    if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
+                        $.each(obj.resourceList,function (i,o) {
+                            if(o.id==rid){
+                                imageIsExsit = true;
+                                return false;
+                            }
+                        });
+                    }
+                });
+
+                if(imageIsExsit){ //本地存在 进行删除操作
+                    if(delResourceImage(rid)){
+                        tipBox.init("success","删除图片成功！",1500);
+                        //删除图片在本地缓存
+                        $.each(organization.contentFragmentList,function (index,obj) {
+                            if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
+                                $.each(obj.resourceList,function (i,o) {
+                                    if(o.id==rid){
+                                        organization.contentFragmentList[index].resourceList.splice(i,1);
+                                        setCurrentOrganization(organization);
+                                        return false;
+                                    }
+                                });
+                            }
+                        });
+
+                    }else{
+                        tipBox.init("fail","删除图片失败！",1500);
+                    }
+                }else{
+                    //do nothing
+                }
+            }else if(filePath.indexOf("project") != -1){
+                //判断本地图片是否存在
+                var imageIsExsit=false;
+                var ich = getCurrentProject();
+                $.each(ich.contentFragmentList,function (index,obj) {
+
+                    if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
+
+                        $.each(obj.resourceList,function (i,o) {
+                            if(o.id==rid){
+                                imageIsExsit = true;
+                                return false;
+                            }
+                        });
+                    }
+
+                });
+
+                if(imageIsExsit){ //本地存在 进行删除操作
+                    if(delImage(rid)){
+                        tipBox.init("success","删除图片成功！",1500);
+                        //删除图片在本地缓存
+                        var ich = getCurrentProject();
+                        $.each(ich.contentFragmentList,function (index,obj) {
+
+                            if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
+
+                                $.each(obj.resourceList,function (i,o) {
+                                    if(o.id==rid){
+                                        var res = obj.resourceList;
+                                        //console.log(res.splice(i,1).length);
+                                        res.splice(i,1);
+                                        ich.contentFragmentList[index].resourceList=res;
+                                        return false;
+                                    }
+                                });
+                            }
+
+                        });
+                        localStorage.setItem("ichProject",JSON.stringify(ich));
+                    }else{
+                        tipBox.init("fail","删除图片失败！",1500);
+                    }
+                }else{
+
+                }
             }
+
+            console.log(rid);
+            $(this).parents('.item').remove();
+            // upload.isItemStatus();
+
         });
     }
 };
-
 
 //选择地域
 var selectArea={
@@ -344,7 +501,8 @@ var projectPage={
         var _this=this;
         $('#tpl').load('./Tpl/proBaseInfo.html',function () {//加载基本信息页面
             _this.bind();
-            projectPage.uploadImgage(); //上传题图
+            upload.submit('image/project/');
+            //projectPage.uploadImgage(); //上传题图
         });
         this.slideBar.init(); //左侧菜单
         //弱当前缓存有数据则在本地 查找并添加
@@ -433,7 +591,7 @@ var projectPage={
                                 editFlag = true;
                             });
 
-                            projectPage.uploadImgage(); //上传题图
+                            upload.submit('image/project/');
                             //重新初始化 分类信息  认证信息
                             initCertRank();
                             var ich = getCurrentProject();
@@ -457,8 +615,14 @@ var projectPage={
                                         //填充题图
                                         if(obj.attributeId == 1 && obj.resourceList.length>0){
                                             var uri = obj.resourceList[0].uri;
-                                            $(".preview").attr("src",imgserver+"/image/project/"+uri).show();
-                                            $(".preview").parent().addClass('active');
+
+                                            $('.file_up').append('<img style="display: block;" class="preview" src="'+imgserver+"/image/project/"+uri+'">')
+                                            //$(".preview").attr("src",imgserver+"/image/organization/"+obj.resourceList[0].uri);
+                                            //$(".preview").show();
+                                            $(".file_up").addClass("active");
+
+                                            /*$(".preview").attr("src",imgserver+"/image/project/"+uri).show();
+                                             $(".preview").parent().addClass('active');*/
                                         }
 
                                         if(obj.attributeId == 116 && obj.content != ''){
@@ -490,6 +654,9 @@ var projectPage={
                                         if(obj.attributeId == 32 && obj.content != ''){
                                             $("#titleWords").val(obj.content);
                                         }
+                                        if(obj.attributeId == 2 && obj.content != ''){
+                                            $("#doi").val(obj.content);
+                                        }
                                     });
                                 }
 
@@ -512,10 +679,11 @@ var projectPage={
                                 //分类值回填
                                 //填充 是否为 已申报传承人
                             }
+                        }else if(_dateType == 'longFieldCustom'){
+
+                            upload.submit('image/project/');
                         }
-                        if(_dateType == 'longFieldCustom'){
-                            projectPage.radioImage();
-                        }
+
                     });
                 }
             });
@@ -562,34 +730,7 @@ var projectPage={
                 if(!flag){
                     return false;
                 }
-
-                /*  if(editFlag){ //页面被修改 弹出是否保存
-                 if(confirm("你是否要保存当前页面信息？"))
-                 {
-                 saveIchProject();
-                 }
-
-                 }*/
                 editFlag = false;
-                /*
-                 alert(($(this).parent().find('i').eq(0).hasClass('selected') || $(this).parent().find('i').eq(0).hasClass('unselected2')) );
-                 if(  (!(($(this).parent().find('i').eq(0).hasClass('selected') || $(this).parent().find('i').eq(0).hasClass('unselected2')))) ||  ((!$(this).find('i').eq(0).hasClass('selected') && !$(this).find('i').eq(0).hasClass('unselected2')) ) && !saveAndnext ) {
-
-                 saveAndnext = false;
-                 }*/
-                /*  var attrid=$(this).children("span").first().attr('data-id');
-                 var _dateType=$(this).attr('data-type');
-
-                 var condition = getConditionByAttributeID(attrid);
-                 if(condition.minLength==0){ //当前为 非必填选项
-                 if(!isMustAdd()){ //必填项 未 添加完全不可 编辑其他
-                 return;
-                 }
-                 }else{
-                 //当前为必填 直接编辑
-                 //do nothing
-                 }*/
-
                 //验证
                 var ich = getCurrentProject();
 
@@ -606,53 +747,7 @@ var projectPage={
                 $('#tpl').load('./Tpl/'+_dateType+'.html',function () {
                     projectPage.bind();
                     if(_dateType==='longField'){
-                        upload.remove(function (rid) {
-
-                            //判断本地图片是否存在
-                            var imageIsExsit=false;
-                            var ich = getCurrentProject();
-                            $.each(ich.contentFragmentList,function (index,obj) {
-
-                                if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
-
-                                    $.each(obj.resourceList,function (i,o) {
-                                        if(o.id==rid){
-                                            return true;
-                                        }
-                                    });
-                                }
-
-                            });
-
-                            if(imageIsExsit){ //本地存在 进行删除操作
-                                if(delImage(rid)){
-                                    tipBox.init("success","删除图片成功！",1500);
-                                    //删除图片在本地缓存
-                                    var ich = getCurrentProject();
-                                    $.each(ich.contentFragmentList,function (index,obj) {
-
-                                        if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
-
-                                            $.each(obj.resourceList,function (i,o) {
-                                                if(o.id==rid){
-                                                    ich.contentFragmentList[index].resourceList=obj.resourceList.slice(i,1);
-                                                    return false;
-                                                }
-                                            });
-                                        }
-
-                                    });
-                                    console.log(JSON.stringify(ich));
-                                    localStorage.setItem("ichProject",JSON.stringify(ich));
-                                }else{
-                                    tipBox.init("fail","删除图片失败！",1500);
-                                }
-                            }else{
-                                //do nothing
-                            }
-
-
-                        });
+                        upload.submit('image/project/');
                         //修改标签内容
                         $(".st").children("h2").text(name);
                         //初始化当前菜单数据
@@ -670,9 +765,16 @@ var projectPage={
                                         }else{
                                             html+="<div class=\"item\">";
                                         }
-                                        html+="<img src="+imgserver+"/image/project/"+resource.uri+" alt=\"\">";
+
+                                        if(resource.type=="0"){
+                                            html+="<img src="+imgserver+"/image/project/"+resource.uri+" alt=\"\">";
+                                        }else{
+                                            html+="<video style=\"width: 100%;\" src="+imgserver+"/image/project/"+resource.uri+" controls=\"\"></video>";
+                                        }
+
                                         html+= "<input type=\"text\" name=\"text\" placeholder=\"请输入标题\" value=\""+resource.description+"\">";
                                         html+="<span class=\"remove\"><i data-id='"+resource.id+"'></i></span></div>";
+
                                     });
 
                                     if(obj.resourceList.length>2){
@@ -692,10 +794,11 @@ var projectPage={
                         $(".next").attr("href","javascript:saveContentPragment('"+attrid+"')");
                         /*  $(".next").next().attr("href","javascript:next("++attrid")");
                          */
-                        projectPage.radioImage(); //上传题图
-                    }else {
-                        projectPage.uploadImgage(); //上传题图
+
+                    }else{
+                        upload.submit('image/project/');
                     }
+
                 });
             });
         }
@@ -835,151 +938,8 @@ var projectPage={
 
             }
         });
-    },
-    uploadImgage:function () {//上传图片
-
-        var el=$('.horizontal .group .control .file_up');
-        upload.submit(el,1,'/user/uploadFile?type=project',function (data) {
-            console.log(data);
-            if(data.code==0){
-                $('.preview').attr('src',data.data[0]).show();
-                //判断是否是题图 提交
-                var longfile =  $('li[data-type=longField]').hasClass('selected');
-                if(longfile){
-                    //获取属性id
-                    /*var attrid=0;
-
-                     $('li[data-type=longField]').each(function () {
-                     if($(this).hasClass('selected')){
-                     attrid = $(this).find('span').eq(0).attr('data-id');
-                     }
-                     });
-
-                     var imgpath = data.data[0];
-                     //获取图片名称
-                     var path = imgpath.substring(imgpath.lastIndexOf("/")+1);
-
-                     var ich = getCurrentProject();
-
-                     var contentFragment={};
-                     var attr={};
-                     var resource={};
-                     var resourceList=[];
-
-                     contentFragment.attributeId=attrid;//
-
-                     attr.dataType=5;
-                     resource.uri=path;
-                     resource.type=0;
-                     resource.description='';
-                     resourceList.push(resource);
-
-                     contentFragment.attribute=attr;
-                     contentFragment.resourceList=resourceList;
-                     contentFragment.targetType=0;
-
-                     if( ich.contentFragmentList == null || typeof(ich.contentFragmentList)=="undefined"){
-                     var contentFragmentList=[];
-                     contentFragmentList.push(contentFragment);
-                     ich.contentFragmentList=contentFragmentList;
-                     }else{
-                     $.each( ich.contentFragmentList,function (idx,obj){
-                     if(obj.attributeId==attrid){
-
-                     if(obj.resourceList.length==0 ||  typeof (obj.resourceList)=='undefined'){
-                     obj.resourceList=resourceList;
-                     }else{
-                     ich.contentFragmentList[idx].resourceList.push(resource);
-                     }
-                     }
-                     });
-
-                     }
-                     console.log(JSON.stringify(ich));
-                     localStorage.setItem("ichProject",JSON.stringify(ich));*/
-                }else{
-                    /*               $('.preview').attr('src',data.data[0]).show();
-                     //图上传成功本地保存图片
-                     var imgpath = data.data[0];
-                     //获取图片名称
-                     var path = imgpath.substring(imgpath.lastIndexOf("/")+1);
-                     var ich = getCurrentProject();
-
-                     var contentFragment={};
-                     //var attr={};
-                     var resource={};
-                     var resourceList=[];
-
-                     contentFragment.attributeId=1;//题图
-                     //contentFragment.content=$("#titu").val();//题图对应链接
-                     //attr.dataType=0;
-                     resource.uri=path;
-                     resource.type=0;
-                     resource.description='';
-                     resourceList.push(resource);
-
-                     //contentFragment.attribute=attr;
-                     contentFragment.resourceList=resourceList;
-                     contentFragment.targetType=0;
-
-                     if( ich.contentFragmentList == null || typeof(ich.contentFragmentList)=="undefined"){
-                     var contentFragmentList=[];
-                     contentFragmentList.push(contentFragment);
-                     ich.contentFragmentList=contentFragmentList;
-                     }else{
-                     var flag = 0;
-                     $.each( ich.contentFragmentList,function (idx,obj){
-                     if(obj.attributeId==1){
-                     ich.contentFragmentList[idx].resourceList[0].uri=contentFragment.resourceList[0].uri;
-                     flag = 1;
-                     }
-                     });
-                     if(flag == 0){
-                     ich.contentFragmentList.push(contentFragment);
-                     }
-                     }
-                     localStorage.setItem("ichProject",JSON.stringify(ich));*/
-                }
-            }else{
-                //文件上传出错
-                alert(data.msg);
-            }
-
-        });
-        $('._token').val($('meta[name=token]').attr('content'));
-    },
-    radioImage:function () {
-        var _images=$('#images');
-        //
-        var el=$('.ipt_base .content .edit .images .handle .file_up .icon');
-        upload.submit(el,1,'/user/uploadFile?type=project',function (data) {
-            _images.find('.handle').before(templateItem(data.data));
-            isItemStatus();
-            _images.find('.preview').remove();
-        });
-        //赋值token  有用则留无用则删除
-        $('._token').val($('meta[name=token]').attr('content'));
-
-        //模版
-        function templateItem(str) {
-            var templ='<div class="item">' +
-                '<img src="'+str+'" alt="">' +
-                '<input type="text" name="text" placeholder="请输入标题">' +
-                '<span class="remove"><i></i></span>'+
-                '</div>';
-            return templ;
-        }
-
-        isItemStatus();
-        //判断上传图片的状态
-        function isItemStatus() {
-            var _item=_images.find('.item');
-            if(_item.length>=3){
-                _images.addClass('active');
-            }
-            _images.find('.item:even').css('margin-right','10px');
-        }
     }
+
 };
 
 //选择地域
@@ -1273,7 +1233,9 @@ var organizationPage = {
         _this.judge();
         $('#tpl').load('./Tpl/org_basic.html', function () {//加载基本信息页面
             _this.slideBar();
-            _this.uploadImgage();
+
+            upload.submit('image/organization/');
+
             //处理必填项
             mustInputflag();
             initBasicInfo();
@@ -1294,7 +1256,7 @@ var organizationPage = {
             }
             $('#tpl').load('./Tpl/' + _dateType + '.html', function () {
                 if (_dateType === 'longFieldCustom') {
-                    organizationPage.radioImage(); //上传题图
+                    upload.submit('image/organization/'); //上传题图
                     if($('div[data-type=org_basic]').hasClass('selected')){
                         $('div[data-type=org_basic]').removeClass('selected')
                     }
@@ -1305,7 +1267,7 @@ var organizationPage = {
                     $("#menu3 li").removeClass("selected");
 
                 }else{
-                    organizationPage.uploadImgage(); //上传题图
+                    upload.submit('image/organization/'); //上传题图
                     if(!$('div[data-type=org_basic]').hasClass('selected')){
                         $('div[data-type=org_basic]').addClass('selected')
                     }
@@ -1330,45 +1292,9 @@ var organizationPage = {
             var name = $(this).find("span").first().text();
             var targetType=$(this).attr('target-type');
             $('#tpl').load('./Tpl/'+_dateType+'.html',function () {
-                _this.radioImage();
+                upload.submit('image/organization/');
                 if(_dateType==='longField'){
-                    upload.remove(function (rid) {
-                        //判断本地图片是否存在
-                        var imageIsExsit=false;
-                        $.each(organization.contentFragmentList,function (index,obj) {
-                            if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
-                                $.each(obj.resourceList,function (i,o) {
-                                    if(o.id==rid){
-                                        imageIsExsit = true;
-                                        return false;
-                                    }
-                                });
-                            }
-                        });
 
-                        if(imageIsExsit){ //本地存在 进行删除操作
-                            if(delResourceImage(rid)){
-                                tipBox.init("success","删除图片成功！",1500);
-                                //删除图片在本地缓存
-                                $.each(organization.contentFragmentList,function (index,obj) {
-                                    if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
-                                        $.each(obj.resourceList,function (i,o) {
-                                            if(o.id==rid){
-                                                organization.contentFragmentList[index].resourceList.splice(i,1);
-                                                setCurrentOrganization(organization);
-                                                return false;
-                                            }
-                                        });
-                                    }
-                                });
-
-                            }else{
-                                tipBox.init("fail","删除图片失败！",1500);
-                            }
-                        }else{
-                            //do nothing
-                        }
-                    });
                     //修改标签内容
                     $("#attrName").val(name);
                     /*$(".st").children("h2").text(name);*/
@@ -1394,55 +1320,6 @@ var organizationPage = {
                 }
             });
 
-        });
-    },
-    uploadImgage:function () {//上传图片
-        var el=$('.horizontal .group .control .file_up');
-        upload.submit(el,1,'/user/uploadFile?type=organization',function (data) {
-            console.log(data);
-            if(data.code==0){
-                $('.preview').attr('src',data.data[0]).show();
-            }else{
-
-            }
-        });
-        $('._token').val($('meta[name=token]').attr('content'));
-    },
-    radioImage: function () {
-        var _images = $('#images');
-        //
-        var el = $('.ipt_base .content .edit .images .handle .file_up .icon');
-        upload.submit(el, 1, '/user/uploadFile?type=organization', function (data) {
-            _images.find('.handle').before(templateItem(data.data));
-            // $('.preview').remove();
-            _images.find('.preview').remove();
-            isItemStatus();
-        });
-        //赋值token  有用则留无用则删除
-        $('._token').val($('meta[name=token]').attr('content'));
-        //模版
-        function templateItem(str) {
-            var templ = '<div class="item">' +
-                '<img src="' + str + '" alt="">' +
-                '<input type="text" name="text" placeholder="请输入标题">' +
-                '<span class="remove"><i></i></span>' +
-                '</div>';
-            return templ;
-        }
-
-        isItemStatus();
-
-        //判断上传图片的状态
-        function isItemStatus() {
-            var _item = _images.find('.item');
-            if (_item.length >= 3) {
-                _images.addClass('active');
-            }
-            _images.find('.item:even').css('margin-right', '10px');
-        }
-
-        upload.remove(function () {
-            //todonothing
         });
     },
     judge: function () {//是否申报传承人
@@ -1507,8 +1384,9 @@ var inheritorPage={
                 }
                 if(_dateType=='shortField'){
                     $('#tpl').load('/Tpl/proBaseInfo.html',function () {
-                        projectPage.bind();
-                        projectPage.uploadImgage(); //上传题图
+                        upload.submit("image/master/");
+                        //projectPage.bind();
+                        //projectPage.uploadImgage(); //上传题图
                     });
                 }
                 projectPage.selectCate.init();
@@ -1655,4 +1533,25 @@ var modal={
             },_speed);
         });
     }
+};
+
+//文件上传获取签名
+function send_request()
+{
+    var signituredata={};
+    $.ajax("/file/getPolicy", {
+        type: "POST",
+        data: {},
+        dataType: "json",
+        async: false,
+        xhrFields: {
+            withCredentials: true
+        },
+        crossDomain: true,
+        success: function(data, status, xhr) {
+            signituredata= JSON.parse(data);
+        }
+    });
+
+    return signituredata;
 };
