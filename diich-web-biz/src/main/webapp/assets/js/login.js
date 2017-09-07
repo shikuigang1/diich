@@ -1,7 +1,7 @@
 //引入其他js 文件
 document.write("<script type=\"text/javascript\" src=\"../../data/error_message.js\"></script>");
 document.write("<script type=\"text/javascript\" src=\"../../js/util.js\"></script>");
-var baseUrl="http://localhost:8080";
+var baseUrl="http://47.95.32.236";
 //登录注册
 var loginPage = {
     init: function () {
@@ -625,7 +625,7 @@ function loginedTemplate(data) {
         $.ajax({
             cache: true,
             type: "POST",
-            url: "http://localhost:8080/user/logoff",
+            url: ""+baseUrl+"/user/logoff",
             data: {params:localStorage.getItem("pid")}, // 你的formid
             dataType: "json",
             async: true,

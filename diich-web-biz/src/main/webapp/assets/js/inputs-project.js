@@ -40,6 +40,9 @@ function  initCertRank() {
 function initpage(data){
     //初始化 左侧菜单栏
     //<li class="active"><a href=""><i class="checkbox"></i><span>基本内容</span></a></li>
+    if(typeof(data) == "undefined"){
+        return;
+    }
     if(typeof (data.data) != "undefined"){
         $("#menu").empty();
         $("#menu2").empty();
@@ -266,9 +269,22 @@ function  saveCustom(next) {
 
     //获取图片列表
     $("#images").find(".item").each(function () {
-        var fullpath = $(this).find('img').eq(0).attr("src");
-        var desc =  $(this).find('img').eq(0).next().val();
-        var path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+        var fullpath="";
+        var desc="";
+        var path="";
+        var type="0";
+
+        if($(this).find('img').length>0){
+            fullpath = $(this).find('img').eq(0).attr("src");
+            desc =  $(this).find('img').eq(0).next().val();
+            path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+        }else{
+            fullpath = $(this).find('video').eq(0).attr("src");
+            desc =  $(this).find('video').eq(0).next().val();
+            path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            type ="1";
+        }
+        resource.type=type;
         resource.uri=path;
         resource.description=desc;
         resourceList.push(cloneObj(resource));
@@ -626,9 +642,22 @@ function  saveContentPragment(attrid) {
 
     //获取图片列表
     $("#images").find(".item").each(function () {
-        var fullpath = $(this).find('img').eq(0).attr("src");
-        var desc =  $(this).find('img').eq(0).next().val();
-        var path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+        var fullpath="";
+        var desc="";
+        var path="";
+        var type="0";
+
+        if($(this).find('img').length>0){
+            fullpath = $(this).find('img').eq(0).attr("src");
+            desc =  $(this).find('img').eq(0).next().val();
+            path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+        }else{
+            fullpath = $(this).find('video').eq(0).attr("src");
+            desc =  $(this).find('video').eq(0).next().val();
+            path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            type ="1";
+        }
+
         resource.uri=path;
         resource.description=desc;
         resourceList.push(cloneObj(resource));
@@ -682,7 +711,7 @@ function  saveContentPragment(attrid) {
     $.ajax({
         type: "POST",
         //url: "../contentFragment/saveContentFragment",
-        url: "../ichProject/saveIchProject",
+        url: "/ichProject/saveIchProject",
         data:{params:JSON.stringify(ich)} ,
         dataType: "json",
         async:false,
@@ -795,7 +824,7 @@ function saveIchProject(page) {
         //do nothing
     }else{
         ich = JSON.parse(ichjsonStr);
-        console.log(JSON.stringify(ich));
+
         //contentFragmentList = ich.contentFragmentList;
     }
 
@@ -805,23 +834,26 @@ function saveIchProject(page) {
 
         //图上传成功本地保存图片
         var imgpath =  $('.preview').attr('src');
-        //获取图片名称
-        var path = imgpath.substring(imgpath.lastIndexOf("/")+1);
-        //var attr={};
 
-        if(path !=""){
-            var resource={};
-            var resourceList=[];
-            contentFragment.attributeId=1;//题图
-            resource.uri=path;
-            resource.type=0;
-            resource.description='';
-            resourceList.push(resource);
-            contentFragment.resourceList=resourceList;
-            contentFragment.targetType=0;
-            contentFragmentList.push(cloneObj(contentFragment));
-            contentFragment={};
+        if(typeof(imgpath) != "undefined"){
+            //获取图片名称
+            var path = imgpath.substring(imgpath.lastIndexOf("/")+1);
+            //var attr={};
+            if(path !=""){
+                var resource={};
+                var resourceList=[];
+                contentFragment.attributeId=1;//题图
+                resource.uri=path;
+                resource.type=0;
+                resource.description='';
+                resourceList.push(resource);
+                contentFragment.resourceList=resourceList;
+                contentFragment.targetType=0;
+                contentFragmentList.push(cloneObj(contentFragment));
+                contentFragment={};
+            }
         }
+
 
 
         contentFragment.attributeId=9;//简介
@@ -875,6 +907,14 @@ function saveIchProject(page) {
 
         contentFragment.attributeId=32;//主题词
         contentFragment.content=$("#titleWords").val();//中文名
+        contentFragment.targetType=0;
+        //attr.dataType=0;
+        //contentFragment.attribute=attr;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+
+        contentFragment.attributeId=2;//doi 编码
+        contentFragment.content=$("#doi").val();//中文名
         contentFragment.targetType=0;
         //attr.dataType=0;
         //contentFragment.attribute=attr;
@@ -957,6 +997,9 @@ function saveIchProject(page) {
 
     }else if($('div[data-type=longFieldCustom]').hasClass("selected")){//添加自定义选中
         //添加自定义 选中
+        if(!validateCustom()) {
+            return false;
+        }
         var ich = getCurrentProject();
         var attr={};
         var contentFragment={};
@@ -1017,9 +1060,22 @@ function saveIchProject(page) {
 
         //获取图片列表
         $("#images").find(".item").each(function () {
-            var fullpath = $(this).find('img').eq(0).attr("src");
-            var desc =  $(this).find('img').eq(0).next().val();
-            var path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            var fullpath="";
+            var desc="";
+            var path="";
+            var type="0";
+
+            if($(this).find('img').length>0){
+                fullpath = $(this).find('img').eq(0).attr("src");
+                desc =  $(this).find('img').eq(0).next().val();
+                path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            }else{
+                fullpath = $(this).find('video').eq(0).attr("src");
+                desc =  $(this).find('video').eq(0).next().val();
+                path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+                type ="1";
+            }
+
             resource.uri=path;
             resource.description=desc;
             resourceList.push(cloneObj(resource));
@@ -1027,6 +1083,8 @@ function saveIchProject(page) {
         contentFragment.resourceList=resourceList;
 
         var ich = getCurrentProject();
+        console.log(JSON.stringify(ich));
+
         if(typeof (ich.contentFragmentList)!="undefined" || ich.contentFragmentList.length>0){
             var flag_1 =0;
             $.each(ich.contentFragmentList,function (idx,obj) {
@@ -1069,10 +1127,11 @@ function saveIchProject(page) {
     }
 
     //获取当前分类数据
-    if($("div[data-type=selectCate]").attr("value") != "undefined"){
+    if(typeof($("div[data-type=selectCate]").attr("value")) != "undefined"){
         ich.ichCategoryId=$("div[data-type=selectCate]").attr("value");
     }
 
+    console.log(JSON.stringify(ich));
   $.ajax({
         type: "POST",
         url: "../ichProject/saveIchProject",

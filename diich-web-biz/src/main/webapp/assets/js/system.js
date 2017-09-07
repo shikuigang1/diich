@@ -1,5 +1,5 @@
 var renderHhtml = {
-    uri: 'http://localhost:8081/',
+    uri: 'http://47.95.32.236/',
     init: function () {
         this.header();
         this.footer();
