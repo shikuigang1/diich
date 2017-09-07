@@ -126,7 +126,7 @@ var upload={
     remove:function (filePath) {
         $('#images').on('click','.remove i',function () {
             //console.log(filePath);
-             var rid = $(this).attr("data-id");
+            var rid = $(this).attr("data-id");
             if(filePath.indexOf("organization") != -1){
                 var imageIsExsit=false;
                 $.each(organization.contentFragmentList,function (index,obj) {
@@ -210,8 +210,8 @@ var upload={
                 }
             }
 
-             console.log(rid);
-             $(this).parents('.item').remove();
+            console.log(rid);
+            $(this).parents('.item').remove();
             // upload.isItemStatus();
 
         });
@@ -622,7 +622,7 @@ var projectPage={
                                             $(".file_up").addClass("active");
 
                                             /*$(".preview").attr("src",imgserver+"/image/project/"+uri).show();
-                                            $(".preview").parent().addClass('active');*/
+                                             $(".preview").parent().addClass('active');*/
                                         }
 
                                         if(obj.attributeId == 116 && obj.content != ''){
