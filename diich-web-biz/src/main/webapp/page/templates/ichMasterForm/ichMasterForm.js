@@ -359,13 +359,15 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         console.log(" menuss[0].sonTerms --- >",  menuss[0].sonTerms);
         $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, ichProjectName: ichProjectName, pageObj : pageObj, fyGrade: fyGrade})); // 更新页面模板
         // 上传图片
-        upload.submit($('.horizontal .group .control .file_up'),1,'/user/uploadFile?type=master',function (res) {
-            if(res.data.length > 0) {
-                imgUrl = res.data[0].substr((res.data[0].lastIndexOf ("/")+1), res.data[0].length);
-                $('.preview').attr('src', res.data[0]).show();
-                $('._token').val($('meta[name=token]').attr('content'));
-            }
+        upload.submit('image/master/',function (res) {
+            console.log("res --- >", res);
+            //if(res.data.length > 0) {
+            //    imgUrl = res.data[0].substr((res.data[0].lastIndexOf ("/")+1), res.data[0].length);
+            //    $('.preview').attr('src', res.data[0]).show();
+            //    $('._token').val($('meta[name=token]').attr('content'));
+            //}
         });
+
         // 回显图片
         if(pageObj.hasOwnProperty("contentFragmentList")) {
             $.each(pageObj.contentFragmentList, function(i, v) {

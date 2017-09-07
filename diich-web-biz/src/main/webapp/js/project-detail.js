@@ -271,7 +271,6 @@ function displayEditMode() {
             var attribute = {};
             attribute.cnName = title;
             attribute.dataType = 5;
-            attribute.ichCategoryId = 0;
             contentFragment.content = content;
             contentFragment.targetType = 0;
             contentFragment.attribute = attribute;
@@ -500,37 +499,6 @@ function editShortTextUi($section) {
     $section.append($form);
 }
 
-function editLongTextUi($section) {
-    $section.find('.read-piece').hide();
-
-    var $p = $section.find('.data-item');
-    var data_id = $p.attr('data-id');
-
-    var content = '';
-    var contentFragmentList = [];
-    if(project != null) {
-        contentFragmentList = project.contentFragmentList;
-    }
-
-    for(var i = 0; i < contentFragmentList.length; i++) {
-        var contentFragment = contentFragmentList[i];
-        if(contentFragment.attributeId == data_id) {
-            content = contentFragment.content;
-            break;
-        }
-    }
-
-    var rand = generateMathRand(8);
-    var $ui = $('<script class="editor data-item" type="text/plain" style="width:1168px;height:200px;"></script>');
-    $ui.attr('id', rand);
-    $section.find('.card').append($ui);
-
-    var editor = UE.getEditor(rand);
-    editor.ready(function () {
-       editor.setContent(content);
-    });
-}
-
 function editImageTextUi($section) {
     $section.find('.read-piece').hide();
 
@@ -650,9 +618,6 @@ function saveProjectToClient($section) {
             data_id = $section.find('.read-piece .data-item').attr('data-id');
             editor_id = $(item_arr[i]).attr('id');
             data_value = UE.getEditor(editor_id).getContent();
-            if(data_value.indexOf('<p>') == 0) {
-                data_value = data_value.substring(3, data_value.length - 4);
-            }
         } else {
             data_id = $(item_arr[i]).attr('data-id');
             if($(item_arr[i]).is('input[type="text"]') || $(item_arr[i]).is('select')) {
@@ -701,10 +666,13 @@ function showProjectUi($section) {
             var contentFragment = contentFragmentList[j];
 
             if($item.attr('data-id') == contentFragment.attributeId) {
-                if($item.hasClass('dic')) {
+                if($section.find('.editor') != null && $section.find('.editor').length > 0) {
+                    var editor_id = $section.find('.editor').attr('id');
+                    $item.html(UE.getEditor(editor_id).getContent());
+                } else if($item.hasClass('dic')) {
                     $item.text(getTextByTypeAndCode($item.attr('dic-type'), contentFragment.content, 'chi'));
                 } else {
-                    $item.html(contentFragment.content);
+                    $item.text(contentFragment.content);
                 }
                 break;
             }
