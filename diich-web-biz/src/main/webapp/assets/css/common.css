@@ -1628,7 +1628,7 @@ a.arrow_right:hover:after {
 /*--//End 表单相关--*/
 .progress {
     background: #000;
-    width: 100%;
+    width: 101%;
     height: 2px;
     position: absolute;
     top: 0;

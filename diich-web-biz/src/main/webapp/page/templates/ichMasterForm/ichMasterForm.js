@@ -359,10 +359,18 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         console.log(" menuss[0].sonTerms --- >",  menuss[0].sonTerms);
         $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, ichProjectName: ichProjectName, pageObj : pageObj, fyGrade: fyGrade})); // 更新页面模板
         // 上传图片
-        upload.submit($('.horizontal .group .control .file_up'),1,'/user/uploadFile?type=master',function (res) {
-            if(res.data.length > 0) {
-                imgUrl = res.data[0].substr((res.data[0].lastIndexOf ("/")+1), res.data[0].length);
-                $('.preview').attr('src', res.data[0]).show();
+        //upload.submit($('.horizontal .group .control .file_up'),1,'/user/uploadFile?type=master',function (res) {
+        //    if(res.data.length > 0) {
+        //        imgUrl = res.data[0].substr((res.data[0].lastIndexOf ("/")+1), res.data[0].length);
+        //        $('.preview').attr('src', res.data[0]).show();
+        //        $('._token').val($('meta[name=token]').attr('content'));
+        //    }
+        //});
+        upload.submit("image/master/", 1, function(res) {
+            console.log("res --- ,", res);
+            if(res.code == 0) {
+                imgUrl = res.src.substr((res.src.lastIndexOf ("/")+1), res.src.length);;
+                $('.preview').attr('src', res.src).show();
                 $('._token').val($('meta[name=token]').attr('content'));
             }
         });
@@ -638,8 +646,10 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
     // 通用模板（长文本）
     function _getCommonTpl($this, sonterms) {
+        console.log("pageObj -------------->", pageObj);
         $("#content").html(Handlebars.compile(resumeTpl)({sonterms: sonterms, pageObj: pageObj})); // 更新页面模板
-        inheritorPage.radioImage(); // 加载上传视频， 上传图片
+        //inheritorPage.radioImage(); // 加载上传视频， 上传图片
+        upload.submit("image/master/", 1);
         var id = parseInt($this.attr("id").split("_").pop());
         _bindingSave();
         function _bindingSave() {
@@ -794,7 +804,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         var imgs = [];
         $("#images").children("div .item").each(function(i, v) {
             var img = {};
-            var uri = $(this).children("img").attr("data-src")
+            var urlImg = $(this).children("img").attr("data-src");
+            var videoImg = $(this).children("video").attr("data-src");
+            var uri = urlImg ? urlImg : videoImg;
             img["uri"] = uri.substr(uri.lastIndexOf("/") + 1, uri.length)  ;
             img["description"] = $(this).children("input").val();
             img["type"] = 0;
@@ -807,10 +819,10 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
     // 自定义模板
     function _getCustomTpl($this) {
-        console.log($this.attr("id"))
+        console.log("pageObj -------------->", pageObj);
         $("#content").html(Handlebars.compile(customTpl)({pageObj: pageObj, customId: $this.attr("data-id")})); // 更新页面模板
-        inheritorPage.radioImage(); // 加载上传视频， 上传图片
-
+        //inheritorPage.radioImage(); // 加载上传视频， 上传图片
+        upload.submit("image/master/", 1);
         // 保存
         _bindingSave();
         function _bindingSave() {
@@ -1011,7 +1023,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         var imgs = [];
         $("#images").children("div .item").each(function(i, v) {
             var img = {};
-            var uri = $(this).children("img").attr("data-src")
+            var urlImg = $(this).children("img").attr("data-src");
+            var videoImg = $(this).children("video").attr("data-src");
+            var uri = urlImg ? urlImg : videoImg;
             img["uri"] = uri.substr(uri.lastIndexOf("/") + 1, uri.length);
             img["description"] = $(this).children("input").val();
             img["type"] = 0;

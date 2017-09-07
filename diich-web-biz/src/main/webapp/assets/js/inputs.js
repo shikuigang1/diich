@@ -17,7 +17,9 @@ var upload={
             '</form>';
         return _parent;
     },
-    submit:function (filePath,callback) {
+
+    // code 0项目 1传承人
+    submit:function (filePath, code, callback) {
         //获取相关信息
         var _this=this;
         $('.file_up').append(_this.template());
@@ -56,6 +58,24 @@ var upload={
                     var percentVal = percentComplete + '%';
                     bar.width(percentVal);
                 },
+                //模版
+                //    function templateItem(str) {
+                //    var newStr = str[0];
+                //    // 常用图片格式
+                //    var imgArr = [".BMP", ".PCX", ".PNG", ".JPEG", ".GIF", ".TIFF", ".JPG", ".ICO", ".TIF",
+                //        ".bmp", ".pcx", ".png", ".jpeg", ".gif", ".tiff", ".jpg", ".ico", ".tif"];
+                //    if(imgArr.indexOf(str[0].substr(str[0].lastIndexOf("."), str[0].length).toString()) < 0) {
+                //        var localhostPaht = window.document.location.href.substring(0,window.document.location.href.indexOf(window.document.location.pathname))
+                //        newStr = localhostPaht + "/assets/images/inputs/play.jpg";
+                //    }
+                //    var templ='<div class="item">' +
+                //        '<img data-src="' + str[0] + '" src="' + newStr + '" alt="">' +
+                //        '<input type="text" name="text" placeholder="请输入标题">' +
+                //        '<span id="remove_delete" class="remove"><i></i></span>'+
+                //        '</div>';
+                //    return templ;
+                //    data-src="'+ data.src +'"
+                //}
                 success: function () {
                     var data={};
                     data.code=0;
@@ -65,54 +85,131 @@ var upload={
                     progress.hide();
 
                     var _images=$('#images');
-                    //长字段
-                    if(!$('div').hasClass('control')){
-                        var d=/\.[^\.]+$/.exec(data.src);
+                    if(code == 0) {
+                        //长字段 项目
+                        if(!$('div').hasClass('control')){
+                            var d=/\.[^\.]+$/.exec(data.src);
+                            if(d=='.mp4'){
+                                var templ = '<div class="item">' +
+                                    '<video style="width: 100%;" src="' + data.src + '" controls></video>' +
+                                    '<input type="text" name="text" placeholder="请输入标题">' +
+                                    '<span class="remove"><i></i></span>' +
+                                    '</div>';
 
-                        if(d=='.mp4'){
-
-                            var templ = '<div class="item">' +
-                                '<video style="width: 100%;" src="' + data.src + '" controls></video>' +
-                                '<input type="text" name="text" placeholder="请输入标题">' +
-                                '<span class="remove"><i></i></span>' +
-                                '</div>';
-
-                            _images.find('.handle').before(templ);
-                        }else if (d=='.jpg' || d=='.gif' || d=='.png' || d=='.JPEG') {
-                            var templ = '<div class="item">' +
-                                '<img src="' + data.src + '" alt="">' +
-                                '<input type="text" name="text" placeholder="请输入标题">' +
-                                '<span class="remove"><i></i></span>' +
-                                '</div>';
-                            _images.find('.handle').before(templ);
+                                _images.find('.handle').before(templ);
+                            }else if (d=='.jpg' || d=='.gif' || d=='.png' || d=='.JPEG') {
+                                var templ = '<div class="item">' +
+                                    '<img src="' + data.src + '" alt="">' +
+                                    '<input type="text" name="text" placeholder="请输入标题">' +
+                                    '<span class="remove"><i></i></span>' +
+                                    '</div>';
+                                _images.find('.handle').before(templ);
+                            }
+                        }else {//题图
+                            $('.file_up').find('.preview').remove();
+                            $('.file_up').append('<img style="display: block;" class="preview" src="'+data.src+'">')
                         }
+                        upload.isItemStatus();
+                        upload.remove(filePath); //删除图片
+                    } else {
+                        // 传承人
+                        if(!$('div').hasClass('control')){
+                            var d=/\.[^\.]+$/.exec(data.src);
+                            if(d=='.mp4'){
+                                var templ = '<div class="item">' +
+                                    '<video style="width: 100%;" src="' + data.src + '" controls></video>' +
+                                    '<input type="text" name="text" placeholder="请输入标题">' +
+                                    '<span class="remove"><i></i></span>' +
+                                    '</div>';
 
-                    }else {//题图
-                        $('.file_up').find('.preview').remove();
-                        $('.file_up').append('<img style="display: block;" class="preview" src="'+data.src+'">')
+                                _images.find('.handle').before(templ);
+                            }else if (d=='.jpg' || d=='.gif' || d=='.png' || d=='.JPEG') {
+                                var templ = '<div class="item">' +
+                                    '<img src="' + data.src + '" alt="" data-src="' + data.src + '">' +
+                                    '<input type="text" name="text" placeholder="请输入标题">' +
+                                    '<span class="remove_delete"><i></i></span>' +
+                                    '</div>';
+                                _images.find('.handle').before(templ);
+                            }
+                        }else {//题图
+                            $('.file_up').find('.preview').remove();
+                            $('.file_up').append('<img style="display: block;" class="preview" src="'+data.src+'">')
+                        }
+                        upload.isItemStatus();
                     }
-
-                    upload.isItemStatus();
-
-
-
 
                     if(callback && callback!='undefined'){
                         callback(data);
                     }
-
                 },
                 error: function (xhr) {
-                    //  console.log(xhr)
+                    var data={};
+                    data.code=0;
+                    data.src=host+"/"+key;
+                    bar.width('');
+                    parent.addClass('active');
+                    progress.hide();
+
+                    var _images=$('#images');
+                    if(code == 0) {
+                        //长字段 项目
+                        if(!$('div').hasClass('control')){
+                            var d=/\.[^\.]+$/.exec(data.src);
+                            if(d=='.mp4'){
+                                var templ = '<div class="item">' +
+                                    '<video style="width: 100%;" src="' + data.src + '" controls></video>' +
+                                    '<input type="text" name="text" placeholder="请输入标题">' +
+                                    '<span class="remove"><i></i></span>' +
+                                    '</div>';
+
+                                _images.find('.handle').before(templ);
+                            }else if (d=='.jpg' || d=='.gif' || d=='.png' || d=='.JPEG') {
+                                var templ = '<div class="item">' +
+                                    '<img src="' + data.src + '" alt="">' +
+                                    '<input type="text" name="text" placeholder="请输入标题">' +
+                                    '<span class="remove"><i></i></span>' +
+                                    '</div>';
+                                _images.find('.handle').before(templ);
+                            }
+                        }else {//题图
+                            $('.file_up').find('.preview').remove();
+                            $('.file_up').append('<img style="display: block;" class="preview" src="'+data.src+'">')
+                        }
+                        upload.isItemStatus();
+                        upload.remove(filePath); //删除图片
+                    } else {
+                        // 传承人
+                        if(!$('div').hasClass('control')){
+                            var d=/\.[^\.]+$/.exec(data.src);
+                            if(d=='.mp4'){
+                                var templ = '<div class="item">' +
+                                    '<video data-src="' + data.src + '" style="width: 100%;" src="' + data.src + '" controls ></video>' +
+                                    '<input type="text" name="text" placeholder="请输入标题">' +
+                                    '<span id="remove_delete" class="remove"><i></i></span>' +
+                                    '</div>';
+
+                                _images.find('.handle').before(templ);
+                            }else if (d=='.jpg' || d=='.gif' || d=='.png' || d=='.JPEG') {
+                                var templ = '<div class="item">' +
+                                    '<img src="' + data.src + '" alt="" data-src="' + data.src + '">' +
+                                    '<input type="text" name="text" placeholder="请输入标题">' +
+                                    '<span id="remove_delete" class="remove"><i></i></span>' +
+                                    '</div>';
+                                _images.find('.handle').before(templ);
+                            }
+                        }else {//题图
+                            $('.file_up').find('.preview').remove();
+                            $('.file_up').append('<img style="display: block;" class="preview" src="'+data.src+'">')
+                        }
+                        upload.isItemStatus();
+                    }
+
+                    if(callback && callback!='undefined'){
+                        callback(data);
+                    }
                 }
             });
         });
-
-
-        //删除图片
-        upload.remove(filePath);
-
-
     },
     isItemStatus:function () {
         //判断上传图片的状态
@@ -1539,7 +1636,7 @@ var modal={
 function send_request()
 {
     var signituredata={};
-    $.ajax("/file/getPolicy", {
+    $.ajax("http://192.168.1.36/file/getPolicy", {
         type: "POST",
         data: {},
         dataType: "json",
