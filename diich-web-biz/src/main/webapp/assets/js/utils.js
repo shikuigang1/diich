@@ -550,7 +550,7 @@ var Detail = { //详情页用到的效果
     judgeDom:function () {
         //当doi编码不存在时隐藏div
         var doi_code = $("#doi_code").text().trim(" ");
-        if(doi_code == null || doi_code == ""){
+        if(doi_code == null || doi_code == "" || doi_code == "："){
             $(".doi_code").hide();
         }
 
