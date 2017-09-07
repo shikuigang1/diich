@@ -14,7 +14,6 @@ var upload={
         return _parent;
     },
     submit:function (obj,type,url,callback) {
-
         var _this=this;
         $(obj).append(this.template(type,url));
         $(document).on('change','.file',function () {

@@ -50,15 +50,15 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         _onOveraPreview();
         _onOveraSubmit();
         _addCustom();
-        _getUserInfo();
+        //_getUserInfo();
     }
 
     // 获取用户信息
-    function _getUserInfo() {
-        _onRequest("POST", "/user/userinfo", {params: ""}).then(function(data){
-            userType = data.res.data.type;
-        })
-    }
+    //function _getUserInfo() {
+    //    _onRequest("POST", "/user/userinfo", {params: ""}).then(function(data){
+    //        userType = data.res.data.type;
+    //    })
+    //}
 
     // 判断哪些菜单是填写完成的
     function _onYesMenu() {
@@ -221,7 +221,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 if(v.attribute.targetType == 11) {
                     var coustomId = $("#menus_custom").children(".dt").attr("id"); // 获取自定义项一级菜单ID
                     var $ul = $("#" + coustomId).next(".dd").children("ul");
-                    var lengt = $ul.children("li").length == 0 ? $ul.children("li").length : $ul.children("li").length + 1;
+                    var lengt = $ul.children("li").length == 0 ? $ul.children("li").length : $ul.children("li").length;
                     var menuHtml = Handlebars.compile(menuTpl)({mid: "menutwo_" + coustomId.split("_")[1] + "_" + lengt, name: v.attribute.cnName, menuId : v.attributeId});
                     $ul.append(menuHtml);
                     $("#menutwo_" + coustomId.split("_")[1] + "_" + lengt).children(i).addClass("selected").removeClass("unselected"); // 因为自定义项添加时的限制，已确保添加后的是已完成的
@@ -807,6 +807,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
     // 自定义模板
     function _getCustomTpl($this) {
+        console.log($this.attr("id"))
         $("#content").html(Handlebars.compile(customTpl)({pageObj: pageObj, customId: $this.attr("data-id")})); // 更新页面模板
         inheritorPage.radioImage(); // 加载上传视频， 上传图片
 
@@ -910,9 +911,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             var obj = {};
             var index = 0; // 记录删除对象在pageObj中对应的索引位置
             // 去除对应的数据
-            if(pageObj.hasOwnProperty("contentFragmentList")) {
-                $.each(pageObj.contentFragmentList, function(i, v) {
-                    if(v.attributeId == did) {
+            if (pageObj.hasOwnProperty("contentFragmentList")) {
+                $.each(pageObj.contentFragmentList, function (i, v) {
+                    if (v.attributeId == did) {
                         index = i;
                         obj = v;
                         return;
@@ -921,17 +922,17 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             }
 
             // 如果obj属性大于0 则表示有数据
-            if(Object.getOwnPropertyNames(obj).length > 0) {
+            if (Object.getOwnPropertyNames(obj).length > 0) {
                 //console.log("obj --- >", obj);
-                _onRequest("POST", "/contentFragment/deleteContentFragment", {params: JSON.stringify(obj)}).then(function(result) {
+                _onRequest("POST", "/contentFragment/deleteContentFragment", {params: JSON.stringify(obj)}).then(function (result) {
                     //console.log("result --- >", result);
-                    if(result.res.code == 0 && result.res.msg == "SUCCESS") {
+                    if (result.res.code == 0 && result.res.msg == "SUCCESS") {
                         _emptyMod(); // 清空MOD层数据
                         // 删除pageObj中对应的对象
                         pageObj.contentFragmentList.splice(index, 1);
                     } else {
-                        if(result.res.code != 3) {
-                            tipBox.init("fail", result.res.msg , 1500);
+                        if (result.res.code != 3) {
+                            tipBox.init("fail", result.res.msg, 1500);
                         }
                         _bindingDelete();
                     }
@@ -948,13 +949,12 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 $this.remove(); // 删除菜单
                 _bindingDelete();
             }
-            _onRemoveImg(); // 删除图片
+
+
             $("#menus_custom").children(".dd").children("ul").children(".selected").remove();// 删除菜单
 
-    }
+        }
 
-
-    function _onRemoveImg() {
         // 删除图片操作
         _bindingDeleteImg();
         function _bindingDeleteImg() {
@@ -963,9 +963,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             })
         }
 
-        function _deleteImg($pthis) {
-            $pthis.off("click");
-            var $this = $(this);
+        function _deleteImg($this) {
+            $this.off("click");
+            //var $this = $(this);
             var pop = $this.attr("id").split("_").pop(); // 图片Id
             var mid = $this.attr("data-id");
             if(pop != "delete") {
@@ -1002,7 +1002,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 _bindingDeleteImg();
             }
         }
-    }
     }
 
     // 获取自定义模块 表单数据 处理成参数
@@ -1099,7 +1098,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                         targetId = result.res.data.id;
                         _onMergeObj(result.res.data);
                         if(strCode == "custom") {
-                            _generateMenu(result.res.data);
+                            if($("#customContent").attr("data-id") == "") {
+                                _generateMenu(result.res.data);
+                            }
                         }
                         tipBox.init("success", "保存成功", 1500);
                         _onOverallSave();
@@ -1150,8 +1151,12 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 _onRequest("POST", "/ichMaster/preview", {params: targetId}).then(function(result) {
                     //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
-                        window.open(result.res.data.replace('./',''));
-                        _bindingSave();
+                        modal.loading({
+                            success:function () {
+                                window.open(result.res.data.replace('./',''));
+                                _bindingSave();
+                            }
+                        });
                     } else {
                         _bindingSave();
                     }

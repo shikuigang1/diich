@@ -66,9 +66,9 @@ function loadProjectFromServer(projectId) {
         type: 'get',
         url: base_url + '/ichProject/getIchProjectById?params=' + projectId,
         async: false,
-        /*xhrFields:{
+        xhrFields:{
             withCredentials:true
-        },*/
+        },
         success: function (data) {
             if(data == null || data.code == 3) {
                 alert('您还没有登录，请登录后操作！');
@@ -107,9 +107,6 @@ function loadAttributesFromServer() {
     $.ajax({
         type: 'post',
         url: url,
-        /*xhrFields:{
-            withCredentials:true
-        },*/
         success: function (data) {
             if(data == null || data.code == 3) {
                 return;
@@ -220,6 +217,8 @@ function displayEditMode() {
     });
     
     $('a.albums').hide();
+    $('a.share').hide();
+    $('a.praise').hide();
     
     $('.add.button').on('click', function () {
         if(has_edit == true) {
@@ -272,7 +271,6 @@ function displayEditMode() {
             var attribute = {};
             attribute.cnName = title;
             attribute.dataType = 5;
-            attribute.ichCategoryId = 0;
             contentFragment.content = content;
             contentFragment.targetType = 0;
             contentFragment.attribute = attribute;
@@ -501,37 +499,6 @@ function editShortTextUi($section) {
     $section.append($form);
 }
 
-function editLongTextUi($section) {
-    $section.find('.read-piece').hide();
-
-    var $p = $section.find('.data-item');
-    var data_id = $p.attr('data-id');
-
-    var content = '';
-    var contentFragmentList = [];
-    if(project != null) {
-        contentFragmentList = project.contentFragmentList;
-    }
-
-    for(var i = 0; i < contentFragmentList.length; i++) {
-        var contentFragment = contentFragmentList[i];
-        if(contentFragment.attributeId == data_id) {
-            content = contentFragment.content;
-            break;
-        }
-    }
-
-    var rand = generateMathRand(8);
-    var $ui = $('<script class="editor data-item" type="text/plain" style="width:1168px;height:200px;"></script>');
-    $ui.attr('id', rand);
-    $section.find('.card').append($ui);
-
-    var editor = UE.getEditor(rand);
-    editor.ready(function () {
-       editor.setContent(content);
-    });
-}
-
 function editImageTextUi($section) {
     $section.find('.read-piece').hide();
 
@@ -647,7 +614,7 @@ function saveProjectToClient($section) {
 
         var data_id;
         var editor_id;
-        if(data_type == 'long-text' || data_type == 'image-text') {
+        if(data_type == 'image-text') {
             data_id = $section.find('.read-piece .data-item').attr('data-id');
             editor_id = $(item_arr[i]).attr('id');
             data_value = UE.getEditor(editor_id).getContent();

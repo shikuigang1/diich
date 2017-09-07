@@ -600,8 +600,8 @@
                             <div class="side" style="margin-right:30px;">
                                 <div class="item">
                                     <p class="data-item" data-id="${cf.attributeId?c}">
-                                       <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
-                                         ${content}
+                                       <#--<#assign content =cf.content?replace("\n","<br>") />-->
+                                        ${cf.content}
                                     </p>
                                 </div>
                             </div>
@@ -683,12 +683,11 @@
                         <article class="plain_text read-piece">
                             <p class="data-item" data-id="${cf.attributeId?c}">
                                 <#if cf.content??>
-                                    <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
-                                    ${content}
-
+                                    <#--<#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />-->
+                                    <#--<#assign content =cf.content?replace("\n","<br>") />-->
+                                     ${cf.content}
                                 </#if>
                             </p>
-                        <#--${cf.content?replace("\n","</p></p>")}-->
 
                         </article>
                     </div>
