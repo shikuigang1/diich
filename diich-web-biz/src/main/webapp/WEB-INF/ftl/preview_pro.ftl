@@ -589,14 +589,12 @@
 
                                             <#if r.type ==1>
                                                 <div class="card_video">
-                                                    <div class="time">30:24</div>
-                                                    <div class="play" data-type="1" data-id="1" ></div>
                                                     <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${provuri}${r.uri}" type="video/mp4" style="width: 100%;" class="data-item" data-id="${cf.attributeId}">
+                                                        <video controls src="${provuri}${r.uri}" type="video/mp4" style="width: 100%;" class="data-item" data-id="${cf.attributeId}">
                                                         </video>
                                                     </#if>
                                                     <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
-                                                        <video poster="http://resource.efeiyi.com/image/uploads/exp2.png"  src="${r.uri}" type="video/mp4" style="width: 100%;" class="data-item" data-id="${cf.attributeId}">
+                                                        <video poster="" controls src="${r.uri}" type="video/mp4" style="width: 100%;" class="data-item" data-id="${cf.attributeId}">
                                                         </video>
                                                     </#if>
 

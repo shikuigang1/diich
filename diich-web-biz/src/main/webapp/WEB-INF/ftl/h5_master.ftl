@@ -7,17 +7,10 @@
     <title>
     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
        <#list obj.contentFragmentList as cf>
-        <#if (obj.lang == "chi")>
-            <#if cf.attributeId == 4>
+            <#if cf.attributeId == 13>
             ${cf.content}
             </#if>
-        </#if>
-        <#if (obj.lang == "eng")>
-            <#if cf.attributeId == 5>
-            ${cf.content}
-            </#if>
-        </#if>
-    </#list>
+        </#list>
     </#if>
     </title>
     <meta name="author" content="...">
@@ -31,7 +24,7 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Pragma" content="no-cache">
     <meta name="description" content="...." />
-    <link rel="stylesheet" type="text/css" href="${h5uri}/css/project.css"/>
+    <link rel="stylesheet" type="text/css" href="${h5uri}/css/name.css"/>
     <link rel="stylesheet" type="text/css" href="${h5uri}/links/js/reset.css"/>
     <script src="${h5uri}/links/js/rem.js" type="text/javascript" charset="utf-8"></script>
     <script src="${h5uri}/links/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
@@ -84,36 +77,37 @@
     <#assign prouri="http://resource.efeiyi.com/image/project/" />
     <#assign provuri="http://resource.efeiyi.com/video/project/" />
     <#assign masteruri="http://resource.efeiyi.com/image/master/" />
+    <#assign mastervuri="http://resource.efeiyi.com/video/master/" />
     <#assign worksuri="http://resource.efeiyi.com/image/works/" />
     <#assign str="http:" />
     <#assign strs="https:" />
     <!--搜索-->
     <div class="content_search" id="content_search">
     </div>
-
     <!--内容信息-->
     <div class="content" id="content">
+
         <!--banner-->
         <div class="banner">
-        <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/head.png">
-        <#if (obj.contentFragmentList?size>0)>
-            <#list obj.contentFragmentList as cf>
-                <#if cf.attributeId == 1>
-                    <#if (cf.resourceList??) && (cf.resourceList?size>0)>
-                        <#list cf.resourceList as res>
-                            <#if res.type==0 && res.status==0 && res.uri?? && res.uri != "">
-                                <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                    <#assign backImgUrl = "${prouri}${res.uri}" />
+            <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/head.png">
+            <#if (obj.contentFragmentList?size>0)>
+                <#list obj.contentFragmentList as cf>
+                    <#if cf.attributeId == 10>
+                        <#if (cf.resourceList??) && (cf.resourceList?size>0)>
+                            <#list cf.resourceList as res>
+                                <#if res.type==0 && res.status==0 && res.uri?? && res.uri != "">
+                                    <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
+                                        <#assign backImgUrl = "${masteruri}${res.uri}" />
+                                    </#if>
+                                    <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
+                                        <#assign backImgUrl = "${res.uri}" />
+                                    </#if>
                                 </#if>
-                                <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
-                                    <#assign backImgUrl = "${res.uri}" />
-                                </#if>
-                            </#if>
-                        </#list>
+                            </#list>
+                        </#if>
                     </#if>
-                </#if>
-            </#list>
-        </#if>
+                </#list>
+            </#if>
             <img src="${backImgUrl}"/>
         </div>
 
@@ -122,22 +116,13 @@
             <div>
                 <h3>
                     <ul>
-                        <li>
-                        <#if obj.contentFragmentList?? && (obj.contentFragmentList?size>0)>
+                        <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                             <#list obj.contentFragmentList as cf>
-                            <#if obj.lang == "chi">
-                                <#if cf.attributeId == 4 && cf.content?? && cf.content !="">
-                                    ${cf.content}
+                                <#if cf.attributeId == 13>
+                                <li>${cf.content}</li>
                                 </#if>
-                            </#if>
-                            <#if obj.lang == "eng">
-                                <#if cf.attributeId == 5 && cf.content?? && cf.content !="">
-                                    ${cf.content}
-                                </#if>
-                            </#if>
                             </#list>
                         </#if>
-                        </li>
                         <li>
                             <div>
                                 <a href="javascript:;">
@@ -150,186 +135,52 @@
                         </li>
                     </ul>
                 </h3>
-                <#if (obj.version??) && (obj.version.mainVersionId??) && (obj.version.branchVersionId??)>
                 <div>
-                    <#if obj.lang == "chi">
-                        <p>英文条目：<a href="${obj.version.branchVersionId?c}.html">English version</a></p>
-                    </#if>
-                    <#if obj.lang == "eng">
-                        <p>English version：<a href="${obj.version.mainVersionId?c}.html">该词条中文版</a></p>
+
+                </div>
+                <div>
+
+                </div>
+                <div>
+                    <#if obj.contentFragmentList?? && (obj.contentFragmentList?size>0)>
+                        <#list obj.contentFragmentList as cf>
+                            <#if cf.attributeId == 23 && cf.content?? && cf.content !="">
+                                <div>
+                                    <p>地域</p>
+                                    <ul>
+                                        <#assign codeList = cf.content?split(",")>
+                                        <#list codeList as s>
+                                            <li class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${s}</li>
+                                        </#list>
+                                    </ul>
+                                </div>
+                            </#if>
+                        </#list>
                     </#if>
                 </div>
-                </#if>
-
-                <#if obj.lang == "chi">
-                    <div>
-                        <p>类别</p>
-
-                        <#if (obj.ichCategoryId??)>
-                            <p id="category" category-id="${obj.ichCategoryId?c}">${obj.ichCategoryId?c}</p>
-                        </#if>
-                        <#if (!obj.ichCategoryId??)>
-                            <p id="category" category-id="" ></p>
-                        </#if>
-
-                    </div>
-                </#if>
-                <#if obj.lang == "eng">
-                    <div>
-                        <p>Category</p>
-
-                        <#if (obj.ichCategoryId??)>
-                            <P id="category" category-id="${obj.ichCategoryId?c}">${obj.ichCategoryId?c}</P>
-                        </#if>
-                        <#if (!obj.ichCategoryId??)>
-                            <p id="category" category-id="" ></p>
-                        </#if>
-
-                    </div>
-                </#if>
-                <#if obj.contentFragmentList?? && (obj.contentFragmentList?size>0)>
-                    <#list obj.contentFragmentList as cf>
-                        <#if cf.attributeId == 33 && cf.content?? && cf.content !="">
-                            <div>
-                                <#if obj.lang == "chi">
-                                    <p>地域</p>
-                                </#if>
-                                <#if obj.lang == "eng">
-                                    <p>District</p>
-                                </#if>
-                                <ul>
-                                    <#assign codeList = cf.content?split(",")>
-                                    <#list codeList as s>
-                                        <li class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${s}</li>
-                                    </#list>
-                                </ul>
-                            </div>
-                        </#if>
-                    </#list>
-                </#if>
             </div>
-
         </div>
         <!--传承人-->
-
         <div class="inherit">
-        <#if obj.ichMasterList?? && (obj.ichMasterList?size > 0)>
-            <div class="inherit_content" id="Representative_inheritors">
-
-                <#if obj.lang == "chi">
-                    <h4>代表性传承人</h4>
-                </#if>
-                <#if obj.lang == "eng">
-                    <h4>Representativeness</h4>
-                </#if>
-
-                <!--默认显示内容-->
-                <ul id="inherit_content_ul">
-                <#list obj.ichMasterList as master>
-                    <#assign masterPic="http://resource.efeiyi.com/image/uploads/default_avatar2.png?x-oss-process=style/head-image-style">
-                    <#assign masterName=""/>
-                    <#assign masterRank=""/>
-                    <#assign masterTitle=""/>
-                    <#assign dataType=""/>
-                    <#if (master.contentFragmentList??) && (master.contentFragmentList?size>0)>
-                    <li>
-                        <#list master.contentFragmentList as cf>
-                            <#if cf.attributeId == 113>
-                                <#if (cf.resourceList??) && (cf.resourceList?size>0)>
-                                    <#list cf.resourceList as r>
-                                        <#if r?? &&(r.uri??)>
-                                            <#assign masterPic="${masteruri}${r.uri}?x-oss-process=style/head-image-style">
-                                        </#if>
-                                    </#list>
-                                </#if>
-                            </#if>
-                            <#if obj.lang == "chi" >
-                                <#if cf.attributeId == 13 && cf.content?? && cf.content != "">
-                                    <#assign masterName="${cf.content}"/>
-                                </#if>
-                            </#if>
-                            <#if obj.lang == "eng" >
-                                <#if cf.attributeId == 14 && cf.content?? && cf.content != "">
-                                    <#assign masterName="${cf.content}"/>
-                                </#if>
-                            </#if>
-                            <#if cf.attributeId == 111 && cf.content?? && cf.content != "">
-                                <#assign masterRank="${cf.content}"/>
-                                <#assign dataType="${cf.attribute.dataType}"/>
-                            </#if>
-                            <#if cf.attributeId == 50 && cf.content?? && cf.content != "">
-                                <#assign masterTitle="${cf.content}"/>
-                            </#if>
-                        </#list>
-                        <div>
-                            <img src="${masterPic}"/>
-                        </div>
-                        <div>
-                            <#if ("${masterName}" !=  "")>
-                                <p>${masterName}</p>
-                            </#if>
-                            <#if ("${masterRank}" !=  "")>
-                                <p class="value dic" dic-type="${dataType}" lang="${obj.lang}">${masterRank}</p>
-                            </#if>
-                            <#if ("${masterTitle}" !=  "")>
-                                <p>${masterTitle}</p>
-                            </#if>
-                        </div>
-                    </li>
+            <div class="inherit_content2">
+                <h4><span>非遗在中国</span><img src="${h5uri}/images/logo123.png"></h4>
+                <#list obj.contentFragmentList as cf>
+                    <#if cf.attributeId == 12 && cf.content?? && cf.content != "" >
+                        <p>
+                            <span>非遗编码</span>
+                            <span class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
+                        </p>
                     </#if>
                 </#list>
-                </ul>
-
-                <p class="Load_la" id="Load_la">
-                    <img src="${h5uri}/images/hide.png" class="shOp" id="img1"/>
-                    <img src="${h5uri}/images/shop.png" id="img2"/>
-                </p>
-            </div>
-        </#if>
-            <div class="inherit_content2">
-                <#if obj.lang == "chi">
-                    <h4><span>非遗在中国</span><img src="${h5uri}/images/logo123.png"></h4>
+                <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
-                        <#if cf.attributeId == 106 && cf.content?? && cf.content != "" >
+                        <#if cf.attributeId == 111 &&  cf.content?? && cf.content != "">
                             <p>
-                                <span>中国非遗名录编号</span>
+                                <span>非遗等级</span>
                                 <span class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
                             </p>
                         </#if>
                     </#list>
-                    <#if (obj.contentFragmentList?size>0)>
-                        <#list obj.contentFragmentList as cf>
-                            <#if cf.attributeId == 41 &&  cf.content?? && cf.content != "">
-                                <p>
-                                    <span>级别 </span>
-                                    <span class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
-                                </p>
-                            </#if>
-                        </#list>
-                    </#if>
-
-                </#if>
-                <#if obj.lang == "eng">
-                    <h4><span>The heritage in China</span><img src="${h5uri}/images/logo123.png"></h4>
-                    <#list obj.contentFragmentList as cf>
-                        <#if cf.attributeId == 106 && cf.content?? && cf.content != "" >
-                            <p>
-                                <span>Human intangible cultural heritage number</span>
-                                <span class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
-                            </p>
-                        </#if>
-                    </#list>
-                    <#if (obj.contentFragmentList?size>0)>
-                        <#list obj.contentFragmentList as cf>
-                            <#if cf.attributeId == 41 &&  cf.content?? && cf.content != "">
-                                <p>
-                                    <span>Rank </span>
-                                    <span class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
-                                </p>
-                            </#if>
-                        </#list>
-                    </#if>
-
                 </#if>
             </div>
 
@@ -339,41 +190,24 @@
         <div class="content_box">
             <!--基本信息-->
             <div class="inFormation" id="Essential_information">
-                <h3><#if obj.lang == "chi">
-                    基础信息
-                </#if>
-                <#if obj.lang == "eng">
-                    Basic information
-                </#if><span>_</span>
-                </h3>
-                <#if (obj.contentFragmentList?size>0)>
-                    <#list obj.contentFragmentList as cf>
-                        <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.content !="" && cf.attributeId != 106 && cf.attributeId != 2 && cf.attributeId != 41 && cf.attributeId != 33>
-                            <p>
+                <h3>基本信息<span>_</span></h3>
+            <#if (obj.contentFragmentList?size>0)>
+                <#list obj.contentFragmentList as cf>
+                    <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.content !="" && cf.attributeId != 11 && cf.attributeId != 12 && cf.attributeId != 111 && cf.attributeId != 23 && cf.attribute.isOpen == 1>
+                        <p>
                                 <span>
-                                <#if obj.lang == "chi">
                                     ${cf.attribute.cnName}
-                                </#if>
-                                <#if obj.lang == "eng">
-                                    ${cf.attribute.enName}
-                                </#if>
                                 </span>
-                                <span  class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
-                            </p>
-                        </#if>
-                    </#list>
-                </#if>
+                            <span  class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
+                        </p>
+                    </#if>
+                </#list>
+            </#if>
             </div>
             <!--代表性作品-->
-            <#if obj.worksList?? && (obj.worksList?size>0) >
+             <#if obj.worksList?? && (obj.worksList?size>0) >
             <div class="inFormation3" id="Representative_works">
-                <h3><#if obj.lang == "chi">
-                    代表作品
-                    </#if>
-                    <#if obj.lang == "eng">
-                        Representative works
-                    </#if><span>_</span>
-                </h3>
+                <h3>代表作品<span>_</span></h3>
                 <!--picture-->
                 <div class="picTure">
                     <ul class="link">
@@ -392,7 +226,7 @@
                                                         <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
                                                             <img src="${res.uri}">
                                                         </#if>
-                                                        <#--<img src="images/stock-photo-too.png"/>-->
+                                                    <#--<img src="images/stock-photo-too.png"/>-->
                                                     </li>
                                                 </div>
                                             </#if>
@@ -412,22 +246,19 @@
                 </div>
                 <#if workSummary != "" >
                     <p class="For_content3">
-                       ${workSummary}
+                    ${workSummary}
                     </p>
                 </#if>
             </div>
-            </#if>
+        </#if>
             <!--基本内容-->
             <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                 <#list obj.contentFragmentList as cf>
                     <#if cf.attribute?? && ((cf.attribute.dataType == 5 && ((cf.content?? && cf.content != "") || (cf.resourceList?? && cf.resourceList?size>0))) || (cf.attribute.dataType == 1 && cf.content?? && cf.content != ""))>
                         <div class="inFormation2" id="Essential_${cf.id?c}">
-                            <h3><#if obj.lang == "chi">
-                                ${cf.attribute.cnName}
-                                </#if>
-                                <#if obj.lang == "eng">
-                                ${cf.attribute.enName}
-                                </#if><span>_</span>
+                            <h3>
+                            ${cf.attribute.cnName}
+                            <span>_</span>
                             </h3>
                             <div class="inFormation2_num">
                                 <ul class="link">
@@ -441,7 +272,7 @@
                                                             <div class="viDeo2">
                                                                 <video preload="preload" poster width="100%">
                                                                     <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                                                        <source src="${provuri}${res.uri}">
+                                                                        <source src="${mastervuri}${res.uri}">
                                                                     </#if>
                                                                     <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
                                                                         <source src="${res.uri}">
@@ -463,7 +294,7 @@
                                                     <div class="swiper-slide">
                                                         <li>
                                                             <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                                                <img src="${prouri}${res.uri}"/>
+                                                                <img src="${masteruri}${res.uri}"/>
                                                             </#if>
                                                             <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
                                                                 <img src="${res.uri}"/>
@@ -490,7 +321,7 @@
                             <#if cf.content?? && cf.content != "">
                                 <p class="For_content2">
                                     <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
-                                    ${content}
+                                        ${content}
                                 </p>
                             </#if>
 
@@ -498,6 +329,7 @@
                     </#if>
                 </#list>
             </#if>
+
         </div>
 
     </div>
@@ -510,6 +342,8 @@
     <div id="gong"></div>
     <!--牛逼马赛克-->
     <div class="Mosaic" id="Mosaic"></div>
+    <div class="Mosaic_left"></div>
+    <div class="Mosaic_right"></div>
 
 
     <!--图片展示图层-->
@@ -538,15 +372,12 @@
             </div>
         </div>
     </div>
-
-
     <div class="box_layer_tow" id="box_layer_tow_show">
         <span id="Close_tow">关闭</span>
         <div id="box_layer_tow">
 
         </div>
     </div>
-
 
 </div>
 </body>
@@ -555,26 +386,26 @@
         _dic();
         _category();
     });
-function _dic() {
-    //替换资源数据
-    var code_arr = $('.dic');
-    for(var i = 0; i < code_arr.length; i ++) {
-        var _code = $(code_arr[i]).text();
-        var _type = $(code_arr[i]).attr('dic-type');
-        if(_type<100){
-            $(code_arr[i]).text(_code);
+    function _dic() {
+        //替换资源数据
+        var code_arr = $('.dic');
+        for(var i = 0; i < code_arr.length; i ++) {
+            var _code = $(code_arr[i]).text();
+            var _type = $(code_arr[i]).attr('dic-type');
+            if(_type<100){
+                $(code_arr[i]).text(_code);
+            }
+            var _lang = $(code_arr[i]).attr('lang');
+            var _value = getTextByTypeAndCode(_type, _code, _lang);
+            $(code_arr[i]).text(_value);
         }
-        var _lang = $(code_arr[i]).attr('lang');
-        var _value = getTextByTypeAndCode(_type, _code, _lang);
-        $(code_arr[i]).text(_value);
     }
-}
 
-function _category() {
-    var _catId = $("#category").attr("category-id");
-    var text = getCategoryTextById(_catId);
-    $("#category").text(text);
-}
+    function _category() {
+        var _catId = $("#category").attr("category-id");
+        var text = getCategoryTextById(_catId);
+        $("#category").text(text);
+    }
 </script>
 </html>
 
