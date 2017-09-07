@@ -725,8 +725,17 @@ body,
 .ipt_page .create_project .step3 .group .control {
     width: 50%;
     float: left;
+    position: relative;
 }
-
+.ipt_page .create_project .step3 .group .control .errors {
+    width:100%;
+    line-height:30px;
+    font-size:12px;
+    color: #f00;
+    position: absolute;
+    bottom:-30px;
+    left:0;
+}
 .ipt_page .create_project .step3 .group .control .ipt {
     width: 92%;
     padding: 0 4%;
@@ -1302,6 +1311,7 @@ body,
     cursor: pointer;
     float: left;
     margin-right: 11px;
+    position: relative;
 }
 
 .ipt_base .content .edit .images .handle .add .icon {
