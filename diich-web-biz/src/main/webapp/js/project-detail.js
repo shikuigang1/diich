@@ -44,12 +44,6 @@ var custom_show_tmp = ' <article class="text_img read-piece"> <div class="side">
     /*'<img src="http://resource.efeiyi.com/image/project/10178-BIG.jpg"> ' +*/
     '</li> </ul><div class="more"></div> </div> </article>';
 
-var to_image_text_tmp = '<div class="side" style="margin-right:30px;"> ' +
-    '<div class="item"> ' +
-    '<p class="data-item" data-id="35"> <p>dsfdsfe&lt;/p> </p> ' +
-    '</div> </div> ' +
-    '<div class="media"> <ul> <li> <img src="" alt="" class="data-item" data-id="35"> </li> </ul> </div>';
-
 function init() {
     $('.edit.link').on('click', function() {
         var projectId = $(this).attr('project-id');
@@ -63,9 +57,8 @@ function init() {
 
 function loadProjectFromServer(projectId) {
     $.ajax({
-        type: 'get',
+        type: 'POST',
         url: base_url + '/ichProject/getIchProjectById?params=' + projectId,
-        async: false,
         xhrFields:{
             withCredentials:true
         },
@@ -105,7 +98,7 @@ function loadAttributesFromServer() {
         project.id + '&categoryId' + project.ichCategoryId;
 
     $.ajax({
-        type: 'post',
+        type: 'POST',
         url: url,
         success: function (data) {
             if(data == null || data.code == 3) {
@@ -143,12 +136,12 @@ function displayEditMode() {
         var params = JSON.stringify(project);
 
         $.ajax({
-            type: 'post',
+            type: 'POST',
             url: base_url + '/ichProject/saveIchProject',
             data: {'params': params},
-            /*xhrFields:{
+            xhrFields:{
                 withCredentials:true
-            },*/
+            },
             success: function (data) {
                 if(data.code == 0) {
                     alert('提交成功！通过审核后，会及时通知你呦！');
@@ -292,7 +285,7 @@ function displayEditMode() {
 
             $ui.find('.image-text').hide();
             $ui.find('.card').append($custom_ui);
-            $ui.find('.read-piece p').html(content);
+            $ui.find('.item-content').html(content);
 
             $ui.find('.save.link').hide();
             $ui.find('.edit.link').show();
@@ -334,20 +327,6 @@ function displayEditMode() {
                 uri_str = uri_str.substring(uri_str.lastIndexOf('/') + 1, uri_str.length);
                 $ui.find('.image-container').append($img);
 
-                /*var contentFragmentList = project.contentFragmentList;
-                for(var i = 0; i < contentFragmentList.length; i++) {
-                    var contentFragment = contentFragmentList[i];
-                    if(contentFragment.attributeId == data_id) {
-                        var resource = {};
-                        resource.status = 0;
-                        resource.type = 0;
-                        resource.uri = uri_str;
-                        resource.description = '';
-
-                        contentFragment.resourceList.push(resource);
-                    }
-                }*/
-
                 var resource = {};
                 resource.status = 0;
                 resource.type = 0;
@@ -371,10 +350,6 @@ function displayEditMode() {
 
 function displayReadMode() {
     window.location.reload();
-    /*$('.edit-project-tool-bar').remove();
-    $('.header.header_detail').show();
-    $('.primary.edit.link').show();
-    $('.title>.edit.link').remove();*/
 }
 
 function getSection(edit_link) {
@@ -508,23 +483,44 @@ function editImageTextUi($section) {
         contentFragmentList = project.contentFragmentList;
     }
 
-    var $item = $section.find('.read-piece p.data-item');
+    var $item = $section.find('.item-content');
     var data_id;
     if($item != null) {
         data_id = $item.attr('data-id');
     }
 
     var resourceList = [];
+    var attr_type = '5';
     for(var i = 0; i < contentFragmentList.length; i++) {
         var contentFragment = contentFragmentList[i];
         if(contentFragment.attributeId == data_id) {
             content = contentFragment.content;
-            resourceList = contentFragment.resourceList;
+            var attribute = contentFragment.attribute;
+            if(attribute != null) {
+                attr_type = attribute.dataType;
+            }
+            if(attr_type == '5') {
+                resourceList = contentFragment.resourceList;
+            }
             break;
         }
     }
 
     var $ui = $(edit_image_text_tmp);
+    $section.find('.card').append($ui);
+
+    var rand = generateMathRand(8);
+    $ui.find('.editor').attr('id', rand);
+    var editor = UE.getEditor(rand);
+    editor.ready(function () {
+        editor.setContent(content);
+    });
+
+    if(attr_type != '5') {
+        $ui.find('.images').hide();
+        $ui.find('.text').css({'width':'100%'});
+        return;
+    }
 
     for(var i = 0; i < resourceList.length; i++) {
         var resource = resourceList[i];
@@ -537,15 +533,6 @@ function editImageTextUi($section) {
         $img.attr('file-name', resource.uri);
         $ui.find('.image-container').append($img);
     }
-
-    var rand = generateMathRand(8);
-    $ui.find('.editor').attr('id', rand);
-    $section.find('.card').append($ui);
-
-    var editor = UE.getEditor(rand);
-    editor.ready(function () {
-        editor.setContent(content);
-    });
 
     var file_id = generateMathRand(8);
     var $fileElement = $ui.find('input.image');
@@ -615,7 +602,7 @@ function saveProjectToClient($section) {
         var data_id;
         var editor_id;
         if(data_type == 'image-text') {
-            data_id = $section.find('.read-piece .data-item').attr('data-id');
+            data_id = $section.find('.item-content').attr('data-id');
             editor_id = $(item_arr[i]).attr('id');
             data_value = UE.getEditor(editor_id).getContent();
         } else {
@@ -666,13 +653,10 @@ function showProjectUi($section) {
             var contentFragment = contentFragmentList[j];
 
             if($item.attr('data-id') == contentFragment.attributeId) {
-                if($section.find('.editor') != null && $section.find('.editor').length > 0) {
-                    var editor_id = $section.find('.editor').attr('id');
-                    $item.html(UE.getEditor(editor_id).getContent());
-                } else if($item.hasClass('dic')) {
+                if($item.hasClass('dic')) {
                     $item.text(getTextByTypeAndCode($item.attr('dic-type'), contentFragment.content, 'chi'));
                 } else {
-                    $item.text(contentFragment.content);
+                    $item.html(contentFragment.content);
                 }
                 break;
             }
