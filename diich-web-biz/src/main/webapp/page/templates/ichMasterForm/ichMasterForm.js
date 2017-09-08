@@ -1170,7 +1170,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         modal.loading({
                             success:function () {
-                                window.open(result.res.data.replace('./',''));
+                                window.open(result.res.data.replace('./','/'));
                                 _bindingSave();
                             }
                         });

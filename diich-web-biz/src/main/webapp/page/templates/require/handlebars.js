@@ -2853,19 +2853,28 @@ Handlebars.template = Handlebars.VM.template;
 
     // 处理图片显示 （视频地址替换图片 展示）
     Handlebars.registerHelper("handleUrl", function(url, code) {
-        var imgArr = [".BMP", ".PCX", ".PNG", ".JPEG", ".GIF", ".TIFF", ".JPG", ".ICO", ".TIF",
-            ".bmp", ".pcx", ".png", ".jpeg", ".gif", ".tiff", ".jpg", ".ico", ".tif"];
+        //var OSSIMGPASH = "http://diich-resource.oss-cn-beijing.aliyuncs.com/image/master/"; // oss图片地址存放地址
+        //var OSSVIDEOPASH = "http://diich-resource.oss-cn-beijing.aliyuncs.com/video/master/"; // oss视频存放地址
+
         var str = "";
-        if(imgArr.indexOf(url.substr(url.lastIndexOf("."), url.length).toString()) < 0) {
-            if(code == 0) {
-                var localhostPaht = window.document.location.href.substring(0,window.document.location.href.indexOf(window.document.location.pathname))
-                str = localhostPaht + "/assets/images/inputs/play.jpg";
-            } else {
-                str = OSSVIDEOPASH + url;
-            }
+        if(code == 1) {
+            str = OSSVIDEOPASH + url; // 视频
         } else {
-            str = OSSIMGPASH + url;
+            str = OSSIMGPASH + url; // 图片
         }
+        //var imgArr = [".BMP", ".PCX", ".PNG", ".JPEG", ".GIF", ".TIFF", ".JPG", ".ICO", ".TIF",
+        //    ".bmp", ".pcx", ".png", ".jpeg", ".gif", ".tiff", ".jpg", ".ico", ".tif"];
+        //var str = "";
+        //if(imgArr.indexOf(url.substr(url.lastIndexOf("."), url.length).toString()) < 0) {
+        //    if(code == 0) {
+        //        var localhostPaht = window.document.location.href.substring(0,window.document.location.href.indexOf(window.document.location.pathname))
+        //        str = localhostPaht + "/assets/images/inputs/play.jpg";
+        //    } else {
+        //        str = OSSVIDEOPASH + url;
+        //    }
+        //} else {
+        //    str = OSSIMGPASH + url;
+        //}
         return str;
     })
 

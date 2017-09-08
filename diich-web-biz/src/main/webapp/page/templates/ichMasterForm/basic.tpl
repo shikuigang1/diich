@@ -57,7 +57,7 @@
             {{/equal}}
             {{#equal dataType 101}}
                 {{#equal id 23}}
-                     <div class="group">
+                     <div class="group" style="z-index: 10;position: relative;">
                         <label class="label" for=""><!-- <em>*</em> -->{{cnName}}</label>
                         <div class="control">
                             <div id="declare" class="ipt w650 select" data-type="selectArea" value="" data-id="{{id}}" >请选择申报地</div>
