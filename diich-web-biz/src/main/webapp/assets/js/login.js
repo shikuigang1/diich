@@ -199,7 +199,7 @@ var loginPage = {
             '            <div class="group policy">'+
             '                <div class="name">&nbsp;</div>'+
             '                <div class="area">'+
-            '                    <label for="policy"><input id="policy" type="checkbox" checked>我已仔细阅读并同意《法律声明及隐私权政策》</label>'+
+            '                    <label for="policy"><input id="policy" type="checkbox" checked><a href="/registProtocal.html">我已仔细阅读并同意《法律声明及隐私权政策》</a></label>'+
             '                </div>'+
             '            </div>'+
             '            <div class="group" style="margin-bottom: 0">'+
