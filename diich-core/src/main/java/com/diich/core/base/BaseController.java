@@ -161,14 +161,9 @@ public abstract class BaseController<T extends BaseModel> {
     }
 
     public void setHeader(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		String []  allowDomain= {PropertiesUtil.getString("_host"),PropertiesUtil.getString("_master"),PropertiesUtil.getString("_works"),PropertiesUtil.getString("_organization"),PropertiesUtil.getString("_project")};
-		Set<String> allowedOrigins= new HashSet<String>(Arrays.asList(allowDomain));
 		String originHeader=request.getHeader("Origin");
-		if (allowedOrigins.contains(originHeader)){
-			response.setHeader("Access-Control-Allow-Origin", originHeader);
-			response.setHeader("Access-Control-Allow-Credentials", "true");
-			response.setContentType("text/html;charset=UTF-8");
-		}
-
+		response.setHeader("Access-Control-Allow-Origin", originHeader);
+		response.setHeader("Access-Control-Allow-Credentials", "true");
+		response.setContentType("text/html;charset=UTF-8");
 	}
 }
