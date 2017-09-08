@@ -315,6 +315,8 @@ function  saveCustom(next) {
                 //根据分类重新初始化 左侧菜单
                 init3(result.data.id);
                 if(next==1){
+                    //去掉 提示语
+                    $(".errors").hide();
                     $("#attrName").val("");
                     $("#longContent").val("");
                     $("#images").find('.item').remove();
@@ -609,6 +611,7 @@ function delContentFragmentLocal(attrId){
 function  saveContentPragment(attrid) {
     //验证数据
     var flag = false;
+    var customflag = false; //是否保存自定义内容
       $.each(attributeData,function (index,obj) {
             if(obj.id == attrid){
                 if(obj.minLength==null || obj.minLength ==0){
@@ -671,6 +674,12 @@ function  saveContentPragment(attrid) {
             if(obj.attributeId == attrid){
                 flag_1=1;
                 ich.contentFragmentList[idx].content=$("#longContent").val();
+
+                if(obj.attribute != null && obj.attribute.targetType == 10){
+                    ich.contentFragmentList[idx].attribute.cnName =$("#attrName").val();
+                    customflag = true;
+                }
+
                 if(typeof (obj.resourceList) == 'undefined'){
                     ich.contentFragmentList[idx].resourceList = resourceList;
                 }else{
@@ -774,6 +783,11 @@ function  saveContentPragment(attrid) {
                 }
 
                 initMainMenuStatus();
+
+                if(customflag){ //更新自定义菜单
+                    init3(result.data.id);
+                }
+                //
             }else{
                 alert("保存失败");
             }
@@ -816,25 +830,21 @@ function  getContentFragmentByID(attid) {
 function saveIchProject(page) {
     //本地缓存获取对象
     var ichjsonStr = localStorage.getItem("ichProject");
-    //第一次添加操作
     var contentFragmentList = [];
     var ich = {};
     //console.log(ichjsonStr);
+    var customflag = false;
     if(typeof (ichjsonStr)=='undefined' || ichjsonStr == null) {
         //do nothing
     }else{
         ich = JSON.parse(ichjsonStr);
-
         //contentFragmentList = ich.contentFragmentList;
     }
 
     if( $('div[data-type=proBaseInfo]').hasClass("selected")){//基础信息 点中
-
         var contentFragment={};
-
         //图上传成功本地保存图片
         var imgpath =  $('.preview').attr('src');
-
         if(typeof(imgpath) != "undefined"){
             //获取图片名称
             var path = imgpath.substring(imgpath.lastIndexOf("/")+1);
@@ -1083,12 +1093,16 @@ function saveIchProject(page) {
         contentFragment.resourceList=resourceList;
 
         var ich = getCurrentProject();
-        console.log(JSON.stringify(ich));
-
         if(typeof (ich.contentFragmentList)!="undefined" || ich.contentFragmentList.length>0){
             var flag_1 =0;
             $.each(ich.contentFragmentList,function (idx,obj) {
                 if(obj.attributeId == attid){
+
+                    if(obj.attribute != null && obj.attribute.targetType == "10"){
+                        customflag = true;
+                        ich.contentFragmentList[idx].attribute.cnName=$("#attrName").val();
+                    }
+
                     flag_1=1;
                     ich.contentFragmentList[idx].content=$("#longContent").val();
                     if(typeof (obj.resourceList) == 'undefined'){
@@ -1187,8 +1201,7 @@ function saveIchProject(page) {
                   $(".handle").find('a').eq(2).removeClass('empty').addClass('disabled');
               }
 
-              if($('div[data-type=longFieldCustom]').hasClass("selected")){
-                  console.log(result.data.id);
+              if($('div[data-type=longFieldCustom]').hasClass("selected") || customflag){
                   init3(result.data.id);
               }
               initMainMenuStatus();

@@ -91,17 +91,17 @@ var upload={
                             var d=/\.[^\.]+$/.exec(data.src);
                             if(d=='.mp4'){
                                 var templ = '<div class="item">' +
-                                    '<video style="width: 100%;" src="' + data.src + '" controls></video>' +
+                                    '<video data-src="' + data.src + '" style="width: 100%;" src="' + data.src + '" controls></video>' +
                                     '<input type="text" name="text" placeholder="请输入标题">' +
-                                    '<span class="remove"><i></i></span>' +
+                                    '<span id="remove_delete" class="remove"><i></i></span>' +
                                     '</div>';
 
                                 _images.find('.handle').before(templ);
                             }else if (d=='.jpg' || d=='.gif' || d=='.png' || d=='.JPEG') {
                                 var templ = '<div class="item">' +
-                                    '<img src="' + data.src + '" alt="">' +
+                                    '<img data-src="' + data.src + '" src="' + data.src + '" alt="">' +
                                     '<input type="text" name="text" placeholder="请输入标题">' +
-                                    '<span class="remove"><i></i></span>' +
+                                    '<span id="remove_delete" class="remove"><i></i></span>' +
                                     '</div>';
                                 _images.find('.handle').before(templ);
                             }
@@ -117,17 +117,17 @@ var upload={
                             var d=/\.[^\.]+$/.exec(data.src);
                             if(d=='.mp4'){
                                 var templ = '<div class="item">' +
-                                    '<video style="width: 100%;" src="' + data.src + '" controls></video>' +
+                                    '<video data-src="' + data.src + '" style="width: 100%;" src="' + data.src + '" controls></video>' +
                                     '<input type="text" name="text" placeholder="请输入标题">' +
-                                    '<span class="remove"><i></i></span>' +
+                                    '<span id="remove_delete" class="remove"><i></i></span>' +
                                     '</div>';
 
                                 _images.find('.handle').before(templ);
                             }else if (d=='.jpg' || d=='.gif' || d=='.png' || d=='.JPEG') {
                                 var templ = '<div class="item">' +
-                                    '<img src="' + data.src + '" alt="" data-src="' + data.src + '">' +
+                                    '<img data-src="' + data.src + '" src="' + data.src + '" alt="" data-src="' + data.src + '">' +
                                     '<input type="text" name="text" placeholder="请输入标题">' +
-                                    '<span class="remove_delete"><i></i></span>' +
+                                    '<span id="remove_delete" class="remove"><i></i></span>' +
                                     '</div>';
                                 _images.find('.handle').before(templ);
                             }
@@ -159,7 +159,7 @@ var upload={
                                 var templ = '<div class="item">' +
                                     '<video style="width: 100%;" src="' + data.src + '" controls></video>' +
                                     '<input type="text" name="text" placeholder="请输入标题">' +
-                                    '<span class="remove"><i></i></span>' +
+                                    '<span id="remove_delete" class="remove"><i></i></span>' +
                                     '</div>';
 
                                 _images.find('.handle').before(templ);
@@ -167,7 +167,7 @@ var upload={
                                 var templ = '<div class="item">' +
                                     '<img src="' + data.src + '" alt="">' +
                                     '<input type="text" name="text" placeholder="请输入标题">' +
-                                    '<span class="remove"><i></i></span>' +
+                                    '<span id="remove_delete" class="remove"><i></i></span>' +
                                     '</div>';
                                 _images.find('.handle').before(templ);
                             }
@@ -845,14 +845,22 @@ var projectPage={
                     projectPage.bind();
                     if(_dateType==='longField'){
                         upload.submit('image/project/',0);
-
                         //修改标签内容
-                        $(".st").children("h2").text(name);
                         //初始化当前菜单数据
                         var ich = getCurrentProject();
                         // var flag = false;//缓存命中标记
                         $.each(ich.contentFragmentList,function (index,obj) {
                             if(obj.attributeId == attrid){
+
+                                if(obj.attribute != null && obj.attribute.targetType == '10'){//自定义项编辑
+                                    $(".st").children("h2").empty();
+                                    $(".st").children("h2").addClass("custom");
+                                    $(".st").children("h2").append("<input type=\"text\" value=\""+name+"\"id=\"attrName\" placeholder=\"请输入自定义项的名称......\">");
+
+                                }else{
+                                    $(".st").children("h2").text(name);
+                                }
+
                                 // flag = true;
                                 $("#longContent").val(obj.content);
                                 if(typeof(obj.resourceList) != 'undefined' && obj.resourceList !=null ){
@@ -892,10 +900,12 @@ var projectPage={
 
                         $(".next").prev().attr("href","javascript:delContentFragment('"+attrid+"')");
                         $(".next").attr("href","javascript:saveContentPragment('"+attrid+"')");
+
                         /*  $(".next").next().attr("href","javascript:next("++attrid")");
                          */
 
-                    }else{
+                    }else if(_dateType==='longFieldCustom'){
+                        //自定义编辑
                         upload.submit('image/project/',0);
                     }
 
