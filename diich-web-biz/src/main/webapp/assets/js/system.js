@@ -1,5 +1,5 @@
 if(typeof base_url == 'undefined') {
-    base_url = '..';
+    base_url = '';
 };
 var renderHhtml = {
     uri: base_url,

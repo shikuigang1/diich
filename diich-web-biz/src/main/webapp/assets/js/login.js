@@ -5,7 +5,7 @@ document.write("<script type=\"text/javascript\" src=\"../../js/util.js\"></scri
 //登录注册
 
 if(typeof base_url == 'undefined') {
-    base_url = '..';
+    base_url = '';
 }
 
 var loginPage = {
