@@ -8,6 +8,7 @@
 <!--//End-->
 
 <form id="basicForm" action="" class="bd horizontal">
+
     <div class="main">
         <!-- <div class="group inheritor">
             <label class="label" for=""><em>*</em>是否为自己申报传承人</label>
@@ -49,6 +50,13 @@
                     <div class="control">
                         <div class="file_up">
                             <span class="text">上传题图</span>
+                            {{#each ../../pageObj.contentFragmentList}}
+                                {{#equal attributeId 10}}
+                                    {{#each resourceList}}
+                                         <img style="display: block;" class="preview" src="{{handleUrl uri 0}}">
+                                    {{/each}}
+                                {{/equal}}
+                            {{/each}}
                         </div>
                         <div class="tips">建议比例：x*x，不符合的图片将进行裁剪；格式：jpg\png</div>
                         <div id="basic_{{id}}_err" class="errors" style="display: none" ><i></i>请上传图片</div>

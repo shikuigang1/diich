@@ -848,18 +848,26 @@ var projectPage={
                         //修改标签内容
                         //初始化当前菜单数据
                         var ich = getCurrentProject();
+
+                        $.each(attributeData,function (index,obj) {
+                                    if( obj.id == attrid){
+                                        if(obj.targetType=="10"){
+                                            $(".st").children("h2").empty();
+                                            $(".st").children("h2").addClass("custom");
+                                            $(".st").children("h2").append("<input type=\"text\" value=\""+name+"\" id=\"attrName\" placeholder=\"请输入自定义项的名称......\">")
+                                        }else{
+                                            $(".st").children("h2").text(name);
+                                        }
+                                        return false;
+                                    }
+
+
+                        });
+
+
                         // var flag = false;//缓存命中标记
                         $.each(ich.contentFragmentList,function (index,obj) {
                             if(obj.attributeId == attrid){
-
-                                if(obj.attribute != null && obj.attribute.targetType == '10'){//自定义项编辑
-                                    $(".st").children("h2").empty();
-                                    $(".st").children("h2").addClass("custom");
-                                    $(".st").children("h2").append("<input type=\"text\" value=\""+name+"\"id=\"attrName\" placeholder=\"请输入自定义项的名称......\">");
-
-                                }else{
-                                    $(".st").children("h2").text(name);
-                                }
 
                                 // flag = true;
                                 $("#longContent").val(obj.content);
