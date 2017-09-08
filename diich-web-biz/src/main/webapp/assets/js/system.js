@@ -1,5 +1,8 @@
+if(typeof base_url == 'undefined') {
+    base_url = '..';
+};
 var renderHhtml = {
-    uri: 'http://47.95.32.236/',
+    uri: base_url,
     init: function () {
         this.header();
         this.footer();
