@@ -19,7 +19,7 @@
                                         {{#each resourceList}}
                                              <div class="item" {{#equal 0 @index }}style="margin-right: 10px;{{/equal}}">
                                                  {{#equal 0 type}}
-                                                    <img data-id="{{id}}" data-src="{{handleUrl uri 1}}" src="{{handleUrl uri 0}}" alt="">
+                                                    <img data-id="{{id}}" data-src="{{handleUrl uri 0}}" src="{{handleUrl uri 0}}" alt="">
                                                  {{else}}
                                                     <video data-id="{{id}}" data-src="{{handleUrl uri 1}}" style="width: 100%;" src="{{handleUrl uri 0}}" controls=""></video>
                                                  {{/equal}}

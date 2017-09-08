@@ -57,7 +57,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     function _getUserInfo() {
         _onRequest("POST", "/user/userinfo", {params: ""}).then(function(data){
             console.log("data --- >", data);
-            if(data.code == 0) {
+            if(data.res.code == 0) {
                 userType = data.res.data.type ? data.res.data.type: 1;
             }
         })
@@ -359,7 +359,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 }
             })
         }
-        console.log(" menuss[0].sonTerms --- >",  menuss[0].sonTerms);
+        console.log(" pageObj --- >",  pageObj);
         $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, ichProjectName: ichProjectName, pageObj : pageObj, fyGrade: fyGrade})); // 更新页面模板
         // 上传图片
         //upload.submit($('.horizontal .group .control .file_up'),1,'/user/uploadFile?type=master',function (res) {
@@ -1170,7 +1170,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         modal.loading({
                             success:function () {
-                                window.open(result.res.data.replace('./',''));
+                                window.open(result.res.data.replace('./','/'));
                                 _bindingSave();
                             }
                         });
