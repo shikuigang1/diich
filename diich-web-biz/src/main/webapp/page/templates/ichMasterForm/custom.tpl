@@ -16,7 +16,11 @@
                         {{#equal ../customId attributeId }}
                             {{#each resourceList}}
                                 <div class="item" {{#equal 0 @index }}style="margin-right: 10px;{{/equal}}">
-                                    <img data-src="{{handleUrl uri 1}}" src="{{handleUrl uri 0}}" alt="">
+                                    {{#equal 0 type}}
+                                        <img data-id="{{id}}" data-src="{{handleUrl uri 0}}" src="{{handleUrl uri 0}}" alt="">
+                                    {{else}}
+                                        <video data-id="{{id}}" data-src="{{handleUrl uri 1}}" style="width: 100%;" src="{{handleUrl uri 0}}" controls=""></video>
+                                    {{/equal}}
                                     <input type="text" name="text" placeholder="请输入标题" value="{{description}}">
                                     <span id="remove_{{id}}" data-id="{{../../../customId}}" class="remove"><i></i></span>
                                 </div>
