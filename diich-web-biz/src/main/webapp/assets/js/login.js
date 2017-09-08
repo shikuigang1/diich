@@ -1,8 +1,13 @@
 //引入其他js 文件
 document.write("<script type=\"text/javascript\" src=\"../../data/error_message.js\"></script>");
 document.write("<script type=\"text/javascript\" src=\"../../js/util.js\"></script>");
-var baseUrl="";
+// var baseUrl="";
 //登录注册
+
+if(typeof base_url == 'undefined') {
+    base_url = '..';
+}
+
 var loginPage = {
     init: function () {
         //去除表单最后一组的下边距
@@ -384,7 +389,7 @@ $(function () {
     $.ajax({
         cache: true,
         type: "POST",
-        url: ""+baseUrl+"/user/userinfo",
+        url: ""+base_url+"/user/userinfo",
         data: {params:localStorage.getItem("pid")}, // 你的formid
         dataType: "json",
         async: true,
@@ -438,7 +443,7 @@ function login(){
 
     $.ajax({
         type: "POST",
-        url: ""+baseUrl+"/user/login",
+        url: ""+base_url+"/user/login",
         data: $('#loginForm').serialize(), // 你的formid
         dataType: "json",
         xhrFields:{
@@ -526,7 +531,7 @@ function registForm(){
     $.ajax({
         cache: true,
         type: "POST",
-        url: ""+baseUrl+"/user/register",
+        url: ""+base_url+"/user/register",
         data: $('#registForm').serialize(),
         dataType: "json",
         async: true,
@@ -573,7 +578,7 @@ function  resetPass(){
     $.ajax({
         cache: true,
         type: "POST",
-        url: ""+baseUrl+"/user/resetPassword",
+        url: ""+base_url+"/user/resetPassword",
         data: $('#resetForm').serialize(),
         dataType: "json",
         async: true,
@@ -625,7 +630,7 @@ function loginedTemplate(data) {
         $.ajax({
             cache: true,
             type: "POST",
-            url: ""+baseUrl+"/user/logoff",
+            url: base_url+"/user/logoff",
             data: {params:localStorage.getItem("pid")}, // 你的formid
             dataType: "json",
             async: true,

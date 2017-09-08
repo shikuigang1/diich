@@ -56,7 +56,10 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     // 获取用户信息
     function _getUserInfo() {
         _onRequest("POST", "/user/userinfo", {params: ""}).then(function(data){
-            userType = data.res.data.type ? data.res.data.type: 1;
+            console.log("data --- >", data);
+            if(data.code == 0) {
+                userType = data.res.data.type ? data.res.data.type: 1;
+            }
         })
     }
 

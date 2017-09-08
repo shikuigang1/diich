@@ -91,17 +91,17 @@ var upload={
                             var d=/\.[^\.]+$/.exec(data.src);
                             if(d=='.mp4'){
                                 var templ = '<div class="item">' +
-                                    '<video style="width: 100%;" src="' + data.src + '" controls></video>' +
+                                    '<video data-src="' + data.src + '" style="width: 100%;" src="' + data.src + '" controls></video>' +
                                     '<input type="text" name="text" placeholder="请输入标题">' +
-                                    '<span class="remove"><i></i></span>' +
+                                    '<span id="remove_delete" class="remove"><i></i></span>' +
                                     '</div>';
 
                                 _images.find('.handle').before(templ);
                             }else if (d=='.jpg' || d=='.gif' || d=='.png' || d=='.JPEG') {
                                 var templ = '<div class="item">' +
-                                    '<img src="' + data.src + '" alt="">' +
+                                    '<img data-src="' + data.src + '" src="' + data.src + '" alt="">' +
                                     '<input type="text" name="text" placeholder="请输入标题">' +
-                                    '<span class="remove"><i></i></span>' +
+                                    '<span id="remove_delete" class="remove"><i></i></span>' +
                                     '</div>';
                                 _images.find('.handle').before(templ);
                             }
@@ -117,17 +117,17 @@ var upload={
                             var d=/\.[^\.]+$/.exec(data.src);
                             if(d=='.mp4'){
                                 var templ = '<div class="item">' +
-                                    '<video style="width: 100%;" src="' + data.src + '" controls></video>' +
+                                    '<video data-src="' + data.src + '" style="width: 100%;" src="' + data.src + '" controls></video>' +
                                     '<input type="text" name="text" placeholder="请输入标题">' +
-                                    '<span class="remove"><i></i></span>' +
+                                    '<span id="remove_delete" class="remove"><i></i></span>' +
                                     '</div>';
 
                                 _images.find('.handle').before(templ);
                             }else if (d=='.jpg' || d=='.gif' || d=='.png' || d=='.JPEG') {
                                 var templ = '<div class="item">' +
-                                    '<img src="' + data.src + '" alt="" data-src="' + data.src + '">' +
+                                    '<img data-src="' + data.src + '" src="' + data.src + '" alt="" data-src="' + data.src + '">' +
                                     '<input type="text" name="text" placeholder="请输入标题">' +
-                                    '<span class="remove_delete"><i></i></span>' +
+                                    '<span id="remove_delete" class="remove"><i></i></span>' +
                                     '</div>';
                                 _images.find('.handle').before(templ);
                             }
@@ -159,7 +159,7 @@ var upload={
                                 var templ = '<div class="item">' +
                                     '<video style="width: 100%;" src="' + data.src + '" controls></video>' +
                                     '<input type="text" name="text" placeholder="请输入标题">' +
-                                    '<span class="remove"><i></i></span>' +
+                                    '<span id="remove_delete" class="remove"><i></i></span>' +
                                     '</div>';
 
                                 _images.find('.handle').before(templ);
@@ -167,7 +167,7 @@ var upload={
                                 var templ = '<div class="item">' +
                                     '<img src="' + data.src + '" alt="">' +
                                     '<input type="text" name="text" placeholder="请输入标题">' +
-                                    '<span class="remove"><i></i></span>' +
+                                    '<span id="remove_delete" class="remove"><i></i></span>' +
                                     '</div>';
                                 _images.find('.handle').before(templ);
                             }
