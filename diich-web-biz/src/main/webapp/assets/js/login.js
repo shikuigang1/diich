@@ -1,7 +1,7 @@
 //引入其他js 文件
 document.write("<script type=\"text/javascript\" src=\"../../data/error_message.js\"></script>");
 document.write("<script type=\"text/javascript\" src=\"../../js/util.js\"></script>");
-var baseUrl="http://47.95.32.236";
+var baseUrl="";
 //登录注册
 var loginPage = {
     init: function () {
@@ -526,7 +526,7 @@ function registForm(){
     $.ajax({
         cache: true,
         type: "POST",
-        url: "/user/register",
+        url: ""+baseUrl+"/user/register",
         data: $('#registForm').serialize(),
         dataType: "json",
         async: true,
@@ -573,7 +573,7 @@ function  resetPass(){
     $.ajax({
         cache: true,
         type: "POST",
-        url: "/user/resetPassword",
+        url: ""+baseUrl+"/user/resetPassword",
         data: $('#resetForm').serialize(),
         dataType: "json",
         async: true,
