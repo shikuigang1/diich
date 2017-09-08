@@ -1194,7 +1194,13 @@ function saveIchProject(page) {
                             }
                         });
                     }
+                    //找到当前选中项
+                    $('li[data-type=longField]').each(function () {
 
+                        if($(this).hasClass('selected')){
+                            $(this).click();
+                        }
+                    });
                 }
 
             //提交按钮开启
