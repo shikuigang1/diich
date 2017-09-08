@@ -841,11 +841,16 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             data.push( {name: "customContent", value: $("#customContent").val()});
             var status = true, errNum = 0;
             $.each(data, function(i, v) {
-                //var maxlength = $textarea.attr("data-maxLength");
-                //var minlength = $textarea.attr("data-minLength");
-                if(!_onChk(v, "", "", true, null, null)) {
+                var maxlength = null;
+                var minlength = null;
+                if(i == 0) {
+                    maxlength = 10;
+                    minlength = 1;
+                }
+                if(!_onChk(v, "", "", true, maxlength, minlength)) {
                     errNum++;
                 }
+
             })
             // 更新状态
             status = errNum > 0 ? false : true;
@@ -1457,17 +1462,17 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
         // 验证长度
         if(maxlength && minlength) {
-            if(obj.value > parseInt(maxlength) && obj.value < parseInt(minlength)) {
+            if(obj.value.length > parseInt(maxlength) || obj.value.length < parseInt(minlength)) {
                 $("#" + errId).html("<i></i>请输入(" + minlength + "-" + maxlength + "字)").show(); // 显示提示语
                 return false;
             }
         } else if(maxlength) {
-            if(obj.value > parseInt(maxlength)) {
+            if(obj.value.length > parseInt(maxlength)) {
                 $("#" + errId).html("<i></i>请最多输入(" + maxlength + "字)").show(); // 显示提示语
                 return false;
             }
         } else if(minlength) {
-            if(obj.value < parseInt(minlength)) {
+            if(obj.value.length < parseInt(minlength)) {
                 $("#" + errId).html("<i></i>请最少输入(" + maxlength + "字)").show(); // 显示提示语
                 return false;
             }
