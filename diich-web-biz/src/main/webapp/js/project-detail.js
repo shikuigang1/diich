@@ -125,32 +125,16 @@ function displayEditMode() {
     });
 
     $('.save.button').on('click', function () {
-        alert('暂存功能马上上线，敬请期待！');
+        saveProjectToServer(function () {
+            alert('数据保存成功！');
+            return false;
+        });
     });
 
     $('.submit.button').on('click', function () {
-        if(project == null) {
-            return;
-        }
-
-        var params = JSON.stringify(project);
-
-        $.ajax({
-            type: 'POST',
-            url: base_url + '/ichProject/saveIchProject',
-            data: {'params': params},
-            xhrFields:{
-                withCredentials:true
-            },
-            success: function (data) {
-                if(data.code == 0) {
-                    alert('提交成功！通过审核后，会及时通知你呦！');
-                }
-                displayReadMode();
-            },
-            error: function () {
-                alert('error');
-            }
+        saveProjectToServer(function () {
+            alert('提交成功！通过审核后，会及时通知你呦！');
+            return true;
         });
     });
 
@@ -325,7 +309,11 @@ function displayEditMode() {
                 $img.attr('src', arr[i] + '?x-oss-process=style/temporary-preview');
                 var uri_str = arr[i];
                 uri_str = uri_str.substring(uri_str.lastIndexOf('/') + 1, uri_str.length);
-                $ui.find('.image-container').append($img);
+                var $div = $('<div></div>');
+                $div.append($img);
+                $ui.find('.image-container').append($div);
+
+                deleteImageUi($ui);
 
                 var resource = {};
                 resource.status = 0;
@@ -531,8 +519,14 @@ function editImageTextUi($section) {
             $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resource.uri + '?x-oss-process=style/temporary-preview');
         }
         $img.attr('file-name', resource.uri);
-        $ui.find('.image-container').append($img);
+        var $div = $('<div></div>');
+        $div.append($img);
+        $ui.find('.image-container').append($div);
+
+        deleteImageUi($ui);
     }
+
+    deleteImageUi($ui);
 
     var file_id = generateMathRand(8);
     var $fileElement = $ui.find('input.image');
@@ -550,7 +544,11 @@ function editImageTextUi($section) {
             $img.attr('src', arr[i] + '?x-oss-process=style/temporary-preview');
             var uri_str = arr[i];
             uri_str = uri_str.substring(uri_str.lastIndexOf('/') + 1, uri_str.length);
-            $ui.find('.image-container').append($img);
+            var $div = $('<div></div>');
+            $div.append($img);
+            $ui.find('.image-container').append($div);
+
+            deleteImageUi($ui);
 
             var contentFragmentList = project.contentFragmentList;
             for(var i = 0; i < contentFragmentList.length; i++) {
@@ -747,6 +745,25 @@ function addMainInfoCompListener($section) {
             $('#' + file_id).parent().append($img);
         }
 
+        if(typeof $('#detailTopic').attr('src') == 'undefined') {
+            var $bgContainer = $('#detailContent');
+            $bgContainer.css({'width': '316px'});
+
+            var $bg_img = $('<img id="detailTopic" style="width:316px;margin-left: -158px;"/>')
+            $bg_img.attr('src', arr[0]);
+
+            $bgContainer.find('.mask_left').remove();
+            $bgContainer.find('.mask_right').remove();
+            $bgContainer.find('#back_img').hide();
+
+            $bgContainer.prepend($('<div class="mask_right"></div>'));
+            $bgContainer.prepend($($bg_img));
+            $bgContainer.prepend($('<div class="mask_left"></div>'));
+        } else {
+            $('#detailTopic').attr('src', arr[0]);
+        }
+
+
         var contentFragmentList = project.contentFragmentList;
         var has_head_img = false;
         for(var i = 0; i < contentFragmentList.length; i++) {
@@ -932,4 +949,48 @@ function initMainInfoTemplate(data) {
 
 function initImageTextTemplate(data) {
     edit_image_text_tmp = data;
+}
+
+function saveProjectToServer(callback) {
+    if(project == null) {
+        return;
+    }
+
+    var params = JSON.stringify(project);
+
+    $.ajax({
+        type: 'POST',
+        url: base_url + '/ichProject/saveIchProject',
+        data: {'params': params},
+        xhrFields:{
+            withCredentials:true
+        },
+        success: function (data) {
+            if(data.code == 0) {
+                var refresh = callback();
+                if(!refresh) return;
+            }
+            displayReadMode();
+        },
+        error: function () {
+            alert('error');
+        }
+    });
+}
+
+function deleteImageUi($ui) {
+    var _this;
+    $ui.find('.image-container div').hover(function () {
+        _this = $(this);
+        _this.addClass('mask');
+        var $del_i = $('<i></i>');
+        _this.append($del_i);
+
+        $del_i.on('click', function () {
+            $(this).parent().remove();
+        });
+    }, function () {
+        _this.removeClass('mask');
+        _this.find('i').remove();
+    });
 }
