@@ -7,8 +7,6 @@ var attributes = null;
 var edit_main_info_tmp;
 var edit_image_text_tmp;
 
-var base_url = '..';
-
 $(function() {
     init();
 });
@@ -921,7 +919,7 @@ function buildTwoComboUi(data, data_id, $ui) {
 
 function uploadFile(file_id, callback) {
     $.ajaxFileUpload({
-        url : '../user/uploadFile?type=project',
+        url : base_url + '/user/uploadFile?type=project',
         secureuri : false,
         fileElementId : file_id,
         dataType : 'JSON',
