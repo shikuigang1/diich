@@ -74,6 +74,7 @@
                                 <div class="selected" id="selected">
                                     {{#each ../../../pageObj.contentFragmentList}}
                                         {{#equal attributeId 23}}
+                                            {{addressCodes.length}}
                                             {{#each addressCodes}}
                                                 <li><span>{{getAddressText this}}<i class="icon"></i></span></li>
                                             {{/each}}

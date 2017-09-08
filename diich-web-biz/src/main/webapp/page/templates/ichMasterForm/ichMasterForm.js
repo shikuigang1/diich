@@ -359,7 +359,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 }
             })
         }
-        console.log(" pageObj --- >",  pageObj);
+        console.log(" pageObj --- >",  pageObj, pageObj.toString());
         $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, ichProjectName: ichProjectName, pageObj : pageObj, fyGrade: fyGrade})); // 更新页面模板
         // 上传图片
         //upload.submit($('.horizontal .group .control .file_up'),1,'/user/uploadFile?type=master',function (res) {
@@ -468,7 +468,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 var params = buildParams(data, pageObj);
                 //console.log("params --- >", params);
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
-                    console.log("result === >", result,  JSON.stringify(result.res.data));
+                    console.log("result === >", result,  JSON.stringify(result.res.data), pageObj);
                     // 处理用户未登录
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         targetId = result.res.data.id;
@@ -812,7 +812,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             var uri = urlImg ? urlImg : videoImg;
             img["uri"] = uri.substr(uri.lastIndexOf("/") + 1, uri.length)  ;
             img["description"] = $(this).children("input").val();
-            img["type"] = 0;
+            img["type"] = urlImg ? 0 : 1;
             img["status"] = 0;
             imgs.push(img);
         })
@@ -926,8 +926,8 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         }
 
         // 删除
-        function _onDelete($this) {
-            var did = $this.attr("id").split("_").pop();
+        function _onDelete($bthis) {
+            var did = $bthis.attr("id").split("_").pop();
             var obj = {};
             var index = 0; // 记录删除对象在pageObj中对应的索引位置
             // 去除对应的数据
@@ -965,13 +965,11 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             // 清空菜单 删除数据页面
             function _emptyMod() {
                 //var oli = $("#" + $this.attr("id"));
+                //console.log($this.attr("id"))
                 $("#" + $this.parent().parent().prev().attr("id")).trigger("click");
                 $this.remove(); // 删除菜单
                 _bindingDelete();
             }
-
-
-            $("#menus_custom").children(".dd").children("ul").children(".selected").remove();// 删除菜单
 
         }
 
@@ -1036,7 +1034,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             var uri = urlImg ? urlImg : videoImg;
             img["uri"] = uri.substr(uri.lastIndexOf("/") + 1, uri.length);
             img["description"] = $(this).children("input").val();
-            img["type"] = 0;
+            img["type"] = urlImg ? 0 : 1;
             img["status"] = 0;
             imgs.push(img);
         })
@@ -1497,16 +1495,18 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     $.each(obj2.contentFragmentList, function(i, v) {
                         var res = onFilterRepeat(v.attributeId);
                         if(res.fag) {
-                            pageObj.contentFragmentList = pageObj.contentFragmentList.concat(obj2.contentFragmentList);
+                            //pageObj.contentFragmentList = pageObj.contentFragmentList.concat(obj2.contentFragmentList);
                         } else {
                             // 不合并数据 但更新对象
-                            Object.assign(pageObj[tem][res.index], v);
+                            //Object.assign(pageObj[tem][res.index], v);
+                            pageObj[tem][res.index] = v;
                         }
                     })
                 } else {
                     pageObj[tem] = obj2[tem];
                 }
             }
+            console.log("111pageObj --- >", pageObj)
         } else {
             pageObj = obj2;
         }
