@@ -904,10 +904,12 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                                 // 不存在
                                 _onNextPage($this.attr("id"), [], result.res.data);
                             }
-                        } else {
-                            // 模拟点击添加自定义
-                            $('#' + $this.attr("id")).trigger("click");
                         }
+
+                        //else {
+                            // 模拟点击添加自定义
+                            //$('#' + $this.attr("id")).trigger("click");
+                       // }
                         _bindingSave();
                     } else {
                         tipBox.init("fail", result.res.msg , 1500);
@@ -1488,43 +1490,63 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
      * @private
      */
     function _onMergeObj(obj2) {
-        if(pageObj.hasOwnProperty("contentFragmentList")) {
-            for(var tem in pageObj) {
-                if(pageObj[tem] instanceof Array && tem == "contentFragmentList") {
-                    // pageObj.contentFragmentList = pageObj.contentFragmentList.concat(obj2.contentFragmentList);
-                    $.each(obj2.contentFragmentList, function(i, v) {
-                        var res = onFilterRepeat(v.attributeId);
-                        if(res.fag) {
-                            //pageObj.contentFragmentList = pageObj.contentFragmentList.concat(obj2.contentFragmentList);
-                        } else {
-                            // 不合并数据 但更新对象
-                            //Object.assign(pageObj[tem][res.index], v);
-                            pageObj[tem][res.index] = v;
-                        }
-                    })
-                } else {
-                    pageObj[tem] = obj2[tem];
-                }
-            }
-            console.log("111pageObj --- >", pageObj)
-        } else {
+        if(!pageObj.hasOwnProperty("contentFragmentList")) {
             pageObj = obj2;
+            return;
         }
 
-        // 过滤掉重复的数据
-        function onFilterRepeat(attributeId) {
-            var res = {};
-            res.fag = true;
-            $.each(pageObj.contentFragmentList, function(i, v) {
-                if(v.attributeId == attributeId) {
-                    //console.log("检查出来的重复的对象", v);
-                    res.fag = false;
-                    res.index = i; // 重复数据在pageObj.contentFragmentList中重复的
-                    return;
+        for(var i = 0; i < obj2.contentFragmentList.length; i++) {
+            for(var j = 0; j < pageObj.contentFragmentList.length; j++) {
+                var tmp = null;
+                if(obj2.contentFragmentList[i].attributeId == pageObj.contentFragmentList[j].attributeId) {
+                    tmp = obj2.contentFragmentList[i];
+                    break;
                 }
-            })
-            return res;
+            }
+            if(tmp != null) {
+                pageObj.contentFragmentList[j] = tmp;
+            } else {
+                pageObj.contentFragmentList.push(obj2.contentFragmentList[i]);
+            }
+
         }
+
+        //if(pageObj.hasOwnProperty("contentFragmentList")) {
+        //    for(var tem in pageObj) {
+        //        if(pageObj[tem] instanceof Array && tem == "contentFragmentList") {
+        //            // pageObj.contentFragmentList = pageObj.contentFragmentList.concat(obj2.contentFragmentList);
+        //            $.each(obj2.contentFragmentList, function(i, v) {
+        //                //var res = onFilterRepeat(v.attributeId);
+        //                //if(res.fag) {
+        //                //    pageObj.contentFragmentList = pageObj.contentFragmentList.concat(obj2.contentFragmentList);
+        //                //} else {
+        //                //    // 不合并数据 但更新对象
+        //                //    Object.assign(pageObj[tem][res.index], v);
+        //                //}
+        //
+        //            })
+        //        } else {
+        //            pageObj[tem] = obj2[tem];
+        //        }
+        //    }
+        //} else {
+        //    pageObj = obj2;
+        //}
+        //
+        //// 过滤掉重复的数据
+        //function onFilterRepeat(attributeId) {
+        //    var res = {};
+        //    res.fag = true;
+        //    $.each(pageObj.contentFragmentList, function(i, v) {
+        //        if(v.attributeId == attributeId) {
+        //            //console.log("检查出来的重复的对象", v);
+        //            res.fag = false;
+        //            res.index = i; // 重复数据在pageObj.contentFragmentList中重复的
+        //            return;
+        //        }
+        //    })
+        //    return res;
+        //}
         //console.log("pageObj --- >", pageObj)
     }
 
