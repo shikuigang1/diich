@@ -57,7 +57,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     function _getUserInfo() {
         _onRequest("POST", "/user/userinfo", {params: ""}).then(function(data){
             console.log("data --- >", data);
-            if(data.code == 0) {
+            if(data.res.code == 0) {
                 userType = data.res.data.type ? data.res.data.type: 1;
             }
         })
