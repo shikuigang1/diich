@@ -745,8 +745,7 @@
 
 </script>
 <script>
-    //详情页题图居中遮罩
-    (function () {
+    setTimeout(function () {
         var $img = $('#detailTopic');
         var $content = $('#detailContent');
         var img = document.getElementById('detailTopic');
@@ -764,6 +763,8 @@
         $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
         $content.css({width:imgW+'px'});
         $img.fadeIn(800);
-    })();
+
+    },2000);
+
 </script>
 </html>
