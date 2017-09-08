@@ -598,7 +598,7 @@ var projectPage={
         var _this=this;
         $('#tpl').load('./Tpl/proBaseInfo.html',function () {//加载基本信息页面
             _this.bind();
-            upload.submit('image/project/');
+            upload.submit('image/project/',0);
             //projectPage.uploadImgage(); //上传题图
         });
         this.slideBar.init(); //左侧菜单
@@ -688,7 +688,7 @@ var projectPage={
                                 editFlag = true;
                             });
 
-                            upload.submit('image/project/');
+                            upload.submit('image/project/',0);
                             //重新初始化 分类信息  认证信息
                             initCertRank();
                             var ich = getCurrentProject();
@@ -778,7 +778,7 @@ var projectPage={
                             }
                         }else if(_dateType == 'longFieldCustom'){
 
-                            upload.submit('image/project/');
+                            upload.submit('image/project/',0);
                         }
 
                     });
@@ -844,7 +844,8 @@ var projectPage={
                 $('#tpl').load('./Tpl/'+_dateType+'.html',function () {
                     projectPage.bind();
                     if(_dateType==='longField'){
-                        upload.submit('image/project/');
+                        upload.submit('image/project/',0);
+
                         //修改标签内容
                         $(".st").children("h2").text(name);
                         //初始化当前菜单数据
@@ -885,6 +886,8 @@ var projectPage={
                         if(targetType==1){ //不显示 上传图片
                             $("#images").hide();
                             $("#images").siblings('.text').css('width','100%');
+                        }else{
+                            upload.remove('image/project/');
                         }
 
                         $(".next").prev().attr("href","javascript:delContentFragment('"+attrid+"')");
@@ -893,7 +896,7 @@ var projectPage={
                          */
 
                     }else{
-                        upload.submit('image/project/');
+                        upload.submit('image/project/',0);
                     }
 
                 });
@@ -1331,7 +1334,7 @@ var organizationPage = {
         $('#tpl').load('./Tpl/org_basic.html', function () {//加载基本信息页面
             _this.slideBar();
 
-            upload.submit('image/organization/');
+            upload.submit('image/organization/',0);
 
             //处理必填项
             mustInputflag();
@@ -1353,7 +1356,7 @@ var organizationPage = {
             }
             $('#tpl').load('./Tpl/' + _dateType + '.html', function () {
                 if (_dateType === 'longFieldCustom') {
-                    upload.submit('image/organization/'); //上传题图
+                    upload.submit('image/organization/',0); //上传题图
                     if($('div[data-type=org_basic]').hasClass('selected')){
                         $('div[data-type=org_basic]').removeClass('selected')
                     }
@@ -1364,7 +1367,7 @@ var organizationPage = {
                     $("#menu3 li").removeClass("selected");
 
                 }else{
-                    upload.submit('image/organization/'); //上传题图
+                    upload.submit('image/organization/',0); //上传题图
                     if(!$('div[data-type=org_basic]').hasClass('selected')){
                         $('div[data-type=org_basic]').addClass('selected')
                     }
@@ -1389,7 +1392,7 @@ var organizationPage = {
             var name = $(this).find("span").first().text();
             var targetType=$(this).attr('target-type');
             $('#tpl').load('./Tpl/'+_dateType+'.html',function () {
-                upload.submit('image/organization/');
+                upload.submit('image/organization/',0);
                 if(_dateType==='longField'){
 
                     //修改标签内容
@@ -1409,6 +1412,8 @@ var organizationPage = {
                     if(targetType==1){ //不显示 上传图片
                         $("#images").hide();
                         $("#images").siblings('.text').css('width','100%');
+                    }else{
+                        upload.remove('image/project/');
                     }
                     $(".next").prev().attr("href","javascript:delOrgCustom('"+attrid+"')");
                     $(".next").attr("href","javascript:saveOrganization()");
