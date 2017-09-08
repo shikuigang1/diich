@@ -7,8 +7,6 @@ var attributes = null;
 var edit_main_info_tmp;
 var edit_image_text_tmp;
 
-var base_url = '..';
-
 $(function() {
     init();
 });
