@@ -1796,9 +1796,7 @@ body,
     right: 10px;
     margin-top: -5px;
 }
-.horizontal .group .control .area div.selected i.icon {
-    display:block;
-}
+
 /*--//End 地域--*/
 .tipbox {
     width: 240px;
@@ -1840,6 +1838,10 @@ body,
     display: inline-block;
     margin-top: 17px;
     margin-bottom: 10px;
+}
+
+.tipbox.success {
+    z-index:20;
 }
 
 .tipbox.success .head {
