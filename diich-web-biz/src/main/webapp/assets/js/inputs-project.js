@@ -715,7 +715,7 @@ function  saveContentPragment(attrid) {
     }
     //ich.status=2;
     //alert(JSON.stringify(temp));
-    console.log(JSON.stringify(ich));
+    //console.log(JSON.stringify(ich));
     //return false;
     $.ajax({
         type: "POST",
@@ -729,6 +729,9 @@ function  saveContentPragment(attrid) {
             console.log(JSON.stringify(result));
             if(result.code==0){
                     localStorage.setItem("ichProject",JSON.stringify(result.data));
+                    if(customflag){ //更新自定义菜单
+                        init3(result.data.id);
+                    }
                     //跳转到下一菜单
                     var index=0;
                     $('li[data-type=longField]').each(function (idx,obj) {
@@ -754,6 +757,10 @@ function  saveContentPragment(attrid) {
                        // $('li[data-type=longField]').eq(index).find("i").addClass('selected');
                         saveAndnext = true;
                         $('li[data-type=longField]').eq(index+1).click();
+
+                        //$(".st").children("h2").text($('li[data-type=longField]').find("span").eq(0).text());
+
+
                     }else{
                         if($("#longContent").val()==""){
                             $('li[data-type=longField]').eq(index).find("i").removeClass('selected');
@@ -784,9 +791,7 @@ function  saveContentPragment(attrid) {
 
                 initMainMenuStatus();
 
-                if(customflag){ //更新自定义菜单
-                    init3(result.data.id);
-                }
+
                 //
             }else{
                 alert("保存失败");
@@ -1189,7 +1194,13 @@ function saveIchProject(page) {
                             }
                         });
                     }
+                    //找到当前选中项
+                    $('li[data-type=longField]').each(function () {
 
+                        if($(this).hasClass('selected')){
+                            $(this).click();
+                        }
+                    });
                 }
 
             //提交按钮开启
@@ -1645,5 +1656,5 @@ function  initProjectData() {
     }
 }
 function validateBasicInfo() {
-    
+
 }
