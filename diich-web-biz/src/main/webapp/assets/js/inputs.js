@@ -1660,7 +1660,7 @@ function send_request()
 {
     var signituredata={};
     // http://192.168.1.36
-    $.ajax("http://192.168.1.36/file/getPolicy", {
+    $.ajax("/file/getPolicy", {
         type: "POST",
         data: {},
         dataType: "json",
