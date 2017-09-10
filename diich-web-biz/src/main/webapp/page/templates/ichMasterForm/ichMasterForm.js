@@ -904,6 +904,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                                 // 不存在
                                 _onNextPage($this.attr("id"), [], result.res.data);
                             }
+                        } else {
+                            $('#' + $this.attr("id")).trigger("click");
+                            return;
                         }
 
                         //else {
