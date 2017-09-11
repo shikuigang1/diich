@@ -536,7 +536,12 @@ public class UserController extends BaseController<User> {
     @RequestMapping("uploadFile")
     @ResponseBody
     public Map<String, Object> uploadFile(HttpServletRequest request,HttpServletResponse response) {
-        response.setContentType("text/html;charset=UTF-8");
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
         List<String> list = null;
         try {
             list = OperateFileUtil.uplaodFile(request);
@@ -545,7 +550,6 @@ public class UserController extends BaseController<User> {
             return ae.toMap();
         }
 
-        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(list);
     }
 
