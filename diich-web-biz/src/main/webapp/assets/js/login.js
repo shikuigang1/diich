@@ -528,6 +528,18 @@ function registForm(){
         password.parent().parent().removeClass("error");
         password.next().text("");
     }
+
+    var loginName = $("#resetForm input[name=loginName]").val();
+    if(!(/^[0-9a-zA-Z_]{2,6}$/.test(loginName))){
+        $("#resetForm input[name=loginName]").parent().parent().addClass("error");
+        $("#resetForm input[name=loginName]").next().text("用户名由2-6位字母数字_组成");
+    }else{
+        $("#resetForm input[name=loginName]").parent().parent().removeClass("error");
+        $("#resetForm input[name=loginName]").next().text("");
+    }
+
+
+
     $.ajax({
         cache: true,
         type: "POST",
