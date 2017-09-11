@@ -966,9 +966,22 @@ function  saveOrganiztionOnTop() {
 
         //获取图片列表
         $("#images").find(".item").each(function () {
-            var fullpath = $(this).find('img').eq(0).attr("src");
-            var desc =  $(this).find('img').eq(0).next().val();
-            var path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            var fullpath="";
+            var desc="";
+            var path="";
+            var type="0";
+
+            if($(this).find('img').length>0){
+                fullpath = $(this).find('img').eq(0).attr("src");
+                desc =  $(this).find('img').eq(0).next().val();
+                path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            }else{
+                fullpath = $(this).find('video').eq(0).attr("src");
+                desc =  $(this).find('video').eq(0).next().val();
+                path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+                type ="1";
+            }
+
             resource.uri=path;
             resource.description=desc;
             resourceList.push(cloneObj(resource));
