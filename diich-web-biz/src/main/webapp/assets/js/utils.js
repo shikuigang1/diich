@@ -756,7 +756,7 @@ var searchPage={
 
 
 //上传图片
-var upload={
+var upload00={
     init:function () {
         this.create(el,url);
     },
