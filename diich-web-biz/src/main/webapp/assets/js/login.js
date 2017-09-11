@@ -454,7 +454,7 @@ function login(){
         },
         success: function(data) {
             var lang = getLang();-
-            console.log(data);
+                console.log(data);
             if(data.code!=0){
                 $('.box_layer .login').find('.group').addClass('error');
                 $('.box_layer .login').find('.error_txt').text(getMsgByCode(data.code,lang));
@@ -528,18 +528,6 @@ function registForm(){
         password.parent().parent().removeClass("error");
         password.next().text("");
     }
-
-    var loginName = $("#resetForm input[name=loginName]").val();
-    if(!(/^[0-9a-zA-Z_]{2,6}$/.test(loginName))){
-        $("#resetForm input[name=loginName]").parent().parent().addClass("error");
-        $("#resetForm input[name=loginName]").next().text("用户名由2-6位字母数字_组成");
-    }else{
-        $("#resetForm input[name=loginName]").parent().parent().removeClass("error");
-        $("#resetForm input[name=loginName]").next().text("");
-    }
-
-
-
     $.ajax({
         cache: true,
         type: "POST",
