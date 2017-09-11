@@ -864,7 +864,7 @@ function  saveOrganiztionOnTop() {
                                 if(organization.contentFragmentList[i].resourceList != null && typeof organization.contentFragmentList[i].resourceList != "undefined" && organization.contentFragmentList[i].resourceList.length>0){
                                     organization.contentFragmentList[i].resourceList[0].uri=obj.resourceList[0].uri;
                                 }else{
-                                    organization.contentFragmentList[i].resourceList = obj.resourceList[0];
+                                    organization.contentFragmentList[i].resourceList = obj.resourceList;
                                 }
                             }else{
                                 //不做修改
@@ -982,6 +982,7 @@ function  saveOrganiztionOnTop() {
                 type ="1";
             }
 
+            resource.type = type;
             resource.uri=path;
             resource.description=desc;
             resourceList.push(cloneObj(resource));
