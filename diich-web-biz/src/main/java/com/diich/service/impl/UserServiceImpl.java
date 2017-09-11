@@ -104,7 +104,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
            //校验用户名是否合法
            String loginName = user.getLoginName();
            if(!loginName.matches("[A-Za-z0-9_]+")){
-               throw new ApplicationException(ApplicationException.PARAM_ERROR,"用户名不合法");
+               throw new ApplicationException(ApplicationException.LOGNAME_UNCORR);
            }
            //通过用户名校验用户是否存在
            List<User> userList = null;

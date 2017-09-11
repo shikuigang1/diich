@@ -28,9 +28,10 @@ public class ApplicationException extends Exception {
 	public static int USER_ERROR =13;
 	public static int PHONE_SAME =14;
 	public static int LOGNAME_USED =15;
+	public static int LOGNAME_UNCORR =16;
 
 	private static final String[] ERROR_DESC_LIST = new String[] { "", "内部错误.", "参数错误", "用户没有登录","请输入手机号","此手机号已经被占用","验证码已发送,请稍后再试...",
-																	"手机号,验证码,新密码均不能为空","该手机号没注册","验证码超时,请重新获取","请先获取验证码","验证码错误","用户名,密码不能为空","用户名,密码错误","新老手机号不能相同","用户名已被占用"};
+																	"手机号,验证码,新密码均不能为空","该手机号没注册","验证码超时,请重新获取","请先获取验证码","验证码错误","用户名,密码不能为空","用户名,密码错误","新老手机号不能相同","用户名已被占用","用户名不合法(字母数字下划线)"};
 
 	private int code;
 	private String msg;
