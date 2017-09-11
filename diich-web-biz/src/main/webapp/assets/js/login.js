@@ -454,7 +454,7 @@ function login(){
         },
         success: function(data) {
             var lang = getLang();-
-            console.log(data);
+                console.log(data);
             if(data.code!=0){
                 $('.box_layer .login').find('.group').addClass('error');
                 $('.box_layer .login').find('.error_txt').text(getMsgByCode(data.code,lang));
