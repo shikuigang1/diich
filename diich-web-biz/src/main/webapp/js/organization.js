@@ -100,7 +100,7 @@ function  saveOrganization() {
         contentFragment.attributeId=136;
 
         var path = $(".preview").attr("src");
-        if(path != ""){
+        if(path != "" && typeof (path) != "undefined"){
             path = path.substring(path.lastIndexOf("/")+1);
             contentFragment.content=path;
 
@@ -111,6 +111,7 @@ function  saveOrganization() {
             resource.description='';
             resourceList.push(resource);
             contentFragment.resourceList=resourceList;
+            contentFragment.attributeId=136;
         }
 
 
@@ -129,7 +130,7 @@ function  saveOrganization() {
                                     if(organization.contentFragmentList[i].resourceList != null && typeof organization.contentFragmentList[i].resourceList != "undefined" && organization.contentFragmentList[i].resourceList.length>0){
                                         organization.contentFragmentList[i].resourceList[0].uri=obj.resourceList[0].uri;
                                     }else{
-                                        organization.contentFragmentList[i].resourceList = obj.resourceList[0];
+                                        organization.contentFragmentList[i].resourceList = obj.resourceList;
                                     }
                             }else{
                                 //不做修改
@@ -164,9 +165,22 @@ function  saveOrganization() {
 
         //获取图片列表
         $("#images").find(".item").each(function () {
-            var fullpath = $(this).find('img').eq(0).attr("src");
-            var desc =  $(this).find('img').eq(0).next().val();
-            var path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            var fullpath="";
+            var desc="";
+            var path="";
+            var type="0";
+
+            if($(this).find('img').length>0){
+                fullpath = $(this).find('img').eq(0).attr("src");
+                desc =  $(this).find('img').eq(0).next().val();
+                path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            }else{
+                fullpath = $(this).find('video').eq(0).attr("src");
+                desc =  $(this).find('video').eq(0).next().val();
+                path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+                type ="1";
+            }
+            resource.type=type;
             resource.uri=path;
             resource.description=desc;
             resourceList.push(cloneObj(resource));
@@ -355,7 +369,8 @@ function mustInputflag(){
 function addOrgCustom(){
     //$('div[data-type=longFieldCustom]').click();
     $('#tpl').load('./Tpl/longFieldCustom.html', function () {
-            projectPage.radioImage(); //上传题图
+            //projectPage.radioImage(); //上传题图
+        upload.submit("image/organization/",0);
     });
 }
 
@@ -386,12 +401,33 @@ function saveOrgCustom(next) {
 
     //获取图片列表
     $("#images").find(".item").each(function () {
-        var fullpath = $(this).find('img').eq(0).attr("src");
+       /* var fullpath = $(this).find('img').eq(0).attr("src");
         var desc =  $(this).find('img').eq(0).next().val();
         var path = fullpath.substring(fullpath.lastIndexOf("/")+1);
         resource.uri=path;
         resource.description=desc;
         resourceList.push(cloneObj(resource));
+*/
+        var fullpath="";
+        var desc="";
+        var path="";
+        var type="0";
+
+        if($(this).find('img').length>0){
+            fullpath = $(this).find('img').eq(0).attr("src");
+            desc =  $(this).find('img').eq(0).next().val();
+            path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+        }else{
+            fullpath = $(this).find('video').eq(0).attr("src");
+            desc =  $(this).find('video').eq(0).next().val();
+            path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            type ="1";
+        }
+        resource.type=type;
+        resource.uri=path;
+        resource.description=desc;
+        resourceList.push(cloneObj(resource));
+
     });
 
     contentFragment.resourceList=resourceList;
@@ -519,6 +555,9 @@ function initCustomMenu(targetID) {
 }
 //初始化 基础信息
 function initBasicInfo() {
+
+    ///$('.file_up').find('.preview').remove();
+
     var org = getCurrentOrganization();
     if(org != null){
         $.each(org.contentFragmentList,function (idx,obj) {
@@ -535,6 +574,7 @@ function initBasicInfo() {
                 $("#webSite").val(obj.content);
             }
             if(obj.attributeId==136){
+                $('.file_up').append('<img style="display: none;" class="preview" src="">')
                 if(obj.resourceList != null && typeof (obj.resourceList) !="undefined" && obj.resourceList.length>0){
                     if(obj.resourceList[0].uri != ""){
                         $(".preview").attr("src",imgserver+"/image/organization/"+obj.resourceList[0].uri);
@@ -556,14 +596,30 @@ function initCustomAttribute(attrid) {
             if(typeof(obj.resourceList) != 'undefined' && obj.resourceList !=null ){
                 var html="";
                 $.each(obj.resourceList,function (i,resource) {
-                    if(i%2==0){
+                   /* if(i%2==0){
                         html+="<div class=\"item\" style=\"margin-right: 10px;\">";
                     }else{
                         html+="<div class=\"item\">";
                     }
                     html+="<img src="+imgserver+"/image/organization/"+resource.uri+" alt=\"\">";
                     html+= "<input type=\"text\" name=\"text\" placeholder=\"请输入标题\" value=\""+resource.description+"\">";
+                    html+="<span class=\"remove\"><i data-id='"+resource.id+"'></i></span></div>";*/
+
+                    if(i%2==0){
+                        html+="<div class=\"item\" style=\"margin-right: 10px;\">";
+                    }else{
+                        html+="<div class=\"item\">";
+                    }
+
+                    if(resource.type=="0"){
+                        html+="<img src="+imgserver+"/image/organization/"+resource.uri+" alt=\"\">";
+                    }else{
+                        html+="<video style=\"width: 100%;\" src="+imgserver+"/image/organization/"+resource.uri+" controls=\"\"></video>";
+                    }
+
+                    html+= "<input type=\"text\" name=\"text\" placeholder=\"请输入标题\" value=\""+resource.description+"\">";
                     html+="<span class=\"remove\"><i data-id='"+resource.id+"'></i></span></div>";
+
                 });
 
                 if(obj.resourceList.length>2){
@@ -710,7 +766,13 @@ function organizationPreview(){
             console.log(JSON.stringify(result));
             if(result.code==0){
                 //存储本地
-                location.href="./tmp/"+org.id+".html";
+                modal.loading({
+                    success:function () {
+                        //location.href="/tmp/"+ich.id+".html";
+                        location.href="/organizationtmp/"+org.id+".html";
+                    }
+                });
+
             }
         },
         error: function (result, status) {
@@ -774,7 +836,7 @@ function  saveOrganiztionOnTop() {
         contentFragment.attributeId=136;
 
         var path = $(".preview").attr("src");
-        if(path != ""){
+        if(path != "" && typeof (path) != "undefined"){
             path = path.substring(path.lastIndexOf("/")+1);
             contentFragment.content=path;
 
@@ -821,24 +883,67 @@ function  saveOrganiztionOnTop() {
     }else if($('div[data-type=longFieldCustom]').hasClass("selected")) {
         //保存自定义
         organization = getCurrentOrganization();
+        if(organization == null || organization.id== null || typeof organization.id == "undefined"){
+            tipBox.init("fail","请先填写 基础信息！",1500);
+            return false;
+        }
+
         if(!validateOrgCustom()) {
             return false;
         }
-        contentFragment={};
+
+        var attr={};
+        var contentFragment={};
+
+        contentFragment.content = $("#longContent").val();
+        contentFragment.attributeId=0;
+        contentFragment.targetType=3;
+
+        attr.dataType=5;//短字段
+        attr.cnName=$("#attrName").val();
+        attr.id=0;
+
         var resource={};
         var resourceList=[];
 
         //获取图片列表
         $("#images").find(".item").each(function () {
-            var fullpath = $(this).find('img').eq(0).attr("src");
-            var desc =  $(this).find('img').eq(0).next().val();
-            var path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            /* var fullpath = $(this).find('img').eq(0).attr("src");
+             var desc =  $(this).find('img').eq(0).next().val();
+             var path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+             resource.uri=path;
+             resource.description=desc;
+             resourceList.push(cloneObj(resource));
+             */
+            var fullpath="";
+            var desc="";
+            var path="";
+            var type="0";
+
+            if($(this).find('img').length>0){
+                fullpath = $(this).find('img').eq(0).attr("src");
+                desc =  $(this).find('img').eq(0).next().val();
+                path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            }else{
+                fullpath = $(this).find('video').eq(0).attr("src");
+                desc =  $(this).find('video').eq(0).next().val();
+                path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+                type ="1";
+            }
+            resource.type=type;
             resource.uri=path;
             resource.description=desc;
             resourceList.push(cloneObj(resource));
+
         });
+
         contentFragment.resourceList=resourceList;
-        organization.contentFragmentList.push(contentFragment);
+        contentFragment.attribute=attr;
+        contentFragment.targetId=organization.id;
+
+
+        var org = getCurrentOrganization();
+        org.contentFragmentList.push(contentFragment);
 
     } else{
         //获取当前id
@@ -906,6 +1011,7 @@ function  saveOrganiztionOnTop() {
         success: function (result) {
             //console.log(JSON.stringify(result));
             if(result.code==0){
+                tipBox.init("success","保存成功",1500);
                 setCurrentOrganization(result.data);
                 organization = result.data;
                 if(!$('div[data-type=org_basic]').hasClass("selected")){
