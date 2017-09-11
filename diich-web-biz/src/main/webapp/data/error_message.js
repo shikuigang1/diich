@@ -79,4 +79,9 @@ var error_message=[
     msg:"用户名已被占用",
     enMsg:"LoginName has used"
     }
+    ,{
+    code:16,
+    msg:"用户名不合法(字母数字下划线)",
+    enMsg:"LoginName is error"
+    }
 ];
