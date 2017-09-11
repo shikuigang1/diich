@@ -10,6 +10,8 @@ import com.sdzn.enums.MsgCode;
 import com.sdzn.thrift.dubbo.vo.Msg;
 import com.sdzn.util.DateUtil;
 import com.sdzn.util.MsgUtil;*/
+import com.diich.core.base.BaseController;
+import com.diich.core.exception.ApplicationException;
 import junit.framework.Assert;
 import net.sf.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +27,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/file")
-public class FileUploadController {
+public class FileUploadController extends BaseController{
     /**
      * 文件上传OSS获取签名信息
      *
@@ -36,7 +38,14 @@ public class FileUploadController {
     @RequestMapping(value = "/getPolicy")
     @ResponseBody
     public String getPolicy(HttpServletRequest request, HttpServletResponse response) {
-        Map<String, String> respMap = new LinkedHashMap<String, String>();
+        try {
+            setHeader(request, response);
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return ae.toString();
+        }
+
+        Map<String, String> respMap = new LinkedHashMap<>();
         try {
             String endpoint = "oss-cn-beijing.aliyuncs.com";
             String accessId = "maTnALCpSvWjxyAy";
@@ -60,7 +69,6 @@ public class FileUploadController {
             respMap.put("accessid", accessId);
             respMap.put("policy", encodedPolicy);
             respMap.put("signature", postSignature);
-            //respMap.put("expire", formatISO8601Date(expiration));
             respMap.put("dir", dir);
             respMap.put("host", host);
             respMap.put("expire", String.valueOf(expireEndTime / 1000));
