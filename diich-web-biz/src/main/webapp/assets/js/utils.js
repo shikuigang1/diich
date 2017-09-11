@@ -290,6 +290,9 @@ var Detail = { //详情页用到的效果
             $('.card_main .floor a.album').on('click',function () {
                 var type=$(this).attr('data-id');
                 $('body').append(_this.createDom());
+
+                console.log(_this.createDom())
+
                 _this.handleDom(type);
             });
 
@@ -342,7 +345,14 @@ var Detail = { //详情页用到的效果
             })();
 
             //相册
-            albumHandle();
+            // albumHandle();
+
+            if(_data.imgSize != 0){
+                albumHandle();
+            }else {
+                album.hide();
+                video.show();
+            }
             function albumHandle() {
                 var albumTitle = album.find('.title');
                 var albumNum = album.find('.num');
@@ -368,8 +378,8 @@ var Detail = { //详情页用到的效果
                 bindData(0);
                 //绑定数据
                 function bindData(index) {
-                    var _imgs=_data.imgs[index];
 
+                    var _imgs=_data.imgs[index];
 
                     if(_imgs.description){
                         albumTitle.find('.dt').text(_imgs.description);
@@ -380,6 +390,7 @@ var Detail = { //详情页用到的效果
                     albumLi.html('<img src="'+ _base.baseUrl + _imgs.uri +'" />');
                     albumNum.find('.active').text(common.pad(albumCur+1));
                     albumNum.find('.total').text(common.pad(_data.imgSize));
+
                 }
 
             }
