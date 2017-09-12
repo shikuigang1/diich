@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="${caturi}/assets/css/ie.css">
     <script src="${caturi}/assets/js/html5.js"></script>
     <![endif]-->
-    <script src="${caturi}/js/base-url.js"/>
+    <script src="${caturi}/js/base-url.js"></script>
     <script src="${caturi}/assets/js/jquery.min.js"></script>
     <script src="${caturi}/assets/js/system.js"></script>
     <script src="${caturi}/assets/js/utils.js"></script>
@@ -306,7 +306,7 @@
                                             <#if r.type ==1>
                                                 <div class="card_video">
                                                     <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                        <video poster="" controls src="${orgvuri}${r.uri}" type="video/mp4" style="width: 100%;">
+                                                        <video poster="" controls src="${orguri}${r.uri}" type="video/mp4" style="width:100%;max-height:277px;background: #000;">
                                                         </video>
                                                     </#if>
                                                     <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>

@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="${caturi}/assets/css/ie.css">
     <script src="${caturi}/assets/js/html5.js"></script>
     <![endif]-->
-    <script src="${caturi}/js/base-url.js"/>
+    <script src="${caturi}/js/base-url.js"></script>
     <script src="${caturi}/data/keyword.js"></script>
     <script src="${caturi}/assets/js/jquery.min.js"></script>
     <script src="${caturi}/assets/js/system.js"></script>
