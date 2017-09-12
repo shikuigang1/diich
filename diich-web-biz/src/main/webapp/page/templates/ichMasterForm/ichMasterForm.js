@@ -393,6 +393,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         $("#basic_127").change(function(){
             zjCode =  $(this).val();
         });
+        declareCode = "";
         // 申报地址
         selectArea1.init(1, declareCode, function (data, dataText) {
             //console.log(data, dataText)
@@ -507,6 +508,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             })
         }
         $("#content").html(Handlebars.compile(contactTpl)({sonterms: menuss[1].sonTerms, pageObj: pageObj})); // 更新页面模板
+        addressCode = "";
         selectArea1.init(0, addressCode, function (data, dataText) {
             var code = "";
             if(data.length > 0) {
