@@ -13,13 +13,32 @@
         <!-- <div class="group inheritor">
             <label class="label" for=""><em>*</em>是否为自己申报传承人</label>
             <div class="control">
-                <span name="isApply_1" class="radio"><i></i><input type="radio" name="">是</span>
-                <span name="isApply_0" class="radio active"><i></i><input type="radio" name="">否</span>
+                <span name="sex_1" class="radio"><i></i><input type="radio" name="">是</span>
+                <span name="sex_0" class="radio active"><i></i><input type="radio" name="">否</span>
                 <div id="isApply_err" class="errors" style="display: none" ><i></i>请选择是否为自己申报传承人</div>
             </div>
         </div> -->
         <div id="inheritor"></div>
         {{#each sonterms}}
+            {{#equal dataType 107}}
+                 <div class="group">
+                    <label class="label" for="">性别</label>
+                    <div id="sex" data-id="{{id}}" class="control">
+                        {{#if ../../pageObj.contentFragmentList}}
+                            {{#each ../../../pageObj.contentFragmentList}}
+                                {{#equal attributeId ../../id}}
+                                  <span id="sex_1" class="radio {{#equal ../content 1}}active{{/equal}}"><i></i><input type="radio" name="">男</span>
+                                  <span id="sex_0" class="radio {{#equal ../content 0}}active{{/equal}}"><i></i><input type="radio" name="">女</span>
+                                {{/equal}}
+                            {{/each}}
+                        {{else}}
+                            <span id="sex_1" class="radio active"><i></i><input type="radio" name="">男</span>
+                            <span id="sex_0" class="radio"><i></i><input type="radio" name="">女</span>
+                        {{/if}}
+                        <div id="isApply_err" class="errors" style="display: none" ><i></i>请选择性别</div>
+                    </div>
+                 </div>
+            {{/equal}}
             {{#equal dataType 0}}
                 {{#equal id 127}}
                     <div class="group">
@@ -74,7 +93,6 @@
                                 <div class="selected" id="selected">
                                     {{#each ../../../pageObj.contentFragmentList}}
                                         {{#equal attributeId 23}}
-
                                             {{#each addressCodes}}
                                                 <li><span>{{getAddressText this}}<i class="icon"></i></span></li>
                                             {{/each}}
@@ -101,6 +119,9 @@
                     </div>
                 {{/equal}}
             {{/equal}}
+              {{#equal dataType 20}}
+
+                        {{/equal}}
             {{#equal dataType 106}}
                  <div class="group">
                     <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
