@@ -219,3 +219,16 @@ section .handle-button {
 .mask img {
     opacity:.5;
 }
+
+.image-text form {
+    position: relative;
+}
+
+.image-text .file_up .file {
+    height: 140px!important;
+    position: absolute!important;
+}
+
+.topic-image {
+    height:222px!important;
+}
