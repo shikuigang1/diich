@@ -104,15 +104,23 @@
                     $("#item1").empty();
                     $(".step2").hide();
                     if(data.type==0){
-                        $(".tips").html("您要搜索的项目已存在");
+                        // 完全一致的
+                        $(".tips").html("您要搜索的项目已存在").css("color","	#000000").next(".bd").show();
                         $("#item1").append(getHtml(data.data));
                         $(".step2").show();
                         $("#item2").hide();
                     }else if(data.type ==1){
-                        $(".tips").html("您要搜索的项目可能已存在");
-                        $("#item1").append(getHtml(data.data));
-                        $(".step2").show();
-                        $("#item2").show();
+                        if(data.data.length==0){
+                            $(".tips").html("您要搜索的项目不存在").css("color","#FF0000").next(".bd").hide();
+                            $("#item1").append(getHtml(data.data));
+                            $(".step2").show();
+                            $("#item2").show();
+                        }else{
+                            $(".tips").html("您要搜索的项目可能已存在，如下").css("color","#000000").next(".bd").show();
+                            $("#item1").append(getHtml(data.data));
+                            $(".step2").show();
+                            $("#item2").show();
+                        }
                     }else{
                         console.log("error");
                     }

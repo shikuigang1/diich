@@ -1208,7 +1208,7 @@ var selectArea1={
             }
         });
         //删除选中的数据
-        selected.on('click','.icon',function () {
+        selected.on('click','span',function () {
             var _index=$(this).index();
             $(this).parents('li').remove();
             result.splice(_index,1);
