@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <#assign caturi="http://diich.efeiyi.com" />
-    <#assign h5uri="http://47.95.32.236/lntang" />
+    <#assign h5uri="http://diich.efeiyi.com/lntang" />
     <title>
     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
        <#list obj.contentFragmentList as cf>
@@ -45,7 +45,7 @@
     <script src="${caturi}/js/util.js"></script>
 
 </head>
-<body>
+<body class="js-h5project">
 <div class="box" id="box">
     <!--上导航-->
     <div class="box_header" id="box_header">
@@ -55,27 +55,18 @@
         <ul>
             <li id="li1">
                 <a href="javascript:;"><img src="${h5uri}/links/img/souye.png"/></a>
-                <a href="javascript:;"><img src="${h5uri}/assets/images/home.png"/></a>
                 <span>首页</span>
             </li>
             <li id="box_list_search">
                 <a href="javascript:;"><img src="${h5uri}/links/img/feiyiminglu.png"/></a>
-                <a href="javascript:;"><img src="${h5uri}/assets/images/feiyi.png"/></a>
                 <span>搜索</span>
-            </li>
-            <li class="lii"  id="li2">
-                <a href="javascript:;"><img src="${h5uri}/links/img/minglupass.png"/></a>
-                <a href="javascript:;"><img src="${h5uri}/assets/images/pass.png"/></a>
-                <span>非遗名录</span>
             </li>
             <li id="li3">
                 <a href="javascript:;"><img src="${h5uri}/links/img/shenbao.png"/></a>
-                <a href="javascript:;"><img src="${h5uri}/assets/images/shenbao.png"/></a>
                 <span>我要申报</span>
             </li>
             <li id="li4">
                 <a href="javascript:;"><img src="${h5uri}/links/img/Group 13.png"/></a>
-                <a href="javascript:;"><img src="${h5uri}/assets/images/Group 13.png"/></a>
                 <span>官方服务</span>
             </li>
         </ul>
@@ -164,14 +155,14 @@
                 <#if obj.lang == "chi">
                     <div>
                         <p>类别</p>
-
+                        <ul>
                         <#if (obj.ichCategoryId??)>
-                            <p id="category" category-id="${obj.ichCategoryId?c}">${obj.ichCategoryId?c}</p>
+                            <li id="category" category-id="${obj.ichCategoryId?c}">${obj.ichCategoryId?c}</li>
                         </#if>
                         <#if (!obj.ichCategoryId??)>
-                            <p id="category" category-id="" ></p>
+                            <li id="category" category-id="" ></li>
                         </#if>
-
+                        </ul>
                     </div>
                 </#if>
                 <#if obj.lang == "eng">
@@ -441,7 +432,7 @@
                                                             <div class="viDeo2">
                                                                 <video preload="preload" poster width="100%">
                                                                     <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                                                        <source src="${provuri}${res.uri}">
+                                                                        <source src="${prouri}${res.uri}">
                                                                     </#if>
                                                                     <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
                                                                         <source src="${res.uri}">
