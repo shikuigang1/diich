@@ -1122,6 +1122,15 @@ function saveIchProject(page) {
                 type ="1";
             }
 
+            var resourceId = $(this).find('span').eq(0).find("i").eq(0).attr("data-id");
+
+            if(resourceId == null || typeof(resourceId) == "undefined"){
+
+            }else {
+                resource.id = resourceId;
+            }
+
+            resource.type=type;
             resource.uri=path;
             resource.description=desc;
             resourceList.push(cloneObj(resource));
@@ -1177,6 +1186,15 @@ function saveIchProject(page) {
                 path = fullpath.substring(fullpath.lastIndexOf("/")+1);
                 type ="1";
             }
+
+            var resourceId = $(this).find('span').eq(0).find("i").eq(0).attr("data-id");
+
+            if(resourceId == null || typeof(resourceId) == "undefined"){
+
+            }else {
+                resource.id = resourceId;
+            }
+
             resource.type=type;
             resource.uri=path;
             resource.description=desc;
