@@ -361,14 +361,17 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         }
         console.log(" pageObj --- >",  pageObj, pageObj.toString());
         $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, ichProjectName: ichProjectName, pageObj : pageObj, fyGrade: fyGrade})); // 更新页面模板
+
+        var sexCode = 1; // 默认是男
+        // 性别
+        $("#sex").children("span").on("click", function() {
+            $("#sex").children("span").each(function() {
+                $(this).removeClass("active");
+            })
+            $(this).addClass("active");
+            sexCode = $(this).attr("id").split("_").pop();
+        })
         // 上传图片
-        //upload.submit($('.horizontal .group .control .file_up'),1,'/user/uploadFile?type=master',function (res) {
-        //    if(res.data.length > 0) {
-        //        imgUrl = res.data[0].substr((res.data[0].lastIndexOf ("/")+1), res.data[0].length);
-        //        $('.preview').attr('src', res.data[0]).show();
-        //        $('._token').val($('meta[name=token]').attr('content'));
-        //    }
-        //});
         upload.submit("image/master/", 1, function(res) {
             console.log("res --- ,", res);
             if(res.code == 0) {
@@ -466,8 +469,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     data.push({"name" : "img", "value" : imgUrl}); // 构建图片参数
                 }
                 data.push({"name" : "declare", "value" : declareCode.toString()}); // 构建三级联动参数
+                data.push({"name" : "sex", "value" : sexCode.toString()}); // 构建性别
                 var params = buildParams(data, pageObj);
-                //console.log("params --- >", params);
+                console.log("params --- >", params);
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
                     console.log("result === >", result,  JSON.stringify(result.res.data), pageObj);
                     // 处理用户未登录
