@@ -4,8 +4,6 @@
 
 var project = null;
 var attributes = null;
-var edit_main_info_tmp;
-var edit_image_text_tmp;
 
 $(function() {
     init();
@@ -41,6 +39,26 @@ var custom_show_tmp = ' <article class="text_img read-piece"> <div class="side">
     '<p class="data-item" data-id="35"> </p> </div> </div> <div class="media"> <ul> <li> ' +
     /*'<img src="http://resource.efeiyi.com/image/project/10178-BIG.jpg"> ' +*/
     '</li> </ul><div class="more"></div> </div> </article>';
+
+var edit_main_info_tmp = '<form class="bd horizontal"><div class="group"> <label class="label"><em>*</em>名称</label> <div class="control"> ' +
+    '<input type="text" class="ipt w562 data-item" data-id="4"> <div class="errors" style="display: none"><i></i>请填入正确格式的拼音且长度在1-50之间</div> ' +
+    '</div> </div> <div class="group"> <label class="label"><em>*</em>doi编码</label> <div class="control"> <input type="text" class="ipt w562 data-item" data-id="2"> ' +
+    '<div class="errors" style="display: none"><i></i>请填入正确格式的拼音且长度在1-50之间</div> </div> </div> <div class="group"> <label class="label" for=""><em>*</em>分类</label> ' +
+    '<div class="control"> <div class="ipt w650 editListen data-item category" id="category_temp" style="text-overflow: ellipsis;overflow: hidden;  white-space: nowrap;">选择分类</div> ' +
+    '<div class="errors" style="display: none"><i></i>请选择分类</div> </div> <div class="dropbox"> <div class="item"> <dl class="level"> <dt> <div class="title" id="first_category">一级分类</div> ' +
+    '</dt> <dd> <ul id="mainCategory"> <li data-id="0">选择分类</li> </ul> </dd> </dl> <dl class="level2"> <dt> <div class="title" id="second_category">二级分类</div> </dt> <dd> <ul id="catecontent"> ' +
+    '<li data-id="0">选择分类</li> </ul> </dd> </dl> </div> </div> </div> <div class="group"> <label class="label" for=""><em>*</em>题图</label> <div class="control"> <div class="file_up topic-image"> ' +
+    '<span class="text">上传题图</span> <!--<input class="file" type="file">--> </div> <div class="tips">建议比例：x*x，不符合的图片将进行裁剪；格式：jpg\png</div> <div class="errors editListen" style="display: none"><i>' +
+    '</i>请上传题图</div> </div> </div> <div class="group"> <label class="label" for=""><em>*</em>地域</label> <div class="control">' +
+    ' <div class="ipt w650 select editListen data-item" data-id="33" id="area_temp" value="">请选择地域</div> <div class="errors" style="display: none"><i></i>请填写地域</div> </div> <div class="dropbox"> ' +
+    '<div class="item"> <dl class="level"> <dt> <div class="title" id="search_position">位置</div> </dt> <dd> <ul id="country"> </ul> </dd> </dl> <dl class="level2"> <dt>' +
+    ' <div class="title" id="alphabetical_order">按照字母顺序</div> </dt> <dd> <ul id="citycontent"> </ul> </dd> </dl> </div> </div> </div> <div class="group"> <label class="label" for=""><em>*</em>认证级别</label> ' +
+    '<div class="control"> <select class="ipt w310 editListen data-item" data-id="41" name="" id="certselect"></select> <div class="errors" style="display: none"><i></i>请选择认证级别</div> </div> </div> </form>';
+
+var edit_image_text_tmp = '<div class="image-text"> <div> <div class="text"> <script class="editor data-item" type="text/plain" style="width:100%;height:200px;"></script> <div class="errors" style="display: none">' +
+    '<i></i><span></span></div> </div> <div class="images" id="images"> <div class="image-container"> </div> <div class="handle"> <div class="add file_up add-image"> <span class="icon"> <i></i>' +
+    ' </span> <span>添加图片</span> </div> <div class="add file_up add-video" style="margin-right:0;"> <span class="icon icon2" onclick="javascript:alert(\'上传视频正在完善，敬请期待！\');"> ' +
+    '<i></i></span> <span>添加视频</span> </div> </div> </div> </div> </div>';
 
 function init() {
     $('.edit.link').on('click', function() {
@@ -278,60 +296,36 @@ function displayEditMode() {
         });
 
         $ui.find('.edit.link').on('click', function(){
-            /*$ui.find('h4').hide();
-            $ui.find('.title input').show();
-
-            $ui.find('.image-text').show();
-            $ui.find('.read-piece').hide();
-
-            $ui.find('.save.link').show();
-            $ui.find('.edit.link').hide();
-            has_edit = true;*/
-
             alert('自定义项编辑功能马上上线，敬请期待！');
         });
 
-        var file_id = generateMathRand(8);
-        var $fileElement = $ui.find('input.image');
-        $fileElement.attr('id', file_id);
-        $fileElement.attr('name', file_id);
-        $fileElement.on('change', function () {
-            uploadFile(file_id, uploadFileCallBack);
+        var $file_up = $ui.find('.add.file_up.add-image');
+        $file_up.append($(getTemplate()));
+        $file_up.find('input').change(function () {
+            var _this = $(this);
+            uploadFile(_this, $ui, uploadFileCallBack);
         });
 
-        function uploadFileCallBack(data) {
-            var arr = data.data;
+        function uploadFileCallBack(uri) {
+            var $img = $('<img />');
+            $img.attr('src', uri + '?x-oss-process=style/temporary-preview');
+            var $div = $('<div></div>');
+            $div.append($img);
+            $ui.find('.image-container').append($div);
 
-            for(var i = 0; i < arr.length; i ++) {
-                var $img = $('<img />');
-                $img.attr('src', arr[i] + '?x-oss-process=style/temporary-preview');
-                var uri_str = arr[i];
-                uri_str = uri_str.substring(uri_str.lastIndexOf('/') + 1, uri_str.length);
-                var $div = $('<div></div>');
-                $div.append($img);
-                $ui.find('.image-container').append($div);
+            deleteImageUi($ui);
 
-                deleteImageUi($ui);
-
-                var resource = {};
-                resource.status = 0;
-                resource.type = 0;
-                resource.uri = uri_str;
-                resource.description = '';
-                resourceList_tmp.push(resource);
-            }
-
-            $ui.find('input.image').replaceWith('<input class="file image" ' +
-                'name="'+file_id+'" type="file" id="'+file_id+'" />');
-            $ui.find('input.image').on('change', function () {
-                uploadFile(file_id, uploadFileCallBack);
-            });
-
+            var resource = {};
+            resource.status = 0;
+            resource.type = 0;
+            resource.uri = uri.substring(uri.lastIndexOf('/') + 1, uri.length);
+            resource.description = '';
+            resourceList_tmp.push(resource);
         }
     });
 
-    getTemplateUi('../page/editTemplate/proMainInfo.html', initMainInfoTemplate);
-    getTemplateUi('../page/editTemplate/proImageText.html', initImageTextTemplate);
+    /*getTemplateUi(base_url + '/page/editTemplate/proMainInfo.html', initMainInfoTemplate);
+    getTemplateUi(base_url + '/page/editTemplate/proImageText.html', initImageTextTemplate);*/
 }
 
 function displayReadMode() {
@@ -360,7 +354,6 @@ function eidtMainInfoUi($section) {
         return;
     }
     var contentFragmentList = project.contentFragmentList;
-    var resourceList = [];
 
     var aim_arr = $edit_main_info_tmp.find('.data-item');
 
@@ -368,11 +361,6 @@ function eidtMainInfoUi($section) {
         var $a_item = $(aim_arr[i]);
         for(var j = 0; j < contentFragmentList.length; j++) {
             var contentFragment = contentFragmentList[j];
-
-            if(contentFragment.attributeId == 1) {
-                resourceList = contentFragment.resourceList;
-                continue;
-            }
 
             if($(aim_arr[i]).hasClass('category')) {
                 var category_id = project.ichCategoryId != null ? project.ichCategoryId : '';
@@ -397,6 +385,14 @@ function eidtMainInfoUi($section) {
         }
     }
 
+    var resourceList = [];
+    for(var i = 0; i < contentFragmentList.length; i++) {
+        var contentFragment = contentFragmentList[i];
+        if(contentFragment.attributeId == 1) {
+            resourceList = contentFragment.resourceList;
+            break;
+        }
+    }
     if(resourceList != null && resourceList.length > 0) {
         $section.find('.file_up').find('img') != null ?
             $section.find('.file_up').find('img').remove() : null;
@@ -524,51 +520,35 @@ function editImageTextUi($section) {
         deleteImageUi($ui);
     }
 
-    deleteImageUi($ui);
-
-    var file_id = generateMathRand(8);
-    var $fileElement = $ui.find('input.image');
-    $fileElement.attr('id', file_id);
-    $fileElement.attr('name', file_id);
-    $fileElement.on('change', function () {
-        uploadFile(file_id, uploadFileCallBack);
+    var $file_up = $ui.find('.add.file_up.add-image');
+    $file_up.append($(getTemplate()));
+    $file_up.find('input').change(function () {
+        var _this = $(this);
+        uploadFile(_this, $ui, uploadFileCallBack);
     });
 
-    function uploadFileCallBack(data) {
-        var arr = data.data;
+    function uploadFileCallBack(uri) {
+        var $img = $('<img />');
+        $img.attr('src', uri + '?x-oss-process=style/temporary-preview');
+        var $div = $('<div></div>');
+        $div.append($img);
+        $ui.find('.image-container').append($div);
 
-        for(var i = 0; i < arr.length; i ++) {
-            var $img = $('<img />');
-            $img.attr('src', arr[i] + '?x-oss-process=style/temporary-preview');
-            var uri_str = arr[i];
-            uri_str = uri_str.substring(uri_str.lastIndexOf('/') + 1, uri_str.length);
-            var $div = $('<div></div>');
-            $div.append($img);
-            $ui.find('.image-container').append($div);
+        deleteImageUi($ui);
 
-            deleteImageUi($ui);
+        var contentFragmentList = project.contentFragmentList;
+        for(var i = 0; i < contentFragmentList.length; i++) {
+            var contentFragment = contentFragmentList[i];
+            if(contentFragment.attributeId == data_id) {
+                var resource = {};
+                resource.status = 0;
+                resource.type = 0;
+                resource.uri = uri.substring(uri.lastIndexOf('/') + 1, uri.length);
+                resource.description = '';
 
-            var contentFragmentList = project.contentFragmentList;
-            for(var i = 0; i < contentFragmentList.length; i++) {
-                var contentFragment = contentFragmentList[i];
-                if(contentFragment.attributeId == data_id) {
-                    var resource = {};
-                    resource.status = 0;
-                    resource.type = 0;
-                    resource.uri = uri_str;
-                    resource.description = '';
-
-                    contentFragment.resourceList.push(resource);
-                }
+                contentFragment.resourceList.push(resource);
             }
         }
-
-        $ui.find('input.image').replaceWith('<input class="file image" ' +
-            'name="'+file_id+'" type="file" id="'+file_id+'" />');
-        $ui.find('input.image').on('change', function () {
-            uploadFile(file_id, uploadFileCallBack);
-        });
-
     }
 }
 
@@ -699,18 +679,6 @@ function addMainInfoCompListener($section) {
         $('.dropbox .item').animate({height:'hide'}, 50);
     });
 
-    /*$('.group.inheritor .radio').on('click', function () {
-        $(this).addClass('active').siblings('span').removeClass('active');
-
-        var $next = $(this).parent().parent().next();
-
-        if($(this).attr('value') == '1') {
-            $next.animate({height:'toggle'}, 100);
-        } else {
-            $next.animate({height:'hide'}, 100);
-        }
-    });*/
-
     var selectList = getDictionaryArrayByType(103,'chi');
     for(var i=0;i<selectList.length;i++) {
         $("#certselect").append("<option value='"+selectList[i].code+"'>"+selectList[i].name+"</option>");
@@ -722,33 +690,29 @@ function addMainInfoCompListener($section) {
         offset:[0,2]
     });*/
 
-    var file_id = generateMathRand(8);
-    var $fileElement = $section.find('input[type="file"]');
-    $fileElement.attr('id', file_id);
-    $fileElement.attr('name', file_id);
-    $fileElement.on('change', function () {
-        uploadFile(file_id, uploadFileCallBack);
+    var $file_up = $section.find('.file_up');
+    $file_up.append($(getTemplate()));
+    $file_up.find('input[type="file"]').change(function () {
+        var _this = $(this);
+        uploadFile(_this, $section, uploadFileCallBack);
     });
 
-    function uploadFileCallBack(data) {
-        var arr = data.data;
-        $('#' + file_id).parent().find('img').remove();
-        var uri_str;
-        for(var i = 0; i < arr.length; i++) {
-            var $img = $('<img />');
-            $img.attr('src', arr[i]);
-            $img.addClass('preview');
-            uri_str = arr[i];
-            uri_str = uri_str.substring(uri_str.lastIndexOf('/') + 1, uri_str.length);
-            $('#' + file_id).parent().append($img);
-        }
+    function uploadFileCallBack(uri) {
+        $section.find('.file_up img').remove();
+
+        var $img = $('<img />');
+        $img.attr('src', uri);
+        $img.addClass('preview');
+        var uri_str = uri;
+        uri_str = uri_str.substring(uri_str.lastIndexOf('/') + 1, uri_str.length);
+        $section.find('.file_up').append($img);
 
         if(typeof $('#detailTopic').attr('src') == 'undefined') {
             var $bgContainer = $('#detailContent');
             $bgContainer.css({'width': '316px'});
 
             var $bg_img = $('<img id="detailTopic" style="width:316px;margin-left: -158px;"/>')
-            $bg_img.attr('src', arr[0]);
+            $bg_img.attr('src', uri);
 
             $bgContainer.find('.mask_left').remove();
             $bgContainer.find('.mask_right').remove();
@@ -758,7 +722,7 @@ function addMainInfoCompListener($section) {
             $bgContainer.prepend($($bg_img));
             $bgContainer.prepend($('<div class="mask_left"></div>'));
         } else {
-            $('#detailTopic').attr('src', arr[0]);
+            $('#detailTopic').attr('src', uri);
         }
 
 
@@ -782,7 +746,7 @@ function addMainInfoCompListener($section) {
             }
         }
 
-        if(!has_head_img) {
+        if(!has_head_img) {//没有题图，新增
             var contentFragment = {};
             contentFragment.attributeId = 1;
             contentFragment.targetId = project.id;
@@ -801,12 +765,6 @@ function addMainInfoCompListener($section) {
 
             contentFragmentList.push(contentFragment);
         }
-
-        $('#' + file_id).replaceWith('<input class="file" ' +
-            'name="'+file_id+'" type="file" id="'+file_id+'" />');
-        $('#' + file_id).on('change', function () {
-            uploadFile(file_id, uploadFileCallBack);
-        });
     }
 }
 
@@ -917,37 +875,82 @@ function buildTwoComboUi(data, data_id, $ui) {
     }
 }
 
-function uploadFile(file_id, callback) {
-    $.ajaxFileUpload({
-        url : base_url + '/user/uploadFile?type=project',
-        secureuri : false,
-        fileElementId : file_id,
-        dataType : 'JSON',
-        success : function(data) {
-            if(typeof data == 'string') {
-                data = JSON.parse(data);
-            }
+function uploadFile(_this, $ui, callback) {
+    var path = _this.val();
+    var imgType = path.substring(path.lastIndexOf(".") + 1);
 
-            if(data.code != 0) {
-                alert(data.msg);
-                return;
-            }
+    var serverInfo = send_request();
+    var host =serverInfo["host"];
+    var accessId =serverInfo["accessid"];
+    var policy = serverInfo["policy"];
+    var signature = serverInfo["signature"];
+    var key = 'image/project/' + serverInfo["filename"] + "." + imgType;//生成文件路径
 
-            callback(data);
+    $ui.find('.file_up').find("input[name='OSSAccessKeyId']").val(accessId);
+    $ui.find('.file_up').find("input[name='policy']").val(policy);
+    $ui.find('.file_up').find("input[name='Signature']").val(signature);
+    $ui.find('.file_up').find("input[name='key']").val(key);
+    $ui.find('.file_up form').attr("action",host);
+
+    $ui.find('.file_up form').ajaxSubmit({
+        dataType: 'text',
+        beforeSend: function () {
+
         },
-        error : function(e) {
-            alert('文件上传错误');
+        uploadProgress: function (event, position, total, percentComplete) {
+
+        },
+        success: function () {
+            callback(host + "/" + key);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
         }
     });
 }
 
-function initMainInfoTemplate(data) {
-    edit_main_info_tmp = data;
+function send_request() {
+    var signituredata = {};
+
+    $.ajax('../file/getPolicy', {
+        type: "POST",
+        data: {},
+        dataType: 'json',
+        async: false,
+        xhrFields: {
+            withCredentials: true
+        },
+        crossDomain: true,
+        success: function(data, status, xhr) {
+            signituredata= JSON.parse(data);
+        }
+    });
+
+    return signituredata;
 }
 
-function initImageTextTemplate(data) {
-    edit_image_text_tmp = data;
+function getTemplate() {
+    return '<form class="upload" method = "POST" action="" method="post" enctype="multipart/form-data">'+
+        '<input class="_token" type="hidden" name="OSSAccessKeyId" value="">'+
+        '<input class="_token" type="hidden" name="policy" value="">'+
+        '<input class="_token" type="hidden" name="Signature" value="">'+
+        '<input class="_token" type="hidden" name="key" value="">'+
+        '<input class="_token" type="hidden" name="Filename" value="">'+
+        '<input class="_token" type="hidden" name="success_action_status" value="200">'+
+        '<div class="progress">' +
+        '<div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div>'+
+        '</div>' +
+        '<input class="file" type="file" id="file" name="file">'+
+        '</form>';
 }
+
+/*function initMainInfoTemplate(data) {
+    edit_main_info_tmp = data;
+}*/
+
+/*function initImageTextTemplate(data) {
+    edit_image_text_tmp = data;
+}*/
 
 function saveProjectToServer(callback) {
     if(project == null) {
