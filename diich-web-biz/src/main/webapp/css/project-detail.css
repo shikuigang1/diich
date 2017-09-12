@@ -51,10 +51,10 @@ i {
     margin-bottom: 50px;
 }
 
-.detail_title .edit {
+/* .detail_title .edit {
     position: inherit;
     top: 0px;
-}
+} */
 
 .edui-default .edui-editor-bottomContainer td {
     border-top: none!important;
