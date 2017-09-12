@@ -232,3 +232,11 @@ section .handle-button {
 .topic-image {
     height:222px!important;
 }
+
+.card_base .detail_title .edit {
+    position: initial!important;
+}
+
+.card_main .detail_title .edit .icon {
+    position: initial!important;
+}
