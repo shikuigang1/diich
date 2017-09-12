@@ -1,12 +1,12 @@
-//引入其他js 文件
-document.write("<script type=\"text/javascript\" src=\"../../data/error_message.js\"></script>");
-document.write("<script type=\"text/javascript\" src=\"../../js/util.js\"></script>");
-// var baseUrl="";
-//登录注册
-
 if(typeof base_url == 'undefined') {
     base_url = '';
 }
+
+//引入其他js 文件
+document.write("<script type=\"text/javascript\" src=\""+base_url+"/data/error_message.js\"></script>");
+document.write("<script type=\"text/javascript\" src=\""+base_url+"/js/util.js\"></script>");
+// var baseUrl="";
+//登录注册
 
 var loginPage = {
     init: function () {
@@ -610,7 +610,7 @@ var filterpage= ['/ichpro.html','/ichProForm.html','/ichProContent.html',
 function loginedTemplate(data) {
     var str='<div class="main">' +
         '      <div class="item user">' +
-        '          <a href="javascript:void(0)"><img src="/assets/images/user_head.png" alt=""></a><span>'+data.loginName+'</span>' +
+        '          <a href="javascript:void(0)"><img src="'+base_url+'/assets/images/user_head.png" alt=""></a><span>'+data.loginName+'</span>' +
         '      </div>' +
         // '      <div class="item account"><a href="">账户管理</a></div>' +
         '      <div class="item logout"><a href="javascript:void(0)">退出</a></div>' +
