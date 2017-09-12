@@ -25,12 +25,17 @@
                     <label class="label" for="">性别</label>
                     <div id="sex" data-id="{{id}}" class="control">
                         {{#if ../../pageObj.contentFragmentList}}
-                            {{#each ../../../pageObj.contentFragmentList}}
-                                {{#equal attributeId ../../id}}
-                                  <span id="sex_1" class="radio {{#equal ../content 1}}active{{/equal}}"><i></i><input type="radio" name="">男</span>
-                                  <span id="sex_0" class="radio {{#equal ../content 0}}active{{/equal}}"><i></i><input type="radio" name="">女</span>
-                                {{/equal}}
-                            {{/each}}
+                            {{#ifAttribute ../../../pageObj.contentFragmentList ../../id}}
+                                {{#each ../../../../pageObj.contentFragmentList}}
+                                    {{#equal attributeId ../../id}}
+                                        <span id="sex_1" class="radio {{#equal ../content 1}}active{{/equal}}"><i></i><input type="radio" name="">男</span>
+                                        <span id="sex_0" class="radio {{#equal ../content 0}}active{{/equal}}"><i></i><input type="radio" name="">女</span>
+                                    {{/equal}}
+                                {{/each}}
+                            {{else}}
+                                <span id="sex_1" class="radio active"><i></i><input type="radio" name="">男</span>
+                                <span id="sex_0" class="radio"><i></i><input type="radio" name="">女</span>
+                            {{/ifAttribute}}
                         {{else}}
                             <span id="sex_1" class="radio active"><i></i><input type="radio" name="">男</span>
                             <span id="sex_0" class="radio"><i></i><input type="radio" name="">女</span>
