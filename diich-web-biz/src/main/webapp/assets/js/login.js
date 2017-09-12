@@ -173,7 +173,7 @@ var loginPage = {
             '            <div class="group">'+
             '                <div class="name"><span>用户名</span></div>'+
             '                <div class="area">'+
-            '                    <input type="text" class="ipt" name="loginName"  value="">'+
+            '                    <input type="text" class="ipt" name="loginName" id="loginName"  value="">'+
             '                    <div class="error_txt"></div>'+
             '                </div>'+
             '            </div>'+
@@ -513,6 +513,7 @@ function login(){
 //手动提交表单
 function registForm(){
 
+    var flag = true;
     var lang = getLang();
     //密码长度限制
     var pass = $("#registForm input[name=password]").val();
@@ -524,25 +525,41 @@ function registForm(){
         }else{
             password.next().text("Password length no less than 6 !");
         }
-        return false;
+        flag = false;
     }else {
         password.parent().parent().removeClass("error");
         password.next().text("");
     }
 
-    var loginName = $("#resetForm input[name=loginName]").val();
+    var loginName =  $("#registForm input[name=loginName]").val();
 
-    if(!(/^[0-9a-zA-Z_]{2,6}$/.test(loginName))){
-        $("#resetForm input[name=loginName]").parent().parent().addClass("error");
-        $("#resetForm input[name=loginName]").next().text("用户名由2-6位字母数字_组成");
+    if(!(/^[0-9a-zA-Z_]{2,8}$/.test(loginName))){
+        $("#registForm input[name=loginName]").parent().parent().addClass("error");
+        $("#registForm input[name=loginName]").next().text("用户名由2-8位字母数字_组成");
 
-        return false;
+        flag = false;
     }else{
-        $("#resetForm input[name=loginName]").parent().parent().removeClass("error");
-        $("#resetForm input[name=loginName]").next().text("用户名由2-6位字母数字_组成");
+        $("#registForm input[name=loginName]").parent().parent().removeClass("error");
+        $("#registForm input[name=loginName]").next().text("");
     }
 
+    //手机号验证
 
+    var phone =  $("#registForm input[name=phone]").val();
+
+    if(!(/^1[34578]\d{9}$/.test(phone))){
+        $("#registForm input[name=phone]").parent().parent().addClass("error");
+        $("#registForm input[name=phone]").next().text("手机号格式不正确");
+
+        flag = false;
+    }else{
+        $("#registForm input[name=phone]").parent().parent().removeClass("error");
+        $("#registForm input[name=phone]").next().text("");
+    }
+
+    if(!flag){
+        return ;
+    }
 
     $.ajax({
         cache: true,
@@ -562,6 +579,8 @@ function registForm(){
                 //注册成功
                 $('.box_layer').fadeOut(100).remove();
             }else {
+                $("#registForm input[name=code]").parent().parent().removeClass("error");
+                $("#registForm input[name=code]").parent().parent().addClass("error");
                 $("#registForm input[name=code]").next().next().text(getMsgByCode(code,lang));
                 /* if(lang=='zh-CN'){
                  $("#registForm input[name=code]").next().next().text(res.msg);
