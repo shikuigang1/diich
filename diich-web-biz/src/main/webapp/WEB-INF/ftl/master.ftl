@@ -140,7 +140,6 @@
 <#assign workspage = "http://works.efeiyi.com/w/"/>
 <#assign prouri="http://resource.efeiyi.com/image/project/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
-<#assign mastervuri="http://resource.efeiyi.com/video/master/" />
 <#assign str="http:" />
 <#assign strs="https:" />
 <div class="container">
@@ -460,7 +459,7 @@
                                             <#if r.type ==1>
                                                 <div class="card_video">
                                                     <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                        <video poster="" controls src="${mastervuri}${r.uri}" type="video/mp4" style="width: 100%;">
+                                                        <video poster="" controls src="${masteruri}${r.uri}" type="video/mp4" style="width:100%;max-height:277px;background: #000;">
                                                         </video>
                                                     </#if>
                                                     <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
