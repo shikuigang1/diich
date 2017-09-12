@@ -40,7 +40,7 @@
 
             <div class="step2" style="display:none">
                 <div class="tips">您要申报的项目已存在，请勿重复申报</div>
-                <div class="bd">
+                <div class="bd" style="margin-bottom: 20px;">
                     <div class="result">
                         <div class="item"  >
                             <div class="dt">搜索结果：</div>
@@ -66,12 +66,12 @@
                             </div>
                         </div>
                         <!--//End-->
-                        <!--<div class="item" id="item2" >-->
-                            <!--<div class="dt">若非遗国际尚未收录该项目：</div>-->
-                            <!--<div class="dd">-->
-                                <!--<a class="btn_create" href="javascript:void(0)" onclick="gotoCreate()">创建新项目</a>-->
-                            <!--</div>-->
-                        <!--</div>-->
+                        <div class="item" id="item2" >
+                            <div class="dt">若非遗国际尚未收录该项目：</div>
+                            <div class="dd">
+                                <a class="btn_create" href="javascript:void(0)" onclick="gotoCreate()">创建新项目</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -117,18 +117,18 @@
                     $(".step2").hide();
                     if(data.type==0){
                         // 完全一致的
-                        $(".tips").html("您要搜索的项目已存在").css("color","	#000000").next(".bd").show();
+                        $(".tips").html("您要搜索的项目已存在").css("color","	#000000");
                         $("#item1").append(getHtml(data.data));
                         $(".step2").show();
                         $("#item2").hide();
                     }else if(data.type ==1){
                         if(data.data.length==0){
-                            $(".tips").html("您要搜索的项目不存在").css("color","#FF0000").next(".bd").hide();
+                            $(".tips").html("您要搜索的项目不存在，可进行录入操作").css("color","#FF0000");
                             $("#item1").append(getHtml(data.data));
                             $(".step2").show();
                             $("#item2").show();
                         }else{
-                            $(".tips").html("您要搜索的项目可能已存在，如下").css("color","#000000").next(".bd").show();
+                            $(".tips").html("您要搜索的项目可能已存在，如下").css("color","#000000");
                             $("#item1").append(getHtml(data.data));
                             $(".step2").show();
                             $("#item2").show();
