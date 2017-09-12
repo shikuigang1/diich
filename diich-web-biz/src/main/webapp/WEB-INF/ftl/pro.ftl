@@ -48,6 +48,7 @@
 
     <script src="${caturi}/data/keyword.js"></script>
     <script src="${caturi}/assets/js/jquery.min.js"></script>
+    <script src="${caturi}/assets/js/jQuery.Form.js"></script>
     <script src="${caturi}/assets/js/system.js"></script>
     <script src="${caturi}/assets/js/utils.js"></script>
     <script src="${caturi}/assets/js/detail-project.js"></script>
@@ -267,8 +268,8 @@
                                 </#if>
                             </#list>
                         </#if>
-                            <#--<span class="primary edit link" project-id="${obj.id?c}"><i class="icon"></i>编辑</span>-->
-                        </h2><a href="${caturi}/page/ichProForm.html?pid=${obj.id?c}" class="edit"><i class="icon"></i>编辑1</a>
+                            <span class="primary edit link" project-id="${obj.id?c}"><i class="icon"></i>编辑</span>
+                        <#--</h2><a href="${caturi}/page/ichProForm.html?pid=${obj.id?c}" class="edit"><i class="icon"></i>编辑1</a>-->
                     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 2>
@@ -611,32 +612,32 @@
                                         <li>
                                             <#if r.type ==0>
                                                 <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                    <img src="${prouri}${r.uri}" alt="" class="data-item" data-id="${cf.attributeId?c}">
+                                                    <img src="${prouri}${r.uri}" alt="">
                                                 </#if>
                                                 <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
-                                                    <img src="${r.uri}" alt="" class="data-item" data-id="${cf.attributeId?c}">
+                                                    <img src="${r.uri}" alt="">
                                                 </#if>
 
                                                 <#if r.description??>
-                                                <span class="data-item" data-id="${cf.attributeId?c}">${r.description}</span>
+                                                <span>${r.description}</span>
                                                 </#if>
                                             </#if>
 
                                             <#if r.type ==1>
                                                 <div class="card_video">
                                                     <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                        <video  controls src="${prouri}${r.uri}" type="video/mp4" style="width:100%;max-height:277px;background: #000;" class="data-item" data-id="${cf.attributeId?c}">
+                                                        <video  controls src="${prouri}${r.uri}" type="video/mp4" style="width:100%;max-height:277px;background: #000;">
                                                         </video>
                                                     </#if>
                                                     <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
-                                                        <video controls  src="${r.uri}" type="video/mp4" style="width:100%;max-height:277px;background: #000;" class="data-item" data-id="${cf.attributeId?c}">
+                                                        <video controls  src="${r.uri}" type="video/mp4" style="width:100%;max-height:277px;background: #000;">
                                                         </video>
                                                     </#if>
 
 
                                                 </div>
                                                 <#if r.description??>
-                                                <span class="data-item" data-id="${cf.attributeId?c}">${r.description}</span>
+                                                <span>${r.description}</span>
                                                 </#if>
                                             </#if>
                                             <#if (r_index == 1)>

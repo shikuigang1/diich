@@ -527,7 +527,7 @@
     });
 
     //判断图片是否加载完成
-    (function () {
+    setTimeout(function () {
         var $img = $('#detailTopic');
         var $content = $('#detailContent');
         var img = document.getElementById('detailTopic');
@@ -537,15 +537,16 @@
             var imgW = parseInt($img.width());
             $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
             $content.css({width:imgW+'px'});
-            $img.fadeIn(1000);
+            $img.fadeIn(800);
         };
 
 
         var imgW = parseInt($img.width());
         $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
         $content.css({width:imgW+'px'});
-        $img.fadeIn(1000);
-    })();
+        $img.fadeIn(800);
+
+    },2000);
 
 
 
