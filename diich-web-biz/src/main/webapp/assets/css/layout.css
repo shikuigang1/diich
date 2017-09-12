@@ -1299,7 +1299,7 @@ section.odd {
 }
 
 .card_main .title {
-    height: 44px;
+    line-height: 44px;
     position: relative;
 }
 
