@@ -1,4 +1,6 @@
 //上传图片
+var codes=null;//区域代码值
+var codesText="";//区域代码字符串值
 var upload={
     template:function (type) {//0是视频  1是图片 url上传的地址
         var _name='';
@@ -239,7 +241,7 @@ var upload={
 
                 if(imageIsExsit){ //本地存在 进行删除操作
                     if(delResourceImage(rid)){
-                        tipBox.init("success","删除图片成功！",1500);
+                        tipBox.init("success","删除成功！",1500);
                         //删除图片在本地缓存
                         $.each(organization.contentFragmentList,function (index,obj) {
                             if(obj.resourceList != null && typeof(obj.resourceList)!="undefined" && obj.resourceList.length>0 ){
@@ -254,7 +256,7 @@ var upload={
                         });
 
                     }else{
-                        tipBox.init("fail","删除图片失败！",1500);
+                        tipBox.init("fail","删除失败！",1500);
                     }
                 }else{
                     //do nothing
@@ -279,7 +281,7 @@ var upload={
 
                 if(imageIsExsit){ //本地存在 进行删除操作
                     if(delImage(rid)){
-                        tipBox.init("success","删除图片成功！",1500);
+                        tipBox.init("success","删除成功！",1500);
                         //删除图片在本地缓存
                         var ich = getCurrentProject();
                         $.each(ich.contentFragmentList,function (index,obj) {
@@ -298,9 +300,10 @@ var upload={
                             }
 
                         });
-                        localStorage.setItem("ichProject",JSON.stringify(ich));
+                        //localStorage.setItem("ichProject",JSON.stringify(ich));
+                        setCurrentProject(ich);
                     }else{
-                        tipBox.init("fail","删除图片失败！",1500);
+                        tipBox.init("fail","删除失败！",1500);
                     }
                 }else{
 
@@ -359,7 +362,7 @@ var selectArea={
             resultText=initVal.resultText;
         }
 
-        if(localStorage.getItem("action")=="add"){
+        if($.getUrlParam("pid")==null){
             result=[];
             resultText=[];
         }
@@ -443,7 +446,8 @@ var selectArea={
                         if(flag){
                             result.push(store);
                             resultText.push(storeText);
-                            localStorage.setItem("codeText",resultText.join(","));
+                            //localStorage.setItem("codeText",resultText.join(","));
+                            codesText = resultText.join(",");
                             createSelected(storeText);
                             select.html('').hide();
                             el.attr('value',result);
@@ -474,7 +478,8 @@ var selectArea={
             $(this).remove();
             result.splice(_index,1);
             resultText.splice(_index,1);
-            localStorage.setItem("codeText",resultText.join(","));
+           // localStorage.setItem("codeText",resultText.join(","));
+            codesText = resultText.join(",");
             if(callback && callback!='undefined'){
                 callback(result,resultText);
             }
@@ -486,7 +491,7 @@ var selectArea={
         var result=[];
         var resultText=[];
 
-        var codeText = localStorage.getItem("codeText");
+        var codeText = codesText;
         if(codeText != null && typeof (codeText) !="undefined"){
             resultText = codeText.split(",");
         }
@@ -609,8 +614,8 @@ var projectPage={
     bind:function (areaData) {
         //初始化区域数据
         var areaData={};
-        var result = localStorage.getItem("codes");
-        var resultText = localStorage.getItem("codeText");
+        var result = codes;
+        var resultText = codesText;
 
         if(result!= null && resultText!=null){
             if(typeof(result)!= "undefined" && result.length>0){
@@ -647,7 +652,9 @@ var projectPage={
         this.declare();  //是否为自己申报传承人
         selectArea.init(0,areaData,function (data) {//选择地址 0是选择地址的类型 0是多选 1是单选
             //把每次code 值存在本地
-            localStorage.setItem("codes",data.join(","));
+            //localStorage.setItem("codes",data.join(","));
+            codes = data.join(",");
+    //        console.log(codes);
         });
     },
     slideBar:{//左侧菜单
@@ -712,11 +719,12 @@ var projectPage={
                                         //填充题图
                                         if(obj.attributeId == 1 && obj.resourceList.length>0){
                                             var uri = obj.resourceList[0].uri;
-
-                                            $('.file_up').append('<img style="display: block;" class="preview" src="'+imgserver+"/image/project/"+uri+'">')
-                                            //$(".preview").attr("src",imgserver+"/image/organization/"+obj.resourceList[0].uri);
-                                            //$(".preview").show();
-                                            $(".file_up").addClass("active");
+                                            if(uri != null && uri != "" && typeof(uri) != "undefined" ){
+                                                $('.file_up').append('<img style="display: block;" class="preview" src="'+imgserver+"/image/project/"+uri+'">')
+                                                //$(".preview").attr("src",imgserver+"/image/organization/"+obj.resourceList[0].uri);
+                                                //$(".preview").show();
+                                                $(".file_up").addClass("active");
+                                            }
 
                                             /*$(".preview").attr("src",imgserver+"/image/project/"+uri).show();
                                              $(".preview").parent().addClass('active');*/
@@ -762,7 +770,8 @@ var projectPage={
                                     $('.horizontal .group .radio').eq(0).click();
                                 }
                                 //区域值
-                                var codeText=localStorage.getItem("codeText");
+                                //var codeText=localStorage.getItem("codeText");
+                                var codeText= codesText;
                                 if(codeText != null && codeText !="" && typeof (codeText) !="undefined"){
                                     var codeTextList = codeText.split(",");
                                     if(codeTextList !=  null || typeof(codeTextList)!= 'undefined' ){
@@ -1052,7 +1061,8 @@ var projectPage={
                     });
                 }
 
-                localStorage.setItem("ichProject",JSON.stringify(ich));
+                //localStorage.setItem("ichProject",JSON.stringify(ich));
+                setCurrentProject(ich);
 
             }
         });
@@ -1180,7 +1190,8 @@ var selectArea1={
                         if(num == -1) {
                             result.push(storeVal);
                             resultText.push(storeText.substr(0, storeText.length - 1));
-                            localStorage.setItem("codeText",resultText.join(","));
+                            //localStorage.setItem("codeText",resultText.join(","));
+                            codesText = resultText.join(",");
                             createSelected(storeText);
 
                         }
@@ -1214,7 +1225,8 @@ var selectArea1={
             result.splice(_index,1);
             resultText.splice(_index,1);
             // console.log(resultText);
-            localStorage.setItem("codeText",resultText.join(","));
+            //localStorage.setItem("codeText",resultText.join(","));
+            codesText = resultText.join(",");
             if(callback && callback!='undefined'){
                 callback(result);
             }
@@ -1226,7 +1238,8 @@ var selectArea1={
         var result=[];
         var resultText=[];
 
-        var codeText = localStorage.getItem("codeText");
+       // var codeText = localStorage.getItem("codeText");
+        var codeText = codesText;
         if(codeText != null && typeof (codeText) !="undefined"){
             resultText = codeText.split(",");
         }
@@ -1431,7 +1444,7 @@ var organizationPage = {
                         $("#images").hide();
                         $("#images").siblings('.text').css('width','100%');
                     }else{
-                        upload.remove('image/project/');
+                        upload.remove('image/organization/');
                     }
                     $(".next").prev().attr("href","javascript:delOrgCustom('"+attrid+"')");
                     $(".next").attr("href","javascript:saveOrganization()");
