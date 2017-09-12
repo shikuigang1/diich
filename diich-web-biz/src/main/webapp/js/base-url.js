@@ -1,3 +1,3 @@
-var base_url = '';
+var base_url = 'http://diich.efeiyi.com';
 
 

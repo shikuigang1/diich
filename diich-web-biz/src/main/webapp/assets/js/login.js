@@ -1,12 +1,12 @@
-//引入其他js 文件
-document.write("<script type=\"text/javascript\" src=\"../../data/error_message.js\"></script>");
-document.write("<script type=\"text/javascript\" src=\"../../js/util.js\"></script>");
-// var baseUrl="";
-//登录注册
-
 if(typeof base_url == 'undefined') {
     base_url = '';
 }
+
+//引入其他js 文件
+document.write("<script type=\"text/javascript\" src=\""+base_url+"/data/error_message.js\"></script>");
+document.write("<script type=\"text/javascript\" src=\""+base_url+"/js/util.js\"></script>");
+// var baseUrl="";
+//登录注册
 
 var loginPage = {
     init: function () {
@@ -173,7 +173,7 @@ var loginPage = {
             '            <div class="group">'+
             '                <div class="name"><span>用户名</span></div>'+
             '                <div class="area">'+
-            '                    <input type="text" class="ipt" name="loginName"  value="">'+
+            '                    <input type="text" class="ipt" name="loginName" id="loginName"  value="">'+
             '                    <div class="error_txt"></div>'+
             '                </div>'+
             '            </div>'+
@@ -477,12 +477,13 @@ function login(){
                     //初始化 后续 操作
                     var  pid = $.getUrlParam("pid");
                     if(pid == null || typeof(pid) == "undefined"){
-                        localStorage.setItem("action","add");
+                        //localStorage.setItem("action","add");
                     }else{
 
                     }
                     var ich = getIchProByID(pid);
-                    localStorage.setItem("ichProject",JSON.stringify(ich));
+                    setCurrentProject(ich);
+                    //localStorage.setItem("ichProject",JSON.stringify(ich));
                     initProjectData();
                     initProjectView(ich);
                 }
@@ -512,6 +513,7 @@ function login(){
 //手动提交表单
 function registForm(){
 
+    var flag = true;
     var lang = getLang();
     //密码长度限制
     var pass = $("#registForm input[name=password]").val();
@@ -523,11 +525,42 @@ function registForm(){
         }else{
             password.next().text("Password length no less than 6 !");
         }
-        return false;
+        flag = false;
     }else {
         password.parent().parent().removeClass("error");
         password.next().text("");
     }
+
+    var loginName =  $("#registForm input[name=loginName]").val();
+
+    if(!(/^[0-9a-zA-Z_]{2,8}$/.test(loginName))){
+        $("#registForm input[name=loginName]").parent().parent().addClass("error");
+        $("#registForm input[name=loginName]").next().text("用户名由2-8位字母数字_组成");
+
+        flag = false;
+    }else{
+        $("#registForm input[name=loginName]").parent().parent().removeClass("error");
+        $("#registForm input[name=loginName]").next().text("");
+    }
+
+    //手机号验证
+
+    var phone =  $("#registForm input[name=phone]").val();
+
+    if(!(/^1[34578]\d{9}$/.test(phone))){
+        $("#registForm input[name=phone]").parent().parent().addClass("error");
+        $("#registForm input[name=phone]").next().text("手机号格式不正确");
+
+        flag = false;
+    }else{
+        $("#registForm input[name=phone]").parent().parent().removeClass("error");
+        $("#registForm input[name=phone]").next().text("");
+    }
+
+    if(!flag){
+        return ;
+    }
+
     $.ajax({
         cache: true,
         type: "POST",
@@ -546,6 +579,8 @@ function registForm(){
                 //注册成功
                 $('.box_layer').fadeOut(100).remove();
             }else {
+                $("#registForm input[name=code]").parent().parent().removeClass("error");
+                $("#registForm input[name=code]").parent().parent().addClass("error");
                 $("#registForm input[name=code]").next().next().text(getMsgByCode(code,lang));
                 /* if(lang=='zh-CN'){
                  $("#registForm input[name=code]").next().next().text(res.msg);
@@ -610,7 +645,7 @@ var filterpage= ['/ichpro.html','/ichProForm.html','/ichProContent.html',
 function loginedTemplate(data) {
     var str='<div class="main">' +
         '      <div class="item user">' +
-        '          <a href="javascript:void(0)"><img src="/assets/images/user_head.png" alt=""></a><span>'+data.loginName+'</span>' +
+        '          <a href="javascript:void(0)"><img src="'+base_url+'/assets/images/user_head.png" alt=""></a><span>'+data.loginName+'</span>' +
         '      </div>' +
         // '      <div class="item account"><a href="">账户管理</a></div>' +
         '      <div class="item logout"><a href="javascript:void(0)">退出</a></div>' +

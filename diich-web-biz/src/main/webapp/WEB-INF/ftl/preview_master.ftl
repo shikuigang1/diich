@@ -347,7 +347,7 @@
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.content !="" && cf.attributeId != 11 && cf.attributeId != 12 && cf.attributeId != 111 && cf.attributeId != 23>
-                                <li>
+                                <li data-open="${cf.attribute.isOpen}">
                                         <span class="key">${cf.attribute.cnName}：</span>
                                         <span class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
                                 </li>
@@ -527,7 +527,7 @@
     });
 
     //判断图片是否加载完成
-    (function () {
+    setTimeout(function () {
         var $img = $('#detailTopic');
         var $content = $('#detailContent');
         var img = document.getElementById('detailTopic');
@@ -537,15 +537,16 @@
             var imgW = parseInt($img.width());
             $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
             $content.css({width:imgW+'px'});
-            $img.fadeIn(1000);
+            $img.fadeIn(800);
         };
 
 
         var imgW = parseInt($img.width());
         $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
         $content.css({width:imgW+'px'});
-        $img.fadeIn(1000);
-    })();
+        $img.fadeIn(800);
+
+    },2000);
 
 
 

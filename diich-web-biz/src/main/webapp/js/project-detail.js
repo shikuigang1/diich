@@ -35,10 +35,10 @@ var custom_image_text_tmp = '<section  name="custom" id="custom" class="bd floor
     '</div> ' +
     '</section>';
 
-var custom_show_tmp = ' <article class="text_img read-piece"> <div class="side"> <div class="item"> ' +
-    '<p class="data-item" data-id="35"> </p> </div> </div> <div class="media"> <ul> <li> ' +
-    /*'<img src="http://resource.efeiyi.com/image/project/10178-BIG.jpg"> ' +*/
-    '</li> </ul><div class="more"></div> </div> </article>';
+var custom_show_tmp = ' <article class="text_img read-piece"> ' +
+    '<div class="side"> ' +
+    '<div class="item item-content"></div> ' +
+    '</div> <div class="media"> <ul> <li></li> </ul><div class="more"></div> </div> </article>';
 
 var edit_main_info_tmp = '<form class="bd horizontal"><div class="group"> <label class="label"><em>*</em>名称</label> <div class="control"> ' +
     '<input type="text" class="ipt w562 data-item" data-id="4"> <div class="errors" style="display: none"><i></i>请填入正确格式的拼音且长度在1-50之间</div> ' +
@@ -631,7 +631,7 @@ function showProjectUi($section) {
             if($item.attr('data-id') == contentFragment.attributeId) {
                 if($item.hasClass('dic')) {
                     $item.text(getTextByTypeAndCode($item.attr('dic-type'), contentFragment.content, 'chi'));
-                } else {
+                } else if(!$item.is('img')) {
                     $item.html(contentFragment.content);
                 }
                 break;
@@ -912,7 +912,7 @@ function uploadFile(_this, $ui, callback) {
 function send_request() {
     var signituredata = {};
 
-    $.ajax('../file/getPolicy', {
+    $.ajax(base_url + '/file/getPolicy', {
         type: "POST",
         data: {},
         dataType: 'json',

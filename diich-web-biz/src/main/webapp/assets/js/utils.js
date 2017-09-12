@@ -622,7 +622,7 @@ var searchPage={
     slide:function () {
         var _this=this;
         var url='http://diich.efeiyi.com/page/search.html?keyword=';
-        var elIcon=$('.header_detail .content .info li.search'); //导航搜索icon
+        var elIcon=$('.header .content .info li.search'); //导航搜索icon
         var filter = $('.filter_search'); //下拉搜索
 
         elIcon.on('click',function (e) {
