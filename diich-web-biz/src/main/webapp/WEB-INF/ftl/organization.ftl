@@ -318,7 +318,7 @@
                                             <#if r.type ==1>
                                                 <div class="card_video">
                                                     <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                        <video poster="" controls src="${orgvuri}${r.uri}" type="video/mp4" style="width:100%;max-height:277px;background: #000;">
+                                                        <video poster="" controls src="${orguri}${r.uri}" type="video/mp4" style="width:100%;max-height:277px;background: #000;">
                                                         </video>
                                                     </#if>
                                                     <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
@@ -398,7 +398,7 @@
     });
 
     //判断图片是否加载完成
-    (function () {
+    setTimeout(function () {
         var $img = $('#detailTopic');
         var $content = $('#detailContent');
         var img = document.getElementById('detailTopic');
@@ -408,15 +408,16 @@
             var imgW = parseInt($img.width());
             $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
             $content.css({width:imgW+'px'});
-            $img.fadeIn(1000);
+            $img.fadeIn(800);
         };
 
 
         var imgW = parseInt($img.width());
         $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
         $content.css({width:imgW+'px'});
-        $img.fadeIn(1000);
-    })();
+        $img.fadeIn(800);
+
+    },2000);
 
 
 

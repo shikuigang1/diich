@@ -31,6 +31,7 @@
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Pragma" content="no-cache">
     <meta name="description" content="...." />
+    <link rel="shortcut icon" type="image/x-icon" href="${h5uri}/assets/logo.png" media="screen">
     <link rel="stylesheet" type="text/css" href="${h5uri}/css/project.css"/>
     <link rel="stylesheet" type="text/css" href="${h5uri}/links/js/reset.css"/>
     <script src="${h5uri}/links/js/rem.js" type="text/javascript" charset="utf-8"></script>
