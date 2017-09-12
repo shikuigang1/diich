@@ -477,12 +477,13 @@ function login(){
                     //初始化 后续 操作
                     var  pid = $.getUrlParam("pid");
                     if(pid == null || typeof(pid) == "undefined"){
-                        localStorage.setItem("action","add");
+                        //localStorage.setItem("action","add");
                     }else{
 
                     }
                     var ich = getIchProByID(pid);
-                    localStorage.setItem("ichProject",JSON.stringify(ich));
+                    setCurrentProject(ich);
+                    //localStorage.setItem("ichProject",JSON.stringify(ich));
                     initProjectData();
                     initProjectView(ich);
                 }
@@ -528,6 +529,21 @@ function registForm(){
         password.parent().parent().removeClass("error");
         password.next().text("");
     }
+
+    var loginName = $("#resetForm input[name=loginName]").val();
+
+    if(!(/^[0-9a-zA-Z_]{2,6}$/.test(loginName))){
+        $("#resetForm input[name=loginName]").parent().parent().addClass("error");
+        $("#resetForm input[name=loginName]").next().text("用户名由2-6位字母数字_组成");
+
+        return false;
+    }else{
+        $("#resetForm input[name=loginName]").parent().parent().removeClass("error");
+        $("#resetForm input[name=loginName]").next().text("用户名由2-6位字母数字_组成");
+    }
+
+
+
     $.ajax({
         cache: true,
         type: "POST",
