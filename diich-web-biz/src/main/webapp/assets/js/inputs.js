@@ -858,9 +858,13 @@ var projectPage={
                         //初始化当前菜单数据
                         var ich = getCurrentProject();
 
+                        var customflag = false;
+
                         $.each(attributeData,function (index,obj) {
                                     if( obj.id == attrid){
+
                                         if(obj.targetType=="10"){
+                                            customflag = true;
                                             $(".st").children("h2").empty();
                                             $(".st").children("h2").addClass("custom");
                                             $(".st").children("h2").append("<input type=\"text\" value=\""+name+"\" id=\"attrName\" placeholder=\"请输入自定义项的名称......\">")
@@ -873,6 +877,9 @@ var projectPage={
 
                         });
 
+                        if(!customflag){
+                            $(".st").children("h2").text(name);
+                        }
 
                         // var flag = false;//缓存命中标记
                         $.each(ich.contentFragmentList,function (index,obj) {

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://diich.efeiyi.com" />
+<#assign caturi="http://47.95.32.236" />
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -61,7 +61,7 @@
     <script src="${caturi}/js/util.js"></script>
 
     <script src="${caturi}/assets/js/Ecalendar.jquery.min.js"></script>
-    <script src="${caturi}/js/ajaxfileupload.js"></script>
+    <script src="${caturi}/js/project-template.js"></script>
     <script src="${caturi}/js/project-detail.js?3"></script>
 
     <script>

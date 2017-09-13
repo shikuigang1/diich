@@ -240,3 +240,11 @@ section .handle-button {
 .card_main .detail_title .edit .icon {
     position: initial!important;
 }
+
+.card_base .info li span.key {
+    position: initial!important;
+}
+
+.card_base .info li span {
+    float: initial!important;
+}

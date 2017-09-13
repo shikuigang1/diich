@@ -185,6 +185,7 @@ function getDataByCateGoryId(data){
     //console.log(data);
     $("#menu2").empty();
     $("#menu").empty();
+    console.log(data);
     $.each(data.data,function (index,obj) {
         if(obj.dataType==1 || obj.dataType==5 ){
             //过滤掉简介不再左侧显示
@@ -362,7 +363,8 @@ function  saveCustom(next) {
         success: function (result) {
             console.log(result);
             if(result.code==0){
-                initmenu2(0,result.data.id);
+                //initmenu2(0,result.data.id);
+                initattributeData(0,result.data.id);
                /* var ich = getCurrentProject();
                 ich.contentFragmentList.push(result.data);*/
                 //localStorage.setItem("ichProject",JSON.stringify(result.data));
@@ -404,22 +406,32 @@ function  saveCustom(next) {
 function  validateCustom() {
     var flag = true;
     var attrName = $("#attrName").val();
-    if(attrName.length<1 || attrName.length>10){
-        $("#attrName").parent().parent().next().find("span").eq(0).text("自定义名称在1-10字符之间");
-        $("#attrName").parent().parent().next().show();
-       // return false;
-        flag = false;
-    }else{
-        $("#attrName").parent().parent().next().hide();
+
+    if(typeof (attrName)!= "undefined"){
+        if(attrName.length<1 || attrName.length>10){
+            $("#attrName").parent().parent().next().find("span").eq(0).text("自定义名称在1-10字符之间");
+            $("#attrName").parent().parent().next().show();
+            // return false;
+            flag = false;
+        }else{
+            $("#attrName").parent().parent().next().hide();
+        }
     }
 
-    if($("#longContent").val()=="" ){
-        $("#longContent").next().find("span").text("请填写自定义内容");
-        $("#longContent").next().show();
-        flag = false;
-    }else{
-        $("#longContent").next().hide();
+    var longcontent = $("#longContent");
+
+    if(typeof (longcontent) != "undefined"){
+        if($("#longContent").val()=="" ){
+            $("#longContent").next().find("span").text("请填写自定义内容");
+            $("#longContent").next().show();
+            flag = false;
+        }else{
+            $("#longContent").next().hide();
+        }
     }
+
+
+
     return flag;
 }
 
@@ -706,11 +718,12 @@ function  saveContentPragment(attrid) {
     contentFragment.content=$("#longContent").val();
     contentFragment.targetType=0;
 
-    var resource={};
+
     var resourceList=[];
 
     //获取图片列表
     $("#images").find(".item").each(function () {
+        var resource={};
         var fullpath="";
         var desc="";
         var path="";
@@ -727,7 +740,7 @@ function  saveContentPragment(attrid) {
             type ="1";
         }
 
-        var resourceId = $(this).find('span').eq(0).find("i").eq(0).attr("data-id");
+        var resourceId = $(this).children('span').eq(0).find("i").eq(0).attr("data-id");
 
         if(resourceId == null || typeof(resourceId) == "undefined"){
 
@@ -1107,11 +1120,12 @@ function saveIchProject(page) {
         attr.cnName=$("#attrName").val();
         attr.id=0;
 
-        var resource={};
+
         var resourceList=[];
 
         //获取图片列表
         $("#images").find(".item").each(function () {
+            var resource={};
             var fullpath="";
             var desc="";
             var path="";
@@ -1172,11 +1186,12 @@ function saveIchProject(page) {
         contentFragment.content=$("#longContent").val();
         contentFragment.targetType=0;
 
-        var resource={};
+
         var resourceList=[];
 
         //获取图片列表
         $("#images").find(".item").each(function () {
+            var resource={};
             var fullpath="";
             var desc="";
             var path="";
@@ -1271,7 +1286,7 @@ function saveIchProject(page) {
     if(typeof($("div[data-type=selectCate]").attr("value")) != "undefined"){
         ich.ichCategoryId=$("div[data-type=selectCate]").attr("value");
     }
-    //console.log(JSON.stringify(ich));
+    console.log(JSON.stringify(ich));
   $.ajax({
         type: "POST",
         url: "/ichProject/saveIchProject",
