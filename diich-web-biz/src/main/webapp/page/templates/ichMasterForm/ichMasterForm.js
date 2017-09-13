@@ -11,6 +11,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     var ichProjectName = getQueryString("pname"); // 所属项目ID
     var addressCode = ""; // 联系方式信息模板居住地址code值
     var declareCode = ""; // 申报地址
+    var sexCode = 1; // 默认是男
     var ossImgPash = "http://diich-resource.oss-cn-beijing.aliyuncs.com/image/master/"; // oss图片地址存放地址
     var mid = getQueryString("mid");
     var userType = 1; // 用户类型
@@ -362,7 +363,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         console.log(" pageObj --- >",  pageObj, pageObj.toString());
         $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, ichProjectName: ichProjectName, pageObj : pageObj, fyGrade: fyGrade})); // 更新页面模板
 
-        var sexCode = 1; // 默认是男
         // 性别
         $("#sex").children("span").on("click", function() {
             $("#sex").children("span").each(function() {
@@ -396,10 +396,11 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         $("#basic_127").change(function(){
             zjCode =  $(this).val();
         });
-        declareCode = "";
+
         // 申报地址
         selectArea1.init(1, declareCode, function (data, dataText) {
             //console.log(data, dataText)
+            declareCode = "";
             declareCode = data.toString();
         })
 
