@@ -61,7 +61,7 @@
     <script src="${caturi}/js/util.js"></script>
 
     <script src="${caturi}/assets/js/Ecalendar.jquery.min.js"></script>
-    <script src="${caturi}/js/ajaxfileupload.js"></script>
+    <script src="${caturi}/js/project-template.js"></script>
     <script src="${caturi}/js/project-detail.js?3"></script>
 
     <script>

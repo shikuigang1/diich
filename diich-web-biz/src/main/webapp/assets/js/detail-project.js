@@ -114,7 +114,7 @@ var projectPage = {//项目详情页
         Detail.scrollFloor(); //楼层导航效果
         Detail.modal.init();
         Detail.widget.init('.detail');
-        Detail.computeBaseInfo();//基本信息左右
+        //Detail.computeBaseInfo();//基本信息左右
         Detail.judgeDom(); //判断doi和非遗中国是否存在
         Detail.code_arr(); //替换资源数据
         Detail.catgary(); //查询分类
