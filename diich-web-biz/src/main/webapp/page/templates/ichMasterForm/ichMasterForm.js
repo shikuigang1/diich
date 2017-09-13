@@ -1333,7 +1333,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
      * @returns {{contentFragmentList: *, isMaster: Number, lang: string, status: number, id: string}}
      */
     function buildParams(data, pageObj) {
-        console.log("data -- >", data);
+        console.log("data -- >", data, pageObj);
         var  params = {
             "isMaster": parseInt(isMaster),
             "lang": getLang()=="zh-CN" ? "chi" : "eng",

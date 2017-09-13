@@ -81,7 +81,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         List<Works> worksList =worksService.getWorksByIchMasterId(ichMaster.getId());
         ichMaster.setWorksList(worksList);
         //内容片断列表
-        List<ContentFragment> contentFragmentList = getContentFragmentListByMasterId(ichMaster);
+        List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);
         ichMaster.setContentFragmentList(contentFragmentList);
         return ichMaster;
     }
