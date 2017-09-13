@@ -1440,6 +1440,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     // 验证
     function _onChk (obj, reg, reg2, isNull, maxlength, minlength) {
         var errId = obj.name + "_err";
+        obj.value = $.trim(obj.value); // 去掉收尾空格
         // 是否为空
         if(isNull) {
             if(!obj.value && obj) {
