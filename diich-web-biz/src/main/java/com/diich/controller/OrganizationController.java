@@ -64,6 +64,12 @@ public class OrganizationController extends BaseController<Organization>{
     @RequestMapping("getOrganizationById")
     @ResponseBody
     public Map<String, Object> getOrganizationById(HttpServletRequest request,HttpServletResponse response) {
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
@@ -80,14 +86,18 @@ public class OrganizationController extends BaseController<Organization>{
         }catch (Exception e){
             return putDataToMap(e);
         }
-        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(organization);
     }
 
     @RequestMapping("saveOrganization")
     @ResponseBody
     public Map<String, Object> saveOrganization (HttpServletRequest request, HttpServletResponse response){
-
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
         User user = (User) WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
