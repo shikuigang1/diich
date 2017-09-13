@@ -215,9 +215,9 @@
                         $(".logined").find('a').text("hello，"+data.data.loginName);
                     }
 
-                   /* if(data.data.type==1){
+                   if(data.data.type==1){
                         location.href=backurl;
-                    }else*/
+                    }else
                    if(data.data.type>1){
                         if(code == 0) {
                             location.href="ichpro.html";
@@ -225,8 +225,12 @@
                             location.href="searchProject.html";
                         }
 
-                    }else{
-                        location.href=backurl;
+                    }else if(data.data.type==0){
+                       if(code == 0) {
+                           location.href="ichpro.html";
+                       } else {
+                           location.href="searchProject.html";
+                       }
                     }
 
                 }else{
