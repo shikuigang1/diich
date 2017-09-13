@@ -9,10 +9,7 @@
     <link rel="stylesheet" href="../assets/css/inputs.css">
     <link rel="stylesheet" href="../css/loader.min.css">
     <link rel="stylesheet" href="../../css/segment.min.css">
-    <!--[if IE]>
-    <link rel="stylesheet" href="../../assets/css/ie.css">
-    <script src="../../assets/jsml5.js"></script>
-    <![endif]-->
+
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/js/jQuery.Form.js"></script>
     <script src="../assets/js/Ecalendar.jquery.min.js"></script>
@@ -26,7 +23,7 @@
     <script src="../data/dictionary.js"></script>
     <script type="text/javascript" src="../js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="../js/i18n.js"></script>
-    <script src="../assets/js/utils.js"></script>
+  <!--  <script src="../assets/js/utils.js"></script>-->
     <script src="../assets/js/inputs-project.js"></script>
    <script src="../assets/js/login.js"></script>
 
@@ -132,15 +129,20 @@
         //获取地址栏 参数 判断是 添加还是 编辑 script src="../assets/js/login.js"><
         var pid = $.getUrlParam("pid");
         if(pid == null ||  typeof(pid)=='undefined' ){
-            localStorage.setItem('action',"add");
+            //localStorage.setItem('action',"add");localStorage.getItem('ichProName')
             //保存本地中文名
-            $("#chiName").val(localStorage.getItem('ichProName'));
+            $("#chiName").val($.getUrlParam("proName"));
             //修改名名称
-            $(".name").text('填写申报信息-'+localStorage.getItem('ichProName'));
+            $(".name").text('填写申报信息-'+$.getUrlParam("proName"));
         }else{
-            localStorage.setItem('action',"update");//添加修改标记状态
+            //localStorage.setItem('action',"update");//添加修改标记状态
             var ich = getIchProByID(pid);//获取对象数据
             var code="";//区域code 存储
+
+            if(ich == null || typeof(ich.contentFragmentList) == "undefined" ){
+                return;
+            }
+
             //console.log(JSON.stringify(ich));
             $.each(ich.contentFragmentList,function (index,object) {
                 if(object.attributeId==4){//获取用户中文名信息
@@ -154,14 +156,15 @@
             });
             //初始化本地区域 文本数据;
             if(code != ""){
-                localStorage.setItem("codes",code);
+                //localStorage.setItem("codes",code);
+                codes=code;
                 toArray(dic_arr_city);
                 var codeText=[];
                 if(code.indexOf(",") != -1){
-                    var codes = code.split(",");
-                    for(var i=0;i<codes.length;i++){
+                    var codes_ = code.split(",");
+                    for(var i=0;i<codes_.length;i++){
                         var str="";
-                        var obj=getAreaName(codes[i],dic_arr_city);
+                        var obj=getAreaName(codes_[i],dic_arr_city);
                         str=obj.name;
                         while (obj.parent_id>0){
                             obj=getAreaName(obj.parent_id,dic_arr_city);
@@ -182,9 +185,11 @@
                     }
 
                 }
-                localStorage.setItem("codeText",codeText.join(","));//存储要显示的区域值
+                //localStorage.setItem("codeText",codeText.join(","));//存储要显示的区域值
+                codesText = codeText.join(",");
             }
-            localStorage.setItem("ichProject",JSON.stringify(ich));
+            //localStorage.setItem("ichProject",JSON.stringify(ich));
+            setCurrentProject(ich);
         }
         //页面信息初始化
         projectPage.init();
