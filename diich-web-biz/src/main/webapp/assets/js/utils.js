@@ -449,7 +449,7 @@ var Detail = { //详情页用到的效果
                 function bindData(index) {
                     var _video=_data.videos[index];
                     if(_video.description){
-                        videoTitle.find('.dt').text(video.description);
+                        videoTitle.find('.dt').text(_video.description);
                     }else {
                         videoTitle.find('.dt').text('');
                     }
