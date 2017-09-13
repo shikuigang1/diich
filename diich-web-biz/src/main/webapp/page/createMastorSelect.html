@@ -15,6 +15,7 @@
     <script src="../assets/js/system.js"></script>
     <script src="../assets/js/inputs.js"></script>
     <script src="../assets/js/login.js"></script>
+    <script src="../assets/js/inputs-project.js"></script>
     <script src="../js/user.js"></script>
 </head>
 
@@ -68,7 +69,7 @@
                 var value = $(this).find("input").eq(0).val();
                 console.log(value);
                 if(value == 0){
-                    var ich = localStorage.getItem("ichProject");
+                    var ich = getIchProByID($.getUrlParam("pid"));
                     //console.log(ich);
                     if(typeof(ich) == "undefined" || ich == null||ich==''){
                         ich={};
@@ -105,10 +106,10 @@
         //organizationPage.init();
 
         function getUserOrganizationInfo(){
-            var id = localStorage.getItem("pid");
+           /* var id = localStorage.getItem("pid");
             if(id == null){
                 return null;
-            }
+            }*/
 
             var result= null;
             $.ajax({
