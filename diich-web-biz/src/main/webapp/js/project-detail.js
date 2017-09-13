@@ -382,7 +382,7 @@ function editShortTextUi($section) {
     for(var i = 0; i < attributes.length; i++) {
         var attr = attributes[i];
 
-        if(attr.dataType != 0) {
+        if(attr == null || attr.dataType != 0) {
             continue;
         }
 
