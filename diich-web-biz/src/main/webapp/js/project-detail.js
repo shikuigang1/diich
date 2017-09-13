@@ -226,7 +226,7 @@ function displayEditMode() {
             for(var i = 0; i < contentFragmentList.length; i++) {
                 var attr = contentFragmentList[i].attribute;
                 if(attr != null && attr.cnName == title) {
-                    contentFragmentList[i].content = content;
+                    alert('标题重复，请更换新标题');
                     return;
                 }
             }
@@ -279,8 +279,12 @@ function displayEditMode() {
         });
 
         function uploadFileCallBack(uri) {
+            var file_name = uri.substring(uri.lastIndexOf('/') + 1, uri.length);
+
             var $img = $('<img />');
             $img.attr('src', uri + '?x-oss-process=style/temporary-preview');
+            $img.attr('type', 'new');
+            $img.attr('file-name', file_name);
             var $div = $('<div></div>');
             $div.append($img);
             $ui.find('.image-container').append($div);
@@ -290,7 +294,7 @@ function displayEditMode() {
             var resource = {};
             resource.status = 0;
             resource.type = 0;
-            resource.uri = uri.substring(uri.lastIndexOf('/') + 1, uri.length);
+            resource.uri = file_name;
             resource.description = '';
             resourceList_tmp.push(resource);
         }
@@ -497,8 +501,12 @@ function editImageTextUi($section) {
     });
 
     function uploadFileCallBack(uri) {
+        var file_name = uri.substring(uri.lastIndexOf('/') + 1, uri.length);
+
         var $img = $('<img />');
         $img.attr('src', uri + '?x-oss-process=style/temporary-preview');
+        $img.attr('type', 'new');
+        $img.attr('file-name', file_name);
         var $div = $('<div></div>');
         $div.append($img);
         $ui.find('.image-container').append($div);
@@ -512,7 +520,7 @@ function editImageTextUi($section) {
                 var resource = {};
                 resource.status = 0;
                 resource.type = 0;
-                resource.uri = uri.substring(uri.lastIndexOf('/') + 1, uri.length);
+                resource.uri = file_name;
                 resource.description = '';
 
                 contentFragment.resourceList.push(resource);
@@ -947,6 +955,37 @@ function deleteImageUi($ui) {
 
         $del_i.on('click', function () {
             $(this).parent().remove();
+
+            var $img = $(this).parent().find('img');
+            var file_name = $img.attr('file-name');
+            var contentFragmentList = project.contentFragmentList;
+            for(var i = 0; i < contentFragmentList.length; i++) {
+                var contentFragment = contentFragmentList[i];
+                var resList = contentFragment.resourceList;
+                for(var j = 0; resList != null && j < resList.length; j++) {
+                    var res = resList[j];
+                    if(file_name == res.uri) {
+                        resList.splice(j, 1);
+                        break;
+                    }
+                }
+            }
+
+            var resource_id = $img.attr('resource-id');
+            if(resource_id != null) {
+                $.ajax({
+                    type: "POST",
+                    url: base_url + '/resource/deleteResource?params=' + resource_id,
+                    dataType: 'json',
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    crossDomain: true,
+                    success: function(data) {
+
+                    }
+                });
+            }
         });
     }, function () {
         _this.removeClass('mask');
