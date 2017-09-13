@@ -236,6 +236,7 @@ function displayEditMode() {
             attribute.cnName = title;
             attribute.dataType = 5;
             contentFragment.content = content;
+            contentFragment.attributeId = 0;
             contentFragment.targetType = 0;
             contentFragment.attribute = attribute;
             if(resourceList_tmp.length > 0) {
