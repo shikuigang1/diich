@@ -4,7 +4,7 @@ var edit_project_tmp =
     '<button class="ui save button" style="display: none">暂存</button>' +
     '<button class="ui add button">新增项</button>' +
     '<button class="ui submit primary button">提交</button>' +
-    '<button class="ui abandon red button">放弃</button>' +
+    '<button class="ui abandon red button">关闭</button>' +
     '</div>' +
     '<div>';
 
