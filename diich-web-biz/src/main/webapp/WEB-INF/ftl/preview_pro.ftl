@@ -183,7 +183,7 @@
                                 <#list cf.resourceList as res>
                                     <#if res.type==1 && res.status==0 && res.uri?? && res.uri != "">
                                         <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                            <video poster="${backImgUrl}" src="${provuri}${res.uri}"> </video>
+                                            <video poster="${backImgUrl}" src="${prouri}${res.uri}"> </video>
                                         </#if>
                                         <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
                                             <video poster="${backImgUrl}" src="${res.uri}"> </video>
@@ -591,7 +591,7 @@
                                             <#if r.type ==1>
                                                 <div class="card_video">
                                                     <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                        <video controls src="${provuri}${r.uri}" type="video/mp4" style="width: 100%;" class="data-item" data-id="${cf.attributeId}">
+                                                        <video controls src="${prouri}${r.uri}" type="video/mp4" style="width: 100%;" class="data-item" data-id="${cf.attributeId}">
                                                         </video>
                                                     </#if>
                                                     <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
@@ -646,7 +646,7 @@
                         <article class="plain_text">
                             <p class="data-item" data-id="${cf.attributeId}">
                                 <#if cf.content??>
-                                <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
+                                <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<p></p>") />
                                   ${content}
                                 </#if>
                             </p>
