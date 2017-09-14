@@ -269,7 +269,7 @@
                             </#list>
                         </#if>
                             <span class="primary edit link" project-id="${obj.id?c}"><i class="icon"></i>编辑</span>
-                        </h2><#--<a href="${caturi}/page/ichProForm.html?pid=${obj.id?c}" class="edit"><i class="icon"></i>编辑1</a>-->
+                        </h2>
                     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 2>
