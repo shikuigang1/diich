@@ -1,4 +1,4 @@
-<div class="title" id="page_contact">基础信息</div>
+<div class="title" id="page_contact" data-id="{{clickMenuId}}">基础信息</div>
 <div class="hint"><i class="dot"></i>标有 <em>*</em> 的为必填项 · 信息越完善，申报成功的几率越高</div>
 <!--//End-->
 

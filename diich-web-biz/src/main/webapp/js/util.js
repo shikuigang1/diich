@@ -255,3 +255,51 @@ function _onRequest(mode, url, params) {
         });
     })
 }
+
+// 弹窗
+var myDialog = {
+    init:function () {
+        this.create(el,url);
+    },
+    // code, wid, width, height, ifrId, url, title
+    create: function (paramObj) {
+        var code, wid, width, height, ifrId, url, title;
+
+        if(!paramObj) {
+            throw new Error('Parameter cannot be null!');
+        } else {
+            if(!paramObj.wid) {
+                throw new Error('Parameter wid cannot be null!');
+            }
+
+            if(!paramObj.ifrId) {
+                throw new Error('Parameter ifrId cannot be null!');
+            }
+            code = paramObj.code == 0 ? paramObj.code : 1; // 0固定弹窗  1自定义弹窗
+            wid = paramObj.wid ? paramObj.wid : "project"; // 弹窗ID
+            width = paramObj.width || paramObj.width;
+            height = paramObj.height || paramObj.height;
+            ifrId = paramObj.ifrId || paramObj.ifrId;
+            url =  paramObj.url || paramObj.url;
+            title = paramObj.title ? paramObj.title : "提示";
+        }
+
+        if(code == 0) {
+            var $ifrId = $('#' + ifrId);
+            var wWidth = $(window).width() - 200;
+            var wHeight = $(window).height() - 100;
+            $ifrId.attr("width", wWidth);
+            $ifrId.attr("height", wHeight);
+            $ifrId.attr("src", url);
+            var d = dialog({id: wid, width: wWidth, height: wHeight, fixed: true, hide:true, title: title, content: $('#' + ifrId), modal:true});
+            d.show();
+        } else {
+            var d = dialog({id: wid, width: (width ? width : 800), height: (height ? height : 500), fixed: true, hide: true, title: title, content: $('#' + ifrId), modal:true});
+            d.show();
+        }
+    },
+    close: function (wid) {
+        dialog.list[wid].close(); // 关闭窗口
+    }
+
+}

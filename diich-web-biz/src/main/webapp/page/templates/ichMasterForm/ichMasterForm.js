@@ -361,7 +361,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             })
         }
         console.log(" pageObj --- >",  pageObj, pageObj.toString());
-        $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, ichProjectName: ichProjectName, pageObj : pageObj, fyGrade: fyGrade})); // 更新页面模板
+        $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, ichProjectName: ichProjectName, pageObj : pageObj, fyGrade: fyGrade, clickMenuId: $this.attr("id")})); // 更新页面模板
 
         // 性别
         $("#sex").children("span").on("click", function() {
@@ -406,8 +406,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
         // 選擇項目
         $("#basic_pid").on("click", function() {
-            var d = dialog({id: "project", width: 800, height: 500, fixed: true, hide:true, title: '搜索非遗项目', content: $('#ff'), modal:true});
-            d.show();
+            myDialog.create({code: 1, wid: "project", ifrId: "ff", title: "搜索非遗项目"});
         })
 
         // 下一步监听
@@ -493,7 +492,6 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
     // 关闭窗口
     function _closeWindow(id, name) {
-        //console.log("关闭窗口", id, name);
         ichProjectId = id;
         ichProjectName = name;
         $("#basic_pid").val(name);
@@ -512,7 +510,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 }
             })
         }
-        $("#content").html(Handlebars.compile(contactTpl)({sonterms: menuss[1].sonTerms, pageObj: pageObj})); // 更新页面模板
+        $("#content").html(Handlebars.compile(contactTpl)({sonterms: menuss[1].sonTerms, pageObj: pageObj, clickMenuId: $this.attr("id")})); // 更新页面模板
         addressCode = "";
         selectArea1.init(0, addressCode, function (data, dataText) {
             var code = "";
@@ -593,7 +591,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
     // 职业信息模板
     function _getVocationTpl($this) {
-        $("#content").html(Handlebars.compile(vocationTpl)({sonterms: menuss[2].sonTerms, pageObj: pageObj})); // 更新页面模板
+        $("#content").html(Handlebars.compile(vocationTpl)({sonterms: menuss[2].sonTerms, pageObj: pageObj, menuId: $this.attr("id"), clickMenuId: $this.attr("id")})); // 更新页面模板
         _bindingSave();
         function _bindingSave() {
             $("#vocation_active").on("click", function() {     // 监听提交
@@ -625,7 +623,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
     // 师徒信息模板
     function _getMasterTpl($this) {
-        $("#content").html(Handlebars.compile(masterTpl)({sonterms: menuss[3].sonTerms, pageObj: pageObj})); // 更新页面模板
+        $("#content").html(Handlebars.compile(masterTpl)({sonterms: menuss[3].sonTerms, pageObj: pageObj, menuId: $this.attr("id"), clickMenuId: $this.attr("id")})); // 更新页面模板
         _bindingSave();
         function _bindingSave() {
             $("#master_active").on("click", function() {
@@ -657,7 +655,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     // 通用模板（长文本）
     function _getCommonTpl($this, sonterms) {
         console.log("pageObj -------------->", pageObj);
-        $("#content").html(Handlebars.compile(resumeTpl)({sonterms: sonterms, pageObj: pageObj})); // 更新页面模板
+        $("#content").html(Handlebars.compile(resumeTpl)({sonterms: sonterms, pageObj: pageObj, clickMenuId: $this.attr("id")})); // 更新页面模板
         //inheritorPage.radioImage(); // 加载上传视频， 上传图片
         upload.submit("image/master/", 1);
         var id = parseInt($this.attr("id").split("_").pop());
@@ -1072,6 +1070,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
         function _onSave() {
             var strCode = $("[id^='page_']").attr("id").split("_").pop();
+            var mid = $("[id^='page_']").attr("data-id");
             $("#onSubmit").off("click");
             var params = "";
             switch (strCode) {
@@ -1082,14 +1081,84 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     if(imgUrl) {
                         data.push({"name" : "img", "value" : imgUrl}); // 构建图片参数
                     }
-                    //var status =  _validata(data);
-                    //params = status ? buildParams(data, pageObj) : "";
-                    params = buildParams(data, pageObj);
+                    // 验证
+                    var status = true, errNum = 0;
+                    // 验证
+                    $.each(data, function(i, v) {
+                        var id = v.name.split("_").pop();
+                        var maxlength = $("#" + v.name).attr("data-maxLength");
+                        var minlength = $("#" + v.name).attr("data-minLength");
+                        //if(v.value) {
+                        var rule = ""; // 正则规则
+                        var rule2 = ""; // 正则验证2
+                        var isNull = false; // 是否为空验证
+                        switch (id) {
+                            case "13": // 中文名
+                                rule = "reg_chinese";
+                                isNull = true;
+                                break;
+                            case "14": // 英文名
+                                rule = "reg_english";
+                                break;
+                            case "15": // 拼音
+                                rule = "reg_pinyin";
+                                break
+                            case "128": // 证件号码
+                                if(zjCode == "0") {
+                                    rule = "reg_idcard";
+                                } else if(zjCode == "2") {
+                                    rule = "reg_passport";
+                                    rule2 = "reg_passport1";
+                                }
+                                break
+                            case "pid": // 拼音
+                                rule = "";
+                                isNull = true;
+                                break
+                            default:
+                                break;
+                        }
+                        if(!_onChk(v, rule, rule2, isNull, maxlength, minlength)) {
+                            errNum++;
+                        }
+                    })
+                    // 更新状态
+                    status = errNum > 0 ? false : true;
+                    params = status ? buildParams(data, pageObj) : "";
+                    //params = buildParams(data, pageObj);
                     break;
                 case "contact":  // 联系方式页面
                     var data = $("#contactForm").serializeArray();
                     data.push({"name" : "live", "value" : addressCode.toString()}); // 构建三级联动参数
-                    params = buildParams(data, pageObj);
+                    var status = true, errNum = 0;
+                    // 验证
+                    $.each(data, function(i, v) {
+                        var id = v.name.split("_").pop();
+                        var maxlength = $("#" + v.name).attr("data-maxLength");
+                        var minlength = $("#" + v.name).attr("data-minLength");
+                        var rule = ""; // 正则规则
+                        var rule2 = ""; // 正则验证2
+                        var isNull = false; // 是否为空验证
+                        switch (id) {
+                            case "58": // 手机号
+                                rule = "reg_mobile";
+                                break;
+                            case "59": // 邮箱
+                                rule = "reg_email";
+                                break;
+                            case "56": // 邮编
+                                rule = "reg_zipcode";
+                                break
+                            default:
+                                break;
+                        }
+                        if(!_onChk(v, rule, rule2, isNull, maxlength, minlength)) {
+                            errNum++;
+                        }
+                    })
+                    // 更新状态
+                    status = errNum > 0 ? false : true;
+                    params = status ? buildParams(data, pageObj) : "";
                     break;
                 case "vocation":  // 职业信息页面
                     var data = $("#vocationForm").serializeArray();
@@ -1101,7 +1170,16 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     break;
                 case "resume": // 传承人内容
                     var $textarea = $("textarea[id^='resum_']");
-                    params = _getResumeFormData($textarea);
+                    var v = {name: $textarea.attr("id"), value: $textarea.val()};
+                    var maxlength = $textarea.attr("data-maxLength");
+                    var minlength = $textarea.attr("data-minLength");
+                    // 验证
+                    var status = true, errNum = 0;
+                    if(!_onChk(v, "", "", false, maxlength, minlength)) {
+                        errNum++;
+                    }
+                    status = errNum > 0 ? false : true;
+                    params = status ? _getResumeFormData($textarea) : "";
                     break;
                 case "custom": // 自定义模块
                     var p = {name: "customContent", value: $("#customContent").val(), coustomName: $("#customName").val()};
@@ -1140,6 +1218,13 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                             }
                         }
                         tipBox.init("success", "保存成功", 1500);
+                        var d = mid.split("_").pop();
+                        var newMid = mid.substr(0, (mid.length - 1));
+                        var nextId = newMid + (parseInt(d) + 1);
+                        //console.log(newMid + (parseInt(d) + 1));
+                        _onNextPage(mid, [nextId], result.res.data);
+                        _isSureSumit($("#" + mid));
+                        //$("#" + mid).removeClass("selected").children("i").addClass("selected").removeClass("unselected").removeClass("unselected2"); // 添加已完成效果
                         _onOverallSave();
                     } else {
                         if(result.res.code != 3) {
@@ -1237,12 +1322,12 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
         function _onOpen($this) {
             $("#preview").off("click");
             if($this.hasClass("empty")) {
-                _onRequest("POST", "/ichMaster/preview", {params: targetId}).then(function(result) {
-                    //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
+                _onRequest("POST", "/ichMaster/preview", {params: targetId}, true).then(function(result) {
+                    console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         modal.loading({
                             success:function () {
-                                window.open(result.res.data.replace('./','/'));
+                                myDialog.create({code: 0, wid: "project", ifrId: "onPreview", title: "传承人信息预览", url: result.res.data.replace('./','/') });
                                 _bindingSave();
                             }
                         });
@@ -1630,8 +1715,9 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
      * @param params    参数
      * @returns {Promise}
      */
-    function _onRequest(mode, url, params) {
+    function _onRequest(mode, url, params, async) {
         return new Promise(function (resolve, reject) {
+            async = async ? async : true;
             //
             //
             //// 统一处理 ajax获取数据code != 0的自定义异常
@@ -1657,6 +1743,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
             $.ajax({
                 type: mode,
+                async: async,
                 url: url,
                 data: params, // {params: JSON.stringify(params)}
                 error: function (err) {
