@@ -490,7 +490,9 @@ function login(){
                     initProjectData();
                     initProjectView(ich);
                 }else if(path.indexOf("/ichMasterForm.html") != -1){
-
+                    require(["ichMasterForm/ichMasterForm"], function (ichMasterForm) {
+                        onIchMasterForm.init(dic_arr_city); // 初始化
+                    })
                 }
                 //用户信息回填
                 if(path.indexOf("/userinfoAdd.html") != -1){
