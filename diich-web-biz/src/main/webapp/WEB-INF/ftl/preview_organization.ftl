@@ -27,7 +27,6 @@
     <script src="${caturi}/assets/js/system.js"></script>
     <script src="${caturi}/assets/js/utils.js"></script>
     <script src="${caturi}/assets/js/detail-master.js"></script>
-    <script src="${caturi}/assets/js/login.js"></script>
     <script src="${caturi}/data/keyword.js"></script>
     <script src="${caturi}/data/category.js"></script>
     <script src="${caturi}/js/citys.js"></script>
@@ -47,7 +46,6 @@
 </head>
 
 <body class="js-organization">
-<div class="header header_detail"></div>
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
     <div class="content">
@@ -212,7 +210,6 @@
                         </#if>
                     </#list>
                 </#if>
-                   <#-- <a href="${caturi}/page/organization/organization.html?orgid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>-->
                     <div class="doi_code">
                         <i class="icon">ID</i>
                         <span>：<em id="doi_code"><#if (obj.contentFragmentList?size>0)>
@@ -366,8 +363,6 @@
     </div>
     <!--//End detail -->
 </div>
-
-<div class="bd footer"></div>
 <!--//End--footer-->
 
 <div class="side_fixed">

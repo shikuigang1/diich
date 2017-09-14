@@ -52,7 +52,6 @@
     <script src="${caturi}/assets/js/system.js"></script>
     <script src="${caturi}/assets/js/utils.js"></script>
     <script src="${caturi}/assets/js/detail-project.js"></script>
-    <script src="${caturi}/assets/js/login.js"></script>
     <script src="${caturi}/data/category.js"></script>
     <script src="${caturi}/js/citys.js"></script>
     <script src="${caturi}/js/jquery.i18n.properties-1.0.9.js"></script>
@@ -75,7 +74,6 @@
 </head>
 
 <body class="js-project">
-<div class="header header_detail"></div>
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
     <div class="content">
@@ -252,7 +250,7 @@
                                     </#if>
                                 </#list>
                          </#if>
-                    </h2><a href="${caturi}/page/ichProForm.html?pid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
+                    </h2>
                     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 2>
@@ -684,10 +682,6 @@
     </div>
     <!--//End detail -->
 </div>
-
-
-
-<div class="bd footer"></div>
 <!--//End--footer-->
 
 <div class="side_fixed">

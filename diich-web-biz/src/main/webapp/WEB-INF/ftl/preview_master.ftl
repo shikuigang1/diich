@@ -24,7 +24,7 @@
     <![endif]-->
     <script src="${caturi}/js/base-url.js"></script>
     <script src="${caturi}/assets/js/jquery.min.js"></script>
-    <#--<script src="${caturi}/assets/js/system.js"></script>-->
+    <script src="${caturi}/assets/js/system.js"></script>
     <script src="${caturi}/assets/js/utils.js"></script>
     <script src="${caturi}/assets/js/detail-master.js"></script>
     <#--<script src="${caturi}/assets/js/login.js"></script>-->
@@ -506,8 +506,6 @@
     <!--//End detail -->
 </div>
 
-<div class="bd footer"></div>
-<!--//End--footer-->
 
 <div class="side_fixed">
     <ul></ul>
