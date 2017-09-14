@@ -24,7 +24,7 @@
     <![endif]-->
     <script src="${caturi}/js/base-url.js"></script>
     <script src="${caturi}/assets/js/jquery.min.js"></script>
-    <script src="${caturi}/assets/js/system.js"></script>
+    <#--<script src="${caturi}/assets/js/system.js"></script>-->
     <script src="${caturi}/assets/js/utils.js"></script>
     <script src="${caturi}/assets/js/detail-master.js"></script>
     <script src="${caturi}/assets/js/login.js"></script>
@@ -219,7 +219,6 @@
                         </#if>
                     </#list>
                 </#if>
-                   <#-- <a href="${caturi}/page/ichMasterForm.html?mid=${obj.id?c}&pname=${pname}" class="edit"><i class="icon"></i>编辑</a>-->
                     <div class="doi_code">
                         <i class="icon">ID</i>
                         <span>：<em id="doi_code"><#if (obj.contentFragmentList?size>0)>
