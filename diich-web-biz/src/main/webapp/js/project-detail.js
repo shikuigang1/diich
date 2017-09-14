@@ -33,7 +33,7 @@ function loadProjectFromServer(projectId) {
             displayEditMode();
         },
         error: function () {
-            alert('数据载入错误');
+
         }
     });
 }
@@ -173,6 +173,8 @@ function displayEditMode() {
                 $section.find('article').show();
                 $(this).hide();
                 $save_link.parent().find('.edit').show();
+
+                adjustImageText($section, item_arr);//调整没有图片的图文展示模式
             }
 
             has_edit = false;
@@ -992,4 +994,44 @@ function deleteImageUi($ui) {
         _this.removeClass('mask');
         _this.find('i').remove();
     });
+}
+
+function adjustImageText($section, item_arr) {
+    if(item_arr == null || item_arr.length == null || item_arr.length == 0) {
+        return;
+    }
+
+    var item = item_arr[0];
+    var attr_id = $(item).attr('data-id');
+
+    if(attr_id == null) return;
+
+    var contentFragmentList = project.contentFragmentList;
+    for(var i = 0; i < contentFragmentList.length; i++) {
+        var contentFragment = contentFragmentList[i];
+        if(contentFragment.attributeId == attr_id) {
+            var resourceList = contentFragment.resourceList;
+            if(resourceList.length == 0) {
+                $section.find('.read-piece .media').hide();
+                $section.find('.read-piece .side').css({'width': '1126px'});
+            } else if(resourceList.length > 0){
+                $section.find('.read-piece').remove();
+                var $edit_image_text_ui = $(edit_image_text_template);
+                $edit_image_text_ui.find('.item-content').attr('data-id', attr_id);
+                $edit_image_text_ui.find('.item-content').html(contentFragment.content);
+                for(var j = 0; j < resourceList.length; j++) {
+                    var $li = $('<li></li>');
+
+                    var $img = $('<img />');
+                    $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resourceList[j].uri);
+
+                    $li.append($img);
+
+                    $edit_image_text_ui.find('.media ul').append($li);
+                }
+
+                $section.find('.card').append($edit_image_text_ui);
+            }
+        }
+    }
 }
