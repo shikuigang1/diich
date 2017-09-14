@@ -156,6 +156,19 @@ var edit_image_text_tmp =
     '    </div> '+
     '</div>';
 
+var edit_image_text_template =
+    '<article class="text_img read-piece">'+
+    '    <div class="side" style="margin-right: 30px; width: 770px;">'+
+    '        <div class="item data-item item-content" data-id="">'+
+    '            '+
+    '        </div>'+
+    '    </div>'+
+    '    <div class="media">'+
+    '        <ul>'+
+    '        </ul>'+
+    '    </div>'+
+    '</article>';
+
 var custom_show_tmp =
     '<article class="text_img read-piece">'+
     '    <div class="side">'+
