@@ -1327,7 +1327,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                     if(result.res.code == 0 && result.res.msg == "SUCCESS") {
                         modal.loading({
                             success:function () {
-                                myDialog.create({code: 0, wid: "project", ifrId: "onPreview", title: "传承人信息预览", url: result.res.data.replace('./','/') });
+                                myDialog.create({code: 0, wid: "project1", ifrId: "onPreview", title: "传承人信息预览", url: result.res.data.replace('./','/') });
                                 _bindingSave();
                             }
                         });
