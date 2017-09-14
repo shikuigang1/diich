@@ -828,7 +828,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     // 自定义模板
     function _getCustomTpl($this) {
         console.log("pageObj -------------->", pageObj);
-        $("#content").html(Handlebars.compile(customTpl)({pageObj: pageObj, customId: $this.attr("data-id")})); // 更新页面模板
+        $("#content").html(Handlebars.compile(customTpl)({pageObj: pageObj, customId: $this.attr("data-id"), clickMenuId: $this.attr("id")})); // 更新页面模板
         //inheritorPage.radioImage(); // 加载上传视频， 上传图片
         upload.submit("image/master/", 1);
         // 保存
