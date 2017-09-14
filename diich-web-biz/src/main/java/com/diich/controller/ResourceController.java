@@ -33,7 +33,13 @@ public class ResourceController extends BaseController<Resource>{
     @RequestMapping("deleteResource")
     @ResponseBody
     public Map<String,Object> deleteResource(HttpServletRequest request, HttpServletResponse response){
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
+
         String id = request.getParameter("params");
         if(id == null || "".equals(id)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
