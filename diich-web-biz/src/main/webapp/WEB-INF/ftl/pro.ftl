@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://47.95.32.236" />
+<#assign caturi="http://diich.efeiyi.com" />
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -269,7 +269,7 @@
                             </#list>
                         </#if>
                             <span class="primary edit link" project-id="${obj.id?c}"><i class="icon"></i>编辑</span>
-                        <#--</h2><a href="${caturi}/page/ichProForm.html?pid=${obj.id?c}" class="edit"><i class="icon"></i>编辑1</a>-->
+                        </h2><#--<a href="${caturi}/page/ichProForm.html?pid=${obj.id?c}" class="edit"><i class="icon"></i>编辑1</a>-->
                     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 2>
@@ -601,7 +601,7 @@
                             <#if cf.content?? && cf.content != "">
                             <div class="side" style="margin-right:30px;">
                                 <div class="item data-item item-content" data-id="${cf.attributeId?c}">
-                                        <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
+                                        <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<p></p>") />
                                         ${content}
                                 </div>
                             </div>
@@ -630,7 +630,7 @@
                                                         </video>
                                                     </#if>
                                                     <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
-                                                        <video controls  src="${r.uri}" type="video/mp4" style="width:100%;max-height:277px;background: #000;">
+                                                        <video controls  src="${r.uri}" resource-id="${r.id?c}" type="video/mp4" style="width:100%;max-height:277px;background: #000;">
                                                         </video>
                                                     </#if>
 
@@ -682,7 +682,7 @@
                             <div class="data-item item-content" data-id="${cf.attributeId?c}">
 
                                 <#if cf.content??>
-                                    <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
+                                    <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<p></p>") />
                                      ${content}
                                 </#if>
 
