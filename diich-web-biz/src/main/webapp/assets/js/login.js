@@ -5,6 +5,8 @@ if(typeof base_url == 'undefined') {
 //引入其他js 文件
 document.write("<script type=\"text/javascript\" src=\""+base_url+"/data/error_message.js\"></script>");
 document.write("<script type=\"text/javascript\" src=\""+base_url+"/js/util.js\"></script>");
+
+var currentUser=null;
 // var baseUrl="";
 //登录注册
 
@@ -406,6 +408,7 @@ $(function () {
             var url  = window.location.href;
             var path = url.substring(url.lastIndexOf("/"));
             if(typeof (data.data)!='undefined' && data.code==0){
+                currentUser = data.data;
                 $(".login").hide();
                 $(".logined").show().html(loginedTemplate(data.data));
                 //根据当前 语言环境判断
@@ -486,6 +489,8 @@ function login(){
                     //localStorage.setItem("ichProject",JSON.stringify(ich));
                     initProjectData();
                     initProjectView(ich);
+                }else if(path.indexOf("/ichMasterForm.html") != -1){
+
                 }
                 //用户信息回填
                 if(path.indexOf("/userinfoAdd.html") != -1){
