@@ -27,7 +27,7 @@
     <#--<script src="${caturi}/assets/js/system.js"></script>-->
     <script src="${caturi}/assets/js/utils.js"></script>
     <script src="${caturi}/assets/js/detail-master.js"></script>
-    <script src="${caturi}/assets/js/login.js"></script>
+    <#--<script src="${caturi}/assets/js/login.js"></script>-->
     <script src="${caturi}/data/keyword.js"></script>
     <script src="${caturi}/data/category.js"></script>
     <script src="${caturi}/js/citys.js"></script>
@@ -47,7 +47,6 @@
 </head>
 
 <body class="js-master">
-<div class="header header_detail"></div>
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
     <div class="content">
