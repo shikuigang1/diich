@@ -206,6 +206,12 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         }
         if (user != null && user.getType() == 0){//管理员权限
             ichMaster = getAttribute(ichMaster);
+            if(ichMaster != null && ichMaster.getIchProjectId() != null){
+                IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
+                if(ichProject != null){
+                    ichMaster.setIchProject(ichProject);
+                }
+            }
             String str = PropertiesUtil.getString("freemarker.masterfilepath");
             String fileName = str+"/"+ichMaster.getId().toString() + ".html";
             String s = buildHTML("master.ftl", ichMaster, fileName);//生成静态页面
