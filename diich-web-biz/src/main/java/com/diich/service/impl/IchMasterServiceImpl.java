@@ -524,7 +524,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             List<Resource> resourceList = contentFragment.getResourceList();
             if(resourceList !=null && resourceList.size()>0){
                 for (Resource resource:resourceList) {
-                    if (resource.getType() == 0) {
+                    if (resource.getType() != null && resource.getType() == 0) {
                         img.add(resource);
                         if(contentFragment.getAttributeId()!=113){//头图不放到所有图片中
                             imgdist.addAll(img);
@@ -532,7 +532,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                             headMap.put("headImage",img);
                         }
                     }
-                    if (resource.getType() == 1) {
+                    if (resource.getType() != null && resource.getType() == 1) {
                         video.add(resource);
                         videosdist.addAll(video);
                     }
