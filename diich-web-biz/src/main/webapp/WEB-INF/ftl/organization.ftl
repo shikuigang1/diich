@@ -292,8 +292,10 @@
                                 <div class="side" style="margin-right:30px;">
                                     <div class="item">
                                         <p>
-                                            <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
+                                            <#if cf.content??>
+                                                <#assign content =cf.content?replace("\n","<p></p>") />
                                                  ${content}
+                                            </#if>
                                         </p>
                                     </div>
                                 </div>
@@ -359,7 +361,7 @@
                         <article class="plain_text">
                             <p>
                                 <#if cf.content??>
-                                 <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
+                                    <#assign content =cf.content?replace("\n","<p></p>") />
                                      ${content}
                                 </#if>
                             </p>

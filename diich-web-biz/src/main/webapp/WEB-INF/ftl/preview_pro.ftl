@@ -27,13 +27,28 @@
     <link rel="shortcut icon" type="image/x-icon" href="${caturi}/assets/images/logo.png" media="screen" />
     <link rel="stylesheet" href="${caturi}/assets/css/common.css">
     <link rel="stylesheet" href="${caturi}/assets/css/layout.css">
+
+    <link rel="stylesheet" href="${caturi}/css/icon.min.css">
+    <link rel="stylesheet" href="${caturi}/css/button.min.css">
+    <link rel="stylesheet" href="${caturi}/assets/css/inputs.css">
+    <link rel="stylesheet" href="${caturi}/css/project-detail.css?7">
+
     <!--[if IE]>
     <link rel="stylesheet" href="${caturi}/assets/css/ie.css">
     <script src="${caturi}/assets/js/html5.js"></script>
     <![endif]-->
+
     <script src="${caturi}/js/base-url.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="${caturi}/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${caturi}/ueditor/_examples/editor_api.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="${caturi}/ueditor/lang/zh-cn/zh-cn.js"></script>
+
     <script src="${caturi}/data/keyword.js"></script>
     <script src="${caturi}/assets/js/jquery.min.js"></script>
+    <script src="${caturi}/assets/js/jQuery.Form.js"></script>
     <script src="${caturi}/assets/js/system.js"></script>
     <script src="${caturi}/assets/js/utils.js"></script>
     <script src="${caturi}/assets/js/detail-project.js"></script>
@@ -44,6 +59,10 @@
     <script src="${caturi}/js/i18n.js"></script>
     <script src="${caturi}/data/dictionary.js"></script>
     <script src="${caturi}/js/util.js"></script>
+
+    <script src="${caturi}/assets/js/Ecalendar.jquery.min.js"></script>
+    <script src="${caturi}/js/project-template.js"></script>
+    <script src="${caturi}/js/project-detail.js?3"></script>
     <script>
         var json = ${json.json};
         var jsonAll = ${json.jsonAll};
@@ -297,9 +316,9 @@
                         </#if>
                     </#list>
                 </#if>
-                    <span class="language" id="trans_lang">
+                    <#--<span class="language" id="trans_lang">
                             <a href="" id="trans"></a>
-                    </span>
+                    </span>-->
                 </div>
                 <!--//End-->
 
@@ -436,18 +455,18 @@
             </div>
             <!--//End 主内容-->
 
-            <div class="card_base">
-                <duv class="detail_title">
-                    <h2>
-                        <#if obj.lang == "chi">
-                            基础信息
-                        </#if>
-                        <#if obj.lang == "eng">
-                            Basic information
-                        </#if>
+            <div class="card_base section" data-type="short-text">
+                <duv class="detail_title handle-button">
+                    <h2 class="title">
+                    <#if obj.lang == "chi">
+                        基础信息
+                    </#if>
+                    <#if obj.lang == "eng">
+                        Basic information
+                    </#if>
                     </h2>
                 </duv>
-                <div class="info" id="info">
+                <div class="info read-piece" id="info">
                     <ul>
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
@@ -455,12 +474,12 @@
                                 <li>
                                     <span class="key">
                                         <#if obj.lang == "chi">
-                                            ${cf.attribute.cnName}
+                                        ${cf.attribute.cnName}：
                                         </#if>
                                         <#if obj.lang == "eng">
-                                             ${cf.attribute.enName}
+                                        ${cf.attribute.enName}：
                                         </#if>
-                                        ：</span>
+                                    </span>
                                     <span class="value dic data-item" dic-type="${cf.attribute.dataType}" lang="${obj.lang}" data-id="${cf.attributeId}">${cf.content}</span>
                                 </li>
                             </#if>
@@ -707,7 +726,7 @@
 </script>
 <script>
     //详情页题图居中遮罩
-    (function () {
+    setTimeout(function () {
         var $img = $('#detailTopic');
         var $content = $('#detailContent');
         var img = document.getElementById('detailTopic');
@@ -717,14 +736,16 @@
             var imgW = parseInt($img.width());
             $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
             $content.css({width:imgW+'px'});
-            $img.fadeIn(1000);
+            $img.fadeIn(800);
         };
 
 
         var imgW = parseInt($img.width());
         $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
         $content.css({width:imgW+'px'});
-        $img.fadeIn(1000);
-    })();
+        $img.fadeIn(800);
+
+    },2000);
+
 </script>
 </html>

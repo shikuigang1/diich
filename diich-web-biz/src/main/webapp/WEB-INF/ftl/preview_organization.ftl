@@ -212,7 +212,7 @@
                         </#if>
                     </#list>
                 </#if>
-                    <a href="${caturi}/page/organization/organization.html?orgid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
+                   <#-- <a href="${caturi}/page/organization/organization.html?orgid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>-->
                     <div class="doi_code">
                         <i class="icon">ID</i>
                         <span>：<em id="doi_code"><#if (obj.contentFragmentList?size>0)>
@@ -280,7 +280,7 @@
                                 <div class="side" style="margin-right:30px;">
                                     <div class="item">
                                         <p>
-                                            <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
+                                            <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<p></p>") />
                                                  ${content}
                                         </p>
                                     </div>
@@ -347,7 +347,7 @@
                         <article class="plain_text">
                             <p>
                                 <#if cf.content??>
-                                 <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
+                                 <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<p></p>") />
                                      ${content}
                                 </#if>
                             </p>

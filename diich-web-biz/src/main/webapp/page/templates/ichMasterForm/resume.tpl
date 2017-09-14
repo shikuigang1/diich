@@ -1,4 +1,4 @@
- <div class="title" id="page_resume">传承人内容</div>
+ <div class="title" id="page_resume" data-id="{{clickMenuId}}">传承人内容</div>
     <div class="hint"><i class="dot"></i>标有 <em>*</em> 的为必填项 · 信息越完善，申报成功的几率越高</div>
     <div class="st">
        <h2>{{sonterms.menusName}}</h2><!-- <span>查看填写示例</span> -->
@@ -10,7 +10,7 @@
                 {{#each sonterms.sonTerms}}
                     {{#equal dataType 5}}
                          <div class="text">
-                            <textarea data-id="{{id}}" name="resum_{{id}}" id="resum_{{id}}" data-maxLength="{{maxLength}}" data-maxLength="{{minLength}}" validate="true" check="required" cols="30" rows="10">{{getContent ../../pageObj.contentFragmentList id}}</textarea>
+                            <textarea data-id="{{id}}" name="resum_{{id}}" id="resum_{{id}}" data-minLength="{{minLength}}" data-maxLength="{{maxLength}}" validate="true" check="required" cols="30" rows="10">{{getContent ../../pageObj.contentFragmentList id}}</textarea>
                          </div>
                          {{#eif dataType 1 op="!="}}
                              <div class="images" id="images">

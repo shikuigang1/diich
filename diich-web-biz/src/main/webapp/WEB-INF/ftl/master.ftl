@@ -153,7 +153,7 @@
                             <#if cf.attributeId == 10>
                                 <#if (cf.resourceList?size>0)>
                                     <#list cf.resourceList as res>
-                                        <#if res.type==0 && res.status==0 && res.uri?? && res.uri != "">
+                                        <#if res.type?? && res.type==0 && res.status?? && res.status==0 && res.uri?? && res.uri != "">
                                             <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
                                                 <img src="${masteruri}${res.uri}" alt="" id="detailTopic" style="display:none">
                                             </#if>
@@ -171,7 +171,7 @@
                            <#if cf.attributeId == 10>
                                <#if (cf.resourceList?size>0)>
                                    <#list cf.resourceList as res>
-                                       <#if res.type==1 && res.status==0 && res.uri?? && res.uri != "">
+                                       <#if res.type?? && res.type==0 && res.uri?? && res.uri != "">
                                            <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
                                                <video poster="${backImgUrl}" src="${mastervuri}${res.uri}"> </video>
                                            </#if>
@@ -280,7 +280,7 @@
                                     <#if cf.attributeId == 112>
                                         <#if (cf.resourceList??)&&(cf.resourceList?size>0)>
                                             <#list cf.resourceList as r>
-                                                <#if r.type==0 && r.status==0>
+                                                <#if r.type?? && r.type==0 && r.status && r.status==0>
                                                     <#if r.uri??>
                                                         <#assign proPic="${prouri}${r.uri}?x-oss-process=style/head-image-style" />
                                                     </#if>
@@ -433,8 +433,8 @@
                                 <div class="side" style="margin-right:30px;">
                                     <div class="item">
                                         <p>
-                                            <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
-                                            ${content}
+                                            <#assign content =cf.content?replace("\n","<p></p>") />
+                                             ${content}
                                         </p>
                                     </div>
                                 </div>
@@ -500,9 +500,8 @@
                         <article class="plain_text">
                             <p>
                                 <#if cf.content??>
-                                     <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
-                                    ${content}
-
+                                    <#assign content =cf.content?replace("\n","<p></p>") />
+                                     ${content}
                                 </#if>
                             </p>
                         </article>
