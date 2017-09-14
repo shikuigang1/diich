@@ -55,7 +55,7 @@ function loadAttributesFromServer() {
     }
 
     var url = base_url + '/ichCategory/getAttributeListByCatIdAndProId?proId=' +
-        project.id + '&categoryId' + project.ichCategoryId;
+        project.id + '&categoryId=' + project.ichCategoryId;
 
     $.ajax({
         type: 'POST',
@@ -205,7 +205,9 @@ function displayEditMode() {
 
         var rand_id = generateMathRand(8);
         $ui.find('.editor').attr('id', rand_id);
-        var editor = UE.getEditor(rand_id);
+        var editor = UE.getEditor(rand_id, {
+            enterTag: 'br'
+        });
 
         var top = $('#custom').offset().top;
         $('html, body').animate({
@@ -468,7 +470,12 @@ function editImageTextUi($section) {
 
     var rand = generateMathRand(8);
     $ui.find('.editor').attr('id', rand);
-    var editor = UE.getEditor(rand);
+    var editor = UE.getEditor(rand, {
+        enterTag: 'br'
+    });
+
+    content = content.replace(/\n/g,"<br/>");
+
     editor.ready(function () {
         editor.setContent(content);
     });
@@ -854,6 +861,17 @@ function buildTwoComboUi(data, data_id, $ui) {
 
 function uploadFile(_this, $ui, callback) {
     var path = _this.val();
+
+    if(path == null && path == '') {
+        return;
+    }
+
+    var reg = /^.*[^a][^b][^c]\.(?:png|jpg|bmp|gif|jpeg)$/;
+    if(!reg.test(path.toLowerCase())) {
+        alert('请上传格式为png|jpg|bmp|gif|jpeg的图片');
+        return;
+    }
+
     var imgType = path.substring(path.lastIndexOf(".") + 1);
 
     var serverInfo = send_request();

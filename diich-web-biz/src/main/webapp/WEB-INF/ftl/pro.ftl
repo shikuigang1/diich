@@ -601,8 +601,9 @@
                             <#if cf.content?? && cf.content != "">
                             <div class="side" style="margin-right:30px;">
                                 <div class="item data-item item-content" data-id="${cf.attributeId?c}">
-                                       <#assign content =cf.content?replace("\n","<p></p>") />
-                                        ${content}
+                                        <#--<#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br/>") />-->
+                                        <#assign content =cf.content?replace(" ","&nbsp;")?replace("\n","<br/>") />
+                                            ${content}
                                 </div>
                             </div>
                             </#if>
@@ -682,8 +683,8 @@
                             <div class="data-item item-content" data-id="${cf.attributeId?c}">
 
                                 <#if cf.content??>
-                                    <#assign content =cf.content?replace("\n","<p></p>") />
-                                     ${content}
+                                    <#assign content =cf.content?replace(" ","&nbsp;")?replace("\n","<br/>") />
+                                    ${content}
                                 </#if>
 
                             </div>
