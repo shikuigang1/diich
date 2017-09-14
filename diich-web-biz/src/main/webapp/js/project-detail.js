@@ -486,6 +486,7 @@ function editImageTextUi($section) {
             $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resource.uri + '?x-oss-process=style/temporary-preview');
         }
         $img.attr('file-name', resource.uri);
+        $img.attr('resource-id', resource.id);
         var $div = $('<div></div>');
         $div.append($img);
         $ui.find('.image-container').append($div);
