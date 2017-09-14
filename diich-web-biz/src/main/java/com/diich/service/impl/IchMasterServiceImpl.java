@@ -206,6 +206,10 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         }
         if (user != null && user.getType() == 0){//管理员权限
             ichMaster = getAttribute(ichMaster);
+            List<ContentFragment> contentFragments = getContentFragmentByMasterId(ichMaster);
+            if(contentFragments != null && contentFragments.size()>0){
+                contentFragmentList.addAll(contentFragments);//获取传承人其他信息
+            }
             if(ichMaster != null && ichMaster.getIchProjectId() != null){
                 IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
                 if(ichProject != null){
