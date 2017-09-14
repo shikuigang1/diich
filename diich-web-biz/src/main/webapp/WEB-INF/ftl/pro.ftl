@@ -612,10 +612,10 @@
                                         <li>
                                             <#if r.type ==0>
                                                 <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                    <img src="${prouri}${r.uri}" alt="">
+                                                    <img src="${prouri}${r.uri}" resource-id="${r.id?c}" alt="">
                                                 </#if>
                                                 <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
-                                                    <img src="${r.uri}" alt="">
+                                                    <img src="${r.uri}" resource-id="${r.id?c}" alt="">
                                                 </#if>
 
                                                 <#if r.description??>

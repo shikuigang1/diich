@@ -140,7 +140,9 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
                         continue;
                     }
                     Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
-                    attrSet.add(attribute);
+                    if(attribute != null){
+                        attrSet.add(attribute);
+                    }
                 }
             }
             if(attributeList != null && attributeList.size() > 0){

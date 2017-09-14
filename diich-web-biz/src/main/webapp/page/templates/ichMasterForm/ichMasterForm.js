@@ -1076,10 +1076,14 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             var params = "";
             switch (strCode) {
                 case "basic":  // 基本信息页面
-                    var data = $("#basicForm").serializeArray()
+                    var data = $("#basicForm").serializeArray();
+                    data.push({"name" : "declare", "value" : declareCode.toString()}); // 构建三级联动参数
+                    data.push({"name" : "sex", "value" : sexCode.toString()}); // 构建性别
                     if(imgUrl) {
                         data.push({"name" : "img", "value" : imgUrl}); // 构建图片参数
                     }
+                    //var status =  _validata(data);
+                    //params = status ? buildParams(data, pageObj) : "";
                     params = buildParams(data, pageObj);
                     break;
                 case "contact":  // 联系方式页面
@@ -1123,6 +1127,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 default:
                     break;
             }
+
             if(params != "") {
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
                     //console.log("返回数据 -- >", result,  JSON.stringify(result.res.data));
@@ -1163,6 +1168,58 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 //console.log("mid --- >", mid);
                 $("#" + id).next(".dd").children("ul").append(Handlebars.compile(menuTpl)({mid: mid, name: $("#customName").val(), menuId: data.contentFragmentList[0].attributeId}));
                 $("#" + mid).children("i").addClass("selected").removeClass("unselected");
+            }
+
+            /**
+             * 验证
+             * @param data
+             * @returns {boolean}
+             * @private
+             */
+            function _validata(data) {
+                var status = true, errNum = 0;
+                // 验证
+                $.each(data, function(i, v) {
+                    var id = v.name.split("_").pop();
+                    var maxlength = $("#" + v.name).attr("data-maxLength");
+                    var minlength = $("#" + v.name).attr("data-minLength");
+                    //if(v.value) {
+                    var rule = ""; // 正则规则
+                    var rule2 = ""; // 正则验证2
+                    var isNull = false; // 是否为空验证
+                    switch (id) {
+                        case "13": // 中文名
+                            rule = "reg_chinese";
+                            isNull = true;
+                            break;
+                        case "14": // 英文名
+                            rule = "reg_english";
+                            break;
+                        case "15": // 拼音
+                            rule = "reg_pinyin";
+                            break
+                        case "128": // 证件号码
+                            if(zjCode == "0") {
+                                rule = "reg_idcard";
+                            } else if(zjCode == "2") {
+                                rule = "reg_passport";
+                                rule2 = "reg_passport1";
+                            }
+                            break
+                        case "pid": // 拼音
+                            rule = "";
+                            isNull = true;
+                            break
+                        default:
+                            break;
+                    }
+                    if(!_onChk(v, rule, rule2, isNull, maxlength, minlength)) {
+                        errNum++;
+                    }
+                })
+                // 更新状态
+                status = errNum > 0 ? false : true;
+                return status;
             }
         }
     }
@@ -1393,8 +1450,13 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                         v.id = d.id;
                         if(d.resourceList.length > 0) {
                             $.each(v.resourceList, function(r, va) {
-                                if(d.resourceList[r]) {
-                                    va.id = d.resourceList[r].id;
+                                var resourceObj = d.resourceList[r];
+                                if(resourceObj) {
+                                    va.id = resourceObj.id;
+                                    va.description = resourceObj.description;
+                                    va.resOrder = resourceObj.resOrder;
+                                    va.status = resourceObj.status;
+                                    va.type = resourceObj.type;
                                 }
                             })
                         }

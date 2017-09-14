@@ -1,7 +1,7 @@
 var edit_project_tmp =
     '<div class="edit-project-tool-bar">' +
     '<div class="inner">' +
-    '<button class="ui save button">暂存</button>' +
+    '<button class="ui save button" style="display: none">暂存</button>' +
     '<button class="ui add button">新增项</button>' +
     '<button class="ui submit primary button">提交</button>' +
     '<button class="ui abandon red button">放弃</button>' +
