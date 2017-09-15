@@ -214,9 +214,8 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 IchProject ichProject = ichProjectService.getIchProject(String.valueOf(ichMaster.getIchProjectId()));
                 if(ichProject != null){
                     ichMaster.setIchProject(ichProject);
-//                    List<IchMaster> ichMasterList = ichProject.getIchMasterList();
-//                    ichMasterList.add(ichMaster);
-//                    buildAndUploadHtml(ichProject);
+                    List<IchMaster> ichMasterList = ichProject.getIchMasterList();
+                    buildAndUploadHtml(ichProject);
                 }
             }
             String str = PropertiesUtil.getString("freemarker.masterfilepath");
