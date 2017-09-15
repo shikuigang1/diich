@@ -214,7 +214,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 IchProject ichProject = ichProjectService.getIchProject(String.valueOf(ichMaster.getIchProjectId()));
                 if(ichProject != null){
                     ichMaster.setIchProject(ichProject);
-                    List<IchMaster> ichMasterList = ichProject.getIchMasterList();
                     buildAndUploadHtml(ichProject);
                 }
             }
