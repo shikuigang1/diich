@@ -67,7 +67,7 @@ function loadAttributesFromServer() {
             attributes = data.data;
         },
         error: function () {
-            alert('载入数据错误');
+
         }
     });
 }
@@ -101,7 +101,7 @@ function displayEditMode() {
     var has_edit = false;
     $('.edit.link').on('click', function () {
         if(has_edit == true) {
-            alert('已经有模块处于编辑状态，请关闭后再进行此操作。');
+            alert('已经有模块处于编辑状态，请保存后再进行此操作。');
             return;
         }
 
@@ -188,7 +188,7 @@ function displayEditMode() {
     
     $('.add.button').on('click', function () {
         if(has_edit == true) {
-            alert('已经有模块处于编辑状态，请关闭后再进行此操作。');
+            alert('已经有模块处于编辑状态，请保存后再进行此操作。');
             return;
         }
 

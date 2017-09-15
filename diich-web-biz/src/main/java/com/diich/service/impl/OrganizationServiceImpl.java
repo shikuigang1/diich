@@ -109,10 +109,10 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         }
         if(organization.getId() == null){
             //校验该用户是否申报过机构信息
-//            List<Organization> organizationList = organizationMapper.selectOrganizationByUserId(user.getId());
-//            if(organizationList.size() > 0){
-//                throw new ApplicationException(ApplicationException.PARAM_ERROR,"当前账号已申报过机构信息");
-//            }
+            List<Organization> organizationList = organizationMapper.selectOrganizationByUserId(user.getId());
+            if(organizationList.size() > 0){
+                throw new ApplicationException(ApplicationException.PARAM_ERROR,"当前账号已申报过机构信息");
+            }
             long id = IdWorker.getId();
             organization.setId(id);
             organization.setLastEditorId(user.getId());
@@ -279,6 +279,17 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             for (ContentFragment contentFragment : ichProjectContentFragmentList) {
                 contentFragment.setId(null);
                 contentFragment.setTargetId(branchId);
+                if(contentFragment.getAttributeId() != null){
+                    Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
+                    if(attribute != null && attribute.getTargetType() != null && attribute.getTargetType() == 13){
+                        long id = IdWorker.getId();
+                        attribute.setId(id);
+                        attribute.setTargetId(branchId);
+                        attributeMapper.insertSelective(attribute);
+                        contentFragment.setAttribute(attribute);
+                        contentFragment.setAttributeId(id);
+                    }
+                }
                 List<Resource> resourceList = contentFragment.getResourceList();
                 if(resourceList != null && resourceList.size()>0){
                     for(int i = 0 ; i <  resourceList.size() ; i++ ){
