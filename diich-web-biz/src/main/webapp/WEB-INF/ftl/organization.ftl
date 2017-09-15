@@ -5,6 +5,7 @@
 <#assign caturi="http://diich.efeiyi.com" />
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title id="title">
     <#if (obj.contentFragmentList?size>0)>

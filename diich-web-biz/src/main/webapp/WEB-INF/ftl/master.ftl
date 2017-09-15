@@ -5,6 +5,7 @@
 <#assign caturi="http://diich.efeiyi.com" />
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title id="title">
     <#if (obj.contentFragmentList?size>0)>
@@ -171,9 +172,9 @@
                            <#if cf.attributeId == 10>
                                <#if (cf.resourceList?size>0)>
                                    <#list cf.resourceList as res>
-                                       <#if res.type?? && res.type==0 && res.uri?? && res.uri != "">
+                                       <#if res.type?? && res.type==1 && res.uri?? && res.uri != "">
                                            <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                               <video poster="${backImgUrl}" src="${mastervuri}${res.uri}"> </video>
+                                               <video poster="${backImgUrl}" src="${masteruri}${res.uri}"> </video>
                                            </#if>
                                            <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
                                                <video poster="${backImgUrl}" src="${res.uri}"> </video>
