@@ -137,7 +137,7 @@ textarea {
 
 /*--//End--reset--*/
 
-/*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
+/*瀹氫箟婊氬姩鏉″楂樺強鑳屾櫙锛屽楂樺垎鍒搴旀í绔栨粴鍔ㄦ潯鐨勫昂瀵�*/
 
 .dropbox .item dd::-webkit-scrollbar,
 .suggest ul::-webkit-scrollbar,
@@ -146,7 +146,7 @@ textarea {
     height: 5px;
 }
 
-/*定义滚动条的轨道，内阴影及圆角*/
+/*瀹氫箟婊氬姩鏉＄殑杞ㄩ亾锛屽唴闃村奖鍙婂渾瑙�*/
 
 .dropbox .item dd::-webkit-scrollbar-track,
 .suggest ul::-webkit-scrollbar-track,
@@ -155,7 +155,7 @@ textarea {
     background-color: #fff;
 }
 
-/*定义滑块，内阴影及圆角*/
+/*瀹氫箟婊戝潡锛屽唴闃村奖鍙婂渾瑙�*/
 
 .dropbox .item dd::-webkit-scrollbar-thumb,
 .suggest ul::-webkit-scrollbar-thumb,
@@ -164,7 +164,7 @@ textarea {
     background-color: rgba(148, 148, 148, .5);
 }
 
-/*--//End 自定义滚动条--*/
+/*--//End 鑷畾涔夋粴鍔ㄦ潯--*/
 
 .bd {
     width: 100%;
@@ -530,7 +530,7 @@ textarea {
 }
 
 
-/*--//End header 基本--*/
+/*--//End header 鍩烘湰--*/
 
 .drop_menu {
     height: 400px;
@@ -621,7 +621,7 @@ textarea {
     margin-bottom: 20px;
 }
 
-/*--//ENd 导航二级菜单*/
+/*--//ENd 瀵艰埅浜岀骇鑿滃崟*/
 
 .filter_search_fixed {
     position: fixed !important;
@@ -808,7 +808,7 @@ textarea {
     z-index: 2;
 }
 
-/*--//End 遮罩层--*/
+/*--//End 閬僵灞�--*/
 
 .footer {
     /*background: #161616 url(../images/footer_bg.png) top center no-repeat;*/
@@ -836,16 +836,16 @@ textarea {
 
 .footer .diich .logo {
     background: url(../images/footer_logo@2x.png) 0 0 no-repeat;
-    -webkit-background-size: 178px auto;
-    background-size: 178px auto;
-    width: 178px;
-    height: 46px;
+    -webkit-background-size: 143px auto;
+    background-size: 143px auto;
+    width: 143px;
+    height: 54px;
     float: left;
 }
 
 .footer .diich .logo a {
-    width: 178px;
-    height: 46px;
+    width: 143px;
+    height: 54px;
     float: left;
 }
 
@@ -938,7 +938,7 @@ textarea {
     height: 24px;
 }
 
-/*--//End 播放按钮组件*/
+/*--//End 鎾斁鎸夐挳缁勪欢*/
 
 .side_fixed {
     position: fixed;
@@ -1039,7 +1039,7 @@ textarea {
     opacity: .5;
 }
 
-/*--//End 返回顶部*/
+/*--//End 杩斿洖椤堕儴*/
 
 .crumbs {
     width: 1170px;
@@ -1234,7 +1234,7 @@ textarea {
     right: 12px;
 }
 
-/*--//ENd 详情title*/
+/*--//ENd 璇︽儏title*/
 
 .avatar {
     float: left;
@@ -1247,7 +1247,7 @@ textarea {
     border-radius: 50%;
 }
 
-/*--//End 圆角头像--*/
+/*--//End 鍦嗚澶村儚--*/
 
 .video .play {
     -webkit-border-radius: 50%;
@@ -1298,7 +1298,7 @@ textarea {
     right: 10px;
 }
 
-/*--//End 视频相关*/
+/*--//End 瑙嗛鐩稿叧*/
 
 .slide_img {
     width: 100%;
@@ -1316,7 +1316,7 @@ textarea {
     margin-left: -1400px;
 }
 
-/*--//End 通屏图片--*/
+/*--//End 閫氬睆鍥剧墖--*/
 
 a.arrow_right {
     position: relative;
@@ -1411,7 +1411,7 @@ a.arrow_right:hover:after {
     background: #fafafa;
 }
 
-/*--//End doi图标部分--*/
+/*--//End doi鍥炬爣閮ㄥ垎--*/
 
 .icon_list_cate,
 .icon_list_user,
@@ -1461,7 +1461,7 @@ a.arrow_right:hover:after {
     margin-top: -315px;
 }
 
-/*--//End 弹出层--*/
+/*--//End 寮瑰嚭灞�--*/
 
 .form_area .title {
     width: 100%;
@@ -1625,7 +1625,7 @@ a.arrow_right:hover:after {
     width: 356px;
 }
 
-/*--//End 表单相关--*/
+/*--//End 琛ㄥ崟鐩稿叧--*/
 .progress {
     background: #000;
     width: 101%;
@@ -1656,5 +1656,4 @@ a.arrow_right:hover:after {
     top: 92px
 }
 
-/*--//End 刷新页面/搜索--进度条*/
-
+/*--//End 鍒锋柊椤甸潰/鎼滅储--杩涘害鏉�*/
