@@ -725,13 +725,15 @@
         var $content = $('#detailContent');
         var img = document.getElementById('detailTopic');
 
-        img.onload = function () {
-            // 加载完成
-            var imgW = parseInt($img.width());
-            $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
-            $content.css({width:imgW+'px'});
-            $img.fadeIn(800);
-        };
+        if(img != null){
+            img.onload = function () {
+                // 加载完成
+                var imgW = parseInt($img.width());
+                $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
+                $content.css({width:imgW+'px'});
+                $img.fadeIn(800);
+            };
+        }
 
 
         var imgW = parseInt($img.width());
