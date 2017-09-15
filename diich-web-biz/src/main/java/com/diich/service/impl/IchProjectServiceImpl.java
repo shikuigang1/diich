@@ -266,6 +266,17 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             for (ContentFragment contentFragment : ichProjectContentFragmentList) {
                 contentFragment.setId(null);
                 contentFragment.setTargetId(branchId);
+                if(contentFragment.getAttributeId() != null){
+                    Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
+                    if(attribute != null && attribute.getTargetType() != null && attribute.getTargetType() == 10){
+                        long id = IdWorker.getId();
+                        attribute.setId(id);
+                        attribute.setTargetId(branchId);
+                        attributeMapper.insertSelective(attribute);
+                        contentFragment.setAttribute(attribute);
+                        contentFragment.setAttributeId(id);
+                    }
+                }
                 List<Resource> resourceList = contentFragment.getResourceList();
                 if(resourceList != null && resourceList.size()>0){
                     for(int i = 0 ; i <  resourceList.size() ; i++ ){
@@ -637,7 +648,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             List<Resource> resourceList = contentFragment.getResourceList();
             if(resourceList !=null && resourceList.size()>0){
                 for (Resource resource:resourceList) {
-                    if (resource.getType() == 0) {
+                    if (resource.getType() != null && resource.getType() == 0) {
                         img.add(resource);
                         if(contentFragment.getAttributeId()!=112){//头图不放到所有图片中
                             imgdist.addAll(img);
@@ -645,7 +656,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                             headMap.put("headImage",img);
                         }
                     }
-                    if (resource.getType() == 1) {
+                    if (resource.getType() != null && resource.getType() == 1) {
                         video.add(resource);
                         videosdist.addAll(video);
                     }
