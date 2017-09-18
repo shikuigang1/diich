@@ -1,7 +1,7 @@
 var edit_project_tmp =
     '<div class="edit-project-tool-bar">' +
     '<div class="inner">' +
-    '<button class="ui save button" style="display: none">暂存</button>' +
+    '<button class="ui save button">暂存</button>' +
     '<button class="ui add button">新增项</button>' +
     '<button class="ui submit primary button">提交</button>' +
     '<button class="ui abandon red button">关闭</button>' +
@@ -143,12 +143,12 @@ var edit_image_text_tmp =
     '        <div class="images" id="images"> '+
     '            <div class="image-container"> </div> '+
     '            <div class="handle"> '+
-    '                <div class="add file_up add-image"> '+
+    '                <div class="add file_up" data-type="image"> '+
     '                    <span class="icon"> <i></i></span> '+
     '                    <span>添加图片</span> '+
     '                </div> '+
-    '                <div class="add file_up add-video" style="margin-right:0;"> '+
-    '                    <span class="icon icon2" onclick="javascript:alert(\'上传视频正在完善，敬请期待！\');"><i></i></span> '+
+    '                <div class="add file_up" data-type="video" style="margin-right:0;"> '+
+    '                    <span class="icon icon2"><i></i></span> '+
     '                    <span>添加视频</span> '+
     '                </div> '+
     '            </div> '+
@@ -156,7 +156,7 @@ var edit_image_text_tmp =
     '    </div> '+
     '</div>';
 
-var edit_image_text_template =
+var show_image_text_template =
     '<article class="text_img read-piece">'+
     '    <div class="side" style="margin-right: 30px; width: 770px;">'+
     '        <div class="item data-item item-content" data-id="">'+
@@ -176,7 +176,6 @@ var custom_show_tmp =
     '    </div> '+
     '    <div class="media"> '+
     '        <ul> '+
-    '            <li></li> '+
     '        </ul>'+
     '        <div class="more"></div> '+
     '    </div> '+

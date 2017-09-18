@@ -248,3 +248,7 @@ section .handle-button {
 .card_base .info li span {
     float: initial!important;
 }
+
+.file_up .progress .loader {
+    margin-top: 46px;
+}

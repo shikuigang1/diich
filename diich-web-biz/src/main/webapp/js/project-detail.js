@@ -252,11 +252,24 @@ function displayEditMode() {
             $ui.find('h4').text(title);
 
             var $custom_ui = $(custom_show_tmp);
-            if(resourceList_tmp.length > 0) {
-                var $custom_img = $custom_ui.find('.media li');
-                if($custom_img != null) {
-                    $custom_img.append($('<img src="http://resource.efeiyi.com/image/project/'+ resourceList_tmp[0].uri +'"/>'));
+            var $file_con = $custom_ui.find('.media ul');
+            for(var i = 0; i < resourceList_tmp.length; i++) {
+                var resource_tmp = resourceList_tmp[i];
+
+                var $li = $('<li></li>');
+                if(resource_tmp.type == 0) {
+                    var $img = $('<img />');
+                    $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resource_tmp.uri);
+                    $li.append($img);
+                } else if(resource_tmp.type == 1) {
+                    var $video = $('<video></video>');
+                    $video.attr('controls', 'controls');
+                    $video.attr('width', '325px');
+                    $video.attr('src', 'http://resource.efeiyi.com/video/project/' + resource_tmp.uri);
+                    $li.append($video);
                 }
+
+                $file_con.append($li);
             }
 
             $ui.find('.image-text').hide();
@@ -275,29 +288,46 @@ function displayEditMode() {
             alert('自定义项编辑功能马上上线，敬请期待！');
         });
 
-        var $file_up = $ui.find('.add.file_up.add-image');
-        $file_up.append($(getTemplate()));
-        $file_up.find('input').change(function () {
+        $ui.find('.add.file_up').append($(getTemplate()));
+        $ui.find('.add.file_up input').change(function () {
             var _this = $(this);
-            uploadFile(_this, $ui, uploadFileCallBack);
+            _this.attr('data-type', _this.parent().parent().attr('data-type'));
+            uploadFile(_this, _this.parent(), uploadFileCallBack);
         });
 
-        function uploadFileCallBack(uri) {
+        function uploadFileCallBack(uri, dataType) {
             var file_name = uri.substring(uri.lastIndexOf('/') + 1, uri.length);
+            var resource = {};
 
-            var $img = $('<img />');
-            $img.attr('src', uri + '?x-oss-process=style/temporary-preview');
-            $img.attr('type', 'new');
-            $img.attr('file-name', file_name);
             var $div = $('<div></div>');
-            $div.append($img);
-            $ui.find('.image-container').append($div);
+            if(dataType == 'image') {
+                resource.type = 0;
+
+                var $img = $('<img />');
+                $img.attr('src', uri + '?x-oss-process=style/temporary-preview');
+                $img.attr('type', 'new');
+                $img.attr('file-name', file_name);
+                $img.addClass('file-tag');
+                $div.append($img);
+                $ui.find('.image-container').append($div);
+            } else if(dataType == 'video') {
+                resource.type = 1;
+
+                var $video = $('<video></video>');
+                $video.attr('controls', 'controls');
+                $video.attr('src', uri);
+                $video.attr('width', '208px');
+                $video.attr('height', '208px');
+                $video.attr('type', 'new');
+                $video.attr('file-name', file_name);
+                $video.addClass('file-tag');
+                $div.append($video);
+                $ui.find('.image-container').append($div);
+            }
 
             deleteImageUi($ui);
 
-            var resource = {};
             resource.status = 0;
-            resource.type = 0;
             resource.uri = file_name;
             resource.description = '';
             resourceList_tmp.push(resource);
@@ -488,38 +518,67 @@ function editImageTextUi($section) {
 
     for(var i = 0; i < resourceList.length; i++) {
         var resource = resourceList[i];
-        var $img = $('<img />');
-        if(resource.uri.indexOf('http') > -1) {
-            $img.attr('src', resource.uri + '?x-oss-process=style/temporary-preview');
-        } else {
-            $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resource.uri + '?x-oss-process=style/temporary-preview');
-        }
-        $img.attr('file-name', resource.uri);
-        $img.attr('resource-id', resource.id);
+
         var $div = $('<div></div>');
-        $div.append($img);
-        $ui.find('.image-container').append($div);
+        if(resource.type == 0) {
+            var $img = $('<img />');
+            if(resource.uri.indexOf('http') > -1) {
+                $img.attr('src', resource.uri + '?x-oss-process=style/temporary-preview');
+            } else {
+                $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resource.uri + '?x-oss-process=style/temporary-preview');
+            }
+            $img.attr('file-name', resource.uri);
+            $img.attr('resource-id', resource.id);
+            $img.addClass('file-tag');
+            $div.append($img);
+            $ui.find('.image-container').append($div);
+        } else if(resource.type == 1) {
+            var $video = $('<video></video>');
+            $video.attr('controls', 'controls');
+            $video.attr('src', 'http://resource.efeiyi.com/video/project/' + resource.uri);
+            $video.attr('width', '208px');
+            $video.attr('height', '208px');
+            $video.attr('file-name', resource.uri);
+            $video.attr('resource-id', resource.id);
+            $video.addClass('file-tag');
+            $div.append($video);
+            $ui.find('.image-container').append($div);
+        }
 
         deleteImageUi($ui);
     }
 
-    var $file_up = $ui.find('.add.file_up.add-image');
-    $file_up.append($(getTemplate()));
-    $file_up.find('input').change(function () {
+    $ui.find('.add.file_up').append($(getTemplate()));
+    $ui.find('.add.file_up input').change(function () {
         var _this = $(this);
-        uploadFile(_this, $ui, uploadFileCallBack);
+        _this.attr('data-type', _this.parent().parent().attr('data-type'));
+        uploadFile(_this, _this.parent(), uploadFileCallBack);
     });
 
-    function uploadFileCallBack(uri) {
+    function uploadFileCallBack(uri, dataType) {
         var file_name = uri.substring(uri.lastIndexOf('/') + 1, uri.length);
 
-        var $img = $('<img />');
-        $img.attr('src', uri + '?x-oss-process=style/temporary-preview');
-        $img.attr('type', 'new');
-        $img.attr('file-name', file_name);
         var $div = $('<div></div>');
-        $div.append($img);
-        $ui.find('.image-container').append($div);
+        if(dataType == 'image') {
+            var $img = $('<img />');
+            $img.attr('src', uri + '?x-oss-process=style/temporary-preview');
+            $img.attr('type', 'new');
+            $img.attr('file-name', file_name);
+            $img.addClass('file-tag');
+            $div.append($img);
+            $ui.find('.image-container').append($div);
+        } else if(dataType == 'video') {
+            var $video = $('<video></video>');
+            $video.attr('controls', 'controls');
+            $video.attr('src', uri);
+            $video.attr('width', '208px');
+            $video.attr('height', '208px');
+            $video.attr('type', 'new');
+            $video.attr('file-name', file_name);
+            $video.addClass('file-tag');
+            $div.append($video);
+            $ui.find('.image-container').append($div);
+        }
 
         deleteImageUi($ui);
 
@@ -529,7 +588,7 @@ function editImageTextUi($section) {
             if(contentFragment.attributeId == data_id) {
                 var resource = {};
                 resource.status = 0;
-                resource.type = 0;
+                resource.type = dataType == 'image' ? 0 : 1;
                 resource.uri = file_name;
                 resource.description = '';
 
@@ -577,7 +636,7 @@ function saveProjectToClient($section) {
             }
         }
 
-        if(data_value == null || data_value == '') {
+        if(data_value == null) {
             continue;
         }
 
@@ -586,13 +645,33 @@ function saveProjectToClient($section) {
             continue;
         }
 
+        var is_new_attr = true;
         for(var j = 0; j < contentFragmentList.length; j++) {
             var contentFragment = contentFragmentList[j];
             if(contentFragment.attributeId == data_id) {
                 contentFragment.content = data_value;
+                is_new_attr = false;
                 break;
             }
         }
+
+        //基础信息条目显示不全，加的补丁
+        if(data_type == 'short-text' && is_new_attr) {
+            for(var j = 0; j < attributes.length; j++) {
+                var attribute = attributes[j];
+                if(attribute.id == data_id) {
+                    var contentFragment = {};
+                    contentFragment.attribute = attribute;
+                    contentFragment.attributeId = attribute.id;
+                    contentFragment.content = data_value;
+                    contentFragment.targetId = project.id;
+                    contentFragment.targetType = 0;
+                    contentFragmentList.push(contentFragment);
+                    break;
+                }
+            }
+        }
+
     }
 }
 
@@ -678,7 +757,8 @@ function addMainInfoCompListener($section) {
     $file_up.append($(getTemplate()));
     $file_up.find('input[type="file"]').change(function () {
         var _this = $(this);
-        uploadFile(_this, $section, uploadFileCallBack);
+        _this.attr('data-type', 'image');
+        uploadFile(_this, _this.parent(), uploadFileCallBack);
     });
 
     function uploadFileCallBack(uri) {
@@ -863,40 +943,53 @@ function uploadFile(_this, $ui, callback) {
     var path = _this.val();
 
     if(path == null && path == '') {
+        alert('文件有错误');
         return;
     }
 
-    var reg = /^.*[^a][^b][^c]\.(?:png|jpg|bmp|gif|jpeg)$/;
+    var reg;
+    var errorMsg;
+
+    var dataType = _this.attr('data-type');
+    if(dataType == 'image') {
+        reg = /^.*[^a][^b][^c]\.(?:png|jpg|bmp|gif|jpeg)$/;
+        errorMsg = '请上传格式为png|jpg|bmp|gif|jpeg的图片';
+    } else if(dataType == 'video') {
+        reg = /^.*[^a][^b][^c]\.(?:mp4|rmvb|flv|mpeg|avi)$/;
+        errorMsg = '请上传格式为mp4|rmvb|flv|mpeg|avi的视频';
+    }
+
     if(!reg.test(path.toLowerCase())) {
-        alert('请上传格式为png|jpg|bmp|gif|jpeg的图片');
+        alert(errorMsg);
         return;
     }
 
-    var imgType = path.substring(path.lastIndexOf(".") + 1);
+    var suffix = path.substring(path.lastIndexOf(".") + 1);
 
     var serverInfo = send_request();
     var host =serverInfo["host"];
     var accessId =serverInfo["accessid"];
     var policy = serverInfo["policy"];
     var signature = serverInfo["signature"];
-    var key = 'image/project/' + serverInfo["filename"] + "." + imgType;//生成文件路径
+    var key = dataType + '/project/' + serverInfo["filename"] + "." + suffix;//生成文件路径
 
-    $ui.find('.file_up').find("input[name='OSSAccessKeyId']").val(accessId);
-    $ui.find('.file_up').find("input[name='policy']").val(policy);
-    $ui.find('.file_up').find("input[name='Signature']").val(signature);
-    $ui.find('.file_up').find("input[name='key']").val(key);
-    $ui.find('.file_up form').attr("action",host);
+    $ui.find("input[name='OSSAccessKeyId']").val(accessId);
+    $ui.find("input[name='policy']").val(policy);
+    $ui.find("input[name='Signature']").val(signature);
+    $ui.find("input[name='key']").val(key);
+    $ui.attr("action",host);
 
-    $ui.find('.file_up form').ajaxSubmit({
+    $ui.ajaxSubmit({
         dataType: 'text',
         beforeSend: function () {
-
-        },
-        uploadProgress: function (event, position, total, percentComplete) {
-
+            $ui.find('.progress').show();
+            $ui.parent().find('.icon i').hide();
         },
         success: function () {
-            callback(host + "/" + key);
+            callback(host + "/" + key, dataType);
+
+            $ui.find('.progress').hide();
+            $ui.parent().find('.icon i').show();
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(textStatus);
@@ -933,9 +1026,9 @@ function getTemplate() {
         '<input class="_token" type="hidden" name="Filename" value="">'+
         '<input class="_token" type="hidden" name="success_action_status" value="200">'+
         '<div class="progress">' +
-        '<div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div>'+
+            '<div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div>'+
         '</div>' +
-        '<input class="file" type="file" id="file" name="file">'+
+        '<input class="file" type="file" name="file">'+
         '</form>';
 }
 
@@ -977,8 +1070,8 @@ function deleteImageUi($ui) {
         $del_i.on('click', function () {
             $(this).parent().remove();
 
-            var $img = $(this).parent().find('img');
-            var file_name = $img.attr('file-name');
+            var $file = $(this).parent().find('.file-tag');
+            var file_name = $file.attr('file-name');
             var contentFragmentList = project.contentFragmentList;
             for(var i = 0; i < contentFragmentList.length; i++) {
                 var contentFragment = contentFragmentList[i];
@@ -992,7 +1085,7 @@ function deleteImageUi($ui) {
                 }
             }
 
-            var resource_id = $img.attr('resource-id');
+            var resource_id = $file.attr('resource-id');
             if(resource_id != null) {
                 $.ajax({
                     type: "POST",
@@ -1034,21 +1127,28 @@ function adjustImageText($section, item_arr) {
                 $section.find('.read-piece .side').css({'width': '1126px'});
             } else if(resourceList.length > 0){
                 $section.find('.read-piece').remove();
-                var $edit_image_text_ui = $(edit_image_text_template);
-                $edit_image_text_ui.find('.item-content').attr('data-id', attr_id);
-                $edit_image_text_ui.find('.item-content').html(contentFragment.content);
+                var $show_image_text_ui = $(show_image_text_template);
+                $show_image_text_ui.find('.item-content').attr('data-id', attr_id);
+                $show_image_text_ui.find('.item-content').html(contentFragment.content);
                 for(var j = 0; j < resourceList.length; j++) {
                     var $li = $('<li></li>');
 
-                    var $img = $('<img />');
-                    $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resourceList[j].uri);
+                    if(resourceList[j].type == 0) {
+                        var $img = $('<img />');
+                        $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resourceList[j].uri);
+                        $li.append($img);
+                    } else if(resourceList[j].type == 1) {
+                        var $video = $('<video></video>');
+                        $video.attr('controls', 'controls');
+                        $video.attr('width', '325px');
+                        $video.attr('src', 'http://resource.efeiyi.com/video/project/' + resourceList[j].uri);
+                        $li.append($video);
+                    }
 
-                    $li.append($img);
-
-                    $edit_image_text_ui.find('.media ul').append($li);
+                    $show_image_text_ui.find('.media ul').append($li);
                 }
 
-                $section.find('.card').append($edit_image_text_ui);
+                $section.find('.card').append($show_image_text_ui);
             }
         }
     }

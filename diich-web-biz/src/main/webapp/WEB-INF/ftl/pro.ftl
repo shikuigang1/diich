@@ -3,6 +3,7 @@
 
 <head>
 <#assign caturi="http://diich.efeiyi.com" />
+<#--<#assign caturi="http://47.95.32.236/" />-->
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-control" content="no-cache">
@@ -32,6 +33,7 @@
     <link rel="stylesheet" href="${caturi}/css/icon.min.css">
     <link rel="stylesheet" href="${caturi}/css/button.min.css">
     <link rel="stylesheet" href="${caturi}/assets/css/inputs.css">
+    <link rel="stylesheet" href="${caturi}/css/loader.min.css">
     <link rel="stylesheet" href="${caturi}/css/project-detail.css?7">
 
     <!--[if IE]>
