@@ -28,7 +28,7 @@ public class IchObject extends BaseModel{
         }
 
         Long attributeId = contentFragment.getAttributeId();
-        for (int i = 0; contentFragmentList.size() > 0 ; i++) {
+        for (int i = 0; i < contentFragmentList.size(); i++) {
             ContentFragment contentFragment2 = contentFragmentList.get(i);
             if(attributeId != null && attributeId.equals(contentFragment2.getAttributeId())) {
                 contentFragmentList.remove(contentFragment2);
