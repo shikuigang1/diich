@@ -15,4 +15,8 @@ public interface EnjoyMapper extends BaseMapper<Enjoy> {
     int updateByPrimaryKeySelective(Enjoy record);
 
     int updateByPrimaryKey(Enjoy record);
+
+    int selectCountByTypeAndId(Enjoy enjoy);
+
+    void deleteEnjoy(Enjoy enjoy);
 }

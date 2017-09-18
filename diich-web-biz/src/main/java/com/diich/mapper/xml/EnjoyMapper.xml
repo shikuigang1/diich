@@ -5,12 +5,14 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="target_id" property="targetId" jdbcType="BIGINT" />
     <result column="target_type" property="targetType" jdbcType="INTEGER" />
+    <result column="enjoy_date" property="enjoyDate" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, target_id, target_type
+    id, target_id, target_type, enjoy_date, user_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from enjoy
     where id = #{id,jdbcType=BIGINT}
@@ -20,10 +22,10 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.Enjoy" >
-    insert into enjoy (id, target_id, target_type
-      )
-    values (#{id,jdbcType=BIGINT}, #{targetId,jdbcType=BIGINT}, #{targetType,jdbcType=INTEGER}
-      )
+    insert into enjoy (id, target_id, target_type,
+    enjoy_date, user_id)
+    values (#{id,jdbcType=BIGINT}, #{targetId,jdbcType=BIGINT}, #{targetType,jdbcType=INTEGER},
+    #{enjoyDate,jdbcType=TIMESTAMP}, #{userId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.Enjoy" >
     insert into enjoy
@@ -37,6 +39,12 @@
       <if test="targetType != null" >
         target_type,
       </if>
+      <if test="enjoyDate != null" >
+        enjoy_date,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -47,6 +55,12 @@
       </if>
       <if test="targetType != null" >
         #{targetType,jdbcType=INTEGER},
+      </if>
+      <if test="enjoyDate != null" >
+        #{enjoyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -59,13 +73,48 @@
       <if test="targetType != null" >
         target_type = #{targetType,jdbcType=INTEGER},
       </if>
+      <if test="enjoyDate != null" >
+        enjoy_date = #{enjoyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.diich.core.model.Enjoy" >
     update enjoy
     set target_id = #{targetId,jdbcType=BIGINT},
-      target_type = #{targetType,jdbcType=INTEGER}
+      target_type = #{targetType,jdbcType=INTEGER},
+      enjoy_date = #{enjoyDate,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectCountByTypeAndId" parameterType="com.diich.core.model.Enjoy" resultType="java.lang.Integer">
+    select count(1) from enjoy where 1=1
+    <if test="targetId != null" >
+      and target_id = #{targetId,jdbcType=BIGINT}
+    </if>
+    <if test="targetType != null" >
+      and target_type = #{targetType,jdbcType=INTEGER}
+    </if>
+    <if test="enjoyDate != null" >
+      and enjoy_date = #{enjoyDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="userId != null" >
+      and user_id = #{userId,jdbcType=BIGINT}
+    </if>
+  </select>
+  <delete id="deleteEnjoy" parameterType="com.diich.core.model.Enjoy">
+     delete from enjoy where 1=1
+    <if test="targetId != null" >
+      and target_id = #{targetId,jdbcType=BIGINT}
+    </if>
+    <if test="targetType != null" >
+      and target_type = #{targetType,jdbcType=INTEGER}
+    </if>
+    <if test="userId != null" >
+      and user_id = #{userId,jdbcType=BIGINT}
+    </if>
+  </delete>
 </mapper>
