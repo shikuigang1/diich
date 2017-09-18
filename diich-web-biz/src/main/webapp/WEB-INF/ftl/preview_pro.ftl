@@ -38,6 +38,11 @@
     <script src="${caturi}/assets/js/html5.js"></script>
     <![endif]-->
 
+    <style>
+        .card .plain_text,.card .text_img .side {
+            word-wrap: break-word;
+        }
+    </style>
     <script src="${caturi}/js/base-url.js"></script>
 
     <script type="text/javascript" charset="utf-8" src="${caturi}/ueditor/ueditor.config.js"></script>

@@ -35,7 +35,11 @@
     <link rel="stylesheet" href="${caturi}/assets/css/inputs.css">
     <link rel="stylesheet" href="${caturi}/css/loader.min.css">
     <link rel="stylesheet" href="${caturi}/css/project-detail.css?7">
-
+    <style>
+        .card .plain_text,.card .text_img .side {
+            word-wrap: break-word;
+        }
+    </style>
     <!--[if IE]>
     <link rel="stylesheet" href="${caturi}/assets/css/ie.css">
     <script src="${caturi}/assets/js/html5.js"></script>
