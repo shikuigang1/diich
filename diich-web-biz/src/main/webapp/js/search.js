@@ -305,11 +305,11 @@ function fillCommonByContentList(object, type, attrMap, $ui) {
                 $ui.find('#' + attr_name).parent().attr('href','http://'+ target_type +'.efeiyi.com/'+ type.substring(0,1)+'/'+
                     object.id +'.html?lang=' + getCurrentLanguage());
             } else if($(_attr).is('a')) {
-                $ui.find('#' + attr_name).text(map[attr_name]);
+                $ui.find('#' + attr_name).html(map[attr_name]);
                 $ui.find('#' + attr_name).attr('href', 'http://' + target_type + '.efeiyi.com/'+ type.substring(0,1)+'/'+
                     object.id +'.html?lang=' + getCurrentLanguage());
             } else {
-                $ui.find('#' + attr_name).text(map[attr_name]);
+                $ui.find('#' + attr_name).html(map[attr_name]);
             }
         }
     }
