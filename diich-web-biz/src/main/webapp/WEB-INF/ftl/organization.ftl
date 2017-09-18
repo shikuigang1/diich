@@ -362,7 +362,7 @@
                         <article class="plain_text">
                             <p>
                                 <#if cf.content??>
-                                    <#assign content =cf.content?replace("\n","<p></p>") />
+                                    <#assign content =cf.content?replace(" ","&nbsp;")?replace("\n","<br/>") />
                                      ${content}
                                 </#if>
                             </p>
