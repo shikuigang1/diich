@@ -170,12 +170,14 @@
                     <div>
                         <p>Category</p>
 
-                        <#if (obj.ichCategoryId??)>
-                            <P id="category" category-id="${obj.ichCategoryId?c}">${obj.ichCategoryId?c}</P>
-                        </#if>
-                        <#if (!obj.ichCategoryId??)>
-                            <p id="category" category-id="" ></p>
-                        </#if>
+                        <ul>
+                            <#if (obj.ichCategoryId??)>
+                                <li id="category" category-id="${obj.ichCategoryId?c}">${obj.ichCategoryId?c}</li>
+                            </#if>
+                            <#if (!obj.ichCategoryId??)>
+                                <li id="category" category-id="" ></li>
+                            </#if>
+                        </ul>
 
                     </div>
                 </#if>
