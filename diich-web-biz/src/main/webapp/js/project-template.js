@@ -78,33 +78,29 @@ var edit_main_info_tmp =
     '    <div class="group"> '+
     '        <label class="label" for=""><em>*</em>地域</label> '+
     '        <div class="control">'+
-    '            <div class="ipt w650 select editListen data-item" data-id="33" id="area_temp" value="">请选择地域</div> '+
+    '            <div class="ipt w650 select editListen data-item" data-id="33" dic-type="101" id="area_temp" value="">请选择地域</div> '+
     '            <div class="errors" style="display: none"><i></i>请填写地域</div> '+
     '        </div> '+
     '        <div class="dropbox">'+
     '            <div class="item"> '+
     '                <dl class="level"> '+
-    '                    <dt> '+
-    '                    <div class="title" id="search_position">位置</div> '+
-    '                    </dt> '+
     '                    <dd> '+
     '                        <ul id="country"> </ul> '+
     '                    </dd> '+
     '                </dl> '+
     '                <dl class="level2"> '+
-    '                    <dt>'+
-    '                        <div class="title">按照字母顺序</div> '+
-    '                    </dt> '+
     '                    <dd> '+
     '                        <ul id="province"> </ul> '+
     '                    </dd> '+
     '                </dl> '+
     '                <dl class="level3"> '+
-    '                    <dt>'+
-    '                        <div class="title">按照字母顺序</div> '+
-    '                    </dt> '+
     '                    <dd> '+
     '                        <ul id="city"> </ul> '+
+    '                    </dd> '+
+    '                </dl> '+
+    '                <dl class="level4"> '+
+    '                    <dd> '+
+    '                        <ul id="tower"> </ul> '+
     '                    </dd> '+
     '                </dl> '+
     '            </div> '+
