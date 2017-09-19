@@ -39,7 +39,7 @@
     <script src="${caturi}/js/util.js"></script>
 
 </head>
-<body class="js-h5master">
+<body class="js-h5master" data-id="${obj.id?c}">
 <div class="box" id="box">
     <!--上导航-->
     <div class="box_header" id="box_header">
@@ -77,7 +77,7 @@
     <div class="content_search" id="content_search">
     </div>
     <!--内容信息-->
-    <div class="content" id="content" data-id="${obj.id?c}">
+    <div class="content" id="content">
 
         <!--banner-->
         <div class="banner">
@@ -312,7 +312,7 @@
                             </#if>
                             <#if cf.content?? && cf.content != "">
                                 <p class="For_content2">
-                                    <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
+                                    <#assign content =cf.content?replace(" ","&nbsp;")?replace("\n","<br>") />
                                         ${content}
                                 </p>
                             </#if>
