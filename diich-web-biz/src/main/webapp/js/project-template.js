@@ -1,7 +1,7 @@
 var edit_project_tmp =
     '<div class="edit-project-tool-bar">' +
     '<div class="inner">' +
-    '<button class="ui save button">暂存</button>' +
+    '<button class="ui save button" style="display: none;">暂存</button>' +
     '<button class="ui add button">新增项</button>' +
     '<button class="ui submit primary button">提交</button>' +
     '<button class="ui abandon red button">关闭</button>' +
@@ -47,7 +47,17 @@ var edit_main_info_tmp =
     '                        <div class="title" id="second_category">二级分类</div> '+
     '                    </dt> '+
     '                    <dd> '+
-    '                        <ul id="catecontent">'+
+    '                        <ul id="secondCate">'+
+    '                            <li data-id="0">选择分类</li> '+
+    '                        </ul> '+
+    '                    </dd> '+
+    '                </dl> '+
+    '                <dl class="level3"> '+
+    '                    <dt> '+
+    '                        <div class="title" id="second_category">三级分类</div> '+
+    '                    </dt> '+
+    '                    <dd> '+
+    '                        <ul id="thirdCate">'+
     '                            <li data-id="0">选择分类</li> '+
     '                        </ul> '+
     '                    </dd> '+
@@ -83,10 +93,18 @@ var edit_main_info_tmp =
     '                </dl> '+
     '                <dl class="level2"> '+
     '                    <dt>'+
-    '                        <div class="title" id="alphabetical_order">按照字母顺序</div> '+
+    '                        <div class="title">按照字母顺序</div> '+
     '                    </dt> '+
     '                    <dd> '+
-    '                        <ul id="citycontent"> </ul> '+
+    '                        <ul id="province"> </ul> '+
+    '                    </dd> '+
+    '                </dl> '+
+    '                <dl class="level3"> '+
+    '                    <dt>'+
+    '                        <div class="title">按照字母顺序</div> '+
+    '                    </dt> '+
+    '                    <dd> '+
+    '                        <ul id="city"> </ul> '+
     '                    </dd> '+
     '                </dl> '+
     '            </div> '+

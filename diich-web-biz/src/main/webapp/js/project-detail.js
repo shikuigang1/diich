@@ -265,7 +265,7 @@ function displayEditMode() {
                     var $video = $('<video></video>');
                     $video.attr('controls', 'controls');
                     $video.attr('width', '325px');
-                    $video.attr('src', 'http://resource.efeiyi.com/video/project/' + resource_tmp.uri);
+                    $video.attr('src', 'http://resource.efeiyi.com/image/project/' + resource_tmp.uri);
                     $li.append($video);
                 }
 
@@ -535,7 +535,7 @@ function editImageTextUi($section) {
         } else if(resource.type == 1) {
             var $video = $('<video></video>');
             $video.attr('controls', 'controls');
-            $video.attr('src', 'http://resource.efeiyi.com/video/project/' + resource.uri);
+            $video.attr('src', 'http://resource.efeiyi.com/image/project/' + resource.uri);
             $video.attr('width', '208px');
             $video.attr('height', '208px');
             $video.attr('file-name', resource.uri);
@@ -864,7 +864,7 @@ function buildOneComboUi(data, $ui) {
             }
 
             if(oneComboChildre != null && oneComboChildre.length > 0) {
-                buildTwoComboUi(data, li_data_id, $ui);
+                buildTwoComboUi(oneComboChildre, $ui);
                 $ui.find('.level2').show();
             } else {
                 $ui.find('.level2').hide();
@@ -892,19 +892,10 @@ function buildOneComboUi(data, $ui) {
 
 }
 
-function buildTwoComboUi(data, data_id, $ui) {
+function buildTwoComboUi(data, $ui) {
     var $container = $ui.find('.level2 ul');
     $container.children().remove();
-    var twoData = [];
-
-    for(var i = 0; i < data.length; i ++) {
-        var tmp = data[i].code != null ? data[i].code : data[i].id;
-
-        if(tmp == data_id) {
-            twoData = data[i].children;
-            break;
-        }
-    }
+    var twoData = data;
 
     var curr_lang = getCurrentLanguage();
 
@@ -919,15 +910,72 @@ function buildTwoComboUi(data, data_id, $ui) {
             $li.text(twoData[i].name);
         }
 
+        $li.hover(function () {
+            var li_data_id = $(this).attr('data-id');
+            var twoComboChildren = null;
+
+            for(var j = 0; j < data.length; j ++) {
+                if(data[j].id == li_data_id || data[j].code == li_data_id) {
+                    twoComboChildren = data[j].children;
+                    break;
+                }
+            }
+
+            if(twoComboChildren != null && twoComboChildren.length > 0) {
+                buildThreeComboUi(twoComboChildren, $ui);
+                $ui.find('.level3').show();
+            } else {
+                $ui.find('.level3').hide();
+            }
+        });
+
         $li.on('click', function () {
             var li_data_id = $(this).attr('data-id');
             var li_name = $(this).text();
 
             var container_id = $(this).parent().attr('id');
-            if(container_id == 'catecontent') {
+            if(container_id == 'secondCate') {
                 $('#category_temp').attr('data-value', li_data_id);
                 $('#category_temp').text(li_name);
-            } else if(container_id == 'citycontent') {
+            } else if(container_id == 'province') {
+                $('#area_temp').attr('data-value', li_data_id);
+                $('#area_temp').text(li_name);
+            }
+
+            $ui.animate({height:'hide'},50);
+        });
+
+        $container.append($li);
+    }
+}
+
+function buildThreeComboUi(data, $ui) {
+    var $container = $ui.find('.level3 ul');
+    $container.children().remove();
+    var threeData = data;
+
+    var curr_lang = getCurrentLanguage();
+
+    for(var i = 0; i < threeData.length; i ++) {
+        var $li = $('<li></li>');
+        $li.attr('data-id', threeData[i].code != null ?
+            threeData[i].code : threeData[i].id);
+
+        if(curr_lang == 'en') {
+            $li.text(threeData[i].eNname);
+        } else {
+            $li.text(threeData[i].name);
+        }
+
+        $li.on('click', function () {
+            var li_data_id = $(this).attr('data-id');
+            var li_name = $(this).text();
+
+            var container_id = $(this).parent().attr('id');
+            if(container_id == 'thirdCate') {
+                $('#category_temp').attr('data-value', li_data_id);
+                $('#category_temp').text(li_name);
+            } else if(container_id == 'city') {
                 $('#area_temp').attr('data-value', li_data_id);
                 $('#area_temp').text(li_name);
             }
@@ -955,7 +1003,7 @@ function uploadFile(_this, $ui, callback) {
         reg = /^.*[^a][^b][^c]\.(?:png|jpg|bmp|gif|jpeg)$/;
         errorMsg = '请上传格式为png|jpg|bmp|gif|jpeg的图片';
     } else if(dataType == 'video') {
-        reg = /^.*[^a][^b][^c]\.(?:mp4|rmvb|flv|mpeg|avi)$/;
+        reg = /^.*[^a][^b][^c]\.(?:mp4|rmvb|flv|mpeg|avi|mpg)$/;
         errorMsg = '请上传格式为mp4|rmvb|flv|mpeg|avi的视频';
     }
 
@@ -971,7 +1019,7 @@ function uploadFile(_this, $ui, callback) {
     var accessId =serverInfo["accessid"];
     var policy = serverInfo["policy"];
     var signature = serverInfo["signature"];
-    var key = dataType + '/project/' + serverInfo["filename"] + "." + suffix;//生成文件路径
+    var key = 'image/project/' + serverInfo["filename"] + "." + suffix;//生成文件路径
 
     $ui.find("input[name='OSSAccessKeyId']").val(accessId);
     $ui.find("input[name='policy']").val(policy);
@@ -1048,6 +1096,7 @@ function saveProjectToServer(callback) {
         },
         success: function (data) {
             if(data.code == 0) {
+                //project = data;
                 var refresh = callback();
                 if(!refresh) return;
             }
@@ -1141,7 +1190,7 @@ function adjustImageText($section, item_arr) {
                         var $video = $('<video></video>');
                         $video.attr('controls', 'controls');
                         $video.attr('width', '325px');
-                        $video.attr('src', 'http://resource.efeiyi.com/video/project/' + resourceList[j].uri);
+                        $video.attr('src', 'http://resource.efeiyi.com/image/project/' + resourceList[j].uri);
                         $li.append($video);
                     }
 
