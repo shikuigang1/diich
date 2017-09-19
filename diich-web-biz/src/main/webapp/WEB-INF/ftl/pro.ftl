@@ -87,7 +87,7 @@
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
     <div class="content">
-        <form class="form" action="http://diich.efeiyi.com/page/search.html">
+        <form class="form" action="${caturi}/page/search.html">
             <input class="ipt" type="text" id="keyword" name="keyword" value="" autocomplete="off">
             <input type="hidden" id="area_code" name="area_code" value=""/>
             <input type="hidden" id="gb_category_code" name="gb_category_code" value=""/>
