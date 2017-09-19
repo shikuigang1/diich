@@ -769,7 +769,10 @@ function organizationPreview(){
                 modal.loading({
                     success:function () {
                         //location.href="/tmp/"+ich.id+".html";
-                        location.href="/organizationtmp/"+org.id+".html";
+                        // location.href="/organizationtmp/"+org.id+".html";
+                        myDialog.create({code: 0, wid: "project", ifrId: "onPreview", title: "机构信息预览", url: result.data.replace('./','/') });
+
+
                     }
                 });
 
