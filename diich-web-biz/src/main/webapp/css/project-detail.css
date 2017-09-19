@@ -252,3 +252,23 @@ section .handle-button {
 .file_up .progress .loader {
     margin-top: 46px;
 }
+
+section .read-piece strong{
+    font-weight: bold;
+}
+
+section .read-piece em{
+    font-style: italic;
+}
+
+.dropbox .item dd {
+    width: 165px!important;
+}
+
+section .item-content:before {
+    content: none;
+}
+
+section .item-content:after {
+    content: none;
+}
