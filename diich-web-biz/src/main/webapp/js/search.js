@@ -303,11 +303,11 @@ function fillCommonByContentList(object, type, attrMap, $ui) {
             if($(_attr).hasClass('head-image')) {
                 $ui.find('#' + attr_name).attr('src', map[attr_name]);
                 $ui.find('#' + attr_name).parent().attr('href','http://'+ target_type +'.efeiyi.com/'+ type.substring(0,1)+'/'+
-                    object.id +'.html?lang=' + getCurrentLanguage());
+                    object.id +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
             } else if($(_attr).is('a')) {
                 $ui.find('#' + attr_name).html(map[attr_name]);
                 $ui.find('#' + attr_name).attr('href', 'http://' + target_type + '.efeiyi.com/'+ type.substring(0,1)+'/'+
-                    object.id +'.html?lang=' + getCurrentLanguage());
+                    object.id +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
             } else {
                 $ui.find('#' + attr_name).html(map[attr_name]);
             }
