@@ -354,7 +354,8 @@ function eidtMainInfoUi($section) {
 
     addMainInfoCompListener($section);
 
-    buildOneComboUi(dic_arr_city, $('#area_temp').parent().parent().find('.item'));
+    buildOneAreaUi($('#area_temp').parent().parent().find('.item'));
+    //buildOneComboUi(dic_arr_city, $('#area_temp').parent().parent().find('.item'));
     buildOneComboUi(category_all, $('#category_temp').parent().parent().find('.item'));
 
     if(project == null) {
@@ -382,8 +383,14 @@ function eidtMainInfoUi($section) {
                 if($a_item.is('input[type="text"]') || $a_item.is('select')) {
                     $a_item.val(value);
                 } else if($a_item.attr('data-id') == '33') {
+                    var value_arr = value.split(',');
+                    if(value_arr.length > 0) {
+                        value = value_arr[0];
+                    }
+
                     $a_item.attr('data-value', value);
-                    $a_item.text(getSingleCityText(value, dic_arr_city));
+                    //$a_item.text(getSingleCityText(value, dic_arr_city));
+                    $a_item.text(getTextByTypeAndCode($a_item.attr('dic-type'), value, 'chi'));
                 } else {
                     $a_item.text(value);
                 }
@@ -984,6 +991,194 @@ function buildThreeComboUi(data, $ui) {
         });
 
         $container.append($li);
+    }
+}
+
+function buildOneAreaUi($ui) {
+    if(area_all == null) {
+        return;
+    }
+
+    var $container = $ui.find('.level ul');
+    $container.children().remove();
+
+    for(var i = 0; i < area_all.length; i++) {
+        var area = area_all[i];
+        if(area.parent_id == null) {
+            var $li = $('<li></li>');
+            $li.attr('data-code', area_all[i].code);
+            $li.attr('data-id', area_all[i].id);
+            $li.text(area_all[i].name);
+
+            $li.hover(function () {
+                buildTwoAreaUi($(this).attr('data-id'), $ui)
+            });
+
+            $li.on('click', function () {
+                var data_code = $(this).attr('data-code');
+                var name = $(this).text();
+
+                $('#area_temp').attr('data-value', data_code);
+                $('#area_temp').text(name);
+
+                $ui.animate({height:'hide'},50);
+            });
+
+            $container.append($li);
+        }
+    }
+}
+
+function buildTwoAreaUi(data_id, $ui) {
+    var $container = $ui.find('.level2 ul');
+    $container.children().remove();
+
+    var is_has = false;
+
+    for(var i = 0; i < area_all.length; i ++) {
+        if(data_id == area_all[i].parent_id) {
+            var $li = $('<li></li>');
+            $li.attr('data-id', area_all[i].id);
+            $li.attr('data-code', area_all[i].code);
+            $li.text(area_all[i].name);
+
+            $li.hover(function () {
+                buildThreeAreaUi($(this).attr('data-id'), $ui)
+            });
+
+            $li.on('click', function () {
+                var data_code = $(this).attr('data-code');
+                var name = $(this).text();
+
+                $('#area_temp').attr('data-value', data_code);
+                $('#area_temp').text(name);
+
+                $ui.animate({height:'hide'},50);
+            });
+
+            $li.on('click', function () {
+                /* var li_data_id = $(this).attr('data-id');
+                 var li_name = $(this).text();
+
+                 var container_id = $(this).parent().attr('id');
+                 if(container_id == 'secondCate') {
+                 $('#category_temp').attr('data-value', li_data_id);
+                 $('#category_temp').text(li_name);
+                 } else if(container_id == 'province') {
+                 $('#area_temp').attr('data-value', li_data_id);
+                 $('#area_temp').text(li_name);
+                 }
+
+                 $ui.animate({height:'hide'},50);*/
+            });
+
+            $container.append($li);
+
+            is_has = true;
+        }
+    }
+
+    if(is_has) {
+        $ui.find('.level2').show();
+    } else {
+        $ui.find('.level2').hide();
+    }
+
+    $ui.find('.level3').hide();
+    $ui.find('.level4').hide();
+}
+
+function buildThreeAreaUi(data_id, $ui) {
+    var $container = $ui.find('.level3 ul');
+    $container.children().remove();
+
+    var is_has = false;
+
+    for(var i = 0; i < area_all.length; i ++) {
+        if(data_id == area_all[i].parent_id) {
+            var $li = $('<li></li>');
+            $li.attr('data-id', area_all[i].id);
+            $li.attr('data-code', area_all[i].code);
+            $li.text(area_all[i].name);
+
+            $li.hover(function () {
+                buildFourAreaUi($(this).attr('data-id'), $ui)
+            });
+
+            $li.on('click', function () {
+                var data_code = $(this).attr('data-code');
+                var name = $(this).text();
+
+                $('#area_temp').attr('data-value', data_code);
+                $('#area_temp').text(name);
+
+                $ui.animate({height:'hide'},50);
+            });
+
+            $li.on('click', function () {
+                /* var li_data_id = $(this).attr('data-id');
+                 var li_name = $(this).text();
+
+                 var container_id = $(this).parent().attr('id');
+                 if(container_id == 'secondCate') {
+                 $('#category_temp').attr('data-value', li_data_id);
+                 $('#category_temp').text(li_name);
+                 } else if(container_id == 'province') {
+                 $('#area_temp').attr('data-value', li_data_id);
+                 $('#area_temp').text(li_name);
+                 }
+
+                 $ui.animate({height:'hide'},50);*/
+            });
+
+            $container.append($li);
+
+            is_has = true;
+        }
+    }
+
+    if(is_has) {
+        $ui.find('.level3').show();
+    } else {
+        $ui.find('.level3').hide();
+    }
+
+    $ui.find('.level4').hide();
+}
+
+function buildFourAreaUi(data_id, $ui) {
+    var $container = $ui.find('.level4 ul');
+    $container.children().remove();
+
+    var is_has = false;
+
+    for(var i = 0; i < area_all.length; i ++) {
+        if(data_id == area_all[i].parent_id) {
+            var $li = $('<li></li>');
+            $li.attr('data-id', area_all[i].id);
+            $li.attr('data-code', area_all[i].code);
+            $li.text(area_all[i].name);
+
+            $li.on('click', function () {
+                var data_code = $(this).attr('data-code');
+                var name = $(this).text();
+
+                $('#area_temp').attr('data-value', data_code);
+                $('#area_temp').text(name);
+
+                $ui.animate({height:'hide'},50);
+            });
+
+            $container.append($li);
+
+            is_has = true;
+        }
+    }
+
+    if(is_has) {
+        $ui.find('.level4').show();
+    } else {
+        $ui.find('.level4').hide();
     }
 }
 
