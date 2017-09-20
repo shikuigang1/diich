@@ -216,9 +216,16 @@ function displayEditMode() {
 
         var resourceList_tmp = [];
         $ui.find('.save.link').on('click', function () {
-            var title = $ui.find('.title input').val();
             var content = editor.getContent();
-            if(title == '') {
+
+            var $selected = $('#custom .ui.dropdown .menu .selected');
+            var attr_id = $selected.attr('data-value');
+            var title;
+            if(attr_id == null) {
+                title = $('#custom .ui.dropdown .text').text();
+            }
+
+            if(attr_id == null && title == '') {
                 alert('标题不能为空');
                 return;
             } else if(content == '') {
@@ -226,29 +233,47 @@ function displayEditMode() {
                 return;
             }
 
+            var is_has = false;
+            var contentFragment;
             var contentFragmentList = project.contentFragmentList;
             for(var i = 0; i < contentFragmentList.length; i++) {
-                var attr = contentFragmentList[i].attribute;
-                if(attr != null && attr.cnName == title) {
-                    alert('标题重复，请更换新标题');
-                    return;
+                contentFragment = contentFragmentList[i];
+                if(contentFragment.attributeId == attr_id) {
+                    is_has = true;
+                    contentFragment.content = content;
+                    if(resourceList_tmp.length > 0) {
+                        contentFragment.resourceList = resourceList_tmp;
+                    }
+                    break;
                 }
             }
 
-            var contentFragment = {};
-            var attribute = {};
-            attribute.cnName = title;
-            attribute.dataType = 5;
-            contentFragment.content = content;
-            contentFragment.attributeId = 0;
-            contentFragment.targetType = 0;
-            contentFragment.attribute = attribute;
-            if(resourceList_tmp.length > 0) {
-                contentFragment.resourceList = resourceList_tmp;
-            }
-            contentFragmentList.push(contentFragment);
+            if(!is_has) {
+                contentFragment = {};
+                var attribute;
+                if(attr_id != null) {
+                    for(var t = 0; t < attributes.length; t++) {
+                        if(attr_id == attributes[t].id) {
+                            attribute = attributes[t];
+                        }
+                    }
+                } else if(title != null) {
+                    attribute = {};
+                    attribute.cnName = title;
+                    attribute.dataType = 5;
+                    contentFragment.attributeId = 0;
+                }
 
-            $ui.find('.title input').hide();
+                contentFragment.content = content;
+                contentFragment.targetType = 0;
+                contentFragment.attribute = attribute;
+                if(resourceList_tmp.length > 0) {
+                    contentFragment.resourceList = resourceList_tmp;
+                }
+                contentFragmentList.push(contentFragment);
+            }
+
+            $ui.find('.title .ui.dropdown').hide();
             $ui.find('h4').text(title);
 
             var $custom_ui = $(custom_show_tmp);
@@ -287,6 +312,8 @@ function displayEditMode() {
         $ui.find('.edit.link').on('click', function(){
             alert('自定义项编辑功能马上上线，敬请期待！');
         });
+
+        fillCustomSelect();
 
         $ui.find('.add.file_up').append($(getTemplate()));
         $ui.find('.add.file_up input').change(function () {
@@ -389,7 +416,6 @@ function eidtMainInfoUi($section) {
                     }
 
                     $a_item.attr('data-value', value);
-                    //$a_item.text(getSingleCityText(value, dic_arr_city));
                     $a_item.text(getTextByTypeAndCode($a_item.attr('dic-type'), value, 'chi'));
                 } else {
                     $a_item.text(value);
@@ -1396,4 +1422,39 @@ function adjustImageText($section, item_arr) {
             }
         }
     }
+}
+
+function fillCustomSelect() {
+    var values = [];
+    for(var i = 0; i < attributes.length; i++) {
+        var attr = attributes[i];
+        var is_exclude = false;
+        if(attr.dataType != '5') {
+            continue;
+        }
+        for(var j = 0; j < project.contentFragmentList.length; j++) {
+            var contentFragment = project.contentFragmentList[j];
+            if(attr.id == contentFragment.attributeId) {
+                is_exclude = true;
+                if((contentFragment.content == null || contentFragment.content == '')
+                    && contentFragment.resourceList.length == 0) {
+                    var value = {};
+                    value.name = attr.cnName;
+                    value.value = attr.id;
+                    values.push(value);
+                }
+            }
+        }
+        if(!is_exclude) {
+            var value = {};
+            value.name = attr.cnName;
+            value.value = attr.id;
+            values.push(value);
+        }
+    }
+
+    $('#custom .ui.dropdown').dropdown({
+        allowAdditions: true,
+        values: values
+    });
 }

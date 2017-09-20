@@ -34,6 +34,8 @@
     <link rel="stylesheet" href="${caturi}/css/button.min.css">
     <link rel="stylesheet" href="${caturi}/assets/css/inputs.css">
     <link rel="stylesheet" href="${caturi}/css/loader.min.css">
+    <link rel="stylesheet" href="${caturi}/css/dropdown.min.css">
+    <link rel="stylesheet" href="${caturi}/css/transition.min.css">
     <link rel="stylesheet" href="${caturi}/css/project-detail.css?7">
     <style>
         .card .plain_text,.card .text_img .side {
@@ -68,6 +70,8 @@
     <script src="${caturi}/js/util.js"></script>
 
     <script src="${caturi}/assets/js/Ecalendar.jquery.min.js"></script>
+    <script src="${caturi}/js/semantic.min.js"></script>
+    <script src="${caturi}/data/area.js"></script>
     <script src="${caturi}/js/project-template.js"></script>
     <script src="${caturi}/js/project-detail.js?3"></script>
 

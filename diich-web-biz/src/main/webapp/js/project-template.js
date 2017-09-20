@@ -199,7 +199,7 @@ var custom_image_text_tmp =
     '<section  name="custom" id="custom" class="bd floor odd" data-type="image-text">'+
     '    <div class="card">'+
     '        <header class="title handle-button"><h4></h4>'+
-    '            <input type="text" placeholder="请输入标题" style="font-size: 24px;"/>'+
+    '            <select name="titles" class="ui search dropdown"></select>'+
     '            <span class="edit link" style="display: none;">编辑</span><span class="save link">保存</span>'+
     '        </header>'+
     '    </div>'+

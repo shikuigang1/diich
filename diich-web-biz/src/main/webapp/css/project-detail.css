@@ -272,3 +272,16 @@ section .item-content:before {
 section .item-content:after {
     content: none;
 }
+
+.ui.selection.dropdown {
+    min-height: 0px!important;
+    width: 188px;
+}
+
+.ui.selection.dropdown.active, .ui.selection.dropdown.visible {
+    z-index: 1000;
+}
+
+#custom .card header:after {
+    content: none;
+}
