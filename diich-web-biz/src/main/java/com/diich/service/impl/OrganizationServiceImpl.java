@@ -73,10 +73,10 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
     public Organization saveOrganization(Organization organization, User user) throws Exception{
 
         TransactionStatus transactionStatus = getTransactionStatus();
-        if(organization.getStatus() != null && organization.getStatus() == 3){
-            checkOrganization(organization);//校验机构信息
-        }
         try {
+            if(organization.getStatus() != null && organization.getStatus() == 3){
+                checkOrganization(organization);//校验机构信息
+            }
             organization.setLastEditDate(new Date());
             if(organization.getStatus() != null && organization.getStatus() == 3){
                 if(user != null && user.getType() == 0){//如果当前修改者是admin type代表权限  0 代表admin  1代表普通用户
@@ -88,13 +88,13 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             }
             commit(transactionStatus);
         } catch (Exception e) {
+            rollback(transactionStatus);
             if( e instanceof ApplicationException) {
                 ApplicationException ae = (ApplicationException) e;
                 if (ae.getCode() == 2) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, ae.getDetailMsg());
                 }
             }
-            rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         return organization;
