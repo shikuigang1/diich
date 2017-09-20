@@ -175,6 +175,9 @@ public class UserController extends BaseController<User> {
             HttpSession session = request.getSession();
             user.setPassword(null);
             session.setAttribute("CURRENT_USER",user);
+            if(user.getType() != null && user.getType()==0){
+                session.setMaxInactiveInterval(-1);
+            }
         }catch (Exception e){
             return putDataToMap(e);
         }
