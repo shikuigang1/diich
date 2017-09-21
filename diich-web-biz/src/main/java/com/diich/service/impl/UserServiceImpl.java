@@ -104,7 +104,6 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
            //校验用户名是否合法
            String loginName = user.getLoginName();
            if(!loginName.matches("[A-Za-z0-9_]+")){
-               rollback(transactionStatus);//回滚事务
                throw new ApplicationException(ApplicationException.LOGNAME_UNCORR);
            }
            //通过用户名校验用户是否存在
@@ -113,12 +112,10 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
            try{
               userList = userMapper.selectByLogName(user.getLoginName());
            }catch (Exception e){
-               rollback(transactionStatus);//回滚事务
                throw new ApplicationException(ApplicationException.INNER_ERROR);
            }
 
            if(userList.size() >0){
-               rollback(transactionStatus);//回滚事务
                throw new ApplicationException(ApplicationException.LOGNAME_USED);
            }
 
@@ -126,12 +123,10 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
                //手机号是否被占用
                users = userMapper.selectByPhone(user.getPhone());
            }catch (Exception e){
-               rollback(transactionStatus);//回滚事务
                throw new ApplicationException(ApplicationException.INNER_ERROR);
            }
 
            if(users.size() > 0){
-               rollback(transactionStatus);//回滚事务
                throw new ApplicationException(ApplicationException.PHONE_USED);
            }
 
@@ -164,7 +159,6 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
 
     @Override
     public User updateUser(User user) throws Exception {
-        //获取当前事务状态
         try{
             if(user.getPassword() != null){
                 String password = SecurityUtil.encryptMd5(user.getPassword());
