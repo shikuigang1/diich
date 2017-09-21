@@ -31,7 +31,7 @@
     <script src="${h5uri}/links/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="${h5uri}/assets/js/Menu2.js" type="text/javascript" charset="utf-8"></script>
     <script src="${h5uri}/assets/js/scrollBar.js" type="text/javascript" charset="utf-8"></script>
-    <script src="${h5uri}/Sign_ajax.js" type="text/javascript" charset="utf-8"></script>
+    <script src="${h5uri}/assets/js/Sign_ajax.js " type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="${h5uri}/links/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="${h5uri}/css/swiper.min.css"/>
     <script src="${h5uri}/links/js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
