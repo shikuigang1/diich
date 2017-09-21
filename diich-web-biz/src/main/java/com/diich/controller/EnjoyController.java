@@ -68,7 +68,7 @@ public class EnjoyController extends BaseController<Enjoy>{
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
-        if(enjoy==null){
+        if(enjoy == null || enjoy.getTargetType() == null || enjoy.getTargetId() == null){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
@@ -101,7 +101,7 @@ public class EnjoyController extends BaseController<Enjoy>{
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
-        if(enjoy==null){
+        if(enjoy == null || enjoy.getTargetType() == null || enjoy.getTargetId() == null){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
@@ -134,12 +134,13 @@ public class EnjoyController extends BaseController<Enjoy>{
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
-        if(enjoy==null){
+        if(enjoy == null || enjoy.getTargetType() == null || enjoy.getTargetId() == null){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
         int count = 0;
         try{
+            enjoy.setUserId(user.getId());
             count = enjoyService.getCountByUser(enjoy);
         }catch (Exception e){
             return putDataToMap(e);
