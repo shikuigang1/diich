@@ -220,10 +220,7 @@ function displayEditMode() {
 
             var $selected = $('#custom .ui.dropdown .menu .selected');
             var attr_id = $selected.attr('data-value');
-            var title;
-            if(attr_id == null) {
-                title = $('#custom .ui.dropdown .text').text();
-            }
+            var title = $('#custom .ui.dropdown .text').text();
 
             if(attr_id == null && title == '') {
                 alert('标题不能为空');
@@ -241,7 +238,7 @@ function displayEditMode() {
                 if(contentFragment.attributeId == attr_id) {
                     is_has = true;
                     contentFragment.content = content;
-                    if(resourceList_tmp.length > 0) {
+                    if(resourceList_tmp.length > 0 && contentFragment.attribute.dataType == '5') {
                         contentFragment.resourceList = resourceList_tmp;
                     }
                     break;
@@ -252,22 +249,18 @@ function displayEditMode() {
                 contentFragment = {};
                 var attribute;
                 if(attr_id != null) {
-                    for(var t = 0; t < attributes.length; t++) {
-                        if(attr_id == attributes[t].id) {
-                            attribute = attributes[t];
-                        }
-                    }
+                    contentFragment.attributeId = attr_id;
                 } else if(title != null) {
                     attribute = {};
                     attribute.cnName = title;
                     attribute.dataType = 5;
                     contentFragment.attributeId = 0;
+                    contentFragment.attribute = attribute;
                 }
 
                 contentFragment.content = content;
                 contentFragment.targetType = 0;
-                contentFragment.attribute = attribute;
-                if(resourceList_tmp.length > 0) {
+                if(resourceList_tmp.length > 0 && attribute.dataType == '5') {
                     contentFragment.resourceList = resourceList_tmp;
                 }
                 contentFragmentList.push(contentFragment);
@@ -689,7 +682,7 @@ function saveProjectToClient($section) {
         }
 
         //基础信息条目显示不全，加的补丁
-        if(data_type == 'short-text' && is_new_attr) {
+        if((data_type == 'short-text' || data_type == 'main-text') && is_new_attr) {
             for(var j = 0; j < attributes.length; j++) {
                 var attribute = attributes[j];
                 if(attribute.id == data_id) {
@@ -1428,8 +1421,13 @@ function fillCustomSelect() {
     var values = [];
     for(var i = 0; i < attributes.length; i++) {
         var attr = attributes[i];
+
+        if(attr == null) {
+            continue;
+        }
+
         var is_exclude = false;
-        if(attr.dataType != '5') {
+        if(attr.dataType != '5' && attr.dataType != '1') {
             continue;
         }
         for(var j = 0; j < project.contentFragmentList.length; j++) {
