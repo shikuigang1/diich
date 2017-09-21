@@ -166,13 +166,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Transactional
     public IchProject saveIchProject(IchProject ichProject, User user) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
-        //根据项目名称查询项目是否存在
-        checkProjectByName(ichProject);
-        if(ichProject.getStatus() != null && ichProject.getStatus() == 3){
-            //检查属性是否符合条件
-            checkAttribute(ichProject,3);
-        }
         try {
+            //根据项目名称查询项目是否存在
+            checkProjectByName(ichProject);
+            if(ichProject.getStatus() != null && ichProject.getStatus() == 3){
+                //检查属性是否符合条件
+                checkAttribute(ichProject,3);
+            }
             ichProject.setLastEditDate(new Date());
             if(ichProject.getStatus() != null && ichProject.getStatus() == 3){
                 if(user != null && user.getType() == 0){//如果当前修改者不是admin type 代表权限 0 代表admin  1代表普通用户
@@ -184,6 +184,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             }
             commit(transactionStatus);
         } catch (Exception e) {
+            rollback(transactionStatus);
             if(e instanceof ApplicationException){
                 ApplicationException ae = (ApplicationException) e;
                 if(ae.getCode() == 2){
@@ -191,9 +192,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
             }
             e.printStackTrace();
-            rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
-        }
+       }
         return ichProject;
     }
 
@@ -266,6 +266,17 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             for (ContentFragment contentFragment : ichProjectContentFragmentList) {
                 contentFragment.setId(null);
                 contentFragment.setTargetId(branchId);
+                if(contentFragment.getAttributeId() != null){
+                    Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
+                    if(attribute != null && attribute.getTargetType() != null && attribute.getTargetType() == 10){
+                        long id = IdWorker.getId();
+                        attribute.setId(id);
+                        attribute.setTargetId(branchId);
+                        attributeMapper.insertSelective(attribute);
+                        contentFragment.setAttribute(attribute);
+                        contentFragment.setAttributeId(id);
+                    }
+                }
                 List<Resource> resourceList = contentFragment.getResourceList();
                 if(resourceList != null && resourceList.size()>0){
                     for(int i = 0 ; i <  resourceList.size() ; i++ ){
@@ -637,7 +648,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             List<Resource> resourceList = contentFragment.getResourceList();
             if(resourceList !=null && resourceList.size()>0){
                 for (Resource resource:resourceList) {
-                    if (resource.getType() == 0) {
+                    if (resource.getType() != null && resource.getType() == 0) {
                         img.add(resource);
                         if(contentFragment.getAttributeId()!=112){//头图不放到所有图片中
                             imgdist.addAll(img);
@@ -645,7 +656,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                             headMap.put("headImage",img);
                         }
                     }
-                    if (resource.getType() == 1) {
+                    if (resource.getType() != null && resource.getType() == 1) {
                         video.add(resource);
                         videosdist.addAll(video);
                     }

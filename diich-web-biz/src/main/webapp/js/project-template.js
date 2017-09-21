@@ -1,7 +1,7 @@
 var edit_project_tmp =
     '<div class="edit-project-tool-bar">' +
     '<div class="inner">' +
-    '<button class="ui save button" style="display: none">暂存</button>' +
+    '<button class="ui save button" style="display: none;">暂存</button>' +
     '<button class="ui add button">新增项</button>' +
     '<button class="ui submit primary button">提交</button>' +
     '<button class="ui abandon red button">关闭</button>' +
@@ -47,7 +47,17 @@ var edit_main_info_tmp =
     '                        <div class="title" id="second_category">二级分类</div> '+
     '                    </dt> '+
     '                    <dd> '+
-    '                        <ul id="catecontent">'+
+    '                        <ul id="secondCate">'+
+    '                            <li data-id="0">选择分类</li> '+
+    '                        </ul> '+
+    '                    </dd> '+
+    '                </dl> '+
+    '                <dl class="level3"> '+
+    '                    <dt> '+
+    '                        <div class="title" id="second_category">三级分类</div> '+
+    '                    </dt> '+
+    '                    <dd> '+
+    '                        <ul id="thirdCate">'+
     '                            <li data-id="0">选择分类</li> '+
     '                        </ul> '+
     '                    </dd> '+
@@ -68,25 +78,29 @@ var edit_main_info_tmp =
     '    <div class="group"> '+
     '        <label class="label" for=""><em>*</em>地域</label> '+
     '        <div class="control">'+
-    '            <div class="ipt w650 select editListen data-item" data-id="33" id="area_temp" value="">请选择地域</div> '+
+    '            <div class="ipt w650 select editListen data-item" data-id="33" dic-type="101" id="area_temp" value="">请选择地域</div> '+
     '            <div class="errors" style="display: none"><i></i>请填写地域</div> '+
     '        </div> '+
     '        <div class="dropbox">'+
     '            <div class="item"> '+
     '                <dl class="level"> '+
-    '                    <dt> '+
-    '                    <div class="title" id="search_position">位置</div> '+
-    '                    </dt> '+
     '                    <dd> '+
     '                        <ul id="country"> </ul> '+
     '                    </dd> '+
     '                </dl> '+
     '                <dl class="level2"> '+
-    '                    <dt>'+
-    '                        <div class="title" id="alphabetical_order">按照字母顺序</div> '+
-    '                    </dt> '+
     '                    <dd> '+
-    '                        <ul id="citycontent"> </ul> '+
+    '                        <ul id="province"> </ul> '+
+    '                    </dd> '+
+    '                </dl> '+
+    '                <dl class="level3"> '+
+    '                    <dd> '+
+    '                        <ul id="city"> </ul> '+
+    '                    </dd> '+
+    '                </dl> '+
+    '                <dl class="level4"> '+
+    '                    <dd> '+
+    '                        <ul id="tower"> </ul> '+
     '                    </dd> '+
     '                </dl> '+
     '            </div> '+
@@ -143,12 +157,12 @@ var edit_image_text_tmp =
     '        <div class="images" id="images"> '+
     '            <div class="image-container"> </div> '+
     '            <div class="handle"> '+
-    '                <div class="add file_up add-image"> '+
+    '                <div class="add file_up" data-type="image"> '+
     '                    <span class="icon"> <i></i></span> '+
     '                    <span>添加图片</span> '+
     '                </div> '+
-    '                <div class="add file_up add-video" style="margin-right:0;"> '+
-    '                    <span class="icon icon2" onclick="javascript:alert(\'上传视频正在完善，敬请期待！\');"><i></i></span> '+
+    '                <div class="add file_up" data-type="video" style="margin-right:0;"> '+
+    '                    <span class="icon icon2"><i></i></span> '+
     '                    <span>添加视频</span> '+
     '                </div> '+
     '            </div> '+
@@ -156,7 +170,7 @@ var edit_image_text_tmp =
     '    </div> '+
     '</div>';
 
-var edit_image_text_template =
+var show_image_text_template =
     '<article class="text_img read-piece">'+
     '    <div class="side" style="margin-right: 30px; width: 770px;">'+
     '        <div class="item data-item item-content" data-id="">'+
@@ -176,7 +190,6 @@ var custom_show_tmp =
     '    </div> '+
     '    <div class="media"> '+
     '        <ul> '+
-    '            <li></li> '+
     '        </ul>'+
     '        <div class="more"></div> '+
     '    </div> '+
@@ -186,7 +199,7 @@ var custom_image_text_tmp =
     '<section  name="custom" id="custom" class="bd floor odd" data-type="image-text">'+
     '    <div class="card">'+
     '        <header class="title handle-button"><h4></h4>'+
-    '            <input type="text" placeholder="请输入标题" style="font-size: 24px;"/>'+
+    '            <select name="titles" class="ui search dropdown"></select>'+
     '            <span class="edit link" style="display: none;">编辑</span><span class="save link">保存</span>'+
     '        </header>'+
     '    </div>'+

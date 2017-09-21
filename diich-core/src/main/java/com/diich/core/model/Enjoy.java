@@ -2,12 +2,18 @@ package com.diich.core.model;
 
 import com.diich.core.base.BaseModel;
 
+import java.util.Date;
+
 public class Enjoy extends BaseModel {
     private Long id;
 
     private Long targetId;
 
     private Integer targetType;
+
+    private Date enjoyDate;
+
+    private Long userId;
 
     public Long getId() {
         return id;
@@ -31,5 +37,21 @@ public class Enjoy extends BaseModel {
 
     public void setTargetType(Integer targetType) {
         this.targetType = targetType;
+    }
+
+    public Date getEnjoyDate() {
+        return enjoyDate;
+    }
+
+    public void setEnjoyDate(Date enjoyDate) {
+        this.enjoyDate = enjoyDate;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

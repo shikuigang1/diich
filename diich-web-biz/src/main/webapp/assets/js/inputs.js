@@ -27,6 +27,11 @@ var upload={
         $('.file_up').append(_this.template());
         // $(document).find('.file').off();
         $('.file').change(function () {
+
+            if($(this).val()==null || $(this).val()==""){
+                //用户点击图片后取消
+                return;
+            }
             var parent=$(this).parents('.file_up');
             var preview=parent.find('.preview');
             var _form = $(this).parents('.upload');

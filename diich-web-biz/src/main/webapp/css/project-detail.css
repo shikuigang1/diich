@@ -48,7 +48,7 @@ i {
 }
 
 .editor {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 /* .detail_title .edit {
@@ -247,4 +247,41 @@ section .handle-button {
 
 .card_base .info li span {
     float: initial!important;
+}
+
+.file_up .progress .loader {
+    margin-top: 46px;
+}
+
+section .read-piece strong{
+    font-weight: bold;
+}
+
+section .read-piece em{
+    font-style: italic;
+}
+
+.dropbox .item dd {
+    width: 165px!important;
+}
+
+section .item-content:before {
+    content: none;
+}
+
+section .item-content:after {
+    content: none;
+}
+
+.ui.selection.dropdown {
+    min-height: 0px!important;
+    width: 188px;
+}
+
+.ui.selection.dropdown.active, .ui.selection.dropdown.visible {
+    z-index: 1000;
+}
+
+#custom .card header:after {
+    content: none;
 }

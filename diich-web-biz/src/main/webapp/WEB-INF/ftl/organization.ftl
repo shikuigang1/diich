@@ -5,6 +5,7 @@
 <#assign caturi="http://diich.efeiyi.com" />
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title id="title">
     <#if (obj.contentFragmentList?size>0)>
@@ -22,6 +23,11 @@
     <link rel="stylesheet" href="${caturi}/assets/css/ie.css">
     <script src="${caturi}/assets/js/html5.js"></script>
     <![endif]-->
+    <style>
+        .card .plain_text,.card .text_img .side {
+            word-wrap: break-word;
+        }
+    </style>
     <script src="${caturi}/js/base-url.js"></script>
     <script src="${caturi}/assets/js/jquery.min.js"></script>
     <script src="${caturi}/assets/js/system.js"></script>
@@ -51,7 +57,7 @@
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
     <div class="content">
-        <form class="form" action="http://diich.efeiyi.com/page/search.html">
+        <form class="form" action="${caturi}/page/search.html">
             <input class="ipt" type="text" id="keyword" name="keyword" value="" autocomplete="off">
             <input type="hidden" id="area_code" name="area_code" value=""/>
             <input type="hidden" id="gb_category_code" name="gb_category_code" value=""/>
@@ -361,7 +367,7 @@
                         <article class="plain_text">
                             <p>
                                 <#if cf.content??>
-                                    <#assign content =cf.content?replace("\n","<p></p>") />
+                                    <#assign content =cf.content?replace(" ","&nbsp;")?replace("\n","<br/>") />
                                      ${content}
                                 </#if>
                             </p>
@@ -405,13 +411,15 @@
         var $content = $('#detailContent');
         var img = document.getElementById('detailTopic');
 
-        img.onload = function () {
-            // 加载完成
-            var imgW = parseInt($img.width());
-            $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
-            $content.css({width:imgW+'px'});
-            $img.fadeIn(800);
-        };
+        if(img != null){
+            img.onload = function () {
+                // 加载完成
+                var imgW = parseInt($img.width());
+                $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
+                $content.css({width:imgW+'px'});
+                $img.fadeIn(800);
+            };
+        }
 
 
         var imgW = parseInt($img.width());

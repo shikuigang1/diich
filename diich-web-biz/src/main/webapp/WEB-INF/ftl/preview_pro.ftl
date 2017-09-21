@@ -38,6 +38,11 @@
     <script src="${caturi}/assets/js/html5.js"></script>
     <![endif]-->
 
+    <style>
+        .card .plain_text,.card .text_img .side {
+            word-wrap: break-word;
+        }
+    </style>
     <script src="${caturi}/js/base-url.js"></script>
 
     <script type="text/javascript" charset="utf-8" src="${caturi}/ueditor/ueditor.config.js"></script>
@@ -52,7 +57,6 @@
     <script src="${caturi}/assets/js/system.js"></script>
     <script src="${caturi}/assets/js/utils.js"></script>
     <script src="${caturi}/assets/js/detail-project.js"></script>
-    <script src="${caturi}/assets/js/login.js"></script>
     <script src="${caturi}/data/category.js"></script>
     <script src="${caturi}/js/citys.js"></script>
     <script src="${caturi}/js/jquery.i18n.properties-1.0.9.js"></script>
@@ -75,7 +79,6 @@
 </head>
 
 <body class="js-project">
-<div class="header header_detail"></div>
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
     <div class="content">
@@ -252,7 +255,7 @@
                                     </#if>
                                 </#list>
                          </#if>
-                    </h2><a href="${caturi}/page/ichProForm.html?pid=${obj.id?c}" class="edit"><i class="icon"></i>编辑</a>
+                    </h2>
                     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 2>
@@ -568,7 +571,7 @@
 
     <#if (obj.contentFragmentList?size>0)>
         <#list obj.contentFragmentList as cf>
-            <#if (cf.attribute.dataType == 5  && cf.resourceList?? && cf.resourceList?size>0)>
+            <#if cf.attribute?? && (cf.attribute.dataType == 5  && cf.resourceList?? && cf.resourceList?size>0)>
                 <section  name="tuwen" class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
                     <div class="card" data-id="${cf.id?c}">
                         <header><h4>
@@ -650,7 +653,7 @@
 
                 <#assign odd_even = odd_even+1 />
             </#if>
-            <#if ((cf.attribute.dataType == 5 || cf.attribute.dataType == 1) && (!cf.resourceList?? || cf.resourceList?size==0)) && cf.content?? && cf.content != "">
+            <#if cf.attribute?? && ((cf.attribute.dataType == 5 || cf.attribute.dataType == 1) && (!cf.resourceList?? || cf.resourceList?size==0)) && cf.content?? && cf.content != "">
 
                 <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
                     <div class="card" data-id="${cf.id?c}">
@@ -684,10 +687,6 @@
     </div>
     <!--//End detail -->
 </div>
-
-
-
-<div class="bd footer"></div>
 <!--//End--footer-->
 
 <div class="side_fixed">
@@ -731,13 +730,15 @@
         var $content = $('#detailContent');
         var img = document.getElementById('detailTopic');
 
-        img.onload = function () {
-            // 加载完成
-            var imgW = parseInt($img.width());
-            $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
-            $content.css({width:imgW+'px'});
-            $img.fadeIn(800);
-        };
+        if(img != null){
+            img.onload = function () {
+                // 加载完成
+                var imgW = parseInt($img.width());
+                $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
+                $content.css({width:imgW+'px'});
+                $img.fadeIn(800);
+            };
+        }
 
 
         var imgW = parseInt($img.width());

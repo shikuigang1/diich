@@ -67,7 +67,7 @@ function loadAttributesFromServer() {
             attributes = data.data;
         },
         error: function () {
-            alert('载入数据错误');
+
         }
     });
 }
@@ -101,7 +101,7 @@ function displayEditMode() {
     var has_edit = false;
     $('.edit.link').on('click', function () {
         if(has_edit == true) {
-            alert('已经有模块处于编辑状态，请关闭后再进行此操作。');
+            alert('已经有模块处于编辑状态，请保存后再进行此操作。');
             return;
         }
 
@@ -188,7 +188,7 @@ function displayEditMode() {
     
     $('.add.button').on('click', function () {
         if(has_edit == true) {
-            alert('已经有模块处于编辑状态，请关闭后再进行此操作。');
+            alert('已经有模块处于编辑状态，请保存后再进行此操作。');
             return;
         }
 
@@ -216,9 +216,16 @@ function displayEditMode() {
 
         var resourceList_tmp = [];
         $ui.find('.save.link').on('click', function () {
-            var title = $ui.find('.title input').val();
             var content = editor.getContent();
-            if(title == '') {
+
+            var $selected = $('#custom .ui.dropdown .menu .selected');
+            var attr_id = $selected.attr('data-value');
+            var title;
+            if(attr_id == null) {
+                title = $('#custom .ui.dropdown .text').text();
+            }
+
+            if(attr_id == null && title == '') {
                 alert('标题不能为空');
                 return;
             } else if(content == '') {
@@ -226,37 +233,68 @@ function displayEditMode() {
                 return;
             }
 
+            var is_has = false;
+            var contentFragment;
             var contentFragmentList = project.contentFragmentList;
             for(var i = 0; i < contentFragmentList.length; i++) {
-                var attr = contentFragmentList[i].attribute;
-                if(attr != null && attr.cnName == title) {
-                    alert('标题重复，请更换新标题');
-                    return;
+                contentFragment = contentFragmentList[i];
+                if(contentFragment.attributeId == attr_id) {
+                    is_has = true;
+                    contentFragment.content = content;
+                    if(resourceList_tmp.length > 0) {
+                        contentFragment.resourceList = resourceList_tmp;
+                    }
+                    break;
                 }
             }
 
-            var contentFragment = {};
-            var attribute = {};
-            attribute.cnName = title;
-            attribute.dataType = 5;
-            contentFragment.content = content;
-            contentFragment.attributeId = 0;
-            contentFragment.targetType = 0;
-            contentFragment.attribute = attribute;
-            if(resourceList_tmp.length > 0) {
-                contentFragment.resourceList = resourceList_tmp;
-            }
-            contentFragmentList.push(contentFragment);
+            if(!is_has) {
+                contentFragment = {};
+                var attribute;
+                if(attr_id != null) {
+                    for(var t = 0; t < attributes.length; t++) {
+                        if(attr_id == attributes[t].id) {
+                            attribute = attributes[t];
+                        }
+                    }
+                } else if(title != null) {
+                    attribute = {};
+                    attribute.cnName = title;
+                    attribute.dataType = 5;
+                    contentFragment.attributeId = 0;
+                }
 
-            $ui.find('.title input').hide();
+                contentFragment.content = content;
+                contentFragment.targetType = 0;
+                contentFragment.attribute = attribute;
+                if(resourceList_tmp.length > 0) {
+                    contentFragment.resourceList = resourceList_tmp;
+                }
+                contentFragmentList.push(contentFragment);
+            }
+
+            $ui.find('.title .ui.dropdown').hide();
             $ui.find('h4').text(title);
 
             var $custom_ui = $(custom_show_tmp);
-            if(resourceList_tmp.length > 0) {
-                var $custom_img = $custom_ui.find('.media li');
-                if($custom_img != null) {
-                    $custom_img.append($('<img src="http://resource.efeiyi.com/image/project/'+ resourceList_tmp[0].uri +'"/>'));
+            var $file_con = $custom_ui.find('.media ul');
+            for(var i = 0; i < resourceList_tmp.length; i++) {
+                var resource_tmp = resourceList_tmp[i];
+
+                var $li = $('<li></li>');
+                if(resource_tmp.type == 0) {
+                    var $img = $('<img />');
+                    $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resource_tmp.uri);
+                    $li.append($img);
+                } else if(resource_tmp.type == 1) {
+                    var $video = $('<video></video>');
+                    $video.attr('controls', 'controls');
+                    $video.attr('width', '325px');
+                    $video.attr('src', 'http://resource.efeiyi.com/image/project/' + resource_tmp.uri);
+                    $li.append($video);
                 }
+
+                $file_con.append($li);
             }
 
             $ui.find('.image-text').hide();
@@ -275,29 +313,48 @@ function displayEditMode() {
             alert('自定义项编辑功能马上上线，敬请期待！');
         });
 
-        var $file_up = $ui.find('.add.file_up.add-image');
-        $file_up.append($(getTemplate()));
-        $file_up.find('input').change(function () {
+        fillCustomSelect();
+
+        $ui.find('.add.file_up').append($(getTemplate()));
+        $ui.find('.add.file_up input').change(function () {
             var _this = $(this);
-            uploadFile(_this, $ui, uploadFileCallBack);
+            _this.attr('data-type', _this.parent().parent().attr('data-type'));
+            uploadFile(_this, _this.parent(), uploadFileCallBack);
         });
 
-        function uploadFileCallBack(uri) {
+        function uploadFileCallBack(uri, dataType) {
             var file_name = uri.substring(uri.lastIndexOf('/') + 1, uri.length);
+            var resource = {};
 
-            var $img = $('<img />');
-            $img.attr('src', uri + '?x-oss-process=style/temporary-preview');
-            $img.attr('type', 'new');
-            $img.attr('file-name', file_name);
             var $div = $('<div></div>');
-            $div.append($img);
-            $ui.find('.image-container').append($div);
+            if(dataType == 'image') {
+                resource.type = 0;
+
+                var $img = $('<img />');
+                $img.attr('src', uri + '?x-oss-process=style/temporary-preview');
+                $img.attr('type', 'new');
+                $img.attr('file-name', file_name);
+                $img.addClass('file-tag');
+                $div.append($img);
+                $ui.find('.image-container').append($div);
+            } else if(dataType == 'video') {
+                resource.type = 1;
+
+                var $video = $('<video></video>');
+                $video.attr('controls', 'controls');
+                $video.attr('src', uri);
+                $video.attr('width', '208px');
+                $video.attr('height', '208px');
+                $video.attr('type', 'new');
+                $video.attr('file-name', file_name);
+                $video.addClass('file-tag');
+                $div.append($video);
+                $ui.find('.image-container').append($div);
+            }
 
             deleteImageUi($ui);
 
-            var resource = {};
             resource.status = 0;
-            resource.type = 0;
             resource.uri = file_name;
             resource.description = '';
             resourceList_tmp.push(resource);
@@ -324,7 +381,8 @@ function eidtMainInfoUi($section) {
 
     addMainInfoCompListener($section);
 
-    buildOneComboUi(dic_arr_city, $('#area_temp').parent().parent().find('.item'));
+    buildOneAreaUi($('#area_temp').parent().parent().find('.item'));
+    //buildOneComboUi(dic_arr_city, $('#area_temp').parent().parent().find('.item'));
     buildOneComboUi(category_all, $('#category_temp').parent().parent().find('.item'));
 
     if(project == null) {
@@ -352,8 +410,13 @@ function eidtMainInfoUi($section) {
                 if($a_item.is('input[type="text"]') || $a_item.is('select')) {
                     $a_item.val(value);
                 } else if($a_item.attr('data-id') == '33') {
+                    var value_arr = value.split(',');
+                    if(value_arr.length > 0) {
+                        value = value_arr[0];
+                    }
+
                     $a_item.attr('data-value', value);
-                    $a_item.text(getSingleCityText(value, dic_arr_city));
+                    $a_item.text(getTextByTypeAndCode($a_item.attr('dic-type'), value, 'chi'));
                 } else {
                     $a_item.text(value);
                 }
@@ -488,38 +551,67 @@ function editImageTextUi($section) {
 
     for(var i = 0; i < resourceList.length; i++) {
         var resource = resourceList[i];
-        var $img = $('<img />');
-        if(resource.uri.indexOf('http') > -1) {
-            $img.attr('src', resource.uri + '?x-oss-process=style/temporary-preview');
-        } else {
-            $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resource.uri + '?x-oss-process=style/temporary-preview');
-        }
-        $img.attr('file-name', resource.uri);
-        $img.attr('resource-id', resource.id);
+
         var $div = $('<div></div>');
-        $div.append($img);
-        $ui.find('.image-container').append($div);
+        if(resource.type == 0) {
+            var $img = $('<img />');
+            if(resource.uri.indexOf('http') > -1) {
+                $img.attr('src', resource.uri + '?x-oss-process=style/temporary-preview');
+            } else {
+                $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resource.uri + '?x-oss-process=style/temporary-preview');
+            }
+            $img.attr('file-name', resource.uri);
+            $img.attr('resource-id', resource.id);
+            $img.addClass('file-tag');
+            $div.append($img);
+            $ui.find('.image-container').append($div);
+        } else if(resource.type == 1) {
+            var $video = $('<video></video>');
+            $video.attr('controls', 'controls');
+            $video.attr('src', 'http://resource.efeiyi.com/image/project/' + resource.uri);
+            $video.attr('width', '208px');
+            $video.attr('height', '208px');
+            $video.attr('file-name', resource.uri);
+            $video.attr('resource-id', resource.id);
+            $video.addClass('file-tag');
+            $div.append($video);
+            $ui.find('.image-container').append($div);
+        }
 
         deleteImageUi($ui);
     }
 
-    var $file_up = $ui.find('.add.file_up.add-image');
-    $file_up.append($(getTemplate()));
-    $file_up.find('input').change(function () {
+    $ui.find('.add.file_up').append($(getTemplate()));
+    $ui.find('.add.file_up input').change(function () {
         var _this = $(this);
-        uploadFile(_this, $ui, uploadFileCallBack);
+        _this.attr('data-type', _this.parent().parent().attr('data-type'));
+        uploadFile(_this, _this.parent(), uploadFileCallBack);
     });
 
-    function uploadFileCallBack(uri) {
+    function uploadFileCallBack(uri, dataType) {
         var file_name = uri.substring(uri.lastIndexOf('/') + 1, uri.length);
 
-        var $img = $('<img />');
-        $img.attr('src', uri + '?x-oss-process=style/temporary-preview');
-        $img.attr('type', 'new');
-        $img.attr('file-name', file_name);
         var $div = $('<div></div>');
-        $div.append($img);
-        $ui.find('.image-container').append($div);
+        if(dataType == 'image') {
+            var $img = $('<img />');
+            $img.attr('src', uri + '?x-oss-process=style/temporary-preview');
+            $img.attr('type', 'new');
+            $img.attr('file-name', file_name);
+            $img.addClass('file-tag');
+            $div.append($img);
+            $ui.find('.image-container').append($div);
+        } else if(dataType == 'video') {
+            var $video = $('<video></video>');
+            $video.attr('controls', 'controls');
+            $video.attr('src', uri);
+            $video.attr('width', '208px');
+            $video.attr('height', '208px');
+            $video.attr('type', 'new');
+            $video.attr('file-name', file_name);
+            $video.addClass('file-tag');
+            $div.append($video);
+            $ui.find('.image-container').append($div);
+        }
 
         deleteImageUi($ui);
 
@@ -529,7 +621,7 @@ function editImageTextUi($section) {
             if(contentFragment.attributeId == data_id) {
                 var resource = {};
                 resource.status = 0;
-                resource.type = 0;
+                resource.type = dataType == 'image' ? 0 : 1;
                 resource.uri = file_name;
                 resource.description = '';
 
@@ -577,7 +669,7 @@ function saveProjectToClient($section) {
             }
         }
 
-        if(data_value == null || data_value == '') {
+        if(data_value == null) {
             continue;
         }
 
@@ -586,13 +678,33 @@ function saveProjectToClient($section) {
             continue;
         }
 
+        var is_new_attr = true;
         for(var j = 0; j < contentFragmentList.length; j++) {
             var contentFragment = contentFragmentList[j];
             if(contentFragment.attributeId == data_id) {
                 contentFragment.content = data_value;
+                is_new_attr = false;
                 break;
             }
         }
+
+        //基础信息条目显示不全，加的补丁
+        if(data_type == 'short-text' && is_new_attr) {
+            for(var j = 0; j < attributes.length; j++) {
+                var attribute = attributes[j];
+                if(attribute.id == data_id) {
+                    var contentFragment = {};
+                    contentFragment.attribute = attribute;
+                    contentFragment.attributeId = attribute.id;
+                    contentFragment.content = data_value;
+                    contentFragment.targetId = project.id;
+                    contentFragment.targetType = 0;
+                    contentFragmentList.push(contentFragment);
+                    break;
+                }
+            }
+        }
+
     }
 }
 
@@ -678,7 +790,8 @@ function addMainInfoCompListener($section) {
     $file_up.append($(getTemplate()));
     $file_up.find('input[type="file"]').change(function () {
         var _this = $(this);
-        uploadFile(_this, $section, uploadFileCallBack);
+        _this.attr('data-type', 'image');
+        uploadFile(_this, _this.parent(), uploadFileCallBack);
     });
 
     function uploadFileCallBack(uri) {
@@ -784,7 +897,7 @@ function buildOneComboUi(data, $ui) {
             }
 
             if(oneComboChildre != null && oneComboChildre.length > 0) {
-                buildTwoComboUi(data, li_data_id, $ui);
+                buildTwoComboUi(oneComboChildre, $ui);
                 $ui.find('.level2').show();
             } else {
                 $ui.find('.level2').hide();
@@ -812,19 +925,10 @@ function buildOneComboUi(data, $ui) {
 
 }
 
-function buildTwoComboUi(data, data_id, $ui) {
+function buildTwoComboUi(data, $ui) {
     var $container = $ui.find('.level2 ul');
     $container.children().remove();
-    var twoData = [];
-
-    for(var i = 0; i < data.length; i ++) {
-        var tmp = data[i].code != null ? data[i].code : data[i].id;
-
-        if(tmp == data_id) {
-            twoData = data[i].children;
-            break;
-        }
-    }
+    var twoData = data;
 
     var curr_lang = getCurrentLanguage();
 
@@ -839,15 +943,34 @@ function buildTwoComboUi(data, data_id, $ui) {
             $li.text(twoData[i].name);
         }
 
+        $li.hover(function () {
+            var li_data_id = $(this).attr('data-id');
+            var twoComboChildren = null;
+
+            for(var j = 0; j < data.length; j ++) {
+                if(data[j].id == li_data_id || data[j].code == li_data_id) {
+                    twoComboChildren = data[j].children;
+                    break;
+                }
+            }
+
+            if(twoComboChildren != null && twoComboChildren.length > 0) {
+                buildThreeComboUi(twoComboChildren, $ui);
+                $ui.find('.level3').show();
+            } else {
+                $ui.find('.level3').hide();
+            }
+        });
+
         $li.on('click', function () {
             var li_data_id = $(this).attr('data-id');
             var li_name = $(this).text();
 
             var container_id = $(this).parent().attr('id');
-            if(container_id == 'catecontent') {
+            if(container_id == 'secondCate') {
                 $('#category_temp').attr('data-value', li_data_id);
                 $('#category_temp').text(li_name);
-            } else if(container_id == 'citycontent') {
+            } else if(container_id == 'province') {
                 $('#area_temp').attr('data-value', li_data_id);
                 $('#area_temp').text(li_name);
             }
@@ -859,44 +982,283 @@ function buildTwoComboUi(data, data_id, $ui) {
     }
 }
 
+function buildThreeComboUi(data, $ui) {
+    var $container = $ui.find('.level3 ul');
+    $container.children().remove();
+    var threeData = data;
+
+    var curr_lang = getCurrentLanguage();
+
+    for(var i = 0; i < threeData.length; i ++) {
+        var $li = $('<li></li>');
+        $li.attr('data-id', threeData[i].code != null ?
+            threeData[i].code : threeData[i].id);
+
+        if(curr_lang == 'en') {
+            $li.text(threeData[i].eNname);
+        } else {
+            $li.text(threeData[i].name);
+        }
+
+        $li.on('click', function () {
+            var li_data_id = $(this).attr('data-id');
+            var li_name = $(this).text();
+
+            var container_id = $(this).parent().attr('id');
+            if(container_id == 'thirdCate') {
+                $('#category_temp').attr('data-value', li_data_id);
+                $('#category_temp').text(li_name);
+            } else if(container_id == 'city') {
+                $('#area_temp').attr('data-value', li_data_id);
+                $('#area_temp').text(li_name);
+            }
+
+            $ui.animate({height:'hide'},50);
+        });
+
+        $container.append($li);
+    }
+}
+
+function buildOneAreaUi($ui) {
+    if(area_all == null) {
+        return;
+    }
+
+    var $container = $ui.find('.level ul');
+    $container.children().remove();
+
+    for(var i = 0; i < area_all.length; i++) {
+        var area = area_all[i];
+        if(area.parent_id == null) {
+            var $li = $('<li></li>');
+            $li.attr('data-code', area_all[i].code);
+            $li.attr('data-id', area_all[i].id);
+            $li.text(area_all[i].name);
+
+            $li.hover(function () {
+                buildTwoAreaUi($(this).attr('data-id'), $ui)
+            });
+
+            $li.on('click', function () {
+                var data_code = $(this).attr('data-code');
+                var name = $(this).text();
+
+                $('#area_temp').attr('data-value', data_code);
+                $('#area_temp').text(name);
+
+                $ui.animate({height:'hide'},50);
+            });
+
+            $container.append($li);
+        }
+    }
+}
+
+function buildTwoAreaUi(data_id, $ui) {
+    var $container = $ui.find('.level2 ul');
+    $container.children().remove();
+
+    var is_has = false;
+
+    for(var i = 0; i < area_all.length; i ++) {
+        if(data_id == area_all[i].parent_id) {
+            var $li = $('<li></li>');
+            $li.attr('data-id', area_all[i].id);
+            $li.attr('data-code', area_all[i].code);
+            $li.text(area_all[i].name);
+
+            $li.hover(function () {
+                buildThreeAreaUi($(this).attr('data-id'), $ui)
+            });
+
+            $li.on('click', function () {
+                var data_code = $(this).attr('data-code');
+                var name = $(this).text();
+
+                $('#area_temp').attr('data-value', data_code);
+                $('#area_temp').text(name);
+
+                $ui.animate({height:'hide'},50);
+            });
+
+            $li.on('click', function () {
+                /* var li_data_id = $(this).attr('data-id');
+                 var li_name = $(this).text();
+
+                 var container_id = $(this).parent().attr('id');
+                 if(container_id == 'secondCate') {
+                 $('#category_temp').attr('data-value', li_data_id);
+                 $('#category_temp').text(li_name);
+                 } else if(container_id == 'province') {
+                 $('#area_temp').attr('data-value', li_data_id);
+                 $('#area_temp').text(li_name);
+                 }
+
+                 $ui.animate({height:'hide'},50);*/
+            });
+
+            $container.append($li);
+
+            is_has = true;
+        }
+    }
+
+    if(is_has) {
+        $ui.find('.level2').show();
+    } else {
+        $ui.find('.level2').hide();
+    }
+
+    $ui.find('.level3').hide();
+    $ui.find('.level4').hide();
+}
+
+function buildThreeAreaUi(data_id, $ui) {
+    var $container = $ui.find('.level3 ul');
+    $container.children().remove();
+
+    var is_has = false;
+
+    for(var i = 0; i < area_all.length; i ++) {
+        if(data_id == area_all[i].parent_id) {
+            var $li = $('<li></li>');
+            $li.attr('data-id', area_all[i].id);
+            $li.attr('data-code', area_all[i].code);
+            $li.text(area_all[i].name);
+
+            $li.hover(function () {
+                buildFourAreaUi($(this).attr('data-id'), $ui)
+            });
+
+            $li.on('click', function () {
+                var data_code = $(this).attr('data-code');
+                var name = $(this).text();
+
+                $('#area_temp').attr('data-value', data_code);
+                $('#area_temp').text(name);
+
+                $ui.animate({height:'hide'},50);
+            });
+
+            $li.on('click', function () {
+                /* var li_data_id = $(this).attr('data-id');
+                 var li_name = $(this).text();
+
+                 var container_id = $(this).parent().attr('id');
+                 if(container_id == 'secondCate') {
+                 $('#category_temp').attr('data-value', li_data_id);
+                 $('#category_temp').text(li_name);
+                 } else if(container_id == 'province') {
+                 $('#area_temp').attr('data-value', li_data_id);
+                 $('#area_temp').text(li_name);
+                 }
+
+                 $ui.animate({height:'hide'},50);*/
+            });
+
+            $container.append($li);
+
+            is_has = true;
+        }
+    }
+
+    if(is_has) {
+        $ui.find('.level3').show();
+    } else {
+        $ui.find('.level3').hide();
+    }
+
+    $ui.find('.level4').hide();
+}
+
+function buildFourAreaUi(data_id, $ui) {
+    var $container = $ui.find('.level4 ul');
+    $container.children().remove();
+
+    var is_has = false;
+
+    for(var i = 0; i < area_all.length; i ++) {
+        if(data_id == area_all[i].parent_id) {
+            var $li = $('<li></li>');
+            $li.attr('data-id', area_all[i].id);
+            $li.attr('data-code', area_all[i].code);
+            $li.text(area_all[i].name);
+
+            $li.on('click', function () {
+                var data_code = $(this).attr('data-code');
+                var name = $(this).text();
+
+                $('#area_temp').attr('data-value', data_code);
+                $('#area_temp').text(name);
+
+                $ui.animate({height:'hide'},50);
+            });
+
+            $container.append($li);
+
+            is_has = true;
+        }
+    }
+
+    if(is_has) {
+        $ui.find('.level4').show();
+    } else {
+        $ui.find('.level4').hide();
+    }
+}
+
 function uploadFile(_this, $ui, callback) {
     var path = _this.val();
 
     if(path == null && path == '') {
+        alert('文件有错误');
         return;
     }
 
-    var reg = /^.*[^a][^b][^c]\.(?:png|jpg|bmp|gif|jpeg)$/;
+    var reg;
+    var errorMsg;
+
+    var dataType = _this.attr('data-type');
+    if(dataType == 'image') {
+        reg = /^.*[^a][^b][^c]\.(?:png|jpg|bmp|gif|jpeg)$/;
+        errorMsg = '请上传格式为png|jpg|bmp|gif|jpeg的图片';
+    } else if(dataType == 'video') {
+        reg = /^.*[^a][^b][^c]\.(?:mp4|rmvb|flv|mpeg|avi|mpg)$/;
+        errorMsg = '请上传格式为mp4|rmvb|flv|mpeg|avi的视频';
+    }
+
     if(!reg.test(path.toLowerCase())) {
-        alert('请上传格式为png|jpg|bmp|gif|jpeg的图片');
+        alert(errorMsg);
         return;
     }
 
-    var imgType = path.substring(path.lastIndexOf(".") + 1);
+    var suffix = path.substring(path.lastIndexOf(".") + 1);
 
     var serverInfo = send_request();
     var host =serverInfo["host"];
     var accessId =serverInfo["accessid"];
     var policy = serverInfo["policy"];
     var signature = serverInfo["signature"];
-    var key = 'image/project/' + serverInfo["filename"] + "." + imgType;//生成文件路径
+    var key = 'image/project/' + serverInfo["filename"] + "." + suffix;//生成文件路径
 
-    $ui.find('.file_up').find("input[name='OSSAccessKeyId']").val(accessId);
-    $ui.find('.file_up').find("input[name='policy']").val(policy);
-    $ui.find('.file_up').find("input[name='Signature']").val(signature);
-    $ui.find('.file_up').find("input[name='key']").val(key);
-    $ui.find('.file_up form').attr("action",host);
+    $ui.find("input[name='OSSAccessKeyId']").val(accessId);
+    $ui.find("input[name='policy']").val(policy);
+    $ui.find("input[name='Signature']").val(signature);
+    $ui.find("input[name='key']").val(key);
+    $ui.attr("action",host);
 
-    $ui.find('.file_up form').ajaxSubmit({
+    $ui.ajaxSubmit({
         dataType: 'text',
         beforeSend: function () {
-
-        },
-        uploadProgress: function (event, position, total, percentComplete) {
-
+            $ui.find('.progress').show();
+            $ui.parent().find('.icon i').hide();
         },
         success: function () {
-            callback(host + "/" + key);
+            callback(host + "/" + key, dataType);
+
+            $ui.find('.progress').hide();
+            $ui.parent().find('.icon i').show();
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(textStatus);
@@ -933,9 +1295,9 @@ function getTemplate() {
         '<input class="_token" type="hidden" name="Filename" value="">'+
         '<input class="_token" type="hidden" name="success_action_status" value="200">'+
         '<div class="progress">' +
-        '<div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div>'+
+            '<div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div>'+
         '</div>' +
-        '<input class="file" type="file" id="file" name="file">'+
+        '<input class="file" type="file" name="file">'+
         '</form>';
 }
 
@@ -955,6 +1317,7 @@ function saveProjectToServer(callback) {
         },
         success: function (data) {
             if(data.code == 0) {
+                //project = data;
                 var refresh = callback();
                 if(!refresh) return;
             }
@@ -977,8 +1340,8 @@ function deleteImageUi($ui) {
         $del_i.on('click', function () {
             $(this).parent().remove();
 
-            var $img = $(this).parent().find('img');
-            var file_name = $img.attr('file-name');
+            var $file = $(this).parent().find('.file-tag');
+            var file_name = $file.attr('file-name');
             var contentFragmentList = project.contentFragmentList;
             for(var i = 0; i < contentFragmentList.length; i++) {
                 var contentFragment = contentFragmentList[i];
@@ -992,7 +1355,7 @@ function deleteImageUi($ui) {
                 }
             }
 
-            var resource_id = $img.attr('resource-id');
+            var resource_id = $file.attr('resource-id');
             if(resource_id != null) {
                 $.ajax({
                     type: "POST",
@@ -1034,22 +1397,64 @@ function adjustImageText($section, item_arr) {
                 $section.find('.read-piece .side').css({'width': '1126px'});
             } else if(resourceList.length > 0){
                 $section.find('.read-piece').remove();
-                var $edit_image_text_ui = $(edit_image_text_template);
-                $edit_image_text_ui.find('.item-content').attr('data-id', attr_id);
-                $edit_image_text_ui.find('.item-content').html(contentFragment.content);
+                var $show_image_text_ui = $(show_image_text_template);
+                $show_image_text_ui.find('.item-content').attr('data-id', attr_id);
+                $show_image_text_ui.find('.item-content').html(contentFragment.content);
                 for(var j = 0; j < resourceList.length; j++) {
                     var $li = $('<li></li>');
 
-                    var $img = $('<img />');
-                    $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resourceList[j].uri);
+                    if(resourceList[j].type == 0) {
+                        var $img = $('<img />');
+                        $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resourceList[j].uri);
+                        $li.append($img);
+                    } else if(resourceList[j].type == 1) {
+                        var $video = $('<video></video>');
+                        $video.attr('controls', 'controls');
+                        $video.attr('width', '325px');
+                        $video.attr('src', 'http://resource.efeiyi.com/image/project/' + resourceList[j].uri);
+                        $li.append($video);
+                    }
 
-                    $li.append($img);
-
-                    $edit_image_text_ui.find('.media ul').append($li);
+                    $show_image_text_ui.find('.media ul').append($li);
                 }
 
-                $section.find('.card').append($edit_image_text_ui);
+                $section.find('.card').append($show_image_text_ui);
             }
         }
     }
+}
+
+function fillCustomSelect() {
+    var values = [];
+    for(var i = 0; i < attributes.length; i++) {
+        var attr = attributes[i];
+        var is_exclude = false;
+        if(attr.dataType != '5') {
+            continue;
+        }
+        for(var j = 0; j < project.contentFragmentList.length; j++) {
+            var contentFragment = project.contentFragmentList[j];
+            if(attr.id == contentFragment.attributeId) {
+                is_exclude = true;
+                if((contentFragment.content == null || contentFragment.content == '')
+                    && contentFragment.resourceList.length == 0) {
+                    var value = {};
+                    value.name = attr.cnName;
+                    value.value = attr.id;
+                    values.push(value);
+                }
+            }
+        }
+        if(!is_exclude) {
+            var value = {};
+            value.name = attr.cnName;
+            value.value = attr.id;
+            values.push(value);
+        }
+    }
+
+    $('#custom .ui.dropdown').dropdown({
+        allowAdditions: true,
+        values: values
+    });
 }

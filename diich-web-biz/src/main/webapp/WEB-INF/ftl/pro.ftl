@@ -3,8 +3,10 @@
 
 <head>
 <#assign caturi="http://diich.efeiyi.com" />
+<#--<#assign caturi="http://47.95.32.236/" />-->
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title id="title">
     <#if (obj.contentFragmentList?size>0)>
@@ -31,8 +33,15 @@
     <link rel="stylesheet" href="${caturi}/css/icon.min.css">
     <link rel="stylesheet" href="${caturi}/css/button.min.css">
     <link rel="stylesheet" href="${caturi}/assets/css/inputs.css">
+    <link rel="stylesheet" href="${caturi}/css/loader.min.css">
+    <link rel="stylesheet" href="${caturi}/css/dropdown.min.css">
+    <link rel="stylesheet" href="${caturi}/css/transition.min.css">
     <link rel="stylesheet" href="${caturi}/css/project-detail.css?7">
-
+    <style>
+        .card .plain_text,.card .text_img .side {
+            word-wrap: break-word;
+        }
+    </style>
     <!--[if IE]>
     <link rel="stylesheet" href="${caturi}/assets/css/ie.css">
     <script src="${caturi}/assets/js/html5.js"></script>
@@ -61,6 +70,8 @@
     <script src="${caturi}/js/util.js"></script>
 
     <script src="${caturi}/assets/js/Ecalendar.jquery.min.js"></script>
+    <script src="${caturi}/js/semantic.min.js"></script>
+    <script src="${caturi}/data/area.js"></script>
     <script src="${caturi}/js/project-template.js"></script>
     <script src="${caturi}/js/project-detail.js?3"></script>
 
@@ -80,7 +91,7 @@
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
     <div class="content">
-        <form class="form" action="http://diich.efeiyi.com/page/search.html">
+        <form class="form" action="${caturi}/page/search.html">
             <input class="ipt" type="text" id="keyword" name="keyword" value="" autocomplete="off">
             <input type="hidden" id="area_code" name="area_code" value=""/>
             <input type="hidden" id="gb_category_code" name="gb_category_code" value=""/>
@@ -602,7 +613,7 @@
                             <div class="side" style="margin-right:30px;">
                                 <div class="item data-item item-content" data-id="${cf.attributeId?c}">
                                         <#--<#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br/>") />-->
-                                        <#assign content =cf.content?replace(" ","&nbsp;")?replace("\n","<br/>") />
+                                        <#assign content =cf.content?replace("\n","<br/>") />
                                             ${content}
                                 </div>
                             </div>
@@ -683,7 +694,7 @@
                             <div class="data-item item-content" data-id="${cf.attributeId?c}">
 
                                 <#if cf.content??>
-                                    <#assign content =cf.content?replace(" ","&nbsp;")?replace("\n","<br/>") />
+                                    <#assign content =cf.content?replace("\n","<br/>") />
                                     ${content}
                                 </#if>
 
@@ -747,16 +758,15 @@
         var $img = $('#detailTopic');
         var $content = $('#detailContent');
         var img = document.getElementById('detailTopic');
-
-        img.onload = function () {
-            // 加载完成
-            var imgW = parseInt($img.width());
-            $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
-            $content.css({width:imgW+'px'});
-            $img.fadeIn(800);
-        };
-
-
+        if(img != null){
+            img.onload = function () {
+                // 加载完成
+                var imgW = parseInt($img.width());
+                $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
+                $content.css({width:imgW+'px'});
+                $img.fadeIn(800);
+            };
+        }
         var imgW = parseInt($img.width());
         $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
         $content.css({width:imgW+'px'});

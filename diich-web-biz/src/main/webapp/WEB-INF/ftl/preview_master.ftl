@@ -22,12 +22,17 @@
     <link rel="stylesheet" href="${caturi}/assets/css/ie.css">
     <script src="${caturi}/assets/js/html5.js"></script>
     <![endif]-->
+    <style>
+        .card .plain_text,.card .text_img .side {
+            word-wrap: break-word;
+        }
+    </style>
     <script src="${caturi}/js/base-url.js"></script>
     <script src="${caturi}/assets/js/jquery.min.js"></script>
-    <#--<script src="${caturi}/assets/js/system.js"></script>-->
+    <script src="${caturi}/assets/js/system.js"></script>
     <script src="${caturi}/assets/js/utils.js"></script>
     <script src="${caturi}/assets/js/detail-master.js"></script>
-    <script src="${caturi}/assets/js/login.js"></script>
+    <#--<script src="${caturi}/assets/js/login.js"></script>-->
     <script src="${caturi}/data/keyword.js"></script>
     <script src="${caturi}/data/category.js"></script>
     <script src="${caturi}/js/citys.js"></script>
@@ -47,7 +52,6 @@
 </head>
 
 <body class="js-master">
-<div class="header header_detail"></div>
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
     <div class="content">
@@ -507,8 +511,6 @@
     <!--//End detail -->
 </div>
 
-<div class="bd footer"></div>
-<!--//End--footer-->
 
 <div class="side_fixed">
     <ul></ul>
@@ -531,13 +533,15 @@
         var $content = $('#detailContent');
         var img = document.getElementById('detailTopic');
 
-        img.onload = function () {
-            // 加载完成
-            var imgW = parseInt($img.width());
-            $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
-            $content.css({width:imgW+'px'});
-            $img.fadeIn(800);
-        };
+        if(img != null){
+            img.onload = function () {
+                // 加载完成
+                var imgW = parseInt($img.width());
+                $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
+                $content.css({width:imgW+'px'});
+                $img.fadeIn(800);
+            };
+        }
 
 
         var imgW = parseInt($img.width());

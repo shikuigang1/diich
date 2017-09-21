@@ -150,10 +150,10 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     @Override
     public IchMaster saveIchMaster(IchMaster ichMaster , User user) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
-        if(ichMaster.getStatus() != null && ichMaster.getStatus() == 3){
-            checkIchMaster(ichMaster);//校验传承人信息
-        }
         try {
+            if(ichMaster.getStatus() != null && ichMaster.getStatus() == 3){
+                checkIchMaster(ichMaster);//校验传承人信息
+            }
             ichMaster.setLastEditDate(new Date());
             if(ichMaster.getStatus() != null && ichMaster.getStatus() == 3){
                 if(user != null && user.getType() == 0){//如果当前修改者是admin type代表权限  0 代表admin  1代表普通用户
@@ -165,13 +165,13 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             }
             commit(transactionStatus);
         } catch (Exception e) {
+            rollback(transactionStatus);
             if( e instanceof ApplicationException) {
                 ApplicationException ae = (ApplicationException) e;
                 if (ae.getCode() == 2) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, ae.getDetailMsg());
                 }
             }
-            rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         return ichMaster;
@@ -208,12 +208,13 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             ichMaster = getAttribute(ichMaster);
             List<ContentFragment> contentFragments = getContentFragmentByMasterId(ichMaster);
             if(contentFragments != null && contentFragments.size()>0){
-                contentFragmentList.addAll(contentFragments);//获取传承人其他信息
+                ichMaster.setContentFragmentList(contentFragments);
             }
             if(ichMaster != null && ichMaster.getIchProjectId() != null){
-                IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
+                IchProject ichProject = ichProjectService.getIchProject(String.valueOf(ichMaster.getIchProjectId()));
                 if(ichProject != null){
                     ichMaster.setIchProject(ichProject);
+                    buildAndUploadHtml(ichProject);
                 }
             }
             String str = PropertiesUtil.getString("freemarker.masterfilepath");
@@ -226,7 +227,15 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         }
         return ichMaster;
     }
-
+    private void buildAndUploadHtml(IchProject ichProject) throws Exception{
+        String str = PropertiesUtil.getString("freemarker.projectfilepath");
+        String fileName = str+"/"+ichProject.getId().toString() + ".html";
+        ichProjectService.buildHTML("pro.ftl", ichProject, fileName);//生成静态页面
+        String bucketName = PropertiesUtil.getString("img_bucketName");
+        String type = PropertiesUtil.getString("pc_phtml_server");
+        File file = new File(fileName);
+        SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichProject.getId()+".html",file.length());//上传到阿里云
+    }
     private IchMaster getAttribute(IchMaster ichMaster) throws Exception{
         List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
         if(contentFragmentList != null && contentFragmentList.size() > 0){
@@ -257,6 +266,17 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             for (ContentFragment contentFragment : ichProjectContentFragmentList) {
                 contentFragment.setId(null);
                 contentFragment.setTargetId(branchId);
+                if(contentFragment.getAttributeId() != null){
+                    Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
+                    if(attribute != null && attribute.getTargetType() != null && attribute.getTargetType() == 11){
+                        long id = IdWorker.getId();
+                        attribute.setId(id);
+                        attribute.setTargetId(branchId);
+                        attributeMapper.insertSelective(attribute);
+                        contentFragment.setAttribute(attribute);
+                        contentFragment.setAttributeId(id);
+                    }
+                }
                 List<Resource> resourceList = contentFragment.getResourceList();
                 if(resourceList != null && resourceList.size()>0){
                     for(int i = 0 ; i <  resourceList.size() ; i++ ){

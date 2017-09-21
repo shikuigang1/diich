@@ -46,7 +46,7 @@
     <script src="${caturi}/js/util.js"></script>
 
 </head>
-<body class="js-h5project">
+<body class="js-h5project" data-id="${obj.id?c}">
 <div class="box" id="box">
     <!--上导航-->
     <div class="box_header" id="box_header">
@@ -170,12 +170,14 @@
                     <div>
                         <p>Category</p>
 
-                        <#if (obj.ichCategoryId??)>
-                            <P id="category" category-id="${obj.ichCategoryId?c}">${obj.ichCategoryId?c}</P>
-                        </#if>
-                        <#if (!obj.ichCategoryId??)>
-                            <p id="category" category-id="" ></p>
-                        </#if>
+                        <ul>
+                            <#if (obj.ichCategoryId??)>
+                                <li id="category" category-id="${obj.ichCategoryId?c}">${obj.ichCategoryId?c}</li>
+                            </#if>
+                            <#if (!obj.ichCategoryId??)>
+                                <li id="category" category-id="" ></li>
+                            </#if>
+                        </ul>
 
                     </div>
                 </#if>
@@ -481,7 +483,7 @@
                             </#if>
                             <#if cf.content?? && cf.content != "">
                                 <p class="For_content2">
-                                    <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<br>") />
+                                    <#assign content =cf.content?replace(" ","&nbsp;")?replace("\n","<br>") />
                                     ${content}
                                 </p>
                             </#if>

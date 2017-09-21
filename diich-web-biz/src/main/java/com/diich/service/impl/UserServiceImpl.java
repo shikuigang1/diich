@@ -159,7 +159,6 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
 
     @Override
     public User updateUser(User user) throws Exception {
-        //获取当前事务状态
         try{
             if(user.getPassword() != null){
                 String password = SecurityUtil.encryptMd5(user.getPassword());
