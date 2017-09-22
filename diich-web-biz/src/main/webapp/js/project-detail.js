@@ -308,7 +308,7 @@ function displayEditMode() {
 
         fillCustomSelect();
 
-        $ui.find('.add.file_up').append($(getTemplate()));
+        $ui.find('.add.file_up').append($(upload_form_template));
         $ui.find('.add.file_up input').change(function () {
             var _this = $(this);
             _this.attr('data-type', _this.parent().parent().attr('data-type'));
@@ -570,7 +570,7 @@ function editImageTextUi($section) {
         deleteImageUi($ui);
     }
 
-    $ui.find('.add.file_up').append($(getTemplate()));
+    $ui.find('.add.file_up').append($(upload_form_template));
     $ui.find('.add.file_up input').change(function () {
         var _this = $(this);
         _this.attr('data-type', _this.parent().parent().attr('data-type'));
@@ -794,7 +794,7 @@ function addMainInfoCompListener($section) {
     });*/
 
     var $file_up = $section.find('.file_up');
-    $file_up.append($(getTemplate()));
+    $file_up.append($(upload_form_template));
     $file_up.find('input[type="file"]').change(function () {
         var _this = $(this);
         _this.attr('data-type', 'image');
@@ -1018,21 +1018,6 @@ function send_request() {
     });
 
     return signituredata;
-}
-
-function getTemplate() {
-    return '<form class="upload" method = "POST" action="" method="post" enctype="multipart/form-data">'+
-        '<input class="_token" type="hidden" name="OSSAccessKeyId" value="">'+
-        '<input class="_token" type="hidden" name="policy" value="">'+
-        '<input class="_token" type="hidden" name="Signature" value="">'+
-        '<input class="_token" type="hidden" name="key" value="">'+
-        '<input class="_token" type="hidden" name="Filename" value="">'+
-        '<input class="_token" type="hidden" name="success_action_status" value="200">'+
-        '<div class="progress">' +
-            '<div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div>'+
-        '</div>' +
-        '<input class="file" type="file" name="file">'+
-        '</form>';
 }
 
 function saveProjectToServer(callback) {
