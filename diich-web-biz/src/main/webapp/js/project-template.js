@@ -178,3 +178,17 @@ var show_short_text_template =
     '    <span class="key"></span>'+
     '    <span class="value"></span>'+
     '</li>';
+
+var upload_form_template =
+    '<form class="upload" method = "POST" action="" method="post" enctype="multipart/form-data">'+
+    '<input class="_token" type="hidden" name="OSSAccessKeyId" value="">'+
+    '<input class="_token" type="hidden" name="policy" value="">'+
+    '<input class="_token" type="hidden" name="Signature" value="">'+
+    '<input class="_token" type="hidden" name="key" value="">'+
+    '<input class="_token" type="hidden" name="Filename" value="">'+
+    '<input class="_token" type="hidden" name="success_action_status" value="200">'+
+    '<div class="progress">' +
+    '<div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div>'+
+    '</div>' +
+    '<input class="file" type="file" name="file">'+
+    '</form>';
