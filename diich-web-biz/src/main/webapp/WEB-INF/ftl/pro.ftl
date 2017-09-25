@@ -638,11 +638,11 @@
                                             <#if r.type ==1>
                                                 <div class="card_video">
                                                     <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
-                                                        <video  controls src="${prouri}${r.uri}" type="video/mp4" style="width:100%;max-height:277px;background: #000;">
+                                                        <video width="325px" controls src="${prouri}${r.uri}" type="video/mp4" style="max-height:357px;background: #000;">
                                                         </video>
                                                     </#if>
                                                     <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
-                                                        <video controls  src="${r.uri}" resource-id="${r.id?c}" type="video/mp4" style="width:100%;max-height:277px;background: #000;">
+                                                        <video width="325px" controls  src="${r.uri}" resource-id="${r.id?c}" type="video/mp4" style="max-height:357px;background: #000;">
                                                         </video>
                                                     </#if>
 

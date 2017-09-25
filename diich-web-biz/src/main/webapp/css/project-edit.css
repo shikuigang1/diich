@@ -285,3 +285,7 @@ section .item-content:after {
 #custom .card header:after {
     content: none;
 }
+
+.card_video video {
+    object-fit: contain;
+}

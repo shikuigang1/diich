@@ -283,6 +283,8 @@ function displayEditMode() {
                     var $video = $('<video></video>');
                     $video.attr('controls', 'controls');
                     $video.attr('width', '325px');
+                    $video.css({'max-height':'357px'});
+                    $video.css({'background-color':'#000'});
                     $video.attr('src', PROJECT_RESOURCE_URL + resource_tmp.uri);
                     $li.append($video);
                 }
@@ -1130,6 +1132,8 @@ function adjustImageText($section, item_arr) {
                         var $video = $('<video></video>');
                         $video.attr('controls', 'controls');
                         $video.attr('width', '325px');
+                        $video.css({'max-height':'357px'});
+                        $video.css({'background-color':'#000'});
                         $video.attr('src', PROJECT_RESOURCE_URL + resourceList[j].uri);
                         $li.append($video);
                     }
