@@ -277,13 +277,13 @@ function displayEditMode() {
                 var $li = $('<li></li>');
                 if(resource_tmp.type == 0) {
                     var $img = $('<img />');
-                    $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resource_tmp.uri);
+                    $img.attr('src', PROJECT_RESOURCE_URL + resource_tmp.uri);
                     $li.append($img);
                 } else if(resource_tmp.type == 1) {
                     var $video = $('<video></video>');
                     $video.attr('controls', 'controls');
                     $video.attr('width', '325px');
-                    $video.attr('src', 'http://resource.efeiyi.com/image/project/' + resource_tmp.uri);
+                    $video.attr('src', PROJECT_RESOURCE_URL + resource_tmp.uri);
                     $li.append($video);
                 }
 
@@ -428,7 +428,7 @@ function eidtMainInfoUi($section) {
 
         var resource = resourceList[0];
         var $img = $('<img class="preview" style="display: inline;z-index: 0;">');
-        $img.attr('src', 'http://diich-resource.oss-cn-beijing.aliyuncs.com/image/project/' + resource.uri);
+        $img.attr('src', PROJECT_RESOURCE_URL + resource.uri);
         $section.find('.file_up').append($img);
     }
 }
@@ -494,7 +494,7 @@ function editImageTextUi($section) {
         contentFragmentList = project.contentFragmentList;
     }
 
-    var $item = $section.find('.item-content');
+    var $item = $section.find('.title');
     var data_id;
     if($item != null) {
         data_id = $item.attr('data-id');
@@ -547,7 +547,7 @@ function editImageTextUi($section) {
             if(resource.uri.indexOf('http') > -1) {
                 $img.attr('src', resource.uri + '?x-oss-process=style/temporary-preview');
             } else {
-                $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resource.uri + '?x-oss-process=style/temporary-preview');
+                $img.attr('src', PROJECT_RESOURCE_URL + resource.uri + '?x-oss-process=style/temporary-preview');
             }
             $img.attr('file-name', resource.uri);
             $img.attr('resource-id', resource.id);
@@ -557,7 +557,7 @@ function editImageTextUi($section) {
         } else if(resource.type == 1) {
             var $video = $('<video></video>');
             $video.attr('controls', 'controls');
-            $video.attr('src', 'http://resource.efeiyi.com/image/project/' + resource.uri);
+            $video.attr('src', PROJECT_RESOURCE_URL + resource.uri);
             $video.attr('width', '208px');
             $video.attr('height', '208px');
             $video.attr('file-name', resource.uri);
@@ -1124,13 +1124,13 @@ function adjustImageText($section, item_arr) {
 
                     if(resourceList[j].type == 0) {
                         var $img = $('<img />');
-                        $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resourceList[j].uri);
+                        $img.attr('src', PROJECT_RESOURCE_URL + resourceList[j].uri);
                         $li.append($img);
                     } else if(resourceList[j].type == 1) {
                         var $video = $('<video></video>');
                         $video.attr('controls', 'controls');
                         $video.attr('width', '325px');
-                        $video.attr('src', 'http://resource.efeiyi.com/image/project/' + resourceList[j].uri);
+                        $video.attr('src', PROJECT_RESOURCE_URL + resourceList[j].uri);
                         $li.append($video);
                     }
 

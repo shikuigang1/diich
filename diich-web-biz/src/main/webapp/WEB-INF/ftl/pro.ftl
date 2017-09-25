@@ -36,7 +36,7 @@
     <link rel="stylesheet" href="${caturi}/css/loader.min.css">
     <link rel="stylesheet" href="${caturi}/css/dropdown.min.css">
     <link rel="stylesheet" href="${caturi}/css/transition.min.css">
-    <link rel="stylesheet" href="${caturi}/css/project-detail.css?7">
+    <link rel="stylesheet" href="${caturi}/css/project-edit.css?7">
     <style>
         .card .plain_text,.card .text_img .side {
             word-wrap: break-word;
@@ -72,8 +72,8 @@
     <script src="${caturi}/assets/js/Ecalendar.jquery.min.js"></script>
     <script src="${caturi}/js/semantic.min.js"></script>
     <script src="${caturi}/data/area.js"></script>
-    <script src="${caturi}/js/project-template.js"></script>
-    <script src="${caturi}/js/project-detail.js?3"></script>
+    <script src="${caturi}/js/project-edit-template.js"></script>
+    <script src="${caturi}/js/project-edit.js?3"></script>
 
     <script>
         var json = ${json.json};
@@ -599,8 +599,8 @@
         <#list obj.contentFragmentList as cf>
             <#if cf.attribute?? && (cf.attribute.dataType == 5  && cf.resourceList?? && cf.resourceList?size>0)>
                 <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>" data-type="image-text">
-                    <div class="card" data-id="${cf.id?c}">
-                        <header class="title handle-button"><h4>
+                    <div class="card">
+                        <header class="title handle-button" data-id="${cf.attributeId?c}"><h4>
                             <#if obj.lang == "chi">
                             ${cf.attribute.cnName}
                             </#if>
@@ -681,8 +681,8 @@
             <#if cf.attribute?? && ((cf.attribute.dataType == 5 || cf.attribute.dataType == 1) && (!cf.resourceList?? || cf.resourceList?size==0)) && cf.content?? && cf.content != "">
 
                 <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>" data-type="image-text">
-                    <div class="card" data-id="${cf.id?c}">
-                        <header class="title handle-button"><h4>
+                    <div class="card"">
+                        <header class="title handle-button" data-id="${cf.attributeId?c}"><h4>
                             <#if obj.lang == "chi">
                             ${cf.attribute.cnName}
                             </#if>
