@@ -306,23 +306,10 @@ function fillCommonByContentList(object, type, attrMap, $ui) {
                 $ui.find('#' + attr_name).attr('href', 'http://' + target_type + '.efeiyi.com/'+ type.substring(0,1)+'/'+
                     object.id +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
             } else {
-                var text = '';
+                var $div = $('<div></div>');
+                $div.html(map[attr_name]);
 
-                //var $textJ = $(map[attr_name]);
-
-                /*if($textJ != null && $textJ.length > 0) {*/
-                  /*  try {
-                        text = $textJ.prop('outerHTML');
-                    } catch(e) {
-
-                    }*/
-                /*} else {
-
-                }*/
-
-                //
-
-                text = map[attr_name];
+                var text = $div.prop('innerText');
 
                 if(text != null && text.length > 108) {
                     text = text.substr(0, 108) + '...';
