@@ -308,13 +308,21 @@ function fillCommonByContentList(object, type, attrMap, $ui) {
             } else {
                 var text = '';
 
-                var $textJ = $(map[attr_name]);
+                //var $textJ = $(map[attr_name]);
 
-                if($textJ != null && $textJ.length > 0) {
-                    text = $textJ[0].outerText;
-                } else {
-                    text = map[attr_name];
-                }
+                /*if($textJ != null && $textJ.length > 0) {*/
+                  /*  try {
+                        text = $textJ.prop('outerHTML');
+                    } catch(e) {
+
+                    }*/
+                /*} else {
+
+                }*/
+
+                //
+
+                text = map[attr_name];
 
                 if(text != null && text.length > 108) {
                     text = text.substr(0, 108) + '...';
