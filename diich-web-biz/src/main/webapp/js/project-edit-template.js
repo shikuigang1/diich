@@ -33,33 +33,8 @@ var edit_main_info_tmp =
     '        <div class="dropbox"> '+
     '            <div class="item"> '+
     '                <dl class="level"> '+
-    '                    <dt> '+
-    '                        <div class="title" id="first_category">一级分类</div>'+
-    '                    </dt> '+
     '                    <dd> '+
-    '                        <ul id="mainCategory"> '+
-    '                            <li data-id="0">选择分类</li> '+
-    '                        </ul> '+
-    '                    </dd> '+
-    '                </dl> '+
-    '                <dl class="level2"> '+
-    '                    <dt> '+
-    '                        <div class="title" id="second_category">二级分类</div> '+
-    '                    </dt> '+
-    '                    <dd> '+
-    '                        <ul id="secondCate">'+
-    '                            <li data-id="0">选择分类</li> '+
-    '                        </ul> '+
-    '                    </dd> '+
-    '                </dl> '+
-    '                <dl class="level3"> '+
-    '                    <dt> '+
-    '                        <div class="title" id="second_category">三级分类</div> '+
-    '                    </dt> '+
-    '                    <dd> '+
-    '                        <ul id="thirdCate">'+
-    '                            <li data-id="0">选择分类</li> '+
-    '                        </ul> '+
+    '                        <ul></ul> '+
     '                    </dd> '+
     '                </dl> '+
     '            </div> '+
@@ -85,22 +60,7 @@ var edit_main_info_tmp =
     '            <div class="item"> '+
     '                <dl class="level"> '+
     '                    <dd> '+
-    '                        <ul id="country"> </ul> '+
-    '                    </dd> '+
-    '                </dl> '+
-    '                <dl class="level2"> '+
-    '                    <dd> '+
-    '                        <ul id="province"> </ul> '+
-    '                    </dd> '+
-    '                </dl> '+
-    '                <dl class="level3"> '+
-    '                    <dd> '+
-    '                        <ul id="city"> </ul> '+
-    '                    </dd> '+
-    '                </dl> '+
-    '                <dl class="level4"> '+
-    '                    <dd> '+
-    '                        <ul id="tower"> </ul> '+
+    '                        <ul></ul> '+
     '                    </dd> '+
     '                </dl> '+
     '            </div> '+
@@ -148,7 +108,7 @@ var edit_image_text_tmp =
     '<div class="image-text"> '+
     '    <div> '+
     '        <div class="text"> '+
-    '            <script class="editor data-item" type="text/plain" style="width:100%;height:200px;"></script> '+
+    '            <script class="editor data-item" type="text/plain"></script> '+
     '            <div class="errors" style="display: none">'+
     '                <i></i>'+
     '                <span></span>'+
@@ -218,3 +178,17 @@ var show_short_text_template =
     '    <span class="key"></span>'+
     '    <span class="value"></span>'+
     '</li>';
+
+var upload_form_template =
+    '<form class="upload" method = "POST" action="" method="post" enctype="multipart/form-data">'+
+    '<input class="_token" type="hidden" name="OSSAccessKeyId" value="">'+
+    '<input class="_token" type="hidden" name="policy" value="">'+
+    '<input class="_token" type="hidden" name="Signature" value="">'+
+    '<input class="_token" type="hidden" name="key" value="">'+
+    '<input class="_token" type="hidden" name="Filename" value="">'+
+    '<input class="_token" type="hidden" name="success_action_status" value="200">'+
+    '<div class="progress">' +
+    '<div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div>'+
+    '</div>' +
+    '<input class="file" type="file" name="file">'+
+    '</form>';

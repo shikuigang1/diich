@@ -219,7 +219,7 @@ function buildSearchResultUi(data) {
 
 function fillProjectData(project, template) {
     var attrMap = {};
-    attrMap.headImage = 112;
+    attrMap.headImage = 1;
     attrMap.title = 4;
     attrMap.doi = 2;
     attrMap.summary = 9;
@@ -281,9 +281,6 @@ function fillCommonByContentList(object, type, attrMap, $ui) {
             map['doi'] = contentList[i].content;
         } else if(contentList[i].attributeId == attrMap.summary) {
             map['summary'] = contentList[i].content;
-            if(map['summary'] != null && map['summary'].length > 108) {
-                map['summary'] = map['summary'].substr(0, 108) + '...';
-            }
         }
     }
 
@@ -309,7 +306,16 @@ function fillCommonByContentList(object, type, attrMap, $ui) {
                 $ui.find('#' + attr_name).attr('href', 'http://' + target_type + '.efeiyi.com/'+ type.substring(0,1)+'/'+
                     object.id +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
             } else {
-                $ui.find('#' + attr_name).html(map[attr_name]);
+                var $div = $('<div></div>');
+                $div.html(map[attr_name]);
+
+                var text = $div.prop('innerText');
+
+                if(text != null && text.length > 108) {
+                    text = text.substr(0, 108) + '...';
+                }
+
+                $ui.find('#' + attr_name).html(text);
             }
         }
     }

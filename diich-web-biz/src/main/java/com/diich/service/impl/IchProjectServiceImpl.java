@@ -652,9 +652,10 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                         img.add(resource);
                         if(contentFragment.getAttributeId()!=112){//头图不放到所有图片中
                             imgdist.addAll(img);
-                        }else{
-                            headMap.put("headImage",img);
                         }
+                          if(contentFragment.getAttributeId() == 1){//题图
+                              headMap.put("headImage",img);
+                          }
                     }
                     if (resource.getType() != null && resource.getType() == 1) {
                         video.add(resource);

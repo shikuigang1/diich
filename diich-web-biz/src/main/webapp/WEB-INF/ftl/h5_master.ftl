@@ -31,6 +31,7 @@
     <script src="${h5uri}/links/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="${h5uri}/assets/js/Menu2.js" type="text/javascript" charset="utf-8"></script>
     <script src="${h5uri}/assets/js/scrollBar.js" type="text/javascript" charset="utf-8"></script>
+    <#--<script src="${h5uri}/assets/js/Sign_ajax.js " type="text/javascript" charset="utf-8"></script>-->
     <link rel="stylesheet" type="text/css" href="${h5uri}/links/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="${h5uri}/css/swiper.min.css"/>
     <script src="${h5uri}/links/js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
@@ -115,7 +116,7 @@
                                 </#if>
                             </#list>
                         </#if>
-                        <li>
+                        <#--<li>
                             <div>
                                 <a href="javascript:;">
                                 </a>
@@ -124,7 +125,7 @@
                                     <span class="likeCount" id="likeCount11">665</span>
                                 </a>
                             </div>
-                        </li>
+                        </li>-->
                     </ul>
                 </h3>
                 <div>
@@ -252,9 +253,9 @@
                             ${cf.attribute.cnName}
                             <span>_</span>
                             </h3>
+                            <#if cf.resourceList?? && (cf.resourceList?size>0)>
                             <div class="inFormation2_num">
                                 <ul class="link">
-                                    <#if cf.resourceList?? && (cf.resourceList?size>0)>
                                         <#list cf.resourceList as res>
                                             <#if res?? && res.uri?? && res.uri != "" >
                                                 <#if res.type == 1>
@@ -296,13 +297,14 @@
                                                 </#if>
                                             </#if>
                                         </#list>
-                                    </#if>
+
                                 </ul>
                                 <div class="show_num">
                                     <span class="numBerStr"></span>
                                     <img src="${h5uri}/assets/iocn/Group .png"/>
                                 </div>
                             </div>
+                            </#if>
                             <#if cf.resourceList?? && (cf.resourceList?size>0)>
                                 <#list cf.resourceList as res>
                                     <#if res?? && res.description?? && res.description != "" >
@@ -311,10 +313,10 @@
                                 </#list>
                             </#if>
                             <#if cf.content?? && cf.content != "">
-                                <p class="For_content2">
+                                <div class="For_content2">
                                     <#assign content =cf.content?replace(" ","&nbsp;")?replace("\n","<br>") />
                                         ${content}
-                                </p>
+                                </div>
                             </#if>
 
                         </div>
