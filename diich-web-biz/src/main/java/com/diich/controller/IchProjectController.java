@@ -156,19 +156,44 @@ public class IchProjectController extends BaseController<IchProject> {
 
         try {
             ichProject = ichProjectService.saveIchProject(ichProject,user);
-            HttpSession session = request.getSession();
-            session.setAttribute(Constants.CURRENT_PROJECT,ichProject);
         } catch (Exception e) {
             return putDataToMap(e);
         }
         return putDataToMap(ichProject);
     }
 
-    @RequestMapping("ichProjectInfo")
+    @RequestMapping("submitIchProject")
     @ResponseBody
-    public  Map<String, Object> organizationInfo(HttpServletRequest request,HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        return putDataToMap(request.getSession().getAttribute(Constants.CURRENT_PROJECT));
+    public Map<String, Object> submitIchProject(HttpServletRequest request,HttpServletResponse response)  {
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        String params = request.getParameter("params");
+        IchProject ichProject = null;
+        try {
+            ichProject = parseObject(params, IchProject.class);
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+
+        ichProject.setLastEditorId(user.getId());
+
+        try {
+            ichProject.setStatus(3);
+            ichProject = ichProjectService.saveIchProject(ichProject,user);
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+        return putDataToMap(ichProject);
     }
 
     @RequestMapping("getProByName")
