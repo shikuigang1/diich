@@ -1702,10 +1702,375 @@ function addCustom(){
 }
 function submitCheck() {
 
+    //本地缓存获取对象
+    //var ichjsonStr = localStorage.getItem("ichProject");
+    var contentFragmentList = [];
     var ich = getCurrentProject();
+    var customflag = false;
+    if(ich == null) {
+        ich={};
+    }
+
+    if( $('div[data-type=proBaseInfo]').hasClass("selected")){//基础信息 点中
+        var contentFragment={};
+        //图上传成功本地保存图片
+        var imgpath =  $('.preview').attr('src');
+        if(typeof(imgpath) != "undefined"){
+            //获取图片名称
+            var path = imgpath.substring(imgpath.lastIndexOf("/")+1);
+            //var attr={};
+            if(path !=""){
+                var resource={};
+                var resourceList=[];
+                contentFragment.attributeId=1;//题图
+                resource.uri=path;
+                resource.type=0;
+                resource.description='';
+                resourceList.push(resource);
+                contentFragment.resourceList=resourceList;
+                contentFragment.targetType=0;
+                contentFragmentList.push(cloneObj(contentFragment));
+                contentFragment={};
+            }
+        }
+
+
+
+        contentFragment.attributeId=9;//简介
+        contentFragment.content=$("#summary").val();
+        contentFragment.targetType=0;
+        //attr.dataType=1;//长文本
+        //contentFragment.targetType=0;
+        //contentFragment.attribute=attr;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+        contentFragment.attributeId=6;//拼音
+        contentFragment.content=$("#pinyin").val();
+        //attr.dataType=0;//短文本
+        contentFragment.targetType=0;
+        //contentFragment.attribute=attr;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+
+        contentFragment.attributeId=5;//英文名
+        contentFragment.content=$("#engName").val();
+        //attr.dataType=0;//短文本
+        contentFragment.targetType=0;
+
+        //contentFragment.attribute=attr;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+
+        contentFragment.attributeId=4;//中文名
+        contentFragment.content=$("#chiName").val();//中文名
+        contentFragment.targetType=0;
+        //attr.dataType=0;
+        //contentFragment.attribute=attr;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+
+        contentFragment.attributeId=109;//开始年代
+        contentFragment.content=$("#beginTimes").val();//
+        contentFragment.targetType=0;
+        //attr.dataType=0;
+        //contentFragment.attribute=attr;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+
+        contentFragment.attributeId=108;//国家代码
+        contentFragment.content=$("#countryCode").val();//中文名
+        contentFragment.targetType=0;
+        //attr.dataType=0;
+        //contentFragment.attribute=attr;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+
+        contentFragment.attributeId=32;//主题词
+        contentFragment.content=$("#titleWords").val();//中文名
+        contentFragment.targetType=0;
+        //attr.dataType=0;
+        //contentFragment.attribute=attr;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+
+        contentFragment.attributeId=2;//doi 编码
+        contentFragment.content=$("#doi").val();//中文名
+        contentFragment.targetType=0;
+        //attr.dataType=0;
+        //contentFragment.attribute=attr;
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+
+
+        contentFragment.attributeId=33;//区域
+        if(codes== null){
+            contentFragment.content="";
+        }else{
+            contentFragment.content=codes;
+        }
+
+        contentFragment.targetType=0;
+
+        contentFragmentList.push(cloneObj(contentFragment));
+        contentFragment={};
+
+        var val=$("input:radio[name='authenticated']:checked").val();
+        if(typeof (val)=='undefined'){
+            //alert("请选择是否已认证！"); return false;
+        }
+
+        if(val=="1"){
+            contentFragment.attributeId=116;//认证时间
+            contentFragment.content=$("#ECalendar_date").val();
+            //attr.dataType=0;//短文本
+            contentFragment.targetType=0;
+
+            // contentFragment.attribute=attr;
+            contentFragmentList.push(cloneObj(contentFragment));
+            contentFragment={};
+
+            contentFragment.attributeId=41;//认证级别
+            contentFragment.content=$("#certselect").val();
+            //attr.dataType=103;//字典码
+            contentFragment.targetType=0;
+            //contentFragment.attribute=attr;
+            contentFragmentList.push(cloneObj(contentFragment));
+            contentFragment={};
+            contentFragment.attributeId=107;//认证编号
+            contentFragment.content=$("#certCode").val();
+            // attr.dataType=0;//短文本
+            contentFragment.targetType=0;
+            //contentFragment.attribute=attr;
+            contentFragmentList.push(cloneObj(contentFragment));
+            contentFragment={};
+        }
+        //添加自定义 属性值
+        var flag = 0;
+        $.each(contentFragmentList,function (index,obj) {
+            flag = 0;
+            if(typeof (ich.contentFragmentList)!="undefined" && ich.contentFragmentList.length>0){
+                $.each(ich.contentFragmentList,function (idx,o) {
+                    if(obj.attributeId == o.attributeId){
+                        flag = 1;
+
+                        if(obj.attributeId==1 ){//图片
+
+                            if(ich.contentFragmentList[idx].resourceList.length>0){
+                                ich.contentFragmentList[idx].resourceList[0].uri=obj.resourceList[0].uri;
+                            }else{
+                                ich.contentFragmentList[idx].resourceList=obj.resourceList;
+                            }
+
+                        }else{
+                            ich.contentFragmentList[idx].content=obj.content;
+                        }
+                    }
+                });
+            }
+
+            if(flag == 0){
+                if( typeof (ich.contentFragmentList)=="undefined" || ich.contentFragmentList==null){
+                    var temp =[];
+                    temp.push(obj);
+                    ich.contentFragmentList = temp;
+                }else{
+                    ich.contentFragmentList.push(obj);
+                }
+            }
+        });
+        //统一验证
+        //localStorage.setItem("ichProject",JSON.stringify(ich));
+
+
+
+        setCurrentProject(ich);
+
+    }else if($('div[data-type=longFieldCustom]').hasClass("selected")){//添加自定义选中
+        //添加自定义 选中
+        if(!validateCustom()) {
+            return false;
+        }
+        var ich = getCurrentProject();
+        var attr={};
+        var contentFragment={};
+
+        contentFragment.content = $("#longContent").val();
+        contentFragment.attributeId=0;
+        contentFragment.targetType=0;
+
+        attr.dataType=5;//短字段
+        attr.cnName=$("#attrName").val();
+        attr.id=0;
+
+
+        var resourceList=[];
+
+        //获取图片列表
+        $("#images").find(".item").each(function () {
+            var resource={};
+            var fullpath="";
+            var desc="";
+            var path="";
+            var type="0";
+
+            if($(this).find('img').length>0){
+                fullpath = $(this).find('img').eq(0).attr("src");
+                desc =  $(this).find('img').eq(0).next().val();
+                path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            }else{
+                fullpath = $(this).find('video').eq(0).attr("src");
+                desc =  $(this).find('video').eq(0).next().val();
+                path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+                type ="1";
+            }
+
+            var resourceId = $(this).find('span').eq(0).find("i").eq(0).attr("data-id");
+
+            if(resourceId == null || typeof(resourceId) == "undefined"){
+
+            }else {
+                resource.id = resourceId;
+            }
+
+            resource.type=type;
+            resource.uri=path;
+            resource.description=desc;
+            resourceList.push(cloneObj(resource));
+        });
+
+        contentFragment.resourceList=resourceList;
+        contentFragment.attribute=attr;
+        contentFragment.targetId=ich.id;
+
+        ich.contentFragmentList.push(contentFragment);
+    }
+    else{  //修改其他子信息内容选中
+        var attid;
+        $('li[data-type=longField]').each(function () {
+            if($(this).hasClass('selected')){
+                attid = $(this).find('span').eq(0).attr('data-id');
+                return false;
+            }
+        });
+
+        var condition = getConditionByAttributeID(attid);
+        if(condition.minLength>0 && $("#longContent").val().length<condition.minLength){
+            $("#longContent").next().find('span').eq(0).text("文本内容的最小长度为"+condition.minLength).show();
+            return false;
+        }
+        //先通过 attributeID 在本地寻找是否有相应的 内容片断
+        var contentFragment = getContentFragmentByID(attid);
+        if (typeof(contentFragment) == "undefined" || contentFragment== null){
+            contentFragment={};
+        }
+
+        contentFragment.attributeId=attid;
+        contentFragment.content=$("#longContent").val();
+        contentFragment.targetType=0;
+
+
+        var resourceList=[];
+
+        //获取图片列表
+        $("#images").find(".item").each(function () {
+            var resource={};
+            var fullpath="";
+            var desc="";
+            var path="";
+            var type="0";
+
+            if($(this).find('img').length>0){
+                fullpath = $(this).find('img').eq(0).attr("src");
+                desc =  $(this).find('img').eq(0).next().val();
+                path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            }else{
+                fullpath = $(this).find('video').eq(0).attr("src");
+                desc =  $(this).find('video').eq(0).next().val();
+                path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+                type ="1";
+            }
+
+            var resourceId = $(this).find('span').eq(0).find("i").eq(0).attr("data-id");
+
+            if(resourceId == null || typeof(resourceId) == "undefined"){
+
+            }else {
+                resource.id = resourceId;
+            }
+
+            resource.type=type;
+            resource.uri=path;
+            resource.description=desc;
+            resourceList.push(cloneObj(resource));
+        });
+        contentFragment.resourceList=resourceList;
+
+        var ich = getCurrentProject();
+        var customvalied=true;
+        if(typeof (ich.contentFragmentList)!="undefined" || ich.contentFragmentList.length>0){
+            var flag_1 =0;
+            $.each(ich.contentFragmentList,function (idx,obj) {
+                if(obj.attributeId == attid){
+
+                    if(obj.attribute != null && obj.attribute.targetType == "10"){
+                        customflag = true;
+                        if(!validateCustom()){
+                            customvalied = false;
+                            return false;
+                        }
+                        ich.contentFragmentList[idx].attribute.cnName=$("#attrName").val();
+                    }
+
+                    flag_1=1;
+                    ich.contentFragmentList[idx].content=$("#longContent").val();
+                    if(typeof (obj.resourceList) == 'undefined'){
+                        ich.contentFragmentList[idx].resourceList = resourceList;
+                    }else{
+                        $.each(resourceList,function (index,object) {
+                            var flag = 0;
+                            $.each(obj.resourceList,function (i,o) {
+                                if(object.uri==o.uri){
+                                    flag=1;
+                                    o.description=object.description;
+                                }
+                            });
+                            if(flag==0){
+                                ich.contentFragmentList[idx].resourceList.push(object);
+                            }
+                        });
+                    }
+                }
+            });
+
+            if(customflag){
+                if(! customvalied){
+                    return false;
+                }
+            }
+
+            if(flag_1==0){
+                contentFragment.targetId=ich.id;
+                contentFragment.targetType=0;
+                ich.contentFragmentList.push(contentFragment);
+            }
+        }
+        /*  var temp={};
+         if(typeof (ich.contentFragmentList)!="undefined" || ich.contentFragmentList.length>0){
+         $.each(ich.contentFragmentList,function (idx,obj) {
+         if(obj.attributeId == attid){
+         temp = obj;
+         }
+         });
+         }*/
+    }
+
+    //获取当前分类数据
+    if(typeof($("div[data-type=selectCate]").attr("value")) != "undefined"){
+        ich.ichCategoryId=$("div[data-type=selectCate]").attr("value");
+    }
+
     ich.status=3;
 
-    //验证是否可以提交
     $.ajax({
         type: "POST",
         url: "/ichProject/submitIchProject",
