@@ -60,7 +60,7 @@ function initpage(data){
 
         $.each(data.data,function (index,obj) {
             ////长文本 或者图文
-            if(obj.dataType==1 || obj.dataType==5 ){
+            if(obj != null && (obj.dataType==1 || obj.dataType==5 )){
                 //过滤掉简介不再左侧显示
                 if((!(obj.id==9 || obj.id==24 || obj.id==31)) && obj.ichCategoryId == 0){
                     //中英文切换  <li><i class="icon unselected"></i><span>传承谱系</span></li>
@@ -1101,6 +1101,9 @@ function saveIchProject(page) {
         });
         //统一验证
         //localStorage.setItem("ichProject",JSON.stringify(ich));
+
+
+
         setCurrentProject(ich);
 
     }else if($('div[data-type=longFieldCustom]').hasClass("selected")){//添加自定义选中
@@ -1426,28 +1429,77 @@ function vaidateForm(ich) {
     var isImage=false;
     var patten=/^[a-zA-Z \s]{1,20}$/;
     $.each(ich.contentFragmentList,function (index,obj) {
-        console.log(JSON.stringify(obj));
+        //console.log(JSON.stringify(obj));
+        if(obj.attributeId==9 ){
 
-        if(obj.attributeId==9 && (obj.content.length<20 || obj.content.length>200)){
-            $("#summary").next().show();
-            $("#summary").focus();
-            flag = false;
-        }
-        else if(obj.attributeId==9){
-            $("#summary").next().hide();
+            var condition = getConditionByAttributeID(obj.attributeId);
+            if(condition.minLength >0 || condition.maxLength >0 ){
+
+                    var contentLength = obj.content.length;
+                    if(condition.minLength >0 && condition.maxLength >0){
+                        if(contentLength < condition.minLength || contentLength>condition.maxLength ){
+                            flag = false;
+                            $("#summary").next().show();
+                            $("#summary").next().find("span").eq(0).text("文本长度在"+condition.minLength+"-"+condition.maxLength +"之间");
+                        }
+
+                    }else if(condition.minLength >0){
+                        if(contentLength < condition.minLength ){
+                            flag = false;
+                            $("#summary").next().show();
+                            $("#summary").next().find("span").eq(0).text("文本最小长度"+condition.minLength);
+                        }
+                    }else if(condition.maxLength >0){
+                        if(contentLength > condition.maxLength ){
+                            flag = false;
+                            $("#summary").next().show();
+                            $("#summary").next().find("span").eq(0).text("文本最大长度"+condition.maxLength);
+                        }
+                    }else{
+                        $("#summary").next().hide();
+                    }
+
+            }
+
         }
 
         if(obj.attributeId==1){
             isImage = true;
         }
 
-        if(obj.attributeId==33 && obj.content==""){
-            $("#area").next().show();
-            flag = false;
-            //return false;
-        }else if(obj.attributeId==33){
-            $("#area").next().hide();
+        if(obj.attributeId==33 ){
+
+            var condition = getConditionByAttributeID(obj.attributeId);
+            if(condition.minLength >0 || condition.maxLength >0 ){
+
+                var contentLength = obj.content.length;
+                if(condition.minLength >0 && condition.maxLength >0){
+                    if(contentLength < condition.minLength || contentLength>condition.maxLength ){
+                        flag = false;
+                        $("#area").next().show();
+                        $("#area").next().find("span").eq(0).text("请添写加申报地区");
+                    }
+
+                }else if(condition.minLength >0){
+                    if(contentLength < condition.minLength ){
+                        flag = false;
+                        $("#area").next().show();
+                        $("#area").next().find("span").eq(0).text("请添写加申报地区");
+                    }
+                }else if(condition.maxLength >0){
+                    if(contentLength > condition.maxLength ){
+                        flag = false;
+                        $("#area").next().show();
+                        $("#area").next().find("span").eq(0).text("请添写加申报地区");
+                    }
+                }else{
+                    $("#area").next().hide();
+                }
+
+            }
+
         }
+
 
         if(obj.attributeId==6 && (obj.content.length<1 || obj.content.length>50)){
             $("#pinyin").next().show();
@@ -1656,7 +1708,7 @@ function submitCheck() {
     //验证是否可以提交
     $.ajax({
         type: "POST",
-        url: "../ichProject/saveIchProject",
+        url: "/ichProject/submitIchProject",
         data:{params:JSON.stringify(ich)} ,
         dataType: "json",
         async:false,
@@ -1673,6 +1725,7 @@ function submitCheck() {
     });
 }
 function ichProjectpreview(){
+
     var ich = getCurrentProject();
     $.ajax({
         type: "POST",
@@ -1682,14 +1735,16 @@ function ichProjectpreview(){
         async:false,
         complete: function () { },
         success: function (result) {
-           // console.log(JSON.stringify(result));
+           console.log(JSON.stringify(result));
 
 
             if(result.code==0){
                 //存储本地
                 modal.loading({
                     success:function () {
-                        location.href="/tmp/"+ich.id+".html";
+
+                        myDialog.create({code: 0, wid: "project", ifrId: "onPreview", title: "非遗项目信息预览", url: result.data.replace('./','/') });
+                        //location.href="/tmp/"+ich.id+".html";
                     }
                 });
 
@@ -1851,22 +1906,23 @@ function  initProjectData() {
 function forbidButton(){
 
     var currentPageID=$("#tpl").children("div").eq(0).attr("id");//当前页面id
-
     if(currentPageID=="basicContent"){
-
+        $(".handle").children("a").attr("href","javascript:void(0);");
     }
 
     if(currentPageID=="customContent"){
-
+        $(".buttons").children("a").attr("href","javascript:void(0);");
     }
     if(currentPageID=="longFieldContent"){
 
     }
-
-
 }
 //按钮启用
 function releaseButton(){
+    var currentPageID=$("#tpl").children("div").eq(0).attr("id");//当前页面id
+    if(currentPageID=="basicContent"){
+        $(".handle").children("a").attr("href","javascript:saveIchProject(0);");
+    }
 
 }
 
