@@ -18,7 +18,7 @@ var edit_main_info_tmp =
     '        </div> '+
     '    </div> '+
     '    <div class="group"> '+
-    '        <label class="label"><em>*</em>doi编码</label> '+
+    '        <label class="label"><em>*</em>ID编码</label> '+
     '        <div class="control"> '+
     '            <input type="text" class="ipt w562 data-item" data-id="2">'+
     '            <div class="errors" style="display: none"><i></i>请填入正确格式的拼音且长度在1-50之间</div> '+
