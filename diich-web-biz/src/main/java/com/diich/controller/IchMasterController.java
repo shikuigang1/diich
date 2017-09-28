@@ -151,6 +151,40 @@ public class IchMasterController extends BaseController<IchMaster>{
         }
         return putDataToMap(ichMaster);
     }
+    @RequestMapping("submitIchMaster")
+    @ResponseBody
+    public Map<String, Object> submitIchMaster(HttpServletRequest request,HttpServletResponse response) {
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
+        User user = (User) WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        String params = request.getParameter("params");
+        IchMaster ichMaster = null;
+
+        try {
+            ichMaster = parseObject(params, IchMaster.class);
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+
+        ichMaster.setLastEditorId(user.getId());
+
+        try {
+            ichMaster.setStatus(3);
+            ichMasterService.saveIchMaster(ichMaster , user);
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+        return putDataToMap(ichMaster);
+    }
     /**
      * 预览
      * @param request

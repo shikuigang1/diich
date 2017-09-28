@@ -76,16 +76,12 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         try {
             if(organization.getStatus() != null && organization.getStatus() == 3){
                 checkOrganization(organization);//校验机构信息
-            }
-            organization.setLastEditDate(new Date());
-            if(organization.getStatus() != null && organization.getStatus() == 3){
                 if(user != null && user.getType() == 0){//如果当前修改者是admin type代表权限  0 代表admin  1代表普通用户
                     organization.setStatus(0);
                 }
-                organizationMapper.updateByPrimaryKeySelective(organization);
-            }else{
-                saveOrgan(organization , user);
             }
+            organization.setLastEditDate(new Date());
+            saveOrgan(organization , user);
             commit(transactionStatus);
         } catch (Exception e) {
             rollback(transactionStatus);

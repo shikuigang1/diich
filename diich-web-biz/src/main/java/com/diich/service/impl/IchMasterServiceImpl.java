@@ -153,16 +153,12 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         try {
             if(ichMaster.getStatus() != null && ichMaster.getStatus() == 3){
                 checkIchMaster(ichMaster);//校验传承人信息
-            }
-            ichMaster.setLastEditDate(new Date());
-            if(ichMaster.getStatus() != null && ichMaster.getStatus() == 3){
                 if(user != null && user.getType() == 0){//如果当前修改者是admin type代表权限  0 代表admin  1代表普通用户
                     ichMaster.setStatus(0);
                 }
-                ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
-            }else{
-                saveMaster(ichMaster , user);
             }
+            ichMaster.setLastEditDate(new Date());
+            saveMaster(ichMaster , user);
             commit(transactionStatus);
         } catch (Exception e) {
             rollback(transactionStatus);
