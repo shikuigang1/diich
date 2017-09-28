@@ -508,28 +508,72 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         return contentFragmentList;
     }
 
-    private List<ContentFragment> getContentFragmentList(List<ContentFragment>  contentFragmentList) throws Exception{
-        for (ContentFragment contentFragment :contentFragmentList) {
-            Long attrId = contentFragment.getAttributeId();
-            Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
-            contentFragment.setAttribute(attribute);//添加属性
-            if(attribute != null && (attribute.getDataType() == 5 || attribute.getId() == 10 || attribute.getId() == 113)){
-                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
-                List<Resource> resourceList = new ArrayList<>();
-                for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
-                    Long resourceId = contentFragmentResource.getResourceId();
-                    if(resourceId == null){
-                        continue;
+//    private List<ContentFragment> getContentFragmentList(List<ContentFragment>  contentFragmentList) throws Exception{
+//        for (ContentFragment contentFragment :contentFragmentList) {
+//            Long attrId = contentFragment.getAttributeId();
+//            Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
+//            contentFragment.setAttribute(attribute);//添加属性
+//            if(attribute != null && (attribute.getDataType() == 5 || attribute.getId() == 10 || attribute.getId() == 113)){
+//                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
+//                List<Resource> resourceList = new ArrayList<>();
+//                for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
+//                    Long resourceId = contentFragmentResource.getResourceId();
+//                    if(resourceId == null){
+//                        continue;
+//                    }
+//                    Resource resource = resourceMapper.selectByPrimaryKey(resourceId);
+//                    if(resource!=null){
+//                        resource.setResOrder(contentFragmentResource.getResOrder());
+//                        resourceList.add(resource);
+//                    }
+//                }
+//                contentFragment.setResourceList(resourceList);
+//            }
+//        }
+//        return contentFragmentList;
+//    }
+    private List<ContentFragment> getContentFragmentList(List<ContentFragment>  contentFragmentList) throws Exception {
+        List attrlist = new ArrayList();
+        for(int i=0;i<contentFragmentList.size();i++) {
+            attrlist.add(contentFragmentList.get(i).getAttributeId());
+        }
+        List<Attribute> attributeList = attributeMapper.selectAttrListByIds(attrlist);//查询属性列表
+        List cfrList = new ArrayList<>();
+        for (ContentFragment contentFragment: contentFragmentList) {
+            for (Attribute attribute : attributeList) {
+                if(contentFragment.getAttributeId() != null && contentFragment.getAttributeId().equals(attribute.getId())){
+                    contentFragment.setAttribute(attribute);
+                    if((attribute.getDataType() == 5 || attribute.getId() == 10 || attribute.getId() == 113)){
+                        cfrList.add(contentFragment.getId());
                     }
-                    Resource resource = resourceMapper.selectByPrimaryKey(resourceId);
-                    if(resource!=null){
-                        resource.setResOrder(contentFragmentResource.getResOrder());
-                        resourceList.add(resource);
-                    }
+                    break;
                 }
-                contentFragment.setResourceList(resourceList);
             }
         }
+        if(cfrList.size()>0){
+            List<ContentFragmentResource> contentFragmentResourceList =contentFragmentResourceMapper.selectByContentFragmentIds(cfrList);//查询图片资源
+            List reslist = new ArrayList();
+            for (ContentFragmentResource  contentFragmentResource:contentFragmentResourceList) {
+                if(contentFragmentResource.getResourceId() != null){
+                    reslist.add(contentFragmentResource.getResourceId());
+                }
+            }
+            if(reslist.size()>0){
+                List<Resource> resourceList = resourceMapper.selectByids(reslist);
+                for (ContentFragment contentFragment: contentFragmentList) {
+                    List<Resource> conResList = new ArrayList<>();
+                    for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
+                        for (Resource resource: resourceList) {
+                            if(contentFragmentResource.getContentFragmentId() != null && contentFragmentResource.getResourceId() != null && contentFragment.getId().equals(contentFragmentResource.getContentFragmentId()) && resource.getId().equals(contentFragmentResource.getResourceId())){
+                                conResList.add(resource);
+                            }
+                        }
+                    }
+                    contentFragment.setResourceList(conResList);
+                }
+            }
+        }
+
         return contentFragmentList;
     }
     /**

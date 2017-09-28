@@ -98,4 +98,14 @@
     where cf.content_fragment_id = #{id,jdbcType=BIGINT}
   </select>
 
+  <select id="selectByids" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from resource
+    where status = 0 and id in
+    <foreach collection="list" item="id" open="(" close=")"
+             separator=",">
+      #{id}
+    </foreach>
+  </select>
 </mapper>

@@ -95,6 +95,16 @@
     <include refid="Base_Column_List" />
      from content_fragment_resource where content_fragment_id = #{contentFragmentId,jdbcType=BIGINT} and status = 0
   </select>
+  <select id="selectByContentFragmentIds" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+     from content_fragment_resource
+    where status = 0 and content_fragment_id in
+    <foreach collection="list" item="id" open="(" close=")"
+             separator=",">
+      #{id}
+    </foreach>
+  </select>
   <delete id="deleteByContentFragmentId" parameterType="java.lang.Long" >
     delete from content_fragment_resource
     where content_fragment_id = #{contentFragmentId,jdbcType=BIGINT}
