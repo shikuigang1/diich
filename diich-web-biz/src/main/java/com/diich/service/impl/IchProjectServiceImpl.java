@@ -131,9 +131,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
                 ichProject.setIchMasterList(ichMasterList);
                 //代表作品列表
-                List<Works> worksList =worksService.getWorksByIchProjectId(ichProject.getId());
-
-                ichProject.setWorksList(worksList);
+//                List<Works> worksList =worksService.getWorksByIchProjectId(ichProject.getId());
+//                ichProject.setWorksList(worksList);
                 //根据id和targetType和versionType查询中间表看是否有对应的版本
                 List<Version> versionList = null;
                 if("chi".equals(ichProject.getLang())){
@@ -709,7 +708,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     }
                 }
             }
-            map.put("contentFragmentId", contentFragmentId);
+            map.put("contentFragmentId", String.valueOf(contentFragmentId));
             map.put("imgs", img);
             map.put("videos", video);
             if("chi".equals(ichProject.getLang())){

@@ -447,7 +447,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
                     }
                 }
             }
-            map.put("contentFragmentId", contentFragmentId);
+            map.put("contentFragmentId", String.valueOf(contentFragmentId));
             map.put("imgs", img);
             map.put("videos", video);
             if("chi".equals(organization.getLang())){

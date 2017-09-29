@@ -608,7 +608,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                     }
                 }
             }
-            map.put("contentFragmentId", contentFragmentId);
+            map.put("contentFragmentId", String.valueOf(contentFragmentId));
             map.put("imgs", img);
             map.put("videos", video);
             if("chi".equals(ichMaster.getLang())){
