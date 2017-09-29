@@ -504,6 +504,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         try{
             IchProject ichProject = ichProjectMapper.selectIchProjectById(id);
             if(ichProject != null && ichProject.getStatus() != 3){
+                rollback(transactionStatus);
                 throw new ApplicationException(ApplicationException.PARAM_ERROR,"该项目不是待审核状态");
             }
             //根据id查询版本
