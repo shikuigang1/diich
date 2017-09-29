@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="${caturi}/css/icon.min.css">
     <link rel="stylesheet" href="${caturi}/css/button.min.css">
     <link rel="stylesheet" href="${caturi}/assets/css/inputs.css">
-    <link rel="stylesheet" href="${caturi}/css/project-detail.css?7">
+    <link rel="stylesheet" href="${caturi}/css/project-edit.css?7">
 
     <!--[if IE]>
     <link rel="stylesheet" href="${caturi}/assets/css/ie.css">
@@ -65,8 +65,8 @@
     <script src="${caturi}/js/util.js"></script>
 
     <script src="${caturi}/assets/js/Ecalendar.jquery.min.js"></script>
-    <script src="${caturi}/js/project-template.js"></script>
-    <script src="${caturi}/js/project-detail.js?3"></script>
+    <script src="${caturi}/js/project-edit-template.js"></script>
+    <script src="${caturi}/js/project-edit.js?3"></script>
     <script>
         var json = ${json.json};
         var jsonAll = ${json.jsonAll};

@@ -466,7 +466,7 @@ function login(){
                 $('.box_layer').hide();
                 $(".login").hide();
                 //根据当前 语言环境判断   默认显示英文
-
+                $(".logined").removeClass("active");
                 $(".logined").show().html(loginedTemplate(data.data));
                 // if(lang=='zh-CN'){
                 //     $(".logined").find('a').text("你好，"+ data.data.loginName);

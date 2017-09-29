@@ -2,6 +2,7 @@ package com.diich.mapper;
 
 import com.diich.core.base.BaseMapper;
 import com.diich.core.model.Attribute;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -24,4 +25,6 @@ public interface AttributeMapper extends BaseMapper<Attribute>{
     List<Attribute> selectDefAttrByTarIdAndTarType(Attribute record);
 
     List<Attribute> selectAttrByNameAndTargetType(Map map);
+
+    List<Attribute> selectAttrListByIds(@Param("list") List list);
 }

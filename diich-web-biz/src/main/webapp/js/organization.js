@@ -213,7 +213,7 @@ function  saveOrganization() {
 
     }
 
-    console.log(JSON.stringify(organization));
+    //console.log(JSON.stringify(organization));
     $.ajax({
         type: "POST",
         url: "/organization/saveOrganization",
@@ -222,7 +222,7 @@ function  saveOrganization() {
         async:false,
         complete: function () { },
         success: function (result) {
-            console.log(JSON.stringify(result));
+            //console.log(JSON.stringify(result));
             if(result.code==0){
                 setCurrentOrganization(result.data);
                 organization = result.data;
@@ -658,7 +658,7 @@ function delOrgCustom(attrId){
     contentFragment.targetType=13;
     contentFragment.targetId=org.id;
 
-    console.log(contentFragment);
+   // console.log(contentFragment);
 
     $.ajax({
         type: "POST",
@@ -784,19 +784,164 @@ function organizationPreview(){
 }
 //提交
 function submitOrganization() {
-    var org = getCurrentOrganization();
-    org.status=3;
+    if($('div[data-type=org_basic]').hasClass("selected")){
+        var contentFragmentList = [];
+        var contentFragment={};
+
+        contentFragment.attributeId=132;
+        contentFragment.content=$("#orgName").val();
+        contentFragment.targetType=3;
+        contentFragmentList.push(cloneObj(contentFragment));
+
+        contentFragment={};
+        contentFragment.attributeId=133;
+        contentFragment.content=$("#orgPerson").val();
+        contentFragment.targetType=3;
+        contentFragmentList.push(cloneObj(contentFragment));
+
+        contentFragment={};
+        contentFragment.attributeId=134;
+        contentFragment.content=$("#orgSummary").val();
+        contentFragment.targetType=3;
+        contentFragmentList.push(cloneObj(contentFragment));
+
+        contentFragment={};
+        contentFragment.attributeId=135;
+        contentFragment.content=$("#webSite").val();
+        contentFragment.targetType=3;
+        contentFragmentList.push(cloneObj(contentFragment));
+
+        contentFragment={};
+        contentFragment.attributeId=136;
+
+        var path = $(".preview").attr("src");
+        if(path != "" && typeof (path) != "undefined"){
+            path = path.substring(path.lastIndexOf("/")+1);
+            contentFragment.content=path;
+
+            var resource={};
+            var resourceList=[];
+            resource.uri=path;
+            resource.type=0;
+            resource.description='';
+            resourceList.push(resource);
+            contentFragment.resourceList=resourceList;
+            contentFragment.attributeId=136;
+        }
+
+
+        contentFragment.targetType=3;
+        contentFragmentList.push(cloneObj(contentFragment));
+
+        if(organization==null){
+            organization={};
+            organization.contentFragmentList = contentFragmentList;
+        }else{
+            $.each(contentFragmentList,function (index,obj) {
+                $.each(organization.contentFragmentList,function (i,o) {
+                    if(o.attributeId == obj.attributeId){
+                        if(o.attributeId==136){
+                            if(obj.resourceList != null && typeof (obj.resourceList)!="undefined" && obj.resourceList.length>0){
+                                if(organization.contentFragmentList[i].resourceList != null && typeof organization.contentFragmentList[i].resourceList != "undefined" && organization.contentFragmentList[i].resourceList.length>0){
+                                    organization.contentFragmentList[i].resourceList[0].uri=obj.resourceList[0].uri;
+                                }else{
+                                    organization.contentFragmentList[i].resourceList = obj.resourceList;
+                                }
+                            }else{
+                                //不做修改
+                            }
+
+                        }else{
+                            organization.contentFragmentList[i].content=obj.content;
+                        }
+                    }
+                });
+            });
+        }
+        if(!validataOrginztion(organization)){
+            return false;
+        }
+    }else{
+        //获取当前id
+        var attributeID = "";
+        $('li[data-type=longField]').each(function () {
+            if($(this).hasClass("selected")){
+                attributeID = $(this).find("span").eq(0).attr("data-id");
+            }
+        });
+        //验证数据
+        if(!validateOrgCustom()) {
+            return false;
+        }
+        //更新本地缓存
+
+        var resource={};
+        var resourceList=[];
+
+        //获取图片列表
+        $("#images").find(".item").each(function () {
+            var fullpath="";
+            var desc="";
+            var path="";
+            var type="0";
+
+            if($(this).find('img').length>0){
+                fullpath = $(this).find('img').eq(0).attr("src");
+                desc =  $(this).find('img').eq(0).next().val();
+                path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+            }else{
+                fullpath = $(this).find('video').eq(0).attr("src");
+                desc =  $(this).find('video').eq(0).next().val();
+                path = fullpath.substring(fullpath.lastIndexOf("/")+1);
+                type ="1";
+            }
+            resource.type=type;
+            resource.uri=path;
+            resource.description=desc;
+            resourceList.push(cloneObj(resource));
+        });
+
+        var flag_1 =0;
+        $.each(organization.contentFragmentList,function (idx,obj) {
+            if(obj.attributeId == attributeID){
+                flag_1=1;
+                organization.contentFragmentList[idx].content=$("#longContent").val();
+                organization.contentFragmentList[idx].attribute.cnName=$("#attrName").val();
+                if(typeof (obj.resourceList) == 'undefined'){
+                    organization.contentFragmentList[idx].resourceList = resourceList;
+                }else{
+                    $.each(resourceList,function (index,object) {
+                        var flag = 0;
+                        $.each(obj.resourceList,function (i,o) {
+                            if(object.uri==o.uri){
+                                flag=1;
+                                o.description=object.description;
+                            }
+                        });
+                        if(flag==0){
+                            organization.contentFragmentList[idx].resourceList.push(object);
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+
+
+
+    organization.status=3;
 
     //验证是否可以提交
     $.ajax({
         type: "POST",
-        url: "/organization/saveOrganization",
-        data:{params:JSON.stringify(org)} ,
+        url: "/organization/submitOrganization",
+        data:{params:JSON.stringify(organization)} ,
         dataType: "json",
         async:false,
         complete: function () { },
         success: function (result) {
-            console.log(JSON.stringify(result));
+           // console.log(JSON.stringify(result));
             if(result.code==0){
                 //存储本地
                 location.href="../page/createMastorSelect.html";

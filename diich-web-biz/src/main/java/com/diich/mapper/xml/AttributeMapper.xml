@@ -240,4 +240,13 @@
       and a.target_type= #{targetType,jdbcType=BIGINT}
     </if>
   </select>
+  <select id="selectAttrListByIds" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from attribute a
+    where a.status = 0
+    and  a.id in
+    <foreach collection="list" item="id" open="(" close=")"
+             separator=",">
+      #{id}
+    </foreach>
+  </select>
 </mapper>

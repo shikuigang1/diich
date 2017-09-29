@@ -114,20 +114,42 @@ public class OrganizationController extends BaseController<Organization>{
         }
         try {
             organization = organizationService.saveOrganization(organization, user);
-            HttpSession session = request.getSession();
-            session.setAttribute(Constants.CURRENT_ORG,organization);
         } catch (Exception e) {
             return putDataToMap(e);
         }
-        response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(organization);
     }
 
-    @RequestMapping("organizationInfo")
+    @RequestMapping("submitOrganization")
     @ResponseBody
-    public  Map<String, Object> organizationInfo(HttpServletRequest request,HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        return putDataToMap(request.getSession().getAttribute(Constants.CURRENT_ORG));
+    public Map<String, Object> submitOrganization (HttpServletRequest request, HttpServletResponse response){
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
+        User user = (User) WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        String params = request.getParameter("params");
+        Organization organization = null;
+
+        try {
+            organization = parseObject(params, Organization.class);
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        try {
+            organization.setStatus(3);
+            organization = organizationService.saveOrganization(organization, user);
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+        return putDataToMap(organization);
     }
     /**
      * 预览

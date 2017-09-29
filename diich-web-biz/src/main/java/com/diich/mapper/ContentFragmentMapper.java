@@ -2,8 +2,10 @@ package com.diich.mapper;
 
 import com.diich.core.base.BaseMapper;
 import com.diich.core.model.ContentFragment;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ContentFragmentMapper extends BaseMapper<ContentFragment> {
     int deleteByPrimaryKey(Long id);
@@ -28,6 +30,8 @@ public interface ContentFragmentMapper extends BaseMapper<ContentFragment> {
     List<ContentFragment> selectByProjectId(long  projectID);
 
     List<ContentFragment> selectByAttIdAndContent(ContentFragment record);
+
+    List<ContentFragment> selectByTargetIdsAndType(@Param("map") Map map);
 
     ContentFragment selectByAttrIdAndTargetId(ContentFragment record);
 

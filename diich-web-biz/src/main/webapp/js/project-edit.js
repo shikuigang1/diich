@@ -220,10 +220,7 @@ function displayEditMode() {
 
             var $selected = $('#custom .ui.dropdown .menu .selected');
             var attr_id = $selected.attr('data-value');
-            var title;
-            if(attr_id == null) {
-                title = $('#custom .ui.dropdown .text').text();
-            }
+            var title = $('#custom .ui.dropdown .text').text();
 
             if(attr_id == null && title == '') {
                 alert('标题不能为空');
@@ -241,7 +238,7 @@ function displayEditMode() {
                 if(contentFragment.attributeId == attr_id) {
                     is_has = true;
                     contentFragment.content = content;
-                    if(resourceList_tmp.length > 0) {
+                    if(resourceList_tmp.length > 0 && contentFragment.attribute.dataType == '5') {
                         contentFragment.resourceList = resourceList_tmp;
                     }
                     break;
@@ -252,22 +249,18 @@ function displayEditMode() {
                 contentFragment = {};
                 var attribute;
                 if(attr_id != null) {
-                    for(var t = 0; t < attributes.length; t++) {
-                        if(attr_id == attributes[t].id) {
-                            attribute = attributes[t];
-                        }
-                    }
+                    contentFragment.attributeId = attr_id;
                 } else if(title != null) {
                     attribute = {};
                     attribute.cnName = title;
                     attribute.dataType = 5;
                     contentFragment.attributeId = 0;
+                    contentFragment.attribute = attribute;
                 }
 
                 contentFragment.content = content;
                 contentFragment.targetType = 0;
-                contentFragment.attribute = attribute;
-                if(resourceList_tmp.length > 0) {
+                if(resourceList_tmp.length > 0 && attribute.dataType == '5') {
                     contentFragment.resourceList = resourceList_tmp;
                 }
                 contentFragmentList.push(contentFragment);
@@ -284,13 +277,15 @@ function displayEditMode() {
                 var $li = $('<li></li>');
                 if(resource_tmp.type == 0) {
                     var $img = $('<img />');
-                    $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resource_tmp.uri);
+                    $img.attr('src', PROJECT_RESOURCE_URL + resource_tmp.uri);
                     $li.append($img);
                 } else if(resource_tmp.type == 1) {
                     var $video = $('<video></video>');
                     $video.attr('controls', 'controls');
                     $video.attr('width', '325px');
-                    $video.attr('src', 'http://resource.efeiyi.com/image/project/' + resource_tmp.uri);
+                    $video.css({'max-height':'357px'});
+                    $video.css({'background-color':'#000'});
+                    $video.attr('src', PROJECT_RESOURCE_URL + resource_tmp.uri);
                     $li.append($video);
                 }
 
@@ -315,7 +310,7 @@ function displayEditMode() {
 
         fillCustomSelect();
 
-        $ui.find('.add.file_up').append($(getTemplate()));
+        $ui.find('.add.file_up').append($(upload_form_template));
         $ui.find('.add.file_up input').change(function () {
             var _this = $(this);
             _this.attr('data-type', _this.parent().parent().attr('data-type'));
@@ -381,10 +376,6 @@ function eidtMainInfoUi($section) {
 
     addMainInfoCompListener($section);
 
-    buildOneAreaUi($('#area_temp').parent().parent().find('.item'));
-    //buildOneComboUi(dic_arr_city, $('#area_temp').parent().parent().find('.item'));
-    buildOneComboUi(category_all, $('#category_temp').parent().parent().find('.item'));
-
     if(project == null) {
         return;
     }
@@ -439,7 +430,7 @@ function eidtMainInfoUi($section) {
 
         var resource = resourceList[0];
         var $img = $('<img class="preview" style="display: inline;z-index: 0;">');
-        $img.attr('src', 'http://diich-resource.oss-cn-beijing.aliyuncs.com/image/project/' + resource.uri);
+        $img.attr('src', PROJECT_RESOURCE_URL + resource.uri);
         $section.find('.file_up').append($img);
     }
 }
@@ -505,7 +496,7 @@ function editImageTextUi($section) {
         contentFragmentList = project.contentFragmentList;
     }
 
-    var $item = $section.find('.item-content');
+    var $item = $section.find('.title');
     var data_id;
     if($item != null) {
         data_id = $item.attr('data-id');
@@ -558,7 +549,7 @@ function editImageTextUi($section) {
             if(resource.uri.indexOf('http') > -1) {
                 $img.attr('src', resource.uri + '?x-oss-process=style/temporary-preview');
             } else {
-                $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resource.uri + '?x-oss-process=style/temporary-preview');
+                $img.attr('src', PROJECT_RESOURCE_URL + resource.uri + '?x-oss-process=style/temporary-preview');
             }
             $img.attr('file-name', resource.uri);
             $img.attr('resource-id', resource.id);
@@ -568,7 +559,7 @@ function editImageTextUi($section) {
         } else if(resource.type == 1) {
             var $video = $('<video></video>');
             $video.attr('controls', 'controls');
-            $video.attr('src', 'http://resource.efeiyi.com/image/project/' + resource.uri);
+            $video.attr('src', PROJECT_RESOURCE_URL + resource.uri);
             $video.attr('width', '208px');
             $video.attr('height', '208px');
             $video.attr('file-name', resource.uri);
@@ -581,7 +572,7 @@ function editImageTextUi($section) {
         deleteImageUi($ui);
     }
 
-    $ui.find('.add.file_up').append($(getTemplate()));
+    $ui.find('.add.file_up').append($(upload_form_template));
     $ui.find('.add.file_up input').change(function () {
         var _this = $(this);
         _this.attr('data-type', _this.parent().parent().attr('data-type'));
@@ -689,7 +680,7 @@ function saveProjectToClient($section) {
         }
 
         //基础信息条目显示不全，加的补丁
-        if(data_type == 'short-text' && is_new_attr) {
+        if((data_type == 'short-text' || data_type == 'main-text') && is_new_attr) {
             for(var j = 0; j < attributes.length; j++) {
                 var attribute = attributes[j];
                 if(attribute.id == data_id) {
@@ -744,6 +735,15 @@ function addMainInfoCompListener($section) {
         $comb.css('left', parseInt(_this.position().left) + 'px');
         $comb.animate({height:'toggle'}, 150);
         $comb.siblings('.item').animate({height:'hide'},50);
+
+        var opts = {};
+        opts.data = ich_category;
+        opts.callback = function (data_code, name) {
+            _this.attr('data-value', data_code);
+            _this.text(name);
+        };
+
+        buildComboUi($comb, opts);
     });
 
     $('#area_temp').on('click', function () {
@@ -752,6 +752,15 @@ function addMainInfoCompListener($section) {
         $comb.css('left', parseInt(_this.position().left) + 'px');
         $comb.animate({height:'toggle'}, 150);
         $comb.siblings('.item').animate({height:'hide'},50);
+
+        var opts = {};
+        opts.data = area_all;
+        opts.callback = function (data_code, name) {
+            _this.attr('data-value', data_code);
+            _this.text(name);
+        };
+
+        buildComboUi($comb, opts);
     });
 
     //3.阻止点击自身关闭
@@ -787,7 +796,7 @@ function addMainInfoCompListener($section) {
     });*/
 
     var $file_up = $section.find('.file_up');
-    $file_up.append($(getTemplate()));
+    $file_up.append($(upload_form_template));
     $file_up.find('input[type="file"]').change(function () {
         var _this = $(this);
         _this.attr('data-type', 'image');
@@ -865,346 +874,73 @@ function addMainInfoCompListener($section) {
     }
 }
 
-function buildOneComboUi(data, $ui) {
-    if(data == null) {
+function buildComboUi($comb, opts) {
+    var $ul = $comb.find('.level ul');
+    $comb.children().not('.level').remove();
+
+    for(var i = 0; i < opts.data.length; i++) {
+        if(opts.data[i].parent_id == 0 || opts.data[i].parent_id == null) {
+            var $li = buildCombLiUi(opts.data[i], opts);
+            $ul.append($li);
+        }
+    }
+}
+
+function buildCombLiUi(area, opts) {
+    var $li = $('<li></li>');
+    $li.attr('data-code', area.code != null ? area.code : area.id);
+    $li.attr('data-id', area.id);
+    $li.text(area.name);
+
+    $li.hover(function () {
+        var _this = $(this);
+        buildNextCombLiUi(_this, opts);
+    });
+
+    $li.on('click', function () {
+        var data_code = $(this).attr('data-code');
+        var name = $(this).text();
+
+        opts.callback(data_code, name);
+
+        $(this).parent().parent().parent().parent().animate({height:'hide'},50);
+    });
+
+    return $li;
+}
+
+function buildNextCombLiUi(_this, opts) {
+    var next = _this.parent().parent().parent().next('dl');
+    removeNextLevel(next);
+
+    var $ul = $('<ul></ul>');
+
+    for(var i = 0; opts.data != null && i < opts.data.length; i++) {
+        var area = opts.data[i];
+
+        if(area.parent_id == _this.attr('data-id')) {
+            var $li = buildCombLiUi(area, opts);
+            $ul.append($li);
+        }
+    }
+
+    if($ul.find('li').length > 0) {
+        var $dl = $('<dl></dl>');
+        var $dd = $('<dd></dd>');
+
+        $dd.append($ul);
+        $dl.append($dd);
+        $(_this).parent().parent().parent().parent().append($dl);
+    }
+}
+
+function removeNextLevel(curr) {
+    if(curr.length > 0) {
+        var next = curr.next('dl');
+        removeNextLevel(next);
+        curr.remove();
+    } else {
         return;
-    }
-
-    var curr_lang = getCurrentLanguage();
-
-    var $container = $ui.find('.level ul');
-    $container.children().remove();
-
-    for(var i = 0; i < data.length; i ++) {
-        var $li = $('<li></li>');
-        $li.attr('data-id', data[i].code != null ?
-            data[i].code : data[i].id);
-        if(curr_lang == 'en') {
-            $li.text(data[i].eNname);
-        } else {
-            $li.text(data[i].name);
-        }
-
-        $li.hover(function () {
-            var li_data_id = $(this).attr('data-id');
-            var oneComboChildre = null;
-
-            for(var j = 0; j < data.length; j ++) {
-                if(data[j].id == li_data_id || data[j].code == li_data_id) {
-                    oneComboChildre = data[j].children;
-                    break;
-                }
-            }
-
-            if(oneComboChildre != null && oneComboChildre.length > 0) {
-                buildTwoComboUi(oneComboChildre, $ui);
-                $ui.find('.level2').show();
-            } else {
-                $ui.find('.level2').hide();
-            }
-        });
-
-        $li.on('click', function(){
-            var li_data_id = $(this).attr('data-id');
-            var li_name = $(this).text();
-
-            var container_id = $(this).parent().attr('id');
-            if(container_id == 'mainCategory') {
-                $('#category_temp').attr('data-value', li_data_id);
-                $('#category_temp').text(li_name);
-            } else if(container_id == 'country') {
-                $('#area_temp').attr('data-value', li_data_id);
-                $('#area_temp').text(li_name);
-            }
-
-            $ui.animate({height:'hide'},50);
-        });
-
-        $container.append($li);
-    }
-
-}
-
-function buildTwoComboUi(data, $ui) {
-    var $container = $ui.find('.level2 ul');
-    $container.children().remove();
-    var twoData = data;
-
-    var curr_lang = getCurrentLanguage();
-
-    for(var i = 0; i < twoData.length; i ++) {
-        var $li = $('<li></li>');
-        $li.attr('data-id', twoData[i].code != null ?
-            twoData[i].code : twoData[i].id);
-
-        if(curr_lang == 'en') {
-            $li.text(twoData[i].eNname);
-        } else {
-            $li.text(twoData[i].name);
-        }
-
-        $li.hover(function () {
-            var li_data_id = $(this).attr('data-id');
-            var twoComboChildren = null;
-
-            for(var j = 0; j < data.length; j ++) {
-                if(data[j].id == li_data_id || data[j].code == li_data_id) {
-                    twoComboChildren = data[j].children;
-                    break;
-                }
-            }
-
-            if(twoComboChildren != null && twoComboChildren.length > 0) {
-                buildThreeComboUi(twoComboChildren, $ui);
-                $ui.find('.level3').show();
-            } else {
-                $ui.find('.level3').hide();
-            }
-        });
-
-        $li.on('click', function () {
-            var li_data_id = $(this).attr('data-id');
-            var li_name = $(this).text();
-
-            var container_id = $(this).parent().attr('id');
-            if(container_id == 'secondCate') {
-                $('#category_temp').attr('data-value', li_data_id);
-                $('#category_temp').text(li_name);
-            } else if(container_id == 'province') {
-                $('#area_temp').attr('data-value', li_data_id);
-                $('#area_temp').text(li_name);
-            }
-
-            $ui.animate({height:'hide'},50);
-        });
-
-        $container.append($li);
-    }
-}
-
-function buildThreeComboUi(data, $ui) {
-    var $container = $ui.find('.level3 ul');
-    $container.children().remove();
-    var threeData = data;
-
-    var curr_lang = getCurrentLanguage();
-
-    for(var i = 0; i < threeData.length; i ++) {
-        var $li = $('<li></li>');
-        $li.attr('data-id', threeData[i].code != null ?
-            threeData[i].code : threeData[i].id);
-
-        if(curr_lang == 'en') {
-            $li.text(threeData[i].eNname);
-        } else {
-            $li.text(threeData[i].name);
-        }
-
-        $li.on('click', function () {
-            var li_data_id = $(this).attr('data-id');
-            var li_name = $(this).text();
-
-            var container_id = $(this).parent().attr('id');
-            if(container_id == 'thirdCate') {
-                $('#category_temp').attr('data-value', li_data_id);
-                $('#category_temp').text(li_name);
-            } else if(container_id == 'city') {
-                $('#area_temp').attr('data-value', li_data_id);
-                $('#area_temp').text(li_name);
-            }
-
-            $ui.animate({height:'hide'},50);
-        });
-
-        $container.append($li);
-    }
-}
-
-function buildOneAreaUi($ui) {
-    if(area_all == null) {
-        return;
-    }
-
-    var $container = $ui.find('.level ul');
-    $container.children().remove();
-
-    for(var i = 0; i < area_all.length; i++) {
-        var area = area_all[i];
-        if(area.parent_id == null) {
-            var $li = $('<li></li>');
-            $li.attr('data-code', area_all[i].code);
-            $li.attr('data-id', area_all[i].id);
-            $li.text(area_all[i].name);
-
-            $li.hover(function () {
-                buildTwoAreaUi($(this).attr('data-id'), $ui)
-            });
-
-            $li.on('click', function () {
-                var data_code = $(this).attr('data-code');
-                var name = $(this).text();
-
-                $('#area_temp').attr('data-value', data_code);
-                $('#area_temp').text(name);
-
-                $ui.animate({height:'hide'},50);
-            });
-
-            $container.append($li);
-        }
-    }
-}
-
-function buildTwoAreaUi(data_id, $ui) {
-    var $container = $ui.find('.level2 ul');
-    $container.children().remove();
-
-    var is_has = false;
-
-    for(var i = 0; i < area_all.length; i ++) {
-        if(data_id == area_all[i].parent_id) {
-            var $li = $('<li></li>');
-            $li.attr('data-id', area_all[i].id);
-            $li.attr('data-code', area_all[i].code);
-            $li.text(area_all[i].name);
-
-            $li.hover(function () {
-                buildThreeAreaUi($(this).attr('data-id'), $ui)
-            });
-
-            $li.on('click', function () {
-                var data_code = $(this).attr('data-code');
-                var name = $(this).text();
-
-                $('#area_temp').attr('data-value', data_code);
-                $('#area_temp').text(name);
-
-                $ui.animate({height:'hide'},50);
-            });
-
-            $li.on('click', function () {
-                /* var li_data_id = $(this).attr('data-id');
-                 var li_name = $(this).text();
-
-                 var container_id = $(this).parent().attr('id');
-                 if(container_id == 'secondCate') {
-                 $('#category_temp').attr('data-value', li_data_id);
-                 $('#category_temp').text(li_name);
-                 } else if(container_id == 'province') {
-                 $('#area_temp').attr('data-value', li_data_id);
-                 $('#area_temp').text(li_name);
-                 }
-
-                 $ui.animate({height:'hide'},50);*/
-            });
-
-            $container.append($li);
-
-            is_has = true;
-        }
-    }
-
-    if(is_has) {
-        $ui.find('.level2').show();
-    } else {
-        $ui.find('.level2').hide();
-    }
-
-    $ui.find('.level3').hide();
-    $ui.find('.level4').hide();
-}
-
-function buildThreeAreaUi(data_id, $ui) {
-    var $container = $ui.find('.level3 ul');
-    $container.children().remove();
-
-    var is_has = false;
-
-    for(var i = 0; i < area_all.length; i ++) {
-        if(data_id == area_all[i].parent_id) {
-            var $li = $('<li></li>');
-            $li.attr('data-id', area_all[i].id);
-            $li.attr('data-code', area_all[i].code);
-            $li.text(area_all[i].name);
-
-            $li.hover(function () {
-                buildFourAreaUi($(this).attr('data-id'), $ui)
-            });
-
-            $li.on('click', function () {
-                var data_code = $(this).attr('data-code');
-                var name = $(this).text();
-
-                $('#area_temp').attr('data-value', data_code);
-                $('#area_temp').text(name);
-
-                $ui.animate({height:'hide'},50);
-            });
-
-            $li.on('click', function () {
-                /* var li_data_id = $(this).attr('data-id');
-                 var li_name = $(this).text();
-
-                 var container_id = $(this).parent().attr('id');
-                 if(container_id == 'secondCate') {
-                 $('#category_temp').attr('data-value', li_data_id);
-                 $('#category_temp').text(li_name);
-                 } else if(container_id == 'province') {
-                 $('#area_temp').attr('data-value', li_data_id);
-                 $('#area_temp').text(li_name);
-                 }
-
-                 $ui.animate({height:'hide'},50);*/
-            });
-
-            $container.append($li);
-
-            is_has = true;
-        }
-    }
-
-    if(is_has) {
-        $ui.find('.level3').show();
-    } else {
-        $ui.find('.level3').hide();
-    }
-
-    $ui.find('.level4').hide();
-}
-
-function buildFourAreaUi(data_id, $ui) {
-    var $container = $ui.find('.level4 ul');
-    $container.children().remove();
-
-    var is_has = false;
-
-    for(var i = 0; i < area_all.length; i ++) {
-        if(data_id == area_all[i].parent_id) {
-            var $li = $('<li></li>');
-            $li.attr('data-id', area_all[i].id);
-            $li.attr('data-code', area_all[i].code);
-            $li.text(area_all[i].name);
-
-            $li.on('click', function () {
-                var data_code = $(this).attr('data-code');
-                var name = $(this).text();
-
-                $('#area_temp').attr('data-value', data_code);
-                $('#area_temp').text(name);
-
-                $ui.animate({height:'hide'},50);
-            });
-
-            $container.append($li);
-
-            is_has = true;
-        }
-    }
-
-    if(is_has) {
-        $ui.find('.level4').show();
-    } else {
-        $ui.find('.level4').hide();
     }
 }
 
@@ -1284,21 +1020,6 @@ function send_request() {
     });
 
     return signituredata;
-}
-
-function getTemplate() {
-    return '<form class="upload" method = "POST" action="" method="post" enctype="multipart/form-data">'+
-        '<input class="_token" type="hidden" name="OSSAccessKeyId" value="">'+
-        '<input class="_token" type="hidden" name="policy" value="">'+
-        '<input class="_token" type="hidden" name="Signature" value="">'+
-        '<input class="_token" type="hidden" name="key" value="">'+
-        '<input class="_token" type="hidden" name="Filename" value="">'+
-        '<input class="_token" type="hidden" name="success_action_status" value="200">'+
-        '<div class="progress">' +
-            '<div class="ui loader" style="width: 40px;height: 40px;position: absolute;top: 50%;left: 50%;display: block;"></div>'+
-        '</div>' +
-        '<input class="file" type="file" name="file">'+
-        '</form>';
 }
 
 function saveProjectToServer(callback) {
@@ -1405,13 +1126,15 @@ function adjustImageText($section, item_arr) {
 
                     if(resourceList[j].type == 0) {
                         var $img = $('<img />');
-                        $img.attr('src', 'http://resource.efeiyi.com/image/project/' + resourceList[j].uri);
+                        $img.attr('src', PROJECT_RESOURCE_URL + resourceList[j].uri);
                         $li.append($img);
                     } else if(resourceList[j].type == 1) {
                         var $video = $('<video></video>');
                         $video.attr('controls', 'controls');
                         $video.attr('width', '325px');
-                        $video.attr('src', 'http://resource.efeiyi.com/image/project/' + resourceList[j].uri);
+                        $video.css({'max-height':'357px'});
+                        $video.css({'background-color':'#000'});
+                        $video.attr('src', PROJECT_RESOURCE_URL + resourceList[j].uri);
                         $li.append($video);
                     }
 
@@ -1428,8 +1151,13 @@ function fillCustomSelect() {
     var values = [];
     for(var i = 0; i < attributes.length; i++) {
         var attr = attributes[i];
+
+        if(attr == null) {
+            continue;
+        }
+
         var is_exclude = false;
-        if(attr.dataType != '5') {
+        if(attr.dataType != '5' && attr.dataType != '1') {
             continue;
         }
         for(var j = 0; j < project.contentFragmentList.length; j++) {
