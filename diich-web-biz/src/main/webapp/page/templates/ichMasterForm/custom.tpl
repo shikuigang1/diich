@@ -1,4 +1,4 @@
- <div class="title" id="page_custom">自定义内容</div>
+ <div class="title" id="page_custom" data-id="{{clickMenuId}}">自定义内容</div>
     <div class="hint"><i class="dot"></i>标有 <em>*</em> 的为必填项 · 信息越完善，申报成功的几率越高</div>
     <div class="st">
         <h2 class="custom"><input type="text" id="customName" placeholder="请输入自定义项的名称......" value="{{getCustomName pageObj.contentFragmentList customId}}"></h2>
