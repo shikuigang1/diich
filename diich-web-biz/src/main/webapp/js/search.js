@@ -258,7 +258,7 @@ function fillMasterData(master, template) {
             }
         }
         $ich_project.parent().attr('href', 'http://project.efeiyi.com/p/'+
-         master.ichProjectId +'.html?lang=' + getCurrentLanguage());
+         master.ichProjectId +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
     }
 
     return $ui;
