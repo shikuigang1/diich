@@ -123,7 +123,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 condition = new HashMap<>();
             }
             ichProjectList = ichProjectMapper.selectIchProjectList(page,condition);
-
+            List conList = new ArrayList();
             for (IchProject ichProject:ichProjectList) {
 
                 //获取传承人列表
@@ -145,6 +145,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 if(versionList.size()>0){
                     ichProject.setVersion( versionList.get(0));
                 }
+                conList.add(ichProject.getId());
                 //获取项目的field
                 List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
                 ichProject.setContentFragmentList(contentFragmentList);
@@ -172,16 +173,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             if(ichProject.getStatus() != null && ichProject.getStatus() == 3){
                 //检查属性是否符合条件
                 checkAttribute(ichProject,3);
-            }
-            ichProject.setLastEditDate(new Date());
-            if(ichProject.getStatus() != null && ichProject.getStatus() == 3){
                 if(user != null && user.getType() == 0){//如果当前修改者不是admin type 代表权限 0 代表admin  1代表普通用户
                     ichProject.setStatus(0);
                 }
-                ichProjectMapper.updateByPrimaryKeySelective(ichProject);
-            }else {
-                saveProject(ichProject,user);//保存项目
             }
+            ichProject.setLastEditDate(new Date());
+            saveProject(ichProject,user);//保存项目
             commit(transactionStatus);
         } catch (Exception e) {
             rollback(transactionStatus);
@@ -595,30 +592,79 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return i;
     }
 
+//    private List<ContentFragment> getContentFragmentListByProjectId(IchProject ichProject) throws Exception {
+//        ContentFragment c = new ContentFragment();
+//        c.setTargetId(ichProject.getId());
+//        c.setTargetType(0);//标示项目
+//        List<ContentFragment> ls =  contentFragmentMapper.selectByTargetIdAndType(c);
+//        for(int i=0;i<ls.size();i++) {
+//            Attribute attribute = attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId());
+//            ls.get(i).setAttribute(attribute);
+//            if(attribute != null && (attribute.getDataType() == 5 || attribute.getId() == 1 || attribute.getId() == 112)){
+//                Long contentFragmentId = ls.get(i).getId();
+//                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
+//                List<Resource> resourceList = new ArrayList<>();
+//                for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
+//                    Long resourceId = contentFragmentResource.getResourceId();
+//                    if(resourceId == null){
+//                        continue;
+//                    }
+//                    Resource resource = resourceMapper.selectByPrimaryKey(resourceId);
+//                    if (resource != null) {
+//                        resource.setResOrder(contentFragmentResource.getResOrder());
+//                        resourceList.add(resource);
+//                    }
+//                }
+//                ls.get(i).setResourceList(resourceList);
+//            }
+//        }
+//
+//        return ls;
+//    }
+
     private List<ContentFragment> getContentFragmentListByProjectId(IchProject ichProject) throws Exception {
         ContentFragment c = new ContentFragment();
         c.setTargetId(ichProject.getId());
         c.setTargetType(0);//标示项目
         List<ContentFragment> ls =  contentFragmentMapper.selectByTargetIdAndType(c);
+        List attrlist = new ArrayList();
         for(int i=0;i<ls.size();i++) {
-            Attribute attribute = attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId());
-            ls.get(i).setAttribute(attribute);
-            if(attribute != null && (attribute.getDataType() == 5 || attribute.getId() == 1 || attribute.getId() == 112)){
-                Long contentFragmentId = ls.get(i).getId();
-                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
-                List<Resource> resourceList = new ArrayList<>();
-                for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
-                    Long resourceId = contentFragmentResource.getResourceId();
-                    if(resourceId == null){
-                        continue;
-                    }
-                    Resource resource = resourceMapper.selectByPrimaryKey(resourceId);
-                    if (resource != null) {
-                        resource.setResOrder(contentFragmentResource.getResOrder());
-                        resourceList.add(resource);
+            attrlist.add(ls.get(i).getAttributeId());
+            }
+            List<Attribute> attributeList = attributeMapper.selectAttrListByIds(attrlist);//查询属性列表
+            List cfrList = new ArrayList<>();
+            for (ContentFragment contentFragment: ls) {
+                for (Attribute attribute : attributeList) {
+                    if(contentFragment.getAttributeId() != null && contentFragment.getAttributeId().equals(attribute.getId())){
+                        contentFragment.setAttribute(attribute);
+                        if((attribute.getDataType() == 5 || attribute.getId() == 1 || attribute.getId() == 112)){
+                            cfrList.add(contentFragment.getId());
+                        }
+                        break;
                     }
                 }
-                ls.get(i).setResourceList(resourceList);
+        }
+        if(cfrList.size()>0){
+            List<ContentFragmentResource> contentFragmentResourceList =contentFragmentResourceMapper.selectByContentFragmentIds(cfrList);//查询图片资源
+            List reslist = new ArrayList();
+            for (ContentFragmentResource  contentFragmentResource:contentFragmentResourceList) {
+                if(contentFragmentResource.getResourceId() != null){
+                    reslist.add(contentFragmentResource.getResourceId());
+                }
+            }
+            if(reslist.size()>0){
+                List<Resource> resourceList = resourceMapper.selectByids(reslist);
+                for (ContentFragment contentFragment: ls) {
+                    List<Resource> conResList = new ArrayList<>();
+                    for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
+                        for (Resource resource: resourceList) {
+                            if(contentFragmentResource.getContentFragmentId() != null && contentFragmentResource.getResourceId() != null && contentFragment.getId().equals(contentFragmentResource.getContentFragmentId()) && resource.getId().equals(contentFragmentResource.getResourceId())){
+                                conResList.add(resource);
+                            }
+                        }
+                    }
+                    contentFragment.setResourceList(conResList);
+                }
             }
         }
 
