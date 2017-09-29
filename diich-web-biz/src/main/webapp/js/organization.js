@@ -944,7 +944,7 @@ function submitOrganization() {
            // console.log(JSON.stringify(result));
             if(result.code==0){
                 //存储本地
-                location.href="../page/createMastorSelect.html";
+                location.href="/page/createMastorSelect.html";
             }
         },
         error: function (result, status) {
