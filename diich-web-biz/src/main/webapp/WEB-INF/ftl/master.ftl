@@ -280,13 +280,13 @@
                     <div class="tname">传承项目</div>
                     <div class="pro">
                         <div class="img">
+                            <#assign proPic="http://resource.efeiyi.com/image/uploads/head.png"/>
                             <#if (obj.ichProject.contentFragmentList?size>0)>
-                                <#assign proPic="http://resource.efeiyi.com/image/uploads/head.png"/>
                                 <#list (obj.ichProject.contentFragmentList) as cf>
-                                    <#if cf.attributeId == 112>
+                                    <#if cf.attributeId == 1>
                                         <#if (cf.resourceList??)&&(cf.resourceList?size>0)>
                                             <#list cf.resourceList as r>
-                                                <#if r.type?? && r.type==0 && r.status && r.status==0>
+                                                <#if r.type?? && r.type==0 && r.status?? && r.status==0>
                                                     <#if r.uri??>
                                                         <#assign proPic="${prouri}${r.uri}?x-oss-process=style/head-image-style" />
                                                     </#if>
