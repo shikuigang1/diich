@@ -632,42 +632,45 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         for(int i=0;i<ls.size();i++) {
             attrlist.add(ls.get(i).getAttributeId());
             }
-            List<Attribute> attributeList = attributeMapper.selectAttrListByIds(attrlist);//查询属性列表
-            List cfrList = new ArrayList<>();
-            for (ContentFragment contentFragment: ls) {
-                for (Attribute attribute : attributeList) {
-                    if(contentFragment.getAttributeId() != null && contentFragment.getAttributeId().equals(attribute.getId())){
-                        contentFragment.setAttribute(attribute);
-                        if((attribute.getDataType() == 5 || attribute.getId() == 1 || attribute.getId() == 112)){
-                            cfrList.add(contentFragment.getId());
-                        }
-                        break;
-                    }
-                }
-        }
-        if(cfrList.size()>0){
-            List<ContentFragmentResource> contentFragmentResourceList =contentFragmentResourceMapper.selectByContentFragmentIds(cfrList);//查询图片资源
-            List reslist = new ArrayList();
-            for (ContentFragmentResource  contentFragmentResource:contentFragmentResourceList) {
-                if(contentFragmentResource.getResourceId() != null){
-                    reslist.add(contentFragmentResource.getResourceId());
-                }
-            }
-            if(reslist.size()>0){
-                List<Resource> resourceList = resourceMapper.selectByids(reslist);
+            if(attrlist.size()>0){
+                List<Attribute> attributeList = attributeMapper.selectAttrListByIds(attrlist);//查询属性列表
+                List cfrList = new ArrayList<>();
                 for (ContentFragment contentFragment: ls) {
-                    List<Resource> conResList = new ArrayList<>();
-                    for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
-                        for (Resource resource: resourceList) {
-                            if(contentFragmentResource.getContentFragmentId() != null && contentFragmentResource.getResourceId() != null && contentFragment.getId().equals(contentFragmentResource.getContentFragmentId()) && resource.getId().equals(contentFragmentResource.getResourceId())){
-                                conResList.add(resource);
+                    for (Attribute attribute : attributeList) {
+                        if(contentFragment.getAttributeId() != null && contentFragment.getAttributeId().equals(attribute.getId())){
+                            contentFragment.setAttribute(attribute);
+                            if((attribute.getDataType() == 5 || attribute.getId() == 1 || attribute.getId() == 112)){
+                                cfrList.add(contentFragment.getId());
                             }
+                            break;
                         }
                     }
-                    contentFragment.setResourceList(conResList);
+                }
+                if(cfrList.size()>0){
+                    List<ContentFragmentResource> contentFragmentResourceList =contentFragmentResourceMapper.selectByContentFragmentIds(cfrList);//查询图片资源
+                    List reslist = new ArrayList();
+                    for (ContentFragmentResource  contentFragmentResource:contentFragmentResourceList) {
+                        if(contentFragmentResource.getResourceId() != null){
+                            reslist.add(contentFragmentResource.getResourceId());
+                        }
+                    }
+                    if(reslist.size()>0){
+                        List<Resource> resourceList = resourceMapper.selectByids(reslist);
+                        for (ContentFragment contentFragment: ls) {
+                            List<Resource> conResList = new ArrayList<>();
+                            for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
+                                for (Resource resource: resourceList) {
+                                    if(contentFragmentResource.getContentFragmentId() != null && contentFragmentResource.getResourceId() != null && contentFragment.getId().equals(contentFragmentResource.getContentFragmentId()) && resource.getId().equals(contentFragmentResource.getResourceId())){
+                                        conResList.add(resource);
+                                    }
+                                }
+                            }
+                            contentFragment.setResourceList(conResList);
+                        }
+                    }
                 }
             }
-        }
+
 
         return ls;
     }
