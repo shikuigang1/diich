@@ -78,6 +78,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 ichProject = getIchProject(ichProject);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
@@ -351,7 +352,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         if("eng".equals(ichProject.getLang())){
             verList = versionService.getVersionByLangIdAndTargetType(null, ichProject.getId(), 0, 0);
         }
-        if(verList.size()>0){
+        if(verList != null && verList.size()>0){
             ichProject.setVersion( verList.get(0));
         }
         return ichProject;
