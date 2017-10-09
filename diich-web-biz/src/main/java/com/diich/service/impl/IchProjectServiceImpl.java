@@ -78,6 +78,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 ichProject = getIchProject(ichProject);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
@@ -131,9 +132,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
                 ichProject.setIchMasterList(ichMasterList);
                 //代表作品列表
-                List<Works> worksList =worksService.getWorksByIchProjectId(ichProject.getId());
-
-                ichProject.setWorksList(worksList);
+//                List<Works> worksList =worksService.getWorksByIchProjectId(ichProject.getId());
+//                ichProject.setWorksList(worksList);
                 //根据id和targetType和versionType查询中间表看是否有对应的版本
                 List<Version> versionList = null;
                 if("chi".equals(ichProject.getLang())){
@@ -352,7 +352,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         if("eng".equals(ichProject.getLang())){
             verList = versionService.getVersionByLangIdAndTargetType(null, ichProject.getId(), 0, 0);
         }
-        if(verList.size()>0){
+        if(verList != null && verList.size()>0){
             ichProject.setVersion( verList.get(0));
         }
         return ichProject;
@@ -505,6 +505,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         try{
             IchProject ichProject = ichProjectMapper.selectIchProjectById(id);
             if(ichProject != null && ichProject.getStatus() != 3){
+                rollback(transactionStatus);
                 throw new ApplicationException(ApplicationException.PARAM_ERROR,"该项目不是待审核状态");
             }
             //根据id查询版本
@@ -631,42 +632,45 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         for(int i=0;i<ls.size();i++) {
             attrlist.add(ls.get(i).getAttributeId());
             }
-            List<Attribute> attributeList = attributeMapper.selectAttrListByIds(attrlist);//查询属性列表
-            List cfrList = new ArrayList<>();
-            for (ContentFragment contentFragment: ls) {
-                for (Attribute attribute : attributeList) {
-                    if(contentFragment.getAttributeId() != null && contentFragment.getAttributeId().equals(attribute.getId())){
-                        contentFragment.setAttribute(attribute);
-                        if((attribute.getDataType() == 5 || attribute.getId() == 1 || attribute.getId() == 112)){
-                            cfrList.add(contentFragment.getId());
-                        }
-                        break;
-                    }
-                }
-        }
-        if(cfrList.size()>0){
-            List<ContentFragmentResource> contentFragmentResourceList =contentFragmentResourceMapper.selectByContentFragmentIds(cfrList);//查询图片资源
-            List reslist = new ArrayList();
-            for (ContentFragmentResource  contentFragmentResource:contentFragmentResourceList) {
-                if(contentFragmentResource.getResourceId() != null){
-                    reslist.add(contentFragmentResource.getResourceId());
-                }
-            }
-            if(reslist.size()>0){
-                List<Resource> resourceList = resourceMapper.selectByids(reslist);
+            if(attrlist.size()>0){
+                List<Attribute> attributeList = attributeMapper.selectAttrListByIds(attrlist);//查询属性列表
+                List cfrList = new ArrayList<>();
                 for (ContentFragment contentFragment: ls) {
-                    List<Resource> conResList = new ArrayList<>();
-                    for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
-                        for (Resource resource: resourceList) {
-                            if(contentFragmentResource.getContentFragmentId() != null && contentFragmentResource.getResourceId() != null && contentFragment.getId().equals(contentFragmentResource.getContentFragmentId()) && resource.getId().equals(contentFragmentResource.getResourceId())){
-                                conResList.add(resource);
+                    for (Attribute attribute : attributeList) {
+                        if(contentFragment.getAttributeId() != null && contentFragment.getAttributeId().equals(attribute.getId())){
+                            contentFragment.setAttribute(attribute);
+                            if((attribute.getDataType() == 5 || attribute.getId() == 1 || attribute.getId() == 112)){
+                                cfrList.add(contentFragment.getId());
                             }
+                            break;
                         }
                     }
-                    contentFragment.setResourceList(conResList);
+                }
+                if(cfrList.size()>0){
+                    List<ContentFragmentResource> contentFragmentResourceList =contentFragmentResourceMapper.selectByContentFragmentIds(cfrList);//查询图片资源
+                    List reslist = new ArrayList();
+                    for (ContentFragmentResource  contentFragmentResource:contentFragmentResourceList) {
+                        if(contentFragmentResource.getResourceId() != null){
+                            reslist.add(contentFragmentResource.getResourceId());
+                        }
+                    }
+                    if(reslist.size()>0){
+                        List<Resource> resourceList = resourceMapper.selectByids(reslist);
+                        for (ContentFragment contentFragment: ls) {
+                            List<Resource> conResList = new ArrayList<>();
+                            for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
+                                for (Resource resource: resourceList) {
+                                    if(contentFragmentResource.getContentFragmentId() != null && contentFragmentResource.getResourceId() != null && contentFragment.getId().equals(contentFragmentResource.getContentFragmentId()) && resource.getId().equals(contentFragmentResource.getResourceId())){
+                                        conResList.add(resource);
+                                    }
+                                }
+                            }
+                            contentFragment.setResourceList(conResList);
+                        }
+                    }
                 }
             }
-        }
+
 
         return ls;
     }
@@ -709,7 +713,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     }
                 }
             }
-            map.put("contentFragmentId", contentFragmentId);
+            map.put("contentFragmentId", String.valueOf(contentFragmentId));
             map.put("imgs", img);
             map.put("videos", video);
             if("chi".equals(ichProject.getLang())){
