@@ -237,7 +237,7 @@ section .handle-button {
 }
 
 .card_base .info li span.key {
-    /*position: initial!important;*/
+    position: initial!important;
 }
 
 .card_base .info li span {
@@ -283,4 +283,8 @@ section .item-content:after {
 
 .card_video video {
     object-fit: contain;
+}
+
+.detail_title .edit {
+    top:-30px;
 }
