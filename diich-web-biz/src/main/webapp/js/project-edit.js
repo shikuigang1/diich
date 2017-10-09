@@ -6,7 +6,7 @@ $(function() {
 });
 
 function init() {
-    $('.edit.link').on('click', function() {
+    $('.primary.edit.link').on('click', function() {
         var projectId = $(this).attr('project-id');
         if(projectId == null) {
             alert('获取项目信息失败');
@@ -84,7 +84,12 @@ function displayEditMode() {
         displayReadMode();
     });
 
+    var has_edit = false;
     $('.save.button').on('click', function () {
+        if(has_edit == true) {
+            alert('您还有未保存的栏目，请保存后再进行此操作。');
+            return;
+        }
         saveProjectToServer(function () {
             alert('数据保存成功！');
             return false;
@@ -92,13 +97,17 @@ function displayEditMode() {
     });
 
     $('.submit.button').on('click', function () {
+        if(has_edit == true) {
+            alert('您还有未保存的栏目，请保存后再进行此操作。');
+            return;
+        }
         saveProjectToServer(function () {
             alert('提交成功！通过审核后，会及时通知你呦！');
             return true;
         });
     });
 
-    var has_edit = false;
+
     $('.edit.link').on('click', function () {
         if(has_edit == true) {
             alert('已经有模块处于编辑状态，请保存后再进行此操作。');
