@@ -2,6 +2,7 @@ package com.diich.service.impl;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.baomidou.mybatisplus.toolkit.StringUtils;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
@@ -56,16 +57,27 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
            works = worksMapper.selectByPrimaryKey(Long.parseLong(id));
             if(works !=null){
                 //获取所属项目信息
-                IchProject ichProject = ichProjectService.getIchProjectById(works.getIchProjectId());
-                works.setIchProject(ichProject);
+                if(works.getIchProjectId() != null){
+                    IchProject ichProject = ichProjectService.getIchProjectById(works.getIchProjectId());
+                    works.setIchProject(ichProject);
+                }
                 //获取传承人信息
-                IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
-                works.setIchMaster(ichMaster);
+                if(works.getIchMasterId() != null){
+                    IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
+                    if(ichMaster != null){
+                        works.setIchMaster(ichMaster);
+                        if(ichMaster.getIchProjectId() != null){
+                            IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
+                            works.setIchProject(ichProject);
+                        }
+                    }
+                }
             }
             //获取内容片断
             List<ContentFragment> contentFragmentList = getContentFragmentListByWorksId(works);
             works.setContentFragmentList(contentFragmentList);
         }catch(Exception e){
+            e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         return works;
@@ -171,6 +183,23 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         String uri = BuildHTMLEngine.buildHTML(templateName, works,null, fileName);
         return uri;
     }
+
+    @Override
+    public List<Works> getWorksByName(String worksName) throws Exception {
+        List<Works> worksList = new ArrayList<>();
+        try{
+            List<Works> workss = worksMapper.selectWorksByName(worksName);
+            for (Works works:workss) {
+                works = getWorks(String.valueOf(works.getId()));
+                worksList.add(works);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return worksList;
+    }
+
     /**
      * 根据项目id获取代表作品列表
      * @param ichProjectId

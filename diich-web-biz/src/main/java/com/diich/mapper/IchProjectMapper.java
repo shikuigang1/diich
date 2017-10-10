@@ -34,4 +34,6 @@ public interface IchProjectMapper extends BaseMapper<IchProject>{
 
     int selectIchProjectCountByUserAndStatus( @Param("params") Map<String, Object> params) throws Exception;
 
+    List<IchProject> selectIchProjectByProjectName( String projectName) throws Exception;
+
 }

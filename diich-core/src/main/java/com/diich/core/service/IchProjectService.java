@@ -38,4 +38,6 @@ public interface IchProjectService {
     void audit(Long id, User user)throws Exception;
 
     int deleteIchProject(Long id) throws Exception;
+
+    List<IchProject> getIchProject(String projectNamen, String masterName, String WorksName)throws Exception;
 }

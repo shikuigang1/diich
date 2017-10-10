@@ -202,5 +202,11 @@
       and  status = #{params.status,jdbcType=INTEGER}
     </if>
   </select>
+  <select id="selectMasterByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT i.id, i.ich_project_id FROM ich_master i
+    LEFT JOIN content_fragment cf on cf.target_id = i.id
 
+    WHERE cf.attribute_id=13 and (i.status= 0 or i.status=10) and cf.target_type = 1
+    AND cf.content = #{masterName,jdbcType=VARCHAR}
+  </select>
 </mapper>

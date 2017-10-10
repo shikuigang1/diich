@@ -41,4 +41,6 @@ public interface IchMasterService {
     Page<IchMaster> getIchMasterByUserId(Map<String, Object>  params) throws Exception;
 
     int deleteIchMaster(long id) throws Exception;
+
+    List<IchMaster> getIchMaster(String masterName,String worksName) throws Exception;
 }

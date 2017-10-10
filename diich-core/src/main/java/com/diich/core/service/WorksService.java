@@ -26,4 +26,6 @@ public interface WorksService {
     List<Works> getWorksByIchMasterId(Long id) throws Exception;
 
     String buildHTML(String templateName, Works works, String fileName) throws Exception;
+
+    List<Works> getWorksByName(String worksName)throws Exception;
 }

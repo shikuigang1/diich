@@ -218,4 +218,11 @@
       and  status = #{params.status,jdbcType=INTEGER}
     </if>
   </select>
+  <select id="selectIchProjectByProjectName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT i.id FROM ich_project i
+    LEFT JOIN content_fragment cf on cf.target_id = i.id
+
+    WHERE cf.attribute_id=4 and (i.status= 0 or i.status=10) and cf.target_type = 0
+    AND cf.content = #{projectName,jdbcType=VARCHAR}
+  </select>
 </mapper>

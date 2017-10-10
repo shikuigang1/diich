@@ -193,4 +193,11 @@
       is_represent = #{params.isRepresent,jdbcType=INTEGER}
     </if>
   </select>
+  <select id="selectWorksByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT i.id, i.ich_project_id, i.ich_master_id FROM works i
+    LEFT JOIN content_fragment cf on cf.target_id = i.id
+
+    WHERE cf.attribute_id=28 and (i.status= 0 or i.status=10) and cf.target_type = 2
+    AND cf.content = #{worksName,jdbcType=VARCHAR}
+  </select>
 </mapper>

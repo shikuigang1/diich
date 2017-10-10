@@ -140,8 +140,8 @@
 </div>
 <!--//End filter_search -->
 
-<#assign propage = "http://project.efeiyi.com/p/"/>
-<#assign workspage = "http://works.efeiyi.com/w/"/>
+<#assign propage = "http://project.diich.com/p/"/>
+<#assign workspage = "http://works.diich.com/w/"/>
 <#assign prouri="http://resource.efeiyi.com/image/project/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
 <#assign mastervuri="http://resource.efeiyi.com/video/master/" />

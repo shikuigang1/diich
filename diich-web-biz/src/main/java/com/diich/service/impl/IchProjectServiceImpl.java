@@ -52,7 +52,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Autowired
     private IchMasterService ichMasterService;
     @Autowired
+    private IchMasterMapper ichMasterMapper;
+    @Autowired
     private WorksService worksService;
+    @Autowired
+    private WorksMapper worksMapper;
     @Autowired
     private DictionaryService dictionaryService;
     @Autowired
@@ -225,10 +229,15 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             String str = PropertiesUtil.getString("freemarker.projectfilepath");
             String fileName = str+"/"+ichProject.getId().toString() + ".html";
             String s = buildHTML("pro.ftl", ichProject, fileName);//生成静态页面
+            String h5outPutPath = PropertiesUtil.getString("freemarker.h5_projectfilepath")+"/"+ichProject.getId()+".html";
+            String h5 = buildHTML("h5_pro.ftl", ichProject, h5outPutPath);
             String bucketName = PropertiesUtil.getString("img_bucketName");
             String type = PropertiesUtil.getString("pc_phtml_server");
             File file = new File(fileName);
             SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichProject.getId()+".html",file.length());//上传到阿里云
+            String h5type = PropertiesUtil.getString("m_phtml_server");
+            File h5file = new File(h5outPutPath);
+            SimpleUpload.uploadFile(new FileInputStream(h5file),bucketName,h5type+"/"+ichProject.getId()+".html",h5file.length());//上传到阿里云
         }
         return ichProject;
     }
@@ -593,35 +602,46 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return i;
     }
 
-//    private List<ContentFragment> getContentFragmentListByProjectId(IchProject ichProject) throws Exception {
-//        ContentFragment c = new ContentFragment();
-//        c.setTargetId(ichProject.getId());
-//        c.setTargetType(0);//标示项目
-//        List<ContentFragment> ls =  contentFragmentMapper.selectByTargetIdAndType(c);
-//        for(int i=0;i<ls.size();i++) {
-//            Attribute attribute = attributeMapper.selectByPrimaryKey(ls.get(i).getAttributeId());
-//            ls.get(i).setAttribute(attribute);
-//            if(attribute != null && (attribute.getDataType() == 5 || attribute.getId() == 1 || attribute.getId() == 112)){
-//                Long contentFragmentId = ls.get(i).getId();
-//                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragmentId);
-//                List<Resource> resourceList = new ArrayList<>();
-//                for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
-//                    Long resourceId = contentFragmentResource.getResourceId();
-//                    if(resourceId == null){
-//                        continue;
-//                    }
-//                    Resource resource = resourceMapper.selectByPrimaryKey(resourceId);
-//                    if (resource != null) {
-//                        resource.setResOrder(contentFragmentResource.getResOrder());
-//                        resourceList.add(resource);
-//                    }
-//                }
-//                ls.get(i).setResourceList(resourceList);
-//            }
-//        }
-//
-//        return ls;
-//    }
+    @Override
+    public List<IchProject> getIchProject(String projectName, String masterName, String worksName) throws Exception {
+        List<IchProject> ichProjectList = new ArrayList<>();
+        List<IchMaster> mList = null;
+        List<Works> wList = null;
+        try{
+            if(StringUtils.isNotEmpty(projectName)){
+                List<IchProject> ichProjects = ichProjectMapper.selectIchProjectByProjectName(projectName);
+                for (IchProject ichProject:ichProjects) {
+                    ichProject = getIchProject(String.valueOf(ichProject.getId()));
+                    ichProjectList.add(ichProject);
+                }
+            }
+            if(StringUtils.isEmpty(projectName) && StringUtils.isNotEmpty(worksName)){
+                wList = worksMapper.selectWorksByName(worksName);
+                for (Works works : wList) {
+                    if(works.getIchProjectId() == null){
+                        continue;
+                    }
+                    IchProject ichProject = getIchProject(String.valueOf(works.getIchProjectId()));
+                    ichProjectList.add(ichProject);
+                }
+            }
+            if(StringUtils.isEmpty(projectName) && StringUtils.isEmpty(worksName) && StringUtils.isNotEmpty(masterName)){
+                mList = ichMasterMapper.selectMasterByName(masterName);
+                for (IchMaster ichMaster : mList) {
+                    if(ichMaster.getIchProjectId() == null){
+                        continue;
+                    }
+                    IchProject ichProject = getIchProject(String.valueOf(ichMaster.getIchProjectId()));
+                    ichProjectList.add(ichProject);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+
+        return ichProjectList;
+    }
 
     private List<ContentFragment> getContentFragmentListByProjectId(IchProject ichProject) throws Exception {
         ContentFragment c = new ContentFragment();
