@@ -21,7 +21,7 @@
     select
     <include refid="Base_Column_List" />
     from works
-    where id = #{id,jdbcType=BIGINT} and status = 0
+    where id = #{id,jdbcType=BIGINT} and (status = 0 or status=10)
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from works
@@ -199,5 +199,12 @@
 
     WHERE cf.attribute_id=28 and (i.status= 0 or i.status=10) and cf.target_type = 2
     AND cf.content = #{worksName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectWorksByDoi" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT i.id, i.ich_project_id, i.ich_master_id FROM works i
+    LEFT JOIN content_fragment cf on cf.target_id = i.id
+
+    WHERE cf.attribute_id=26 and (i.status= 0 or i.status=10) and cf.target_type = 2
+    AND cf.content = #{doi,jdbcType=VARCHAR}
   </select>
 </mapper>

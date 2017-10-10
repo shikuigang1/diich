@@ -28,4 +28,6 @@ public interface WorksService {
     String buildHTML(String templateName, Works works, String fileName) throws Exception;
 
     List<Works> getWorksByName(String worksName)throws Exception;
+
+    Works getWorksByDoi(String doi)throws Exception;
 }

@@ -59,15 +59,20 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 //获取所属项目信息
                 if(works.getIchProjectId() != null){
                     IchProject ichProject = ichProjectService.getIchProjectById(works.getIchProjectId());
-                    works.setIchProject(ichProject);
+                    if(ichProject != null){
+                        ichProject.setUri(PropertiesUtil.getString("_project") + works.getIchProjectId() + ".html");
+                        works.setIchProject(ichProject);
+                    }
                 }
                 //获取传承人信息
                 if(works.getIchMasterId() != null){
                     IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
                     if(ichMaster != null){
+                        ichMaster.setUri(PropertiesUtil.getString("_master") + works.getIchMasterId() + ".html");
                         works.setIchMaster(ichMaster);
                         if(ichMaster.getIchProjectId() != null){
                             IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
+                            ichProject.setUri(PropertiesUtil.getString("_project") + ichMaster.getIchProjectId() + ".html");
                             works.setIchProject(ichProject);
                         }
                     }
@@ -76,6 +81,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             //获取内容片断
             List<ContentFragment> contentFragmentList = getContentFragmentListByWorksId(works);
             works.setContentFragmentList(contentFragmentList);
+            works.setUri(PropertiesUtil.getString("_works") + id + ".html");
         }catch(Exception e){
             e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
@@ -200,6 +206,19 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         return worksList;
     }
 
+    @Override
+    public Works getWorksByDoi(String doi) throws Exception {
+        Works works = null;
+        try{
+            works = worksMapper.selectWorksByDoi(doi);
+            works = getWorks(String.valueOf(works.getId()));
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return works;
+    }
+
     /**
      * 根据项目id获取代表作品列表
      * @param ichProjectId
@@ -233,9 +252,6 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
 
     private List<Works> getWorkList(List<Works> worksList) throws Exception {
         for (Works works:worksList) {
-            //获取传承人信息
-            IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
-            works.setIchMaster(ichMaster);
             //获取内容片断
             List<ContentFragment> contentFragments = getContentFragmentListByWorksId(works);
             works.setContentFragmentList(contentFragments);
@@ -249,21 +265,47 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         con.setTargetId(works.getId());
         con.setTargetType(2);
         List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
-        for (ContentFragment contentFragment : contentFragmentList) {
-            Long attrId = contentFragment.getAttributeId();
-            Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
-            contentFragment.setAttribute(attribute);//添加属性
-            List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
-            List<Resource> resourceList = new ArrayList<>();
-            for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
-                Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResource.getResourceId());
-                if(resource !=null){
-                    resource.setResOrder(contentFragmentResource.getResOrder());
-                    resourceList.add(resource);
+        List attrlist = new ArrayList();
+        for(int i=0;i<contentFragmentList.size();i++) {
+            attrlist.add(contentFragmentList.get(i).getAttributeId());
+        }
+        if(attrlist.size()>0){
+            List<Attribute> attributeList = attributeMapper.selectAttrListByIds(attrlist);//查询属性列表
+            List cfrList = new ArrayList<>();
+            for (ContentFragment contentFragment: contentFragmentList) {
+                for (Attribute attribute : attributeList) {
+                    if(contentFragment.getAttributeId() != null && contentFragment.getAttributeId().equals(attribute.getId())){
+                        contentFragment.setAttribute(attribute);
+                        if((attribute.getDataType() == 5 || attribute.getId() == 25 || attribute.getId() == 114)){
+                            cfrList.add(contentFragment.getId());
+                        }
+                        break;
+                    }
                 }
-
             }
-            contentFragment.setResourceList(resourceList);
+            if(cfrList.size()>0){
+                List<ContentFragmentResource> contentFragmentResourceList =contentFragmentResourceMapper.selectByContentFragmentIds(cfrList);//查询图片资源
+                List reslist = new ArrayList();
+                for (ContentFragmentResource  contentFragmentResource:contentFragmentResourceList) {
+                    if(contentFragmentResource.getResourceId() != null){
+                        reslist.add(contentFragmentResource.getResourceId());
+                    }
+                }
+                if(reslist.size()>0){
+                    List<Resource> resourceList = resourceMapper.selectByids(reslist);
+                    for (ContentFragment contentFragment: contentFragmentList) {
+                        List<Resource> conResList = new ArrayList<>();
+                        for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
+                            for (Resource resource: resourceList) {
+                                if(contentFragmentResource.getContentFragmentId() != null && contentFragmentResource.getResourceId() != null && contentFragment.getId().equals(contentFragmentResource.getContentFragmentId()) && resource.getId().equals(contentFragmentResource.getResourceId())){
+                                    conResList.add(resource);
+                                }
+                            }
+                        }
+                        contentFragment.setResourceList(conResList);
+                    }
+                }
+            }
         }
         return contentFragmentList;
     }

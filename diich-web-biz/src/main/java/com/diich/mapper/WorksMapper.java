@@ -26,4 +26,6 @@ public interface WorksMapper extends BaseMapper<Works> {
     List<Works> selectWorksList(Page<Works> page, @Param("params") Map<String, Object> params);
 
     List<Works> selectWorksByName(String worksName) throws Exception;
+
+    Works selectWorksByDoi(String doi) throws Exception;
 }
