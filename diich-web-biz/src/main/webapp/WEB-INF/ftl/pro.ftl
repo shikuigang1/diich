@@ -176,8 +176,8 @@
 </div>
 <!--//End filter_search -->
 <!--//End filter_search -->
-<#assign masterpage = "http://inheritor.efeiyi.com/m/"/>
-<#assign workspage = "http://works.efeiyi.com/w/"/>
+<#assign masterpage = "http://inheritor.diich.com/m/"/>
+<#assign workspage = "http://works.diich.com/w/"/>
 <#assign prouri="http://resource.efeiyi.com/image/project/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
 <#assign worksuri="http://resource.efeiyi.com/image/works/" />

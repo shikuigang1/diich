@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://diich.efeiyi.com" />
+<#assign caturi="http://diich.com" />
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-control" content="no-cache">
@@ -142,8 +142,8 @@
 </div>
 <!--//End filter_search -->
 
-<#assign propage = "http://project.efeiyi.com/p/"/>
-<#assign workspage = "http://works.efeiyi.com/w/"/>
+<#assign propage = "http://project.diich.com/p/"/>
+<#assign workspage = "http://works.diich.com/w/"/>
 <#assign prouri="http://resource.efeiyi.com/image/project/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
 <#assign str="http:" />
