@@ -9,7 +9,7 @@ var inheritorlPage = {
         Detail.widget.init('.detail'); //分享/点赞/doi二维码
         Detail.topPic(); //题图
         Detail.modal.init();
-        Detail.computeBaseInfo();//基本信息左右
+        //Detail.computeBaseInfo();//基本信息左右
         Detail.judgeDom(); //判断doi和非遗中国是否存在
         Detail.code_arr(); //替换资源数据
         Detail.catgary(); //查询分类
