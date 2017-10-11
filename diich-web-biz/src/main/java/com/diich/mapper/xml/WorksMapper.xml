@@ -8,14 +8,15 @@
     <result column="ich_master_id" property="ichMasterId" jdbcType="BIGINT" />
     <result column="last_edit_date" property="lastEditDate" jdbcType="TIMESTAMP" />
     <result column="edit_rank" property="editRank" jdbcType="INTEGER" />
+    <result column="pay_type" property="payType" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="uri" property="uri" jdbcType="VARCHAR" />
     <result column="lang" property="lang" jdbcType="CHAR" />
     <result column="is_represent" property="isRepresent" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, last_editor_id, ich_project_id, ich_master_id, last_edit_date, edit_rank, status,
-    uri, lang, is_represent
+    id, last_editor_id, ich_project_id, ich_master_id, last_edit_date, edit_rank, pay_type,
+    status, uri, lang, is_represent
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
@@ -29,13 +30,13 @@
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.Works" >
     insert into works (id, last_editor_id, ich_project_id,
-    ich_master_id, last_edit_date, edit_rank,
-    status, uri, lang, is_represent
-    )
+      ich_master_id, last_edit_date, edit_rank,
+      pay_type, status, uri,
+      lang, is_represent)
     values (#{id,jdbcType=BIGINT}, #{lastEditorId,jdbcType=BIGINT}, #{ichProjectId,jdbcType=BIGINT},
-    #{ichMasterId,jdbcType=BIGINT}, #{lastEditDate,jdbcType=TIMESTAMP}, #{editRank,jdbcType=INTEGER},
-    #{status,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR}, #{lang,jdbcType=CHAR}, #{isRepresent,jdbcType=INTEGER}
-    )
+      #{ichMasterId,jdbcType=BIGINT}, #{lastEditDate,jdbcType=TIMESTAMP}, #{editRank,jdbcType=INTEGER},
+      #{payType,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR},
+      #{lang,jdbcType=CHAR}, #{isRepresent,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.Works" >
     insert into works
@@ -57,6 +58,9 @@
       </if>
       <if test="editRank != null" >
         edit_rank,
+      </if>
+      <if test="payType != null" >
+        pay_type,
       </if>
       <if test="status != null" >
         status,
@@ -90,6 +94,9 @@
       <if test="editRank != null" >
         #{editRank,jdbcType=INTEGER},
       </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=INTEGER},
+      </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
@@ -122,6 +129,9 @@
       <if test="editRank != null" >
         edit_rank = #{editRank,jdbcType=INTEGER},
       </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=INTEGER},
+      </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
@@ -144,6 +154,7 @@
       ich_master_id = #{ichMasterId,jdbcType=BIGINT},
       last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
       edit_rank = #{editRank,jdbcType=INTEGER},
+      pay_type = #{payType,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       uri = #{uri,jdbcType=VARCHAR},
       lang = #{lang,jdbcType=CHAR},
