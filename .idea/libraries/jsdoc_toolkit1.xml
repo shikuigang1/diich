@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="jsdoc-toolkit1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../listed-admin/node_modules/sails/node_modules/anchor/node_modules/geojsonhint/node_modules/jsonlint-lines/node_modules/JSV/jsdoc-toolkit/jsrun.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../listed-admin/node_modules/sails/node_modules/anchor/node_modules/geojsonhint/node_modules/jsonlint-lines/node_modules/JSV/jsdoc-toolkit/jsdebug.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

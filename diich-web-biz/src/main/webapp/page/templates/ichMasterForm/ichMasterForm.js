@@ -350,6 +350,10 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
     // 基本信息模板
     function _getBasicTpl($this) {
         var fyGrade = getDictionaryArrayByType(106); // 获取到非遗等级
+        var nations = getDictionaryArrayByType(105); // 获取到民族
+        var certificates = getDictionaryArrayByType(108); // 获取到证件类型
+        // getTextByTypeAndCode
+        console.log("certificates --- >",certificates );
         // 显示 申报地 国籍
         if(pageObj.hasOwnProperty("contentFragmentList")) {
             $.each(pageObj.contentFragmentList, function(i, v) {
@@ -361,7 +365,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
             })
         }
         //console.log(" pageObj --- >",  pageObj, pageObj.toString());
-        $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, ichProjectName: ichProjectName, pageObj : pageObj, fyGrade: fyGrade, clickMenuId: $this.attr("id")})); // 更新页面模板
+        $("#content").html(Handlebars.compile(basicTpl)({countrys: dic_arr_city, sonterms: menuss[0].sonTerms, ichProjectId: ichProjectId, ichProjectName: ichProjectName, pageObj : pageObj, fyGrade: fyGrade, nations: nations, certificates: certificates, clickMenuId: $this.attr("id")})); // 更新页面模板
 
         // 性别
         $("#sex").children("span").on("click", function() {
@@ -471,7 +475,7 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
                 data.push({"name" : "declare", "value" : declareCode.toString()}); // 构建三级联动参数
                 data.push({"name" : "sex", "value" : sexCode.toString()}); // 构建性别
                 var params = buildParams(data, pageObj);
-                //console.log("params --- >", params);
+                console.log("params --- >", params);
                 _onRequest("POST", "/ichMaster/saveIchMaster", {params: JSON.stringify(params)}).then(function(result) {
                     //console.log("result === >", result,  JSON.stringify(result.res.data), pageObj);
                     // 处理用户未登录
