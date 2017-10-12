@@ -29,6 +29,11 @@ function loadMasterFromServer(masterId) {
                 alert('您还没有登录，请登录后操作！');
                 return;
             }
+
+            if(master != null) {
+                return;
+            }
+
             master = data.data;
             loadAttributesFromServer();
         },
@@ -169,8 +174,14 @@ function displayEditMode() {
                         if($(item).attr('data-id') == contentFragment.attributeId) {
                             var $show_short_text_ui = $(show_short_text_template);
                             $show_short_text_ui.find('.key').text(attr.cnName + ': ');
-                            $show_short_text_ui.find('.value').text(contentFragment.content);
-                            $section.find('.read-piece ul').append($show_short_text_ui);
+                            if($(item).is('select')) {
+                                $show_short_text_ui.find('.value').text(getTextByTypeAndCode(attr.dataType,contentFragment.content,'chi'));
+                            } else {
+                                $show_short_text_ui.find('.value').text(contentFragment.content);
+                            }
+                            if(contentFragment.content != null && contentFragment.content != '') {
+                                $section.find('.read-piece ul').append($show_short_text_ui);
+                            }
                             break;
                         }
                     }
@@ -562,7 +573,7 @@ function addMainInfoCompListener($section) {
         var has_head_img = false;
         for(var i = 0; i < contentFragmentList.length; i++) {
             var contentFragment = contentFragmentList[i];
-            if(contentFragment.attributeId == 1) {
+            if(contentFragment.attributeId == 10) {
                 var resourceList = contentFragment.resourceList;
                 if(resourceList.length == 0) {
                     var resource = {};
@@ -580,7 +591,7 @@ function addMainInfoCompListener($section) {
 
         if(!has_head_img) {//没有题图，新增
             var contentFragment = {};
-            contentFragment.attributeId = 1;
+            contentFragment.attributeId = 10;
             contentFragment.targetId = master.id;
             contentFragment.targetType = 1;
             contentFragment.status = 0;
@@ -743,12 +754,30 @@ function editShortTextUi($section) {
         }
 
         $ui.find('.label').append(attr.cnName);
-        $ui.find('input').attr('data-id', attr.id);
+
+        if(attr.dataType > 100) {
+            var $select = $('<select></select>');
+            $select.addClass('ipt').addClass('w310').addClass('data-item');
+
+            var dicArr = getDictionaryArrayByType(attr.dataType, 'chi');
+            for(var t = 0; t < dicArr.length; t++) {
+                var $option = $('<option></option>');
+                $option.attr('value', dicArr[t].code);
+                $option.text(dicArr[t].name);
+
+                $select.append($option);
+            }
+
+            $ui.find('input').replaceWith($select);
+            $ui.find('select').attr('data-id', attr.id);
+        } else {
+            $ui.find('input').attr('data-id', attr.id);
+        }
 
         for(var j = 0; j < contentFragmentList.length; j++) {
             var contentFragment = contentFragmentList[j];
             if(attr.id == contentFragment.attributeId) {
-                $ui.find('input').val(contentFragment.content);
+                $ui.find('.data-item').val(contentFragment.content);
             }
         }
 
@@ -1132,5 +1161,75 @@ function adjustImageText($section, item_arr) {
                 $section.find('.card').append($show_image_text_ui);
             }
         }
+    }
+}
+
+function buildComboUi($comb, opts) {
+    var $ul = $comb.find('.level ul');
+    $comb.children().not('.level').remove();
+
+    for(var i = 0; i < opts.data.length; i++) {
+        if(opts.data[i].parent_id == 0 || opts.data[i].parent_id == null) {
+            var $li = buildCombLiUi(opts.data[i], opts);
+            $ul.append($li);
+        }
+    }
+}
+
+function buildCombLiUi(area, opts) {
+    var $li = $('<li></li>');
+    $li.attr('data-code', area.code != null ? area.code : area.id);
+    $li.attr('data-id', area.id);
+    $li.text(area.name);
+
+    $li.hover(function () {
+        var _this = $(this);
+        buildNextCombLiUi(_this, opts);
+    });
+
+    $li.on('click', function () {
+        var data_code = $(this).attr('data-code');
+        var name = $(this).text();
+
+        opts.callback(data_code, name);
+
+        $(this).parent().parent().parent().parent().animate({height:'hide'},50);
+    });
+
+    return $li;
+}
+
+function buildNextCombLiUi(_this, opts) {
+    var next = _this.parent().parent().parent().next('dl');
+    removeNextLevel(next);
+
+    var $ul = $('<ul></ul>');
+
+    for(var i = 0; opts.data != null && i < opts.data.length; i++) {
+        var area = opts.data[i];
+
+        if(area.parent_id == _this.attr('data-id')) {
+            var $li = buildCombLiUi(area, opts);
+            $ul.append($li);
+        }
+    }
+
+    if($ul.find('li').length > 0) {
+        var $dl = $('<dl></dl>');
+        var $dd = $('<dd></dd>');
+
+        $dd.append($ul);
+        $dl.append($dd);
+        $(_this).parent().parent().parent().parent().append($dl);
+    }
+}
+
+function removeNextLevel(curr) {
+    if(curr.length > 0) {
+        var next = curr.next('dl');
+        removeNextLevel(next);
+        curr.remove();
+    } else {
+        return;
     }
 }
