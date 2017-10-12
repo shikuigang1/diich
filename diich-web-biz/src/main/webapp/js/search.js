@@ -132,6 +132,8 @@ function searchDataFromServer(is_show_progress) {
             is_show_progress == false ? 0 : progress.start();
         },
         success: function(data) {
+
+            console.log(data);
             buildSearchResultUi(data);
         },
         error: function () {
@@ -257,7 +259,7 @@ function fillMasterData(master, template) {
                 $ich_project.text(contentList[i].content);
             }
         }
-        $ich_project.parent().attr('href', 'http://project.efeiyi.com/p/'+
+        $ich_project.parent().attr('href', 'http://project.diich.com/p/'+
          master.ichProjectId +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
     }
 
@@ -299,11 +301,11 @@ function fillCommonByContentList(object, type, attrMap, $ui) {
 
             if($(_attr).hasClass('head-image')) {
                 $ui.find('#' + attr_name).attr('src', map[attr_name]);
-                $ui.find('#' + attr_name).parent().attr('href','http://'+ target_type +'.efeiyi.com/'+ type.substring(0,1)+'/'+
+                $ui.find('#' + attr_name).parent().attr('href','http://'+ target_type +'.diich.com/'+ type.substring(0,1)+'/'+
                     object.id +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
             } else if($(_attr).is('a')) {
                 $ui.find('#' + attr_name).html(map[attr_name]);
-                $ui.find('#' + attr_name).attr('href', 'http://' + target_type + '.efeiyi.com/'+ type.substring(0,1)+'/'+
+                $ui.find('#' + attr_name).attr('href', 'http://' + target_type + '.diich.com/'+ type.substring(0,1)+'/'+
                     object.id +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
             } else {
                 var $div = $('<div></div>');
