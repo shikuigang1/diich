@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<#assign caturi=".." />
+<#assign caturi="http://www.diich.com" />
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-control" content="no-cache">

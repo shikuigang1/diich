@@ -161,7 +161,10 @@ function displayEditMode() {
                             var $show_short_text_ui = $(show_short_text_template);
                             $show_short_text_ui.find('.key').text(attr.cnName + ': ');
                             $show_short_text_ui.find('.value').text(contentFragment.content);
-                            $section.find('.read-piece ul').append($show_short_text_ui);
+
+                            if(contentFragment.content != null && contentFragment.content != '') {
+                                $section.find('.read-piece ul').append($show_short_text_ui);
+                            }
                             break;
                         }
                     }
