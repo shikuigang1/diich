@@ -541,6 +541,8 @@ function editImageTextUi($section) {
     });
 
     if(content != null) {
+        content = content.replace(/<[^a-zA-Z/]/g,'&lt;');
+
         content = content.replace(/\n/g,"<br/>");
         if(content.indexOf('<p>') != 0) {
             content = '<p>' + content + '</p>';

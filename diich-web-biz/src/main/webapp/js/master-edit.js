@@ -383,7 +383,15 @@ function displayEditMode() {
                 $ui.find('.image-container').append($div);
             }
 
-            deleteImageUi($ui);
+            deleteImageUi($ui, function () {
+                for(var j = 0; resourceList_tmp != null && j < resourceList_tmp.length; j++) {
+                    var res = resourceList_tmp[j];
+                    if(file_name == res.uri) {
+                        resourceList_tmp.splice(j, 1);
+                        break;
+                    }
+                }
+            });
 
             resource.status = 0;
             resource.uri = file_name;
@@ -741,16 +749,18 @@ function editShortTextUi($section) {
     }
 
     var $form = $('<form class="bd horizontal"></form>');
+    $section.append($form);
     for(var i = 0; i < short_text_attrs.length; i++) {
         var $ui = $(edit_short_text_tmp);
+        $form.append($ui);
         var attr = short_text_attrs[i];
 
         if(attr.dataType == 3) {
-            $ui.find('input').ECalendar({
-             type:"date",
-             skin:2,
-             offset:[0,2]
-             });
+            var rand = generateMathRand(8);
+            $ui.find('input').attr('id', rand);
+            $('#' + rand).jHsDate({
+                inputIsRead: true
+            });
         }
 
         $ui.find('.label').append(attr.cnName);
@@ -780,11 +790,7 @@ function editShortTextUi($section) {
                 $ui.find('.data-item').val(contentFragment.content);
             }
         }
-
-        $form.append($ui);
     }
-
-    $section.append($form);
 }
 
 function editImageTextUi($section) {
@@ -829,6 +835,8 @@ function editImageTextUi($section) {
     });
 
     if(content != null) {
+        content = content.replace(/<[^a-zA-Z/]/g,'&lt;');
+
         content = content.replace(/\n/g,"<br/>");
         if(content.indexOf('<p>') != 0) {
             content = '<p>' + content + '</p>';
@@ -1072,7 +1080,7 @@ function send_request() {
     return signituredata;
 }
 
-function deleteImageUi($ui) {
+function deleteImageUi($ui, callback) {
     var _this;
     $ui.find('.image-container div').hover(function () {
         _this = $(this);
@@ -1085,6 +1093,7 @@ function deleteImageUi($ui) {
 
             var $file = $(this).parent().find('.file-tag');
             var file_name = $file.attr('file-name');
+
             var contentFragmentList = master.contentFragmentList;
             for(var i = 0; i < contentFragmentList.length; i++) {
                 var contentFragment = contentFragmentList[i];
@@ -1112,6 +1121,10 @@ function deleteImageUi($ui) {
 
                     }
                 });
+            }
+
+            if(callback != null) {
+                callback();
             }
         });
     }, function () {

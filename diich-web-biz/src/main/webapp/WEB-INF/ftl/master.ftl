@@ -3,6 +3,7 @@
 
 <head>
 <#assign caturi="http://www.diich.com" />
+<#--<#assign caturi=".." />-->
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-control" content="no-cache">
@@ -26,6 +27,7 @@
     <link rel="stylesheet" href="${caturi}/css/loader.min.css">
     <link rel="stylesheet" href="${caturi}/css/dropdown.min.css">
     <link rel="stylesheet" href="${caturi}/css/transition.min.css">
+    <link rel="stylesheet" href="${caturi}/css/jHsDate.css">
     <link rel="stylesheet" href="${caturi}/css/master-edit.css">
 
     <!--[if IE]>
@@ -59,8 +61,8 @@
     <script src="${caturi}/data/dictionary.js"></script>
     <script src="${caturi}/js/util.js"></script>
 
-    <script src="${caturi}/assets/js/Ecalendar.jquery.min.js"></script>
     <script src="${caturi}/js/semantic.min.js"></script>
+    <script src="${caturi}/js/jHsDate.js"></script>
     <script src="${caturi}/js/master-edit-template.js"></script>
     <script src="${caturi}/js/master-edit.js"></script>
 
