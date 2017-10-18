@@ -1202,6 +1202,7 @@ function fillCustomSelect() {
 
     $('#custom .ui.dropdown').dropdown({
         allowAdditions: true,
+        forceSelection: false,
         values: values
     });
 }

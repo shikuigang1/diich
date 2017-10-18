@@ -56,26 +56,24 @@ function loadAttributesFromServer() {
             }
             attributes = data.data;
 
+            var attrMap = {};
+            for(var i = 0; attributes != null && i < attributes.length; i++) {
+                if(attributes[i] != null) {
+                    attrMap[attributes[i].id] = attributes[i];
+                }
+            }
+
             var contentFragmentList = [];
             if(master != null) {
                 contentFragmentList = master.contentFragmentList;
             }
 
-            var map = {};
             for(var i = 0; i < contentFragmentList.length; i++) {
                 var contentFragment = contentFragmentList[i];
                 if(contentFragment == null) continue;
-                var attribute = contentFragment.attribute;
-                if(attribute == null) continue;
-                map[attribute.id] = attribute;
-            }
 
-            for(var i = 0; i < attributes.length; i++) {
-                var attr = attributes[i];
-                if(attr == null) continue;
-
-                if(map[attr.id] == null) {
-                    attributes.push(map[attr.id]);
+                if(attrMap[contentFragment.attributeId] == null) {
+                    attributes.push(contentFragment.attribute);
                 }
             }
 
@@ -247,11 +245,15 @@ function displayEditMode() {
         $ui.find('.save.link').on('click', function () {
             var content = editor.getContent();
 
-            var $selected = $('#custom .ui.dropdown .menu .selected');
-            var attr_id = $selected.attr('data-value');
-            var title = $('#custom .ui.dropdown .text').text();
+            var title = $('#custom .ui.dropdown input.search').val().trim();
 
-            if(attr_id == null && title == '') {
+            var select_title = $('#custom .ui.dropdown').dropdown('get text');
+
+            if(title == '') {
+               title = select_title;
+            }
+
+            if(title == '') {
                 alert('标题不能为空');
                 return;
             } else if(content == '') {
@@ -259,12 +261,23 @@ function displayEditMode() {
                 return;
             }
 
+            var attribute = null;
+            for(var i = 0; i < attributes.length; i++) {
+                if(attributes[i] == null) continue;
+                if(attributes[i].dataType != '5' && attributes[i].dataType != '1') {
+                    continue;
+                }
+                if(attributes[i].cnName == title) {
+                    attribute = attributes[i];
+                }
+            }
+
             var is_has = false;
             var contentFragment;
             var contentFragmentList = master.contentFragmentList;
-            for(var i = 0; i < contentFragmentList.length; i++) {
+            for(var i = 0; attribute != null && i < contentFragmentList.length; i++) {
                 contentFragment = contentFragmentList[i];
-                if(contentFragment.attributeId == attr_id) {
+                if(contentFragment.attributeId == attribute.id) {
                     is_has = true;
                     contentFragment.content = content;
                     if(resourceList_tmp.length > 0 && contentFragment.attribute.dataType == '5') {
@@ -276,17 +289,9 @@ function displayEditMode() {
 
             if(!is_has) {
                 contentFragment = {};
-                var attribute;
-                if(attr_id != null) {
-                    contentFragment.attributeId = attr_id;
-                    for(var i = 0; i < attributes.length; i++) {
-                        if(attributes[i] == null) continue;
-                        if(attr_id == attributes[i].id) {
-                            attribute = attributes[i];
-                            break;
-                        }
-                    }
-                } else if(title != null) {
+                if(attribute != null) {
+                    contentFragment.attributeId = attribute.id;
+                } else {
                     attribute = {};
                     attribute.cnName = title;
                     attribute.dataType = 5;
@@ -936,6 +941,15 @@ function editImageTextUi($section) {
 }
 
 function fillCustomSelect() {
+    var cMap = {};
+    for(var i = 0; i < master.contentFragmentList.length; i++) {
+        var contentFragment = master.contentFragmentList[i];
+        if(contentFragment == null) continue;
+        var attribute = contentFragment.attribute;
+        if(attribute == null || attribute.id == null) continue;
+        cMap[attribute.id] = contentFragment;
+    }
+
     var values = [];
     for(var i = 0; i < attributes.length; i++) {
         var attr = attributes[i];
@@ -944,33 +958,29 @@ function fillCustomSelect() {
             continue;
         }
 
-        var is_exclude = false;
         if(attr.dataType != '5' && attr.dataType != '1') {
             continue;
         }
-        for(var j = 0; j < master.contentFragmentList.length; j++) {
-            var contentFragment = master.contentFragmentList[j];
-            if(attr.id == contentFragment.attributeId) {
-                is_exclude = true;
-                if((contentFragment.content == null || contentFragment.content == '')
-                    && contentFragment.resourceList.length == 0) {
-                    var value = {};
-                    value.name = attr.cnName;
-                    value.value = attr.id;
-                    values.push(value);
-                }
-            }
-        }
-        if(!is_exclude) {
-            var value = {};
+
+        var value = {};
+        if(cMap[attr.id] == null) {
             value.name = attr.cnName;
             value.value = attr.id;
             values.push(value);
+        } else {
+            var contentFragment = cMap[attr.id];
+            if((contentFragment.content == null || contentFragment.content == '')
+                && contentFragment.resourceList.length == 0) {
+                value.name = attr.cnName;
+                value.value = attr.id;
+                values.push(value);
+            }
         }
     }
 
     $('#custom .ui.dropdown').dropdown({
         allowAdditions: true,
+        forceSelection: false,
         values: values
     });
 }
