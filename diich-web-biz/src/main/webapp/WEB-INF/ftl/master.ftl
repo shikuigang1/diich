@@ -517,7 +517,7 @@
                                     </#list>
                                 </ul>
 
-                                <#if (cf.resourceList?size > 2) >
+                                <#if (cf.resourceList?size > 0) >
                                     <div class="more">
                                         <a class="albums arrow_right" data-id="${cf.id?c}" href="javascript:;">查看完整图集</a>
                                     </div>
