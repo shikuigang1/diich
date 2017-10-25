@@ -348,6 +348,7 @@ function displayEditMode() {
             $ui.find('.item-content').html(content);
 
             $ui.find('.save.link').hide();
+            $ui.find('.cancel.link').hide();
             $ui.find('.edit.link').show();
 
             $ui.removeClass('custom');
