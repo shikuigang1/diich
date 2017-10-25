@@ -148,7 +148,7 @@ var custom_image_text_tmp =
     '    <div class="card">'+
     '        <header class="title handle-button"><h4></h4>'+
     '            <select name="titles" class="ui search dropdown"></select>'+
-    '            <span class="edit link" style="display: none;">编辑</span><span class="save link">保存</span>'+
+    '            <span class="edit link" style="display: none;">编辑</span><span class="save link">保存</span><span class="cancel link">取消</span>'+
     '        </header>'+
     '    </div>'+
     '</section>';
