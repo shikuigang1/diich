@@ -88,8 +88,13 @@ function loadAttributesFromServer() {
 function displayEditMode() {
     var $edit_project_tool_bar = $(edit_project_tmp);
     $('.header.header_detail').after($edit_project_tool_bar);
+
     $('.header.header_detail').hide();
     $('.edit.link').hide();
+    $('a.albums').hide();
+    $('a.share').hide();
+    $('a.praise').hide();
+
     var $edit_link = $('<span class="edit link">编辑</span>');
     $('.handle-button').append($edit_link);
 
@@ -208,10 +213,6 @@ function displayEditMode() {
         });
 
     });
-
-    $('a.albums').hide();
-    $('a.share').hide();
-    $('a.praise').hide();
 
     $('.add.button').on('click', function () {
         if(has_edit == true) {
