@@ -28,7 +28,7 @@
     margin-left: -12px;
 }
 
-/*--//End 首页title--*/
+/*--//End 棣栭〉title--*/
 
 .home .slider {
     height: 810px;
@@ -995,7 +995,7 @@
     text-align: center;
     font-size: 12px;
 }
-/*--//End 图文列表--*/
+/*--//End 鍥炬枃鍒楄〃--*/
 
 section.odd {
     background: #fff;
@@ -1022,7 +1022,7 @@ section.odd {
     /*column-gap: 30px;*/
 }
 
-/*--//End 纯文本 三列--*/
+/*--//End 绾枃鏈� 涓夊垪--*/
 
 .card .time_axis ul {
     padding-left: 32px;
@@ -1079,7 +1079,7 @@ section.odd {
     color: #1b1b1b;
 }
 
-/*--//End 时间轴--*/
+/*--//End 鏃堕棿杞�--*/
 
 .card .master_avatar {
     width: 100%;
@@ -1137,7 +1137,7 @@ section.odd {
     margin-left: 6px;
 }
 
-/*--//End 大师头像简介--*/
+/*--//End 澶у笀澶村儚绠€浠�--*/
 
 .card .text_img {
     width: 100%;
@@ -1245,7 +1245,7 @@ section.odd {
     float: right;
 }
 
-/*--//End 左边文字右边图片--*/
+/*--//End 宸﹁竟鏂囧瓧鍙宠竟鍥剧墖--*/
 
 .card_base {
     background: #fff;
@@ -1287,7 +1287,7 @@ section.odd {
     width: 100%;
 }
 
-/*--//End 详情基本信息--*/
+/*--//End 璇︽儏鍩烘湰淇℃伅--*/
 
 .card_main {
     background: #fff url(../images/project_mapbg.png) no-repeat 620px -60px;
@@ -1745,7 +1745,7 @@ section.odd {
     border: 1px solid rgba(255, 255, 255, .7);
 }
 
-/*--//End 详情主要信息--*/
+/*--//End 璇︽儏涓昏淇℃伅--*/
 
 .directory {
     width: 100%;
@@ -1834,7 +1834,7 @@ section.odd {
     margin-bottom: 30px;
 }
 
-/*--//End 非遗名录--*/
+/*--//End 闈為仐鍚嶅綍--*/
 
 .directory .pro_column3 {
     width: 100%;
@@ -2006,7 +2006,7 @@ section.odd {
     transition: all 0.3s ease-in-out;
 }
 
-/*----------九宫格--------*/
+/*----------涔濆鏍�--------*/
 
 .directory .pro_column3.active li {
     width: 1110px;
@@ -2040,9 +2040,9 @@ section.odd {
     display: block;
 }
 
-/*----------横版--------*/
+/*----------妯増--------*/
 
-/*--//End 非遗名录--*/
+/*--//End 闈為仐鍚嶅綍--*/
 
 .load_more {
     width: 100%;
@@ -2068,7 +2068,7 @@ section.odd {
     background: #D8D8D8;
 }
 
-/*--//ENd 列表三列*/
+/*--//ENd 鍒楄〃涓夊垪*/
 
 .mainContainer {
     width: 100%;
@@ -2352,7 +2352,7 @@ section.odd {
     -webkit-transition: all 0.3s ease-in-out;
 }
 
-/*--//End 非遗大师--*/
+/*--//End 闈為仐澶у笀--*/
 
 .wonderful {
     width: 100%;
@@ -2531,7 +2531,7 @@ section.odd {
     float: right;
 }
 
-/*--//End 精彩内容--*/
+/*--//End 绮惧僵鍐呭--*/
 
 .information {
     width: 100%;
@@ -2915,7 +2915,7 @@ section.odd {
     text-overflow: ellipsis;
 }
 
-/*--//End 详情页弹出浮层--*/
+/*--//End 璇︽儏椤靛脊鍑烘诞灞�--*/
 
 .detail_product .crumbs {
     margin-bottom: 70px;
@@ -3269,7 +3269,7 @@ section.odd {
     text-decoration: underline;
 }
 
-/*--//End 官方服务--*/
+/*--//End 瀹樻柟鏈嶅姟--*/
 
 .my_declare {
     width: 100%;
@@ -3305,7 +3305,7 @@ section.odd {
     vertical-align: top;
 }
 
-/*--//End 我要申报--*/
+/*--//End 鎴戣鐢虫姤--*/
 
 .master_page {
     width: 100%;
@@ -3571,7 +3571,7 @@ section.odd {
     display: block;
 }
 
-/*--//End 非遗大师--*/
+/*--//End 闈為仐澶у笀--*/
 .filter_bar {
     width: 100%;
     float: left;
@@ -3643,7 +3643,7 @@ section.odd {
     background-position: 0 -96px;
 }
 
-/*--//End 搜索结果--*/
+/*--//End 鎼滅储缁撴灉--*/
 .modal_video {
     position: fixed;
     top: 0;
@@ -3672,7 +3672,7 @@ section.odd {
     z-index: 10;
 }
 
-/*--//End 单个图片或视频弹出框--*/
+/*--//End 鍗曚釜鍥剧墖鎴栬棰戝脊鍑烘--*/
 
 .search_lose {
     width: 100%;
@@ -3717,7 +3717,7 @@ section.odd {
     float: left;
 }
 
-/*--//End 搜索失败--*/
+/*--//End 鎼滅储澶辫触--*/
 .page404 {
     width: 100%;
     float: left;
@@ -3743,18 +3743,121 @@ section.odd {
     display: inline-block;
 }
 
-/*--//End 搜索失败--*/
-
-
-
-
-
-
-
-
-
-
-
+/*--//End 鎼滅储澶辫触--*/
+.home .protect {
+    margin-top: 110px;
+    padding:100px 0 40px 0;
+    background: #f5f6f8;
+}
+.home .protect .product {
+    width:1170px;
+    margin:0 auto;
+    overflow: hidden;
+}
+.home .protect .product {
+    margin-top: 60px;
+}
+.home .protect .product li {
+    width:270px;
+    float: left;
+    margin-right:30px;
+    overflow: hidden;
+}
+.home .protect .product li img {
+    width:100%;
+    float: left;
+}
+.home .protect .product li p {
+    width:100%;
+    text-align: center;
+    float: left;
+}
+.home .protect .product li .name {
+    line-height:60px;
+    font-size:24px;
+    margin-top: 18px;
+}
+.home .protect .product li .icon {
+    background: url(../images/icon-Official.png) no-repeat 0 0;
+    width:74px;
+    height:22px;
+    display: inline-block;
+}
+.home .protect .handle {
+    width:100%;
+    height: 48px;
+    float: left;
+    margin-top:50px;
+    position: relative;
+}
+.home .protect .handle .icons {
+    width:112px;
+    height: 48px;
+    position: absolute;
+    top: 0;
+    left:50%;
+    margin-left:-51px;
+}
+.home .protect .handle .icons .link {
+    background: url(../images/icon-Official-btn.png) no-repeat;
+    width:48px;
+    height:48px;
+    cursor: pointer;
+}
+.home .protect .handle .icons .prev {
+    background-position: 0 0;
+    float: left;
+}
+.home .protect .handle .icons .next {
+    background-position: -48px 0;
+    float: right;
+}
+.home .protect .handle .icons .prev.active {
+    background-position: 0 -48px;
+}
+.home .protect .handle .icons .next.active {
+    background-position: -48px -48px;
+}
+.home .protect .more {
+    width:100%;
+    line-height:40px;
+    text-align: center;
+    float: left;
+    margin-top:40px;
+}
+.home .protect .more a:hover {
+    color: #4283EB;
+    text-decoration: underline;
+}
+.detail_title .icon-Official {
+    background: url(../images/icon-Official.png) no-repeat 0 0;
+    width:74px;
+    height:22px;
+    display: inline-block;
+}
+#protect li {
+    height:380px!important;
+}
+#protect li .context {
+    float: left;
+    display: block;
+}
+#protect li .context h4{
+    text-align: center!important;
+    font-size:24px!important;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+}
+#protect li .context p {
+    text-align: center!important;
+}
+#protect .icon-Official {
+    background: url(../images/icon-Official.png) no-repeat 0 0;
+    width:74px;
+    height:22px;
+    display: inline-block;
+}
 
 
 
