@@ -36,4 +36,6 @@ public interface IchProjectMapper extends BaseMapper<IchProject>{
 
     List<IchProject> selectIchProjectByProjectName( String projectName) throws Exception;
 
+    List<Map> selectCertifications(Map<String, Object> params) throws Exception;
+
 }

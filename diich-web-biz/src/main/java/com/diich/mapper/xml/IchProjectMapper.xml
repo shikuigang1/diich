@@ -1,241 +1,257 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.diich.mapper.IchProjectMapper" >
-  <resultMap id="BaseResultMap" type="com.diich.core.model.IchProject" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="ich_category_id" property="ichCategoryId" jdbcType="BIGINT" />
-    <result column="creator_id" property="creatorId" jdbcType="BIGINT" />
-    <result column="last_editor_id" property="lastEditorId" jdbcType="BIGINT" />
-    <result column="last_edit_date" property="lastEditDate" jdbcType="TIMESTAMP" />
-    <result column="edit_rank" property="editRank" jdbcType="INTEGER" />
-    <result column="pay_type" property="payType" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="uri" property="uri" jdbcType="VARCHAR" />
-    <result column="lang" property="lang" jdbcType="CHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, ich_category_id, creator_id, last_editor_id, last_edit_date, edit_rank, pay_type,
+<mapper namespace="com.diich.mapper.IchProjectMapper">
+    <resultMap id="BaseResultMap" type="com.diich.core.model.IchProject">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="ich_category_id" property="ichCategoryId" jdbcType="BIGINT"/>
+        <result column="creator_id" property="creatorId" jdbcType="BIGINT"/>
+        <result column="last_editor_id" property="lastEditorId" jdbcType="BIGINT"/>
+        <result column="last_edit_date" property="lastEditDate" jdbcType="TIMESTAMP"/>
+        <result column="edit_rank" property="editRank" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="uri" property="uri" jdbcType="VARCHAR"/>
+        <result column="lang" property="lang" jdbcType="CHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, ich_category_id, creator_id, last_editor_id, last_edit_date, edit_rank, type,
     status, uri, lang
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
-    <include refid="Base_Column_List" />
-    from ich_project
-    where id = #{id,jdbcType=BIGINT} and (status = 0 OR status=10)
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from ich_project
+        where id = #{id,jdbcType=BIGINT} and (status = 0 OR status=10)
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from ich_project
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.diich.core.model.IchProject" >
+    <insert id="insert" parameterType="com.diich.core.model.IchProject">
     insert into ich_project (id, ich_category_id, creator_id,
       last_editor_id, last_edit_date, edit_rank,
-      pay_type, status, uri,
+      type, status, uri,
       lang)
     values (#{id,jdbcType=BIGINT}, #{ichCategoryId,jdbcType=BIGINT}, #{creatorId,jdbcType=BIGINT},
       #{lastEditorId,jdbcType=BIGINT}, #{lastEditDate,jdbcType=TIMESTAMP}, #{editRank,jdbcType=INTEGER},
-      #{payType,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR},
+      #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR},
       #{lang,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.diich.core.model.IchProject" >
-    insert into ich_project
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="ichCategoryId != null" >
-        ich_category_id,
-      </if>
-      <if test="creatorId != null" >
-        creator_id,
-      </if>
-      <if test="lastEditorId != null" >
-        last_editor_id,
-      </if>
-      <if test="lastEditDate != null" >
-        last_edit_date,
-      </if>
-      <if test="editRank != null" >
-        edit_rank,
-      </if>
-      <if test="payType != null" >
-        pay_type,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="uri != null" >
-        uri,
-      </if>
-      <if test="lang != null" >
-        lang,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="ichCategoryId != null" >
-        #{ichCategoryId,jdbcType=BIGINT},
-      </if>
-      <if test="creatorId != null" >
-        #{creatorId,jdbcType=BIGINT},
-      </if>
-      <if test="lastEditorId != null" >
-        #{lastEditorId,jdbcType=BIGINT},
-      </if>
-      <if test="lastEditDate != null" >
-        #{lastEditDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="editRank != null" >
-        #{editRank,jdbcType=INTEGER},
-      </if>
-      <if test="payType != null" >
-        #{payType,jdbcType=INTEGER},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="uri != null" >
-        #{uri,jdbcType=VARCHAR},
-      </if>
-      <if test="lang != null" >
-        #{lang,jdbcType=CHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.IchProject" >
-    update ich_project
-    <set >
-      <if test="ichCategoryId != null" >
-        ich_category_id = #{ichCategoryId,jdbcType=BIGINT},
-      </if>
-      <if test="creatorId != null" >
-        creator_id = #{creatorId,jdbcType=BIGINT},
-      </if>
-      <if test="lastEditorId != null" >
-        last_editor_id = #{lastEditorId,jdbcType=BIGINT},
-      </if>
-      <if test="lastEditDate != null" >
-        last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="editRank != null" >
-        edit_rank = #{editRank,jdbcType=INTEGER},
-      </if>
-      <if test="payType != null" >
-        pay_type = #{payType,jdbcType=INTEGER},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="uri != null" >
-        uri = #{uri,jdbcType=VARCHAR},
-      </if>
-      <if test="lang != null" >
-        lang = #{lang,jdbcType=CHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.diich.core.model.IchProject" >
+    <insert id="insertSelective" parameterType="com.diich.core.model.IchProject">
+        insert into ich_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="ichCategoryId != null">
+                ich_category_id,
+            </if>
+            <if test="creatorId != null">
+                creator_id,
+            </if>
+            <if test="lastEditorId != null">
+                last_editor_id,
+            </if>
+            <if test="lastEditDate != null">
+                last_edit_date,
+            </if>
+            <if test="editRank != null">
+                edit_rank,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="uri != null">
+                uri,
+            </if>
+            <if test="lang != null">
+                lang,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="ichCategoryId != null">
+                #{ichCategoryId,jdbcType=BIGINT},
+            </if>
+            <if test="creatorId != null">
+                #{creatorId,jdbcType=BIGINT},
+            </if>
+            <if test="lastEditorId != null">
+                #{lastEditorId,jdbcType=BIGINT},
+            </if>
+            <if test="lastEditDate != null">
+                #{lastEditDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="editRank != null">
+                #{editRank,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="uri != null">
+                #{uri,jdbcType=VARCHAR},
+            </if>
+            <if test="lang != null">
+                #{lang,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.IchProject">
+        update ich_project
+        <set>
+            <if test="ichCategoryId != null">
+                ich_category_id = #{ichCategoryId,jdbcType=BIGINT},
+            </if>
+            <if test="creatorId != null">
+                creator_id = #{creatorId,jdbcType=BIGINT},
+            </if>
+            <if test="lastEditorId != null">
+                last_editor_id = #{lastEditorId,jdbcType=BIGINT},
+            </if>
+            <if test="lastEditDate != null">
+                last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="editRank != null">
+                edit_rank = #{editRank,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="uri != null">
+                uri = #{uri,jdbcType=VARCHAR},
+            </if>
+            <if test="lang != null">
+                lang = #{lang,jdbcType=CHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.diich.core.model.IchProject">
     update ich_project
     set ich_category_id = #{ichCategoryId,jdbcType=BIGINT},
       creator_id = #{creatorId,jdbcType=BIGINT},
       last_editor_id = #{lastEditorId,jdbcType=BIGINT},
       last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
       edit_rank = #{editRank,jdbcType=INTEGER},
-      pay_type = #{payType,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       uri = #{uri,jdbcType=VARCHAR},
       lang = #{lang,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectIchProjectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    <select id="selectIchProjectList" parameterType="java.util.Map" resultMap="BaseResultMap">
 
-    SELECT <include refid="Base_Column_List" /> FROM ich_project WHERE status = 0
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM ich_project WHERE status = 0
 
-    <if test="params.ichCategoryId != null" >
-      and  ich_category_id = #{params.ichCategoryId,jdbcType=BIGINT}
-    </if>
-    <if test="params.lastEditorId != null" >
-     and  last_editor_id = #{params.lastEditorId,jdbcType=BIGINT}
-    </if>
-    <if test="params.lastEditDate != null" >
-     and  last_edit_date = #{params.lastEditDate,jdbcType=TIMESTAMP}
-    </if>
-    <if test="params.editRank != null" >
-     and  edit_rank = #{params.editRank,jdbcType=INTEGER}
-    </if>
-    <if test="params.uri != null" >
-      and uri = #{params.uri,jdbcType=VARCHAR}
-    </if>
-    <if test="params.lang != null" >
-      and lang = #{params.lang,jdbcType=CHAR}
-    </if>
+        <if test="params.ichCategoryId != null">
+            and ich_category_id = #{params.ichCategoryId,jdbcType=BIGINT}
+        </if>
+        <if test="params.lastEditorId != null">
+            and last_editor_id = #{params.lastEditorId,jdbcType=BIGINT}
+        </if>
+        <if test="params.lastEditDate != null">
+            and last_edit_date = #{params.lastEditDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="params.editRank != null">
+            and edit_rank = #{params.editRank,jdbcType=INTEGER}
+        </if>
+        <if test="params.uri != null">
+            and uri = #{params.uri,jdbcType=VARCHAR}
+        </if>
+        <if test="params.lang != null">
+            and lang = #{params.lang,jdbcType=CHAR}
+        </if>
 
-  </select>
+    </select>
 
-  <select id="selectIchProjectByName" resultType="java.util.Map" parameterType="java.util.Map">
+    <select id="selectIchProjectByName" resultType="java.util.Map" parameterType="java.util.Map">
 
-    SELECT i.id,i.ich_category_id as ichCategoryId,c.content as name,i.lang FROM ich_project i
-    LEFT JOIN content_fragment c on c.target_id = i.id
+        SELECT i.id,i.ich_category_id as ichCategoryId,c.content as name,i.lang FROM ich_project i
+        LEFT JOIN content_fragment c on c.target_id = i.id
 
-    WHERE c.attribute_id=4 and (i.status= 0 or i.status=10)
+        WHERE c.attribute_id=4 and (i.status= 0 or i.status=10)
 
-    <if test="type == 0" >
-      AND c.content = #{keyword,jdbcType=VARCHAR}
-    </if>
+        <if test="type == 0">
+            AND c.content = #{keyword,jdbcType=VARCHAR}
+        </if>
 
-    <if test="type == 1" >
-     <!-- AND c.content != ''-->
-      AND c.content  LIKE  CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
-     <!-- OR #{keyword,jdbcType=VARCHAR} LIKE CONCAT('%',c.content,'%')-->
-    </if>
+        <if test="type == 1">
+            <!-- AND c.content != ''-->
+            AND c.content LIKE CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+            <!-- OR #{keyword,jdbcType=VARCHAR} LIKE CONCAT('%',c.content,'%')-->
+        </if>
 
-     LIMIT #{pageBegin,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+        LIMIT #{pageBegin,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
 
-  </select>
-  <select id="selectIchProjectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
-    <include refid="Base_Column_List" />
-    from ich_project
-    where id = #{id,jdbcType=BIGINT} and status != 1
-  </select>
-  <select id="selectIchProjectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
-    <include refid="Base_Column_List" />
-    from ich_project
-    where last_editor_id = #{userId,jdbcType=BIGINT} and status != 1
-  </select>
-  <select id="selectIchProjectByUserAndStatus" resultMap="BaseResultMap" parameterType="java.util.Map" >
-    select
-    <include refid="Base_Column_List" />
-    from ich_project
-    where status != 1
-    <if test="params.userId != null" >
-      and  last_editor_id = #{params.userId,jdbcType=BIGINT}
-    </if>
-    <if test="params.status != null" >
-      and  status = #{params.status,jdbcType=INTEGER}
-    </if>
-  </select>
-  <select id="selectIchProjectCountByUserAndStatus" resultType="java.lang.Integer" parameterType="java.util.Map" >
-    select
-    count(1)
-    from ich_project
-    where  status != 1
-    <if test="params.userId != null" >
-      and  last_editor_id = #{params.userId,jdbcType=BIGINT}
-    </if>
-    <if test="params.status != null" >
-      and  status = #{params.status,jdbcType=INTEGER}
-    </if>
-  </select>
-  <select id="selectIchProjectByProjectName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    </select>
+    <select id="selectIchProjectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from ich_project
+        where id = #{id,jdbcType=BIGINT} and status != 1
+    </select>
+    <select id="selectIchProjectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from ich_project
+        where last_editor_id = #{userId,jdbcType=BIGINT} and status != 1
+    </select>
+    <select id="selectIchProjectByUserAndStatus" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from ich_project
+        where status != 1
+        <if test="params.userId != null">
+            and last_editor_id = #{params.userId,jdbcType=BIGINT}
+        </if>
+        <if test="params.status != null">
+            and status = #{params.status,jdbcType=INTEGER}
+        </if>
+    </select>
+    <select id="selectIchProjectCountByUserAndStatus" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select
+        count(1)
+        from ich_project
+        where status != 1
+        <if test="params.userId != null">
+            and last_editor_id = #{params.userId,jdbcType=BIGINT}
+        </if>
+        <if test="params.status != null">
+            and status = #{params.status,jdbcType=INTEGER}
+        </if>
+    </select>
+    <select id="selectIchProjectByProjectName" resultMap="BaseResultMap" parameterType="java.lang.String">
     SELECT i.id FROM ich_project i
     LEFT JOIN content_fragment cf on cf.target_id = i.id
 
     WHERE cf.attribute_id=4 and (i.status= 0 or i.status=10) and cf.target_type = 0
     AND cf.content = #{projectName,jdbcType=VARCHAR}
+  </select>
+ <select id="selectCertifications" resultType="java.util.Map" parameterType="java.util.Map">
+    select  tmp.id
+
+    , tmp.content, tmp.target_type from
+    (
+    select p.id,c.content,c.target_type from ich_project p LEFT JOIN content_fragment c on p.id =c.target_id  WHERE p.type = 1  and c.attribute_id = 138
+    UNION
+    select m.id,c.content,c.target_type from ich_master m LEFT JOIN content_fragment c on m.id =c.target_id  WHERE m.type = 1  and c.attribute_id = 139
+    UNION
+    select w.id,c.content,c.target_type from works w LEFT JOIN content_fragment c on w.id =c.target_id  WHERE w.type = 1  and c.attribute_id = 140
+    UNION
+    select o.id,c.content,c.target_type from organization o LEFT JOIN content_fragment c on o.id =c.target_id  WHERE o.type = 1  and c.attribute_id = 141
+    ) as tmp ORDER BY tmp.content desc limit #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
 </mapper>

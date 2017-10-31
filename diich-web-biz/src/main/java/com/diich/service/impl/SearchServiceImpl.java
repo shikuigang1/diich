@@ -57,28 +57,28 @@ public class SearchServiceImpl implements SearchService {
         String idList = "";
         for(int i = 0; i < ichObjects.size(); i++) {
             if(idList.equals("")) {
-                idList += ichObjects.get(i).getId();
+                idList += ichObjects.get(i).getTargetId();
             } else {
-                idList += "," + ichObjects.get(i).getId();
+                idList += "," + ichObjects.get(i).getTargetId();
             }
         }
         List<HashMap> result = ichObjectMapper.loadIchObjectList(idList);
 
         for(int i = 0; i < ichObjects.size(); i++) {
             IchObject ichObject = ichObjects.get(i);
-            Long id = ichObject.getId();
-            int type = ichObject.getType();
-            if(ichObject.getType() == 0) {
+            Long id = ichObject.getTargetId();
+            int type = ichObject.getTargetType();
+            if(ichObject.getTargetType() == 0) {
                 ichObject = new IchProject();
-            } else if(ichObject.getType() == 1) {
+            } else if(ichObject.getTargetType() == 1) {
                 ichObject = new IchMaster();
             }
-            ichObject.setId(id);
-            ichObject.setType(type);
+            ichObject.setTargetId(id);
+            ichObject.setTargetType(type);
             ichObjects.set(i, ichObject);
 
             for (HashMap hashmap:result) {
-                if (hashmap.get("targetId").equals(ichObject.getId())) {
+                if (hashmap.get("targetId").equals(ichObject.getTargetId())) {
                     ContentFragment contentFragment = new ContentFragment();
                     contentFragment.setAttributeId((Long) hashmap.get("attributeId"));
                     contentFragment.setContent((String) hashmap.get("content"));

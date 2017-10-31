@@ -200,11 +200,11 @@ function buildSearchResultUi(data) {
     var array = data.data;
     for(var i = 0; i < array.length; i ++) {
         var $ui = null;
-        if(array[i].type == 0) {
+        if(array[i].targetType == 0) {
             $ui = fillProjectData(array[i], template);
-        } else if(array[i].type == 1) {
+        } else if(array[i].targetType == 1) {
             $ui = fillMasterData(array[i], template);
-        } else if(array[i].type == 2) {
+        } else if(array[i].targetType == 2) {
             //作品
         }
 
