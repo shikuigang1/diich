@@ -45,6 +45,8 @@ public class CertificationServiceImpl implements CertificationService {
                         objMap.put("img",resource.getUri());
                     }
 
+                }else{
+                    objMap.put("img",null);
                 }
             }
         }catch (Exception e){
