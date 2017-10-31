@@ -252,14 +252,14 @@
 
     UNION
     select m.id, (select c.content from content_fragment c WHERE m.id = c.target_id  and c.attribute_id = 139) as certTime,1 as target_type,
-    (SELECT content FROM content_fragment c WHERE c.attribute_id =10 and m.id =c.target_id ) as cname ,
-    (SELECT c.id FROM content_fragment c WHERE c.attribute_id=13 and m.id = c.target_id ) as content_fragment_id
+    (SELECT content FROM content_fragment c WHERE c.attribute_id =13 and m.id =c.target_id ) as cname ,
+    (SELECT c.id FROM content_fragment c WHERE c.attribute_id=10 and m.id = c.target_id ) as content_fragment_id
     from ich_master m where m.type = 1
 
     UNION
     select w.id, (select c.content from content_fragment c WHERE w.id =c.target_id  and c.attribute_id = 140) as certTime,2 as target_type,
-    (SELECT content FROM content_fragment c WHERE c.attribute_id=25 and w.id =c.target_id ) as cname ,
-    (SELECT c.id FROM content_fragment c WHERE c.attribute_id=28 and w.id =c.target_id ) as content_fragment_id
+    (SELECT content FROM content_fragment c WHERE c.attribute_id=28 and w.id =c.target_id ) as cname ,
+    (SELECT c.id FROM content_fragment c WHERE c.attribute_id=25 and w.id =c.target_id ) as content_fragment_id
     from works w where w.type=1
 
     UNION
