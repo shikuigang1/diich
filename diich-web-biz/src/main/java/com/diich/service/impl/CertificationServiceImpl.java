@@ -55,4 +55,15 @@ public class CertificationServiceImpl implements CertificationService {
         }
         return certificationList;
     }
+
+    @Override
+    public Long getCount() throws Exception {
+        Long count = null;
+        try {
+            count = ichProjectMapper.getCount();
+        } catch (Exception e) {
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return count;
+    }
 }

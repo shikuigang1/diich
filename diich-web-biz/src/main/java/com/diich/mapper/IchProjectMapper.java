@@ -38,4 +38,5 @@ public interface IchProjectMapper extends BaseMapper<IchProject>{
 
     List<Map> selectCertifications(Map<String, Object> params) throws Exception;
 
+    Long getCount() throws Exception;
 }

@@ -269,4 +269,19 @@
     from organization o where o.type=1
     ) as tmp ORDER BY tmp.certTime desc limit #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
+    <select id="getCount" resultType="java.lang.Long">
+    SELECT count(1) from (
+    select ich_master.id
+
+     from ich_master where ich_master.type=1 UNION
+    select ich_project.id
+
+     from ich_project where ich_project.type=1 UNION
+    select works.id
+
+     from works where works.type=1 UNION
+    select organization.id
+
+    from organization where organization.type=1) as temp
+    </select>
 </mapper>

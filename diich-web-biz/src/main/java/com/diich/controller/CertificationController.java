@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,10 +29,11 @@ public class CertificationController extends BaseController{
     @RequestMapping("getCertifications")
     @ResponseBody
     public Map<String, Object> getCertifications(HttpServletRequest request, HttpServletResponse response){
-
+        Map<String, Object> resultMap = new HashMap<>();
         String num = request.getParameter("pageNum");
         String size = request.getParameter("pageSize");
         List<Map> certificationlist = null;
+        Long count = null;
         Integer pageNum = 1;
         if(StringUtils.isEmpty(size)){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
@@ -43,9 +45,13 @@ public class CertificationController extends BaseController{
         Integer pageSize = Integer.parseInt(size);
         try{
             certificationlist = certificationService.getCertifications(pageNum,pageSize);
+            count = certificationService.getCount();
         }catch (Exception e){
             return putDataToMap(e);
         }
-        return putDataToMap(certificationlist);
+        resultMap.put("code",0);
+        resultMap.put("total",count);
+        resultMap.put("data",certificationlist);
+        return resultMap;
     }
 }
