@@ -88,8 +88,13 @@ function loadAttributesFromServer() {
 function displayEditMode() {
     var $edit_project_tool_bar = $(edit_project_tmp);
     $('.header.header_detail').after($edit_project_tool_bar);
+
     $('.header.header_detail').hide();
     $('.edit.link').hide();
+    $('a.albums').hide();
+    $('a.share').hide();
+    $('a.praise').hide();
+
     var $edit_link = $('<span class="edit link">编辑</span>');
     $('.handle-button').append($edit_link);
 
@@ -209,10 +214,6 @@ function displayEditMode() {
 
     });
 
-    $('a.albums').hide();
-    $('a.share').hide();
-    $('a.praise').hide();
-
     $('.add.button').on('click', function () {
         if(has_edit == true) {
             alert('已经有模块处于编辑状态，请保存后再进行此操作。');
@@ -246,18 +247,12 @@ function displayEditMode() {
             var content = editor.getContent();
 
             var title = $('#custom .ui.dropdown input.search').val().trim();
-
             var select_title = $('#custom .ui.dropdown').dropdown('get text');
 
-            if(title == '') {
-               title = select_title;
-            }
+            title = title == '' ? select_title : title;
 
-            if(title == '') {
-                alert('标题不能为空');
-                return;
-            } else if(content == '') {
-                alert('内容不能为空');
+            if(title == '' || content == '') {
+                alert('标题或内容不能为空');
                 return;
             }
 
@@ -338,6 +333,7 @@ function displayEditMode() {
             $ui.find('.item-content').html(content);
 
             $ui.find('.save.link').hide();
+            $ui.find('.cancel.link').hide();
             $ui.find('.edit.link').show();
 
             $ui.removeClass('custom');
@@ -346,7 +342,40 @@ function displayEditMode() {
         });
 
         $ui.find('.edit.link').on('click', function(){
-            alert('自定义项编辑功能马上上线，敬请期待！');
+            if(has_edit == true) {
+                alert('已经有模块处于编辑状态，请保存后再进行此操作。');
+                return;
+            }
+
+            has_edit = true;
+
+            var $section = getSection(this);
+
+            editImageTextUi($section);
+
+            var title = $ui.find('h4').text();
+            var contentFragment;
+            var contentFragmentList = master.contentFragmentList;
+            for(var i = 0; title != '' && i < contentFragmentList.length; i++) {
+                contentFragment = contentFragmentList[i];
+                var attr = contentFragment.attribute;
+
+                if(attr == null || attr.cnName == '') {
+                    continue;
+                }
+
+                if(title == attr.cnName) {
+
+                    break;
+                }
+            }
+
+
+        });
+
+        $ui.find('.cancel.link').on('click', function(){
+            $ui.remove();
+            has_edit = false;
         });
 
         fillCustomSelect();
