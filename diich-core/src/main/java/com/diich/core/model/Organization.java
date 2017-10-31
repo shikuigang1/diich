@@ -16,7 +16,7 @@ public class Organization extends BaseModel {
 
     private Integer editRank;
 
-    private Integer payType;
+    private Integer type;
 
     private Integer status;
 
@@ -66,12 +66,12 @@ public class Organization extends BaseModel {
         this.editRank = editRank;
     }
 
-    public Integer getPayType() {
-        return payType;
+    public Integer getType() {
+        return type;
     }
 
-    public void setPayType(Integer payType) {
-        this.payType = payType;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Integer getStatus() {

@@ -18,7 +18,7 @@ public class IchMaster extends IchObject {
 
     private Integer editRank;
 
-    private Integer payType;
+    private Integer type;
 
     private Integer status;
 
@@ -78,12 +78,12 @@ public class IchMaster extends IchObject {
         this.editRank = editRank;
     }
 
-    public Integer getPayType() {
-        return payType;
+    public Integer getType() {
+        return type;
     }
 
-    public void setPayType(Integer payType) {
-        this.payType = payType;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Integer getStatus() {
