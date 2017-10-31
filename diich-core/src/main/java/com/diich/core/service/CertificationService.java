@@ -9,4 +9,6 @@ import java.util.Map;
 public interface CertificationService {
 
     List<Map> getCertifications(Integer pageNum, Integer pageSize) throws Exception;
+
+    Long getCount() throws Exception;
 }
