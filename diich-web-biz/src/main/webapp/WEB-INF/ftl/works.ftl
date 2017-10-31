@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <title>作品详情页</title>
     <style>
-        .header .content .nav a:after {
-            display: none;
+        .card .plain_text,.card .text_img .side {
+            word-wrap: break-word;
         }
     </style>
     <link rel="shortcut icon" type="image/x-icon" href="${caturi}/assets/images/logo.png" media="screen" />
@@ -116,7 +116,13 @@
         </div>
     </div>
     <!--//End filter_search -->
-
+    <#assign masterpage = "http://inheritor.efeiyi.com/m/"/>
+    <#assign propage = "http://works.efeiyi.com/w/"/>
+    <#assign prouri="http://resource.efeiyi.com/image/project/" />
+    <#assign masteruri="http://resource.efeiyi.com/image/master/" />
+    <#assign worksuri="http://resource.efeiyi.com/image/works/" />
+    <#assign str="http:" />
+    <#assign strs="https:" />
     <div class="container">
         <div class="bd detail_product">
 
@@ -149,6 +155,9 @@
             <div class="content">
                 <div class="main">
                     <div class="detail_title">
+                    <#if obj.type?? && obj.type == 1>
+                        <div class="icon-Official"></div>
+                    </#if>
                         <h2><#--《吕布与貂蝉》-->
                             <#if (obj.contentFragmentList?size>0)>
                                 <#list obj.contentFragmentList as cf>
@@ -172,7 +181,7 @@
                             </span>
                             <em class="icon"></em>
                             <div class="drop">
-                                <img src="assets/images/code.png" alt="">
+                                <img src="" alt="">
                             </div>
 
                             <#--<i class="icon"></i>
@@ -187,11 +196,10 @@
 
                     <div class="master">
                         <div class="item">
-
-                        <#if (obj.ichMaster.contentFragmentList?size>0)>
+                        <#if (obj.ichMaster?? && obj.ichMaster.contentFragmentList?? && obj.ichMaster.contentFragmentList?size>0)>
                             <#list obj.ichMaster.contentFragmentList as cf>
-                                <#if cf.attributeId == 10>
-                                    <#if (cf.resourceList?size>0)>
+                                <#if (cf.attributeId == 113)>
+                                    <#if cf.resourceList?? && (cf.resourceList?size>0)>
                                         <#list cf.resourceList as r>
                                             <#if r.type==0 && r.status== 0>
                                                 <a class="avatar" href=""><img src="<#if r.uri??>${r.uri}</#if>" alt=""></a>
@@ -201,7 +209,6 @@
                                 </#if>
                             </#list>
                         </#if>
-
                         <#if (obj.ichMaster.contentFragmentList?size>0)>
                             <#list obj.ichMaster.contentFragmentList as cf>
 
@@ -210,31 +217,20 @@
                                 </#if>
                             </#list>
                         </#if>
-
-                        <#if (obj.ichMaster?? && obj.ichMaster.contentFragmentList?? && obj.ichMaster.contentFragmentList?size>0)>
-                            <#list obj.ichMaster.contentFragmentList as cf>
-                                <#if (cf.attributeId == 111)>
-                                    <span class="auth"><#--UNESCO认证传承人-->
-                                        ${cf.content}
-                                    </span>
+                            <span class="auth">UNESCO认证传承人</span>
+                        </div>
+                        <#if (obj.ichProject?? && obj.ichProject.contentFragmentList?? && obj.ichProject.contentFragmentList?size>0)>
+                            <#list obj.ichProject.contentFragmentList as cf>
+                                <#if (cf.attributeId == 4 && cf.content??)>
+                                    <div class="item">
+                                        <span>所属项目：</span>
+                                        <strong><#--昆曲-->
+                                             ${cf.content}
+                                        </strong>
+                                    </div>
                                 </#if>
                             </#list>
                         </#if>
-
-                        </div>
-
-                        <div class="item">
-                            <span>所属项目：</span>
-                            <strong><#--昆曲-->
-                                <#if (obj.ichProject?? && obj.ichProject.contentFragmentList?? && obj.ichProject.contentFragmentList?size>0)>
-                                    <#list obj.ichProject.contentFragmentList as cf>
-                                        <#if (cf.attributeId == 4 && cf.content??)>
-                                            ${cf.content}
-                                        </#if>
-                                    </#list>
-                                </#if>
-                            </strong>
-                        </div>
                     </div>
                     <!--//End master-->
                 </div>
@@ -246,7 +242,7 @@
                         <img src="assets/uploads/detail_product_bg.jpg" alt="">-->
                         <#if (obj.contentFragmentList?? && obj.contentFragmentList?size>0)>
                             <#list obj.contentFragmentList as cf>
-                                <#if cf.attributeId == 25>
+                                <#if cf.attributeId == 25 && cf.resourceList?? && (cf.resourceList?size>0)>
                                     <#list cf.resourceList as r>
                                         <#if r.type == 0>
                                             <div class="item" data-type="0">
@@ -256,7 +252,7 @@
                                         <#if r.type == 1>
                                             <div class="item" data-type="1">
                                                 <span class="play play120"><i></i></span>
-                                                <video src="http://diich-resource.oss-cn-beijing.aliyuncs.com/video/video1.mp4"></video>
+                                                <video controls src="${r.uri}"></video>
                                             </div>
                                         </#if>
                                     </#list>
@@ -277,7 +273,7 @@
                         <ul>
                             <#if (obj.contentFragmentList?? && obj.contentFragmentList?size>0)>
                                 <#list obj.contentFragmentList as cf>
-                                    <#if cf.attribute.dataType == 5 || cf.attribute.dataType == 25>
+                                    <#if cf.resourceList?? && (cf.resourceList?size>0) && (cf.attribute.dataType == 5 || cf.attribute.dataType == 7)>
                                         <#list cf.resourceList as r>
                                             <#if r.type == 0>
                                                 <li data-type="0">
@@ -312,7 +308,7 @@
                         <ul>
                             <#if (obj.contentFragmentList?size>0)>
                                 <#list obj.contentFragmentList as cf>
-                                    <#if cf.attribute?? && cf.attribute.dataType==0 && cf.content?? && cf.attributeId != 26 && cf.attributeId != 28>
+                                    <#if cf.attribute?? && cf.attribute.dataType==0 && cf.content?? && cf.content != "" && cf.attributeId != 26 && cf.attributeId != 28>
                                         <li>
                                             <span class="key">${cf.attribute.cnName}：</span>
                                             <span class="value">${cf.content}</span>
@@ -330,33 +326,47 @@
 
         <#if (obj.contentFragmentList?? && obj.contentFragmentList?size>0)>
             <#list obj.contentFragmentList as cf>
-                <#if (cf.attribute.dataType == 5 && cf.resourceList?? && cf.resourceList?size>0) >
+                <#if cf.attribute?? && (cf.attribute.dataType == 5  && cf.resourceList?? && cf.resourceList?size>0) >
                     <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
                         <div class="card">
                             <header><h4>${cf.attribute.cnName} </h4></header>
                             <article class="text_img">
-                                <div class="side">
-                                    <div class="item">
-                                        <p>${cf.content?replace("\n","</p><p>")}</p>
+                                <#if cf.content?? && cf.content != "">
+                                    <div class="side" style="margin-right:30px;">
+                                        <div class="item">
+                                            <p>${cf.content?replace(" ","&nbsp;")?replace("\n","<br/>")}</p>
+                                        </div>
                                     </div>
-                                </div>
+                                </#if>
                                 <div class="media">
                                     <ul>
                                         <#list cf.resourceList as r>
                                             <li>
                                                 <#if r.type ==0>
-                                                    <img src="${r.uri}" alt="">
+                                                    <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
+                                                        <img src="${worksuri}${r.uri}" resource-id="${r.id?c}" alt="">
+                                                    </#if>
+                                                    <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
+                                                        <img src="${r.uri}" resource-id="${r.id?c}" alt="">
+                                                    </#if>
+
                                                     <#if r.description??>
                                                         <span>${r.description}</span>
                                                     </#if>
                                                 </#if>
+
                                                 <#if r.type ==1>
                                                     <div class="card_video">
-                                                        <div class="time">30:24</div>
-                                                        <div class="play"></div>
-                                                        <video poster="assets/uploads/exp2.png">
-                                                            <source style="width: 100%;" src="${r.uri}" type="video/mp4">
-                                                        </video>
+                                                        <#if !(r.uri?contains("${str}")) && !(r.uri?contains("${strs}"))>
+                                                            <video  controls src="${worksuri}${r.uri}" type="video/mp4" style="width:100%;max-height:277px;background: #000;">
+                                                            </video>
+                                                        </#if>
+                                                        <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
+                                                            <video controls  src="${r.uri}" resource-id="${r.id?c}" type="video/mp4" style="width:100%;max-height:277px;background: #000;">
+                                                            </video>
+                                                        </#if>
+
+
                                                     </div>
                                                     <#if r.description??>
                                                         <span>${r.description}</span>
@@ -368,9 +378,14 @@
                                             </li>
                                         </#list>
                                     </ul>
-                                    <#if (cf.resourceList?size > 2) >
+
+                                    <#if (cf.resourceList?size > 0) >
                                         <div class="more">
-                                            <a href="">查看完整图集<i class="arrow_right"></i></a>
+                                            <a class="albums arrow_right" data-id="${cf.id?c}" href="javascript:;">
+                                                <#if obj.lang == "chi">
+                                                    查看完整图集
+                                                </#if>
+                                            </a>
                                         </div>
                                     </#if>
                                 </div>

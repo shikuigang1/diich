@@ -223,6 +223,9 @@
                 </div>
                 <!--//End -->
                 <div class="detail_title">
+                <#if obj.type?? && obj.type == 1>
+                    <div class="icon-Official"></div>
+                </#if>
                 <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
                         <#if cf.attributeId == 132>

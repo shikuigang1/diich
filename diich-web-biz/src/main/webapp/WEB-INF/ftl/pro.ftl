@@ -265,6 +265,9 @@
                     <#if obj.lang == "eng">
                         <#assign cNid = 5/>
                     </#if>
+                        <#if obj.type?? && obj.type == 1>
+                            <div class="icon-Official"></div>
+                        </#if>
                         <h2 data-id="${cNid}" class="data-item title"><#if (obj.contentFragmentList?size>0)>
                             <#list obj.contentFragmentList as cf>
                                 <#if obj.lang == "chi">
