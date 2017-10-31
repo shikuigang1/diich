@@ -243,15 +243,30 @@
  <select id="selectCertifications" resultType="java.util.Map" parameterType="java.util.Map">
     select  tmp.id
 
-    , tmp.content, tmp.target_type from
+    , tmp.certTime, tmp.target_type,tmp.content_fragment_id,tmp.cname from
     (
-    select p.id,c.content,c.target_type from ich_project p LEFT JOIN content_fragment c on p.id =c.target_id  WHERE p.type = 1  and c.attribute_id = 138
+    select p.id, (select c.content from content_fragment c WHERE p.id =c.target_id  and c.attribute_id = 138) as certTime,0 as target_type,
+    (SELECT content FROM content_fragment c WHERE c.attribute_id=4 and p.id =c.target_id ) as cname ,
+    (SELECT c.id FROM content_fragment c WHERE c.attribute_id=1 and p.id =c.target_id ) as content_fragment_id
+    from ich_project p where p.type=1
+
     UNION
-    select m.id,c.content,c.target_type from ich_master m LEFT JOIN content_fragment c on m.id =c.target_id  WHERE m.type = 1  and c.attribute_id = 139
+    select m.id, (select c.content from content_fragment c WHERE m.id = c.target_id  and c.attribute_id = 139) as certTime,1 as target_type,
+    (SELECT content FROM content_fragment c WHERE c.attribute_id =10 and m.id =c.target_id ) as cname ,
+    (SELECT c.id FROM content_fragment c WHERE c.attribute_id=13 and m.id = c.target_id ) as content_fragment_id
+    from ich_master m where m.type = 1
+
     UNION
-    select w.id,c.content,c.target_type from works w LEFT JOIN content_fragment c on w.id =c.target_id  WHERE w.type = 1  and c.attribute_id = 140
+    select w.id, (select c.content from content_fragment c WHERE w.id =c.target_id  and c.attribute_id = 140) as certTime,2 as target_type,
+    (SELECT content FROM content_fragment c WHERE c.attribute_id=25 and w.id =c.target_id ) as cname ,
+    (SELECT c.id FROM content_fragment c WHERE c.attribute_id=28 and w.id =c.target_id ) as content_fragment_id
+    from works w where w.type=1
+
     UNION
-    select o.id,c.content,c.target_type from organization o LEFT JOIN content_fragment c on o.id =c.target_id  WHERE o.type = 1  and c.attribute_id = 141
-    ) as tmp ORDER BY tmp.content desc limit #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+    select o.id, (select c.content from content_fragment c WHERE o.id = c.target_id  and c.attribute_id = 141) as certTime,3 as target_type,
+    (SELECT c.content FROM content_fragment c WHERE c.attribute_id=132 and o.id =c.target_id ) as cname ,
+    (SELECT c.id FROM content_fragment c WHERE c.attribute_id=136 and o.id =c.target_id ) as content_fragment_id
+    from organization o where o.type=1
+    ) as tmp ORDER BY tmp.certTime desc limit #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
   </select>
 </mapper>

@@ -1,10 +1,12 @@
 package com.diich.service.impl;
 
-import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.exception.ApplicationException;
+import com.diich.core.model.ContentFragmentResource;
+import com.diich.core.model.Resource;
 import com.diich.core.service.CertificationService;
+import com.diich.mapper.ContentFragmentResourceMapper;
 import com.diich.mapper.IchProjectMapper;
-import org.apache.ibatis.session.RowBounds;
+import com.diich.mapper.ResourceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,10 @@ public class CertificationServiceImpl implements CertificationService {
 
     @Autowired
     private IchProjectMapper ichProjectMapper;
+    @Autowired
+    private ContentFragmentResourceMapper contentFragmentResourceMapper;
+    @Autowired
+    private ResourceMapper resourceMapper;
 
     @Override
     public List<Map> getCertifications(Integer pageNum, Integer pageSize) throws Exception {
@@ -31,6 +37,16 @@ public class CertificationServiceImpl implements CertificationService {
         List<Map> certificationList= null;
         try{
             certificationList= ichProjectMapper.selectCertifications(map);
+            for (Map objMap :certificationList) {
+                if(objMap.get("content_fragment_id") != null){
+                    Long contentFragmentId = (Long) objMap.get("content_fragment_id");
+                    Resource resource = resourceMapper.selectByContentFramentID(contentFragmentId);
+                    if(resource != null){
+                        objMap.put("img",resource.getUri());
+                    }
+
+                }
+            }
         }catch (Exception e){
             e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
