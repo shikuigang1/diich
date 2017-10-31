@@ -326,6 +326,27 @@
         </div>
         <!--//End--非遗资讯-->
 
+        <div class="bd protect" id="protect">
+            <div class="home_title">
+                <h3>非遗保护计划</h3>
+            </div>
+            <div class="product">
+                <ul id ="protectList">
+
+                </ul>
+            </div>
+            <div class="handle">
+                <div class="icons">
+                    <div class="link prev active"></div>
+                    <div class="link next"></div>
+                </div>
+            </div>
+            <div class="more">
+                <a href="/page/protect/protect.html">查看全部100家授牌企业</a>
+            </div>
+        </div>
+
+
         <div class="bd project">
             <div class="content">
                 <div class="part">
@@ -399,8 +420,6 @@
 
      })();
 
-
-
      $('.certificate').on('click', function () {
          var str = '<div class="modal_video" style="display: none;">' +
              '<div class="content">' +
@@ -420,6 +439,56 @@
      });
 
      lang_en();
+
+     //非遗保护计划
+     (function () {
+         //初始化非遗保护数据
+         initIchProtectData()
+
+         var obj=$('#protect');
+         var ul=obj.find('ul');
+         var li=ul.find('li');
+         var liLen=li.length;
+         var liWidth=li.outerWidth(true);
+         var ulWidth=liWidth * liLen;
+
+         var handle=obj.find('.handle');
+         var prev=handle.find('.prev');
+         var next=handle.find('.next');
+
+         var pageSize=(liLen % 4)-1; //总页数
+         var pageIndex=0; //当前页面索引
+         var ulOffset=liWidth * 4; //滚动距离
+
+         //1.计算宽度
+         ul.css('width',ulWidth+'px')
+
+         //2.如果产品的数量少于5个 轮播按钮去掉
+         if(liLen < 4){
+             handle.hide();
+         }
+
+         //3.点击下一页
+         next.on('click',function () {
+             pageIndex++;
+             if(pageIndex >= pageSize){
+                 pageIndex=pageSize;
+                 ul.stop(true).animate({'margin-left':-ulOffset*pageIndex+'px'},500)
+                 $(this).addClass('active').siblings('.link').removeClass('active');
+             }
+         });
+
+         //4.点击上一页
+         prev.on('click',function () {
+             pageIndex--;
+             if(pageIndex <= 0){
+                 pageIndex=0;
+                 ul.stop(true).animate({'margin-left':ulOffset*pageIndex+'px'},500)
+                 $(this).addClass('active').siblings('.link').removeClass('active');
+             }
+         });
+     })();
+
  });
  
  function submitForm(index){
@@ -433,7 +502,6 @@
 
  }
 
-
 function lang_en(){
     var _src=$(".avatar").attr('src');
     if(_src == "" || _src == null){
@@ -441,6 +509,56 @@ function lang_en(){
     }
 }
 
+function initIchProtectData() {
+    $.ajax({
+        type: 'post',
+        url: '/certification/getCertifications',
+        data: {'pageNum':1,"pageSize":8},
+        dataType: 'json',
+        async:false ,
+        success: function(data) {
+            if(data.code==0 && data.total >0 ){
+                var html="";
+                $.each(data.data,function (i,item) {
+                    if(item.target_type==0 ){
+                        html+="<li><a href='http://project.diich.com/p/"+item.id+".html?lang"+getLang()+"&random="+Math.random()+"'>";
+                    }else if(item.target_type==1){
+                        html+="<li><a href='http://inheritor.diich.com/m/"+item.id+".html?lang"+getLang()+"&random="+Math.random()+"'>";
+                    }else if(item.target_type==2){
+                        html+="<li><a href='http://works.diich.com/w/"+item.id+".html?lang"+getLang()+"&random="+Math.random()+"'>";
+                    }else{
+                        html+="<li><a href='http://organization.diich.com/o/"+item.id+".html?lang"+getLang()+"&random="+Math.random()+"'>";
+                    }
+                    if(item.img== null || typeof (item.img) == "undefined"){
+                        html+="<img width=\"\" height=\"\" src=\"../assets/images/headsmall.png\" alt=\"\"></a>"
+                    }else {
+                        if (item.target_type == 0) {
+                            html += "<img width=\"\" height=\"\" src=\"http://resource.efeiyi.com/image/project/" + item.img + "?x-oss-process=style/search-result-list-image\" alt=\"\"></a>"
+                        } else if (item.target_type == 1) {
+                            html += "<img width=\"\" height=\"\" src=\"http://resource.efeiyi.com/image/master/" + item.img + "?x-oss-process=style/search-result-list-image\" alt=\"\"></a>"
+                        } else if (item.target_type == 2) {
+                            html += "<img width=\"\" height=\"\" src=\"http://resource.efeiyi.com/image/works/" + item.img + "?x-oss-process=style/search-result-list-image\" alt=\"\"></a>"
+                        } else {
+                            html += "<img width=\"\" height=\"\" src=\"http://resource.efeiyi.com/image/organization/" + item.img + "?x-oss-process=style/search-result-list-image\" alt=\"\"></a>"
+                        }
+                    }
+                    html +="<p class=\"name\">"+item.cname+"</p><p><i class=\"icon\"></i></p></li>";
+                });
+                $("#protectList").empty();
+                $("#protectList").append(html);
+            }else{
+                $("#protect").hide();
+                $("#protectList").empty();
+            }
+        },
+        error: function () {
+
+        },
+        complete: function () {
+
+        }
+    });
+}
 
 
 </script>
