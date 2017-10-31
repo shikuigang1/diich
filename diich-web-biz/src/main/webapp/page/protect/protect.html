@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>精选内容</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/logo.png" media="screen">
+    <link rel="stylesheet" href="../../assets/css/common.css">
+    <link rel="stylesheet" href="../../assets/css/layout.css">
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/system.js"></script>
+    <script src="../../assets/js/utils.js"></script>
+    <script src="../../assets/js/login.js"></script>
+
+</head>
+
+<body style="background-color: rgb(245, 246, 247)">
+
+<div class="container">
+    <div class="header header_detail"></div>
+    <!--//End header -->
+    <div class="filter_search filter_search_fixed">
+        <div class="content">
+            <form class="form" action="http://diich.efeiyi.com/page/search.html">
+                <input class="ipt" type="text" id="keyword" name="keyword" value="" autocomplete="off">
+                <input type="hidden" id="area_code" name="area_code" value=""/>
+                <input type="hidden" id="gb_category_code" name="gb_category_code" value=""/>
+                <input type="hidden" id="type" name="type" value=""/>
+                <input class="submit" type="button" value="搜索" onclick="submit()">
+                <div class="suggest" style="display: none;">
+                    <ul>
+
+                    </ul>
+                </div>
+            </form>
+            <!--//End form-->
+
+            <div class="attr">
+                <span id="attr_text">所属类别</span>
+                <span id="area_text">全球</span>
+            </div>
+            <!--//End attribute-->
+
+            <div class="dropbox" id="drag">
+                <!--//ENd 全部-->
+
+                <div class="item" id="item_1">
+                    <dl class="level">
+                        <dt>
+                            <div class="title">一级分类</div>
+                            <div class="subtitle">所有分类</div>
+                        </dt>
+                        <dd>
+                            <ul id="mainCategory">
+
+                            </ul>
+                        </dd>
+                    </dl>
+                    <dl class="level2">
+                        <dt>
+                            <div class="title">二级分类</div>
+                            <div class="subtitle">所有二级分类</div>
+                        </dt>
+                        <dd>
+                            <ul id="catecontent">
+
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <!--//End 所属分类-->
+
+                <div class="item">
+                    <dl class="level">
+                        <dt>
+                            <div class="title">位置</div>
+                        </dt>
+                        <dd>
+                            <ul>
+                                <li>中国</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                    <dl class="level2">
+                        <dt>
+                            <div class="title">按照字母顺序</div>
+                        </dt>
+                        <dd>
+                            <ul id="citycontent">
+                                <li>安微</li>
+                                <li>澳门</li>
+                                <li>北京</li>
+                                <li>上海</li>
+                                <li>福建</li>
+                                <li>甘肃</li>
+                                <li>广东</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <!--//End 位置-->
+
+            </div>
+            <!--//End attribute-->
+        </div>
+    </div>
+    <!--//End filter_search -->
+
+    <div class="wonderful">
+
+        <div class="conbox">
+            <div class="content">
+                <div class="head">
+                    <h1>非遗保护计划</h1>
+                    <div class="desc">诚品宝是由恋火锅教科文组织、中国非遗物质遗产保护协会授权由国际非遗大数据看DIICH推行针对非遗商品大枣的防伪溯源体系，将商品的创意、创作、物流、销售等环节的各类信息进行查询。</div>
+                </div>
+                <!--//End-->
+
+                <div class="directory">
+                    <div class="section">
+                        <div class="pro_column3" id="protect">
+                            <input type="hidden" value="0" id="pageTotal"/>
+                            <input type="hidden" value="1" id="pageNum"/>
+                            <input type="hidden" value="6" id="pageSize"/>
+                            <ul id="products">
+
+                            </ul>
+                        </div>
+                        <div class="load_more">
+                            <a href="javascript:loadMore();">Load More</a>
+                        </div>
+                    </div>
+                    <!-- 项目 end -->
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="bd footer"></div>
+    <!--//End--footer-->
+
+    <div class="modal_video" style="display: none;">
+        <div class="content">
+
+        </div>
+        <div class="overbg0"></div>
+    </div>
+
+</div>
+
+
+</body>
+<script>
+    $(function () {
+        $('.header .content .nav li').removeClass('active');
+        //精选页面
+        common.slide(); //轮播图
+        //初始化列表数据
+        initIchProtectData($("#pageNum").val(),$("#pageSize").val());
+    });
+
+    function initIchProtectData(pageNum,pageSize) {
+        $.ajax({
+            type: 'post',
+            url: '/certification/getCertifications',
+            data: {'pageNum':pageNum,"pageSize":pageSize},
+            dataType: 'json',
+            async:false ,
+            success: function(data) {
+                if(data.code==0 && data.total >0 && data.data.length > 0 ){
+                    var html="";
+                    $.each(data.data,function (i,item) {
+                        if(item.target_type==0 ){
+                            html+="<li><p class=\"pic\"><a href='http://project.diich.com/p/"+item.id+".html?lang"+getLang()+"&random="+Math.random()+"'>";
+                        }else if(item.target_type==1){
+                            html+="<li ><p class=\"pic\"><a href='http://inheritor.diich.com/m/"+item.id+".html?lang"+getLang()+"&random="+Math.random()+"'>";
+                        }else if(item.target_type==2){
+                            html+="<li ><p class=\"pic\"><a href='http://works.diich.com/w/"+item.id+".html?lang"+getLang()+"&random="+Math.random()+"'>";
+                        }else{
+                            html+="<li ><p class=\"pic\"><a href='http://organization.diich.com/o/"+item.id+".html?lang"+getLang()+"&random="+Math.random()+"'>";
+                        }
+                        if(item.img== null || typeof (item.img) == "undefined"){
+                            html+="<img width=\"\" height=\"\" src=\"../../assets/images/headsmall.png\" alt=\"\"></a>"
+                        }else {
+                            if (item.target_type == 0) {
+                                html += "<img  src=\"http://resource.efeiyi.com/image/project/" + item.img + "?x-oss-process=style/search-result-list-image\" alt=\"\"></a>"
+                            } else if (item.target_type == 1) {
+                                html += "<img  src=\"http://resource.efeiyi.com/image/master/" + item.img + "?x-oss-process=style/search-result-list-image\" alt=\"\"></a>"
+                            } else if (item.target_type == 2) {
+                                html += "<img  src=\"http://resource.efeiyi.com/image/works/" + item.img + "?x-oss-process=style/search-result-list-image\" alt=\"\"></a>"
+                            } else {
+                                html += "<img  src=\"http://resource.efeiyi.com/image/organization/" + item.img + "?x-oss-process=style/search-result-list-image\" alt=\"\"></a>"
+                            }
+                        }
+                        html +="</p>";
+                        var name = "";
+                        if(item.cname!= null && typeof (item.cname)!= "undefined" ){
+                            name=item.cname;
+                        }
+
+                        html+="<div class=\"context\"><h4>"+name+"</h4><p><i class=\"icon-Official\"></i></p></li>";
+                    });
+                    //$("#protectList").empty();
+                    $("#products").append(html);
+                    $("#pageNum").val(pageNum);
+                    $("#pageTotal").val(data.total);
+                }
+                //是否显示loadMore 按钮
+                if((data.total-pageNum*$("#pageSize").val()) <= 0 ){
+                    $(".load_more").hide();
+                }
+
+            },
+            error: function () {
+
+            },
+            complete: function () {
+
+            }
+        });
+    }
+
+    function  loadMore() {
+        var total = $("#pageTotal").val();
+        var pageNum = $("#pageNum").val();
+        initIchProtectData(parseInt(pageNum)+1,$("#pageSize").val());
+    }
+</script>
+
+</html>
