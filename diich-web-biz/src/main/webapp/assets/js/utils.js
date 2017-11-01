@@ -839,5 +839,10 @@ var upload00={
 };
 
 $(function () {
+    document.oncontextmenu=new Function("event.returnValue=false;");
+    document.onselectstart=new Function("event.returnValue=false;");
+    document.onkeydown=function(){
+        if(event.ctrlKey)return false;
+    }
     searchPage.init();
 });
