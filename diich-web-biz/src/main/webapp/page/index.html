@@ -445,48 +445,7 @@
          //初始化非遗保护数据
          initIchProtectData()
 
-         var obj=$('#protect');
-         var ul=obj.find('ul');
-         var li=ul.find('li');
-         var liLen=li.length;
-         var liWidth=li.outerWidth(true);
-         var ulWidth=liWidth * liLen;
 
-         var handle=obj.find('.handle');
-         var prev=handle.find('.prev');
-         var next=handle.find('.next');
-
-         var pageSize=(liLen % 4)-1; //总页数
-         var pageIndex=0; //当前页面索引
-         var ulOffset=liWidth * 4; //滚动距离
-
-         //1.计算宽度
-         ul.css('width',ulWidth+'px')
-
-         //2.如果产品的数量少于5个 轮播按钮去掉
-         if(liLen < 4){
-             handle.hide();
-         }
-
-         //3.点击下一页
-         next.on('click',function () {
-             pageIndex++;
-             if(pageIndex >= pageSize){
-                 pageIndex=pageSize;
-                 ul.stop(true).animate({'margin-left':-ulOffset*pageIndex+'px'},500)
-                 $(this).addClass('active').siblings('.link').removeClass('active');
-             }
-         });
-
-         //4.点击上一页
-         prev.on('click',function () {
-             pageIndex--;
-             if(pageIndex <= 0){
-                 pageIndex=0;
-                 ul.stop(true).animate({'margin-left':ulOffset*pageIndex+'px'},500)
-                 $(this).addClass('active').siblings('.link').removeClass('active');
-             }
-         });
      })();
 
  });
@@ -544,8 +503,81 @@ function initIchProtectData() {
                     }
                     html +="<p class=\"name\">"+item.cname+"</p><p><i class=\"icon\"></i></p></li>";
                 });
-                $("#protectList").empty();
+
                 $("#protectList").append(html);
+
+                var obj=$('#protect');
+                var ul=obj.find('ul');
+                var li=ul.find('li');
+                var liLen=li.length;
+                var liWidth=li.outerWidth(true);
+                var ulWidth=liWidth * liLen;
+
+                var handle=obj.find('.handle');
+                var prev=handle.find('.prev');
+                var next=handle.find('.next');
+
+                var pageSize=Math.ceil((liLen / 4)) ; //总页数
+                var pageIndex=1; //当前页面索引
+                var ulOffset=liWidth * 4; //滚动距离
+
+                //1.计算宽度
+                ul.css('width',ulWidth+'px')
+
+                console.log(ul.position().left)
+
+                //2.如果产品的数量少于5个 轮播按钮去掉
+                if(liLen <= 4){
+                    handle.hide();
+                }else{
+                    //初始化 左右按钮 状态
+                    if(!prev.hasClass("active")){
+                        prev.addClass("active")
+                    }
+                    if(next.hasClass("active")){
+                        next.removeClass("active")
+                    }
+                }
+                var margin_left = 0;
+                //3.点击下一页
+                next.on('click',function () {
+                    //pageIndex++;
+                    if(pageIndex < pageSize){
+                        margin_left = margin_left-ulOffset;
+                        ul.animate({'margin-left':margin_left+'px'},500)
+                        pageIndex++;
+                        if(pageIndex == pageSize){
+                            $(this).addClass('active');
+                        }
+                            if($(this).siblings('.link').hasClass("active")){
+                                $(this).siblings('.link').removeClass('active');
+                            }
+                        console.log(ul.position().left);
+                    }else {
+                        //pageIndex=pageSize;
+                    }
+
+                });
+
+                //4.点击上一页
+                prev.on('click',function () {
+                    if(pageIndex >1 ){
+                        margin_left = margin_left+ulOffset;
+                        ul.animate({'margin-left':margin_left+'px'},500);
+                        pageIndex--;
+                        if(pageIndex == 1 ){
+                            $(this).addClass('active')
+                        }
+                        if(pageSize > pageIndex &&  $(this).siblings('.link').hasClass('active')) {
+                            $(this).siblings('.link').removeClass('active');
+                        }
+                    }else {
+                        //pageIndex=1;
+                    }
+
+                });
+
+
             }else{
                 $("#protect").hide();
                 $("#protectList").empty();
