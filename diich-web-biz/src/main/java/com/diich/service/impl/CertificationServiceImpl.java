@@ -38,6 +38,7 @@ public class CertificationServiceImpl implements CertificationService {
         try{
             certificationList= ichProjectMapper.selectCertifications(map);
             for (Map objMap :certificationList) {
+                objMap.put("id",String.valueOf(objMap.get("id")));
                 if(objMap.get("content_fragment_id") != null){
                     Long contentFragmentId = (Long) objMap.get("content_fragment_id");
                     Resource resource = resourceMapper.selectByContentFramentID(contentFragmentId);
