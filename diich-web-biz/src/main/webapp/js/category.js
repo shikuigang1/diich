@@ -573,7 +573,7 @@ var category_all=[
         ],
         "gbCategory": "D",
         "id": "55",
-        "name": "有关自然界和宇宙的知识和实践",
+        "name": "自然界和宇宙的知识和实践",
         "eNname": "The practice of nature and universe",
         "parentId": "0",
         "status": "1"
