@@ -302,7 +302,7 @@ var common = {
         var cur = 0;
         var speed = 5000;
         var timer = null;
-        var _value = ['苏州刺绣技艺', '探戈', '瑜伽', '法国传统马术'];
+        var _value = ['苏州刺绣技艺', 'Tango', 'Yoga', 'Equitation'];
         var _value_en = ['Embroidery', 'Tango', 'Yoga', 'Equitation'];
 
         numLi.mousedown(function () {
