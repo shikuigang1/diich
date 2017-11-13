@@ -83,6 +83,7 @@
     <style>
         br{line-height:36px;}
         .drop_menu .content .item dl br {line-height: 20px;}
+        .detail_title .edit{top:-50px}
     </style>
 </head>
 

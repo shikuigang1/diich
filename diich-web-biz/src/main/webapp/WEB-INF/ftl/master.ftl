@@ -39,6 +39,7 @@
         .card .plain_text,.card .text_img .side {
             word-wrap: break-word;
         }
+        .detail_title .edit{top:-50px}
     </style>
     <script src="${caturi}/js/base-url.js"></script>
 
