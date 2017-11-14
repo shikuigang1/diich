@@ -7,11 +7,12 @@
     <link rel="shortcut icon" type="image/x-icon" href="../assets/images/logo.png" media="screen">
     <link rel="stylesheet" href="../assets/css/common.css">
     <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../css/aliplayer.css">
     <!--[if IE]>
     <link rel="stylesheet" href="../../assets/css/ie.css">
     <script src="../../assets/jsml5.js"></script>
     <![endif]-->
-    <link href="../css/video-js.css" rel="stylesheet">
+
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../js/category.js"></script>
     <script src="../js/citys.js"></script>
@@ -19,8 +20,7 @@
     <script src="../js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="../js/i18n.js"></script>
     <script src="../assets/js/utils.js"></script>
-    <script src="../js/video.min.js"></script>
-    <script src="../js/jwplayer.js"></script>
+    <script src="../js/aliplayer-min.js"></script>
     <script src="../assets/js/login.js"></script>
     <style>
         .wonderful .slider {
@@ -56,7 +56,6 @@
         }
 
         .modal_video .content {
-            width: 800px;
             height: 400px;
             position: absolute;
             top: 50%;
@@ -301,36 +300,28 @@
             var el = $('.play_big');
             var content = modal.find('.content');
 
-            /*var video_template =
-                    '<video id="my-video" class="video-js" controls preload="none" width="800" height="400" data-setup="{}">' +
-                        '<source src="" type="video/mp4">' +
-                    '</video>';*/
+            var video_template = '<div id="J_prismPlayer"></div>';
 
-            var video_template = '<div id="player"></div>';
-
-            //var myPlayer = null;
             el.on('click', function () {
                 var data_uri = $(this).attr('data-uri');
                 content.append(video_template);
                 modal.fadeIn(200);
 
-                /*myPlayer = videojs('my-video', {}, function () {
-                    myPlayer.src(data_uri);
-                    myPlayer.load(data_uri);
-                    myPlayer.play();
-                });*/
-
-                jwplayer('player').setup({
-                    flashplayer: '../js/player.swf',
-                    file: data_uri,
-                    streamer: 'rtmp://123.57.250.114:1935/oflaDemo',
-                    width: 800,
-                    height: 480,
-                    autostart: true
+                var player = new Aliplayer({
+                    id: "J_prismPlayer",
+                    autoplay: true,
+                    isLive:false,
+                    playsinline:true,
+                    width:"666px",
+                    height:"400px",
+                    //controlBarVisibility:"always",
+                    useH5Prism:false,
+                    useFlashPrism:false,
+                    source:"http://diich-resource.oss-cn-beijing.aliyuncs.com/video/" + data_uri,
+                    cover:""
                 });
             });
             $('.overbg0').on('click', function () {
-                //myPlayer.dispose();
                 modal.fadeOut();
                 content.children().remove();
             });
