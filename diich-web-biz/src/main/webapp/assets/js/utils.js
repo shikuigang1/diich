@@ -839,10 +839,18 @@ var upload00={
 };
 
 $(function () {
-    document.oncontextmenu=new Function("event.returnValue=false;");
-    document.onselectstart=new Function("event.returnValue=false;");
-    document.onkeydown=function(){
+    //document.oncontextmenu=new Function("event.returnValue=false;");
+    //document.onselectstart=new Function("event.returnValue=false;");
+
+    //document.oncontextmenu = function(){ return false; };
+    document.onselectstart = function(){ return false; };
+    document.oncopy = function(){ return false; };
+    document.oncut = function(){ return false; };
+
+    //document.onpaste = function(){ return false; };
+
+    /*document.onkeydown=function(){
         if(event.ctrlKey)return false;
-    }
+    }*/
     searchPage.init();
 });
