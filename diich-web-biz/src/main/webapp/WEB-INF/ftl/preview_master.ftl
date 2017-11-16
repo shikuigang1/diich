@@ -18,6 +18,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="${caturi}/assets/images/logo.png" media="screen" />
     <link rel="stylesheet" href="${caturi}/assets/css/common.css">
     <link rel="stylesheet" href="${caturi}/assets/css/layout.css">
+    <link rel="stylesheet" href="${caturi}/css/master-edit.css">
     <!--[if IE]>
     <link rel="stylesheet" href="${caturi}/assets/css/ie.css">
     <script src="${caturi}/assets/js/html5.js"></script>
