@@ -132,8 +132,6 @@ function searchDataFromServer(is_show_progress) {
             is_show_progress == false ? 0 : progress.start();
         },
         success: function(data) {
-
-            console.log(data);
             buildSearchResultUi(data);
         },
         error: function () {
@@ -202,11 +200,11 @@ function buildSearchResultUi(data) {
     var array = data.data;
     for(var i = 0; i < array.length; i ++) {
         var $ui = null;
-        if(array[i].type == 0) {
+        if(array[i].targetType == 0) {
             $ui = fillProjectData(array[i], template);
-        } else if(array[i].type == 1) {
+        } else if(array[i].targetType == 1) {
             $ui = fillMasterData(array[i], template);
-        } else if(array[i].type == 2) {
+        } else if(array[i].targetType == 2) {
             //作品
         }
 
@@ -302,11 +300,11 @@ function fillCommonByContentList(object, type, attrMap, $ui) {
             if($(_attr).hasClass('head-image')) {
                 $ui.find('#' + attr_name).attr('src', map[attr_name]);
                 $ui.find('#' + attr_name).parent().attr('href','http://'+ target_type +'.diich.com/'+ type.substring(0,1)+'/'+
-                    object.id +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
+                    object.targetId +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
             } else if($(_attr).is('a')) {
                 $ui.find('#' + attr_name).html(map[attr_name]);
                 $ui.find('#' + attr_name).attr('href', 'http://' + target_type + '.diich.com/'+ type.substring(0,1)+'/'+
-                    object.id +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
+                    object.targetId +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
             } else {
                 var $div = $('<div></div>');
                 $div.html(map[attr_name]);
