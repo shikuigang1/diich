@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class IchObject extends BaseModel{
 
-    private Long id;
-    private int type;
+    private Long targetId;
+    private int targetType;
     protected List<ContentFragment> contentFragmentList;
 
     public List<ContentFragment> getContentFragmentList() {
@@ -39,20 +39,19 @@ public class IchObject extends BaseModel{
         contentFragmentList.add(contentFragment);
     }
 
-    public Long getId() {
-        return id;
+    public Long getTargetId() {
+        return targetId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setTargetId(Long targetId) {
+        this.targetId = targetId;
     }
 
-    public int getType() {
-        return type;
+    public int getTargetType() {
+        return targetType;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setTargetType(int targetType) {
+        this.targetType = targetType;
     }
-
 }

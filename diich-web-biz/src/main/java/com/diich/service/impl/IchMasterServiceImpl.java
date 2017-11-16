@@ -45,6 +45,8 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     @Autowired
     private WorksService worksService;
     @Autowired
+    private WorksMapper worksMapper;
+    @Autowired
     private ContentFragmentService contentFragmentService;
     @Autowired
     private VersionMapper versionMapper;
@@ -215,11 +217,16 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             }
             String str = PropertiesUtil.getString("freemarker.masterfilepath");
             String fileName = str+"/"+ichMaster.getId().toString() + ".html";
-            String s = buildHTML("master.ftl", ichMaster, fileName);//生成静态页面
+            buildHTML("master.ftl", ichMaster, fileName);//生成静态页面
+            String h5outPutPath = PropertiesUtil.getString("freemarker.h5_masterfilepath")+"/"+ichMaster.getId().toString()+".html";
+            buildHTML("h5_master.ftl",ichMaster,h5outPutPath);
             String bucketName = PropertiesUtil.getString("img_bucketName");
             String type = PropertiesUtil.getString("pc_mhtml_server");
             File file = new File(fileName);
             SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichMaster.getId()+".html",file.length());//上传到阿里云
+            String h5type = PropertiesUtil.getString("m_mhtml_server");
+            File h5file = new File(h5outPutPath);
+            SimpleUpload.uploadFile(new FileInputStream(h5file),bucketName,h5type+"/"+ichMaster.getId()+".html",h5file.length());//上传到阿里云
         }
         return ichMaster;
     }
@@ -227,10 +234,15 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         String str = PropertiesUtil.getString("freemarker.projectfilepath");
         String fileName = str+"/"+ichProject.getId().toString() + ".html";
         ichProjectService.buildHTML("pro.ftl", ichProject, fileName);//生成静态页面
+        String h5outPutPath = PropertiesUtil.getString("freemarker.h5_projectfilepath")+"/"+ichProject.getId()+".html";
+        ichProjectService.buildHTML("h5_pro.ftl", ichProject, h5outPutPath);
         String bucketName = PropertiesUtil.getString("img_bucketName");
         String type = PropertiesUtil.getString("pc_phtml_server");
         File file = new File(fileName);
         SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichProject.getId()+".html",file.length());//上传到阿里云
+        String h5type = PropertiesUtil.getString("m_phtml_server");
+        File h5file = new File(h5outPutPath);
+        SimpleUpload.uploadFile(new FileInputStream(h5file),bucketName,h5type+"/"+ichProject.getId()+".html",h5file.length());//上传到阿里云
     }
     private IchMaster getAttribute(IchMaster ichMaster) throws Exception{
         List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
@@ -441,6 +453,35 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         return i;
+    }
+
+    @Override
+    public List<IchMaster> getIchMaster(String masterName, String worksName) throws Exception {
+        List<IchMaster> ichMasterList = new ArrayList<>();
+        List<Works> wList = null;
+        try{
+            if(StringUtils.isNotEmpty(masterName)){
+                List<IchMaster> ichMasters = ichMasterMapper.selectMasterByName(masterName);
+                for ( IchMaster ichMaster :ichMasters) {
+                    ichMaster = getIchMaster(String.valueOf(ichMaster.getId()));
+                    ichMasterList.add(ichMaster);
+                }
+            }
+            if(StringUtils.isEmpty(masterName) && StringUtils.isNotEmpty(worksName)){
+                wList = worksMapper.selectWorksByName(worksName);
+                for (Works works : wList) {
+                    if(works.getIchMasterId() == null){
+                        continue;
+                    }
+                    IchMaster ichMaster = getIchMaster(String.valueOf(works.getIchMasterId()));
+                    ichMasterList.add(ichMaster);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return ichMasterList;
     }
 
     /**

@@ -100,6 +100,9 @@ function loadProperties(language){
 
 			//首页轮播
 			$('#b_opera').text($.i18n.prop('b_opera'));
+			$('#k_opera').text($.i18n.prop('k_opera'));
+			$('#c_embroidery').text($.i18n.prop('c_embroidery'));
+			$('#j_medicine').text($.i18n.prop('j_medicine'));
 
             //非遗在全球
 			$('#t_total').text($.i18n.prop('t_total'));

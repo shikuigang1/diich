@@ -134,10 +134,15 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             String str = PropertiesUtil.getString("freemarker.organizationfilepath");
             String fileName = str+"/"+organization.getId().toString() + ".html";
             String s = buildHTML("organization.ftl", organization, fileName);//生成静态页面
+//            String h5outPutPath = PropertiesUtil.getString("freemarker.h5_organizationfilepat")+"/"+organization.getId().toString()+".html";
+//            buildHTML("h5_organization.ftl",organization,h5outPutPath);
             String bucketName = PropertiesUtil.getString("img_bucketName");
             String type = PropertiesUtil.getString("pc_ohtml_server");
             File file = new File(fileName);
             SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+organization.getId()+".html",file.length());//上传到阿里云
+//            String h5type = PropertiesUtil.getString("m_ohtml_server");
+//            File h5file = new File(h5outPutPath);
+//            SimpleUpload.uploadFile(new FileInputStream(h5file),bucketName,h5type+"/"+organization.getId()+".html",h5file.length());//上传到阿里云
         }
     }
 

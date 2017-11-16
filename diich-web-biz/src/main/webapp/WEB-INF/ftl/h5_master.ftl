@@ -2,8 +2,8 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <#assign caturi="http://diich.efeiyi.com" />
-    <#assign h5uri="http://diich.efeiyi.com/lntang" />
+    <#assign caturi="http://diich.com" />
+    <#assign h5uri="http://diich.com/lntang" />
     <title>
     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
        <#list obj.contentFragmentList as cf>
@@ -208,7 +208,7 @@
                         <#list obj.worksList as work>
                             <#if (work.contentFragmentList??) && (work.contentFragmentList?size>0)>
                                 <#list work.contentFragmentList as cf>
-                                    <#if cf.resourceList?? && cf.resourceList?size>0>
+                                    <#if cf.resourceList?? && (cf.resourceList?size>0)>
                                         <#list cf.resourceList as res>
                                             <#if res?? && res.type == 0 && res.uri?? &&res.uri != "">
                                                 <div class="swiper-slide">

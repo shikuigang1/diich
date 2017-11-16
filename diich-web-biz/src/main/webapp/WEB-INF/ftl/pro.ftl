@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://diich.efeiyi.com" />
+<#assign caturi="http://diich.com" />
 <#--<#assign caturi="http://47.95.32.236/" />-->
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
@@ -83,6 +83,7 @@
     <style>
         br{line-height:36px;}
         .drop_menu .content .item dl br {line-height: 20px;}
+        .detail_title .edit{top:-50px}
     </style>
 </head>
 
@@ -176,8 +177,8 @@
 </div>
 <!--//End filter_search -->
 <!--//End filter_search -->
-<#assign masterpage = "http://inheritor.efeiyi.com/m/"/>
-<#assign workspage = "http://works.efeiyi.com/w/"/>
+<#assign masterpage = "http://inheritor.diich.com/m/"/>
+<#assign workspage = "http://works.diich.com/w/"/>
 <#assign prouri="http://resource.efeiyi.com/image/project/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
 <#assign worksuri="http://resource.efeiyi.com/image/works/" />
@@ -265,6 +266,9 @@
                     <#if obj.lang == "eng">
                         <#assign cNid = 5/>
                     </#if>
+                        <#if obj.type?? && obj.type == 1>
+                            <div class="icon-Official"></div>
+                        </#if>
                         <h2 data-id="${cNid}" class="data-item title"><#if (obj.contentFragmentList?size>0)>
                             <#list obj.contentFragmentList as cf>
                                 <#if obj.lang == "chi">

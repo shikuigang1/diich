@@ -7,6 +7,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="../assets/images/logo.png" media="screen">
     <link rel="stylesheet" href="../assets/css/common.css">
     <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../css/aliplayer.css">
 
     <!--[if IE]>
     <link rel="stylesheet" href="../../assets/css/ie.css">
@@ -20,8 +21,7 @@
     <script src="../assets/js/utils.js"></script>
     <script src="../js/jquery.i18n.properties-1.0.9.js"></script>
     <script src="../js/i18n.js"></script>
-    <script src="../js/video.min.js"></script>
-    <script src="../js/jwplayer.js"></script>
+    <script src="../js/aliplayer-min.js"></script>
     <script src="../assets/js/login.js"></script>
 
     <style>
@@ -174,7 +174,6 @@
 
                             <div class="rbox">
                                 <div class="video">
-                                    <!--<span class="play play120" data-uri="../resource/getResourceUri?fileName=%E8%81%94%E5%90%88%E5%9B%BD%E6%95%99%E8%AF%BE%E6%96%87%E7%BB%84%E7%BB%87%E5%9B%BD%E9%99%85%E9%9D%9E%E9%81%97%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0.mp4" style="z-index:20;"><i></i></span>-->
                                     <span class="play play120" data-uri="http://resource.efeiyi.com/video/qinghuaci.mp4" style="z-index:20;"><i></i></span>
                                     <img class="preview" src="http://resource.efeiyi.com/image/uploads/serve/pic1.jpg" alt="">
                                 </div>
@@ -251,17 +250,10 @@
 <!--//End 视频弹出层-->
 </body>
 <script>
-    var jwPlayer = null;
-
     $(function() {
         $('.header .content .nav li').eq(5).addClass('active').siblings('li').removeClass('active');
 
-        /*var video_template =
-                '<video id="my-video" class="video-js" controls preload="none" width="600" height="388" data-setup="{}">' +
-                    '<source src="rtmp://123.57.250.114:1935/live/qinghuaci.mp4" type="rtmp/flv">' +
-                '</video>';*/
-
-        var video_template = '<div id="player"></div>';
+        var video_template = '<div id="J_prismPlayer"></div>';
 
         var modal=$('.modal_video');
         var content=modal.find('.content');
@@ -269,36 +261,28 @@
         $('.play120').on('click',function () {
             modal.fadeIn(200);
 
-            /*if(myPlayer != null) {
-                myPlayer.play();
-                return;
-            }*/
-
-            //var data_uri = $(this).attr('data-uri');
             content.append(video_template);
 
-            jwPlayer = jwplayer('player').setup({
-                //flashplayer: '../js/player.swf',
-                flashplayer: '../js/player.swf',
-                file: '联合国教课文组织国际非遗大数据平台.mp4',
-                streamer: 'rtmp://123.57.250.114:1935/oflaDemo',
-                width: 600,
-                height: 380,
-                autostart: true
+            var player = new Aliplayer({
+                id: "J_prismPlayer",
+                autoplay: true,
+                isLive:false,
+                playsinline:true,
+                width:"666px",
+                height:"400px",
+                //controlBarVisibility:"always",
+                useH5Prism:false,
+                useFlashPrism:false,
+                source:"http://diich-resource.oss-cn-beijing.aliyuncs.com/video/%E8%81%94%E5%90%88%E5%9B%BD%E6%95%99%E8%AF%BE%E6%96%87%E7%BB%84%E7%BB%87%E5%9B%BD%E9%99%85%E9%9D%9E%E9%81%97%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B9%B3%E5%8F%B0.mp4",
+                cover:""
             });
+        });
 
-            /*myPlayer = videojs('my-video', {}, function () {
-                this.src(data_uri);
-                this.load(data_uri);
-                this.play();
-            });*/
-        });
         $('.overbg0').on('click',function(){
-            //myPlayer.dispose();
-            //myPlayer.pause();
             modal.fadeOut();
-            //content.children().remove();
+            content.children().remove();
         });
+
 
     });
 </script>

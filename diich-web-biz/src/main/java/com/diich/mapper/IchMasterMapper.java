@@ -37,4 +37,6 @@ public interface IchMasterMapper extends BaseMapper<IchMaster> {
 
     int selectIchMasterCountByUserAndStatus( @Param("params") Map<String, Object> params) throws Exception;
 
+    List<IchMaster> selectMasterByName(String masterName) throws Exception;
+
 }

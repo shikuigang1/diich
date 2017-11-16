@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://diich.efeiyi.com" />
+<#assign caturi="http://diich.com" />
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -82,7 +82,7 @@
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
     <div class="content">
-        <form class="form" action="http://diich.efeiyi.com/page/search.html">
+        <form class="form" action="http://diich.com/page/search.html">
             <input class="ipt" type="text" id="keyword" name="keyword" value="" autocomplete="off">
             <input type="hidden" id="area_code" name="area_code" value=""/>
             <input type="hidden" id="gb_category_code" name="gb_category_code" value=""/>
@@ -166,8 +166,8 @@
     </div>
 </div>
 <!--//End filter_search -->
-<#assign masterpage = "http://inheritor.efeiyi.com/m/"/>
-<#assign workspage = "http://works.efeiyi.com/w/"/>
+<#assign masterpage = "http://inheritor.diich.com/m/"/>
+<#assign workspage = "http://works.diich.com/w/"/>
 <#assign prouri="http://resource.efeiyi.com/image/project/" />
 <#assign provuri="http://resource.efeiyi.com/video/project/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />

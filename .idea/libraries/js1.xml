@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="js1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../listed-admin/node_modules/sails/node_modules/anchor/node_modules/geojsonhint/node_modules/jsonlint-lines/node_modules/JSV/jsdoc-toolkit/java/classes/js.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

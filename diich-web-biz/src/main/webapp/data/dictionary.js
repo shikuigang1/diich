@@ -121057,5 +121057,41 @@ var dic_arr = [
             "parent_id":11006590,
             "lang":"chi",
             "status":0
-        }
+        },
+    {
+        "id":1080001,
+        "code":"0",
+        "name":"身份证",
+        "type":108,
+        "parent_id":null,
+        "lang":"chi",
+        "status":0
+    },
+    {
+        "id":1080002,
+        "code":"1",
+        "name":"签证",
+        "type":108,
+        "parent_id":null,
+        "lang":"chi",
+        "status":0
+    },
+    {
+        "id":1080003,
+        "code":"2",
+        "name":"护照",
+        "type":108,
+        "parent_id":null,
+        "lang":"chi",
+        "status":0
+    },
+    {
+        "id":1080004,
+        "code":"3",
+        "name":"军人证",
+        "type":108,
+        "parent_id":null,
+        "lang":"chi",
+        "status":0
+    }
     ];

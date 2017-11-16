@@ -28,9 +28,13 @@ function loadProjectFromServer(projectId) {
                 alert('您还没有登录，请登录后操作！');
                 return;
             }
+
+            if(project != null) {
+                return;
+            }
+
             project = data.data;
             loadAttributesFromServer();
-            displayEditMode();
         },
         error: function () {
 
@@ -49,8 +53,12 @@ function loadAttributesFromServer() {
         var contentFragmentList = project.contentFragmentList;
         for(var i = 0; i < contentFragmentList.length; i++) {
             var contentFragment = contentFragmentList[i];
-            attributes.push(contentFragment.attribute);
+            if(contentFragment != null && contentFragment.attribute != null) {
+                attributes.push(contentFragment.attribute);
+            }
         }
+
+        displayEditMode();
         return;
     }
 
@@ -65,6 +73,29 @@ function loadAttributesFromServer() {
                 return;
             }
             attributes = data.data;
+
+            var attrMap = {};
+            for(var i = 0; attributes != null && i < attributes.length; i++) {
+                if(attributes[i] != null) {
+                    attrMap[attributes[i].id] = attributes[i];
+                }
+            }
+
+            var contentFragmentList = [];
+            if(project != null) {
+                contentFragmentList = project.contentFragmentList;
+            }
+
+            for(var i = 0; i < contentFragmentList.length; i++) {
+                var contentFragment = contentFragmentList[i];
+                if(contentFragment == null) continue;
+
+                if(attrMap[contentFragment.attributeId] == null) {
+                    attributes.push(contentFragment.attribute);
+                }
+            }
+
+            displayEditMode();
         },
         error: function () {
 
@@ -161,7 +192,10 @@ function displayEditMode() {
                             var $show_short_text_ui = $(show_short_text_template);
                             $show_short_text_ui.find('.key').text(attr.cnName + ': ');
                             $show_short_text_ui.find('.value').text(contentFragment.content);
-                            $section.find('.read-piece ul').append($show_short_text_ui);
+
+                            if(contentFragment.content != null && contentFragment.content != '') {
+                                $section.find('.read-piece ul').append($show_short_text_ui);
+                            }
                             break;
                         }
                     }
@@ -227,24 +261,33 @@ function displayEditMode() {
         $ui.find('.save.link').on('click', function () {
             var content = editor.getContent();
 
-            var $selected = $('#custom .ui.dropdown .menu .selected');
-            var attr_id = $selected.attr('data-value');
-            var title = $('#custom .ui.dropdown .text').text();
+            var title = $('#custom .ui.dropdown input.search').val().trim();
+            var select_title = $('#custom .ui.dropdown').dropdown('get text');
 
-            if(attr_id == null && title == '') {
-                alert('标题不能为空');
+            title = title == '' ? select_title : title;
+
+            if(title == '' || content == '') {
+                alert('标题或内容不能为空');
                 return;
-            } else if(content == '') {
-                alert('内容不能为空');
-                return;
+            }
+
+            var attribute = null;
+            for(var i = 0; i < attributes.length; i++) {
+                if(attributes[i] == null) continue;
+                if(attributes[i].dataType != '5' && attributes[i].dataType != '1') {
+                    continue;
+                }
+                if(attributes[i].cnName == title) {
+                    attribute = attributes[i];
+                }
             }
 
             var is_has = false;
             var contentFragment;
             var contentFragmentList = project.contentFragmentList;
-            for(var i = 0; i < contentFragmentList.length; i++) {
+            for(var i = 0; attribute != null && i < contentFragmentList.length; i++) {
                 contentFragment = contentFragmentList[i];
-                if(contentFragment.attributeId == attr_id) {
+                if(contentFragment.attributeId == attribute.id) {
                     is_has = true;
                     contentFragment.content = content;
                     if(resourceList_tmp.length > 0 && contentFragment.attribute.dataType == '5') {
@@ -256,10 +299,9 @@ function displayEditMode() {
 
             if(!is_has) {
                 contentFragment = {};
-                var attribute;
-                if(attr_id != null) {
-                    contentFragment.attributeId = attr_id;
-                } else if(title != null) {
+                if(attribute != null) {
+                    contentFragment.attributeId = attribute.id;
+                } else {
                     attribute = {};
                     attribute.cnName = title;
                     attribute.dataType = 5;
@@ -306,6 +348,7 @@ function displayEditMode() {
             $ui.find('.item-content').html(content);
 
             $ui.find('.save.link').hide();
+            $ui.find('.cancel.link').hide();
             $ui.find('.edit.link').show();
 
             $ui.removeClass('custom');
@@ -315,6 +358,11 @@ function displayEditMode() {
 
         $ui.find('.edit.link').on('click', function(){
             alert('自定义项编辑功能马上上线，敬请期待！');
+        });
+
+        $ui.find('.cancel.link').on('click', function(){
+            $ui.remove();
+            has_edit = false;
         });
 
         fillCustomSelect();
@@ -537,7 +585,14 @@ function editImageTextUi($section) {
         enterTag: 'br'
     });
 
-    content = content.replace(/\n/g,"<br/>");
+    if(content != null) {
+        content = content.replace(/<[^a-zA-Z/]/g,'&lt;');
+
+        content = content.replace(/\n/g,"<br/>");
+        if(content.indexOf('<p>') != 0) {
+            content = '<p>' + content + '</p>';
+        }
+    }
 
     editor.ready(function () {
         editor.setContent(content);
@@ -797,12 +852,6 @@ function addMainInfoCompListener($section) {
     for(var i=0;i<selectList.length;i++) {
         $("#certselect").append("<option value='"+selectList[i].code+"'>"+selectList[i].name+"</option>");
     }
-
-    /*$("#ECalendar_date").ECalendar({
-        type:"date",
-        skin:2,
-        offset:[0,2]
-    });*/
 
     var $file_up = $section.find('.file_up');
     $file_up.append($(upload_form_template));
@@ -1157,6 +1206,15 @@ function adjustImageText($section, item_arr) {
 }
 
 function fillCustomSelect() {
+    var cMap = {};
+    for(var i = 0; i < project.contentFragmentList.length; i++) {
+        var contentFragment = project.contentFragmentList[i];
+        if(contentFragment == null) continue;
+        var attribute = contentFragment.attribute;
+        if(attribute == null || attribute.id == null) continue;
+        cMap[attribute.id] = contentFragment;
+    }
+
     var values = [];
     for(var i = 0; i < attributes.length; i++) {
         var attr = attributes[i];
@@ -1165,33 +1223,29 @@ function fillCustomSelect() {
             continue;
         }
 
-        var is_exclude = false;
         if(attr.dataType != '5' && attr.dataType != '1') {
             continue;
         }
-        for(var j = 0; j < project.contentFragmentList.length; j++) {
-            var contentFragment = project.contentFragmentList[j];
-            if(attr.id == contentFragment.attributeId) {
-                is_exclude = true;
-                if((contentFragment.content == null || contentFragment.content == '')
-                    && contentFragment.resourceList.length == 0) {
-                    var value = {};
-                    value.name = attr.cnName;
-                    value.value = attr.id;
-                    values.push(value);
-                }
-            }
-        }
-        if(!is_exclude) {
-            var value = {};
+
+        var value = {};
+        if(cMap[attr.id] == null) {
             value.name = attr.cnName;
             value.value = attr.id;
             values.push(value);
+        } else {
+            var contentFragment = cMap[attr.id];
+            if((contentFragment.content == null || contentFragment.content == '')
+                && contentFragment.resourceList.length == 0) {
+                value.name = attr.cnName;
+                value.value = attr.id;
+                values.push(value);
+            }
         }
     }
 
     $('#custom .ui.dropdown').dropdown({
         allowAdditions: true,
+        forceSelection: false,
         values: values
     });
 }

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://diich.efeiyi.com" />
+<#assign caturi="http://diich.com" />
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-control" content="no-cache">
@@ -50,6 +50,7 @@
     <style>
         br{line-height:36px;}
         .drop_menu .content .item dl br {line-height: 20px;}
+        .detail_title .edit{top:-50px}
     </style>
 </head>
 
@@ -143,9 +144,9 @@
 </div>
 <!--//End filter_search -->
 
-<#assign propage = "http://project.efeiyi.com/p/"/>
-<#assign workspage = "http://works.efeiyi.com/w/"/>
-<#assign masterpage = "http://inheritor.efeiyi.com/m/"/>
+<#assign propage = "http://project.diich.com/p/"/>
+<#assign workspage = "http://works.diich.com/w/"/>
+<#assign masterpage = "http://inheritor.diich.com/m/"/>
 <#assign orguri="http://resource.efeiyi.com/image/organization/" />
 <#assign orgvuri="http://resource.efeiyi.com/video/organization/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
@@ -224,6 +225,9 @@
                 </div>
                 <!--//End -->
                 <div class="detail_title">
+                <#if obj.type?? && obj.type == 1>
+                    <div class="icon-Official"></div>
+                </#if>
                 <#if (obj.contentFragmentList?size>0)>
                     <#list obj.contentFragmentList as cf>
                         <#if cf.attributeId == 132>

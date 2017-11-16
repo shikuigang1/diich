@@ -45,28 +45,13 @@
                  </div>
             {{/equal}}
             {{#equal dataType 0}}
-                {{#equal id 127}}
-                    <div class="group">
-                        <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
-                        <div class="control">
-                            <select id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" class="ipt w310" name="">
-                                <option value="身份证">身份证</option>
-                                <option value="签证">签证</option>
-                                <option value="护照">护照</option>
-                                <option value="军人证">军人证</option>
-                            </select>
-                            <div class="errors" style="display: none"><i></i>请填写证件类型</div>
-                        </div>
+                <div class="group">
+                    <label class="label">{{#equal id 13}}<em>*</em>{{/equal}}<!-- <em>*</em> -->{{cnName}}</label>
+                    <div class="control">
+                       <input value="{{getContent ../../pageObj.contentFragmentList id}}" id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" type="text" data-maxLength="{{maxLength}}" data-minLength="{{minLength}}" class="ipt w310">
+                       <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填写姓名</div>
                     </div>
-                {{else}}
-                    <div class="group">
-                        <label class="label">{{#equal id 13}}<em>*</em>{{/equal}}<!-- <em>*</em> -->{{cnName}}</label>
-                        <div class="control">
-                            <input value="{{getContent ../../../pageObj.contentFragmentList id}}" id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" type="text" data-maxLength="{{maxLength}}" data-minLength="{{minLength}}" class="ipt w310">
-                            <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填写姓名</div>
-                        </div>
-                    </div>
-                {{/equal}}
+                </div>
             {{/equal}}
             {{#equal dataType 7}}
                 <div id="img" class="group" data-id="{{id}}">
@@ -145,10 +130,29 @@
                 <div class="group">
                     <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
                     <div class="control">
-                        <input value="{{getContent ../../pageObj.contentFragmentList id}}" validate="true" id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" data-maxLength="{{maxLength}}" data-maxLength="{{minLength}}" type="text" class="ipt w310">
-                        <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填写民族</div>
+                        <select id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" class="ipt w310" name="">
+                            <option code="" value="">请选择</option>
+                            {{#each ../../nations}}
+                                <option {{#onGj ../../../pageObj.contentFragmentList code ../id }}selected="selected"{{/onGj}} code="{{code}}" value="{{code}}" >{{name}}</option>
+                            {{/each}}
+                        </select>
+                        <div class="errors" style="display: none"><i></i>请填写证件类型</div>
                     </div>
+                </div>
+            {{/equal}}
+            {{#equal dataType 108}}
+                <div class="group">
+                    <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
+                    <div class="control">
+                        <select id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" class="ipt w310" name="">
+                            <option code="" value="">请选择</option>
+                            {{#each ../../certificates}}
+                                <option {{#onGj ../../../pageObj.contentFragmentList code ../id }}selected="selected"{{/onGj}} code="{{code}}" value="{{code}}" >{{name}}</option>
+                            {{/each}}
+                        </select>
+                        <div class="errors" style="display: none"><i></i>请填写证件类型</div>
                     </div>
+                </div>
             {{/equal}}
             {{#equal dataType 3}}
                 <div class="group">

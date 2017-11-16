@@ -19,6 +19,8 @@ public class IchProject extends IchObject {
 
     private Integer editRank;
 
+    private Integer type;
+
     private Integer status;
 
     private String lang;//语言
@@ -79,6 +81,14 @@ public class IchProject extends IchObject {
 
     public void setEditRank(Integer editRank) {
         this.editRank = editRank;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Integer getStatus() {
