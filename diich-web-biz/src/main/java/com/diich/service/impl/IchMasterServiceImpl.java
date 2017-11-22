@@ -189,7 +189,8 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             if(user != null && user.getType() == 0){
                 ichMaster.setStatus(0);
             }
-            ichMaster.setUri(id + ".html");
+            String s = UUID.randomUUID().toString().replace("-","");
+            ichMaster.setUri(s +".html");
             ichMasterMapper.insertSelective(ichMaster);
         } else {
             ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
@@ -216,33 +217,33 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 }
             }
             String str = PropertiesUtil.getString("freemarker.masterfilepath");
-            String fileName = str+"/"+ichMaster.getId().toString() + ".html";
+            String fileName = str+"/"+ichMaster.getUri();
             buildHTML("master.ftl", ichMaster, fileName);//生成静态页面
-            String h5outPutPath = PropertiesUtil.getString("freemarker.h5_masterfilepath")+"/"+ichMaster.getId().toString()+".html";
+            String h5outPutPath = PropertiesUtil.getString("freemarker.h5_masterfilepath")+"/"+ichMaster.getUri();
             buildHTML("h5_master.ftl",ichMaster,h5outPutPath);
             String bucketName = PropertiesUtil.getString("img_bucketName");
             String type = PropertiesUtil.getString("pc_mhtml_server");
             File file = new File(fileName);
-            SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichMaster.getId()+".html",file.length());//上传到阿里云
+            SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichMaster.getUri(),file.length());//上传到阿里云
             String h5type = PropertiesUtil.getString("m_mhtml_server");
             File h5file = new File(h5outPutPath);
-            SimpleUpload.uploadFile(new FileInputStream(h5file),bucketName,h5type+"/"+ichMaster.getId()+".html",h5file.length());//上传到阿里云
+            SimpleUpload.uploadFile(new FileInputStream(h5file),bucketName,h5type+"/"+ichMaster.getUri(),h5file.length());//上传到阿里云
         }
         return ichMaster;
     }
     private void buildAndUploadHtml(IchProject ichProject) throws Exception{
         String str = PropertiesUtil.getString("freemarker.projectfilepath");
-        String fileName = str+"/"+ichProject.getId().toString() + ".html";
+        String fileName = str+"/"+ichProject.getUri();
         ichProjectService.buildHTML("pro.ftl", ichProject, fileName);//生成静态页面
-        String h5outPutPath = PropertiesUtil.getString("freemarker.h5_projectfilepath")+"/"+ichProject.getId()+".html";
+        String h5outPutPath = PropertiesUtil.getString("freemarker.h5_projectfilepath")+"/"+ichProject.getUri();
         ichProjectService.buildHTML("h5_pro.ftl", ichProject, h5outPutPath);
         String bucketName = PropertiesUtil.getString("img_bucketName");
         String type = PropertiesUtil.getString("pc_phtml_server");
         File file = new File(fileName);
-        SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichProject.getId()+".html",file.length());//上传到阿里云
+        SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichProject.getUri(),file.length());//上传到阿里云
         String h5type = PropertiesUtil.getString("m_phtml_server");
         File h5file = new File(h5outPutPath);
-        SimpleUpload.uploadFile(new FileInputStream(h5file),bucketName,h5type+"/"+ichProject.getId()+".html",h5file.length());//上传到阿里云
+        SimpleUpload.uploadFile(new FileInputStream(h5file),bucketName,h5type+"/"+ichProject.getUri(),h5file.length());//上传到阿里云
     }
     private IchMaster getAttribute(IchMaster ichMaster) throws Exception{
         List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
@@ -267,7 +268,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         long branchId = IdWorker.getId();
         ichMaster.setId(branchId);
         ichMaster.setStatus(2);
-        ichMaster.setUri(branchId+".html");
         ichMasterMapper.insertSelective(ichMaster);
         List<ContentFragment> ichProjectContentFragmentList = ichMaster.getContentFragmentList();
         if(ichProjectContentFragmentList != null && ichProjectContentFragmentList.size()>0){

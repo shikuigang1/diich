@@ -185,7 +185,7 @@
                                    <#list cf.resourceList as res>
                                        <#if res.type==1 && res.status==0>
                                            <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                               <video poster="${backImgUrl}" src="${orgvuri}${res.uri}"> </video>
+                                               <video poster="${backImgUrl}" src="${orguri}${res.uri}"> </video>
                                            </#if>
                                            <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
                                                <video poster="${backImgUrl}" src="${res.uri}"> </video>
@@ -219,7 +219,7 @@
                             <a href="" class="weixin active"></a>
                         </div>
                         <div class="qrcode">
-                            <img width="108" style="display:block" src="${caturi}/organization/getImage?id=${obj.id?c}" alt="微信">
+                            <img width="108" style="display:block" src="${caturi}/organization/getImage?id=${obj.uri}" alt="微信">
                         </div>
                     </div>
                 </div>

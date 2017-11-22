@@ -15,6 +15,8 @@ public class Version extends BaseModel {
 
     private Integer status;
 
+    private String uri;//对应版本的静态页面名称(显示项目中英文版本时使用)
+
     public Long getId() {
         return id;
     }
@@ -61,5 +63,13 @@ public class Version extends BaseModel {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }

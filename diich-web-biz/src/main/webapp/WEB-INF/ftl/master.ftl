@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://www.diich.com" />
+<#--<#assign caturi="http://www.diich.com" />-->
 <#--<#assign caturi=".." />-->
-<#--<#assign caturi="http://47.95.32.236" />-->
+<#assign caturi="http://47.95.32.236" />
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-control" content="no-cache">
@@ -169,8 +169,8 @@
 </div>
 <!--//End filter_search -->
 
-<#assign propage = "http://project.diich.com/p/"/>
-<#assign workspage = "http://works.diich.com/w/"/>
+<#assign propage = "http://project.diich.com/testp/"/>
+<#assign workspage = "http://works.diich.com/testw/"/>
 <#assign prouri="http://resource.efeiyi.com/image/project/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
 <#assign str="http:" />
@@ -241,7 +241,7 @@
                             <a href="" class="weixin active"></a>
                         </div>
                         <div class="qrcode">
-                            <img width="108" style="display:block" src="${caturi}/ichMaster/getImage?id=${obj.id?c}" alt="微信">
+                            <img width="108" style="display:block" src="${caturi}/ichMaster/getImage?id=${obj.uri}" alt="微信">
                         </div>
                     </div>
                 </div>
@@ -331,14 +331,24 @@
                                     </#if>
                                 </#list>
                             </#if>
-                            <a href="${propage}${obj.ichProject.id?c}.html"><img src="${proPic}" width="94" height="70" alt=""></a>
+                            <#if obj.ichProject.uri?? && obj.ichProject.uri != "">
+                                <a href="${propage}${obj.ichProject.uri}"><img src="${proPic}" width="94" height="70" alt=""></a>
+                            </#if>
+                            <#if !(obj.ichProject.uri??) || obj.ichProject.uri == "">
+                                <img src="${proPic}" width="94" height="70" alt="">
+                            </#if>
                         </div>
                         <div class="txt">
                             <p class="t">
                                 <#if (obj.ichProject.contentFragmentList?size>0)>
                                     <#list (obj.ichProject.contentFragmentList) as cf>
                                         <#if cf.attributeId == 4>
-                                        <a href="${propage}${obj.ichProject.id?c}.html">${cf.content}</a>
+                                            <#if obj.ichProject.uri?? && obj.ichProject.uri != "">
+                                                <a href="${propage}${obj.ichProject.uri}">${cf.content}</a>
+                                            </#if>
+                                            <#if !(obj.ichProject.uri??) || obj.ichProject.uri == "">
+                                                ${cf.content}
+                                            </#if>
                                         </#if>
                                     </#list>
                                 </#if>
@@ -429,7 +439,12 @@
                                         <#if c.attributeId==114>
                                             <#if c.resourceList??>
                                                 <#list c.resourceList as p>
-                                                    <a href="${workspage}${work.id?c}.html"><img src="${p.uri}?x-oss-process=style/head-image-style" alt=""></a>
+                                                    <#if work.uri??>
+                                                        <a href="${workspage}${work.uri}"><img src="${p.uri}?x-oss-process=style/head-image-style" alt=""></a>
+                                                    </#if>
+                                                    <#if !(work.uri??)>
+                                                        <img src="${p.uri}?x-oss-process=style/head-image-style" alt="">
+                                                    </#if>
                                                 </#list>
                                             </#if>
                                         </#if>
@@ -437,7 +452,14 @@
 
                                     <#list work.contentFragmentList as c>
                                         <#if c.attributeId==28>
-                                            <p class="name"><a href="${workspage}${work.id?c}.html">${c.content}</a> </p>
+                                            <p class="name">
+                                                <#if work.uri??>
+                                                    <a href="${workspage}${work.uri}">${c.content}</a>
+                                                </#if>
+                                                <#if !(work.uri??)>
+                                                    ${c.content}
+                                                </#if>
+                                            </p>
                                         </#if>
                                     </#list>
                                     <#list work.contentFragmentList as c>

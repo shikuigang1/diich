@@ -214,8 +214,8 @@ public class OrganizationController extends BaseController<Organization>{
     }
     @RequestMapping("/getImage")
     public void exportQRCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String id=request.getParameter("id");
-        String url = "http://organization.efeiyi.com/o/"+ id +".html";
+        String uri=request.getParameter("id");
+        String url = "http://organization.efeiyi.com/o/"+ uri;
         QRCodeGenerator qrCode = new QRCodeGenerator(url);
         qrCode.createQRCode(108, 108);
         BufferedImage bufferedImage = qrCode.getImageResult();

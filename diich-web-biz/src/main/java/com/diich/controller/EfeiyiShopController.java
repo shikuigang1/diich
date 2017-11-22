@@ -120,7 +120,7 @@ public class EfeiyiShopController extends BaseController{
         try{
             works = worksService.getWorksByDoi(id);
             if(works != null){
-                works.setUri(PropertiesUtil.getString("_works") + works.getId() + ".html");
+                works.setUri(PropertiesUtil.getString("_works") + works.getUri());
             }
         }catch (Exception e){
             return putDataToMap(e);

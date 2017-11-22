@@ -112,7 +112,8 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             long id = IdWorker.getId();
             organization.setId(id);
             organization.setLastEditorId(user.getId());
-            organization.setUri(id +".html");
+            String s = UUID.randomUUID().toString().replace("-","");
+            organization.setUri(s +".html");
             organization.setStatus(2);//草稿状态
             if(user != null && user.getType() == 0){
                 organization.setStatus(0);
@@ -132,17 +133,17 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         if (user != null && user.getType() == 0){//管理员权限
             organization = getAttribute(organization);//获取attribute
             String str = PropertiesUtil.getString("freemarker.organizationfilepath");
-            String fileName = str+"/"+organization.getId().toString() + ".html";
+            String fileName = str+"/"+organization.getUri();
             String s = buildHTML("organization.ftl", organization, fileName);//生成静态页面
-//            String h5outPutPath = PropertiesUtil.getString("freemarker.h5_organizationfilepat")+"/"+organization.getId().toString()+".html";
+//            String h5outPutPath = PropertiesUtil.getString("freemarker.h5_organizationfilepat")+"/"+organization.getUri();
 //            buildHTML("h5_organization.ftl",organization,h5outPutPath);
             String bucketName = PropertiesUtil.getString("img_bucketName");
             String type = PropertiesUtil.getString("pc_ohtml_server");
             File file = new File(fileName);
-            SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+organization.getId()+".html",file.length());//上传到阿里云
+            SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+organization.getUri(),file.length());//上传到阿里云
 //            String h5type = PropertiesUtil.getString("m_ohtml_server");
 //            File h5file = new File(h5outPutPath);
-//            SimpleUpload.uploadFile(new FileInputStream(h5file),bucketName,h5type+"/"+organization.getId()+".html",h5file.length());//上传到阿里云
+//            SimpleUpload.uploadFile(new FileInputStream(h5file),bucketName,h5type+"/"+organization.getUri(),h5file.length());//上传到阿里云
         }
     }
 

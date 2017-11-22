@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://diich.com" />
-<#--<#assign caturi="http://47.95.32.236/" />-->
+<#--<#assign caturi="http://diich.com" />-->
+<#assign caturi="http://47.95.32.236/" />
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-control" content="no-cache">
@@ -177,8 +177,8 @@
 </div>
 <!--//End filter_search -->
 <!--//End filter_search -->
-<#assign masterpage = "http://inheritor.diich.com/m/"/>
-<#assign workspage = "http://works.diich.com/w/"/>
+<#assign masterpage = "http://inheritor.diich.com/testm/"/>
+<#assign workspage = "http://works.diich.com/testw/"/>
 <#assign prouri="http://resource.efeiyi.com/image/project/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
 <#assign worksuri="http://resource.efeiyi.com/image/works/" />
@@ -252,7 +252,7 @@
                             <a href="" class="weixin active"></a>
                         </div>
                         <div class="qrcode">
-                            <img width="108" style="display:block" src="${caturi}/ichProject/getImage?id=${obj.id?c}" alt="微信">
+                            <img width="108" style="display:block" src="${caturi}/ichProject/getImage?id=${obj.uri}" alt="微信">
                         </div>
                     </div>
                 </div>
@@ -386,20 +386,38 @@
                                                 </#if>
 
                                             </#list>
-                                            <a href="${masterpage}${master.id?c }.html" class="avatar">
+                                            <#if master.uri?? && master.uri != "">
+                                                <a href="${masterpage}${master.uri }" class="avatar">
+                                                    <img src="${masterPic}" alt="" class="data-item" data-id="113"/>
+                                                </a>
+                                            </#if>
+                                            <#if !(master.uri??) || master.uri == "">
                                                 <img src="${masterPic}" alt="" class="data-item" data-id="113"/>
-                                            </a>
-
+                                            </#if>
                                             <span class="txt">
                                                 <#list master.contentFragmentList as cf>
                                                     <#if obj.lang == "chi">
                                                         <#if cf.attributeId == 13 && cf.targetType == 1>
-                                                            <p class="name"><a href="${masterpage}${master.id?c }.html" data-id="13" class="data-item">${cf.content}</a></p>
+                                                            <p class="name">
+                                                                <#if master.uri?? && master.uri != "">
+                                                                    <a href="${masterpage}${master.uri }" data-id="13" class="data-item">${cf.content}</a>
+                                                                </#if>
+                                                                <#if !(master.uri??) || master.uri == "">
+                                                                    ${cf.content}
+                                                                </#if>
+                                                            </p>
                                                         </#if>
                                                     </#if>
                                                     <#if obj.lang == "eng">
                                                         <#if cf.attributeId == 14 && cf.targetType == 1>
-                                                            <p class="name"><a href="${masterpage}${master.id?c }.html" data-id="14" class="data-item">${cf.content}</a></p>
+                                                            <p class="name">
+                                                                <#if master.uri?? && master.uri != "">
+                                                                    <a href="${masterpage}${master.uri }" data-id="14" class="data-item">${cf.content}</a>
+                                                                </#if>
+                                                                <#if !(master.uri??) || master.uri == "">
+                                                                    ${cf.content}
+                                                                </#if>
+                                                            </p>
                                                         </#if>
                                                     </#if>
                                                     <#if cf.attributeId == 50 && cf.targetType == 1>
@@ -559,7 +577,12 @@
                                         <#if c.attributeId==114>
                                             <#if c.resourceList??>
                                                 <#list c.resourceList as p>
-                                                    <a href="${workspage}${work.id?c}.html"><img src="${p.uri}?x-oss-process=style/head-image-style" alt="" class="data-item" data-id="114"></a>
+                                                    <#if work.uri?? && work.uri != "">
+                                                        <a href="${workspage}${work.uri}"><img src="${p.uri}?x-oss-process=style/head-image-style" alt="" class="data-item" data-id="114"></a>
+                                                    </#if>
+                                                <#if !(work.uri??) || work.uri == "">
+                                                    <img src="${p.uri}?x-oss-process=style/head-image-style" alt="" class="data-item" data-id="114">
+                                                </#if>
                                                 </#list>
                                             </#if>
                                         </#if>
@@ -737,11 +760,11 @@
     <#if obj.version?? && (obj.version.mainVersionId??) && (obj.version.branchVersionId??)>
         <#if obj.lang == "eng">
             $("#trans").text("该词条中文版");
-            $("#trans").attr('href',${obj.version.mainVersionId?c}+ ".html");
+            $("#trans").attr('href',"${obj.version.uri}");
         </#if>
         <#if obj.lang == "chi">
             $("#trans").text("English version");
-            $("#trans").attr('href',${obj.version.branchVersionId?c}+ ".html");
+            $("#trans").attr('href',"${obj.version.uri}");
         </#if>
     </#if>
     <#if !obj.version?? || (!obj.version.mainVersionId??) || (!obj.version.branchVersionId??)>

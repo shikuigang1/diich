@@ -147,7 +147,20 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     versionList = versionService.getVersionByLangIdAndTargetType(null, ichProject.getId(), 0, 0);
                 }
                 if(versionList.size()>0){
-                    ichProject.setVersion( versionList.get(0));
+                    Version version = versionList.get(0);
+                    if(version.getMainVersionId().equals(ichProject.getId())){
+                        IchProject branchProject = ichProjectMapper.selectByPrimaryKey(version.getBranchVersionId());
+                        if(branchProject != null){
+                            version.setUri(branchProject.getUri());
+                        }
+                    }else{
+                        IchProject mainProject = ichProjectMapper.selectByPrimaryKey(version.getMainVersionId());
+                        if(mainProject != null){
+                            version.setUri(mainProject.getUri());
+                        }
+                    }
+                    ichProject.setVersion( version);
+
                 }
                 conList.add(ichProject.getId());
                 //获取项目的field
@@ -211,7 +224,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 ichProject.setStatus(0);
             }
             ichProject.setCreatorId(user.getId());
-            ichProject.setUri(proID +".html");
+            String s = UUID.randomUUID().toString().replace("-","");
+            ichProject.setUri(s +".html");
             ichProjectMapper.insertSelective(ichProject);
         } else {//修改
             ichProjectMapper.updateByPrimaryKeySelective(ichProject);
@@ -227,17 +241,17 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         if (user != null && user.getType() == 0){//管理员权限
             ichProject = getAttribute(ichProject);//获取attribute
             String str = PropertiesUtil.getString("freemarker.projectfilepath");
-            String fileName = str+"/"+ichProject.getId().toString() + ".html";
+            String fileName = str+"/"+ichProject.getUri();//修改生成静态页面的名称由id改为uuid
             String s = buildHTML("pro.ftl", ichProject, fileName);//生成静态页面
-            String h5outPutPath = PropertiesUtil.getString("freemarker.h5_projectfilepath")+"/"+ichProject.getId()+".html";
+            String h5outPutPath = PropertiesUtil.getString("freemarker.h5_projectfilepath")+"/"+ichProject.getUri();//修改生成静态页面的名称由id改为uuid
             String h5 = buildHTML("h5_pro.ftl", ichProject, h5outPutPath);
             String bucketName = PropertiesUtil.getString("img_bucketName");
             String type = PropertiesUtil.getString("pc_phtml_server");
             File file = new File(fileName);
-            SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichProject.getId()+".html",file.length());//上传到阿里云
+            SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+ichProject.getUri(),file.length());//上传到阿里云
             String h5type = PropertiesUtil.getString("m_phtml_server");
             File h5file = new File(h5outPutPath);
-            SimpleUpload.uploadFile(new FileInputStream(h5file),bucketName,h5type+"/"+ichProject.getId()+".html",h5file.length());//上传到阿里云
+            SimpleUpload.uploadFile(new FileInputStream(h5file),bucketName,h5type+"/"+ichProject.getUri(),h5file.length());//上传到阿里云
         }
         return ichProject;
     }
@@ -265,7 +279,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         long branchId = IdWorker.getId();
         ichProject.setId(branchId);
         ichProject.setStatus(2);
-        ichProject.setUri(branchId+".html");
         ichProjectMapper.insertSelective(ichProject);
         List<ContentFragment> ichProjectContentFragmentList = ichProject.getContentFragmentList();
         if(ichProjectContentFragmentList != null && ichProjectContentFragmentList.size()>0){
@@ -362,7 +375,19 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             verList = versionService.getVersionByLangIdAndTargetType(null, ichProject.getId(), 0, 0);
         }
         if(verList != null && verList.size()>0){
-            ichProject.setVersion( verList.get(0));
+            Version version = verList.get(0);
+            if(version.getMainVersionId().equals(ichProject.getId())){
+                IchProject branchProject = ichProjectMapper.selectByPrimaryKey(version.getBranchVersionId());
+                if(branchProject != null){
+                    version.setUri(branchProject.getUri());
+                }
+            }else{
+                IchProject mainProject = ichProjectMapper.selectByPrimaryKey(version.getMainVersionId());
+                if(mainProject != null){
+                    version.setUri(mainProject.getUri());
+                }
+            }
+            ichProject.setVersion( version);
         }
         return ichProject;
     }

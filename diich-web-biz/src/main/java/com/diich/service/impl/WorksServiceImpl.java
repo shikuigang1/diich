@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/5/19.
@@ -60,7 +57,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 if(works.getIchProjectId() != null){
                     IchProject ichProject = ichProjectService.getIchProjectById(works.getIchProjectId());
                     if(ichProject != null){
-                        ichProject.setUri(PropertiesUtil.getString("_project") + works.getIchProjectId() + ".html");
+                        ichProject.setUri(PropertiesUtil.getString("_project") + ichProject.getUri());
                         works.setIchProject(ichProject);
                     }
                 }
@@ -68,11 +65,11 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 if(works.getIchMasterId() != null){
                     IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
                     if(ichMaster != null){
-                        ichMaster.setUri(PropertiesUtil.getString("_master") + works.getIchMasterId() + ".html");
+                        ichMaster.setUri(PropertiesUtil.getString("_master") + ichMaster.getUri());
                         works.setIchMaster(ichMaster);
                         if(ichMaster.getIchProjectId() != null){
                             IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
-                            ichProject.setUri(PropertiesUtil.getString("_project") + ichMaster.getIchProjectId() + ".html");
+                            ichProject.setUri(PropertiesUtil.getString("_project") + ichProject.getUri());
                             works.setIchProject(ichProject);
                         }
                     }
@@ -81,7 +78,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             //获取内容片断
             List<ContentFragment> contentFragmentList = getContentFragmentListByWorksId(works);
             works.setContentFragmentList(contentFragmentList);
-            works.setUri(PropertiesUtil.getString("_works") + id + ".html");
+            works.setUri(PropertiesUtil.getString("_works") + works.getUri());
         }catch(Exception e){
             e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
@@ -155,11 +152,11 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 works .setId(worksId);
                 works.setStatus(0);
                 works.setIsRepresent(1);
-                works.setUri(worksId + ".html");
+                String s = UUID.randomUUID().toString().replace("-","");
+                works.setUri(s + ".html");
                 worksMapper.insertSelective(works);
             }else{
                 //更新
-                works.setUri(works.getId() + ".html");
                 worksMapper.updateByPrimaryKeySelective(works);
             }
             List<ContentFragment> contentFragmentList = works.getContentFragmentList();
