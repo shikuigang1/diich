@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-<#--<#assign caturi="http://diich.com" />-->
-<#assign caturi="http://47.95.32.236/" />
+<#assign caturi="http://diich.com" />
+<#--<#assign caturi="http://47.95.32.236/" />-->
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-control" content="no-cache">
@@ -177,8 +177,8 @@
 </div>
 <!--//End filter_search -->
 <!--//End filter_search -->
-<#assign masterpage = "http://inheritor.diich.com/testm/"/>
-<#assign workspage = "http://works.diich.com/testw/"/>
+<#assign masterpage = "http://inheritor.diich.com/m/"/>
+<#assign workspage = "http://works.diich.com/w/"/>
 <#assign prouri="http://resource.efeiyi.com/image/project/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
 <#assign worksuri="http://resource.efeiyi.com/image/works/" />

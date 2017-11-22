@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-<#--<#assign caturi="http://www.diich.com" />-->
+<#assign caturi="http://www.diich.com" />
 <#--<#assign caturi=".." />-->
-<#assign caturi="http://47.95.32.236" />
+<#--<#assign caturi="http://47.95.32.236" />-->
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-control" content="no-cache">
@@ -169,8 +169,8 @@
 </div>
 <!--//End filter_search -->
 
-<#assign propage = "http://project.diich.com/testp/"/>
-<#assign workspage = "http://works.diich.com/testw/"/>
+<#assign propage = "http://project.diich.com/p/"/>
+<#assign workspage = "http://works.diich.com/w/"/>
 <#assign prouri="http://resource.efeiyi.com/image/project/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
 <#assign str="http:" />
