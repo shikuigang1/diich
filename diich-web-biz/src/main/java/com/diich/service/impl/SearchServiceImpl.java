@@ -85,6 +85,7 @@ public class SearchServiceImpl implements SearchService {
                     ichObject.addContentFragment(contentFragment);
                     if(ichObject instanceof IchProject && hashmap.get("ichCategoryId") != null) {
                         ((IchProject) ichObject).setIchCategoryId((Long) hashmap.get("ichCategoryId"));
+                        ((IchProject) ichObject).setUri((String)hashmap.get("link_uri"));
                     }
                     if(ichObject instanceof  IchMaster && hashmap.get("projectName") != null) {
                         ContentFragment content = new ContentFragment();
@@ -92,6 +93,7 @@ public class SearchServiceImpl implements SearchService {
                         content.setContent(hashmap.get("projectName").toString());
                         ((IchMaster) ichObject).setIchProjectId((Long) hashmap.get("projectId"));
                         ichObject.addContentFragment(content);
+                        ((IchMaster) ichObject).setUri((String)hashmap.get("link_uri"));
                     }
                 }
             }
