@@ -121,6 +121,16 @@ function initParams() {
 }
 
 function searchDataFromServer(is_show_progress) {
+    var filterKeywords = getFilterKeyword();
+
+    for(var i = 0; i < filterKeywords.length; i++) {
+        if(global_keyword == filterKeywords[i].keyword) {
+            buildSearchResultUi(null);
+            is_show_progress == false ? 0 : progress.stop();
+            return;
+        }
+    }
+
     var condition = buildCondition();
 
     $.ajax({
@@ -141,6 +151,22 @@ function searchDataFromServer(is_show_progress) {
             is_show_progress == false ? 0 : progress.stop();
         }
     });
+}
+
+function getFilterKeyword() {
+    var value = null;
+
+    $.ajax({
+        type:'get',
+        url:'../data/filter_keyword.json',
+        dataType:'text',
+        async: false,
+        success:function (data) {
+            value = data;
+        }
+    });
+
+    return JSON.parse(value);
 }
 
 function buildCondition() {
