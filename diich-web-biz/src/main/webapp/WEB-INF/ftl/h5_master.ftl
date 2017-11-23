@@ -58,11 +58,11 @@
             </li>
             <li id="li3">
                 <a href="javascript:;"><img src="${h5uri}/links/img/shenbao.png"/></a>
-                <span>我要申报</span>
+                <span>我要入驻</span>
             </li>
             <li id="li4">
                 <a href="javascript:;"><img src="${h5uri}/links/img/Group 13.png"/></a>
-                <span>官方服务</span>
+                <span>非遗保护计划</span>
             </li>
         </ul>
     </div>
