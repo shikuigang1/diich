@@ -2,8 +2,8 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <#assign caturi="http://diich.com" />
-    <#assign h5uri="http://diich.com/lntang" />
+    <#assign caturi="http://123.57.174.187" />
+    <#assign h5uri="http://m.diich.com/" />
     <title>
     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
        <#list obj.contentFragmentList as cf>
@@ -146,10 +146,10 @@
                 <#if (obj.version??) && (obj.version.mainVersionId??) && (obj.version.branchVersionId??)>
                 <div>
                     <#if obj.lang == "chi">
-                        <p>英文条目：<a href="${obj.version.uri}">English version</a></p>
+                        <p>英文条目：<a href="${obj.version.branchVersionId?c}.html">English version</a></p>
                     </#if>
                     <#if obj.lang == "eng">
-                        <p>English version：<a href="${obj.version.uri}">该词条中文版</a></p>
+                        <p>English version：<a href="${obj.version.mainVersionId?c}.html">该词条中文版</a></p>
                     </#if>
                 </div>
                 </#if>

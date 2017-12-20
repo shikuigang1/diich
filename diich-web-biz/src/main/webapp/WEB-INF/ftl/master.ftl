@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://diich.com" />
+<#assign caturi="http://123.57.174.187" />
 <#--<#assign caturi=".." />-->
 <#--<#assign caturi="http://47.95.32.236" />-->
     <meta charset="UTF-8">
@@ -241,7 +241,7 @@
                             <a href="" class="weixin active"></a>
                         </div>
                         <div class="qrcode">
-                            <img width="108" style="display:block" src="${caturi}/ichMaster/getImage?id=${obj.uri}" alt="微信">
+                            <img width="108" style="display:block" src="${caturi}/ichMaster/getImage?id=${obj.id?c}" alt="微信">
                         </div>
                     </div>
                 </div>
@@ -331,24 +331,14 @@
                                     </#if>
                                 </#list>
                             </#if>
-                            <#if obj.ichProject.uri?? && obj.ichProject.uri != "">
-                                <a href="${propage}${obj.ichProject.uri}"><img src="${proPic}" width="94" height="70" alt=""></a>
-                            </#if>
-                            <#if !(obj.ichProject.uri??) || obj.ichProject.uri == "">
-                                <img src="${proPic}" width="94" height="70" alt="">
-                            </#if>
+                            <a href="${propage}${obj.ichProject.id?c}.html"><img src="${proPic}" width="94" height="70" alt=""></a>
                         </div>
                         <div class="txt">
                             <p class="t">
                                 <#if (obj.ichProject.contentFragmentList?size>0)>
                                     <#list (obj.ichProject.contentFragmentList) as cf>
                                         <#if cf.attributeId == 4>
-                                            <#if obj.ichProject.uri?? && obj.ichProject.uri != "">
-                                                <a href="${propage}${obj.ichProject.uri}">${cf.content}</a>
-                                            </#if>
-                                            <#if !(obj.ichProject.uri??) || obj.ichProject.uri == "">
-                                                ${cf.content}
-                                            </#if>
+                                        <a href="${propage}${obj.ichProject.id?c}.html">${cf.content}</a>
                                         </#if>
                                     </#list>
                                 </#if>
@@ -439,12 +429,7 @@
                                         <#if c.attributeId==114>
                                             <#if c.resourceList??>
                                                 <#list c.resourceList as p>
-                                                    <#if work.uri??>
-                                                        <a href="${workspage}${work.uri}"><img src="${p.uri}?x-oss-process=style/head-image-style" alt=""></a>
-                                                    </#if>
-                                                    <#if !(work.uri??)>
-                                                        <img src="${p.uri}?x-oss-process=style/head-image-style" alt="">
-                                                    </#if>
+                                                    <a href="${workspage}${work.id?c}.html"><img src="${p.uri}?x-oss-process=style/head-image-style" alt=""></a>
                                                 </#list>
                                             </#if>
                                         </#if>
@@ -452,14 +437,7 @@
 
                                     <#list work.contentFragmentList as c>
                                         <#if c.attributeId==28>
-                                            <p class="name">
-                                                <#if work.uri??>
-                                                    <a href="${workspage}${work.uri}">${c.content}</a>
-                                                </#if>
-                                                <#if !(work.uri??)>
-                                                    ${c.content}
-                                                </#if>
-                                            </p>
+                                            <p class="name"><a href="${workspage}${work.id?c}.html">${c.content}</a> </p>
                                         </#if>
                                     </#list>
                                     <#list work.contentFragmentList as c>

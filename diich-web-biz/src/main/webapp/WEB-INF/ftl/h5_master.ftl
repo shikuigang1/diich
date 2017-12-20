@@ -2,8 +2,8 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <#assign caturi="http://diich.com" />
-    <#assign h5uri="http://diich.com/lntang" />
+    <#assign caturi="http://123.57.174.187" />
+    <#assign h5uri="http://m.diich.com/" />
     <title>
     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
        <#list obj.contentFragmentList as cf>

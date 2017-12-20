@@ -219,7 +219,7 @@
                             <a href="" class="weixin active"></a>
                         </div>
                         <div class="qrcode">
-                            <img width="108" style="display:block" src="${caturi}/organization/getImage?id=${obj.uri}" alt="微信">
+                            <img width="108" style="display:block" src="${caturi}/organization/getImage?id=${obj.id?c}" alt="微信">
                         </div>
                     </div>
                 </div>
