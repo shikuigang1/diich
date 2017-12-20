@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://123.57.174.187" />
+<#assign caturi="http://123.57.174.187"/>
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
