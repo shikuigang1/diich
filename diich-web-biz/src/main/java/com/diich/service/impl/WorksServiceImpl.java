@@ -57,7 +57,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 if(works.getIchProjectId() != null){
                     IchProject ichProject = ichProjectService.getIchProjectById(works.getIchProjectId());
                     if(ichProject != null){
-                        ichProject.setUri(PropertiesUtil.getString("_project") + ichProject.getUri());
+                        ichProject.setUri(PropertiesUtil.getString("_project") + works.getIchProjectId() + ".html");
                         works.setIchProject(ichProject);
                     }
                 }
@@ -65,11 +65,11 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 if(works.getIchMasterId() != null){
                     IchMaster ichMaster = ichMasterService.getIchMasterByWorks(works);
                     if(ichMaster != null){
-                        ichMaster.setUri(PropertiesUtil.getString("_master") + ichMaster.getUri());
+                        ichMaster.setUri(PropertiesUtil.getString("_master") + works.getIchMasterId() + ".html");
                         works.setIchMaster(ichMaster);
                         if(ichMaster.getIchProjectId() != null){
                             IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
-                            ichProject.setUri(PropertiesUtil.getString("_project") + ichProject.getUri());
+                            ichProject.setUri(PropertiesUtil.getString("_project") + ichMaster.getIchProjectId() + ".html");
                             works.setIchProject(ichProject);
                         }
                     }
@@ -78,7 +78,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             //获取内容片断
             List<ContentFragment> contentFragmentList = getContentFragmentListByWorksId(works);
             works.setContentFragmentList(contentFragmentList);
-            works.setUri(PropertiesUtil.getString("_works") + works.getUri());
+            works.setUri(PropertiesUtil.getString("_works") + id + ".html");
         }catch(Exception e){
             e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
@@ -152,11 +152,11 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 works .setId(worksId);
                 works.setStatus(0);
                 works.setIsRepresent(1);
-                String s = UUID.randomUUID().toString().replace("-","");
-                works.setUri(s + ".html");
+                works.setUri(worksId + ".html");
                 worksMapper.insertSelective(works);
             }else{
                 //更新
+                works.setUri(works.getId() + ".html");
                 worksMapper.updateByPrimaryKeySelective(works);
             }
             List<ContentFragment> contentFragmentList = works.getContentFragmentList();

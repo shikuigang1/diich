@@ -345,8 +345,8 @@ public class IchProjectController extends BaseController<IchProject> {
 
     @RequestMapping("/getImage")
     public void exportQRCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String uri=request.getParameter("id");
-        String url = "http://project.diich.com/p/"+ uri;
+        String id=request.getParameter("id");
+        String url = "http://project.diich.com/p/"+  id +".html";
         QRCodeGenerator qrCode = new QRCodeGenerator(url);
         qrCode.createQRCode(108, 108);
         BufferedImage bufferedImage = qrCode.getImageResult();
