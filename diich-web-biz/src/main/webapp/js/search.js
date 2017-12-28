@@ -326,11 +326,11 @@ function fillCommonByContentList(object, type, attrMap, $ui) {
             if($(_attr).hasClass('head-image')) {
                 $ui.find('#' + attr_name).attr('src', map[attr_name]);
                 $ui.find('#' + attr_name).parent().attr('href','http://'+ target_type +'.diich.com/'+ type.substring(0,1)+'/'+
-                    object.uri +'?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
+                    object.targetId +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
             } else if($(_attr).is('a')) {
                 $ui.find('#' + attr_name).html(map[attr_name]);
                 $ui.find('#' + attr_name).attr('href', 'http://' + target_type + '.diich.com/'+ type.substring(0,1)+'/'+
-                    object.uri +'?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
+                    object.targetId +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
             } else {
                 var $div = $('<div></div>');
                 $div.html(map[attr_name]);
