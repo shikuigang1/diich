@@ -24,6 +24,7 @@
                 <value>classpath:config/jdbc.properties</value>
                 <value>classpath:config/freemarker.properties</value>
                 <value>classpath:config/system.properties</value>
+                <value>classpath:config/mongodb.properties</value>
             </list>
         </property>
 
