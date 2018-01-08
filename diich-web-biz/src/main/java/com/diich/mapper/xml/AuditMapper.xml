@@ -5,16 +5,16 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="target_type" property="targetType" jdbcType="INTEGER" />
     <result column="target_id" property="targetId" jdbcType="BIGINT" />
-    <result column="note" property="note" jdbcType="VARCHAR" />
-    <result column="action" property="action" jdbcType="INTEGER" />
-    <result column="date" property="date" jdbcType="TIMESTAMP" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="audit_date" property="auditDate" jdbcType="TIMESTAMP" />
     <result column="audit_user_id" property="auditUserId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, target_type, target_id, note, action, date, audit_user_id
+    id, target_type, target_id, reason, status, audit_date, audit_user_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from audit
     where id = #{id,jdbcType=BIGINT}
@@ -24,12 +24,12 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.diich.core.model.Audit" >
-    insert into audit (id, target_type, target_id, 
-      note, action, date, 
-      audit_user_id)
-    values (#{id,jdbcType=BIGINT}, #{targetType,jdbcType=INTEGER}, #{targetId,jdbcType=BIGINT}, 
-      #{note,jdbcType=VARCHAR}, #{action,jdbcType=INTEGER}, #{date,jdbcType=TIMESTAMP}, 
-      #{auditUserId,jdbcType=BIGINT})
+    insert into audit (id, target_type, target_id,
+    reason, status, audit_date,
+    audit_user_id)
+    values (#{id,jdbcType=BIGINT}, #{targetType,jdbcType=INTEGER}, #{targetId,jdbcType=BIGINT},
+    #{reason,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{auditDate,jdbcType=TIMESTAMP},
+    #{auditUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.diich.core.model.Audit" >
     insert into audit
@@ -43,14 +43,14 @@
       <if test="targetId != null" >
         target_id,
       </if>
-      <if test="note != null" >
-        note,
+      <if test="reason != null" >
+        reason,
       </if>
-      <if test="action != null" >
-        action,
+      <if test="status != null" >
+        status,
       </if>
-      <if test="date != null" >
-        date,
+      <if test="auditDate != null" >
+        audit_date,
       </if>
       <if test="auditUserId != null" >
         audit_user_id,
@@ -66,14 +66,14 @@
       <if test="targetId != null" >
         #{targetId,jdbcType=BIGINT},
       </if>
-      <if test="note != null" >
-        #{note,jdbcType=VARCHAR},
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
       </if>
-      <if test="action != null" >
-        #{action,jdbcType=INTEGER},
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
       </if>
-      <if test="date != null" >
-        #{date,jdbcType=TIMESTAMP},
+      <if test="auditDate != null" >
+        #{auditDate,jdbcType=TIMESTAMP},
       </if>
       <if test="auditUserId != null" >
         #{auditUserId,jdbcType=BIGINT},
@@ -89,14 +89,14 @@
       <if test="targetId != null" >
         target_id = #{targetId,jdbcType=BIGINT},
       </if>
-      <if test="note != null" >
-        note = #{note,jdbcType=VARCHAR},
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
       </if>
-      <if test="action != null" >
-        action = #{action,jdbcType=INTEGER},
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="date != null" >
-        date = #{date,jdbcType=TIMESTAMP},
+      <if test="auditDate != null" >
+        audit_date = #{auditDate,jdbcType=TIMESTAMP},
       </if>
       <if test="auditUserId != null" >
         audit_user_id = #{auditUserId,jdbcType=BIGINT},
@@ -108,9 +108,9 @@
     update audit
     set target_type = #{targetType,jdbcType=INTEGER},
       target_id = #{targetId,jdbcType=BIGINT},
-      note = #{note,jdbcType=VARCHAR},
-      action = #{action,jdbcType=INTEGER},
-      date = #{date,jdbcType=TIMESTAMP},
+      reason = #{reason,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      audit_date = #{auditDate,jdbcType=TIMESTAMP},
       audit_user_id = #{auditUserId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>

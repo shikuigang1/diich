@@ -11,11 +11,11 @@ public class Audit extends BaseModel {
 
     private Long targetId;
 
-    private String note;
+    private String reason;
 
-    private Integer action;
+    private Integer status;
 
-    private Date date;
+    private Date auditDate;
 
     private Long auditUserId;
 
@@ -43,28 +43,28 @@ public class Audit extends BaseModel {
         this.targetId = targetId;
     }
 
-    public String getNote() {
-        return note;
+    public String getReason() {
+        return reason;
     }
 
-    public void setNote(String note) {
-        this.note = note == null ? null : note.trim();
+    public void setReason(String reason) {
+        this.reason = reason == null ? null : reason.trim();
     }
 
-    public Integer getAction() {
-        return action;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setAction(Integer action) {
-        this.action = action;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getAuditDate() {
+        return auditDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setAuditDate(Date auditDate) {
+        this.auditDate = auditDate;
     }
 
     public Long getAuditUserId() {
