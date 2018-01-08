@@ -40,4 +40,14 @@ public interface IchProjectService {
     int deleteIchProject(Long id) throws Exception;
 
     List<IchProject> getIchProject(String projectNamen, String masterName, String WorksName)throws Exception;
+
+    /**
+     * 分页获取国家级别的项目
+     * @param current
+     * @param size
+     * @return
+     */
+    Page<Map> getCountryIchProjectList(Integer current, Integer size) throws Exception;
+
+    Map getCountryIchProjectById(String id) throws Exception;
 }
