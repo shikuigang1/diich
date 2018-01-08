@@ -283,7 +283,9 @@ public class IchProjectController extends BaseController<IchProject> {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
-        params.put("userId",user.getId());
+        if(user.getType() != null && user.getType()!=0){
+            params.put("userId",user.getId());
+        }
         Page<IchProject> page = null;
         try{
             page = ichProjectService.getIchProjectByUserId(params);
