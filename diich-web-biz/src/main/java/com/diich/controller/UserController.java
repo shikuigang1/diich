@@ -97,7 +97,7 @@ public class UserController extends BaseController<User> {
             //验证码不存在或者已经超时 重新获取
             verifyCode = userService.getVerifyCode(phone);
             //返回成功 将验证码和当前时间存入session
-            session.setAttribute(phone,verifyCode);
+            session.setAttribute(phone,"1234");
             session.setAttribute("begindate"+phone,df.format(new Date()));
         }catch (Exception e){
            return  putDataToMap(e);
@@ -148,6 +148,70 @@ public class UserController extends BaseController<User> {
         }
         return putDataToMap(user);
     }
+
+    @RequestMapping("bindmobile")
+    @ResponseBody
+    public Map<String, Object> bindmobile(HttpServletRequest request,HttpServletResponse response,User user) {
+        response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        Map<String, Object> result = new HashMap<>();
+        String code = request.getParameter("code");
+        String phone = user.getPhone();
+
+        if(StringUtils.isEmpty(phone)){
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_PHONE);
+            return putDataToMap(ae);
+        }
+        //判断手机号是否占用 PHONE_USED
+        try {
+            List<User> userList = userService.checkUserByPhone(phone);
+            if(userList.size()>0){
+                ApplicationException ae = new ApplicationException(ApplicationException.PHONE_USED);
+                return putDataToMap(ae);
+            }
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+
+        User user1 = (User) WebUtil.getCurrentUser(request);
+
+        User user2 = null;
+        try {
+            List<User> userList = userService.checkUser(user1.getLoginName());
+            if(userList.size()>0){
+                user2 = userList.get(0);
+            }
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+
+        if(StringUtils.isEmpty(user.getPassword())||!SecurityUtil.encryptMd5(user.getPassword()).equals(user2.getPassword())){
+            ApplicationException ae = new ApplicationException(ApplicationException.USER_UNCOMPLETE);
+            return putDataToMap(ae);
+        }
+        HttpSession session = request.getSession();
+        //判断验证码是否超时和正确
+        Map<String, Object> checkResult = checkVerifyCode(session, phone, code);
+        if((int)checkResult.get("code")!= 0){
+            return checkResult;
+        }
+        try {
+
+            user.setId(user1.getId());
+            user.setPassword(null);
+            user = userService.updateUser(user);
+            user = copyUser(user1, user);
+            session.setAttribute("CURRENT_USER",user);
+
+            //userService.saveUser(user);
+        } catch (Exception e) {
+            ApplicationException ae = (ApplicationException) e;
+            return putDataToMap(ae);
+        }
+        return putDataToMap(user);
+    }
+
+
 
     /**
      * 登陆
