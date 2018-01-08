@@ -237,7 +237,9 @@ public class IchMasterController extends BaseController<IchMaster>{
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
-        params.put("userId",user.getId());
+        if(user.getType() != null && user.getType()!=0){
+            params.put("userId",user.getId());
+        }
         Page<IchMaster> page = null;
         try{
             page = ichMasterService.getIchMasterByUserId(params);
