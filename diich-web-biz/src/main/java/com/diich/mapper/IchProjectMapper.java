@@ -39,4 +39,8 @@ public interface IchProjectMapper extends BaseMapper<IchProject>{
     List<Map> selectCertifications(Map<String, Object> params) throws Exception;
 
     Long getCount() throws Exception;
+
+    List<IchProject> selectCountryIchProjectList(RowBounds rowBounds)throws Exception;
+    //获取国家级项目总数
+    int selectCountryProjectCount();
 }

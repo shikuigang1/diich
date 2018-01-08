@@ -3,19 +3,18 @@ package com.diich.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.toolkit.IdWorker;
-import com.baomidou.mybatisplus.toolkit.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
 import com.diich.core.service.*;
 import com.diich.core.util.SimpleUpload;
 import com.diich.core.util.BuildHTMLEngine;
-import com.diich.core.util.FileType;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
+import net.sf.json.JSONArray;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
@@ -23,8 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -640,6 +637,140 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
         return ichProjectList;
     }
+
+    /**
+     * 获取国家级项目
+     * @param current
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public Page<Map> getCountryIchProjectList(Integer current, Integer pageSize) throws Exception{
+        int offset = (current - 1) * pageSize;
+        RowBounds rowBounds = new RowBounds(offset,pageSize);
+        Page<Map> page = new Page();
+        try{
+            int total = ichProjectMapper.selectCountryProjectCount();
+            List<IchProject> ichProjectList = ichProjectMapper.selectCountryIchProjectList(rowBounds);//获取国家级别的项目
+            List<Map> projectList = new ArrayList<>();
+            for (IchProject ichProject : ichProjectList) {
+                Map project = new HashMap();
+                project = build360Map(project,ichProject);//构建360需要的数据
+                projectList.add(project);
+            }
+            page.setRecords(projectList);
+            page.setTotal(total);
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return page;
+    }
+
+    @Override
+    public Map getCountryIchProjectById(String id) throws Exception {
+        Map project = new HashMap();
+        IchProject ichProject = new IchProject();
+        ichProject.setId(Long.parseLong(id));
+        project = build360Map(project, ichProject);
+        return project;
+    }
+
+    /**
+     * 构建360需要的数据
+     * @param project
+     * @param ichProject
+     * @return
+     * @throws Exception
+     */
+    private Map build360Map(Map project,IchProject ichProject) throws Exception{
+        project.put("id",ichProject.getId());
+        ContentFragment c = new ContentFragment();
+        c.setTargetId(ichProject.getId());
+        c.setTargetType(0);//标示项目
+        List<ContentFragment> contentFragmentList =  contentFragmentMapper.selectContentByTargetIdAndType(c);
+        ichProject.setContentFragmentList(contentFragmentList);
+        project = buildMap(contentFragmentList,project);//将数据封装到Map集合中
+        //查询传承人
+        List<IchMaster> ichMasterList = ichMasterMapper.selectByIchProjectId(ichProject.getId());
+        List<Map> masterList = new ArrayList<>();
+        for (IchMaster ichMaster : ichMasterList) {
+            Map master = new HashMap();
+            ContentFragment c1 = new ContentFragment();
+            c.setTargetId(ichMaster.getId());
+            c.setTargetType(1);//标示传承人
+            List<ContentFragment> masterContentFragmentList = contentFragmentMapper.selectMasterContentByTargetIdAndType(c);
+            for (ContentFragment contentFragment : masterContentFragmentList) {
+                if(contentFragment.getAttributeId() == 113){//传承人头图
+                    List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
+                    if(contentFragmentResourceList.size() > 0){
+                        Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResourceList.get(0).getResourceId());
+                        List<Resource> resourceList = new ArrayList<>();
+                        resourceList.add(resource);
+                        contentFragment.setResourceList(resourceList);
+                    }
+                }
+            }
+            ichMaster.setContentFragmentList(masterContentFragmentList);
+            master = buildMap(masterContentFragmentList,master);//将数据封装到Map集合中
+            //将所有传承人放到list中
+            masterList.add(master);
+            //将传承认数据放到项目集合中
+            project.put("masterList",masterList);
+        }
+        return project;
+    }
+
+
+    private Map buildMap(List<ContentFragment> contentFragmentList,Map project) throws Exception{
+        for (ContentFragment content :  contentFragmentList) {
+            if(content.getAttributeId()==4){
+                project.put("项目名称",content.getContent());
+            }
+            if(content.getAttributeId()==33){
+                if(content.getContent() != null){
+                    String con = content.getContent();
+                    String[] strs = con.split(",");
+                    String strName = "";
+                    for (String strcode : strs) {
+                        String name = dictionaryService.getTextByTypeAndCode(101, strcode, "chi");
+                        if(StringUtils.isNotBlank(name)){
+                            strName = name + ",";
+                        }else{
+                            strName =strcode + ",";
+                        }
+                    }
+                    strName = strName.substring(0,strName.lastIndexOf(","));
+                    project.put("地域",strName);
+                }
+            }
+            if(content.getAttributeId()==41){
+                String name = dictionaryService.getTextByTypeAndCode(103,content.getContent(), "chi");
+                project.put("遗产认定批次",name);
+            }
+            if(content.getAttributeId()==107){
+                project.put("项目代码",content.getContent());
+            }
+            if(content.getAttributeId()==36){
+                project.put("传承谱系",content.getContent());
+            }
+            if(content.getAttributeId()==39){
+                project.put("濒危状况",content.getContent());
+            }
+            if(content.getAttributeId()==13){
+                project.put("传承认名称",content.getContent());
+            }
+            if(content.getAttributeId()==113 && content.getResourceList().size()>0){
+                String url = PropertiesUtil.getString("masterPic")+content.getResourceList().get(0).getUri();
+                project.put("传承认图片",url);
+            }
+            if(content.getAttributeId()==24){
+                project.put("传承认简介",content.getContent());
+            }
+        }
+        return project;
+    }
+
 
     private List<ContentFragment> getContentFragmentListByProjectId(IchProject ichProject) throws Exception {
         ContentFragment c = new ContentFragment();

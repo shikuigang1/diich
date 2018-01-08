@@ -284,4 +284,12 @@
 
     from organization where organization.type=1) as temp
     </select>
+    <select id="selectCountryIchProjectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        select p.id from ich_project p LEFT JOIN content_fragment c on p.id = c.target_id where c.content in ('30001','30002','30003','30004') and (p.status = 0 or p.status = 10)
+
+    </select>
+    <select id="selectCountryProjectCount" resultType="java.lang.Integer">
+        select count(1) from ich_project p LEFT JOIN content_fragment c on p.id = c.target_id where c.content in ('30001','30002','30003','30004') and (p.status = 0 or p.status = 10)
+    </select>
 </mapper>
