@@ -104,9 +104,9 @@ public class EfeiyiShopController extends BaseController{
     }
     @RequestMapping("getWorksById")
     @ResponseBody
-    public Map<String, Object> getWorksById(HttpServletRequest request, HttpServletResponse response) {
-        String id = request.getParameter("worksId");
-        if(StringUtils.isEmpty(id)){
+    public Map<String, Object> getWorksByDoi(HttpServletRequest request, HttpServletResponse response) {
+        String doi = request.getParameter("worksId");
+        if(StringUtils.isEmpty(doi)){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
@@ -118,7 +118,7 @@ public class EfeiyiShopController extends BaseController{
         }
         Works works = null;
         try{
-            works = worksService.getWorksByDoi(id);
+            works = worksService.getWorksByDoi(doi);
             if(works != null){
                 works.setUri(PropertiesUtil.getString("_works") + works.getId() + ".html");
             }
