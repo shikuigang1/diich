@@ -114,4 +114,7 @@
       audit_user_id = #{auditUserId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectAuditBytargetIdAndTargetType" parameterType="com.diich.core.model.Audit" resultMap="BaseResultMap">
+    select * from audit where target_id = #{targetId,jdbcType=LONGVARCHAR} and target_type = #{targetType,jdbcType=INTEGER} and status = #{status,jdbcType=INTEGER}
+  </select>
 </mapper>

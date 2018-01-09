@@ -577,14 +577,22 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             ichProjectMapper.updateByPrimaryKeySelective(ichProject);//更新项目状态为已拒绝
             //添加拒绝信息到审核表
             Audit audit = new Audit();
-            audit.setId(IdWorker.getId());
-            audit.setStatus(1);
-            audit.setAuditDate(new Date());
-            audit.setAuditUserId(user.getId());
-            audit.setReason(reason);
             audit.setTargetType(0);
             audit.setTargetId(id);
-            auditMapper.insertSelective(audit);
+            audit.setStatus(1);
+            Audit selaudit = auditMapper.selectAuditBytargetIdAndTargetType(audit);
+            if(selaudit != null){
+                selaudit.setReason(reason);
+                selaudit.setAuditUserId(user.getId());
+                selaudit.setAuditDate(new Date());
+                auditMapper.updateByPrimaryKeySelective(selaudit);
+            }else{
+                audit.setId(IdWorker.getId());
+                audit.setAuditDate(new Date());
+                audit.setAuditUserId(user.getId());
+                audit.setReason(reason);
+                auditMapper.insertSelective(audit);
+            }
             commit(transactionStatus);
         }catch (Exception e){
             rollback(transactionStatus);

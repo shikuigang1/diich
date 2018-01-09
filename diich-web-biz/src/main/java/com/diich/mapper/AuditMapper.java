@@ -15,4 +15,6 @@ public interface AuditMapper extends BaseMapper<Audit> {
     int updateByPrimaryKeySelective(Audit record);
 
     int updateByPrimaryKey(Audit record);
+
+    Audit selectAuditBytargetIdAndTargetType(Audit audit);
 }
