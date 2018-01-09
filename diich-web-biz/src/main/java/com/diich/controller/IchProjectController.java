@@ -15,6 +15,7 @@ import com.diich.core.util.WebUtil;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -309,13 +310,14 @@ public class IchProjectController extends BaseController<IchProject> {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
-        String id = request.getParameter("params");
+        String id = request.getParameter("id");
+        String doi = request.getParameter("doi");
         if(id == null){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
         try{
-            ichProjectService.audit(Long.parseLong(id),user);
+            ichProjectService.audit(Long.parseLong(id),user,doi);
         }catch (Exception e){
             return putDataToMap(e);
         }
@@ -337,7 +339,7 @@ public class IchProjectController extends BaseController<IchProject> {
         }
         String id = request.getParameter("id");
         String reason = request.getParameter("reason");
-        if(id == null){
+        if(StringUtils.isEmpty(id)){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }

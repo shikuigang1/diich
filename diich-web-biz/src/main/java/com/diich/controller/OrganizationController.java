@@ -12,6 +12,7 @@ import com.diich.core.util.QRCodeGenerator;
 import com.diich.core.util.WebUtil;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -235,7 +236,7 @@ public class OrganizationController extends BaseController<Organization>{
         }
         String id = request.getParameter("id");
         String reason = request.getParameter("reason");
-        if(id == null){
+        if(StringUtils.isEmpty(id)){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }

@@ -12,6 +12,7 @@ import com.diich.core.util.WebUtil;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -271,7 +272,7 @@ public class IchMasterController extends BaseController<IchMaster>{
         }
         String id = request.getParameter("id");
         String reason = request.getParameter("reason");
-        if(id == null){
+        if(StringUtils.isEmpty(id)){
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }

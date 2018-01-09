@@ -12,7 +12,6 @@ import com.diich.core.util.SimpleUpload;
 import com.diich.core.util.BuildHTMLEngine;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.mapper.*;
-import net.sf.json.JSONArray;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -506,7 +505,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     }
 
     @Override
-    public void audit(Long id, User user) throws Exception {
+    public void audit(Long id, User user, String doi) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
         try{
             IchProject ichProject = ichProjectMapper.selectIchProjectById(id);
@@ -530,6 +529,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 IchProject project = ichProjectMapper.selectByPrimaryKey(mainVersionId);
                 List<ContentFragment> contentFragments = getContentFragmentListByProjectId(project);
                 for (ContentFragment contentFragment:contentFragmentList) {//交换主版本和分支版本内容
+                    if(contentFragment.getAttributeId() == 2){
+                        contentFragment.setContent(doi);
+                    }
                     contentFragment.setTargetId(mainVersionId);
                     contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
                 }
@@ -551,6 +553,14 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 ichProject.setStatus(0);
                 ichProject.setLastEditDate(new Date());
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
+                ContentFragment contentFragment = new ContentFragment();
+                contentFragment.setContent(doi);
+                contentFragment.setId(IdWorker.getId());
+                contentFragment.setTargetType(0);
+                contentFragment.setTargetId(id);
+                contentFragment.setStatus(0);
+                contentFragment.setAttributeId(2L);
+                contentFragmentMapper.insertSelective(contentFragment);
             }
             commit(transactionStatus);
         }catch (Exception e){
