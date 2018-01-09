@@ -47,6 +47,8 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
     private VersionService versionService;
     @Autowired
     private VersionMapper versionMapper;
+    @Autowired
+    private AuditMapper auditMapper;
     /**
      * 根据id获取机构信息
      * @param id
@@ -266,6 +268,37 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         return page;
+    }
+
+    /**
+     * 拒绝审核
+     * @param id
+     * @param user
+     * @param reason
+     */
+    @Override
+    public void refuseAudit(Long id, User user, String reason) throws Exception{
+        TransactionStatus transactionStatus = getTransactionStatus();
+        try{
+            Organization organization = new Organization();
+            organization.setId(id);
+            organization.setStatus(4);
+            organizationMapper.updateByPrimaryKeySelective(organization);//更新项目状态为已拒绝
+            //添加拒绝信息到审核表
+            Audit audit = new Audit();
+            audit.setId(IdWorker.getId());
+            audit.setStatus(1);//未通过审核
+            audit.setAuditDate(new Date());
+            audit.setAuditUserId(user.getId());//拒绝审核人
+            audit.setReason(reason);
+            audit.setTargetType(3);
+            audit.setTargetId(id);
+            auditMapper.insertSelective(audit);
+            commit(transactionStatus);
+        }catch (Exception e){
+            rollback(transactionStatus);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
     }
 
     private Organization updateOrganization(Organization organization) throws Exception {

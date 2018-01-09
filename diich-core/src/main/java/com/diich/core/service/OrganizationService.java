@@ -22,4 +22,12 @@ public interface OrganizationService {
     Organization getOrganizationByIdAndIUser(long id, User user) throws Exception;
 
     Page<Organization> getOrganizationByUserId(Map<String, Object> params) throws Exception;
+
+    /**
+     * 拒绝审核
+     * @param id
+     * @param user
+     * @param reason
+     */
+    void refuseAudit(Long id, User user, String reason) throws Exception;
 }
