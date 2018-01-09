@@ -317,6 +317,28 @@ public class IchProjectController extends BaseController<IchProject> {
         return putDataToMap(id);
     }
 
+    @RequestMapping("refuseAudit")
+    @ResponseBody
+    public Map<String, Object> refuseAudit(HttpServletRequest request, HttpServletResponse response){
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        String id = request.getParameter("id");
+        String reason = request.getParameter("reason");
+        if(id == null){
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        try{
+            ichProjectService.refuseAudit(Long.parseLong(id),user,reason);
+        }catch (Exception e){
+            return putDataToMap(e);
+        }
+        return putDataToMap(id);
+    }
+
     /**
      * 假删
      * @param request

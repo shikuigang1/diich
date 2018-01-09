@@ -62,6 +62,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     private VersionService versionService;
     @Autowired
     private VersionMapper versionMapper;
+    @Autowired
+    private AuditMapper auditMapper;
     /**
      * 根据id获取项目信息
      * @param id
@@ -538,7 +540,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
                 }
                 ichProject.setId(mainVersionId);
+                ichProject.setLastEditorId(project.getLastEditorId());
                 project.setId(id);
+                project.setLastEditorId(ichProject.getLastEditorId());
                 ver.setVersionType(1001);//已过期
                 versionMapper.updateByPrimaryKeySelective(versionList.get(0));
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
@@ -551,8 +555,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             commit(transactionStatus);
         }catch (Exception e){
             rollback(transactionStatus);
-            e.printStackTrace();
-
             if(e instanceof ApplicationException){
                 ApplicationException ae = (ApplicationException) e;
                 if(ae.getCode() == 2){
@@ -563,6 +565,31 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         }
 
 
+    }
+
+    @Override
+    public void refuseAudit(Long id, User user, String reason) throws Exception{
+        TransactionStatus transactionStatus = getTransactionStatus();
+        try{
+            IchProject ichProject = new IchProject();
+            ichProject.setId(id);
+            ichProject.setStatus(4);
+            ichProjectMapper.updateByPrimaryKeySelective(ichProject);//更新项目状态为已拒绝
+            //添加拒绝信息到审核表
+            Audit audit = new Audit();
+            audit.setId(IdWorker.getId());
+            audit.setStatus(1);
+            audit.setAuditDate(new Date());
+            audit.setAuditUserId(user.getId());
+            audit.setReason(reason);
+            audit.setTargetType(0);
+            audit.setTargetId(id);
+            auditMapper.insertSelective(audit);
+            commit(transactionStatus);
+        }catch (Exception e){
+            rollback(transactionStatus);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
     }
 
     /**
