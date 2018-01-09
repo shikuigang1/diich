@@ -299,6 +299,11 @@ public class IchProjectController extends BaseController<IchProject> {
     @RequestMapping("audit")
     @ResponseBody
     public Map<String, Object> audit(HttpServletRequest request, HttpServletResponse response){
+        try {
+            setHeader(request,response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
@@ -320,6 +325,11 @@ public class IchProjectController extends BaseController<IchProject> {
     @RequestMapping("refuseAudit")
     @ResponseBody
     public Map<String, Object> refuseAudit(HttpServletRequest request, HttpServletResponse response){
+        try {
+            setHeader(request,response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         User user = (User)WebUtil.getCurrentUser(request);
         if(user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
