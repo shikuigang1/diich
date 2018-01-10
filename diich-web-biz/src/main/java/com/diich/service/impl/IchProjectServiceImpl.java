@@ -519,6 +519,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return result;
     }
 
+    /**
+     * 项目审核
+     * @param id
+     * @param user
+     * @param doi
+     * @throws Exception
+     */
     @Override
     public void audit(Long id, User user, String doi) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
