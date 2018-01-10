@@ -129,6 +129,6 @@ public class Open360Controller extends BaseController {
         } catch (Exception e) {
             return putDataToMap(e);
         }
-        return putDataToMap(ichProject);
+        return ichProject;
     }
 }

@@ -1,8 +1,6 @@
 package com.diich.core.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.diich.core.base.BaseModel;
-import com.diich.core.model.IchMaster;
 import com.diich.core.model.IchProject;
 import com.diich.core.model.User;
 
@@ -40,9 +38,10 @@ public interface IchProjectService {
      *
      * @param id
      * @param user
+     * @param doi
      * @throws Exception
      */
-    void audit(Long id, User user) throws Exception;
+    void audit(Long id, User user, String doi) throws Exception;
 
     /**
      * 拒绝审核
