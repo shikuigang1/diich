@@ -66,4 +66,6 @@ public interface IchProjectService {
     Page<Map> getCountryIchProjectList(Integer current, Integer size) throws Exception;
 
     Map getCountryIchProjectById(String id) throws Exception;
+
+    List<Map> getCountryIchProjectIdList() throws Exception;
 }

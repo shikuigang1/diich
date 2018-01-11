@@ -30,4 +30,13 @@ public interface OrganizationService {
      * @param reason
      */
     void refuseAudit(Long id, User user, String reason) throws Exception;
+
+    /**
+     *
+     * @param id
+     * @param user
+     * @param doi
+     * @throws Exception
+     */
+    void audit(Long id, User user, String doi) throws Exception;
 }
