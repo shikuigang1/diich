@@ -500,6 +500,40 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         return ichMasterList;
     }
 
+    /**
+     * 传承人审核
+     * @param id
+     * @param user
+     * @param doi
+     */
+    @Override
+    public void audit(Long id, User user, String doi) {
+        TransactionStatus transactionStatus = getTransactionStatus();
+        try{
+            IchMaster ichMaster = ichMasterMapper.selectByPrimaryKey(id);
+            if( ichMaster!= null && ichMaster.getStatus() != null && ichMaster.getStatus() != 3){
+                throw new ApplicationException(ApplicationException.PARAM_ERROR, "该项目不是待审核状态");
+            }
+            //根据id查询版本
+            Version version = new Version();
+            version.setBranchVersionId(id);
+            version.setTargetType(0);
+            version.setVersionType(1000);
+            List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
+            //判断是否有其他版本
+
+        }catch (Exception e){
+
+        }
+    }
+
+    /**
+     * 传承人拒绝审核
+     * @param id
+     * @param user
+     * @param reason
+     * @throws Exception
+     */
     @Override
     public void refuseAudit(Long id, User user, String reason) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
@@ -514,12 +548,12 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             audit.setTargetId(id);
             audit.setStatus(1);
             Audit selaudit = auditMapper.selectAuditBytargetIdAndTargetType(audit);
-            if(selaudit != null){
+            if (selaudit != null) {
                 selaudit.setReason(reason);
                 selaudit.setAuditUserId(user.getId());
                 selaudit.setAuditDate(new Date());
                 auditMapper.updateByPrimaryKeySelective(selaudit);
-            }else{
+            } else {
                 audit.setId(IdWorker.getId());
                 audit.setAuditDate(new Date());
                 audit.setAuditUserId(user.getId());

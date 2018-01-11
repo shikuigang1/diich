@@ -252,6 +252,38 @@ public class IchMasterController extends BaseController<IchMaster>{
     }
 
     /**
+     * 审核
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("audit")
+    @ResponseBody
+    public Map<String, Object> audit(HttpServletRequest request, HttpServletResponse response){
+        try {
+            setHeader(request,response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        String id = request.getParameter("id");
+        String doi = request.getParameter("doi");
+        if(id == null){
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        try{
+            ichMasterService.audit(Long.parseLong(id),user,doi);
+        }catch (Exception e){
+            return putDataToMap(e);
+        }
+        return putDataToMap(id);
+    }
+    /**
      * 拒绝审核
      * @param request
      * @param response

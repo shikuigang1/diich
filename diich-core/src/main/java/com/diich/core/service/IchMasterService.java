@@ -45,4 +45,12 @@ public interface IchMasterService {
     List<IchMaster> getIchMaster(String masterName,String worksName) throws Exception;
     //拒绝审核
     void refuseAudit(Long id, User user, String reason) throws Exception;
+
+    /**
+     * 审核
+     * @param id
+     * @param user
+     * @param doi
+     */
+    void audit(Long id, User user, String doi) throws Exception;
 }
