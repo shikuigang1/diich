@@ -537,7 +537,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         try {
             IchProject ichProject = ichProjectMapper.selectIchProjectById(id);
             if (ichProject != null && ichProject.getStatus() != 3) {
-                rollback(transactionStatus);
                 throw new ApplicationException(ApplicationException.PARAM_ERROR, "该项目不是待审核状态");
             }
             //根据id查询版本
@@ -556,7 +555,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 IchProject project = ichProjectMapper.selectByPrimaryKey(mainVersionId);
                 List<ContentFragment> contentFragments = getContentFragmentListByProjectId(project);
                 for (ContentFragment contentFragment : contentFragmentList) {//交换主版本和分支版本内容
-                    if (contentFragment.getAttributeId() == 2) {
+                    if (contentFragment.getAttributeId() == 2 && StringUtils.isNotEmpty(doi)) {
                         contentFragment.setContent(doi);
                     }
                     contentFragment.setTargetId(mainVersionId);
@@ -570,8 +569,10 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
                 ichProject.setId(mainVersionId);
                 ichProject.setLastEditorId(project.getLastEditorId());
+                ichProject.setUri(project.getUri());
                 project.setId(id);
                 project.setLastEditorId(ichProject.getLastEditorId());
+                project.setUri(ichProject.getUri());
                 ver.setVersionType(1001);//已过期
                 versionMapper.updateByPrimaryKeySelective(versionList.get(0));
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
@@ -635,6 +636,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 audit.setStatus(0);
                 audit.setAuditDate(new Date());
                 audit.setAuditUserId(user.getId());
+                audit.setTargetId(targetId);
                 auditMapper.insertSelective(audit);
             }
         } catch (Exception e) {
