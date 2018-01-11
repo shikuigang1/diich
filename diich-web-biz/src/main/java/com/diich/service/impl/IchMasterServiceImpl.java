@@ -633,30 +633,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         return contentFragmentList;
     }
 
-    //    private List<ContentFragment> getContentFragmentList(List<ContentFragment>  contentFragmentList) throws Exception{
-//        for (ContentFragment contentFragment :contentFragmentList) {
-//            Long attrId = contentFragment.getAttributeId();
-//            Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
-//            contentFragment.setAttribute(attribute);//添加属性
-//            if(attribute != null && (attribute.getDataType() == 5 || attribute.getId() == 10 || attribute.getId() == 113)){
-//                List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
-//                List<Resource> resourceList = new ArrayList<>();
-//                for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
-//                    Long resourceId = contentFragmentResource.getResourceId();
-//                    if(resourceId == null){
-//                        continue;
-//                    }
-//                    Resource resource = resourceMapper.selectByPrimaryKey(resourceId);
-//                    if(resource!=null){
-//                        resource.setResOrder(contentFragmentResource.getResOrder());
-//                        resourceList.add(resource);
-//                    }
-//                }
-//                contentFragment.setResourceList(resourceList);
-//            }
-//        }
-//        return contentFragmentList;
-//    }
     private List<ContentFragment> getContentFragmentList(List<ContentFragment> contentFragmentList) throws Exception {
         List attrlist = new ArrayList();
         for (int i = 0; i < contentFragmentList.size(); i++) {
@@ -843,7 +819,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         Version version = new Version();
         version.setTargetType(1);
         version.setMainVersionId(masterId);
-        version.setVersionType(1000);
+        version.setVersionType(1002);
         version.setStatus(0);
 
         try {
@@ -861,8 +837,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     }
 
     public boolean isClaimed(Long masterId) throws Exception {
-        IchMaster master = getIchMasterById(masterId);
-
+        IchMaster master = ichMasterMapper.selectByPrimaryKey(masterId);
         if(master.getId() != null && master.getUserId() != null) {
             return true;
         }
