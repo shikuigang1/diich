@@ -228,20 +228,24 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         }
         if (user != null && user.getType() == 0) {//管理员权限
             ichProject = getAttribute(ichProject);//获取attribute
-            String str = PropertiesUtil.getString("freemarker.projectfilepath");
-            String fileName = str + "/" + ichProject.getId().toString() + ".html";
-            String s = buildHTML("pro.ftl", ichProject, fileName);//生成静态页面
-            String h5outPutPath = PropertiesUtil.getString("freemarker.h5_projectfilepath") + "/" + ichProject.getId() + ".html";
-            String h5 = buildHTML("h5_pro.ftl", ichProject, h5outPutPath);
-            String bucketName = PropertiesUtil.getString("img_bucketName");
-            String type = PropertiesUtil.getString("pc_phtml_server");
-            File file = new File(fileName);
-            SimpleUpload.uploadFile(new FileInputStream(file), bucketName, type + "/" + ichProject.getId() + ".html", file.length());//上传到阿里云
-            String h5type = PropertiesUtil.getString("m_phtml_server");
-            File h5file = new File(h5outPutPath);
-            SimpleUpload.uploadFile(new FileInputStream(h5file), bucketName, h5type + "/" + ichProject.getId() + ".html", h5file.length());//上传到阿里云
+            buildAndUpload(ichProject);
         }
         return ichProject;
+    }
+
+    private void buildAndUpload(IchProject ichProject) throws Exception {
+        String str = PropertiesUtil.getString("freemarker.projectfilepath");
+        String fileName = str + "/" + ichProject.getId().toString() + ".html";
+        String s = buildHTML("pro.ftl", ichProject, fileName);//生成静态页面
+        String h5outPutPath = PropertiesUtil.getString("freemarker.h5_projectfilepath") + "/" + ichProject.getId() + ".html";
+        String h5 = buildHTML("h5_pro.ftl", ichProject, h5outPutPath);
+        String bucketName = PropertiesUtil.getString("img_bucketName");
+        String type = PropertiesUtil.getString("pc_phtml_server");
+        File file = new File(fileName);
+        SimpleUpload.uploadFile(new FileInputStream(file), bucketName, type + "/" + ichProject.getId() + ".html", file.length());//上传到阿里云
+        String h5type = PropertiesUtil.getString("m_phtml_server");
+        File h5file = new File(h5outPutPath);
+        SimpleUpload.uploadFile(new FileInputStream(h5file), bucketName, h5type + "/" + ichProject.getId() + ".html", h5file.length());//上传到阿里云
     }
 
     private IchProject getAttribute(IchProject ichProject) throws Exception {
@@ -521,6 +525,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
     /**
      * 项目审核
+     *
      * @param id
      * @param user
      * @param doi
@@ -572,7 +577,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
                 ichProjectMapper.updateByPrimaryKeySelective(project);
                 //修改审核表信息
-                updateAudit(id,ichProject.getId(),user);
+                updateAudit(id, ichProject.getId(), user);
+                //获取项目信息
+//                 ichProject = getIchProject(ichProject);
             } else {//新增待审核的项目
                 ichProject.setStatus(0);
                 ichProject.setLastEditDate(new Date());
@@ -586,7 +593,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 contentFragment.setAttributeId(2L);
                 contentFragmentMapper.insertSelective(contentFragment);
                 saveAudit(id, user);//保存到审核表
+                //获取项目其他信息用以生成静态页面
+//                List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
+//                ichProject.setContentFragmentList(contentFragmentList);
+
             }
+            //生成静态页并上传
+//                 buildAndUpload(ichProject);
             commit(transactionStatus);
         } catch (Exception e) {
             rollback(transactionStatus);
@@ -810,7 +823,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     private Map build360Map(Map project, IchProject ichProject) throws Exception {
         project.put("uniq_key", ichProject.getId());
-        project.put("baikeurl", PropertiesUtil.getString("_project") + ichProject.getId() + ".html");
         ContentFragment c = new ContentFragment();
         c.setTargetId(ichProject.getId());
         c.setTargetType(0);//标示项目
@@ -844,25 +856,25 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             //将传承认数据放到项目集合中
             widgetsData.put("masters", masterList);
         }
-        if(widgetsData.get("title") != null){
-            project.put("title",widgetsData.get("title"));
+        if (widgetsData.get("title") != null) {
+            project.put("title", widgetsData.get("title"));
             widgetsData.remove("title");
         }
-        project.put("widgetsData",widgetsData);
+        project.put("widgetsData", widgetsData);
         return project;
     }
 
 
-    private Map buildProjectMap(List<ContentFragment> contentFragmentList,Map widgetsData) throws Exception {
+    private Map buildProjectMap(List<ContentFragment> contentFragmentList, Map widgetsData) throws Exception {
         List<Map> basics = new ArrayList<>();
 
         for (ContentFragment content : contentFragmentList) {
             if (content.getAttributeId() == 4) {
                 Map nameMap = new HashMap();
-                nameMap.put("key","项目名称");
+                nameMap.put("key", "项目名称");
                 nameMap.put("value", content.getContent());
                 basics.add(nameMap);
-                widgetsData.put("title",content.getContent());
+                widgetsData.put("title", content.getContent());
                 continue;
             }
             if (content.getAttributeId() == 33) {
@@ -880,7 +892,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     }
                     strName = strName.substring(0, strName.lastIndexOf(","));
                     Map disMap = new HashMap();
-                    disMap.put("key","地域");
+                    disMap.put("key", "地域");
                     disMap.put("value", strName);
                     basics.add(disMap);
                     continue;
@@ -889,33 +901,35 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             if (content.getAttributeId() == 41) {
                 String name = dictionaryService.getTextByTypeAndCode(103, content.getContent(), "chi");
                 Map pcMap = new HashMap();
-                pcMap.put("key","遗产认定批次");
+                pcMap.put("key", "遗产认定批次");
                 pcMap.put("value", name);
                 basics.add(pcMap);
                 continue;
             }
             if (content.getAttributeId() == 107) {
                 Map dmMap = new HashMap();
-                dmMap.put("key","项目代码");
+                dmMap.put("key", "项目代码");
                 dmMap.put("value", content.getContent());
                 basics.add(dmMap);
                 continue;
             }
             if (content.getAttributeId() == 36) {
-                widgetsData.put("heritage", content.getContent());
+                String[] contents = content.getContent().replace("<br/>", "\n").split("\\n");
+                widgetsData.put("heritage", contents);
                 continue;
             }
             if (content.getAttributeId() == 39) {
-                widgetsData.put("endangered", content.getContent());
+                String[] contents = content.getContent().replace("<br/>", "\n").split("\\n");
+                widgetsData.put("endangered", contents);
                 continue;
             }
         }
-        widgetsData.put("basics",basics);
+        widgetsData.put("basics", basics);
 
         return widgetsData;
     }
 
-    private Map buildMasterMap(List<ContentFragment> contentFragmentList,Map widgetsData) throws Exception {
+    private Map buildMasterMap(List<ContentFragment> contentFragmentList, Map widgetsData) throws Exception {
         for (ContentFragment content : contentFragmentList) {
             if (content.getAttributeId() == 13) {
                 widgetsData.put("name", content.getContent());
@@ -927,7 +941,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 continue;
             }
             if (content.getAttributeId() == 24) {
-                widgetsData.put("summary", content.getContent());
+                String[] contents = content.getContent().replace("<br/>", "\n").split("\\n");
+                widgetsData.put("summary", contents);
                 continue;
             }
         }
