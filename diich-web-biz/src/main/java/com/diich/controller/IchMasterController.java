@@ -333,4 +333,38 @@ public class IchMasterController extends BaseController<IchMaster>{
         byte[] imageBts = bos.toByteArray();
         return imageBts;
     }
+
+    /**
+     * 认领词条
+     * @param request
+     * @return
+     */
+    @RequestMapping("claimEntry")
+    @ResponseBody
+    public Map<String, Object> claimEntry(HttpServletRequest request) {
+        User user = (User) WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+
+        Long masterId = null;
+        IchMaster authInfo = null;
+
+        try {
+            masterId = Long.parseLong(request.getParameter("masterId"));
+            authInfo = parseObject(request.getParameter("authInfo"), IchMaster.class);
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+
+        try {
+            ichMasterService.claimEntry(masterId, authInfo, user);
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+
+        return putDataToMap(null);
+    }
 }
