@@ -829,4 +829,44 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
 
         }
     }
+
+    public void claimEntry(Long masterId, IchMaster authInfo, User user) throws Exception {
+        if(isClaimed(masterId)) {
+            throw new ApplicationException(ApplicationException.INNER_ERROR, "该词条已被认领");
+        }
+
+        TransactionStatus transactionStatus = getTransactionStatus();
+
+        authInfo.setUserId(user.getId());
+        authInfo.setStatus(3);//待审核
+
+        Version version = new Version();
+        version.setTargetType(1);
+        version.setMainVersionId(masterId);
+        version.setVersionType(1000);
+        version.setStatus(0);
+
+        try {
+            authInfo = saveMaster(authInfo, user);
+
+            version.setBranchVersionId(authInfo.getId());
+            versionMapper.insertSelective(version);
+
+            commit(transactionStatus);
+        } catch (Exception e) {
+            rollback(transactionStatus);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+
+    }
+
+    public boolean isClaimed(Long masterId) throws Exception {
+        IchMaster master = getIchMasterById(masterId);
+
+        if(master.getId() != null && master.getUserId() != null) {
+            return true;
+        }
+
+        return false;
+    }
 }

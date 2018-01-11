@@ -53,4 +53,6 @@ public interface IchMasterService {
      * @param doi
      */
     void audit(Long id, User user, String doi) throws Exception;
+
+    void claimEntry(Long masterId, IchMaster authInfo, User user) throws Exception;
 }
