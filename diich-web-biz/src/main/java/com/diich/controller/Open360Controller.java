@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -130,5 +131,32 @@ public class Open360Controller extends BaseController {
             return putDataToMap(e);
         }
         return ichProject;
+    }
+
+    @RequestMapping("getIchProjectIdList")
+    @ResponseBody
+    public Map<String, Object> getIchProjectIdList(HttpServletRequest request, HttpServletResponse response) {
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
+        String loginName = request.getParameter("loginName");
+//        if(StringUtils.isEmpty(loginName)){
+//            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR,"用户名不能为空");
+//            return putDataToMap(ae);
+//        }
+//        if(request.getSession().getAttribute("loginName") == null){
+//            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+//            return putDataToMap(ae);
+//        }
+        List<Map> ichProjectIdList = null;
+        try {
+            ichProjectIdList = ichProjectService.getCountryIchProjectIdList();
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+        return putDataToMap(ichProjectIdList);
     }
 }

@@ -815,6 +815,31 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return project;
     }
 
+    @Override
+    public List<Map> getCountryIchProjectIdList() throws Exception {
+        List<Map> idList = new ArrayList<>();
+        try{
+            List<IchProject> ichProjectList = ichProjectMapper.selectCountryIchProjectList();
+            List<Long> targetIds = new ArrayList<>();
+            for (IchProject ichProject : ichProjectList) {
+                Long id = ichProject.getId();
+                targetIds.add(id);
+            }
+            List<ContentFragment> ContentFragmentList= contentFragmentMapper.selectProjectNameByTargetIds(targetIds);
+            for (ContentFragment contentFragment : ContentFragmentList) {
+                Map <String,Object> idsMap = new HashMap<>();
+                idsMap.put("uniq_key",contentFragment.getTargetId());
+                idsMap.put("name",contentFragment.getContent());
+                idList.add(idsMap);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return idList;
+    }
+
     /**
      * 构建360需要的数据
      *

@@ -41,6 +41,7 @@ public interface IchProjectMapper extends BaseMapper<IchProject>{
     Long getCount() throws Exception;
 
     List<IchProject> selectCountryIchProjectList(RowBounds rowBounds)throws Exception;
+    List<IchProject> selectCountryIchProjectList()throws Exception;
     //获取国家级项目总数
     int selectCountryProjectCount();
 }

@@ -181,4 +181,14 @@
   <select id="selectMasterContentByTargetIdAndType" resultMap="BaseResultMap" parameterType="com.diich.core.model.ContentFragment">
     select id,attribute_id,content from content_fragment  where target_id = #{targetId,jdbcType=LONGVARCHAR} and target_type = #{targetType,jdbcType=INTEGER} and status = 0  and attribute_id  in (13,24,113);
   </select>
+  <select id="selectProjectNameByTargetIds" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    target_id,content
+    from content_fragment
+    where status = 0 and  attribute_id = 4 and target_type = 0 and target_id in
+    <foreach collection="list" item="id" open="(" close=")"
+             separator=",">
+      #{id}
+    </foreach>
+  </select>
 </mapper>

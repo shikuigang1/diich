@@ -133,21 +133,23 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         }
         if (user != null && user.getType() == 0){//管理员权限
             organization = getAttribute(organization);//获取attribute
-            String str = PropertiesUtil.getString("freemarker.organizationfilepath");
-            String fileName = str+"/"+organization.getId().toString() + ".html";
-            String s = buildHTML("organization.ftl", organization, fileName);//生成静态页面
-//            String h5outPutPath = PropertiesUtil.getString("freemarker.h5_organizationfilepat")+"/"+organization.getId().toString()+".html";
-//            buildHTML("h5_organization.ftl",organization,h5outPutPath);
-            String bucketName = PropertiesUtil.getString("img_bucketName");
-            String type = PropertiesUtil.getString("pc_ohtml_server");
-            File file = new File(fileName);
-            SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+organization.getId()+".html",file.length());//上传到阿里云
-//            String h5type = PropertiesUtil.getString("m_ohtml_server");
-//            File h5file = new File(h5outPutPath);
-//            SimpleUpload.uploadFile(new FileInputStream(h5file),bucketName,h5type+"/"+organization.getId()+".html",h5file.length());//上传到阿里云
+            buildAndUpload(organization);
         }
     }
-
+    private void buildAndUpload(Organization organization) throws Exception{
+        String str = PropertiesUtil.getString("freemarker.organizationfilepath");
+        String fileName = str+"/"+organization.getId().toString() + ".html";
+        String s = buildHTML("organization.ftl", organization, fileName);//生成静态页面
+        String bucketName = PropertiesUtil.getString("img_bucketName");
+        String type = PropertiesUtil.getString("pc_ohtml_server");
+        File file = new File(fileName);
+        SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+organization.getId()+".html",file.length());//上传到阿里云
+//        String h5outPutPath = PropertiesUtil.getString("freemarker.h5_organizationfilepat")+"/"+organization.getId().toString()+".html";
+//        buildHTML("h5_organization.ftl",organization,h5outPutPath);
+//        String h5type = PropertiesUtil.getString("m_ohtml_server");
+//        File h5file = new File(h5outPutPath);
+//        SimpleUpload.uploadFile(new FileInputStream(h5file),bucketName,h5type+"/"+organization.getId()+".html",h5file.length());//上传到阿里云
+    }
     private Organization getAttribute(Organization organization) throws Exception{
         List<ContentFragment> contentFragmentList = organization.getContentFragmentList();
         if(contentFragmentList != null && contentFragmentList.size() > 0){
@@ -305,6 +307,131 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             commit(transactionStatus);
         }catch (Exception e){
             rollback(transactionStatus);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+    }
+
+    @Override
+    public void audit(Long id, User user, String doi) throws Exception {
+        TransactionStatus transactionStatus = getTransactionStatus();
+        try{
+            Organization organization = organizationMapper.selectByPrimaryKey(id);
+            if( organization!= null && organization.getStatus() != null && organization.getStatus() != 3){
+                throw new ApplicationException(ApplicationException.PARAM_ERROR, "该机构信息不是待审核状态");
+            }
+            //根据id查询版本
+            Version version = new Version();
+            version.setBranchVersionId(id);
+            version.setTargetType(0);
+            version.setVersionType(1000);
+            List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
+            //判断是否有其他版本
+            if (versionList.size() > 0) {//非管理员修改的项目
+                Version ver = versionList.get(0);
+                Long mainVersionId = ver.getMainVersionId();
+                organization.setStatus(0);
+                List<ContentFragment> contentFragmentList = getContentFragmentListByOrganization(organization);
+                organization.setContentFragmentList(contentFragmentList);
+                organization.setLastEditDate(new Date());
+                Organization organ = organizationMapper.selectByPrimaryKey(mainVersionId);
+                List<ContentFragment> contentFragments = getContentFragmentListByOrganization(organ);
+                for (ContentFragment contentFragment : contentFragmentList) {//交换主版本和分支版本内容
+                    if (contentFragment.getAttributeId() == 137 && StringUtils.isNotEmpty(doi)) {
+                        contentFragment.setContent(doi);
+                    }
+                    contentFragment.setTargetId(mainVersionId);
+                    contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                }
+                organ.setStatus(1);//作废状态
+                organ.setLastEditDate(new Date());
+                for (ContentFragment contentFragment : contentFragments) {
+                    contentFragment.setTargetId(id);
+                    contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                }
+                organization.setId(mainVersionId);
+                organization.setLastEditorId(organ.getLastEditorId());
+                organization.setUri(organ.getUri());
+                organ.setId(id);
+                organ.setLastEditorId(organization.getLastEditorId());
+                organ.setUri(organization.getUri());
+                ver.setVersionType(1001);//已过期
+                versionMapper.updateByPrimaryKeySelective(versionList.get(0));
+                organizationMapper.updateByPrimaryKeySelective(organization);
+                organizationMapper.updateByPrimaryKeySelective(organ);
+                //修改审核表信息
+                updateAudit(id, organization.getId(), user);
+            } else {//新增待审核的机构
+                organization.setStatus(0);
+                organization.setLastEditDate(new Date());
+                organizationMapper.updateByPrimaryKeySelective(organization);
+                ContentFragment contentFragment = new ContentFragment();
+                contentFragment.setContent(doi);
+                contentFragment.setId(IdWorker.getId());
+                contentFragment.setTargetType(0);
+                contentFragment.setTargetId(id);
+                contentFragment.setStatus(0);
+                contentFragment.setAttributeId(2L);
+                contentFragmentMapper.insertSelective(contentFragment);
+                saveAudit(id, user);//保存到审核表
+                //获取项目其他信息用以生成静态页面
+//                List<ContentFragment> contentFragmentList = getContentFragmentListByOrganization(organization);
+//                organization.setContentFragmentList(contentFragmentList);
+            }
+            //生成静态页并上传
+//            buildAndUpload(organization);
+            commit(transactionStatus);
+        }catch (Exception e){
+            rollback(transactionStatus);
+            if (e instanceof ApplicationException) {
+                ApplicationException ae = (ApplicationException) e;
+                if (ae.getCode() == 2) {
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR, ae.getDetailMsg());
+                }
+            }
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+    }
+
+    private void updateAudit(Long id, Long targetId, User user) throws Exception {
+        try {
+            //添加信息到审核表
+            Audit audit = new Audit();
+            audit.setTargetType(3);
+            audit.setTargetId(id);
+            audit.setStatus(1);
+            Audit selaudit = auditMapper.selectAuditBytargetIdAndTargetType(audit);
+            if (selaudit != null) {
+                audit.setStatus(0);
+                selaudit.setReason(null);
+                selaudit.setAuditUserId(user.getId());
+                selaudit.setAuditDate(new Date());
+                selaudit.setTargetId(targetId);
+                auditMapper.updateByPrimaryKeySelective(selaudit);
+            } else {
+                audit.setId(IdWorker.getId());
+                audit.setStatus(0);
+                audit.setAuditDate(new Date());
+                audit.setAuditUserId(user.getId());
+                audit.setTargetId(targetId);
+                auditMapper.insertSelective(audit);
+            }
+        } catch (Exception e) {
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+    }
+
+    private void saveAudit(Long id, User user) throws Exception {
+        try {
+            //添加拒绝信息到审核表
+            Audit audit = new Audit();
+            audit.setTargetType(3);
+            audit.setTargetId(id);
+            audit.setId(IdWorker.getId());
+            audit.setAuditDate(new Date());
+            audit.setAuditUserId(user.getId());
+            audit.setStatus(0);//已通过
+            auditMapper.insertSelective(audit);
+        } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
     }
