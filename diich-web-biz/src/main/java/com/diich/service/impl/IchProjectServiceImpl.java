@@ -536,6 +536,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         TransactionStatus transactionStatus = getTransactionStatus();
         try {
             IchProject ichProject = ichProjectMapper.selectIchProjectById(id);
+            if(ichProject == null){
+                throw new ApplicationException(ApplicationException.PARAM_ERROR, "该id对应的项目不存在");
+            }
             if (ichProject != null && ichProject.getStatus() != 3) {
                 throw new ApplicationException(ApplicationException.PARAM_ERROR, "该项目不是待审核状态");
             }

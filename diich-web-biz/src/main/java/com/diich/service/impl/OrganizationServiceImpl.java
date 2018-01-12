@@ -325,6 +325,9 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         TransactionStatus transactionStatus = getTransactionStatus();
         try {
             Organization organization = organizationMapper.selectByPrimaryKey(id);
+            if(organization == null){
+                throw new ApplicationException(ApplicationException.PARAM_ERROR, "该id对应的机构不存在");
+            }
             if (organization != null && organization.getStatus() != null && organization.getStatus() != 3) {
                 throw new ApplicationException(ApplicationException.PARAM_ERROR, "该机构信息不是待审核状态");
             }

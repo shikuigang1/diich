@@ -512,6 +512,9 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         TransactionStatus transactionStatus = getTransactionStatus();
         try {
             IchMaster ichMaster = ichMasterMapper.selectByPrimaryKey(id);
+            if(ichMaster == null){
+                throw new ApplicationException(ApplicationException.PARAM_ERROR, "该id对应的传承人不存在");
+            }
             if (ichMaster != null && ichMaster.getStatus() != null && ichMaster.getStatus() != 3) {
                 throw new ApplicationException(ApplicationException.PARAM_ERROR, "传承人不是待审核状态");
             }
