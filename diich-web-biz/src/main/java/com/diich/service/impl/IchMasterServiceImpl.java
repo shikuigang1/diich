@@ -502,6 +502,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
 
     /**
      * 传承人审核
+     *
      * @param id
      * @param user
      * @param doi
@@ -509,10 +510,10 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     @Override
     public void audit(Long id, User user, String doi) {
         TransactionStatus transactionStatus = getTransactionStatus();
-        try{
+        try {
             IchMaster ichMaster = ichMasterMapper.selectByPrimaryKey(id);
-            if( ichMaster!= null && ichMaster.getStatus() != null && ichMaster.getStatus() != 3){
-                throw new ApplicationException(ApplicationException.PARAM_ERROR, "该项目不是待审核状态");
+            if (ichMaster != null && ichMaster.getStatus() != null && ichMaster.getStatus() != 3) {
+                throw new ApplicationException(ApplicationException.PARAM_ERROR, "传承人不是待审核状态");
             }
             //根据id查询版本
             Version version = new Version();
@@ -520,15 +521,166 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             version.setTargetType(0);
             version.setVersionType(1000);
             List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
+            //查询是否为词条认领
+            Version entver = new Version();
+            entver.setBranchVersionId(id);
+            entver.setTargetType(0);
+            entver.setVersionType(1002);
+            List<Version> verList = versionMapper.selectVersionByVersionIdAndTargetType(entver);
             //判断是否有其他版本
+            if (versionList.size() > 0) {//非管理员修改的项目
+                Version ver = versionList.get(0);
+                Long mainVersionId = ver.getMainVersionId();
+                ichMaster.setStatus(0);
+                List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);
+                ichMaster.setContentFragmentList(contentFragmentList);
+                ichMaster.setLastEditDate(new Date());
+                IchMaster master = ichMasterMapper.selectByPrimaryKey(mainVersionId);
+                List<ContentFragment> contentFragments = getContentFragmentByMasterId(master);
+                for (ContentFragment contentFragment : contentFragmentList) {//交换主版本和分支版本内容
+                    if (contentFragment.getAttributeId() == 137 && StringUtils.isNotEmpty(doi)) {
+                        contentFragment.setContent(doi);
+                    }
+                    contentFragment.setTargetId(mainVersionId);
+                    contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                }
+                master.setStatus(1);//作废状态
+                master.setLastEditDate(new Date());
+                for (ContentFragment contentFragment : contentFragments) {
+                    contentFragment.setTargetId(id);
+                    contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                }
+                ichMaster.setId(mainVersionId);
+                ichMaster.setLastEditorId(master.getLastEditorId());
+                ichMaster.setUri(master.getUri());
+                master.setId(id);
+                master.setLastEditorId(ichMaster.getLastEditorId());
+                master.setUri(ichMaster.getUri());
+                ver.setVersionType(1001);//已过期
+                versionMapper.updateByPrimaryKeySelective(versionList.get(0));
+                ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
+                ichMasterMapper.updateByPrimaryKeySelective(master);
+                //修改审核表信息
+                updateAudit(id, ichMaster.getId(), user);
+//                IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
+//                ichMaster.setIchProject(ichProject);
+                //生成静态页并上传
+//              buildAndUpload(ichMaster);
+            } else if (verList.size() > 0) {
+                //审核词条认领
+                IchMaster master = auditEntry(ichMaster, user, verList);
+                //生成静态页并上传
+//              buildAndUpload(master);
+            } else {//新增待审核的机构
+                ichMaster.setStatus(0);
+                ichMaster.setLastEditDate(new Date());
+                ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
+                ContentFragment contentFragment = new ContentFragment();
+                contentFragment.setContent(doi);
+                contentFragment.setId(IdWorker.getId());
+                contentFragment.setTargetType(0);
+                contentFragment.setTargetId(id);
+                contentFragment.setStatus(0);
+                contentFragment.setAttributeId(2L);
+                contentFragmentMapper.insertSelective(contentFragment);
+                saveAudit(id, user);//保存到审核表
+                //获取项目其他信息用以生成静态页面
+//                List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);
+//                ichMaster.setContentFragmentList(contentFragmentList);
+                //生成静态页并上传
+//                buildAndUpload(ichMaster);
+            }
+            commit(transactionStatus);
+        } catch (Exception e) {
 
-        }catch (Exception e){
+        }
+    }
 
+    private IchMaster auditEntry(IchMaster ichMaster, User user, List<Version> verList) throws Exception {
+        Version version = verList.get(0);
+        Long mainVersionId = version.getMainVersionId();
+        ichMaster.setStatus(1);
+        List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);//认领人信息
+        ichMaster.setLastEditDate(new Date());
+        IchMaster master = ichMasterMapper.selectByPrimaryKey(mainVersionId);//主版本内容
+        List<ContentFragment> contentFragments = getContentFragmentByMasterId(master);
+        Loop:for (ContentFragment contentFragment : contentFragmentList) {
+                for (ContentFragment content : contentFragments) {
+                    if(content.getAttributeId() != null && contentFragment.getAttributeId() != null && content.getAttributeId().equals(contentFragment.getAttributeId())){
+                        content.setContent(contentFragment.getContent());
+                        if(contentFragment.getResourceList() != null && contentFragment.getResourceList().size()>0){
+                            //查询中间表获取图片信息
+                            List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
+                            for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
+                                contentFragmentResource.setContentFragmentId(content.getId());
+                                contentFragmentResourceMapper.updateByPrimaryKeySelective(contentFragmentResource);//图片直接追加
+                            }
+
+                        }
+                        continue Loop;
+                    }else{//如果不是同一属性
+                        contentFragment.setTargetId(mainVersionId);
+                        contentFragmentMapper.insertSelective(contentFragment);
+                    }
+
+                }
+        }
+        ichMasterMapper.updateByPrimaryKeySelective(ichMaster);//更新项目表
+        version.setVersionType(1003);//认领结束
+        versionMapper.updateByPrimaryKeySelective(version);//更新版本表
+        updateAudit(ichMaster.getId(), mainVersionId,user);//更新审核表
+        contentFragments = getContentFragmentByMasterId(master);
+        master.setContentFragmentList(contentFragments);
+        return master;
+    }
+
+    private void updateAudit(Long id, Long targetId, User user) throws Exception {
+        try {
+            //添加信息到审核表
+            Audit audit = new Audit();
+            audit.setTargetType(0);
+            audit.setTargetId(id);
+            audit.setStatus(1);
+            Audit selaudit = auditMapper.selectAuditBytargetIdAndTargetType(audit);
+            if (selaudit != null) {
+                audit.setStatus(0);
+                selaudit.setReason(null);
+                selaudit.setAuditUserId(user.getId());
+                selaudit.setAuditDate(new Date());
+                selaudit.setTargetId(targetId);
+                auditMapper.updateByPrimaryKeySelective(selaudit);
+            } else {
+                audit.setId(IdWorker.getId());
+                audit.setStatus(0);
+                audit.setAuditDate(new Date());
+                audit.setAuditUserId(user.getId());
+                audit.setTargetId(targetId);
+                auditMapper.insertSelective(audit);
+            }
+        } catch (Exception e) {
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+    }
+
+    private void saveAudit(Long id, User user) throws Exception {
+        try {
+            //添加拒绝信息到审核表
+            Audit audit = new Audit();
+            audit.setTargetType(0);
+            audit.setTargetId(id);
+            audit.setId(IdWorker.getId());
+            audit.setAuditDate(new Date());
+            audit.setAuditUserId(user.getId());
+            audit.setStatus(0);//已通过
+            auditMapper.insertSelective(audit);
+        } catch (Exception e) {
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
     }
 
     /**
      * 传承人拒绝审核
+     *
      * @param id
      * @param user
      * @param reason
@@ -807,7 +959,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     }
 
     public void claimEntry(Long masterId, IchMaster authInfo, User user) throws Exception {
-        if(isClaimed(masterId)) {
+        if (isClaimed(masterId)) {
             throw new ApplicationException(ApplicationException.INNER_ERROR, "该词条已被认领");
         }
 
@@ -838,7 +990,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
 
     public boolean isClaimed(Long masterId) throws Exception {
         IchMaster master = ichMasterMapper.selectByPrimaryKey(masterId);
-        if(master.getId() != null && master.getUserId() != null) {
+        if (master.getId() != null && master.getUserId() != null) {
             return true;
         }
 
