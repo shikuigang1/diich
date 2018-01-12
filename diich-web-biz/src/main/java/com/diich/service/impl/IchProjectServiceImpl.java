@@ -582,6 +582,10 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 //获取项目信息
 //                 ichProject = getIchProject(ichProject);
             } else {//新增待审核的项目
+                //校验doi都编码是否重复
+                if (isDoiValable(doi)) {
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR, "doi编码重复");
+                }
                 ichProject.setStatus(0);
                 ichProject.setLastEditDate(new Date());
                 ichProjectMapper.updateByPrimaryKeySelective(ichProject);
@@ -614,6 +618,17 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         }
 
 
+    }
+
+    private boolean isDoiValable(String doi) throws Exception {
+        ContentFragment contentFragment = new ContentFragment();
+        contentFragment.setAttributeId(2L);
+        contentFragment.setContent(doi);
+        List<ContentFragment> contentFragments = contentFragmentMapper.selectByAttIdAndContent(contentFragment);
+        if (contentFragments.size() > 0) {
+            return true;
+        }
+        return false;
     }
 
     private void updateAudit(Long id, Long targetId, User user) throws Exception {
@@ -818,22 +833,22 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Override
     public List<Map> getCountryIchProjectIdList() throws Exception {
         List<Map> idList = new ArrayList<>();
-        try{
+        try {
             List<IchProject> ichProjectList = ichProjectMapper.selectCountryIchProjectList();
             List<Long> targetIds = new ArrayList<>();
             for (IchProject ichProject : ichProjectList) {
                 Long id = ichProject.getId();
                 targetIds.add(id);
             }
-            List<ContentFragment> ContentFragmentList= contentFragmentMapper.selectProjectNameByTargetIds(targetIds);
+            List<ContentFragment> ContentFragmentList = contentFragmentMapper.selectProjectNameByTargetIds(targetIds);
             for (ContentFragment contentFragment : ContentFragmentList) {
-                Map <String,Object> idsMap = new HashMap<>();
-                idsMap.put("uniq_key",contentFragment.getTargetId());
-                idsMap.put("name",contentFragment.getContent());
+                Map<String, Object> idsMap = new HashMap<>();
+                idsMap.put("uniq_key", contentFragment.getTargetId());
+                idsMap.put("name", contentFragment.getContent());
                 idList.add(idsMap);
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }

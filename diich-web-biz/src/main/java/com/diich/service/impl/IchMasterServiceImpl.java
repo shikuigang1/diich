@@ -572,6 +572,10 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 //生成静态页并上传
 //              buildAndUpload(master);
             } else {//新增待审核的机构
+                //校验doi都编码是否重复
+                if (isDoiValable(doi)) {
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR, "doi编码重复");
+                }
                 ichMaster.setStatus(0);
                 ichMaster.setLastEditDate(new Date());
                 ichMasterMapper.updateByPrimaryKeySelective(ichMaster);
@@ -594,6 +598,17 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         } catch (Exception e) {
 
         }
+    }
+
+    private boolean isDoiValable(String doi) throws Exception {
+        ContentFragment contentFragment = new ContentFragment();
+        contentFragment.setAttributeId(11L);
+        contentFragment.setContent(doi);
+        List<ContentFragment> contentFragments = contentFragmentMapper.selectByAttIdAndContent(contentFragment);
+        if (contentFragments.size() > 0) {
+            return true;
+        }
+        return false;
     }
 
     private IchMaster auditEntry(IchMaster ichMaster, User user, List<Version> verList) throws Exception {

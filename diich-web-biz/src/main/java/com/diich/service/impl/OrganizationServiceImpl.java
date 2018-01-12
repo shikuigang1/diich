@@ -28,7 +28,7 @@ import java.util.*;
  * Created by Administrator on 2017/8/21.
  */
 @Service("organizationService")
-public class OrganizationServiceImpl extends BaseService<Organization> implements OrganizationService{
+public class OrganizationServiceImpl extends BaseService<Organization> implements OrganizationService {
 
 
     @Autowired
@@ -49,8 +49,10 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
     private VersionMapper versionMapper;
     @Autowired
     private AuditMapper auditMapper;
+
     /**
      * 根据id获取机构信息
+     *
      * @param id
      * @return
      * @throws Exception
@@ -58,13 +60,13 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
     @Override
     public Organization getOrganization(Long id) throws Exception {
         Organization organization = null;
-        try{
+        try {
             organization = organizationMapper.selectByPrimaryKey(id);
-            if(organization != null){
+            if (organization != null) {
                 List<ContentFragment> contentFragmentList = getContentFragmentListByOrganization(organization);
                 organization.setContentFragmentList(contentFragmentList);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
@@ -72,22 +74,22 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
     }
 
     @Override
-    public Organization saveOrganization(Organization organization, User user) throws Exception{
+    public Organization saveOrganization(Organization organization, User user) throws Exception {
 
         TransactionStatus transactionStatus = getTransactionStatus();
         try {
-            if(organization.getStatus() != null && organization.getStatus() == 3){
+            if (organization.getStatus() != null && organization.getStatus() == 3) {
                 checkOrganization(organization);//校验机构信息
-                if(user != null && user.getType() == 0){//如果当前修改者是admin type代表权限  0 代表admin  1代表普通用户
+                if (user != null && user.getType() == 0) {//如果当前修改者是admin type代表权限  0 代表admin  1代表普通用户
                     organization.setStatus(0);
                 }
             }
             organization.setLastEditDate(new Date());
-            saveOrgan(organization , user);
+            saveOrgan(organization, user);
             commit(transactionStatus);
         } catch (Exception e) {
             rollback(transactionStatus);
-            if( e instanceof ApplicationException) {
+            if (e instanceof ApplicationException) {
                 ApplicationException ae = (ApplicationException) e;
                 if (ae.getCode() == 2) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, ae.getDetailMsg());
@@ -98,72 +100,76 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         return organization;
     }
 
-    private void saveOrgan(Organization organization, User user) throws Exception{
-        if(StringUtils.isEmpty(organization.getLang())){
+    private void saveOrgan(Organization organization, User user) throws Exception {
+        if (StringUtils.isEmpty(organization.getLang())) {
             organization.setLang("chi");
         }
-        if(user.getType() != null && user.getType() == 3){//0管理员账户 1普通用户 2传承人用户  3 机构用户
+        if (user.getType() != null && user.getType() == 3) {//0管理员账户 1普通用户 2传承人用户  3 机构用户
             organization.setUserId(user.getId());
         }
-        if(organization.getId() == null){
+        if (organization.getId() == null) {
             //校验该用户是否申报过机构信息
             List<Organization> organizationList = organizationMapper.selectOrganizationByUserId(user.getId());
-            if(organizationList.size() > 0){
-                throw new ApplicationException(ApplicationException.PARAM_ERROR,"当前账号已申报过机构信息");
+            if (organizationList.size() > 0) {
+                throw new ApplicationException(ApplicationException.PARAM_ERROR, "当前账号已申报过机构信息");
             }
             long id = IdWorker.getId();
             organization.setId(id);
             organization.setLastEditorId(user.getId());
-            organization.setUri(id +".html");
+            organization.setUri(id + ".html");
             organization.setStatus(2);//草稿状态
-            if(user != null && user.getType() == 0){
+            if (user != null && user.getType() == 0) {
                 organization.setStatus(0);
             }
             organizationMapper.insertSelective(organization);
-        }else{
+        } else {
             organizationMapper.updateByPrimaryKeySelective(organization);
         }
         List<ContentFragment> contentFragmentList = organization.getContentFragmentList();
-        if (contentFragmentList !=null && contentFragmentList.size()>0){
-            for (ContentFragment contentFragment: contentFragmentList) {
+        if (contentFragmentList != null && contentFragmentList.size() > 0) {
+            for (ContentFragment contentFragment : contentFragmentList) {
                 contentFragment.setTargetId(organization.getId());
                 //新增内容片断
                 contentFragmentService.saveContentFragment(contentFragment);
             }
         }
-        if (user != null && user.getType() == 0){//管理员权限
+        if (user != null && user.getType() == 0) {//管理员权限
             organization = getAttribute(organization);//获取attribute
             buildAndUpload(organization);
         }
     }
-    private void buildAndUpload(Organization organization) throws Exception{
+
+    private void buildAndUpload(Organization organization) throws Exception {
         String str = PropertiesUtil.getString("freemarker.organizationfilepath");
-        String fileName = str+"/"+organization.getId().toString() + ".html";
+        String fileName = str + "/" + organization.getId().toString() + ".html";
         String s = buildHTML("organization.ftl", organization, fileName);//生成静态页面
         String bucketName = PropertiesUtil.getString("img_bucketName");
         String type = PropertiesUtil.getString("pc_ohtml_server");
         File file = new File(fileName);
-        SimpleUpload.uploadFile(new FileInputStream(file),bucketName,type+"/"+organization.getId()+".html",file.length());//上传到阿里云
+        SimpleUpload.uploadFile(new FileInputStream(file), bucketName, type + "/" + organization.getId() + ".html", file.length());//上传到阿里云
 //        String h5outPutPath = PropertiesUtil.getString("freemarker.h5_organizationfilepat")+"/"+organization.getId().toString()+".html";
 //        buildHTML("h5_organization.ftl",organization,h5outPutPath);
 //        String h5type = PropertiesUtil.getString("m_ohtml_server");
 //        File h5file = new File(h5outPutPath);
 //        SimpleUpload.uploadFile(new FileInputStream(h5file),bucketName,h5type+"/"+organization.getId()+".html",h5file.length());//上传到阿里云
     }
-    private Organization getAttribute(Organization organization) throws Exception{
+
+    private Organization getAttribute(Organization organization) throws Exception {
         List<ContentFragment> contentFragmentList = organization.getContentFragmentList();
-        if(contentFragmentList != null && contentFragmentList.size() > 0){
+        if (contentFragmentList != null && contentFragmentList.size() > 0) {
             for (ContentFragment contentFragment : contentFragmentList) {
-                if(contentFragment.getAttribute() == null && contentFragment.getAttributeId() != null){
+                if (contentFragment.getAttribute() == null && contentFragment.getAttributeId() != null) {
                     Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
                     contentFragment.setAttribute(attribute);
                 }
             }
         }
-        return  organization;
+        return organization;
     }
+
     /**
      * 生成静态页面
+     *
      * @param templateName
      * @param organization
      * @param fileName
@@ -172,32 +178,33 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
      */
     @Override
     public String buildHTML(String templateName, Organization organization, String fileName) throws Exception {
-        try{
+        try {
             Map map = getJson(organization);
-            String uri = BuildHTMLEngine.buildHTML(templateName, organization,map, fileName);
+            String uri = BuildHTMLEngine.buildHTML(templateName, organization, map, fileName);
             return uri;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
     }
 
     /**
      * 预览
+     *
      * @param id
      * @return
      * @throws Exception
      */
     @Override
     public String preview(long id) throws Exception {
-        try{
+        try {
             Organization organization = getOrganizationById(id);
             String str = PropertiesUtil.getString("freemarker.organizationfilepath");
-            String fileName = str + "/" +organization.getId().toString() + ".html";
+            String fileName = str + "/" + organization.getId().toString() + ".html";
             String url = str.substring(str.lastIndexOf("/"));
             String s = buildHTML("preview_organization.ftl", organization, fileName);
             String uri = "." + url + "/" + id + ".html";
             return uri;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
@@ -205,7 +212,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
 
     @Override
     public Organization getOrganizationByIdAndIUser(long id, User user) throws Exception {
-        if(user.getType() != null && user.getType() == 0){//是管理员
+        if (user.getType() != null && user.getType() == 0) {//是管理员
             return getOrganization(id);
         }
         Version version = new Version();
@@ -213,7 +220,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         version.setVersionType(1000);
         version.setMainVersionId(id);
         List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
-        if(versionList.size()>0) {
+        if (versionList.size() > 0) {
             List tempList = new ArrayList();
             for (Version ver : versionList) {
                 tempList.add(ver.getBranchVersionId());
@@ -221,7 +228,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             List<Organization> organizationList = organizationMapper.selectOrganizationByUserId(user.getId());
             for (Organization organization : organizationList) {
                 Long organizationId = organization.getId();
-                if(tempList.contains(organizationId)){
+                if (tempList.contains(organizationId)) {
                     List<ContentFragment> contentFragmentList = getContentFragmentListByOrganization(organization);
                     organization.setContentFragmentList(contentFragmentList);
                     return organization;
@@ -229,16 +236,17 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             }
         }
         Organization organization = getOrganizationById(id);
-        if(organization !=null && (!organization.getLastEditorId().equals(user.getId())) || ( organization.getStatus() != null && organization.getStatus()==0)){
+        if (organization != null && (!organization.getLastEditorId().equals(user.getId())) || (organization.getStatus() != null && organization.getStatus() == 0)) {
             organization.setLastEditorId(user.getId());
             organization.setLastEditDate(new Date());
-            organization  = updateOrganization(organization);
+            organization = updateOrganization(organization);
         }
         return organization;
     }
 
     /**
      * 根据用户id获取机构信息
+     *
      * @param params
      * @return
      * @throws Exception
@@ -247,17 +255,17 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
     public Page<Organization> getOrganizationByUserId(Map<String, Object> params) throws Exception {
         Integer current = 1;
         Integer pageSize = 10;
-        if(params != null && params.containsKey("current")){
+        if (params != null && params.containsKey("current")) {
             current = (Integer) params.get("current");
         }
-        if(params != null && params.containsKey("pageSize")){
+        if (params != null && params.containsKey("pageSize")) {
             pageSize = (Integer) params.get("pageSize");
         }
         int offset = (current - 1) * pageSize;
-        RowBounds rowBounds = new RowBounds(offset,pageSize);
+        RowBounds rowBounds = new RowBounds(offset, pageSize);
         Page<Organization> page = new Page();
-        try{
-            List<Organization> organizationList = organizationMapper.selectOrganizationByUserAndStatus(params,rowBounds);
+        try {
+            List<Organization> organizationList = organizationMapper.selectOrganizationByUserAndStatus(params, rowBounds);
             for (Organization organization : organizationList) {
                 List<ContentFragment> contentFragmentList = getContentFragmentListByOrganization(organization);
                 organization.setContentFragmentList(contentFragmentList);
@@ -266,7 +274,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             int total = organizationMapper.selectOrganizationCountByUserAndStatus(params);
             page.setRecords(organizationList);
             page.setTotal(total);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         return page;
@@ -274,14 +282,15 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
 
     /**
      * 拒绝审核
+     *
      * @param id
      * @param user
      * @param reason
      */
     @Override
-    public void refuseAudit(Long id, User user, String reason) throws Exception{
+    public void refuseAudit(Long id, User user, String reason) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
-        try{
+        try {
             Organization organization = new Organization();
             organization.setId(id);
             organization.setStatus(4);
@@ -292,12 +301,12 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             audit.setTargetId(id);
             audit.setStatus(1);
             Audit selaudit = auditMapper.selectAuditBytargetIdAndTargetType(audit);
-            if(selaudit != null){
+            if (selaudit != null) {
                 selaudit.setReason(reason);
                 selaudit.setAuditUserId(user.getId());
                 selaudit.setAuditDate(new Date());
                 auditMapper.updateByPrimaryKeySelective(selaudit);
-            }else{
+            } else {
                 audit.setId(IdWorker.getId());
                 audit.setAuditDate(new Date());
                 audit.setAuditUserId(user.getId());
@@ -305,7 +314,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
                 auditMapper.insertSelective(audit);
             }
             commit(transactionStatus);
-        }catch (Exception e){
+        } catch (Exception e) {
             rollback(transactionStatus);
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
@@ -314,9 +323,9 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
     @Override
     public void audit(Long id, User user, String doi) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
-        try{
+        try {
             Organization organization = organizationMapper.selectByPrimaryKey(id);
-            if( organization!= null && organization.getStatus() != null && organization.getStatus() != 3){
+            if (organization != null && organization.getStatus() != null && organization.getStatus() != 3) {
                 throw new ApplicationException(ApplicationException.PARAM_ERROR, "该机构信息不是待审核状态");
             }
             //根据id查询版本
@@ -361,6 +370,10 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
                 //修改审核表信息
                 updateAudit(id, organization.getId(), user);
             } else {//新增待审核的机构
+                //校验doi都编码是否重复
+                if (isDoiValable(doi)) {
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR, "doi编码重复");
+                }
                 organization.setStatus(0);
                 organization.setLastEditDate(new Date());
                 organizationMapper.updateByPrimaryKeySelective(organization);
@@ -380,7 +393,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             //生成静态页并上传
 //            buildAndUpload(organization);
             commit(transactionStatus);
-        }catch (Exception e){
+        } catch (Exception e) {
             rollback(transactionStatus);
             if (e instanceof ApplicationException) {
                 ApplicationException ae = (ApplicationException) e;
@@ -390,6 +403,17 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             }
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
+    }
+
+    private boolean isDoiValable(String doi) throws Exception {
+        ContentFragment contentFragment = new ContentFragment();
+        contentFragment.setAttributeId(137L);
+        contentFragment.setContent(doi);
+        List<ContentFragment> contentFragments = contentFragmentMapper.selectByAttIdAndContent(contentFragment);
+        if (contentFragments.size() > 0) {
+            return true;
+        }
+        return false;
     }
 
     private void updateAudit(Long id, Long targetId, User user) throws Exception {
@@ -441,16 +465,16 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         long branchId = IdWorker.getId();
         organization.setId(branchId);
         organization.setStatus(2);
-        organization.setUri(branchId+".html");
+        organization.setUri(branchId + ".html");
         organizationMapper.insertSelective(organization);
         List<ContentFragment> ichProjectContentFragmentList = organization.getContentFragmentList();
-        if(ichProjectContentFragmentList != null && ichProjectContentFragmentList.size()>0){
+        if (ichProjectContentFragmentList != null && ichProjectContentFragmentList.size() > 0) {
             for (ContentFragment contentFragment : ichProjectContentFragmentList) {
                 contentFragment.setId(null);
                 contentFragment.setTargetId(branchId);
-                if(contentFragment.getAttributeId() != null){
+                if (contentFragment.getAttributeId() != null) {
                     Attribute attribute = attributeMapper.selectByPrimaryKey(contentFragment.getAttributeId());
-                    if(attribute != null && attribute.getTargetType() != null && attribute.getTargetType() == 13){
+                    if (attribute != null && attribute.getTargetType() != null && attribute.getTargetType() == 13) {
                         long id = IdWorker.getId();
                         attribute.setId(id);
                         attribute.setTargetId(branchId);
@@ -460,8 +484,8 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
                     }
                 }
                 List<Resource> resourceList = contentFragment.getResourceList();
-                if(resourceList != null && resourceList.size()>0){
-                    for(int i = 0 ; i <  resourceList.size() ; i++ ){
+                if (resourceList != null && resourceList.size() > 0) {
+                    for (int i = 0; i < resourceList.size(); i++) {
                         Resource resource = resourceList.get(i);
                         resource.setId(null);
                     }
@@ -480,16 +504,16 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         return organization;
     }
 
-    private Organization getOrganizationById(long id) throws Exception{
-        Organization organization =null;
-        try{
+    private Organization getOrganizationById(long id) throws Exception {
+        Organization organization = null;
+        try {
             organization = organizationMapper.selectOrganizationById(id);
-            if(organization != null){
+            if (organization != null) {
                 //内容片断列表
                 List<ContentFragment> contentFragmentList = getContentFragmentListByOrganization(organization);
                 organization.setContentFragmentList(contentFragmentList);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         return organization;
@@ -498,6 +522,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
 
     /**
      * 校验字段
+     *
      * @param organization
      * @throws Exception
      */
@@ -505,79 +530,82 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         List<ContentFragment> contentFragmentList = organization.getContentFragmentList();
 
         List<Attribute> attributeList = null;
-        try{
+        try {
             //根据targetType获取属性列表
             Attribute attribute = new Attribute();
             attribute.setTargetType(3);
             attributeList = attributeMapper.selectAttrListByCatIdAndTarType(attribute);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
-        for (Attribute attr :attributeList) {
-            checkSubmitField(attr,contentFragmentList);
+        for (Attribute attr : attributeList) {
+            checkSubmitField(attr, contentFragmentList);
         }
     }
 
     /**
      * 提交时对字段校验 机构信息
+     *
      * @param attribute
      * @param contentFragmentList
      * @throws Exception
      */
-    private void checkSubmitField(Attribute attribute, List<ContentFragment> contentFragmentList) throws Exception{
+    private void checkSubmitField(Attribute attribute, List<ContentFragment> contentFragmentList) throws Exception {
 
         int count = 0;
-        for (ContentFragment contentFragment:contentFragmentList) {
-            if(contentFragment.getAttributeId() == 0 || contentFragment.getAttributeId() == null){
+        for (ContentFragment contentFragment : contentFragmentList) {
+            if (contentFragment.getAttributeId() == 0 || contentFragment.getAttributeId() == null) {
                 continue;
             }
-            if(attribute.getMaxLength() != null&& (attribute.getId() == contentFragment.getAttributeId())){
-                if(contentFragment.getContent() !=null && contentFragment.getContent().trim().length() > attribute.getMaxLength()){
-                    throw  new ApplicationException(ApplicationException.PARAM_ERROR,attribute.getCnName().toString()+" 字段不符合要求");
+            if (attribute.getMaxLength() != null && (attribute.getId() == contentFragment.getAttributeId())) {
+                if (contentFragment.getContent() != null && contentFragment.getContent().trim().length() > attribute.getMaxLength()) {
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
                 }
             }
-            if(attribute.getMinLength() != null && attribute.getMinLength() > 0){//检查必填项是否已填
-                if(contentFragment.getAttributeId() != attribute.getId()){
+            if (attribute.getMinLength() != null && attribute.getMinLength() > 0) {//检查必填项是否已填
+                if (contentFragment.getAttributeId() != attribute.getId()) {
                     continue;
                 }
                 String content = contentFragment.getContent().trim();
-                count ++;
-                if(content == null || (content.length() < attribute.getMinLength())){
-                    throw new ApplicationException(ApplicationException.PARAM_ERROR,attribute.getCnName().toString()+" 字段不符合要求");
+                count++;
+                if (content == null || (content.length() < attribute.getMinLength())) {
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
                 }
             }
-            if((attribute.getMinLength() != null) && (count == 0)){
-                throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
+            if ((attribute.getMinLength() != null) && (count == 0)) {
+                throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
             }
 
         }
     }
+
     private List<ContentFragment> getContentFragmentListByOrganization(Organization organization) throws Exception {
         //内容片断列表
         ContentFragment con = new ContentFragment();
         con.setTargetId(organization.getId());
         con.setTargetType(3);
-        List<ContentFragment>  contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
+        List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
         contentFragmentList = getContentFragmentList(contentFragmentList);
         return contentFragmentList;
     }
-    private List<ContentFragment> getContentFragmentList(List<ContentFragment>  contentFragmentList) throws Exception{
-        for (ContentFragment contentFragment :contentFragmentList) {
+
+    private List<ContentFragment> getContentFragmentList(List<ContentFragment> contentFragmentList) throws Exception {
+        for (ContentFragment contentFragment : contentFragmentList) {
             Long attrId = contentFragment.getAttributeId();
             Attribute attribute = attributeMapper.selectByPrimaryKey(attrId);
             contentFragment.setAttribute(attribute);//添加属性
-            if(attribute != null && (attribute.getDataType() == 5 || attribute.getId() == 136)){
+            if (attribute != null && (attribute.getDataType() == 5 || attribute.getId() == 136)) {
                 List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
                 List<Resource> resourceList = new ArrayList<>();
-                for (ContentFragmentResource contentFragmentResource: contentFragmentResourceList) {
+                for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
                     Long resourceId = contentFragmentResource.getResourceId();
-                    if(resourceId == null){
+                    if (resourceId == null) {
                         continue;
                     }
                     Resource resource = resourceMapper.selectByPrimaryKey(resourceId);
-                    if(resource!=null){
+                    if (resource != null) {
                         resource.setResOrder(contentFragmentResource.getResOrder());
                         resourceList.add(resource);
                     }
@@ -590,26 +618,27 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
 
     /**
      * 获取前端所需要的资源数据
+     *
      * @param organization
      * @return
      */
-    private Map getJson(Organization organization) throws Exception{
+    private Map getJson(Organization organization) throws Exception {
         //list用于向前端传输按模块划分的图片资源   用于显示在详情页特定模块的资源
-        List<Map<String,Object>> list = new ArrayList<>();
+        List<Map<String, Object>> list = new ArrayList<>();
         //allMap 所有去除重复图片和视频后的资源容器  用于显示在详情页得查看所有图片
-        Map<String,Object> allMap = new HashedMap();
-        Map<String,Object> headMap = new HashedMap();           //放公共数据
+        Map<String, Object> allMap = new HashedMap();
+        Map<String, Object> headMap = new HashedMap();           //放公共数据
         Set<Resource> imgdist = new HashSet<>();                //去重后的所有图片集合
         Set<Resource> videosdist = new HashSet<>();              //去重后的所有视频集合
         List<ContentFragment> ContentFragmentList = organization.getContentFragmentList();
-        for (ContentFragment contentFragment:ContentFragmentList) {
+        for (ContentFragment contentFragment : ContentFragmentList) {
             Map<String, Object> map = new HashMap<>();          //存放每个模块的图片和视频
             List<Resource> img = new ArrayList<>();             //图片资源文件的集合
             List<Resource> video = new ArrayList<>();           //视频资源文件的集合
             Long contentFragmentId = contentFragment.getId();
             List<Resource> resourceList = contentFragment.getResourceList();
-            if(resourceList !=null && resourceList.size()>0){
-                for (Resource resource:resourceList) {
+            if (resourceList != null && resourceList.size() > 0) {
+                for (Resource resource : resourceList) {
                     if (resource.getType() == 0) {
                         img.add(resource);
                         imgdist.addAll(img);
@@ -623,21 +652,21 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             map.put("contentFragmentId", String.valueOf(contentFragmentId));
             map.put("imgs", img);
             map.put("videos", video);
-            if("chi".equals(organization.getLang())){
-                if(contentFragment.getAttributeId()==132){
-                    headMap.put("organizationName",contentFragment.getContent());
+            if ("chi".equals(organization.getLang())) {
+                if (contentFragment.getAttributeId() == 132) {
+                    headMap.put("organizationName", contentFragment.getContent());
                 }
             }
 
             list.add(map);
         }
-        allMap.put("imgs",imgdist);
-        allMap.put("videos",videosdist);
-        headMap.put("lang",organization.getLang());
+        allMap.put("imgs", imgdist);
+        allMap.put("videos", videosdist);
+        headMap.put("lang", organization.getLang());
         Map map = new HashMap();
         map.put("json", JSONObject.toJSON(list).toString());
-        map.put("jsonAll",JSONObject.toJSON(allMap).toString());
-        map.put("jsonHead",JSONObject.toJSON(headMap).toString());
+        map.put("jsonAll", JSONObject.toJSON(allMap).toString());
+        map.put("jsonHead", JSONObject.toJSON(headMap).toString());
         return map;
     }
 }
