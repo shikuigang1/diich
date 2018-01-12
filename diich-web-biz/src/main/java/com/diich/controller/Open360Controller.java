@@ -33,33 +33,36 @@ public class Open360Controller extends BaseController {
     private UserService userService;
     @Autowired
     private IchProjectService ichProjectService;
+
     /**
      * 登陆
+     *
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping(value = "/authentication", method = RequestMethod.GET)
-    public Map<String, Object> login(HttpServletRequest request, HttpServletResponse response){
-        try{
-            setHeader(request,response);
-        }catch (Exception e){
+    @RequestMapping("authentication")
+    @ResponseBody
+    public Map<String, Object> authentication(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            setHeader(request, response);
+        } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
             return putDataToMap(ae);
         }
         String loginName = request.getParameter("loginName");
         String password = request.getParameter("password");
-        if(StringUtils.isEmpty(loginName) || StringUtils.isEmpty(password)){
+        if (StringUtils.isEmpty(loginName) || StringUtils.isEmpty(password)) {
             ApplicationException ae = new ApplicationException(ApplicationException.USER_UNCOMPLETE);
             return putDataToMap(ae);
         }
-        User user =null;
-        try{
-            user = userService.login(loginName,password);
+        User user = null;
+        try {
+            user = userService.login(loginName, password);
             HttpSession session = request.getSession();
             user.setPassword(null);
-            session.setAttribute(user.getLoginName(),user);
-        }catch (Exception e){
+            session.setAttribute(user.getLoginName(), user);
+        } catch (Exception e) {
             return putDataToMap(e);
         }
         return putDataToMap(user);
@@ -68,59 +71,60 @@ public class Open360Controller extends BaseController {
     @RequestMapping("getIchProjectList")
     @ResponseBody
     public Map<String, Object> getIchProjectList(HttpServletRequest request, HttpServletResponse response) {
-        try{
-            setHeader(request,response);
-        }catch (Exception e){
+        try {
+            setHeader(request, response);
+        } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
             return putDataToMap(ae);
         }
         String loginName = request.getParameter("loginName");
         String pageNo = request.getParameter("pageNo");
         String pageSize = request.getParameter("pageSize");
-       if(StringUtils.isEmpty(loginName)){
-           ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR,"用户名不能为空");
-           return putDataToMap(ae);
-       }
-       if(request.getSession().getAttribute("loginName") == null){
-           ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
-           return putDataToMap(ae);
-       }
+        if (StringUtils.isEmpty(loginName)) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR, "用户名不能为空");
+            return putDataToMap(ae);
+        }
+        if (request.getSession().getAttribute(loginName) == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
         Integer current = 1;
         Integer size = 10;
-       if(!StringUtils.isEmpty(pageNo)){
-           current=Integer.parseInt(pageNo);
-       }
-        if(!StringUtils.isEmpty(pageSize)){
-            size=Integer.parseInt(pageSize);
+        if (!StringUtils.isEmpty(pageNo)) {
+            current = Integer.parseInt(pageNo);
+        }
+        if (!StringUtils.isEmpty(pageSize)) {
+            size = Integer.parseInt(pageSize);
         }
         Page<Map> page = null;
         try {
-            page = ichProjectService.getCountryIchProjectList(current,size);
+            page = ichProjectService.getCountryIchProjectList(current, size);
         } catch (Exception e) {
             return putDataToMap(e);
         }
         return putDataToMap(page);
     }
+
     @RequestMapping("getIchProjectById")
     @ResponseBody
-    public Map<String, Object> getIchProject(HttpServletRequest request, HttpServletResponse response){
-        try{
-            setHeader(request,response);
-        }catch (Exception e){
+    public Map<String, Object> getIchProject(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            setHeader(request, response);
+        } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
             return putDataToMap(ae);
         }
         String loginName = request.getParameter("loginName");
         String id = request.getParameter("id");
-        if(StringUtils.isEmpty(loginName)){
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR,"用户名不能为空");
+        if (StringUtils.isEmpty(loginName)) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR, "用户名不能为空");
             return putDataToMap(ae);
         }
-        if(StringUtils.isEmpty(id)){
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR,"id不能为空");
+        if (StringUtils.isEmpty(id)) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR, "id不能为空");
             return putDataToMap(ae);
         }
-        if(request.getSession().getAttribute("loginName") == null){
+        if (request.getSession().getAttribute(loginName) == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
@@ -136,21 +140,21 @@ public class Open360Controller extends BaseController {
     @RequestMapping("getIchProjectIdList")
     @ResponseBody
     public Map<String, Object> getIchProjectIdList(HttpServletRequest request, HttpServletResponse response) {
-        try{
-            setHeader(request,response);
-        }catch (Exception e){
+        try {
+            setHeader(request, response);
+        } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
             return putDataToMap(ae);
         }
         String loginName = request.getParameter("loginName");
-//        if(StringUtils.isEmpty(loginName)){
-//            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR,"用户名不能为空");
-//            return putDataToMap(ae);
-//        }
-//        if(request.getSession().getAttribute("loginName") == null){
-//            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
-//            return putDataToMap(ae);
-//        }
+        if (StringUtils.isEmpty(loginName)) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR, "用户名不能为空");
+            return putDataToMap(ae);
+        }
+        if (request.getSession().getAttribute(loginName) == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
         List<Map> ichProjectIdList = null;
         try {
             ichProjectIdList = ichProjectService.getCountryIchProjectIdList();

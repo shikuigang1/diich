@@ -538,7 +538,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 IchMaster master = ichMasterMapper.selectByPrimaryKey(mainVersionId);
                 List<ContentFragment> contentFragments = getContentFragmentByMasterId(master);
                 for (ContentFragment contentFragment : contentFragmentList) {//交换主版本和分支版本内容
-                    if (contentFragment.getAttributeId() == 137 && StringUtils.isNotEmpty(doi)) {
+                    if (contentFragment.getAttributeId() == 11 && StringUtils.isNotEmpty(doi)) {
                         contentFragment.setContent(doi);
                     }
                     contentFragment.setTargetId(mainVersionId);
@@ -581,7 +581,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 contentFragment.setTargetType(0);
                 contentFragment.setTargetId(id);
                 contentFragment.setStatus(0);
-                contentFragment.setAttributeId(2L);
+                contentFragment.setAttributeId(11L);
                 contentFragmentMapper.insertSelective(contentFragment);
                 saveAudit(id, user);//保存到审核表
                 //获取项目其他信息用以生成静态页面
@@ -604,31 +604,33 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         ichMaster.setLastEditDate(new Date());
         IchMaster master = ichMasterMapper.selectByPrimaryKey(mainVersionId);//主版本内容
         List<ContentFragment> contentFragments = getContentFragmentByMasterId(master);
-        Loop:for (ContentFragment contentFragment : contentFragmentList) {
-                for (ContentFragment content : contentFragments) {
-                    if(content.getAttributeId() != null && contentFragment.getAttributeId() != null && content.getAttributeId().equals(contentFragment.getAttributeId())){
-                        content.setContent(contentFragment.getContent());
-                        if(contentFragment.getResourceList() != null && contentFragment.getResourceList().size()>0){
-                            //查询中间表获取图片信息
-                            List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
-                            for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
-                                contentFragmentResource.setContentFragmentId(content.getId());
-                                contentFragmentResourceMapper.updateByPrimaryKeySelective(contentFragmentResource);//图片直接追加
-                            }
-
+        //对外循环做个标记
+        Loop:
+        for (ContentFragment contentFragment : contentFragmentList) {
+            for (ContentFragment content : contentFragments) {
+                if (content.getAttributeId() != null && contentFragment.getAttributeId() != null && content.getAttributeId().equals(contentFragment.getAttributeId())) {//相同属性
+                    content.setContent(contentFragment.getContent());
+                    if (contentFragment.getResourceList() != null && contentFragment.getResourceList().size() > 0) {
+                        //查询中间表获取图片信息
+                        List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
+                        for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
+                            contentFragmentResource.setContentFragmentId(content.getId());
+                            contentFragmentResourceMapper.updateByPrimaryKeySelective(contentFragmentResource);//图片直接追加
                         }
-                        continue Loop;
-                    }else{//如果不是同一属性
-                        contentFragment.setTargetId(mainVersionId);
-                        contentFragmentMapper.insertSelective(contentFragment);
-                    }
 
+                    }
+                    continue Loop;//跳出里层循环继续外层循环
+                } else {//如果不是同一属性
+                    contentFragment.setTargetId(mainVersionId);
+                    contentFragmentMapper.insertSelective(contentFragment);
                 }
+
+            }
         }
         ichMasterMapper.updateByPrimaryKeySelective(ichMaster);//更新项目表
         version.setVersionType(1003);//认领结束
         versionMapper.updateByPrimaryKeySelective(version);//更新版本表
-        updateAudit(ichMaster.getId(), mainVersionId,user);//更新审核表
+        updateAudit(ichMaster.getId(), mainVersionId, user);//更新审核表
         contentFragments = getContentFragmentByMasterId(master);
         master.setContentFragmentList(contentFragments);
         return master;

@@ -370,7 +370,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
                 contentFragment.setTargetType(0);
                 contentFragment.setTargetId(id);
                 contentFragment.setStatus(0);
-                contentFragment.setAttributeId(2L);
+                contentFragment.setAttributeId(137L);
                 contentFragmentMapper.insertSelective(contentFragment);
                 saveAudit(id, user);//保存到审核表
                 //获取项目其他信息用以生成静态页面
