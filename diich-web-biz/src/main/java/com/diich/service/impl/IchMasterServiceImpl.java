@@ -423,7 +423,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     @Override
     public Page<IchMaster> getIchMasterByUserId(Map<String, Object> params) throws Exception {
         Integer current = 1;
-        Integer pageSize = 10;
+        Integer pageSize = 50;
         if (params != null && params.containsKey("current")) {
             current = (Integer) params.get("current");
         }

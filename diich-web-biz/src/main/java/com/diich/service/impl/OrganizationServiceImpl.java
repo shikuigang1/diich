@@ -254,7 +254,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
     @Override
     public Page<Organization> getOrganizationByUserId(Map<String, Object> params) throws Exception {
         Integer current = 1;
-        Integer pageSize = 10;
+        Integer pageSize = 50;
         if (params != null && params.containsKey("current")) {
             current = (Integer) params.get("current");
         }
