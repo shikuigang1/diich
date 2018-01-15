@@ -38,23 +38,23 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("ichMaster")
-public class IchMasterController extends BaseController<IchMaster>{
+public class IchMasterController extends BaseController<IchMaster> {
 
     @Autowired
     private IchMasterService ichMasterService;
 
     @RequestMapping("getIchMaster")
     @ResponseBody
-    public Map<String, Object> getIchMaster(HttpServletRequest request,HttpServletResponse response) {
+    public Map<String, Object> getIchMaster(HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("params");
-        if(id == null || "".equals(id)) {
+        if (id == null || "".equals(id)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
         IchMaster ichMaster = null;
-        try{
+        try {
             ichMaster = ichMasterService.getIchMaster(id);
-        }catch (Exception e){
+        } catch (Exception e) {
             return putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -63,33 +63,34 @@ public class IchMasterController extends BaseController<IchMaster>{
 
     /**
      * 对status 不做限制
+     *
      * @param request
      * @param response
      * @return
      */
     @RequestMapping("getIchMasterById")
     @ResponseBody
-    public Map<String, Object> getIchMasterById(HttpServletRequest request,HttpServletResponse response) {
-        try{
-            setHeader(request,response);
-        }catch (Exception e){
+    public Map<String, Object> getIchMasterById(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            setHeader(request, response);
+        } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
             return putDataToMap(ae);
         }
         String id = request.getParameter("params");
-        if(id == null || "".equals(id)) {
+        if (id == null || "".equals(id)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
-        User user = (User)WebUtil.getCurrentUser(request);
-        if(user == null) {
+        User user = (User) WebUtil.getCurrentUser(request);
+        if (user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
         IchMaster ichMaster = null;
-        try{
-            ichMaster = ichMasterService.getIchMasterByIdAndUser(Long.parseLong(id),user);
-        }catch (Exception e){
+        try {
+            ichMaster = ichMasterService.getIchMasterByIdAndUser(Long.parseLong(id), user);
+        } catch (Exception e) {
             return putDataToMap(e);
         }
         return putDataToMap(ichMaster);
@@ -97,15 +98,15 @@ public class IchMasterController extends BaseController<IchMaster>{
 
     @RequestMapping("getIchMasterList")
     @ResponseBody
-    public Map<String, Object> getIchMasterList(HttpServletRequest request,HttpServletResponse response) {
+    public Map<String, Object> getIchMasterList(HttpServletRequest request, HttpServletResponse response) {
 
         Map<String, Object> params = new HashMap<>();
         String param = request.getParameter("params");
-        try{
-            if(param !=null){
+        try {
+            if (param != null) {
                 params = JSON.parseObject(param, Map.class);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
@@ -121,15 +122,15 @@ public class IchMasterController extends BaseController<IchMaster>{
 
     @RequestMapping("saveIchMaster")
     @ResponseBody
-    public Map<String, Object> saveIchMaster(HttpServletRequest request,HttpServletResponse response) {
-        try{
-            setHeader(request,response);
-        }catch (Exception e){
+    public Map<String, Object> saveIchMaster(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            setHeader(request, response);
+        } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
             return putDataToMap(ae);
         }
         User user = (User) WebUtil.getCurrentUser(request);
-        if(user == null) {
+        if (user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
@@ -146,23 +147,24 @@ public class IchMasterController extends BaseController<IchMaster>{
         ichMaster.setLastEditorId(user.getId());
 
         try {
-            ichMasterService.saveIchMaster(ichMaster , user);
+            ichMasterService.saveIchMaster(ichMaster, user);
         } catch (Exception e) {
             return putDataToMap(e);
         }
         return putDataToMap(ichMaster);
     }
+
     @RequestMapping("submitIchMaster")
     @ResponseBody
-    public Map<String, Object> submitIchMaster(HttpServletRequest request,HttpServletResponse response) {
-        try{
-            setHeader(request,response);
-        }catch (Exception e){
+    public Map<String, Object> submitIchMaster(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            setHeader(request, response);
+        } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
             return putDataToMap(ae);
         }
         User user = (User) WebUtil.getCurrentUser(request);
-        if(user == null) {
+        if (user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
@@ -180,32 +182,33 @@ public class IchMasterController extends BaseController<IchMaster>{
 
         try {
             ichMaster.setStatus(3);
-            ichMasterService.saveIchMaster(ichMaster , user);
+            ichMasterService.saveIchMaster(ichMaster, user);
         } catch (Exception e) {
             return putDataToMap(e);
         }
         return putDataToMap(ichMaster);
     }
+
     /**
      * 预览
+     *
      * @param request
      * @param response
      * @return
-     *
      */
     @RequestMapping("preview")
     @ResponseBody
     public Map<String, Object> preview(HttpServletRequest request, HttpServletResponse response) {
 
         String id = request.getParameter("params");
-        if(id == null || "".equals(id)) {
+        if (id == null || "".equals(id)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
         String uri = null;
-        try{
+        try {
             uri = ichMasterService.preview(Long.parseLong(id));
-        }catch (Exception e){
+        } catch (Exception e) {
             return putDataToMap(e);
         }
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -213,38 +216,38 @@ public class IchMasterController extends BaseController<IchMaster>{
     }
 
     /**
-     *个人中心
+     * 个人中心
+     *  传承人列表
      * @param request
      * @param response
      * @return
-     *
      */
     @RequestMapping("getIchMasterByUserId")
     @ResponseBody
     public Map<String, Object> getIchMasterByUserId(HttpServletRequest request, HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
-        User user = (User)WebUtil.getCurrentUser(request);
-        if(user == null) {
+        User user = (User) WebUtil.getCurrentUser(request);
+        if (user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
         Map<String, Object> params = new HashMap<>();
         String param = request.getParameter("params");
-        try{
-            if(param !=null){
+        try {
+            if (param != null) {
                 params = JSON.parseObject(param, Map.class);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
-        if(user.getType() != null && user.getType()!=0){
-            params.put("userId",user.getId());
+        if (user.getType() != null && user.getType() != 0) {
+            params.put("userId", user.getId());
         }
         Page<IchMaster> page = null;
-        try{
+        try {
             page = ichMasterService.getIchMasterByUserId(params);
-        }catch (Exception e){
+        } catch (Exception e) {
             return putDataToMap(e);
         }
 
@@ -253,38 +256,41 @@ public class IchMasterController extends BaseController<IchMaster>{
 
     /**
      * 审核
+     *
      * @param request
      * @param response
      * @return
      */
     @RequestMapping("audit")
     @ResponseBody
-    public Map<String, Object> audit(HttpServletRequest request, HttpServletResponse response){
+    public Map<String, Object> audit(HttpServletRequest request, HttpServletResponse response) {
         try {
-            setHeader(request,response);
+            setHeader(request, response);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        User user = (User)WebUtil.getCurrentUser(request);
-        if(user == null) {
+        User user = (User) WebUtil.getCurrentUser(request);
+        if (user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
         String id = request.getParameter("id");
         String doi = request.getParameter("doi");
-        if(id == null){
+        if (id == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
-        try{
-            ichMasterService.audit(Long.parseLong(id),user,doi);
-        }catch (Exception e){
+        try {
+            ichMasterService.audit(Long.parseLong(id), user, doi);
+        } catch (Exception e) {
             return putDataToMap(e);
         }
         return putDataToMap(id);
     }
+
     /**
      * 拒绝审核
+     *
      * @param request
      * @param response
      * @return
@@ -293,59 +299,61 @@ public class IchMasterController extends BaseController<IchMaster>{
     @ResponseBody
     public Map<String, Object> refuseAudit(HttpServletRequest request, HttpServletResponse response) {
         try {
-            setHeader(request,response);
+            setHeader(request, response);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        User user = (User)WebUtil.getCurrentUser(request);
-        if(user == null) {
+        User user = (User) WebUtil.getCurrentUser(request);
+        if (user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
         String id = request.getParameter("id");
         String reason = request.getParameter("reason");
-        if(StringUtils.isEmpty(id)){
+        if (StringUtils.isEmpty(id)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
-        try{
-            ichMasterService.refuseAudit(Long.parseLong(id),user,reason);
-        }catch (Exception e){
+        try {
+            ichMasterService.refuseAudit(Long.parseLong(id), user, reason);
+        } catch (Exception e) {
             return putDataToMap(e);
         }
         return putDataToMap(id);
     }
+
     /**
      * 假删
+     *
      * @param request
      * @param response
      * @return
-     *
      */
     @RequestMapping("delete")
     @ResponseBody
     public Map<String, Object> delete(HttpServletRequest request, HttpServletResponse response) {
-        User user = (User)WebUtil.getCurrentUser(request);
-        if(user == null) {
+        User user = (User) WebUtil.getCurrentUser(request);
+        if (user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
         String id = request.getParameter("params");
-        if(id == null){
+        if (id == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
             return putDataToMap(ae);
         }
-        try{
+        try {
             int delete = ichMasterService.deleteIchMaster(Long.parseLong(id));
-        }catch (Exception e){
+        } catch (Exception e) {
             return putDataToMap(e);
         }
         return putDataToMap(id);
     }
+
     @RequestMapping("/getImage")
     public void exportQRCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String id=request.getParameter("id");
-        String url = "http://inheritor.diich.com/m/"+ id +".html";
+        String id = request.getParameter("id");
+        String url = "http://inheritor.diich.com/m/" + id + ".html";
         QRCodeGenerator qrCode = new QRCodeGenerator(url);
         qrCode.createQRCode(108, 108);
         BufferedImage bufferedImage = qrCode.getImageResult();
@@ -354,12 +362,12 @@ public class IchMasterController extends BaseController<IchMaster>{
         stream.write(buffer);
     }
 
-    public byte[] getBuffer(BufferedImage image){
+    public byte[] getBuffer(BufferedImage image) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(bos);
         try {
             encoder.encode(image);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return new byte[]{};
         }
         byte[] imageBts = bos.toByteArray();
@@ -368,6 +376,7 @@ public class IchMasterController extends BaseController<IchMaster>{
 
     /**
      * 认领词条
+     *
      * @param request
      * @return
      */
@@ -375,7 +384,7 @@ public class IchMasterController extends BaseController<IchMaster>{
     @ResponseBody
     public Map<String, Object> claimEntry(HttpServletRequest request) {
         User user = (User) WebUtil.getCurrentUser(request);
-        if(user == null) {
+        if (user == null) {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
@@ -398,5 +407,46 @@ public class IchMasterController extends BaseController<IchMaster>{
         }
 
         return putDataToMap(null);
+    }
+
+    /**
+     * 个人中心
+     *  认领词条列表
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("getEntryByUserId")
+    @ResponseBody
+    public Map<String, Object> getgetEntryByUserId(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            setHeader(request,response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        User user = (User) WebUtil.getCurrentUser(request);
+        if (user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        Map<String, Object> params = new HashMap<>();
+        String param = request.getParameter("params");
+        try {
+            if (param != null) {
+                params = JSON.parseObject(param, Map.class);
+            }
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        params.put("userId", user.getId());
+        Page<IchMaster> page = null;
+        try {
+            page = ichMasterService.getEntryByUserId(params);
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+
+        return putDataToMap(page);
     }
 }

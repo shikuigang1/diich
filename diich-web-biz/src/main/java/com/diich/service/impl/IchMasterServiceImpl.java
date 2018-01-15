@@ -1008,6 +1008,34 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
 
     }
 
+    @Override
+    public Page<IchMaster> getEntryByUserId(Map<String, Object> params) throws Exception {
+            Integer current = 1;
+            Integer pageSize = 50;
+            if (params != null && params.containsKey("current")) {
+                current = (Integer) params.get("current");
+            }
+            if (params != null && params.containsKey("pageSize")) {
+                pageSize = (Integer) params.get("pageSize");
+            }
+            int offset = (current - 1) * pageSize;
+            RowBounds rowBounds = new RowBounds(offset, pageSize);
+            Page<IchMaster> page = new Page();
+            try {
+                List<IchMaster> ichMasterList = ichMasterMapper.selectEntryByUserAndStatus(params, rowBounds);
+                for (IchMaster ichMaster : ichMasterList) {
+                    List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);
+                    ichMaster.setContentFragmentList(contentFragmentList);
+                }
+                page.setRecords(ichMasterList);
+                int total = ichMasterMapper.selectEntryCountByUserAndStatus(params);
+                page.setTotal(total);//查询数量
+            } catch (Exception e) {
+                throw new ApplicationException(ApplicationException.INNER_ERROR);
+            }
+            return page;
+    }
+
     public boolean isClaimed(Long masterId) throws Exception {
         IchMaster master = ichMasterMapper.selectByPrimaryKey(masterId);
         if (master.getId() != null && master.getUserId() != null) {

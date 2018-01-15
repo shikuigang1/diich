@@ -55,4 +55,12 @@ public interface IchMasterService {
     void audit(Long id, User user, String doi) throws Exception;
 
     void claimEntry(Long masterId, IchMaster authInfo, User user) throws Exception;
+
+    /**
+     * 个人中心获取词条列表
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    Page<IchMaster> getEntryByUserId(Map<String, Object> params) throws Exception;
 }

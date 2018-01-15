@@ -195,7 +195,7 @@
     select
     <include refid="Base_Column_List" />
     from ich_master
-    where status != 1
+    where 1 = 1
     <if test="params.userId != null" >
       and  last_editor_id = #{params.userId,jdbcType=BIGINT}
     </if>
@@ -207,9 +207,33 @@
     select
     count(1)
     from ich_master
-    where  status != 1
+    where  1 = 1
     <if test="params.userId != null" >
       and  last_editor_id = #{params.userId,jdbcType=BIGINT}
+    </if>
+    <if test="params.status != null" >
+      and  status = #{params.status,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="selectEntryByUserAndStatus" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from ich_master
+    where 1 = 1
+    <if test="params.userId != null" >
+      and  user_id = #{params.userId,jdbcType=BIGINT}
+    </if>
+    <if test="params.status != null" >
+      and  status = #{params.status,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="selectEntryCountByUserAndStatus" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select
+    count(1)
+    from ich_master
+    where  1 = 1
+    <if test="params.userId != null" >
+      and  user_id = #{params.userId,jdbcType=BIGINT}
     </if>
     <if test="params.status != null" >
       and  status = #{params.status,jdbcType=INTEGER}

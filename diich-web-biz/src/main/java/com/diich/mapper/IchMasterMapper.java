@@ -33,10 +33,13 @@ public interface IchMasterMapper extends BaseMapper<IchMaster> {
 
     List<IchMaster> selectIchMasterByUserId(Long userId);
 
-    List<IchMaster> selectIchMasterByUserAndStatus( @Param("params") Map<String, Object> params, RowBounds rowBounds) throws Exception;
+    List<IchMaster> selectIchMasterByUserAndStatus(@Param("params") Map<String, Object> params, RowBounds rowBounds) throws Exception;
 
-    int selectIchMasterCountByUserAndStatus( @Param("params") Map<String, Object> params) throws Exception;
+    int selectIchMasterCountByUserAndStatus(@Param("params") Map<String, Object> params) throws Exception;
 
     List<IchMaster> selectMasterByName(String masterName) throws Exception;
 
+    List<IchMaster> selectEntryByUserAndStatus(@Param("params") Map<String, Object> params, RowBounds rowBounds) throws Exception;
+
+    int selectEntryCountByUserAndStatus(@Param("params") Map<String, Object> params);
 }
