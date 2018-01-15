@@ -572,6 +572,8 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             } else if (verList.size() > 0) {
                 //审核词条认领
                 IchMaster master = auditEntry(ichMaster, user, verList);
+//                IchProject ichProject = ichProjectService.getIchProjectById(master.getIchProjectId());
+//                ichMaster.setIchProject(ichProject);
                 //生成静态页并上传
 //              buildAndUpload(master);
             } else {//新增待审核的机构
@@ -585,7 +587,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 ContentFragment contentFragment = new ContentFragment();
                 contentFragment.setContent(doi);
                 contentFragment.setId(IdWorker.getId());
-                contentFragment.setTargetType(0);
+                contentFragment.setTargetType(1);
                 contentFragment.setTargetId(id);
                 contentFragment.setStatus(0);
                 contentFragment.setAttributeId(11L);
@@ -594,6 +596,8 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 //获取项目其他信息用以生成静态页面
 //                List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);
 //                ichMaster.setContentFragmentList(contentFragmentList);
+//                IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
+//                ichMaster.setIchProject(ichProject);
                 //生成静态页并上传
 //                buildAndUpload(ichMaster);
             }

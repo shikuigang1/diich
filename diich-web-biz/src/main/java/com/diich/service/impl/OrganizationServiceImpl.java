@@ -383,7 +383,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
                 ContentFragment contentFragment = new ContentFragment();
                 contentFragment.setContent(doi);
                 contentFragment.setId(IdWorker.getId());
-                contentFragment.setTargetType(0);
+                contentFragment.setTargetType(3);
                 contentFragment.setTargetId(id);
                 contentFragment.setStatus(0);
                 contentFragment.setAttributeId(137L);
