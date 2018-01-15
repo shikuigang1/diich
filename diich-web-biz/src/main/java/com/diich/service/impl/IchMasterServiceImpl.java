@@ -621,6 +621,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);//认领人信息
         ichMaster.setLastEditDate(new Date());
         IchMaster master = ichMasterMapper.selectByPrimaryKey(mainVersionId);//主版本内容
+        master.setUserId(user.getId());//认领人id
         List<ContentFragment> contentFragments = getContentFragmentByMasterId(master);
         //对外循环做个标记
         Loop:
@@ -646,6 +647,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             }
         }
         ichMasterMapper.updateByPrimaryKeySelective(ichMaster);//更新项目表
+        ichMasterMapper.updateByPrimaryKeySelective(master);//更新主版本项目的userId
         version.setVersionType(1003);//认领结束
         versionMapper.updateByPrimaryKeySelective(version);//更新版本表
         updateAudit(ichMaster.getId(), mainVersionId, user);//更新审核表
