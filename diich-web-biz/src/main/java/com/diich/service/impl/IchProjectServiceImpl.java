@@ -985,11 +985,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 widgetsData.put("image", url);
                 continue;
             }
-            if (content.getAttributeId() == 24) {
-                String[] contents = content.getContent().replace("<br/>", "\n").split("\\n");
-                widgetsData.put("summary", contents);
-                continue;
-            }
+//            if (content.getAttributeId() == 24) {
+//                String[] contents = content.getContent().replace("<br/>", "\n").split("\\n");
+//                widgetsData.put("summary", contents);
+//                continue;
+//            }
         }
         return widgetsData;
     }
