@@ -502,7 +502,7 @@
                 <div class="info read-piece" id="info">
                     <ul>
                     <#if (obj.contentFragmentList?size>0)>
-                        <#list obj.contentFragmentList as cf>
+                        <#list (obj.contentFragmentList)?sort_by(["attribute""seq"]) as cf>
                             <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.content !="" && cf.attributeId != 106 && cf.attributeId != 2 && cf.attributeId != 41 && cf.attributeId != 33>
                                 <li>
                                     <span class="key">
@@ -600,7 +600,7 @@
 
 
     <#if (obj.contentFragmentList?size>0)>
-        <#list obj.contentFragmentList as cf>
+        <#list (obj.contentFragmentList)?sort_by(["attribute""seq"]) as cf>
             <#if cf.attribute?? && (cf.attribute.dataType == 5  && cf.resourceList?? && cf.resourceList?size>0)>
                 <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>" data-type="image-text">
                     <div class="card">

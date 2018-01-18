@@ -19,7 +19,7 @@ import java.util.zip.DeflaterInputStream;
  */
 @Service("dictionaryService")
 @Transactional
-public class DictionaryServiceImpl extends BaseService<Dictionary> implements DictionaryService{
+public class DictionaryServiceImpl extends BaseService<Dictionary> implements DictionaryService {
 
     @Autowired
     private DictionaryMapper dictionaryMapper;
@@ -45,11 +45,11 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
 
         List<Dictionary> dictionaryList = dictionaryMapper.selectByParentId(params);
 
-        for(Dictionary dictionary : dictionaryList) {
+        for (Dictionary dictionary : dictionaryList) {
 
             List<Dictionary> list = getDictionaryListByParentId(dictionary.getType(), dictionary.getLang(), dictionary.getId());
 
-            if(list.size() == 0) {
+            if (list.size() == 0) {
                 continue;
             }
 
@@ -70,20 +70,37 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
 
         try {
             dictionaryList = dictionaryMapper.selectByTypeAndCode(params);
-            if("eng".equals(language) && dictionaryList.size()==0){
-                params.put("language","chi");
+            if ("eng".equals(language) && dictionaryList.size() == 0) {
+                params.put("language", "chi");
                 dictionaryList = dictionaryMapper.selectByTypeAndCode(params);
             }
         } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
-        if(dictionaryList.size() != 0) {
+        if (dictionaryList.size() != 0) {
             Dictionary dictionary = dictionaryList.get(0);
             name = dictionary.getName();
+            if (dictionary.getParentId() != null) {
+                name = getDictionaryNameByParentId(dictionary.getParentId()) + name;
+            }
         }
 
-        return name != null ? name : "";
+        return name != null ? name :"";
+    }
+
+    private String getDictionaryNameByParentId(Long parentId) throws Exception{
+        String name = "";
+        try{
+            Dictionary dictionary = dictionaryMapper.selectByPrimaryKey(parentId);
+            name = dictionary.getName() + name;
+            if(dictionary.getParentId() != null){
+                name = getDictionaryNameByParentId(dictionary.getParentId()) + name;
+            }
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return  name;
     }
 
     public List<Dictionary> getAllDictionary() throws Exception {
@@ -99,13 +116,13 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
     }
 
 
-    public String getText(int type, String code) throws Exception{
+    public String getText(int type, String code) throws Exception {
         try {
 
-            Dictionary dic  = new Dictionary();
+            Dictionary dic = new Dictionary();
             dic.setType(type);
             dic.setCode(code);
-           // return dictionaryMapper.selectByTypeCode(dic);
+            // return dictionaryMapper.selectByTypeCode(dic);
             return null;
         } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
