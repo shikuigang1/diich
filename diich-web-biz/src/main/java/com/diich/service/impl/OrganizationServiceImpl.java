@@ -390,11 +390,11 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
                 contentFragmentMapper.insertSelective(contentFragment);
                 saveAudit(id, user);//保存到审核表
                 //获取项目其他信息用以生成静态页面
-//                List<ContentFragment> contentFragmentList = getContentFragmentListByOrganization(organization);
-//                organization.setContentFragmentList(contentFragmentList);
+                List<ContentFragment> contentFragmentList = getContentFragmentListByOrganization(organization);
+                organization.setContentFragmentList(contentFragmentList);
             }
             //生成静态页并上传
-//            buildAndUpload(organization);
+            buildAndUpload(organization);
             commit(transactionStatus);
         } catch (Exception e) {
             rollback(transactionStatus);

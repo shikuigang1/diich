@@ -583,7 +583,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 //修改审核表信息
                 updateAudit(id, ichProject.getId(), user);
                 //获取项目信息
-//                 ichProject = getIchProject(ichProject);
+                 ichProject = getIchProject(ichProject);
             } else {//新增待审核的项目
                 //校验doi都编码是否重复
                 if (isDoiValable(doi)) {
@@ -602,12 +602,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 contentFragmentMapper.insertSelective(contentFragment);
                 saveAudit(id, user);//保存到审核表
                 //获取项目其他信息用以生成静态页面
-//                List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
-//                ichProject.setContentFragmentList(contentFragmentList);
+                List<ContentFragment> contentFragmentList = getContentFragmentListByProjectId(ichProject);
+                ichProject.setContentFragmentList(contentFragmentList);
 
             }
             //生成静态页并上传
-//                 buildAndUpload(ichProject);
+            buildAndUpload(ichProject);
             commit(transactionStatus);
         } catch (Exception e) {
             rollback(transactionStatus);

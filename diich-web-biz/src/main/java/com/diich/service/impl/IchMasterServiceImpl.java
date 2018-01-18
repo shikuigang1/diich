@@ -220,26 +220,40 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 IchProject ichProject = ichProjectService.getIchProject(String.valueOf(ichMaster.getIchProjectId()));
                 if (ichProject != null) {
                     ichMaster.setIchProject(ichProject);
-                    buildAndUploadHtml(ichProject);
+                    buildAndUploadProject(ichProject);
                 }
             }
-            String str = PropertiesUtil.getString("freemarker.masterfilepath");
-            String fileName = str + "/" + ichMaster.getId().toString() + ".html";
-            buildHTML("master.ftl", ichMaster, fileName);//生成静态页面
-            String h5outPutPath = PropertiesUtil.getString("freemarker.h5_masterfilepath") + "/" + ichMaster.getId().toString() + ".html";
-            buildHTML("h5_master.ftl", ichMaster, h5outPutPath);
-            String bucketName = PropertiesUtil.getString("img_bucketName");
-            String type = PropertiesUtil.getString("pc_mhtml_server");
-            File file = new File(fileName);
-            SimpleUpload.uploadFile(new FileInputStream(file), bucketName, type + "/" + ichMaster.getId() + ".html", file.length());//上传到阿里云
-            String h5type = PropertiesUtil.getString("m_mhtml_server");
-            File h5file = new File(h5outPutPath);
-            SimpleUpload.uploadFile(new FileInputStream(h5file), bucketName, h5type + "/" + ichMaster.getId() + ".html", h5file.length());//上传到阿里云
+            buildAndUpload(ichMaster);
         }
         return ichMaster;
     }
 
-    private void buildAndUploadHtml(IchProject ichProject) throws Exception {
+    /**
+     * 生成传承人页面
+     * @param ichMaster
+     * @throws Exception
+     */
+    private void buildAndUpload(IchMaster ichMaster) throws Exception {
+        String str = PropertiesUtil.getString("freemarker.masterfilepath");
+        String fileName = str + "/" + ichMaster.getId().toString() + ".html";
+        buildHTML("master.ftl", ichMaster, fileName);//生成静态页面
+        String h5outPutPath = PropertiesUtil.getString("freemarker.h5_masterfilepath") + "/" + ichMaster.getId().toString() + ".html";
+        buildHTML("h5_master.ftl", ichMaster, h5outPutPath);
+        String bucketName = PropertiesUtil.getString("img_bucketName");
+        String type = PropertiesUtil.getString("pc_mhtml_server");
+        File file = new File(fileName);
+        SimpleUpload.uploadFile(new FileInputStream(file), bucketName, type + "/" + ichMaster.getId() + ".html", file.length());//上传到阿里云
+        String h5type = PropertiesUtil.getString("m_mhtml_server");
+        File h5file = new File(h5outPutPath);
+        SimpleUpload.uploadFile(new FileInputStream(h5file), bucketName, h5type + "/" + ichMaster.getId() + ".html", h5file.length());//上传到阿里云
+    }
+
+    /**
+     * 生成项目详情页
+     * @param ichProject
+     * @throws Exception
+     */
+    private void buildAndUploadProject(IchProject ichProject) throws Exception {
         String str = PropertiesUtil.getString("freemarker.projectfilepath");
         String fileName = str + "/" + ichProject.getId().toString() + ".html";
         ichProjectService.buildHTML("pro.ftl", ichProject, fileName);//生成静态页面
@@ -565,17 +579,26 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 ichMasterMapper.updateByPrimaryKeySelective(master);
                 //修改审核表信息
                 updateAudit(id, ichMaster.getId(), user);
-//                IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
-//                ichMaster.setIchProject(ichProject);
+                if(ichMaster.getIchProjectId() != null){
+                    IchProject ichProject = ichProjectService.getIchProject(String.valueOf(ichMaster.getIchProjectId()));
+                    if(ichProject != null){
+                        ichMaster.setIchProject(ichProject);
+                        buildAndUploadProject(ichProject);//生成项目详情页并上传
+                    }
+                }
                 //生成静态页并上传
-//              buildAndUpload(ichMaster);
+                buildAndUpload(ichMaster);
             } else if (verList.size() > 0) {
                 //审核词条认领
                 IchMaster master = auditEntry(ichMaster, user, verList);
-//                IchProject ichProject = ichProjectService.getIchProjectById(master.getIchProjectId());
-//                ichMaster.setIchProject(ichProject);
+                if(master.getIchProjectId() != null){
+                    IchProject ichProject = ichProjectService.getIchProjectById(master.getIchProjectId());
+                    if(ichProject != null){
+                        ichMaster.setIchProject(ichProject);
+                    }
+                }
                 //生成静态页并上传
-//              buildAndUpload(master);
+              buildAndUpload(master);
             } else {//新增待审核的机构
                 //校验doi都编码是否重复
                 if (isDoiValable(doi)) {
@@ -594,12 +617,17 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 contentFragmentMapper.insertSelective(contentFragment);
                 saveAudit(id, user);//保存到审核表
                 //获取项目其他信息用以生成静态页面
-//                List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);
-//                ichMaster.setContentFragmentList(contentFragmentList);
-//                IchProject ichProject = ichProjectService.getIchProjectById(ichMaster.getIchProjectId());
-//                ichMaster.setIchProject(ichProject);
+                List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);
+                ichMaster.setContentFragmentList(contentFragmentList);
+                if(ichMaster.getIchProjectId() != null){
+                    IchProject ichProject = ichProjectService.getIchProject(String.valueOf(ichMaster.getIchProjectId()));
+                    if(ichProject != null){
+                        ichMaster.setIchProject(ichProject);
+                        buildAndUploadProject(ichProject);//生成项目详情页并上传
+                    }
+                }
                 //生成静态页并上传
-//                buildAndUpload(ichMaster);
+                buildAndUpload(ichMaster);
             }
             commit(transactionStatus);
         } catch (Exception e) {
