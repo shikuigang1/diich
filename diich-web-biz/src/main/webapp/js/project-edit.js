@@ -6,7 +6,7 @@ $(function() {
 });
 
 function init() {
-    $('.primary.edit.link').on('click', function() {
+    $('#btn_edit').on('click', function() {
         var projectId = $(this).attr('project-id');
         if(projectId == null) {
             alert('获取项目信息失败');
@@ -181,7 +181,7 @@ function displayEditMode() {
             }  else if(data_type == 'short-text') {
                 $section.find('.read-piece ul li').remove();
 
-                var short_item_arr = $section.find('form .data-item');
+                var short_item_arr = $section.find('form .tmp-short.data-item');
                 for(var i = 0; i < short_item_arr.length; i++) {
                     var item = short_item_arr[i];
                     var contentFragmentList = project.contentFragmentList;
@@ -200,6 +200,9 @@ function displayEditMode() {
                         }
                     }
                 }
+
+                var main_item_arr = $('.mainbg .content_img .data-item');
+                showProjectUi(main_item_arr);
 
                 $section.find('.read-piece').show();
                 $(this).hide();
@@ -524,7 +527,7 @@ function editShortTextUi($section) {
         contentFragmentList = project.contentFragmentList;
     }
 
-    var $form = $('<form class="bd horizontal"></form>');
+    var $form = $(edit_main_info_tmp);
     for(var i = 0; i < short_text_attrs.length; i++) {
         var $ui = $(edit_short_text_tmp);
         var attr = short_text_attrs[i];
@@ -542,6 +545,65 @@ function editShortTextUi($section) {
     }
 
     $section.append($form);
+
+    addMainInfoCompListener($section);
+
+    if(project == null) {
+        return;
+    }
+
+    var aim_arr = $form.find('.data-item');
+
+    for(var i = 0; i < aim_arr.length; i++) {
+        var $a_item = $(aim_arr[i]);
+        for(var j = 0; j < contentFragmentList.length; j++) {
+            var contentFragment = contentFragmentList[j];
+
+            if($(aim_arr[i]).hasClass('category')) {
+                var category_id = project.ichCategoryId != null ? project.ichCategoryId : '';
+                $a_item.attr('data-value', category_id);
+                $a_item.text(getCategoryTextById(category_id));
+                break;
+            } else if(contentFragment.attributeId == $a_item.attr('data-id')) {
+                var value = contentFragment.content;
+
+                value = value != null ? value.trim() : '';
+
+                if($a_item.is('input[type="text"]') || $a_item.is('select')) {
+                    $a_item.val(value);
+                } else if($a_item.attr('data-id') == '33') {
+                    var value_arr = value.split(',');
+                    if(value_arr.length > 0) {
+                        value = value_arr[0];
+                    }
+
+                    $a_item.attr('data-value', value);
+                    $a_item.text(getTextByTypeAndCode($a_item.attr('dic-type'), value, 'chi'));
+                } else {
+                    $a_item.text(value);
+                }
+                break;
+            }
+        }
+    }
+
+    var resourceList = [];
+    for(var i = 0; i < contentFragmentList.length; i++) {
+        var contentFragment = contentFragmentList[i];
+        if(contentFragment.attributeId == 1) {
+            resourceList = contentFragment.resourceList;
+            break;
+        }
+    }
+    if(resourceList != null && resourceList.length > 0) {
+        $section.find('.file_up').find('img') != null ?
+            $section.find('.file_up').find('img').remove() : null;
+
+        var resource = resourceList[0];
+        var $img = $('<img class="preview" style="display: inline;z-index: 0;">');
+        $img.attr('src', PROJECT_RESOURCE_URL + resource.uri);
+        $section.find('.file_up').append($img);
+    }
 }
 
 function editImageTextUi($section) {
@@ -871,7 +933,7 @@ function addMainInfoCompListener($section) {
         uri_str = uri_str.substring(uri_str.lastIndexOf('/') + 1, uri_str.length);
         $section.find('.file_up').append($img);
 
-        if(typeof $('#detailTopic').attr('src') == 'undefined') {
+        /*if(typeof $('.bg-image').attr('src') == 'undefined') {
             var $bgContainer = $('#detailContent');
             $bgContainer.css({'width': '316px'});
 
@@ -887,8 +949,9 @@ function addMainInfoCompListener($section) {
             $bgContainer.prepend($('<div class="mask_left"></div>'));
         } else {
             $('#detailTopic').attr('src', uri);
-        }
+        }*/
 
+        $('.bg-image').attr('src', uri);
 
         var contentFragmentList = project.contentFragmentList;
         var has_head_img = false;

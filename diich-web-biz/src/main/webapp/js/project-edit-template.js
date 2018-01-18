@@ -168,7 +168,7 @@ var custom_image_text_tmp =
 var edit_short_text_tmp =
     '<div class="group">' +
     '   <label class="label"><em>*</em></label> ' +
-    '   <div class="control"> <input type="text" class="ipt w562 data-item"> ' +
+    '   <div class="control"> <input type="text" class="ipt w562 tmp-short data-item"> ' +
     '       <div class="errors" style="display: none"><i></i>请填入正确格式的拼音且长度在1-50之间</div> ' +
     '   </div> ' +
     '</div>';
