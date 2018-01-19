@@ -1,0 +1,414 @@
+<h2 class="setting_title">账户设置</h2>
+    <ul class="setting_main">
+        <li>
+            <form class="user">
+                <div>
+                    <label>*</label>
+                    <h2 class="label_name">用户名</h2>
+                </div>
+                <div class="input">
+                    <input id="real_name" type="text" placeholder="请输入您的真实姓名" value="胜多负少">
+                    <a id="save_name" href="javascript:void(0)">保存</a>
+                </div>
+            </form>
+        </li>
+        <li style="display:none">
+            <div class="setting_sb">
+                <h2>申报人信息</h2>
+                <a id="st_sq_edit" href="javascript:void(0);">修改</a>
+            </div>
+            <form class="sbuser">
+                <table>
+                    <tbody><tr>
+                        <td>身份</td>
+                        <td>
+                            没有身份
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>真实姓名</td>
+                        <td>好不好</td>
+                    </tr>
+                    <tr>
+                        <td>手机号</td>
+                        <td>18699881888</td>
+                    </tr>
+                    <tr>
+                        <td>邮箱</td>
+                        <td>123123123@163.com</td>
+                    </tr>
+                    </tbody></table>
+            </form>
+        </li>
+        <li>
+            <form class="setting_account">
+                <table>
+                    <tbody><tr>
+                        <td>手机绑定</td>
+                        <td id="binding_mobile">
+                            <h2></h2>
+                            <a id="st_phone_edit" href="javascript:void(0);">修改</a>
+                        </td>
+                    </tr>
+                    <!--<tr>-->
+                    <!--<td>邮箱绑定</td>-->
+                    <!--<td id="bingding_email">-->
+                    <!--<h2>暂无绑定</h2>-->
+                    <!--<a id="st_email_edit" href="javascript:void(0);">绑定邮箱</a>-->
+                    <!--</td>-->
+                    <!--</tr>-->
+                    </tbody></table>
+            </form>
+        </li>
+    </ul>
+    <script type="text/javascript">
+        (function () {
+            //绑定编辑事件
+            $("#st_phone_edit").on("click", function () {
+                $(".user_shadow").show();
+//            $("#mobile_getCode").text("获取验证码")
+                $("#user_change_phone").show();
+                $(window).scrollTop(0);
+                //绑定关闭按钮
+                $("#user_change_phone .close").on("click", function () {
+                    $(".user_shadow").hide();
+                    $(".user_change_phone").hide();
+                    $("#change_phone")[0].reset();
+                });
+
+                _bindingNum("mobile"); // 获取验证码
+            });
+            //绑定邮箱
+            $("#st_email_edit").on("click", function () {
+                $(".user_shadow").show();
+                $("#user_change_email").show();
+                $(window).scrollTop(0);
+                //绑定关闭按钮
+                $("#user_change_email .close").on("click", function () {
+                    $(".user_shadow").hide();
+                    $("#user_change_email").hide();
+                    $("#change_email")[0].reset();
+                });
+
+                _bindingNum("email"); // 获取验证码
+            });
+
+            // 绑定验证码
+            function _bindingNum(type) {
+                $("#" + type + "_getCode").on("click", function() {
+                    var value = $("#" + type).val();
+                    if(value) {
+                        // 验证手机格式
+                        if(type == "mobile") {
+                            if(!/^1[3458]{1}[0-9]{9}$/.test(value)){
+                                $("#" + type).css("border", "1px solid #ff0000");
+                                $("#" + type + "_err").html("温馨提示：手机号格式不正确");
+                            } else {
+                                $("#" + type).css("border", "");
+                                $("#" + type + "_err").html("");
+                                _countDown(type, $(this)); // 倒计时
+                            }
+                        } else {
+                            if(!/^\w+\@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}$/i.test(value)) {
+                                $("#" + type).css("border", "1px solid #ff0000");
+                                $("#" + type + "_err").html("温馨提示：邮箱格式格式不正确");
+                            } else {
+                                $("#" + type).css("border", "");
+                                $("#" + type + "_err").html("");
+                                _countDown(type, $(this)); // 倒计时
+                            }
+                        }
+                    } else {
+                        $("#" + type).css("border", "1px solid #ff0000");
+                        $("#" + type + "_err").html("温馨提示：此字段不能为空！");
+                    }
+                })
+            }
+
+            var scode = "";
+            // 倒计时
+            function _countDown(type, $this) {
+                $this.off("click");
+                var strHtml = "<i id='"+ type + "_num'>60</i>s重新获取";
+                $this.html(strHtml);
+                var time = parseInt($("#" + type + "_num").text());
+                var setTime;
+                setTime=setInterval(function(){
+                    if(time<=0){
+                        clearInterval(setTime);
+                        $this.html("重新发送");
+                        _bindingNum(type); // 重新绑定
+                        return;
+                    }
+                    time--;
+                    $("#" + type + "_num").text(time)
+                },1000);
+                // 发送验证码
+                $.post("/user/getVerifycode", {phone: $("#mobile").val()}, function (data) {
+                    <!--console.log("data -- >", data);-->
+                    //console.log(data);
+                    if(data.code == "0000") {
+                        //console.log("data --- >", data.scode);
+                        scode = data.scode;
+                    }
+                })
+//            scode = "4fffe8816a92b62f8e81b6a74a44bd1e3def5d4b2b7975823c217e55ea5367a8";
+            }
+
+            //修改申报人
+            $("#st_sq_edit").on("click", function () {
+                //获取申请人数据
+                $.post("/user/editSq", {}, function (html) {
+                    $(".user_shadow").show();
+                    $("#right_content").append(html.html).css("height", $("#user_change_sq").height() + "px");
+                    $("#user_change_sq").show();
+                    //绑定关闭按钮
+                    $("#user_change_sq .close").on("click", function () {
+                        $(".user_shadow").hide();
+                        $("#user_change_sq").remove();
+                    });
+                });
+            });
+
+            // 保存用户名
+            $("#save_name").on("click", function() {
+                var realName = $("#real_name").val();
+                if(!realName) {
+                    $.EU.dialog_create({id: "userIndex", width: 250, height: 30, title: "提示", fixed: true, hide:true, content:"姓名不能为空"});
+                } else {
+                    // 更新用户名称
+                    $.post("/user/updateUser", {name: realName}, function(data) {
+                        console.log(data);
+                        $.EU.dialog_create({id: "userIndex", width: 250, height: 30, title: "提示", fixed: true, hide:true, content: data.msg});
+                    })
+                }
+            })
+
+            _bindingMobile();
+            // 变更手机号码
+            function _bindingMobile() {
+                $("#onsub_mobile").on("click", function() {
+                    _onsubMobile();
+                })
+            }
+            // 变更手机号码 提交
+            function _onsubMobile() {
+                $("#onsub_mobile").off("click"); // 解除绑定
+                var params = $("#change_phone").serializeArray();
+                var fage = true;
+                var objParams = {};
+                // 循环验证
+                $.each(params, function(i, v) {
+                    if(!_validata(v, "mobile_err")) {
+                        fage = false;
+                        return false;
+                    }
+                    objParams[v.name] = v.value;
+                })
+                objParams["scode"] = scode;
+
+                if(fage) {
+
+                    var para={
+                        phone:$("#mobile").val().trim(),
+                        code:$("#mcode").val().trim(),
+                        password:$("#pwd").val().trim()
+                    }
+                    $.post("/user/bindmobile", para, function(data) {
+                        console.log(data);
+
+                        if(data.code == '10'){
+                            $("#mcode").css("border", "1px solid #ff0000");
+                            $("#mobile_err").html(data.msg);
+                        }
+
+                        if(data.code == '12'){
+                            $("#pwd").css("border", "1px solid #ff0000");
+                            $("#mobile_err").html("密码错误");
+                        }
+
+                        if(data.code == '5'){
+                            $("#mobile").css("border", "1px solid #ff0000");
+                            $("#mobile_err").html(data.msg);
+                        }
+
+                        if(data.code == "0"){
+                            $("#binding_mobile").children("h2").text($("#mobile").val())
+                            $("#binding_mobile").children("a").text("修改");
+                            // 隐藏
+                            $(".user_shadow").hide();
+                            $(".user_change_phone").hide();
+                            $("#change_phone")[0].reset();
+                        }
+                /*        if(data.code == "0000") {
+                            if(!data.status) {
+                                if(data.ecode == 0) {
+                                    $("#mobile").css("border", "1px solid #ff0000");
+                                    $("#mobile_err").html("温馨提示：验证码不正确");
+                                }
+
+                               if(data.ecode == 1) {
+                                    $("#pwd").css("border", "1px solid #ff0000");
+                                    $("#mobile_err").html("温馨提示：密码不正确");
+                                }
+
+                                if(data.ecode == 2) {
+                                    $("#mobile").css("border", "1px solid #ff0000");
+                                    $("#mobile_err").html("温馨提示：该手机已被占用, 请更换");
+                                }
+                            } else {
+                                $("#binding_mobile").children("h2").text($("#mobile").val())
+                                $("#binding_mobile").children("a").text("修改");
+                                // 隐藏
+                                $(".user_shadow").hide();
+                                $(".user_change_phone").hide();
+                                $("#change_phone")[0].reset();
+                            }
+                        }*/
+                        _bindingMobile(); // 重新绑定
+                    })
+                } else {
+                    _bindingMobile(); // 重新绑定
+                }
+            }
+
+            // 绑定邮箱
+            _bindingEmail();
+            // 变更邮箱
+            function _bindingEmail() {
+                $("#onsub_email").on("click", function() {
+                    _onsubEmail()
+                })
+            }
+
+            function _onsubEmail() {
+                var params = $("#change_email").serializeArray();
+                var fage = true;
+                var objParams = {};
+                // 循环验证
+                $.each(params, function(i, v) {
+                    if(!_validata(v, "email_err")) {
+                        fage = false;
+                        return false;
+                    }
+                    objParams[v.name] = v.value;
+                })
+                objParams["scode"] = scode;
+
+                if(fage) {
+
+                }
+            }
+
+            // 验证
+            function _validata(obj, errname) {
+                if(obj.value) {
+                    var t = true;
+                    // 手机
+                    if(obj.name == "mobile") {
+                        if(!/^1[3458]{1}[0-9]{9}$/.test(obj.value)){
+                            $("#" + obj.name).css("border", "1px solid #ff0000");
+                            $("#" + errname).html("温馨提示：手机号格式不正确");
+                            t = false;
+                            return false;
+                        } else {
+                            $("#" + obj.name).css("border", "");
+                            $("#" + errname).html("");
+                            return true;
+                        }
+                    }
+                    // 邮箱
+                    if(obj.name == "email") {
+                        if(!/^\w+\@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}$/i.test(obj.value)) {
+                            $("#" + obj.name).css("border", "1px solid #ff0000");
+                            $("#" + errname).html("温馨提示：邮箱格式格式不正确");
+                            t = false;
+                            return false;
+                        } else {
+                            $("#" + obj.name).css("border", "");
+                            $("#" + errname).html("");
+                            return true;
+                        }
+                    }
+                    // 清空
+                    if(t) {
+                        $("#" + obj.name).css("border", "");
+                        $("#" + errname).html("");
+                    }
+                    return true;
+                } else {
+                    $("#"+ obj.name).css("border", "1px solid #ff0000");
+                    $("#" + errname).html("温馨提示：此字段不能为空！");
+                    return false;
+                }
+            }
+            initdata();
+        })();
+
+        //初始化页面数据
+        function initdata(){
+            if(currentUser != null && typeof (currentUser) != "undefined"){
+                $("#real_name").val(currentUser.name);
+
+                if(currentUser.phone==""){
+                    $("#binding_mobile").children("a").eq(0).text("绑定");
+                }else{
+                    $("#binding_mobile").children("a").eq(0).text("修改");
+                    $("#binding_mobile").children("h2").eq(0).text(currentUser.phone);
+                }
+
+            }
+        }
+    </script>
+    <div>
+        <div id="user_change_phone" class="user_change_phone" style="display: none;">
+            <em class="close"></em>
+            <h2 class="title">更换手机号</h2>
+            <form id="change_phone" autocomplete="off">
+                <ul class="user_props">
+                    <li>
+                        <h2>新手机号</h2>
+                        <input id="mobile" name="mobile" type="text" placeholder="目前仅支持中国大陆手机号">
+                    </li>
+                    <li style="position: relative;">
+                        <h2>验证码</h2>
+                        <input id="mcode" name="mcode" value="" type="text" autocomplete="off" placeholder="请输入验证码" style="width: 13rem;border-right: 0;">
+                        <p class="fg_line"></p>
+                        <a id="mobile_getCode" class="get_code" href="javascript:void(0)">获取验证码</a>
+                    </li>
+                    <li>
+                        <h2>密码</h2>
+                        <input id="pwd" name="pwd" type="password" placeholder="请输入密码">
+                    </li>
+                </ul>
+            </form>
+            <span id="mobile_err" style="color: #ff0000;font-size: 13px;"></span>
+            <div class="submit">
+                <a id="onsub_mobile" href="javascript:void(0)">确认</a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div id="user_change_email" class="user_change_phone" style="display: none;">
+            <em class="close"></em>
+            <h2 class="title">绑定邮箱</h2>
+            <form id="change_email">
+                <ul class="user_props">
+                   <li>
+                        <h2>邮箱</h2>
+                        <input id="email" name="email" type="text" placeholder="请输入邮箱地址">
+                    </li>
+                   <li style="position: relative;">
+                        <h2>验证码</h2>
+                        <input id="ecode" name="ecode" type="text" placeholder="请输入验证码" style="width: 13rem;border-right: 0;">
+                        <p class="fg_line"></p>
+                        <a id="email_getCode" class="get_code" href="javascript:void(0)">获取验证码</a>
+                    </li>
+                </ul>
+            </form>
+            <span id="email_err" style="color: #ff0000;font-size: 13px;"></span>
+            <div class="submit">
+                <a id="onsub_email" href="javascript:void(0)">确认</a>
+            </div>
+        </div>
+    </div>

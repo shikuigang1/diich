@@ -1,0 +1,525 @@
+<div>
+    <ul id="audit_nav" class="nav">
+        <li class="active" data-status="0">已通过</li>
+        <li>·</li>
+        <li data-status="4" class="">未通过</li>
+        <li>·</li>
+        <li data-status="3" style="z-index: 9999;">待审核</li>
+        <li>·</li>
+        <li data-status="2">草稿箱</li>
+        <li class="search">
+            <h2 class="title">类型</h2>
+            <div id="search_select" style="display: inline-block;right: 0;position: absolute;cursor: pointer;line-height: 1;">
+                <div class="select clear">
+                    <h2 data-type="project">项目</h2>
+                    <em></em>
+                </div>
+                <ul class="tab" style="display: none;">
+                    <li data-type="project">项目</li>
+                    <li data-type="inheritor">传承人</li>
+                  <!--  <li data-type="product">作品</li>-->
+                    <li data-type="organize" style="z-index: 9999;">机构</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+    <div class="status_list" id="protectList"><table id="table">
+     </table>
+        <script>
+            $(function() {
+                // 监听删除
+                $("body").delegate("a[id^='del_']", "click", function(){
+                    var $this = $(this);
+                    $.EU.dialog_create({
+                        id: "listIndex",
+                        width: 250,
+                        height: 30,
+                        title: "[删除] 提示",
+                        fixed: true,
+                        hide:true,
+                        okValue: "确认",
+                        ok: function () {
+
+                            var id = $this.attr("id").split("_").pop();
+                            var status = $("#audit_nav .active").attr("data-status");
+                            var type = $("#search_select").children(".select").children("h2").attr("data-type");
+
+                            var url = "";
+                            if(type=='project'){
+                                url ="/ichProject/delete";
+                            }else if(type=='inheritor'){
+                                url ="/ichMaster/delete";
+                            }else if(type=='organize'){
+                                url ="/organization/delete";
+                            }
+
+                          $.post(url, {params: id}, function(data) {
+                              var para ={
+                                  status:status,
+                                  type:type
+                              }
+                              ajaxLoad(para,fillData);
+                            })
+                        },
+                        cancelValue: "取消",
+                        cancel: function () {},
+                        content:"<b style='font-size: 10px'>确认删除？<br/>删除后不可回复!</b>"
+                    });
+                });
+
+                /**
+                 * 分页
+                 */
+                $("#a_load_more").on("click", function() {
+                    $(this).text("Loading…");
+                    pageNo = parseInt($(this).attr("data-pageno")) + 1;
+                    var status = $("#audit_nav .active").attr("data-status");
+                    var type = $("#search_select").children(".select").children("h2").attr("data-type");
+                    // 构建参数
+                    var params = {
+                        pageNo: pageNo,
+                        status: status
+                    }
+                    if(type) {
+                        params["type"] = type
+                    }
+
+                    $.post("/user/toPgae", params, function (data) {
+                        console.log("data --- >", data)
+                        var index = parseInt($("#protectList").children("table").find("tr").length) - 1;
+                        $("#protectList").children("table").find("tr:eq(" + index + ")").after(data.html);
+                        // 更新pegeNo
+                        $("#a_load_more").attr("data-pageno", parseInt($("#a_load_more").attr("data-pageno")) + 1);
+                        $("#a_load_more").text("Load More");
+                        if(!data.hasNaxtPage) {
+                            $("#a_load_more").hide();
+                        } else {
+                            $("#a_load_more").show();
+                        }
+                        console.log("data", data.hasNaxtPage)
+                    });
+                })
+            })
+        </script></div>
+    <script type="text/javascript">
+
+        var baseUrl='';
+        var url = {//获取链接地址
+            project: baseUrl + '/ichProject/getIchProjectByUserId',
+            master: baseUrl + '/ichMaster/getIchMasterByUserId',
+            organize: baseUrl + '/organization/getOrganizationByUserId'
+        };
+        var modal={
+            loading:function (options) {
+                var _speed,_text='';
+                _speed = (!options.speed || options.speed=='') ? 2000 : options.speed;
+                _text = (!options.text || options.text=='') ? '加载中，请稍候...' : options.text;
+                var _str='<div class="modal" id="modal">' +
+                    '        <div class="content">' +
+                    '            <div class="loading"><img src="../assets/images/icon_preview_loading.gif">'+_text+'</div>' +
+                    '        </div>' +
+                    '        <div class="bg"></div>' +
+                    '    </div>';
+
+                $('body').append(_str);
+                var modal=$('#modal');
+                modal.fadeIn();
+                modal.find('.loading').stop(true).animate({'top':'50%'},300,function () {
+                    setTimeout(function(){
+                        options.success();
+                        modal.remove();
+                    },_speed);
+                });
+            }
+        };
+
+        (function () {
+            //绑定导航项
+            $("#audit_nav").delegate("li", "click", function () {
+                var status = $(this).attr("data-status"),
+                    type = $("#search_select").find("h2").attr("data-type");
+
+                if (status) {
+                    $("#audit_nav").find("li").removeClass("active");
+                    $(this).addClass("active");
+                    $("#protectList").html('<div class="loader-inner ball-pulse hide">' +
+                        '<div></div>' +
+                        '<div></div>' +
+                        '<div></div>' +
+                        '</div>');
+
+                    var para={
+                        status:status,
+                        type:type
+                    }
+                    ajaxLoad(para,fillData);
+                }
+            });
+
+
+            $(".user_change_phone .close").on("click", function () {
+                $(".user_shadow").hide();
+                $(".user_change_phone").hide();
+                $("#change_phone")[0].reset();
+                $("#refuseForm")[0].reset();
+                $("#idcode").removeAttr("disabled");
+                $("#id_error").text("");
+                $("#errorText").text("");
+            });
+
+            //搜索框
+            $("#search_select").off().on("mouseenter", function () {
+                $(this).find(".tab").slideDown();
+                //绑定option 结果
+                $(this).find(".tab li").on("mouseenter", function () {
+                    $(this).addClass("active");
+                    $(this).on("mouseout", function () {
+                        $(this).removeClass("active");
+                    });
+                    $(this).off("click").on("click", function () {
+                        $("#search_select").find("h2").text($(this).text());
+                        // update zhangtianci
+                        if($(this).attr("data-type")) {
+                            $("#search_select").find("h2").attr("data-type", $(this).attr("data-type"));
+                        } else {
+                            $("#search_select").find("h2").attr("data-type", "");
+                        }
+                        $(this).parent().hide();
+
+                        var status = $("#audit_nav").find("li[class='active']").attr("data-status"),
+                            type = $("#search_select").find("h2").attr("data-type");
+
+                        $("#protectList").html('<div class="loader-inner ball-pulse hide">' +
+                            '<div></div>' +
+                            '<div></div>' +
+                            '<div></div>' +
+                            '</div>');
+
+                       var para={
+                           status:status,
+                           type:type
+                       }
+                        ajaxLoad(para,fillData);
+                    });
+                });
+               /* //绑定移出效果
+                $(this).on("mouseleave", function () {
+                    $(this).find(".tab").hide();
+                });*/
+            });
+            ajaxLoad({status:0,type:'project'},fillData);
+            $("#protectList").html('<div class="loader-inner ball-pulse hide">' +
+                '<div></div>' +
+                '<div></div>' +
+                '<div></div>' +
+                '</div>');
+        })();
+
+        function ajaxLoad(para,callback) {
+
+            var url_ ="";
+            if(para.type=='project'){
+                url_ =url.project;
+            }else if(para.type=='inheritor'){
+                url_ =url.master;
+
+            }else if(para.type=='organize'){
+                url_ =url.organize;
+            }
+            var para_ = {status:para.status};
+
+            $.ajax({
+                type: "POST",
+                url: url_,
+                data: {params: JSON.stringify(para_)},
+                dataType: "json",
+                async: true,
+                success: function (data) {
+                    //console.log(data.data);
+                    if (data.code == 0) {
+                        //$('#content').find('.loading').remove();
+                        $("#protectList").empty();
+                        if (callback || callback != 'undefinied') {
+                            callback(data.data, para.type);
+                        }
+                        //数据为空
+                        if (data.data.length == 0) {
+                            $('#protectList').html('<div style="line-height: 51px;text-align: center;font-size:20px;background: #fff;">暂无数据</div>');
+                        }
+                    }else{
+                        $('.header .content .info li em').click();
+                    }
+                }
+            });
+        }
+
+        function fillData(data,type){
+
+            var str = "<table><tbody><tr class=\"title\"><th>名称<th>最近修改时间</th><th>操作</th></tr>";
+            var status = $("#audit_nav .active").attr("data-status");
+
+            $.each(data,function (index,obj) {
+                //获取项目名称
+                //var _name ='';
+                var contentFragementList = obj.contentFragmentList;
+                if(type=='project' && contentFragementList.length>0){
+                        $.each(contentFragementList,function (j,o) {
+                            if(o.attributeId == 4){
+                                _name=o.content;
+                                return false;
+                            }
+                        })
+                }else if(type=='inheritor'){
+
+                    $.each(contentFragementList,function (j,o) {
+                        if(o.attributeId == 13){
+                            _name=o.content;
+                            return false;
+                        }
+                    })
+                }else if(type=='organize'){
+                    $.each(contentFragementList,function (j,o) {
+                        if(o.attributeId == 132){
+                            _name=o.content;
+                            return false;
+                        }
+                    })
+                }
+                str+="<tr><td><h2>"+_name+"</h2></td>";
+                str+="<td>"+obj.lastEditDate+"</td>";
+
+                if(status==2){
+                    str+="<td><a class=\"edit\" href=\"/page/ichProForm.html?pid="+obj.id+"\">编辑</a>&nbsp;&nbsp;";
+                    str+="<a class=\"del\" id=\""+"del_"+obj.id+"\" href=\"javascript:void(0)\">删除</a></td>";
+                }else if(status == 4){
+                    str+="<td><a class=\"edit\" href=\"/page/ichProForm.html?pid="+obj.id+"\">编辑</a></td>";
+                }else if(status == 3 ){
+                    str+="<td>";
+                    var flag = false;
+                    $.each(contentFragementList,function (j,o) {
+                        if(o.attributeId == 2 && type=='project' && currentUser.type==0){
+                            str+="<a  class=\"edit\" href=\"javascript:checkProject('"+obj.id+"','"+o.content+"')\">审核</a>&nbsp;&nbsp;";
+                            str+="<a class=\"edit\" href=\"javascript:refuseProject("+obj.id+")\">拒绝</a>&nbsp;&nbsp;"
+                            flag = true;
+                            //return false;
+                        }
+                        if(o.attributeId == 11 && type=='inheritor' && currentUser.type==0){
+                            str+="<a  class=\"edit\" href=\"javascript:checkProject('"+obj.id+"','"+o.content+"')\">审核</a>&nbsp;&nbsp;";
+                            str+="<a class=\"edit\" href=\"javascript:refuseProject("+obj.id+")\">拒绝</a>&nbsp;&nbsp;"
+                            flag = true;
+                            //return false;
+                        }
+                        if(o.attributeId == 137 && type=='organize' && currentUser.type==0){
+                            str+="<a  class=\"edit\" href=\"javascript:checkProject('"+obj.id+"','"+o.content+"')\">审核</a>&nbsp;&nbsp;";
+                            str+="<a class=\"edit\" href=\"javascript:refuseProject("+obj.id+")\">拒绝</a>&nbsp;&nbsp;"
+                            flag = true;
+                            //return false;
+                        }
+                    });
+
+                    if(!flag  && currentUser.type==0){
+                        str+="<a  class=\"edit\" href=\"javascript:checkProject('"+obj.id+"','')\">审核</a>&nbsp;&nbsp;";
+                        str+="<a class=\"edit\" href=\"javascript:refuseProject("+obj.id+")\">拒绝</a>&nbsp;&nbsp;"
+                    }
+
+                   /* if(currentUser.type==0){
+                        str+="<a class=\"edit\" href=\"javascript:refuseProject("+obj.id+")\">拒绝</a>&nbsp;&nbsp;";
+                    }*/
+
+                        str+="<a class=\"edit\" href=\"javascript:preview("+obj.id+")\">查看</a></td>";
+                }else{
+                    str+="<td><a class=\"edit\" href=\"javascript:preview("+obj.id+")\">查看</a></td>";
+                }
+                str+="</tr>";
+            });
+            str+="</tbody></table>";
+
+            $("#protectList").empty();
+            $("#protectList").html(str);
+
+        }
+
+        function reload(){
+            var status = $("#audit_nav").find("li[class='active']").attr("data-status"),
+                type = $("#search_select").find("h2").attr("data-type");
+
+
+            var para={
+                status:status,
+                type:type
+            }
+            ajaxLoad(para,fillData);
+        }
+
+        function preview(id) {
+            //获取当前类型
+            var url = "";
+            var type = $("#search_select").find("h2").attr("data-type");
+
+            if(type=='project'){
+                url ="/ichProject";
+            }else if(para.type=='inheritor'){
+                url ="/ichMaster";
+            }else if(para.type=='organize'){
+                url ="/organization";
+            }
+            $.ajax({
+                type: "POST",
+                url: url+"/preview",
+                data:{params:id} ,
+                dataType: "json",
+                async:false,
+                complete: function () { },
+                success: function (result) {
+                    //console.log(JSON.stringify(result));
+                    if(result.code==0){
+                        //存储本地
+                        modal.loading({
+                            success:function () {
+                                myDialog.create({code: 0, wid: "project", ifrId: "onPreview", title: "非遗项目信息预览", url: result.data.replace('./','/') });
+                                //location.href="/tmp/"+ich.id+".html";
+                            }
+                        });
+                    }
+                },
+                error: function (result, status) {
+                }
+            });
+        }
+        //审核通过
+        function  checkProject(oid,doi) {
+            //console.log(oid,doi);
+            if(doi==""){
+            }else{
+                $("#idcode").val(doi);
+                $("#idcode").attr("disabled",true);
+            }
+            $(".user_shadow").show();
+            $("#confirmID").val(oid);
+            $("#checkPro").show();
+
+        }
+        //拒绝项目
+        function  refuseProject(rid) {
+            $(".user_shadow").show();
+            $("#refuse").show();
+            var rid = $("#refuse_id").val(rid);
+        }
+        //审核确定按钮
+        function checkConfirm(){
+            var url = "";
+            var type = $("#search_select").find("h2").attr("data-type");
+
+            if(type=='project'){
+                url ="/ichProject";
+            }else if(para.type=='inheritor'){
+                url ="/ichMaster";
+            }else if(para.type=='organize'){
+                url ="/organization";
+            }
+
+            var para = {id:$("#confirmID").val().trim(),doi:$("#idcode").val()};
+            //console.log(para);
+            $.ajax({
+                type: "POST",
+                url: url+"/audit",
+                data:para ,
+                dataType: "json",
+                async:false,
+                complete: function () { },
+                success: function (result) {
+                    console.log(JSON.stringify(result));
+                    if(result.code == 0){
+                        $(".user_shadow").hide();
+                        $("#confirmID").val("");
+                        //$("#idcode").attr("disabled","false");
+                        $("#idcode").removeAttr("disabled");
+                        $("#checkPro").hide();
+
+                    }else{
+                        $("#id_error").text(result.msg+":"+result.detailMsg);
+                    }
+                },
+                error: function (result, status) {
+                }
+            });
+        }
+
+        //拒绝审核确定
+        function refuse_confire(){
+            var rid = $("#refuse_id").val().trim();
+            var reason = $("#reason").val().trim();
+
+            var type = $("#search_select").find("h2").attr("data-type");
+
+            if(type=='project'){
+                url ="/ichProject";
+            }else if(para.type=='inheritor'){
+                url ="/ichMaster";
+            }else if(para.type=='organize'){
+                url ="/organization";
+            }
+            $("#refbtn").attr("href","javascript:void(0)");
+            //console.log( url+"/refuseAudit");
+            $.ajax({
+                type: "POST",
+                url: url+"/refuseAudit",
+                data:{id:rid,reason:reason} ,
+                dataType: "json",
+                async:false,
+                complete: function () { },
+                success: function (result) {
+                    //console.log(result);
+                    $("#refbtn").attr("href","javascript:refuse_confire()");
+                    if(result.code==0){
+                        $("#refuse").hide();
+                        $(".user_shadow").hide();
+                        $("#errorText").text("");
+
+                        reload();
+                    }else{
+                        $("#errorText").text(result.msg+":"+result.detailMsg);
+                    }
+                },
+                error: function (result, status) {
+                }
+            });
+        }
+
+    </script>
+</div>
+
+<div id="checkPro" class="user_change_phone" style="display: none;">
+    <em class="close"></em>
+    <h2 class="title"></h2>
+    <form id="change_phone" autocomplete="off">
+        <input type ="hidden" id="confirmID" name="confirmID"/>
+        <ul class="user_props">
+            <li>
+                <h2>ID编码</h2>
+                <input id="idcode" name="idcode" type="text" placeholder="请输入ID编码">
+            </li>
+        </ul>
+    </form>
+    <span id="id_error" style="color: #ff0000;font-size: 13px;"></span>
+    <div class="submit">
+        <a id="okbtn" href="javascript:checkConfirm()">确认</a>
+    </div>
+</div>
+<div id="refuse" class="user_change_phone" style="display: none;">
+    <em class="close"></em>
+    <h2 class="title"></h2>
+    <form id="refuseForm" autocomplete="off">
+        <input type="hidden" id ="refuse_id" value="">
+        <ul class="user_props">
+            <li>
+                <h2 style="top: -100px;position: relative;">拒绝理由</h2>
+                <textarea id="reason" name="reason" id="reason" style="height: 100px;width: 500px;"  placeholder="请输入拒绝理由" />
+            </li>
+        </ul>
+    </form>
+    <span id="errorText" style="color: #ff0000;font-size: 13px;"></span>
+    <div class="submit">
+        <a id="refbtn" href="javascript:refuse_confire()">确认</a>
+    </div>
+</div>

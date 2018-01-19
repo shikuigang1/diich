@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>非遗大数据平台</title>
+    <meta name="renderer" content="webkit" />
+
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta property="wb:webmaster" content="cb5cc5c20f10165d" />
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport' />
+    <!-- 禁止浏览器使用缓存 -->
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <meta HTTP-EQUIV="expires" CONTENT="0">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
+    <!--STYLES-->
+    <link rel="stylesheet" href="../../static/css/base.css">
+    <link rel="stylesheet" href="../../2.0/css/layout.css">
+
+    <link rel="stylesheet" type="text/css" href="../../2.0/css/jquery-ui.css">
+    <!--SCRIPT-->
+    <script type="text/javascript" src="../../2.0/js/jquery-1.11.3.js"></script>
+
+    <script type="text/javascript" src="../../2.0/js/dialog.js"></script>
+    <script type="text/javascript" src="../../2.0/js/utils.js"></script>
+    <script type="text/javascript" src="../../2.0/js/util.js"></script>
+    <script type="text/javascript" src="../../2.0/js/verify.notify.js"></script>
+    <script type="text/javascript" src="../../2.0/js/system.js"></script>
+    <script type="text/javascript" src="../../2.0/js/webuploader.js"></script>
+    <script type="text/javascript" src="../../2.0/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="../../2.0/js/autosize.min.js"></script>
+
+
+    <script type="text/javascript" src="../../static/js/base.js"></script>
+    <script type="text/javascript" src="../../static/js/login.js"></script>
+    <script type="text/javascript" src="../../2.0/js/user/user.js"></script>
+
+    <script>
+        // 控制浏览器回退按钮缓存
+        if(window.name!="hasLoad"){
+            location.reload();
+            window.name = "hasLoad";
+        }else{
+            window.name="";
+        }
+    </script>
+</head>
+<body>
+<div class="warpAll">
+    <!-- header -->
+    <div class="header normal"></div>
+
+    <div id="content" class="mu_content muAll">
+        <div class="user_main">
+            <div class="content">
+                <link rel="stylesheet" href="../../2.0/css/user.css"/>
+                <div class="menu">
+                    <h2 class="title">个人中心</h2>
+                    <ul>
+                        <li data-hash="entry" data-url="myProject">
+                            <em class="active"></em>
+                            <h2>我的项目</h2>
+                        </li>
+                        <li data-hash="entry" data-url="myWords">
+                            <em></em>
+                            <h2>我的词条</h2>
+                        </li>
+
+                        <li data-hash="setting" data-url="setAccount">
+                            <em></em>
+                            <h2>账户设置</h2>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="right_content" class="right">
+
+                </div>
+            </div>
+        </div>
+        <div class="user_shadow"></div>
+    </div>
+    <!-- footer -->
+    <style>
+        .rbox>div:nth-child(1)>a:hover{
+            text-decoration: underline;
+        }
+        .share>span:nth-child(1)>i:hover{
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+
+    </style>
+
+    <div class="bd footer"></div>
+</div>
+
+
+</body>
+</html>
