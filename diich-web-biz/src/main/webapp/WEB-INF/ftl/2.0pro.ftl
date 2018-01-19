@@ -41,6 +41,8 @@
         .card .plain_text,.card .text_img .side {
             word-wrap: break-word;
         }
+        #trans_lang a{color: #4283EA;font-size: 13px;}
+        #trans_lang a:hover {color:#fff}
     </style>
     <!--[if IE]>
     <link rel="stylesheet" href="${caturi}/assets/css/ie.css">
@@ -284,7 +286,7 @@
                                             <span>
                                                 <#assign codeList = cf.content?split(",")>
                                                 <#list codeList as district>
-                                                    <span class="value dic data-item" dic-type="${cf.attribute.dataType}" lang="${obj.lang}" data-id="33" >${district}</span>
+                                                    <span class="value dic data-item" dic-type="${cf.attribute.dataType}" data-lang="${obj.lang}" lang="${obj.lang}" data-id="33" >${district}</span>
                                                 </#list>
                                             </span>
                                         </p>
@@ -367,13 +369,23 @@
                         </#list>
                     </#if>
                     <!--编辑按钮-->
-                    <div class="idbtn">
+                        <div class="idbtn" style="width: 81px">
                         <p>
                             <b class="active"><img src="${caturi}/images/inbtn.png" alt=""></b>
                             <b><img src="${caturi}/images/idbtnwhi.png" alt=""></b>
                             <span id="btn_edit" project-id="${obj.id?c}">编辑词条</span>
                         </p>
                     </div>
+
+
+                <div class="idbtn" style="right: 410px;width:107px">
+                <p>
+                    <b class="active"><img src="${caturi}/images/inbtn.png" alt=""></b>
+                    <b><img src="${caturi}/images/idbtnwhi.png" alt=""></b>
+                    <span class="language" id="trans_lang"><a href="" id="trans"></a></span>
+                </p>
+            </div>
+
                 </ul>
 
             </div>
@@ -638,7 +650,7 @@
             $("#trans").attr('href',${obj.version.mainVersionId?c}+ ".html");
         </#if>
         <#if obj.lang == "chi">
-            $("#trans").text("English version");
+            $("#trans").text("该词条英文版");
             $("#trans").attr('href',${obj.version.branchVersionId?c}+ ".html");
         </#if>
     </#if>
@@ -676,5 +688,16 @@
 
     },2000);
 
+    $(function(){
+        $('.content_img ul li div.active1 p span').each(function(){
+            if($(this).attr('data-lang')=='eng'){
+                $('#category').siblings('em').css({'width':'86px'});
+                $(this).parent('span').siblings('em').css({'width':'86px'});
+
+                $('#category').css({'width':'476px'});
+                $(this).parent('span').css({'width':'476px'});
+            }
+        });
+    })
 </script>
 </html>
