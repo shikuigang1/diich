@@ -11,10 +11,10 @@ var renderHhtml = {
         var language = getLang();
 
         var htmlStr = '<div class="content">' +
-            '<a class="logo" href="' + renderHhtml.uri + '/page/index.html"></a>' +
+            '<a class="logo" href="' + renderHhtml.uri + '"></a>' +
             '<div class="nav">' +
             '<ul>' +
-            '<li class="active"><a href="' + renderHhtml.uri + '/page/index.html" id="home">首页</a></li>' +
+            '<li class="active"><a href="' + renderHhtml.uri + '" id="home">首页</a></li>' +
             '<li><a href="#" id="ich_directory">非遗名录</a></li>' +
             // '<li><a href="' + renderHhtml.uri + '/page/masters.html?lang=' + language + '\" id=\"ich_master\">代表性传承人</a></li>' +
             '<li><a href="' + renderHhtml.uri + '/page/selected_content.html?lang=' + language + '\" id=\"selected_content\">精选内容</a></li>' +
