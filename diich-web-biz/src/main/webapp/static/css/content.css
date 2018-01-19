@@ -1,0 +1,166 @@
+.boutique .project {
+    background: #f4f5f6;
+    height: 778px;
+    position: relative;
+}
+.boutique .project .img li {
+    width: 100%;
+    /*height: 500px;*/
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
+.boutique .project .img li .pic {
+    width: 100%;
+    height: 500px;
+    float: left;
+    overflow: hidden;
+}
+.boutique .project .img li .pic img {
+    width: 100%;
+}
+.boutique .project .img li .main {
+    width: 100%;
+    float: left;
+    margin-top: 42px;
+}
+.boutique .project .img li .main .title {
+    font-size: 36px;
+    color: #1B1B1B;
+    letter-spacing: 2px;
+    line-height: 36px;
+}
+.boutique .project .img li .main .desc {
+    font-size: 16px;
+    color: #949494;
+    line-height: 32px;
+    margin-top: 6px;
+    height: 60px;
+    overflow: hidden;
+}
+.boutique .project .img li .main .thumb {
+    width: 100%;
+    float: left;
+    margin-top: 24px;
+    margin-bottom: 70px;
+}
+.boutique .project .img li .main .thumb img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    float: left;
+    margin: 0px 6px 0px 0px;
+}
+.boutique .project .num {
+    position: absolute;
+    top: 440px;
+    right: 0;
+    z-index: 2;
+}
+.boutique .project .num li {
+    color: #ffffff;
+    background: none;
+    width: 18px;
+    height: 24px;
+    text-align: center;
+    opacity: 0.2;
+    cursor: pointer;
+    font-weight: bold;
+    float: left;
+    margin-left: 20px;
+}
+.boutique .project .num li:after {
+    content: '';
+    background: #fff;
+    width: 100%;
+    height: 2px;
+    float: left;
+    position: relative;
+    bottom: -10px;
+}
+.boutique .project .num li.active {
+    opacity: 1;
+}
+
+
+.masters {
+    background: #fff;
+    padding-top: 110px;
+    padding-bottom: 80px;
+}
+.masters .col-item .content {
+    overflow: hidden;
+}
+.masters .col-item .content ul {
+    width: 1200px;
+    float: left;
+}
+.masters .home_title {
+    margin-bottom: 60px;
+}
+.masters .link .pic img {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+.masters .link:hover .pic img {
+    -webkit-filter: blur(13px);
+    filter: blur(13px);
+}
+.masters .link .mask {
+    opacity: 0;
+}
+.masters .link .mask .title {
+    padding-bottom: 20px;
+    font-size: 24px;
+    color: #fff;
+    font-weight: 500;
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    z-index: 2;
+}
+.masters .link .mask .title:after {
+    content: '';
+    width: 20px;
+    height: 2px;
+    background: #fff;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+.masters .link .mask .skill {
+    font-size: 14px;
+    color: #999;
+    border: 1px solid rgba(119, 119, 119, 0.5);
+    padding: 4px 15px;
+    position: absolute;
+    top:140px;
+    left: 20px;
+    z-index: 2;
+}
+.masters .link:hover .mask {
+    opacity: 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

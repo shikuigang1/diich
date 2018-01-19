@@ -1,0 +1,204 @@
+.official .container {
+    background-color: rgb(245, 246, 247);
+}
+.official .banner {
+    width: 100%;
+    height: 600px;
+    float: left;
+    position: relative;
+    background: #212121;
+    overflow: hidden;
+}
+.official .banner img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -1400px;
+}
+.official .big-title {
+    margin-top: 120px;
+}
+.official .introduce {
+    background: #fff;
+}
+.official .introduce ul {
+    width: 100%;
+    height: 100%;
+    float: left;
+}
+.official .introduce li {
+    width: 100%;
+    height: 584px;
+    float: left;
+    position: relative;
+    overflow: hidden;
+}
+.official .introduce li .lbox {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+.official .introduce li .lbox .info {
+    width: 32%;
+    height: 316px;
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    margin-top: -180px;
+}
+.official .introduce li .lbox .info p {
+    color: #1b1b1b;
+    font-size: 16px;
+    line-height: 30px;
+    margin-bottom: 40px;
+}
+.official .introduce li .rbox {
+    width: 50%;
+    float: right;
+    position: relative;
+    overflow: hidden;
+}
+.official .introduce li .rbox img {
+    width: 100%;
+    float: left;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+.official .introduce li .rbox:hover img {
+    transform: scale(1.2);
+}
+.official .introduce li .rbox .video .play {
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, .2);
+     border: 1px solid #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    cursor: pointer;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    width: 120px;
+    height: 120px;
+    margin-top: -60px;
+    margin-left: -60px;
+}
+.official .introduce li .rbox .video .play i {
+    background: url(../images/official-play.png) no-repeat 0 0;
+    width: 26px;
+    height: 34px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -9px;
+    margin-top: -17px;
+}
+.official .modal_video {
+    position: fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:20;
+}
+.official .modal_video .video {
+    position: absolute;
+    top:50%;
+    left:50%;
+    z-index:20;
+    background: rgba(0,0,0,.85);
+}
+.official .modal_video .overbg0 {
+    background: rgba(0,0,0,.85);
+    position: fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:10;
+}
+.official .modal_video .content {
+    position: absolute;
+    top:50%;
+    left:50%;
+    z-index:20;
+    margin-top: -194px;
+    margin-left: -300px;
+}
+.official .serve {
+    width: 1200px;
+    margin: 0 auto;
+}
+.official .serve ul {
+    width: 1200px;
+    margin-bottom: 110px;
+}
+.official .serve li {
+    width: 270px;
+    height: 380px;
+    padding: 60px 30px 40px;
+    border: 1px solid #ececec;
+    background: #fff;
+    /*margin-right: 30px;*/
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+.official .serve li .top {
+    text-align: center;
+    margin-bottom: 40px;
+    margin: 0 auto;
+}
+.official .serve li .top p {
+    display: block;
+    margin: 0 auto;
+}
+.official .serve li .top i {
+    width: 72px;
+    height: 72px;
+    display: block;
+    margin: 0 auto;
+}
+.official .serve li .top i img{
+    height: 100%;
+}
+.official .serve li .top span {
+    line-height: 18px;
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    color: #1B1B1B;
+    font-weight: 600;
+    margin-top: 28px;
+}
+.official .serve li .top i.icon1 {
+    background-position: 0 0;
+}
+.official .serve li .top i.icon2 {
+    width:55px;
+    background-position: 0 -37px;
+}
+.official .serve li .top i.icon3 {
+    background-position: 0 -74px;
+}
+.official .serve li .top i.icon4 {
+    background-position: 0 -111px;
+}
+.official .serve li .context {
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+.official .serve li .context p {
+    color: #777777;
+    line-height: 28px;
+    font-size: 14px;
+    margin-top: 16px;
+}
+.official .serve li .link {
+    text-align: center;
+}
+.official .serve li .link a {
+    color: #949494;
+}
+.official .serve li .link a:hover {
+    color: #4283EA;
+}

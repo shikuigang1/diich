@@ -1,9 +1,16 @@
-/*个人中心*/
+html, body, div, span, object, h1, h2, h3, h4, h5, h6, p, input, textarea, a, em, img, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, menu, nav, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 16px;
+  vertical-align: baseline;
+  font-family: "PingFang SC", "Microsoft YaHei Light", "Microsoft YaHei";
+  text-align: justify;
+}
 .user_main {
   background-color: #f7f8f9;
   text-align: center;
-  /*左侧菜单*/
-  /*右侧菜单*/
 }
 .user_main .menu {
   background-color: #fcfdfd;
@@ -59,13 +66,13 @@
   padding: 2.5rem 0 0 3rem;
   float: left;
   min-width: 63rem;
-  /*我的词条列表*/
-  /*我的收藏*/
-  /*收藏列表*/
-  /*我的消息*/
-  /*加载更多*/
-  /*个人设置*/
-  /*更换手机号*/
+  /*鎴戠殑璇嶆潯鍒楄〃*/
+  /*鎴戠殑鏀惰棌*/
+  /*鏀惰棌鍒楄〃*/
+  /*鎴戠殑娑堟伅*/
+  /*鍔犺浇鏇村*/
+  /*涓汉璁剧疆*/
+  /*鏇存崲鎵嬫満鍙�*/
 }
 .user_main .right .nav {
   height: 2rem;
@@ -211,7 +218,7 @@
   background-color: #ffffff;
   overflow: hidden;
   margin-bottom: 1.8rem;
-  /*取消收藏*/
+  /*鍙栨秷鏀惰棌*/
 }
 .user_main .right .collect_main li img {
   width: 20rem;
@@ -242,8 +249,8 @@
   padding-left: 2.5rem;
   float: left;
   padding-top: 2.6rem;
-  /*各类属性*/
-  /*文本区域*/
+  /*鍚勭被灞炴€�*/
+  /*鏂囨湰鍖哄煙*/
 }
 .user_main .right .collect_main li .collect_content .collect_project h2 {
   font-size: 1.5rem;
@@ -269,8 +276,8 @@
 }
 .user_main .right .collect_main li .collect_content .collect_formats {
   margin-top: 2.1rem;
-  /*UNESCO认证*/
-  /*DO标识码*/
+  /*UNESCO璁よ瘉*/
+  /*DO鏍囪瘑鐮�*/
 }
 .user_main .right .collect_main li .collect_content .collect_formats .format_cert {
   margin-bottom: 1rem;
@@ -530,8 +537,8 @@
   background: url("../images/close.png");
   background-repeat: no-repeat;
   display: inline-block;
-  width: 16px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
   position: absolute;
   right: 1rem;
   top: 1rem;
@@ -706,4 +713,7 @@
 .ball-pulse > div:nth-child(3) {
   -webkit-animation: scale 0.75s 0.36s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
   animation: scale 0.75s 0.36s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
+}
+#search_select {
+  background: #fff;
 }

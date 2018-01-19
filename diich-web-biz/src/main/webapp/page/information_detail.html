@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta property="wb:webmaster" content="cb5cc5c20f10165d"/>
+    <title>非遗大数据平台-非遗资讯</title>
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="../static/css/base.css">
+    <link rel="stylesheet" href="../static/css/news.css">
+
+    <!--SCRIPT-->
+    <script type="text/javascript" src="../static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/js/doT.min.js"></script>
+    <script type="text/javascript" src="../static/js/base.js"></script>
+    <script type="text/javascript" src="static/js/login.js"></script>
+    <script type="text/javascript" src="../static/js/news.js"></script>
+
+</head>
+
+<body class="news">
+<div class="header normal"></div>
+<!--/End/--header-->
+
+
+<div id="detail" class="detail"></div>
+
+
+<div class="bd footer" id="footer"></div>
+
+<!-- 文章内容 -->
+<script id="detail-templ" type="text/x-dot-template">
+    <div class="bd title">
+        <div class="hd">
+           <h1>{{=it.data.title}}</h1>
+            <div class="info">
+                <span><em>来源：</em><em>永新华韵</em></span>
+                <span class="line"></span>
+                <span><em>时间：</em><em>{{=it.data.createDate}}</em></span>
+            </div>
+       </div>
+   </div>
+    <!--//End-->
+    <div class="bd content">
+        <div class="hd">
+            {{=it.data.content}}
+        </div>
+    </div>
+</script>
+
+
+</body>
+</html>

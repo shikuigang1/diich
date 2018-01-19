@@ -1,0 +1,87 @@
+.declare .information {
+    background-color: rgb(245, 246, 247);
+}
+.declare .information .hd {
+    width: 965px;
+}
+.declare .information .title {
+    margin-top: 80px;
+    margin-bottom: 56px;
+}
+.declare .information .title h1 {
+    font-size: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+.declare .information .section {
+    background: #fff;
+    width: 885px;
+    padding: 30px 40px;
+    float: left;
+    margin-bottom: 40px;
+}
+.declare .information .section .dt {
+    font-size: 24px;
+    color: #4283EB;
+    line-height: 33px;
+    margin-bottom: 20px;
+}
+.declare .information .section .dd p {
+    line-height: 30px;
+    color: #777;
+}
+.declare .information .section .dd strong {
+    color: #1b1b1b;
+    display: block;
+}
+.declare .information .section .dd .item {
+    margin-bottom: 20px;
+}
+.declare .information .more {
+    width: 100%;
+    text-align: center;
+    float: left;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+.declare .information .more a {
+    color: #4283EB;
+}
+.declare .redirect {
+    background: #fff;
+}
+.declare .redirect .col2 {
+    width: 50%;
+    float: left;
+}
+.declare .redirect .col2 .con {
+    width: 360px;
+    text-align: center;
+    float: left;
+    margin-top: 94px;
+    margin-left: 120px;
+    margin-bottom: 100px;
+}
+.declare .redirect .col2 .txt {
+    width: 100%;
+    height: 72px;
+    line-height: 24px;
+    font-size: 16px;
+    float: left;
+    margin-bottom: 40px;
+}
+.declare .redirect .col2 a {
+    background: #4283EA;
+    width: 194px;
+    line-height: 48px;
+    text-align: center;
+    -webkit-border-radius: 1px;
+    border-radius: 1px;
+    color: #fff;
+    display: inline-block;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+.declare .redirect .col2 a:hover {
+    background: #3e6cb5;
+}

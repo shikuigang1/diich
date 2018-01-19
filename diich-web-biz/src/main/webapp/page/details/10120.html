@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <title id="title">
+        河南坠子
+    </title>
+    <link rel="shortcut icon" type="image/x-icon" href="http://diich.efeiyi.com/assets/images/logo.png" media="screen" />
+    <link rel="stylesheet" href="http://diich.efeiyi.com/assets/css/common.css">
+    <link rel="stylesheet" href="http://diich.efeiyi.com/assets/css/layout.css">
+
+    <link rel="stylesheet" href="http://diich.efeiyi.com/css/icon.min.css">
+    <link rel="stylesheet" href="http://diich.efeiyi.com/css/button.min.css">
+    <link rel="stylesheet" href="http://diich.efeiyi.com/assets/css/inputs.css">
+    <link rel="stylesheet" href="http://diich.efeiyi.com/css/loader.min.css">
+    <link rel="stylesheet" href="http://diich.efeiyi.com/css/dropdown.min.css">
+    <link rel="stylesheet" href="http://diich.efeiyi.com/css/transition.min.css">
+    <link rel="stylesheet" href="http://diich.efeiyi.com/css/project-edit.css?7">
+    <style>
+        .card .plain_text,.card .text_img .side {
+            word-wrap: break-word;
+        }
+    </style>
+    <!--[if IE]>
+    <link rel="stylesheet" href="http://diich.efeiyi.com/assets/css/ie.css">
+    <script src="http://diich.efeiyi.com/assets/js/html5.js"></script>
+    <![endif]-->
+
+    <script src="../js/base-url.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="http://diich.efeiyi.com/ueditor/_examples/editor_api.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="http://diich.efeiyi.com/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+    <script src="http://diich.efeiyi.com/data/keyword.js"></script>
+    <script src="http://diich.efeiyi.com/assets/js/jquery.min.js"></script>
+    <script src="http://diich.efeiyi.com/assets/js/jQuery.Form.js"></script>
+    <script src="http://diich.efeiyi.com/assets/js/system.js"></script>
+    <script src="http://diich.efeiyi.com/assets/js/utils.js"></script>
+    <script src="http://diich.efeiyi.com/assets/js/detail-project.js"></script>
+    <script src="http://diich.efeiyi.com/assets/js/login.js"></script>
+    <script src="http://diich.efeiyi.com/data/category.js"></script>
+    <script src="http://diich.efeiyi.com/js/citys.js"></script>
+    <script src="http://diich.efeiyi.com/js/jquery.i18n.properties-1.0.9.js"></script>
+    <script src="http://diich.efeiyi.com/js/i18n.js"></script>
+    <script src="http://diich.efeiyi.com/data/dictionary.js"></script>
+    <script src="http://diich.efeiyi.com/js/util.js"></script>
+
+    <script src="http://diich.efeiyi.com/assets/js/Ecalendar.jquery.min.js"></script>
+    <script src="http://diich.efeiyi.com/js/semantic.min.js"></script>
+    <script src="http://diich.efeiyi.com/data/area.js"></script>
+    <script src="../js/project-edit-template.js"></script>
+    <script src="../js/project-edit.js?3"></script>
+
+    <script>
+        var json = [{"contentFragmentId":3272613615982806,"imgs":[],"videos":[]},{"contentFragmentId":9879630189276886,"imgs":[],"videos":[]},{"contentFragmentId":3538384859951571,"imgs":[],"videos":[]},{"contentFragmentId":8312213875644108,"imgs":[],"videos":[]},{"contentFragmentId":9669296871562764,"imgs":[],"videos":[]},{"contentFragmentId":464616539389469,"imgs":[],"videos":[]},{"contentFragmentId":7193537733697833,"imgs":[],"videos":[]},{"contentFragmentId":5651014834317393,"imgs":[],"videos":[]},{"contentFragmentId":6548789671201994,"imgs":[],"videos":[{"description":"","id":912225363580739584,"type":1,"uri":"1506326066687.mp4","status":0}]},{"contentFragmentId":648798701026289,"imgs":[],"videos":[]},{"contentFragmentId":1465234878906267,"imgs":[],"videos":[]},{"contentFragmentId":6319887355267897,"imgs":[],"videos":[]},{"contentFragmentId":5961357202344907,"imgs":[],"videos":[]},{"contentFragmentId":8389519032453671,"imgs":[],"videos":[]},{"contentFragmentId":7470430217190115,"imgs":[],"videos":[]},{"contentFragmentId":3883141171078329,"imgs":[],"videos":[]},{"contentFragmentId":7824987124488677,"imgs":[],"videos":[]},{"contentFragmentId":8629667627280269,"imgs":[],"videos":[]},{"contentFragmentId":6914731047036807,"imgs":[],"videos":[]},{"contentFragmentId":5347545934233392,"imgs":[],"videos":[]},{"contentFragmentId":5233177184344434,"imgs":[],"videos":[]}];
+        var jsonAll = {"imgs":[],"videos":[{"description":"","id":912225363580739584,"type":1,"uri":"1506326066687.mp4","status":0}]};
+        var jsonHead = {"lang":"chi","projectName":"河南坠子"};
+    </script>
+    <style>
+        br{line-height:36px;}
+        .drop_menu .content .item dl br {line-height: 20px;}
+    </style>
+</head>
+
+<body class="js-project">
+<div class="header header_detail"></div>
+<!--//End header -->
+<div class="filter_search filter_search_fixed">
+    <div class="content">
+        <form class="form" action="http://diich.efeiyi.com/page/search.html">
+            <input class="ipt" type="text" id="keyword" name="keyword" value="" autocomplete="off">
+            <input type="hidden" id="area_code" name="area_code" value=""/>
+            <input type="hidden" id="gb_category_code" name="gb_category_code" value=""/>
+            <input type="hidden" id="type" name="type" value=""/>
+            <input class="submit" type="button" value="搜索" onclick="submit()">
+            <div class="suggest" style="display: none;">
+                <ul>
+
+                </ul>
+            </div>
+        </form>
+        <!--//End form-->
+
+        <div class="attr">
+            <span id="attr_text">所属类别</span>
+            <span id="area_text">全球</span>
+        </div>
+        <!--//End attribute-->
+
+        <div class="dropbox" id="drag">
+            <!--//ENd 全部-->
+
+            <div class="item" id="item_1">
+                <dl class="level">
+                    <dt>
+                    <div class="title">一级分类</div>
+                    <div class="subtitle">所有分类</div>
+                    </dt>
+                    <dd>
+                        <ul id="mainCategory">
+
+                        </ul>
+                    </dd>
+                </dl>
+                <dl class="level2">
+                    <dt>
+                    <div class="title">二级分类</div>
+                    <div class="subtitle">所有二级分类</div>
+                    </dt>
+                    <dd>
+                        <ul id="catecontent">
+
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <!--//End 所属分类-->
+
+            <div class="item">
+                <dl class="level">
+                    <dt>
+                    <div class="title">位置</div>
+                    </dt>
+                    <dd>
+                        <ul>
+                            <li>中国</li>
+                        </ul>
+                    </dd>
+                </dl>
+                <dl class="level2">
+                    <dt>
+                    <div class="title">按照字母顺序</div>
+                    </dt>
+                    <dd>
+                        <ul id="citycontent">
+                            <li>安微</li>
+                            <li>澳门</li>
+                            <li>北京</li>
+                            <li>上海</li>
+                            <li>福建</li>
+                            <li>甘肃</li>
+                            <li>广东</li>
+                        </ul>
+                    </dd>
+                </dl>
+            </div>
+            <!--//End 位置-->
+
+        </div>
+        <!--//End attribute-->
+    </div>
+</div>
+<!--//End filter_search -->
+<!--//End filter_search -->
+<link rel="stylesheet" type="text/css" href="../css/detail.css"/>
+<div class="container data-item" data-id="10120">
+    <div class="bd detail">
+        <div class="mainbg">
+            <div class="content" style="width: 100%;">
+                <img class="bg-image" src="../images/06533-BIG.jpg" style="width: 100%;">
+                <div class="cover"></div>
+            </div>
+            <!--基本内容-->
+            <div class="content_img">
+                <ul>
+                    <li class="active">
+                        <img class="bg-image" src="../images/06533-BIG.jpg"/>
+                    </li>
+                    <li class="padd">
+                        <div class="active1">
+                            <h2 data-id="4" class="data-item">弗雷沃舞曲，累西腓狂欢节的表演艺术</h2>
+                            <p>
+                                <em>类型:&nbsp;</em>
+                                <span id="category" category-id="90" class="data-item">表演艺术 - 舞蹈</span>
+                            </p>
+                            <p>
+                                <em>地区:&nbsp; </em>
+                                <span dic-type="101" lang="chi" data-id="33" class="data-item dic">巴西</span>
+                            </p>
+                        </div>
+                        <div class="active2">
+                            <div>
+                                <h3>非遗在中国<b><img src="../images/{973D998B-2E8E-65E0-061C-70A1F70B051B}.png"/></b></h3>
+                            </div>
+
+                            <!--<p class="active">
+                                <strong>人类非物质文化遗产编号:&nbsp;</strong>
+                                <em>IV-1</em>
+                            </p>-->
+                            <p class="active">
+                                <strong>级别:&nbsp;</strong>
+                                <em dic-type="103" lang="chi" data-id="41" class="data-item dic">中国国家级非遗项目第一批</em>
+                            </p>
+
+                        </div>
+                    </li>
+
+                    <!--id标识码-->
+                    <div class="idma">
+                        <p>
+                            <b><img src="../images/Did.png" alt=""/></b>
+                            <strong>
+                                <span>标识码：</span>
+                                <span data-id="2" class="data-item">ICH.pj.B0400.cn.0000163</span>
+                            </strong>
+                            <em><img src="../images/erweima.png" alt="" /></em>
+                        </p>
+                    </div>
+
+
+                    <!--编辑按钮-->
+                    <div class="idbtn">
+                        <p>
+                            <b class="active"><img src="../images/inbtn.png" alt=""></b>
+                            <b><img src="../images/idbtnwhi.png" alt=""></b>
+                            <span id="btn_edit" project-id="10120">编辑词条</span>
+                        </p>
+                    </div>
+
+                </ul>
+
+            </div>
+
+        </div>
+        <!--//End main-->
+
+        <!--//End crumbs-->
+
+        <div class="card">
+            <div class="card_base section" data-type="short-text">
+                <duv class="detail_title handle-button">
+                    <h2 class="title">
+                        基础信息
+                    </h2>
+                </duv>
+                <div class="info read-piece" id="info">
+                    <ul>
+                        <li>
+                                    <span class="key">
+                                        项目名称：
+                                    </span>
+                            <span class="value dic data-item" dic-type="0" lang="chi" data-id="4">河南坠子</span>
+                        </li>
+                        <li>
+                                    <span class="key">
+                                        十分类代码：
+                                    </span>
+                            <span class="value dic data-item" dic-type="0" lang="chi" data-id="107">Ⅴ</span>
+                        </li>
+                        <li>
+                                    <span class="key">
+                                        国家代码：
+                                    </span>
+                            <span class="value dic data-item" dic-type="0" lang="chi" data-id="108">CN</span>
+                        </li>
+                        <li>
+                                    <span class="key">
+                                        主题词：
+                                    </span>
+                            <span class="value dic data-item" dic-type="0" lang="chi" data-id="32">方言说唱；表演</span>
+                        </li>
+                        <li>
+                                    <span class="key">
+                                        开始年代：
+                                    </span>
+                            <span class="value dic data-item" dic-type="0" lang="chi" data-id="109">清道光初期（1820～1830）</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--//End 基本信息-->
+        </div>
+
+        <section class="bd floor odd" data-type="image-text">
+            <div class="card">
+            <header class="title handle-button" data-id="9"><h4>
+                简介
+            </h4></header>
+            <article class="plain_text read-piece">
+                <div class="data-item item-content" data-id="9">
+
+                    河南坠子与清代嘉庆至道光年间产生于河南开封，流布于河南、河北、山东、安徽、湖北、陕西等地。其分有西路坠子、东路坠子、北路坠子及乔派坠子等几大艺术流派。<br/>河南坠子属于板式变化体，主要伴奏乐器为坠琴，常用伴奏打击乐器有脚梆、简板、小铙、书鼓等，其表演形式有一人自拉自唱的单档式和一人演唱一人伴奏的双档式。
+
+                </div>
+            </article>
+    </div>
+    </section>
+
+    <section class="bd floor even" data-type="image-text">
+        <div class="card">
+        <header class="title handle-button" data-id="34"><h4>
+            历史渊源
+        </h4></header>
+        <article class="plain_text read-piece">
+            <div class="data-item item-content" data-id="34">
+
+                河南坠子于清道光初期（1820～1830），在河南开封由另一曲艺形式三弦书衍变而生成，因以小鼓三弦改制的坠子弦伴奏而得名。很快传入安徽的颍（今阜阳）、亳（今亳县）二州，吸收众多道情艺人演唱，遂将击节乐器简板带入。河南境内的坠子由开封向豫西南发展，因多系三弦书艺人改唱，所以，击节乐器便主要为小铜钹（又叫铰子）和脚蹬梆。光绪初年（1874），坠子由豫西南和安徽的颍、亳二州先后传入豫东各地，又于光绪29年传入豫北地区，并初步形成了东路和西路坠子两个地域流派。<br/> &nbsp; &nbsp;自中华民国3年（1914）河南坠子女艺人出现后，不仅使坠子的唱腔、表演、曲书目等得到了全面刷新，还在省内外灌制了88张唱片发行全国，使河南坠子的声誉得到了极大提高，在京津享名的乔清秀、董桂枝、程玉兰影响最大。尤其由乔清秀及其丈夫乔利元和琴师康元林吸收梨花大鼓创制演唱的“乔派”坠子，更是风糜大江南北。由此，省内外坠子演唱队伍迅速扩大，并先后流入20多个省、市行艺，使河南坠子成为了一个全国性的大曲种。与此同时，省内还出现了在各地享名的女大书艺人，如常在郑州演唱的刘明枝（风格细腻）、刘桂枝（唱表妩媚）、刘宗琴（泼辣豪放）被誉为“郑州三刘”；商丘的刘世红、张大贵则被称为“武状元”和“文状元”等。中华人民共和国建国后，省内外培养了一大批具有一定文化程度的新人从事演唱，并对坠子艺术进行了全面革新和提升。1963年在郑州举办了全国河南坠子艺术座谈会，各地精英进行了广泛交流。随后又有新的艺术流派出现，如甘肃省的“徐（玉兰）派”坠子，河南“赵（铮）派”坠子等。80年代改革开放后，由于多种复杂的原因，国内曲艺在各地先后出现危机，河南坠子是随着曲艺中“唱活”曲种的衰落而逐渐消沉。2000年后，消沉趋势愈加严重。
+
+            </div>
+        </article>
+</div>
+</section>
+
+
+<section class="bd floor odd" data-type="image-text">
+    <div class="card">
+        <header class="title handle-button" data-id="35"><h4>
+            基本内容
+        </h4></header>
+        <article class="text_img read-piece">
+            <div class="side" style="margin-right:30px;">
+                <div class="item data-item item-content" data-id="35">
+                    河南坠子演唱形式有一人的自拉自唱，2人的一拉一唱，3人的“鸳鸯档”（男女捧口），多人的群口唱；曲书目分小段儿（一小时为限）和中、长篇大书，传统曲书目390余部（篇），小段儿为280余个；唱腔为板腔体，主要有起腔、平腔、快札板、武板、五字坎、十字韵、寒韵、落腔等。自光绪中期至中华民国期间，以音乐唱腔和曲书目为基本因素先后形成了三路坠子。即以商丘为中心，包括周口一带的东路坠子；以开封、郑州为中心，包括许昌、宝丰、鲁山一带的西路坠子；以新乡、安阳为中心的北路坠子。东路又叫下路坠子，其主要艺术特色为柔美缠绵，细腻抒情，并以长篇大书擅长。西路又叫上路、中路坠子，硬工大调，朴实雄壮，节奏鲜明为其基本特点，主唱小段儿和中篇书，所以，艺人中有“东路书西路段儿”之说。北路多仿效乔派坠子欢快、玲珑俊俏的艺术特点，故乔派坠子亦为北路坠子。中华人民共和国建国前后出现的“郑州三刘”，商丘的“武状元”、“文状元”，男坠子艺人李治邦因善于诙谐幽默被称为“笑话王”，以及赵派坠子等，也都是在三路坠子基础上，发展出现的新艺术流派，都为河南坠子的丰富和发展作出了优异的贡献。
+                </div>
+            </div>
+            <div class="media">
+                <ul>
+                    <li>
+
+                        <div class="card_video">
+                            <video  controls src="http://resource.efeiyi.com/image/project/1506326066687.mp4" type="video/mp4" style="width:100%;max-height:277px;background: #000;">
+                            </video>
+
+
+                        </div>
+                        <span></span>
+                    </li>
+                </ul>
+
+                <div class="more">
+                    <a class="albums arrow_right" data-id="6548789671201994" href="javascript:;">
+                        查看完整图集
+                    </a>
+                </div>
+            </div>
+        </article>
+    </div>
+</section>
+
+
+
+<section class="bd floor even" data-type="image-text">
+    <div class="card">
+    <header class="title handle-button" data-id="36"><h4>
+        传承谱系
+    </h4></header>
+    <article class="plain_text read-piece">
+        <div class="data-item item-content" data-id="36">
+
+            一、东路坠子谱系 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br/>1．张治坤坠子班<br/>张治坤，男，（1889～1975），祖籍河南安阳县，逃饭到豫东虞城县姚楼村定居。先习豫剧，唱黑头，倒嗓，又拜该县渔鼓坠（子）艺人胡明善为师学艺。曾与坠子皇后乔清秀和著名梨花大鼓艺人谢大玉等同台演唱，技艺大进，他又把“黑头”嗓音运用在东路坠子中，轰动徐州、亳县等地，被称为“活张飞”、“嗡倒山”，以唱《三国》、《水浒》等武段子见长。中华人民共和国建国前后，其女张大贵随其演唱坠子，22岁时，已成为东路坠子的名演，在豫、皖、苏交界一带的城乡享名。她擅长小段儿，既有抒情缠绵、幽怨悲切的《红楼》文段子，亦有低弦高唱、明快有力的《三国》、《水浒》武段子，因而被称为“段子王”。因她整体风格为抒情苍劲、柔中有刚，及其冰清玉洁的为人，所以，又被人誉为“文状元”，在豫东声誉甚高。1953年任商丘县曲艺组长，1956年加入中国共产党，1958年任商丘县曲艺社指导员，1983年成为中国曲协河南分会会员。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;传承谱系：<br/> &nbsp; 代别 &nbsp; &nbsp;姓名 &nbsp;性别 &nbsp;出生年月 &nbsp;文化程度 &nbsp;传承方式 &nbsp;学艺时间 &nbsp;居住地址<br/> &nbsp;第一代 &nbsp;胡明善 &nbsp;男 &nbsp;1964～1937 &nbsp; 不详 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;1881 &nbsp; 虞城郑集乡<br/> &nbsp;第二代 &nbsp;张治坤 &nbsp;男 &nbsp;1889～1975 &nbsp; 不详 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;1916 &nbsp; 虞城县姚楼村<br/> &nbsp;第三代 &nbsp;张大贵 &nbsp;女 &nbsp;1919～ &nbsp; &nbsp; &nbsp; 小学 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;1932 &nbsp; 商丘城关镇红旗街<br/> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;马艳秋 &nbsp;女 &nbsp;1933～1977 &nbsp; 不详 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;1947 &nbsp; 郸城县<br/> &nbsp;第四代 &nbsp;刘素兰 &nbsp;女 &nbsp;1941 &nbsp; &nbsp; &nbsp; &nbsp; 初中 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;1955 &nbsp; 商丘县红旗四路 2．刘忠堂坠子班<br/> &nbsp; &nbsp;刘忠堂，男（1890～1955），祖籍安徽界首。20岁拜师唱道情，不久改唱坠子，寄居河南虞城县大乔庄岳丈家，1924年定居商丘县朱集（今商丘市）。他善唱大书，并自编有《冤孽剑》，很有影响，主要行艺于苏、皖北、豫东一带，因其演唱总是“前松后紧，越唱越稳”，被誉为东路坠子“四大相”之一。1930年，其13岁的女儿刘世红继承父业，登场演唱，首次就博得满场采。19岁时已在苏鲁豫皖交界地区出名。因其演唱风格高腔豪放，贯口、喷口不断，节奏铿锵，又常穿绿色旗袍，故被誉为“绿钢皮”、“武状元”。其拿手书目为《九美图》，1937年演唱的《韩湘子渡林英》在徐州灌制唱片。1953年推选为商丘县曲艺队长，80年代成为中国曲协会员。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;传承谱系：<br/> 代别 &nbsp; &nbsp;姓名 &nbsp;性别 &nbsp; 出生年月 &nbsp;文化程度 &nbsp;传承方式 &nbsp;学艺时间 &nbsp;居住地址<br/>第一代 &nbsp;刘忠堂 &nbsp;男 &nbsp; 1890～1955 &nbsp; 小学 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;1910 &nbsp; &nbsp;商丘市郊齐庄<br/>第二代 &nbsp;刘世红 &nbsp;女 &nbsp; 1917～ &nbsp; &nbsp; &nbsp; 不详 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;1930 &nbsp; &nbsp;商丘市郊齐庄<br/>第三代 &nbsp;宋爱华 &nbsp;女 &nbsp; 1941～ &nbsp; &nbsp; &nbsp; 高中 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;1953 &nbsp; &nbsp;郑州北大街“号<br/> &nbsp; &nbsp; &nbsp; &nbsp;耿秀兰 &nbsp;女 &nbsp; 1944～ &nbsp; &nbsp; &nbsp; 小学 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;1957 &nbsp; &nbsp;商丘县幼儿园 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;二、西路坠子谱系<br/> &nbsp;1．刘桂枝坠子班<br/> &nbsp;刘桂枝，女，1922年生于河南中牟县刘集村，7、8岁入学读书。父刘狗留，是个贫穷的坠子琴师。刘桂枝自小喜爱曲艺，在父辈们耳濡目染的熏陶下，11岁时就学会了几个小段儿，从此开始了她的演唱生涯。当时农村爱听长篇大书，刘父就教桂枝唱中篇《张廷秀闹花园》，而且是“现学现卖”，头一天学一场，第二天上场就唱，演唱时，桂枝主唱，刘父边伴奏边兼说白，如此，硬是唱完了一部书。桂枝天资聪颖，一学就会，并能上场发挥，不久，便随父来到郑州老坟岗茶棚演唱，12岁就有了名气，但仍是《张廷秀闹花园》一部书。为使其有更大发展，刘父请来了自己的师父、桂枝的师爷段明义，教她唱《刘公案》，此书为其奠定了成名的基础，并成为她的拿手书。刘桂枝的表演活泼有生气，唱腔刚柔并济，人物形象鲜明，在书场上，生龙活虎，光鲜妩媚，极具魅力。她主唱长篇大书，除《刘公案》外，还有《薛刚反唐》、《美人洞》、《呼延庆》、《卖绒线》等。中华人民共和国建国后，曾参加郑州市曲艺组和市曲协，1957年被划为右派，1961年摘帽，1962年参加郑州市说唱团，十一届三中全会后为其平反，到郑州市群艺馆曲艺组，主要为各地曲训班授艺，80年代成为中国曲艺家协会会员。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;传承谱系：<br/> &nbsp; 代别 &nbsp; &nbsp;姓名 &nbsp;性别 &nbsp;出生年月 &nbsp;文化程度 &nbsp;传承方式 &nbsp;学艺时间 &nbsp;居住地址<br/> &nbsp;第一代 &nbsp;段明义 &nbsp;男 &nbsp; &nbsp; 不详 &nbsp; &nbsp; &nbsp;不详 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;不详 &nbsp; &nbsp;安徽太和县段家营<br/> &nbsp;第二代 &nbsp;刘狗留 &nbsp;男 &nbsp; &nbsp; 不详 &nbsp; &nbsp; &nbsp;不详 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;不详 &nbsp; &nbsp;中牟县刘集村<br/> &nbsp;第三代 &nbsp;刘桂枝 &nbsp;女 &nbsp; &nbsp; 1922～ &nbsp; &nbsp;小学 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;1934 &nbsp; &nbsp;郑州市群艺馆<br/> &nbsp;第四代 &nbsp;通过曲训班授艺，有禹县的吴小凤、李小红、巧仙；鲁山县的宋玉伦、李小婷、<br/> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;帖俊荣；长葛县的胡润芝；民权县的韩小娇等。 2．刘宗琴坠子班<br/> &nbsp; &nbsp;刘宗琴，女，1928年生于河南登封县大治镇一家贫苦农民家中，6至8岁，在讨荒路上两次给人当童养媳，12岁在郑州拜刘魁为师习唱坠子，启蒙书就是《刘同勋私访》，日本鬼子过黄河，出师、结婚，与丈夫一唱一拉到陕西逃荒卖艺，在西安、宝鸡等地既唱书棚茶社，也到郊县唱愿书，同时也丰富了一些小段儿和中长篇，如《粉红女》、《苏三起解》、《三国》段儿和《瓦岗寨》、《呼延庆》等。从1942年到1945年日寇投降，刘宗琴在陕西省成名返回河南郑州，在老坟岗行艺，此时，她又从义师程珂（程礼严）及其师父刘世禄那里学了《杨家将》、《响马传》、《狄青》等书。由于她刻苦学艺，口齿功扎实，长篇白口顿挫有力，铿锵有声，唱腔高亢挺拔，粗犷豪放，为其说英雄唱豪杰如虎添翼。所以，她只要“大书一甩，就是满棚人”。因她常与另两位女大书艺人刘明枝、刘桂枝在老坟岗演唱，并各具特色，便<br/>被听众们誉为“郑州三刘”之一。中华人民共和国建国后的1954年，她参加了河南省说唱团，1956年加入中国共产党，1957年在河南省首届曲艺、木偶、皮影会演中，她演唱的新编《李逵夺鱼》获演出、演员双项优秀奖，此曲目也成为她的代表作。由于热心讴歌新时代，对传统曲书目进行整理加工都作出了优异成绩，还被选为中国曲协理事、河南分会副主席、河南省政协委员、全国“三八”红旗手等。退休后，评为国家一级演员，德艺双馨艺术家。1987年应聘天津北方<br/>曲艺学校任教，培养了河南坠子新人陈梅生、李爱红、徐兰香，省内也有她的传人。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;传承谱系：<br/> &nbsp; 代别 &nbsp; &nbsp;姓名 &nbsp;性别 &nbsp;出生年月 &nbsp;文化程度 &nbsp;传承方式 &nbsp;学艺时间 &nbsp;居住地址<br/> &nbsp;第一代 &nbsp;刘世禄 &nbsp;男 &nbsp;1886～1951 &nbsp; 不详 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;不详 &nbsp; &nbsp;开封县刘唐村<br/> &nbsp;第二代 &nbsp;刘魁 &nbsp; &nbsp;男 &nbsp; &nbsp; 不详 &nbsp; &nbsp; &nbsp;不详 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;不详 &nbsp; &nbsp;郑州北郊<br/> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;程礼严 &nbsp;男 &nbsp;1900～1976 &nbsp; 不详 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;不详 &nbsp; &nbsp;开封县程寨村<br/> &nbsp;第三代 &nbsp;刘宗琴 &nbsp;女 &nbsp;1928～ &nbsp; &nbsp; &nbsp; 小学 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;1940 &nbsp; &nbsp;郑州北大街64号<br/> &nbsp;第四代 &nbsp;天津北方曲艺学校的陈梅生、李爱红、徐兰香；河南省说唱团的谢小梅、牛青兰<br/>等。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 3．李治邦坠子班<br/> &nbsp; &nbsp;李治邦，男，（1901～1983），河南新郑县小乔乡李垌村人，8岁自习坠子弦，12岁拜来自安徽太和县的段明义为师习唱坠子，开始自拉自唱，后与人搭班，28岁与刘金喜结婚后，妇唱夫拉，曾到天津与乔清秀同台演唱。1938年，刘金喜为照看幼子辍艺，李治邦便以唱为主，能唱20余部大书，如《金鸠记》、《严海斗》、《王小买爹》等。中华人民共和国建国前妻子去世，他边抚养儿子边行艺。建国后的1958年参加郑州市说唱团，因以舞台演出为主，他便以演唱中短篇曲书目为主。他平常为人就诙谐幽默，说唱中更为重视那些能够吸住、抓住和“咬”住观众的东西，即令是传统曲书目，他也总爱别出心裁，如《仨女婿拜寿》、《王小买爹》中，就有多处与众不同，由此，逐渐形成了他那轻喜剧幽默风格。尤其经他改编整理的《巧嘴八哥》（主要情节来自《鹦鹦记》），成为百听不厌的精品，他每在老坟岗书场演唱，都是高棚满座，为此人送外号“笑话王”。1962年，他应中国曲协之邀，在北京内部演出，老舍、赵树理、侯宝林、高元钧、陶钝等著名人士听后，交口称赞，当年一期的《曲艺》刊发了这一曲目。后来他又编演了《王麻休妻》，受到了著名作家李准的赞赏，亲自帮他修改，并在全国河南坠子艺术座谈会上演出，获得好评。他的伴奏艺术为其儿子李海林继承。曾当选为郑州市政协委员、中国曲艺家协会会员、河南分会理事。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;传承谱系：<br/> &nbsp; 代别 &nbsp; &nbsp;姓名 &nbsp;性别 &nbsp;出生年月 &nbsp;文化程度 &nbsp;传承方式 &nbsp;学艺时间 &nbsp;居住地址<br/> &nbsp;第一代 &nbsp;段明义 &nbsp;男 &nbsp; &nbsp; 不详 &nbsp; &nbsp; &nbsp;不详 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;不详 &nbsp; &nbsp;安徽太和县段家营<br/> &nbsp;第二代 &nbsp;李治邦 &nbsp;男 &nbsp;1901～1983 &nbsp; &nbsp; &nbsp;不详 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; 1912 &nbsp; 新郑县小乔乡李垌村<br/> &nbsp;第三代 &nbsp;李海林 &nbsp;男 &nbsp;1939 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;初中 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; 1948 &nbsp; 郑州市 三、北路坠子谱系<br/> &nbsp; &nbsp;1．徐玉玲坠子班<br/> &nbsp; &nbsp;徐玉玲，女，1931年出生于河南范县的一个曲艺世家，父徐元真、母王元莲都是由山东大鼓改唱河南坠子的著名艺人。徐玉玲自小随父母习唱，17岁便随父在山东聊城一带行艺，并常参加革命根据地冀鲁豫民间艺术部组织的慰问演出，还曾与当时的著名坠子艺人沈冠英合作演唱，如《反奸复仇》、《孔二小姐坐飞机》等。中华人民共和国建国后，随父母落户新乡市，1952年加入该市曲艺联合会，1956年参加新乡市曲艺队，任业务队长，后改建为说唱团。徐玉玲是在乔派坠子基础上发展起来的，但她不拘泥于一腔一字的生搬硬套，而有乔派活泼、巧俏的基本特色，又有她婉转、脆美的风格，成为北路坠子的优秀者。1960年她参加了全国第三届文代会，1963年在全国河南坠子艺术座谈会上演唱的《黑妮黑小》，受到了好评。自1958年至1963年，她曾是新乡市人大代表，民主青年联合会委员、新乡市妇女模范、市文联委员。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;传承谱系：<br/> &nbsp; 代别 &nbsp; &nbsp;姓名 &nbsp;性别 &nbsp;出生年月 &nbsp;文化程度 &nbsp;传承方式 &nbsp;学艺时间 &nbsp;居住地址<br/> &nbsp;第一代 &nbsp;黄永约 &nbsp;男 &nbsp; &nbsp; 不详 &nbsp; &nbsp; &nbsp;不详 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;不详 &nbsp; &nbsp;山东鄄城<br/> &nbsp;第二代 &nbsp;徐元真 &nbsp;男 &nbsp;1907～1975 &nbsp; 不详 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;1925 &nbsp; &nbsp;范县孟楼乡徐楼<br/> &nbsp;第三代 &nbsp;徐玉玲 &nbsp;女 &nbsp; &nbsp; 1931 &nbsp; &nbsp; &nbsp;初中 &nbsp; &nbsp; &nbsp;师传 &nbsp; &nbsp; &nbsp;1940 &nbsp; &nbsp;新乡市 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 2．运梅素坠子班<br/> &nbsp; &nbsp;运梅素，女，1925年出生于河南南乐县岳村集，因与乔派坠子创始人乔利元之家乔崇疃村毗邻，又特别喜爱乔清秀之所唱，所以，自小就习唱乔派坠子，越来韵味越浓厚。她善唱巧口，又多演唱风趣的唱段儿，如《庄稼老汉买镜子》、《婆媳俩吃粘糕》、《双秃闹房》、《傻小买妈》、《锯大缸》、《拴娃娃》等，在群众中大受欢迎。1943年参加冀鲁豫民间艺术联合会，1957年被河南省说唱团请至郑州，专职教唱乔派坠子。1976年后，在家乡常年外出演唱，并悉心授徒。曾加入中国曲协河南分会，被选为南乐县曲协理事。因她系自学成才，不属师承；她的传人也有待进一步了解。<br/> &nbsp; &nbsp;四、赵派坠子谱系<br/> &nbsp; &nbsp;创始人赵铮<br/> &nbsp; &nbsp;赵铮，女，1925年出生于河南项城县一家书香门第，自小酷好艺术，10余岁便登台演唱京、豫剧。曾任小学教员、会计。1951年毕业于开封艺术学校戏剧专修班，留校任教，1955年调省文化局曲艺组（即后来的省说唱团），从事坠子演唱兼辅导工作。1956年赴北京参加首届全国音乐周，由她演唱的河南坠子《摘棉花》受到好评。在中国曲协召开的曲艺音乐改革座谈会上，赵铮作了专题发言，谈了《摘棉花》在乔派坠子基础上改革创新的体会。同时，由她装腔、辅导王桂荣演唱的坠子《歌唱黄河》，在参加全国职工会演中也获演出一等奖。1958年，因批评曲艺不受重视划为右派分子，下放郑州监督劳动。1961年搞帽，调郑州市说唱团。这期间由她编演的中篇坠子《双枪老太婆劫刑车》、《江姐险渡》、《小萝贝头》为其坠子艺术提高到了一个新的境界，尤其是《双枪》，成为她久演不衰的代表性书目。“文化大革命”开始，她又被迫停止演唱活动，调金水区卫生队当清洁工。无论是“右派”时期或“文革”时期，她都没有放下手中的简板，在劳动之余，扫马路的间歇，仍然唱，依然写。1973年又回到省说唱团，不久，嗓子失音，她从此便以辅导、教学为业。1982年开办了河南省戏校首届曲艺班，开创了河南正规曲艺教育之先河。她博采众长，在乔派坠子基础上，大胆革新突破，既保持有巧俏、活泼传神小桥流水的风韵，又具有高雅厚重大江东去之气概，把乔派坠子和原来的传统坠子带到了一个新的艺术境界，从而形成了一个新的艺术流派——赵派坠子。她前后为人装腔谱曲百余段儿，绝大部分演唱河南坠子的新人中，都曾接受过她的辅导和熏陶。为培养河南坠子新生代作出了优异贡献。为此，她不仅参加了中国共产党，还被推选为中国曲协理事、河南分会副主席、名誉主席、省说唱团名誉团长、河南省政协委员、国家一级演员、德艺双馨艺术家，享受国务院政府津贴的优秀专家等。 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;传承谱系：<br/> &nbsp; 代别 &nbsp; &nbsp;姓名 &nbsp;性别 &nbsp;出生年月 &nbsp;文化程度 &nbsp;传承方式 &nbsp;学艺时间 &nbsp;居住地址<br/> &nbsp;第一代 &nbsp;赵铮 &nbsp; &nbsp;女 &nbsp; &nbsp; 1925 &nbsp; &nbsp; &nbsp;大专 &nbsp; &nbsp; &nbsp;自学 &nbsp; &nbsp; &nbsp;1951 &nbsp; &nbsp;河南省说唱团家属楼<br/> &nbsp;第二代 &nbsp;李小娟 &nbsp;女 &nbsp; &nbsp; 1939 &nbsp; &nbsp; &nbsp;大专 &nbsp; &nbsp;辅导自学 &nbsp; &nbsp;1957 &nbsp; &nbsp;郑州北大街64号<br/> &nbsp;第三代 &nbsp;张平 &nbsp; &nbsp;女 &nbsp; &nbsp; 1962 &nbsp; &nbsp; &nbsp;高中 &nbsp; &nbsp;办班培训 &nbsp; &nbsp;1960 &nbsp; &nbsp;海南<br/> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;河南省戏校曲艺班、连续3届，约百余学员，均可为赵派坠子的传人。<br/>iukli<br/><br/><br/><br/><br/>
+
+        </div>
+    </article>
+    </div>
+</section>
+
+
+
+<section class="bd floor odd" data-type="image-text">
+    <div class="card">
+    <header class="title handle-button" data-id="37"><h4>
+        基本特征
+    </h4></header>
+    <article class="plain_text read-piece">
+        <div class="data-item item-content" data-id="37">
+
+            1．说唱性<br/>河南坠子属说唱艺术，说故事、唱故事、说唱故事为其总体艺术特征。<br/>2．综合性<br/>所演唱曲书目分大、中、小3种类型；所运用的唱腔有各种腔调和板式；所演出的形式有自拉自唱、一拉一唱、男女对口、群口唱等；所进行的表演有说功、唱功、做功和特技等。<br/>3．灵活性<br/>河南坠子的演唱、行艺灵活多样，既能在舞台上，又可在地摊、场院和庭堂等处。演职员1、2人，3、5人均可。化妆、服装繁减随意。因而，被称为“轻骑兵”。<br/>4．群众性<br/>河南坠子自形成至今已有150余年历史，不但是省内最大曲种，亦是全国性曲种之一，拥有听众最广，因而，其群众性也更强。
+
+        </div>
+    </article>
+    </div>
+</section>
+
+
+
+<section class="bd floor even" data-type="image-text">
+    <div class="card">
+    <header class="title handle-button" data-id="38"><h4>
+        主要价值
+    </h4></header>
+    <article class="plain_text read-piece">
+        <div class="data-item item-content" data-id="38">
+
+            1．学术价值<br/>    中国曲艺据统计约3百余种，而成为全国性曲种的仍属少数，尤其作为说唱类的曲种更是不多。从河南坠子形成的历史中可以看出，它是由我国古代的道情和盲人说书演变发展起来的，它的文体与唐变文相类，它的音乐唱腔是最具广泛性的板腔体，它的表演也更具我国说书艺术的特征，特别是它所运用的语言，是最具普遍性的中州语。因而，在此类曲种中它也最具代表性，其学术价值也就更大更高。<br/>    2．实用价值<br/>    发掘、抢救、再生河南坠子艺术，不只是对振兴中国曲艺有实用价值，在对河南乃至全国的精神文明建设，丰富广大人民群众的文化生活，构建社会主义和谐社会，以及增进各种的旅游资源等，都将产生重大作用。
+
+        </div>
+    </article>
+    </div>
+</section>
+
+
+
+<section class="bd floor odd" data-type="image-text">
+    <div class="card">
+    <header class="title handle-button" data-id="39"><h4>
+        濒危状况
+    </h4></header>
+    <article class="plain_text read-piece">
+        <div class="data-item item-content" data-id="39">
+
+            1．改革开放以来，坠子的演出已逐渐在城市里呈衰微之势。而在农村唱“愿书”的坠子艺人，还有相当数量。<br/>2．2000年后，一年一度的宝丰马街书会上的坠子艺人显然减少，原因是农民的文娱活动也以请放电影为主了；再是30岁以下的青年人很少有学唱坠子演唱为业的，由此进入恶性循环，即演出市场不景气，影响从业者，<br/>更使演出质量和水平下降。<br/>3．现有的演唱艺人，多为老弱病残，他们中的少数有流浪到城市街头，以艺乞讨。
+
+        </div>
+    </article>
+    </div>
+</section>
+
+
+
+<section class="bd floor even" data-type="image-text">
+    <div class="card">
+    <header class="title handle-button" data-id="40"><h4>
+        保护措施
+    </h4></header>
+    <article class="plain_text read-piece">
+        <div class="data-item item-content" data-id="40">
+
+            一、上世纪八十年代，曾对该曲种进行过适当的静态保护。<br/>二、2004年，由省委省政府主持，成立了民族文化保护机构。对该曲种的生态情况和相关问题进行了摸底了解。<br/>三、省民族文化保护专家组多次对该项目进行论证。                                                               为保护河南坠子，制定5年计划。此计划应由省文化行政主管部门负责组织实施，其具体工作，可建立全省性国家级非物质文化遗产河南坠子艺术保护领导小组进行操作，其保护内容要点如下：<br/>    1．积极抢救河南坠子即将烟灭和失传的史料（包括有价值的口碑资料），文物（包括革命文物）、档案、实物（如书折、桌围、椅披、锦旗、奖章、旧唱片、旧照片等）和遗迹等。<br/>    2．对河南坠子经常演唱并成为本曲种的传统曲书目（含短、中长篇）进行全部录音并抄录（以保存文本为主），尤其对不同“书路”（即故事梗概）的中长篇，要有选择地进行多版本的录制。对艺人们的保存并曾进行过演唱的旧唱本、旧抄本，应给予有偿的收购。<br/>    3．对省内外现有的职业、半职业演员进行调查填表，选择有代表性的演员及其表演特技，特色唱腔和说表等，进行全部或部分录音、录相。<br/>    4．编印《河南坠子艺术》（暂名）内部刊物，成为整个保护工程的舆论阵地。并开展对河南坠子的艺术研究，举办河南坠子学术研讨会，以促进保护工程的深入开展。<br/>    5．建立河南坠子艺术陈列室（馆），使收集到的实物和各种需要保护的品类均能得到妥善保管。同时，还可开放参观，宣传保护工作的重要。<br/>    6．建立和扶植能够进行河南坠子实验演唱的班组，使之成为具有示范、研究、辅导等功能的保护性团体，待条件成熟时，可与艺术团体，影视单位等联合演出演唱，扩大影响，为河南坠子得到进一步的保护，再生和振兴创造条件。
+
+        </div>
+    </article>
+    </div>
+</section>
+
+
+
+
+
+<section class="bd floor odd" data-type="image-text">
+    <div class="card">
+    <header class="title handle-button" data-id="86"><h4>
+        唱腔
+    </h4></header>
+    <article class="plain_text read-piece">
+        <div class="data-item item-content" data-id="86">
+
+            唱腔音乐是河南坠子唱腔的主导部分，由多种曲调（板腔）构成。包括引子、起腔、平腔、送腔、尾腔等部分，根据唱词的不同句式使用三字崩、五字嵌、七字韵、巧十字塞韵、滚口白等唱法，形成节奏和旋律上的明显变化，以表现不同的感情。
+
+        </div>
+    </article>
+    </div>
+</section>
+
+
+
+<section class="bd floor even" data-type="image-text">
+    <div class="card">
+    <header class="title handle-button" data-id="87"><h4>
+        表演程式
+    </h4></header>
+    <article class="plain_text read-piece">
+        <div class="data-item item-content" data-id="87">
+
+            演唱者一人，左手打檀木或枣木简板，边打边唱。也有两人对唱的，一人打简板，一人打单钹或书鼓。还有少 数是自拉自唱的。
+
+        </div>
+    </article>
+    </div>
+</section>
+
+
+
+<section class="bd floor odd" data-type="image-text">
+    <div class="card">
+    <header class="title handle-button" data-id="88"><h4>
+        乐器
+    </h4></header>
+    <article class="plain_text read-piece">
+        <div class="data-item item-content" data-id="88">
+
+            河南坠子的伴奏乐器分丝弦乐和打击乐两类。 1．丝弦乐：主要为坠子弦，又叫坠琴、坠胡、坠子嗡等。原由三弦书曲种的小鼓木面三弦改制，即去掉一根弦，按上个马尾弓子，变弹拨为拉奏，这就是早期的坠子弦。现仍保持其基本状态，虽只用两根弦拉奏，而琴头上仍保持着3个弦轴。目前所用琴身全长为95厘米，木质琴鼓呈椭圆形，长约17厘米，宽约13厘米，厚约60毫米，以薄桐木板蒙面。其次还有扬琴、二胡、三弦、琵琶等辅助乐。 2．打击乐：主要是简板和脚蹬梆，早期也有用小铜钹（即小铰子）和八角鼓的。
+
+        </div>
+    </article>
+    </div>
+</section>
+
+
+
+<section class="bd floor even" data-type="image-text">
+    <div class="card">
+    <header class="title handle-button" data-id="90"><h4>
+        场景
+    </h4></header>
+    <article class="plain_text read-piece">
+        <div class="data-item item-content" data-id="90">
+
+            演出形式除脚踏木梆自拉自唱者外，多为一拉一唱的“二人班”。演唱时要摆上一张桌子，桌上放一小铜钹、醒木和小皮鼓。拉坠琴的弦手坐于桌侧，演唱者站立桌前，左手持简板，右手持一根竹棍，随着坠琴的旋律击出鼓点，板击强拍（板），鼓击弱拍（眼），弦手脚梆亦击强拍。
+
+        </div>
+    </article>
+    </div>
+</section>
+
+
+
+<section class="bd floor odd" data-type="image-text">
+    <div class="card">
+    <header class="title handle-button" data-id="91"><h4>
+        道具
+    </h4></header>
+    <article class="plain_text read-piece">
+        <div class="data-item item-content" data-id="91">
+
+            醒木；简板。
+
+        </div>
+    </article>
+    </div>
+</section>
+
+
+
+<!--//ENd-->
+</div>
+<!--//End detail -->
+</div>
+
+
+
+<div class="bd footer"></div>
+<!--//End--footer-->
+
+<div class="side_fixed">
+    <ul></ul>
+    <a class="gotop" href="javascript:void(0)" title="返回顶部"></a>
+</div>
+<!--//End 右侧悬浮-->
+
+</body>
+<script>
+    $(function() {
+
+        //控制header中英文显示
+        $("#trans_lang").hide();
+
+
+        //去掉头部标记
+        $(".header .content .nav li").eq(0).removeClass("active");
+        //给logo加首页链接
+        $('.logo').attr('href','http://diich.efeiyi.com/page/index.html');
+
+    });
+
+</script>
+<script>
+    setTimeout(function () {
+        var $img = $('#detailTopic');
+        var $content = $('#detailContent');
+        var img = document.getElementById('detailTopic');
+        if(img != null){
+            img.onload = function () {
+                // 加载完成
+                var imgW = parseInt($img.width());
+                $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
+                $content.css({width:imgW+'px'});
+                $img.fadeIn(800);
+            };
+        }
+        var imgW = parseInt($img.width());
+        $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
+        $content.css({width:imgW+'px'});
+        $img.fadeIn(800);
+
+    },2000);
+
+</script>
+</html>

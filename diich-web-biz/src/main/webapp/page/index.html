@@ -1,597 +1,403 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>非遗国际</title>
-    <link rel="stylesheet" href="../assets/css/common.css">
-    <link rel="stylesheet" href="../assets/css/layout.css">
-	<link rel="shortcut icon" type="image/x-icon" href="http://resource.efeiyi.com/other/assets/images/logo.png" media="screen" />
-    <!--[if IE]>
-    <link rel="stylesheet" href="../../assets/css/ie.css">
-    <script src="../../assets/jsml5.js"></script>
-    <![endif]-->
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../data/keyword.js"></script>
-    <script src="../js/category.js"></script>
-    <script src="../js/citys.js"></script>
-	<script src="../assets/js/system.js"></script>
-    <script src="../assets/js/utils.js"></script>
-    <script src="../js/jquery.i18n.properties-1.0.9.js"></script>
-    <script src="../js/i18n.js"></script>
-    <script src="../js/index.js"></script>
-    <script src="../assets/js/login.js"></script>
+    <title>非遗大数据平台</title>
+    <meta name="renderer" content="webkit"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta property="wb:webmaster" content="cb5cc5c20f10165d"/>
 
-</head>
-    <style>
+    <!--STYLES-->
+    <link rel="stylesheet" href="../static/css/base.css">
+    <link rel="stylesheet" href="../static/css/index.css">
 
-    </style>
+    <!--SCRIPT-->
+    <script type="text/javascript" src="../static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/js/doT.min.js"></script>
+    <script type="text/javascript" src="../static/data/category.js"></script>
+    <script type="text/javascript" src="../static/data/citys.js"></script>
+    <script type="text/javascript" src="../static/js/base.js"></script>
+    <script type="text/javascript" src="../static/js/login.js"></script>
+    <script type="text/javascript" src="../static/js/index.js"></script>
 </head>
 
-<body>
-<div class="header fixed" id="home-header"></div>
-<!--//End header -->
-<div class="filter_search filter_search_fixed">
-    <div class="content">
-        <form class="form" action="http://diich.efeiyi.com/page/search.html">
-            <input class="ipt" type="text" id="keyword" name="keyword" value="" autocomplete="off">
-            <input type="hidden" id="area_code" name="area_code" value=""/>
-            <input type="hidden" id="gb_category_code" name="gb_category_code" value=""/>
-            <input type="hidden" id="type" name="type" value=""/>
-            <input class="submit" type="button" value="搜索" onclick="submit()">
-            <div class="suggest" style="display: none;">
-                <ul>
+<body class="home">
+    <div class="header fixed"></div>
+    <!--/End/--header-->
 
+    <div class="banner" id="banner"></div>
+    <!--/End/--轮播图-->
+
+    <div class="cate">
+        <ul>
+            <li>
+                <a href="/page/search.html?gb_category_code=A">
+                    <i class="icon1"></i>
+                    <p class="zh">口头传说和表述</p>
+                    <p class="en">Oral traditions and expressions</p>
+                </a>
+            </li>
+            <li>
+                <a href="/page/search.html?gb_category_code=B">
+                    <i class="icon2"></i>
+                    <p class="zh">表演艺术</p>
+                    <p class="en">Performing arts</p>
+                </a>
+            </li>
+            <li>
+                <a href="/page/search.html?gb_category_code=C">
+                    <i class="icon3"></i>
+                    <p class="zh">社会风俗、礼仪、节庆</p>
+                    <p class="en">Social practices, rituals
+                        <br> and festive events</p>
+                </a>
+            </li>
+            <li>
+                <a href="/page/search.html?gb_category_code=D">
+                    <i class="icon4"></i>
+                    <p class="zh">自然界、宇宙知识和实践</p>
+                    <p class="en">Knowledge and practices
+                        <br> concerning nature and the
+                        <br> universe</p>
+                </a>
+            </li>
+            <li>
+                <a href="/page/search.html?gb_category_code=E">
+                    <i class="icon5"></i>
+                    <p class="zh">传统手工艺技能</p>
+                    <p class="en">Traditional craftsmanship</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--/End/--cate-->
+
+    <div class="bd project">
+        <div class="hd">
+            <div class="big-title">
+                <h3>非遗项目</h3>
+            </div>
+            <div class="list" id="project-list">
+                <ul class="clear">
+                    <li class="item item1">
+                        <span>一级分类</span>
+                        <p>请选择...</p>
+                        <i><img src="../static/picture/triangle%20copy%202.png" alt=""></i>
+                        <div class="cation_list"></div>
+                    </li>
+                    <li class="item item2">
+                        <span>二级分类</span>
+                        <p>请选择...</p>
+                        <i><img src="../static/picture/triangle%20copy%202.png" alt=""></i>
+                        <div class="cation_list"></div>
+                    </li>
+                    <li class="item item3">
+                        <span>地区</span>
+                        <p>全球</p>
+                        <i><img src="../static/picture/triangle%20copy%202.png" alt=""></i>
+                        <div class="cation_list cationListAreaCode">
+                            <ul id="cation_list"></ul>
+                        </div>
+                    </li>
+                    <li class="item4">
+                        <a id="search" style="width:37px;height:37px;margin-top:0" href=""><img src="../static/images/search-icon@1x.png" alt=""></a>
+                    </li>
                 </ul>
             </div>
-        </form>
-        <!--//End form-->
-
-        <div class="attr">
-            <span id="attr_text">所属类别</span>
-            <span id="area_text">全球</span>
+            <!--/End/-->
+            <div class="slider" id="project-slider"></div>
+            <!--/End/-->
         </div>
-        <!--//End attribute-->
-
-        <div class="dropbox" id="drag">
-            <!--//ENd 全部-->
-
-            <div class="item" id="item_1">
-                <dl class="level">
-                    <dt>
-                    <div class="title">一级分类</div>
-                    <div class="subtitle">所有分类</div>
-                    </dt>
-                    <dd>
-                        <ul id="mainCategory">
-
-                        </ul>
-                    </dd>
-                </dl>
-                <dl class="level2">
-                    <dt>
-                    <div class="title">二级分类</div>
-                    <div class="subtitle">所有二级分类</div>
-                    </dt>
-                    <dd>
-                        <ul id="catecontent">
-
-                        </ul>
-                    </dd>
-                </dl>
-            </div>
-            <!--//End 所属分类-->
-
-            <div class="item">
-                <dl class="level">
-                    <dt>
-                    <div class="title">位置</div>
-                    </dt>
-                    <dd>
-                        <ul>
-                            <li>中国</li>
-                        </ul>
-                    </dd>
-                </dl>
-                <dl class="level2">
-                    <dt>
-                    <div class="title">按照字母顺序</div>
-                    </dt>
-                    <dd>
-                        <ul id="citycontent">
-
-                        </ul>
-                    </dd>
-                </dl>
-            </div>
-            <!--//End 位置-->
-
-        </div>
-        <!--//End attribute-->
     </div>
-</div>
-<!--//End filter_search -->
+    <!--/End/--非遗项目 -->
 
-<div class="container">
-    <div class="home">
-        <div class="bd slider">
-            <form class="form"  id="form" onkeydown="if(event.keyCode==13)return false;" >
-                <input  class="ipt" id="keyword1" name="keyword" value=""  type="text" placeholder="苏州刺绣技艺" autocomplete="off">
-                <input class="btn" type="button" onclick="submitForm()">
-                <div class="text">
-                    <p style="display:block" id="b_opera">苏绣是苏州地区刺绣产品的总称，汉族优秀的民族传统工艺之一，以苏州刺绣研究所的高新区的镇湖镇（现改为街道）刺绣最为有名。刺绣与养蚕，缫丝分不开，所以刺绣，又称丝绣。苏绣的发源地在苏州吴县一带，现已遍布很多地区，至今已有2000余年的历史，清代是苏绣的全盛时期，可谓流派繁衍，名手竞秀。苏绣具有图案秀丽、构思巧妙、绣工细致、针法活泼、色彩清雅的独特风格，地方特色浓郁；绣技具有“平、齐、和、光、顺、匀”的特点。</p>
-                    <p id="k_opera">The Argentinian and Uruguayan tradition of the Tango,now familiar around the world,was developed by the urban lower classes in Buenos Aires and Montevideo in the Rio de la Plata basin.Among this mix of European immigrants to the region,descendents of African slaves and the natives of the region known as"criollos",a wide range of customs.</p>
-                    <p id="c_embroidery">The philosophy behind the ancient Indian practice of yoga has influenced various aspects of how society in India functions, whether it be in relation to areas such as health and medicine or education and the arts. Based on unifying the mind with the body and soul to allow for greater mental, spiritual and physical wellbeing,the values of yoga form a major part of the community's ethos.</p>
-                    <p id="j_medicine">Equitation in the French tradition is a school of horseback riding that emphasizes harmonious relations between humans and horses. The fundamental horse-training principles and processes are guided by non-violence and lack of constraint, blending human demands with respect for the horse's body and mood.</p>
-                </div>
-                <div class="suggest" style="display: none;">
-                    <ul id="words">
-
-                    </ul>
-                </div>
-            </form>
-            <ul class="img">
-               <li class="bd" style="display: block;">
-                    <a ><img src="http://diich-resource.oss-cn-beijing.aliyuncs.com/image/sx.png" alt="" id="carousel_01"></a>
-                </li>
-                <li class="bd">
-                    <a ><img src="http://diich-resource.oss-cn-beijing.aliyuncs.com/image/tango%402x.png" alt="" id="carousel_02"></a>
-                </li>
-                <li class="bd">
-                    <a ><img src="http://diich-resource.oss-cn-beijing.aliyuncs.com/image/yoga%402x.png" alt="" id="carousel_03"></a>
-                </li>
-                <li class="bd">
-                    <a ><img src="http://diich-resource.oss-cn-beijing.aliyuncs.com/image/1000003.jpg" alt="" id="carousel_04"></a>
-                </li>
-            </ul>
-            <!--//End img -->
-            <ul class="num">
-                <li class="active">01</li>
-                <li>02</li>
-                <li>03</li>
-                <li>04</li>
-            </ul>
-        </div>
-        <!--//End slider -->
-        <div class="bd cate">
-            <ul>
-                <li>
-                    <a href="../page/search.html?gb_category_code=A">
-                        <i class="icon1"></i>
-                        <p class="zh">口头传说和表述</p>
-                        <p class="en">Oral traditions and expressions</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="../page/search.html?gb_category_code=B">
-                        <i class="icon2"></i>
-                        <p class="zh">表演艺术</p>
-                        <p class="en">Performing arts</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="../page/search.html?gb_category_code=C">
-                        <i class="icon3"></i>
-                        <p class="zh">社会风俗、礼仪、节庆</p>
-                        <p class="en">Social practices, rituals<br> and festive events</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="../page/search.html?gb_category_code=D">
-                        <i class="icon4"></i>
-                        <p class="zh">自然界、宇宙知识和实践</p>
-                        <p class="en">Knowledge and practices<br> concerning nature and the<br> universe</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="../page/search.html?gb_category_code=E">
-                        <i class="icon5"></i>
-                        <p class="zh">传统手工艺技能</p>
-                        <p class="en">Traditional craftsmanship</p>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <!--//End cate_icons -->
-
-        <div class="bd global">
-            <div class="home_title">
-                <h3 id="ic_world">非遗在全球</h3>
+    <div class="bd global" id="global">
+        <div class="hd">
+            <div class="big-title">
+                <h3>非遗在全球</h3>
             </div>
             <div class="bd text">
-                <span id="s_world">截至2005年7月，世界上有170多个国家成为《保护世界文化和自然公约》的缔约国，已有788处遗产列入《世界遗产名录》，47个列入非物质遗产名录。点击地图，查看全球各地非遗名录。</span>
+                <span>截至2005年7月，世界上有170多个国家成为《保护世界文化和自然公约》的缔约国，已有788处遗产列入《世界遗产名录》，47个列入非物质遗产名录。点击地图，查看全球各地非遗名录。</span>
             </div>
             <div class="bd map">
                 <!--//TODO-->
                 <div class="dots" id="map">
-                    <div class="modal" style="display:block;">
+                    <div class="modal">
                         <i class="icon"></i>
                         <div class="title">
-                            <p class="zh"></p>
-                            <p class="en"></p>
-                            <p class="count"><em id="t_total">共计</em><span></span><em id="ic_pro">项非遗项目</em></p>
+                            <p class="zh">中国</p>
+                            <p class="en">China</p>
+                            <p class="count">共计39项非遗项目</p>
                         </div>
                         <div class="content">
-                            <p class="name" id="r_pro">具有代表性项目有：</p>
-                            <p class="txt"></p>
+                            <p class="name">具有代表性项目有：</p>
+                            <p class="txt">京剧、中国书法、中医针灸、端午节</p>
                             <p class="more"></p>
                         </div>
                     </div>
                 </div>
-                <img src="../assets/images/map2.png" alt="">
+                <img src="/static/images/home-map@1x.png" alt="">
             </div>
         </div>
-        <!--//End global -->
+    </div>
+    <!--/End/--非遗在全球-->
 
-        <div class="bd introduce">
-            <ul class="bd">
+    <div class="bd information" id="information"></div>
+    <!--/End/--非遗资讯-->
+
+    <div class="bd service">
+        <div class="big-title">
+            <h3>非遗保护计划</h3>
+        </div>
+        <ul class="clear">
+            <li>
+                <a href="javascript:;">
+                    <div class="pic"><img src="/static/images/home-plan-1@2x.png" alt=""></div>
+                    <p class="pic_h3">互联网促进计划</p>
+                    <div class="name">
+                        <p>针对非遗领域相关项目、传承人及作品进行新媒体分发及传播，并通过互联网电商服务落地产品转化及提供技术支持。</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <div class="pic"><img src="/static/images/home-plan-2@2x.png" alt=""></div>
+                    <p class="pic_h3">非遗/青年设计师培训计划</p>
+                    <div class="name">
+                        <p>针对传人进行技艺技能培训，培养年轻技艺传人，延续文化发展；联合设计院校，进行设计师教育及引导，促进文创事业发展。</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <div class="pic"><img src="/static/images/home-plan-3@2x.png" alt=""></div>
+                    <p class="pic_h3">IP保护计划</p>
+                    <div class="name">
+                        <p>打造防伪溯源体系，从创作源头出发，承载作品生产、备案、运输及销售的各个环节，提升和保护非遗文化价值。</p>
+
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <div class="pic"><img src="/static/images/home-plan-4@2x.png" alt=""></div>
+                    <p class="pic_h3">公益慈善计划</p>
+                    <div class="name">
+                        <p>建设国际非遗公益慈善基金，以公益之力集全民大众的力量，助力非遗文化发展，保护非遗永久流传。</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--/End/--非遗保护计划-->
+
+    <div class="bd license" id="license"></div>
+    <!--/End/--授牌企业-->
+
+    <div class="bd enter" id="enter">
+        <div class="content">
+            <div class="big-title">
+                <h3>非遗入驻</h3>
+            </div>
+            <div class="part">
+                <div class="txt">
+                    诚邀您入驻联合国教科文组织非遗大数据平台。<br/> 点击“我要入驻”进入非遗大数据平台信息收录系统进行资料录入。填写完成并提交后将由大数据平台评审委员会进行数据审核，<br/> 以确保提交内容真实、可信。审核通过后，数据将入驻非遗大数据平台，并获得唯一ID编码。
+                </div>
+            </div>
+            <div class="part">
+                <a href="/page/declare.html" class="declare">我要入驻</a>
+            </div>
+        </div>
+    </div>
+    <!--/End/--非遗申报-->
+
+    <div class="bd footer" id="footer"></div>
+    <!--/End/--footer-->
+
+
+<!--轮播图-->
+<script id="banner-templ" type="text/x-dot-template">
+    <div class="text">
+        {{~ it.data : value : index }}
+        {{? index==0}}
+        <dl style="display: block;">
+            <dt>{{=value.title}}</dt>
+            <dd>{{=value.content}}</dd>
+        </dl>
+        {{??}}
+        <dl>
+            <dt>{{=value.title}}</dt>
+            <dd>{{=value.content}}</dd>
+        </dl>
+        {{?}}
+        {{~}}
+        <ul class="num">
+            {{~ it.data : value : index }}
+            {{? index==0}}
+            <li class="active">0{{=index+1}}</li>
+            {{??}}
+            <li>0{{=index+1}}</li>
+            {{?}}
+            {{~}}
+        </ul>
+    </div>
+
+    <ul class="img">
+        {{~ it.data : value : index }}
+        {{? index==0}}
+        <li class="bd" style="display: block;">
+            <a><img src="http://diich-v2.oss-cn-beijing.aliyuncs.com/{{=value.imgAds}}?x-oss-process=style/diich2_home_banner"
+                    alt=""></a>
+        </li>
+        {{??}}
+        <li class="bd">
+            <a><img src="http://diich-v2.oss-cn-beijing.aliyuncs.com/{{=value.imgAds}}?x-oss-process=style/diich2_home_banner"
+                    alt=""></a>
+        </li>
+        {{?}}
+        {{~}}
+    </ul>
+</script>
+<!--//End 轮播图-->
+
+
+<!--非遗项目-->
+<script id="project-slider-templ" type="text/x-dot-template">
+    <div class="col-item">
+        <div class="content">
+            <ul>
+                {{~ it.data : value : index }}
                 <li>
-                    <div class="lbox">
-                        <a href="http://resource.efeiyi.com/html/project/11703.html" id="lhref1_id"><img class="preview" src="http://resource.efeiyi.com/image/uploads/introduce_01.jpg" alt="" id="src_id"></a>
-                    </div>
+                    {{? value.title=='北京景泰蓝工艺'}} <a class="link" href="http://project.diich.com/p/10264.html"> {{?}}
+                    {{? value.title=='昆曲'}} <a class="link" href="http://project.diich.com/p/11703.html"> {{?}}
+                    {{? value.title=='山西民居砖雕艺术'}} <a class="link" href="http://project.diich.com/p/67572.html"> {{?}}
+                    {{? value.title=='苏绣（南通仿真绣）'}} <a class="link" href="http://project.diich.com/p/52718.html"> {{?}}
 
-                    <div class="rbox">
-                        <div class="content">
-                            <div class="info">
-                                <div class="subtitle" id="tg_id">表演艺术</div>
-
-                                <a href="http://resource.efeiyi.com/html/project/11703.html" id="lhref2_id">
-                                    <p class="title" id="china_id">中国</p>
-                                    <p class="name"id="k_id">昆曲</p>
-                                </a>
-                                <div class="txt" id="ko_id">
-                                    昆曲，原名“昆山腔”、“昆腔”，是中国古老的戏曲声腔、剧种，清代以来被称为“昆曲”，现又被称为“昆剧”。昆曲是中国传统戏曲中最古老的剧种之一，也是中国传统文化艺术，特别是戏曲艺术中的珍品，被称为百花园中的一朵“兰花”。昆曲早在元朝末期（14世纪中叶）即产生于苏州昆山一带，它与起源于浙江的海盐腔、余姚腔和起源于江西的弋阳腔，被称为明代四大声腔，同属南戏系统。
-                                </div>
-                                <div class="related">
-                                    <a href="http://resource.efeiyi.com/html/master/5346.html" id="lhref3_id">
-                                        <img class="avatar" src="http://resource.efeiyi.com/image/uploads/zhouxuehua.jpg" alt="" id="zsrc_id">
-                                        <span id="zhou_id">相关传承人 · 周雪华</span>
-                                    </a>
-                                </div>
-
-                            </div>
+                        <div class="pic">
+                            <img src="http://diich-v2.oss-cn-beijing.aliyuncs.com/{{=value.cover}}?1=1&x-oss-process=style/diich2_project" alt="">
                         </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="lbox">
-                        <div class="content">
-                            <div class="info">
-                                <div class="subtitle" id="In_id">传统手工艺技能</div>
-
-                                <a href="http://resource.efeiyi.com/html/project/1.html" id="lhref_id1">
-                                    <p class="title" id="india_id">中国</p>
-                                    <p class="name" id="su_id">苏绣</p>
-                                </a>
-                                <div class="txt" id="suxiu_id">
-                                    苏绣是苏州地区刺绣产品的总称，汉族优秀的民族传统工艺之一，以苏州刺绣研究所的高新区的镇湖镇（现改为街道）刺绣最为有名。刺绣与养蚕，缫丝分不开，所以刺绣，又称丝绣。苏绣的发源地在苏州吴县一带，现已遍布很多地区，至今已有2000余年的历史，清代是苏绣的全盛时期，可谓流派繁衍，名手竞秀。苏绣具有图案秀丽、构思巧妙、绣工细致、针法活泼、色彩清雅的独特风格，地方特色浓郁；绣技具有“平、齐、和、光、顺、匀”的特点。
-                                 </div>
-                                <div class="related">
-                                    <a href="http://resource.efeiyi.com/html/master/6128.html" id="lhref_id2">
-                                        <img class="avatar" src="http://resource.efeiyi.com/image/uploads/yaohuifen.png" alt="" id="yao_id">
-                                        <span id="ya_id">相关传承人 · 姚慧芬</span>
-                                    </a>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="rbox">
-                        <a href="http://resource.efeiyi.com/html/project/1.html" id="lhref_id3"><img class="preview" src="http://resource.efeiyi.com/image/uploads/introduce_02.jpg" alt="" id="ysrc_id"></a>
-                    </div>
+                        <p class="text">{{=value.classifyName}}</p>
+                        <p class="title">{{=value.title}}</p>
+                    </a>
                 </li>
 
+                {{~}}
             </ul>
-
         </div>
-        <!--//End---->
+        <!--<span class="slider-btn prev"></span>-->
+        <!--<span class="slider-btn next"></span>-->
+    </div>
+</script>
+<!--/End/非遗项目-->
 
-        <div class="bd information">
-            <div class="home_title">
-                <h3 id="zixun_title">非遗资讯</h3>
-            </div>
-            <ul class="bd">
-                <li>
-                    <a href="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/news/news7.html" id="href1_id">
-                        <div class="pic"><img id="img_1" src="http://resource.efeiyi.com/image/uploads/zixun01.jpg" alt=""></div>
-                        <div class="name">
-                            <p id="info_1">联合国教科文组织国际非遗大数据库第一阶段成果会议</p>
-                            <!--<p>—《木卡姆印象》在京演出侧记</p>-->
-                            <p class="time" id="info_1_time">2017-05-18</p>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/news/news2.html" id="href2_id">
-                        <div class="pic"><img id="img_2" src="http://resource.efeiyi.com/image/uploads/zixun02.jpg" alt=""></div>
-                        <div class="name">
-                            <p id="info_2">【世界非物质文化遗产·端午节】纪念伟大诗人 传承民族精神</p>
-                            <!--<p>—《木卡姆印象》在京演出侧记</p>-->
-                            <p class="time" id="info_2_time">2017-05-29 – 央视网</p>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="http://diich-resource.oss-cn-beijing.aliyuncs.com/html/news/news3.html" id="href3_id">
-                        <div class="pic"><img id="img_3" src="http://resource.efeiyi.com/image/uploads/zixun03.jpg" alt=""></div>
-                        <div class="name">
-                            <p id="info_3">非遗百匠|因刺绣而生，为刺绣而梦——朱寿珍</p>
-                            <!--<p>—《木卡姆印象》在京演出侧记</p>-->
-                            <p class="time" id="info_3_time">2017-05-24</p>
-                        </div>
-                    </a>
-                </li>
-            </ul>
 
+<!--非遗资讯-->
+<script id="information-templ" type="text/x-dot-template">
+    <div class="hd">
+        <div class="big-title">
+            <h3>非遗资讯</h3>
         </div>
-        <!--//End--非遗资讯-->
-
-        <div class="bd protect" id="protect">
-            <div class="home_title">
-                <h3>非遗保护计划</h3>
-            </div>
-            <div class="product">
-                <ul id ="protectList">
-
+        <div class="col-item">
+            <div class="content">
+                <ul>
+                    {{~ it.data : value : index}}
+                        {{? index<3}}
+                            <li {{? index==1}} style="margin: 0 24px" {{?}}>
+                                <a class="link" href="/page/information_detail.html?id={{=value.objId}}">
+                                    <div class="pic">
+                                        <img src="http://diich-v2.oss-cn-beijing.aliyuncs.com/{{=value.cover}}?x-oss-process=style/diich2_enter" alt="">
+                                    </div>
+                                    <div class="name">
+                                        <p class="txt">{{=value.title}}</p>
+                                        <p class="time">{{=value.date}}</p>
+                                    </div>
+                                </a>
+                            </li>
+                        {{?}}
+                    {{~}}
                 </ul>
             </div>
-            <div class="handle">
-                <div class="icons">
-                    <div class="link prev active"></div>
-                    <div class="link next"></div>
-                </div>
-            </div>
-            <div class="more">
-                <a href="/page/protect/protect.html">查看全部100家授牌企业</a>
-            </div>
         </div>
+    </div>
+</script>
+<!--/End/非遗资讯-->
 
 
-        <div class="bd project">
+<!--授牌企业-->
+<script id="license-templ" type="text/x-dot-template">
+    <div class="hd">
+        <div class="col-item">
             <div class="content">
-                <div class="part">
-                    <a class="certificate" href="" title="证书"></a>
-                </div>
-                <div class="part">
-                    <div class="txt" id="d_id">数字对象识别码也称数字对象识别号、数字对象识别符、数字对象标识符、数字对象唯一标识符等。申报成功后，将获得有联合国教科文组织颁发的国际认证体系编码，编码为全球唯一编码，全球范围可查询。
-                    </div>
-                </div>
-                <div class="part">
-                    <a href="/page/declare.html" class="declare" id="apply_id">我要申報</a>
-                </div>
+                <ul>
+                    {{~ it.data : value : index}}
+                    {{? value.title=='辽宁道光廿五集团满族酿酒有限责任公司'}}
+                    <li>
+                        <a class="link" href="http://inheritor.diich.com/o/953922659388465152.html">
+                            <div class="pic">
+                                <img src="http://diich-v2.oss-cn-beijing.aliyuncs.com/{{=value.cover}}&x-oss-process=style/diich2_organ" alt="">
+                            </div>
+                            <div class="name">
+                                <p class="txt">{{=value.title}}</p>
+                                <p class="record-ico"><img width="74" height="22" src="/static/images/ico-record@2x.png" alt=""></p>
+                            </div>
+                        </a>
+                    </li>
+                    {{?}}
+
+                    {{? value.title=='沁阳市蓝钻文化产业有限公司'}}
+                    <li>
+                        <a class="link" href="http://inheritor.diich.com/o/953922928595689472.html">
+                            <div class="pic">
+                                <img src="http://diich-v2.oss-cn-beijing.aliyuncs.com/{{=value.cover}}&x-oss-process=style/diich2_organ" alt="">
+                            </div>
+                            <div class="name">
+                                <p class="txt">{{=value.title}}</p>
+                                <p class="record-ico"><img width="74" height="22" src="/static/images/ico-record@2x.png" alt=""></p>
+                            </div>
+                        </a>
+                    </li>
+                    {{?}}
+
+                    {{? value.title=='河南省濮阳市陈氏绢艺文化有限公司'}}
+                    <li>
+                        <a class="link" href="http://inheritor.diich.com/o/900257308990361600.html">
+                            <div class="pic">
+                                <img src="http://diich-v2.oss-cn-beijing.aliyuncs.com/{{=value.cover}}&x-oss-process=style/diich2_organ" alt="">
+                            </div>
+                            <div class="name">
+                                <p class="txt">{{=value.title}}</p>
+                                <p class="record-ico"><img width="74" height="22" src="/static/images/ico-record@2x.png" alt=""></p>
+                            </div>
+                        </a>
+                    </li>
+                    {{?}}
+
+                    {{? value.title=='开封市白记荟萃斋食品有限公司'}}
+                    <li>
+                        <a class="link" href="http://inheritor.diich.com/o/953920890398797824.html">
+                            <div class="pic">
+                                <img src="http://diich-v2.oss-cn-beijing.aliyuncs.com/{{=value.cover}}&x-oss-process=style/diich2_organ" alt="">
+                            </div>
+                            <div class="name">
+                                <p class="txt">{{=value.title}}</p>
+                                <p class="record-ico"><img width="74" height="22" src="/static/images/ico-record@2x.png" alt=""></p>
+                            </div>
+                        </a>
+                    </li>
+                    {{?}}
+
+                    {{~}}
+                </ul>
             </div>
+            <span class="slider-btn prev"></span>
+            <span class="slider-btn next active"></span>
         </div>
-        <!--//End--非遗项目-->
 
     </div>
-    <!--//End home -->
-</div>
-
-<div class="bd footer">
-
-</div>
-<!--//End--footer-->
-
+</script>
+<!--/End/授牌企业-->
 
 </body>
-<script>
-
-
- $(function () {
-     homePage.init();
-
-     (function () {
-         var indexKeyword=$('#keyword1');
-
-         indexKeyword.keyup(function(){
-             $(".suggest").hide();
-
-             if($(this).val()!=""){
-                 //查询匹配字符串
-                 $("#words").empty();
-                 var html="";
-                 var i=10;//满足数据条数
-                 var key = $(this).val().length;
-                 $.each(keywords,function(index,content){
-
-                     if(content.substring(0,key)==$(this).val()){
-
-                         html+="<li><a href=\"javascript:void(0)\" id=\"span_"+index+"\" onclick=\"submitForm("+index+")\"><span >"+$(this).val()+"</span>";
-                         if(content.length==key){
-                             html+="</a></li>";
-                         }else{
-                             html+=content.substring(key)+"</a></li>";
-                         }
-                         i--;
-                         if(i==0){
-                             $("#words").append(html);
-                             $(".suggest").show();
-                             return false;
-                         }
-                     }
-
-                 } );
-                 if(i<10){
-                     $("#words").append(html);
-                     $(".suggest").show();
-                 }
-             }
-         });
-
-     })();
-
-     $('.certificate').on('click', function () {
-         var str = '<div class="modal_video" style="display: none;">' +
-             '<div class="content">' +
-             '<div class="main"><img style="margin-left:-400px;margin-top:-342px;" src="http://diich-resource.oss-cn-beijing.aliyuncs.com/image/index/20170612.jpg" alt=""></div>' +
-             '</div>' +
-             '<div class="overbg0"></div>' +
-             '</div>';
-         var body = $('body');
-         body.append(str).css('overflow','hidden');
-         var modal=$('.modal_video');
-         modal.fadeIn(100);
-         body.on('click', '.overbg0', function () {
-             modal.fadeOut(200).remove();
-             body.css('overflow','');
-         });
-         return false;
-     });
-
-     lang_en();
-
-     //非遗保护计划
-     (function () {
-         //初始化非遗保护数据
-         initIchProtectData()
-
-
-     })();
-
- });
- 
- function submitForm(index){
-	//window.location = "../page/search.html?keyword=" + $("#span_"+index).text();
-     var keyword1=$("#keyword1");
-     if(keyword1.val()==""){
-         window.location = "../page/search.html?keyword="+keyword1.attr("placeholder");
-     }else{
-         window.location = "../page/search.html?keyword="+keyword1.val();
-     }
-
- }
-
-function lang_en(){
-    var _src=$(".avatar").attr('src');
-    if(_src == "" || _src == null){
-        $(".related").hide();
-    }
-}
-
-function initIchProtectData() {
-    $.ajax({
-        type: 'post',
-        url: '/certification/getCertifications',
-        data: {'pageNum':1,"pageSize":8},
-        dataType: 'json',
-        async:false ,
-        success: function(data) {
-            if(data.code==0 && data.total >0 ){
-                var html="";
-                $.each(data.data,function (i,item) {
-                    if(item.target_type==0 ){
-                        html+="<li><a href='http://project.diich.com/p/"+item.id+".html?lang"+getLang()+"&random="+Math.random()+"'>";
-                    }else if(item.target_type==1){
-                        html+="<li><a href='http://inheritor.diich.com/m/"+item.id+".html?lang"+getLang()+"&random="+Math.random()+"'>";
-                    }else if(item.target_type==2){
-                        html+="<li><a href='http://works.diich.com/w/"+item.id+".html?lang"+getLang()+"&random="+Math.random()+"'>";
-                    }else{
-                        html+="<li><a href='http://organization.diich.com/o/"+item.id+".html?lang"+getLang()+"&random="+Math.random()+"'>";
-                    }
-                    if(item.img== null || typeof (item.img) == "undefined"){
-                        html+="<img width=\"\" height=\"\" src=\"../assets/images/headsmall.png\" alt=\"\"></a>"
-                    }else {
-                        if (item.target_type == 0) {
-                            html += "<img width=\"\" height=\"\" src=\"http://resource.efeiyi.com/image/project/" + item.img + "?x-oss-process=style/search-result-list-image\" alt=\"\"></a>"
-                        } else if (item.target_type == 1) {
-                            html += "<img width=\"\" height=\"\" src=\"http://resource.efeiyi.com/image/master/" + item.img + "?x-oss-process=style/search-result-list-image\" alt=\"\"></a>"
-                        } else if (item.target_type == 2) {
-                            html += "<img width=\"\" height=\"\" src=\"http://resource.efeiyi.com/image/works/" + item.img + "?x-oss-process=style/search-result-list-image\" alt=\"\"></a>"
-                        } else {
-                            html += "<img width=\"\" height=\"\" src=\"http://resource.efeiyi.com/image/organization/" + item.img + "?x-oss-process=style/search-result-list-image\" alt=\"\"></a>"
-                        }
-                    }
-                    html +="<p class=\"name\">"+item.cname+"</p><p><i class=\"icon\"></i></p></li>";
-                });
-
-                $("#protectList").append(html);
-
-                var obj=$('#protect');
-                var ul=obj.find('ul');
-                var li=ul.find('li');
-                var liLen=li.length;
-                var liWidth=li.outerWidth(true);
-                var ulWidth=liWidth * liLen;
-
-                var handle=obj.find('.handle');
-                var prev=handle.find('.prev');
-                var next=handle.find('.next');
-
-                var pageSize=Math.ceil((liLen / 4)) ; //总页数
-                var pageIndex=1; //当前页面索引
-                var ulOffset=liWidth * 4; //滚动距离
-
-                //1.计算宽度
-                ul.css('width',ulWidth+'px')
-
-                console.log(ul.position().left)
-
-                //2.如果产品的数量少于5个 轮播按钮去掉
-                if(liLen <= 4){
-                    handle.hide();
-                }else{
-                    //初始化 左右按钮 状态
-                    if(!prev.hasClass("active")){
-                        prev.addClass("active")
-                    }
-                    if(next.hasClass("active")){
-                        next.removeClass("active")
-                    }
-                }
-                var margin_left = 0;
-                //3.点击下一页
-                next.on('click',function () {
-                    //pageIndex++;
-                    if(pageIndex < pageSize){
-                        margin_left = margin_left-ulOffset;
-                        ul.animate({'margin-left':margin_left+'px'},500)
-                        pageIndex++;
-                        if(pageIndex == pageSize){
-                            $(this).addClass('active');
-                        }
-                            if($(this).siblings('.link').hasClass("active")){
-                                $(this).siblings('.link').removeClass('active');
-                            }
-                        console.log(ul.position().left);
-                    }else {
-                        //pageIndex=pageSize;
-                    }
-
-                });
-
-                //4.点击上一页
-                prev.on('click',function () {
-                    if(pageIndex >1 ){
-                        margin_left = margin_left+ulOffset;
-                        ul.animate({'margin-left':margin_left+'px'},500);
-                        pageIndex--;
-                        if(pageIndex == 1 ){
-                            $(this).addClass('active')
-                        }
-                        if(pageSize > pageIndex &&  $(this).siblings('.link').hasClass('active')) {
-                            $(this).siblings('.link').removeClass('active');
-                        }
-                    }else {
-                        //pageIndex=1;
-                    }
-
-                });
-
-
-            }else{
-                $("#protect").hide();
-                $("#protectList").empty();
-            }
-        },
-        error: function () {
-
-        },
-        complete: function () {
-
-        }
-    });
-}
-
-
-</script>
 </html>

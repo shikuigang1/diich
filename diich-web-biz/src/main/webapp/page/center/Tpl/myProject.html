@@ -228,29 +228,29 @@
             }
             var para_ = {status:para.status};
 
-            $.ajax({
-                type: "POST",
-                url: url_,
-                data: {params: JSON.stringify(para_)},
-                dataType: "json",
-                async: true,
-                success: function (data) {
-                    //console.log(data.data);
-                    if (data.code == 0) {
-                        //$('#content').find('.loading').remove();
-                        $("#protectList").empty();
-                        if (callback || callback != 'undefinied') {
-                            callback(data.data, para.type);
-                        }
-                        //数据为空
-                        if (data.data.length == 0) {
-                            $('#protectList').html('<div style="line-height: 51px;text-align: center;font-size:20px;background: #fff;">暂无数据</div>');
-                        }
-                    }else{
-                        $('.header .content .info li em').click();
-                    }
-                }
-            });
+            // $.ajax({
+            //     type: "POST",
+            //     url: url_,
+            //     data: {params: JSON.stringify(para_)},
+            //     dataType: "json",
+            //     async: true,
+            //     success: function (data) {
+            //         //console.log(data.data);
+            //         if (data.code == 0) {
+            //             //$('#content').find('.loading').remove();
+            //             $("#protectList").empty();
+            //             if (callback || callback != 'undefinied') {
+            //                 callback(data.data, para.type);
+            //             }
+            //             //数据为空
+            //             if (data.data.length == 0) {
+            //                 $('#protectList').html('<div style="line-height: 51px;text-align: center;font-size:20px;background: #fff;">暂无数据</div>');
+            //             }
+            //         }else{
+            //             $('.header .content .info li em').click();
+            //         }
+            //     }
+            // });
         }
 
         function fillData(data,type){
@@ -297,35 +297,27 @@
                     str+="<td>";
                     var flag = false;
                     $.each(contentFragementList,function (j,o) {
-                        if(o.attributeId == 2 && type=='project' && currentUser.type==0){
+                        if(o.attributeId == 2 && type=='project'){
                             str+="<a  class=\"edit\" href=\"javascript:checkProject('"+obj.id+"','"+o.content+"')\">审核</a>&nbsp;&nbsp;";
-                            str+="<a class=\"edit\" href=\"javascript:refuseProject("+obj.id+")\">拒绝</a>&nbsp;&nbsp;"
                             flag = true;
                             //return false;
                         }
-                        if(o.attributeId == 11 && type=='inheritor' && currentUser.type==0){
+                        if(o.attributeId == 11 && type=='inheritor'){
                             str+="<a  class=\"edit\" href=\"javascript:checkProject('"+obj.id+"','"+o.content+"')\">审核</a>&nbsp;&nbsp;";
-                            str+="<a class=\"edit\" href=\"javascript:refuseProject("+obj.id+")\">拒绝</a>&nbsp;&nbsp;"
                             flag = true;
                             //return false;
                         }
-                        if(o.attributeId == 137 && type=='organize' && currentUser.type==0){
+                        if(o.attributeId == 137 && type=='organize'){
                             str+="<a  class=\"edit\" href=\"javascript:checkProject('"+obj.id+"','"+o.content+"')\">审核</a>&nbsp;&nbsp;";
-                            str+="<a class=\"edit\" href=\"javascript:refuseProject("+obj.id+")\">拒绝</a>&nbsp;&nbsp;"
                             flag = true;
                             //return false;
                         }
                     });
 
-                    if(!flag  && currentUser.type==0){
+                    if(!flag){
                         str+="<a  class=\"edit\" href=\"javascript:checkProject('"+obj.id+"','')\">审核</a>&nbsp;&nbsp;";
-                        str+="<a class=\"edit\" href=\"javascript:refuseProject("+obj.id+")\">拒绝</a>&nbsp;&nbsp;"
                     }
-
-                   /* if(currentUser.type==0){
                         str+="<a class=\"edit\" href=\"javascript:refuseProject("+obj.id+")\">拒绝</a>&nbsp;&nbsp;";
-                    }*/
-
                         str+="<a class=\"edit\" href=\"javascript:preview("+obj.id+")\">查看</a></td>";
                 }else{
                     str+="<td><a class=\"edit\" href=\"javascript:preview("+obj.id+")\">查看</a></td>";
