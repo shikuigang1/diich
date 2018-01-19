@@ -260,6 +260,15 @@ var getLanguage = function(value) {
         localStorage.setItem('language2.0',value);
     }
 
+
+
+    if(language=='zh'){
+        localStorage.setItem('language','zh-CN')
+    }else {
+        localStorage.setItem('language','en')
+    }
+
+
     return language;
 
 }
