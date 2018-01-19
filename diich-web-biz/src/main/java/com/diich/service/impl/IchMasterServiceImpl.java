@@ -236,7 +236,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     private void buildAndUpload(IchMaster ichMaster) throws Exception {
         String str = PropertiesUtil.getString("freemarker.masterfilepath");
         String fileName = str + "/" + ichMaster.getId().toString() + ".html";
-        buildHTML("master.ftl", ichMaster, fileName);//生成静态页面
+        buildHTML("2.0master.ftl", ichMaster, fileName);//生成静态页面
         String h5outPutPath = PropertiesUtil.getString("freemarker.h5_masterfilepath") + "/" + ichMaster.getId().toString() + ".html";
         buildHTML("h5_master.ftl", ichMaster, h5outPutPath);
         String bucketName = PropertiesUtil.getString("img_bucketName");
@@ -256,7 +256,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     private void buildAndUploadProject(IchProject ichProject) throws Exception {
         String str = PropertiesUtil.getString("freemarker.projectfilepath");
         String fileName = str + "/" + ichProject.getId().toString() + ".html";
-        ichProjectService.buildHTML("pro.ftl", ichProject, fileName);//生成静态页面
+        ichProjectService.buildHTML("2.0pro.ftl", ichProject, fileName);//生成静态页面
         String h5outPutPath = PropertiesUtil.getString("freemarker.h5_projectfilepath") + "/" + ichProject.getId() + ".html";
         ichProjectService.buildHTML("h5_pro.ftl", ichProject, h5outPutPath);
         String bucketName = PropertiesUtil.getString("img_bucketName");

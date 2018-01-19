@@ -236,7 +236,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     private void buildAndUpload(IchProject ichProject) throws Exception {
         String str = PropertiesUtil.getString("freemarker.projectfilepath");
         String fileName = str + "/" + ichProject.getId().toString() + ".html";
-        String s = buildHTML("pro.ftl", ichProject, fileName);//生成静态页面
+        String s = buildHTML("2.0pro.ftl", ichProject, fileName);//生成静态页面
         String h5outPutPath = PropertiesUtil.getString("freemarker.h5_projectfilepath") + "/" + ichProject.getId() + ".html";
         String h5 = buildHTML("h5_pro.ftl", ichProject, h5outPutPath);
         String bucketName = PropertiesUtil.getString("img_bucketName");
