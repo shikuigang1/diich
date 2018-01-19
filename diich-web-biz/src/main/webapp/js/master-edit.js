@@ -6,7 +6,7 @@ $(function () {
 });
 
 function init() {
-    $('.primary.edit.link').on('click', function() {
+    $('#btn_edit').on('click', function() {
         var masterId = $(this).attr('master-id');
         if(masterId == null) {
             alert('获取项目信息失败');
@@ -189,6 +189,9 @@ function displayEditMode() {
                         }
                     }
                 }
+
+                var main_item_arr = $('.mainbg .content_img .data-item');
+                showMasterUi(main_item_arr);
 
                 $section.find('.read-piece').show();
                 $(this).hide();
@@ -592,24 +595,7 @@ function addMainInfoCompListener($section) {
         uri_str = uri_str.substring(uri_str.lastIndexOf('/') + 1, uri_str.length);
         $section.find('.file_up').append($img);
 
-        if(typeof $('#detailTopic').attr('src') == 'undefined') {
-            var $bgContainer = $('#detailContent');
-            $bgContainer.css({'width': '316px'});
-
-            var $bg_img = $('<img id="detailTopic" style="width:316px;margin-left: -158px;"/>')
-            $bg_img.attr('src', uri);
-
-            $bgContainer.find('.mask_left').remove();
-            $bgContainer.find('.mask_right').remove();
-            $bgContainer.find('#back_img').hide();
-
-            $bgContainer.prepend($('<div class="mask_right"></div>'));
-            $bgContainer.prepend($($bg_img));
-            $bgContainer.prepend($('<div class="mask_left"></div>'));
-        } else {
-            $('#detailTopic').attr('src', uri);
-        }
-
+        $('.bg-image').attr('src', uri);
 
         var contentFragmentList = master.contentFragmentList;
         var has_head_img = false;
@@ -754,7 +740,7 @@ function editShortTextUi($section) {
 
     var short_text_attrs = [];
 
-    var no_include_ids = [12, 11, 23, 111, 10, 113];
+    var no_include_ids = [12, 13, 11, 23, 111, 10, 113];
 
     for(var i = 0; i < attributes.length; i++) {
         var attr = attributes[i];
@@ -782,8 +768,64 @@ function editShortTextUi($section) {
         contentFragmentList = master.contentFragmentList;
     }
 
-    var $form = $('<form class="bd horizontal"></form>');
+    var $form = $(edit_main_info_tmp);
     $section.append($form);
+
+    addMainInfoCompListener($section);
+
+    var aim_arr = $form.find('.data-item');
+
+    for(var i = 0; i < aim_arr.length; i++) {
+        var $a_item = $(aim_arr[i]);
+        for(var j = 0; j < contentFragmentList.length; j++) {
+            var contentFragment = contentFragmentList[j];
+
+            if($(aim_arr[i]).hasClass('category')) {
+                var category_id = master.ichCategoryId != null ? master.ichCategoryId : '';
+                $a_item.attr('data-value', category_id);
+                $a_item.text(getCategoryTextById(category_id));
+                break;
+            } else if(contentFragment.attributeId == $a_item.attr('data-id')) {
+                var value = contentFragment.content;
+
+                value = value != null ? value.trim() : '';
+
+                if($a_item.is('input[type="text"]') || $a_item.is('select')) {
+                    $a_item.val(value);
+                } else if($a_item.attr('data-id') == '23') {
+                    var value_arr = value.split(',');
+                    if(value_arr.length > 0) {
+                        value = value_arr[0];
+                    }
+
+                    $a_item.attr('data-value', value);
+                    $a_item.text(getTextByTypeAndCode($a_item.attr('dic-type'), value, 'chi'));
+                } else {
+                    $a_item.text(value);
+                }
+                break;
+            }
+        }
+    }
+
+    var resourceList = [];
+    for(var i = 0; i < contentFragmentList.length; i++) {
+        var contentFragment = contentFragmentList[i];
+        if(contentFragment.attributeId == 10) {
+            resourceList = contentFragment.resourceList;
+            break;
+        }
+    }
+    if(resourceList != null && resourceList.length > 0) {
+        $section.find('.file_up').find('img') != null ?
+            $section.find('.file_up').find('img').remove() : null;
+
+        var resource = resourceList[0];
+        var $img = $('<img class="preview" style="display: inline;z-index: 0;">');
+        $img.attr('src', MASTER_RESOURCE_URL + resource.uri);
+        $section.find('.file_up').append($img);
+    }
+
     for(var i = 0; i < short_text_attrs.length; i++) {
         var $ui = $(edit_short_text_tmp);
         $form.append($ui);
