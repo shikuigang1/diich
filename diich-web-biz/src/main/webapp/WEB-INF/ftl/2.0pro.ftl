@@ -214,7 +214,7 @@
             <!--基本内容-->
             <div class="content_img">
                 <ul>
-                    <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/default1233441.jpg">
+                    <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/default.jpg">
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 1>
