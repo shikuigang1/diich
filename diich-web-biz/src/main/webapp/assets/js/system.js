@@ -16,11 +16,11 @@ var renderHhtml = {
             '<ul>' +
             '<li class="active"><a href="' + renderHhtml.uri + '/page/index.html" id="home">首页</a></li>' +
             '<li><a href="#" id="ich_directory">非遗名录</a></li>' +
-            '<li><a href="' + renderHhtml.uri + '/page/masters.html?lang=' + language + '\" id=\"ich_master\">代表性传承人</a></li>' +
+            // '<li><a href="' + renderHhtml.uri + '/page/masters.html?lang=' + language + '\" id=\"ich_master\">代表性传承人</a></li>' +
             '<li><a href="' + renderHhtml.uri + '/page/selected_content.html?lang=' + language + '\" id=\"selected_content\">精选内容</a></li>' +
             '<li><a href="' + renderHhtml.uri + '/page/information.html?lang=' + language + '\" id=\"information\">非遗资讯</a></li>' +
-            '<li><a href="' + renderHhtml.uri + '/page/official_service.html?lang=' + language + '\" id=\"official_service\">官方服务</a></li>' +
-            '<li><a href="' + renderHhtml.uri + '/page/declare.html" id="project_declare">我要申报</a></li>' +
+            '<li><a href="' + renderHhtml.uri + '/page/official_service.html?lang=' + language + '\" id=\"official_service\">非遗保护计划</a></li>' +
+            '<li><a href="' + renderHhtml.uri + '/page/declare.html" id="project_declare">我要入驻</a></li>' +
             '</ul>' +
             '</div>' +
             '<div class="info">' +
