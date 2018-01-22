@@ -347,7 +347,7 @@
                     <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 2>
-                                <#if cf.content??>
+                                <#if cf.content?? && cf.content != "">
                                     <div class="idma">
                                         <p>
                                             <b><img src="${caturi}/images/Did.png" alt=""/></b>
