@@ -1,6 +1,17 @@
 // var baseUrl = 'http://192.168.1.41/';
 // var baseUrl = 'http://47.95.32.236';
-var baseUrl='/';
+// var baseUrl='/';
+
+var baseUrl=window.location.host;
+if(baseUrl=='inheritor.diich.com'){
+    baseUrl='http://diich.efeiyi.com'
+}else {
+    baseUrl='/'
+}
+
+console.log(baseUrl)
+
+
 var api = {
     index:{//information.html
         banner: baseUrl + "list",
@@ -8,7 +19,7 @@ var api = {
         news: baseUrl + "getOperList?columnName=news&moduleName=index", //资讯
         org: baseUrl + "getOperList?columnName=org",  //授牌企业
     },
-    search: '/page/search.html?keyword=&', //搜索地址
+    search: baseUrl+'/page/search.html?keyword=&', //搜索地址
     boutique:{//精品内容
         project: baseUrl+"getOperList?columnName=project&moduleName=choiceness",  //项目
         person: baseUrl+"getOperList?columnName=person&moduleName=choiceness",  //传承人
@@ -19,27 +30,29 @@ var api = {
     }
 };
 
-// base_url='http://47.95.32.236'
+
+
+
 
 //静态数据
 var constData={
     //导航数据
     nav:function () {
         var zh=[
-            {link: '/', title: '首页'},
+            {link: baseUrl, title: '首页'},
             {link: 'javascript:;', title: '非遗名录'},
-            {link: '/page/selected_content.html', title: '精品内容'},
-            {link: '/page/information.html', title: '非遗资讯'},
-            {link: '/page/official_service.html', title: '非遗保护计划'},
-            {link: '/page/declare.html', title: '我要入驻'}
+            {link: baseUrl+'/page/selected_content.html', title: '精品内容'},
+            {link: baseUrl+'/page/information.html', title: '非遗资讯'},
+            {link: baseUrl+'/page/official_service.html', title: '非遗保护计划'},
+            {link: baseUrl+'/page/declare.html', title: '我要入驻'}
         ];
         var en= [
-            {link: '/', title: 'Home'},
+            {link: baseUrl, title: 'Home'},
             {link: 'javascript:;', title: 'ICH Directory'},
-            {link: '/page/selected_content.html', title: 'Selected Content'},
-            {link: '/page/information.html', title: 'Information'},
-            {link: '/page/official_service.html', title: 'Official Service'},
-            {link: '/page/declare.html', title: 'Apply for'}
+            {link: baseUrl+'/page/selected_content.html', title: 'Selected Content'},
+            {link: baseUrl+'/page/information.html', title: 'Information'},
+            {link: baseUrl+'/page/official_service.html', title: 'Official Service'},
+            {link: baseUrl+'/page/declare.html', title: 'Apply for'}
         ];
         return manageLanguageDate({
             zh:zh,
@@ -51,134 +64,134 @@ var constData={
         var zh=[
             {
                 list:[
-                    {href:'/page/search.html?gb_category_code=A', title:'口头传统和表达，包括作为非物质文化遗产媒介的语言'},
-                    {href:'/page/search.html?gb_category_code=A01', title:'语言'},
-                    {href:'/page/search.html?gb_category_code=A02', title:'文字'},
-                    {href:'/page/search.html?gb_category_code=A03', title:'口述'},
-                    {href:'/page/search.html?gb_category_code=A04', title:'其他口头传说和表述'}
+                    {href:baseUrl+'/page/search.html?gb_category_code=A', title:'口头传统和表达，包括作为非物质文化遗产媒介的语言'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=A01', title:'语言'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=A02', title:'文字'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=A03', title:'口述'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=A04', title:'其他口头传说和表述'}
                 ]
             },
             {
                 list:[
-                    {href:'/page/search.html?gb_category_code=B', title:'表演艺术'},
-                    {href:'/page/search.html?gb_category_code=B01', title:'音乐演奏'},
-                    {href:'/page/search.html?gb_category_code=B02', title:'舞蹈'},
-                    {href:'/page/search.html?gb_category_code=B03', title:'民歌'},
-                    {href:'/page/search.html?gb_category_code=B04', title:'传统戏剧'},
-                    {href:'/page/search.html?gb_category_code=B05', title:'曲艺'},
-                    {href:'/page/search.html?gb_category_code=B06', title:'传统体育、游艺与杂技'},
-                    {href:'/page/search.html?gb_category_code=B99', title:'其他表演艺术'}
+                    {href:baseUrl+'/page/search.html?gb_category_code=B', title:'表演艺术'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=B01', title:'音乐演奏'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=B02', title:'舞蹈'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=B03', title:'民歌'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=B04', title:'传统戏剧'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=B05', title:'曲艺'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=B06', title:'传统体育、游艺与杂技'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=B99', title:'其他表演艺术'}
                 ]
             },
             {
                 list:[
-                    {href:'/page/search.html?gb_category_code=C', title:'社会风俗、礼仪、节庆'},
-                    {href:'/page/search.html?gb_category_code=C01', title:'生产商贸习俗'},
-                    {href:'/page/search.html?gb_category_code=C02', title:'生活习俗'},
-                    {href:'/page/search.html?gb_category_code=C03', title:'人生仪式'},
-                    {href:'/page/search.html?gb_category_code=C05', title:'节日庆典'},
-                    {href:'/page/search.html?gb_category_code=C99', title:'其他仪式和庆典'}
+                    {href:baseUrl+'/page/search.html?gb_category_code=C', title:'社会风俗、礼仪、节庆'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=C01', title:'生产商贸习俗'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=C02', title:'生活习俗'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=C03', title:'人生仪式'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=C05', title:'节日庆典'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=C99', title:'其他仪式和庆典'}
                 ]
             },
             {
                 list:[
-                    {href:'/page/search.html?gb_category_code=D', title:'有关自然界和宇宙的知识和实践'},
-                    {href:'/page/search.html?gb_category_code=D01', title:'农林牧渔'},
-                    {href:'/page/search.html?gb_category_code=D02', title:'服装'},
-                    {href:'/page/search.html?gb_category_code=D03', title:'食品'},
-                    {href:'/page/search.html?gb_category_code=D04', title:'住房与建筑'},
-                    {href:'/page/search.html?gb_category_code=D05', title:'交通旅行'},
-                    {href:'/page/search.html?gb_category_code=D06', title:'医药'},
-                    {href:'/page/search.html?gb_category_code=D07', title:'军事防御'},
-                    {href:'/page/search.html?gb_category_code=D08', title:'商贸'},
-                    {href:'/page/search.html?gb_category_code=D09', title:'工业工程'},
-                    {href:'/page/search.html?gb_category_code=D10', title:'天文地理水文'},
-                    {href:'/page/search.html?gb_category_code=D99', title:'其他自然知识实践'}
+                    {href:baseUrl+'/page/search.html?gb_category_code=D', title:'有关自然界和宇宙的知识和实践'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D01', title:'农林牧渔'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D02', title:'服装'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D03', title:'食品'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D04', title:'住房与建筑'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D05', title:'交通旅行'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D06', title:'医药'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D07', title:'军事防御'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D08', title:'商贸'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D09', title:'工业工程'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D10', title:'天文地理水文'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D99', title:'其他自然知识实践'}
                 ]
             },
             {
                 list:[
-                    {href:'/page/search.html?gb_category_code=E', title:'传统的手工艺技能'},
-                    {href:'/page/search.html?gb_category_code=E01', title:'工具及机械制作'},
-                    {href:'/page/search.html?gb_category_code=E02', title:'髹饰工艺'},
-                    {href:'/page/search.html?gb_category_code=E03', title:'家畜农林产品加工'},
-                    {href:'/page/search.html?gb_category_code=E04', title:'织染工艺'},
-                    {href:'/page/search.html?gb_category_code=E05', title:'造纸印刷机装裱'},
-                    {href:'/page/search.html?gb_category_code=E06', title:'编扎工艺'},
-                    {href:'/page/search.html?gb_category_code=E07', title:'字画工艺'},
-                    {href:'/page/search.html?gb_category_code=E08', title:'锻冶工艺'},
-                    {href:'/page/search.html?gb_category_code=E09', title:'剪刻工艺'},
-                    {href:'/page/search.html?gb_category_code=E10', title:'雕塑工艺'},
-                    {href:'/page/search.html?gb_category_code=E11', title:'烧造工艺'},
-                    {href:'/page/search.html?gb_category_code=E12', title:'木制工艺'},
-                    {href:'/page/search.html?gb_category_code=E99', title:'其他类'}
+                    {href:baseUrl+'/page/search.html?gb_category_code=E', title:'传统的手工艺技能'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E01', title:'工具及机械制作'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E02', title:'髹饰工艺'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E03', title:'家畜农林产品加工'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E04', title:'织染工艺'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E05', title:'造纸印刷机装裱'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E06', title:'编扎工艺'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E07', title:'字画工艺'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E08', title:'锻冶工艺'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E09', title:'剪刻工艺'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E10', title:'雕塑工艺'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E11', title:'烧造工艺'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E12', title:'木制工艺'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E99', title:'其他类'}
                 ]
             }
         ];
         var en=[
             {
                 list:[
-                    {href:'/page/search.html?gb_category_code=A', title:'legend'},
-                    {href:'/page/search.html?gb_category_code=A01', title:'language'},
-                    {href:'/page/search.html?gb_category_code=A02', title:'written language'},
-                    {href:'/page/search.html?gb_category_code=A03', title:'oral account'},
-                    {href:'/page/search.html?gb_category_code=A04', title:'other oral account'}
+                    {href:baseUrl+'/page/search.html?gb_category_code=A', title:'legend'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=A01', title:'language'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=A02', title:'written language'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=A03', title:'oral account'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=A04', title:'other oral account'}
                 ]
             },
             {
                 list:[
-                    {href:'/page/search.html?gb_category_code=B', title:'perform'},
-                    {href:'/page/search.html?gb_category_code=B01', title:'music'},
-                    {href:'/page/search.html?gb_category_code=B02', title:'dance'},
-                    {href:'/page/search.html?gb_category_code=B03', title:'folk song'},
-                    {href:'/page/search.html?gb_category_code=B04', title:'traditional drama'},
-                    {href:'/page/search.html?gb_category_code=B05', title:'chinese folk art forms'},
-                    {href:'/page/search.html?gb_category_code=B06', title:'traditional sports entertainment and acrobatics'},
-                    {href:'/page/search.html?gb_category_code=B99', title:'other perform'}
+                    {href:baseUrl+'/page/search.html?gb_category_code=B', title:'perform'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=B01', title:'music'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=B02', title:'dance'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=B03', title:'folk song'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=B04', title:'traditional drama'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=B05', title:'chinese folk art forms'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=B06', title:'traditional sports entertainment and acrobatics'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=B99', title:'other perform'}
                 ]
             },
             {
                 list:[
-                    {href:'/page/search.html?gb_category_code=C', title:'custom and etiquette'},
-                    {href:'/page/search.html?gb_category_code=C01', title:'business custom'},
-                    {href:'/page/search.html?gb_category_code=C02', title:'life customs'},
-                    {href:'/page/search.html?gb_category_code=C03', title:'life ritual'},
-                    {href:'/page/search.html?gb_category_code=C05', title:'festival celebration'},
-                    {href:'/page/search.html?gb_category_code=C99', title:'other celebration'}
+                    {href:baseUrl+'/page/search.html?gb_category_code=C', title:'custom and etiquette'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=C01', title:'business custom'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=C02', title:'life customs'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=C03', title:'life ritual'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=C05', title:'festival celebration'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=C99', title:'other celebration'}
                 ]
             },
             {
                 list:[
-                    {href:'/page/search.html?gb_category_code=D', title:'the practice of nature and universe'},
-                    {href:'/page/search.html?gb_category_code=D01', title:'Dense forest and fishery'},
-                    {href:'/page/search.html?gb_category_code=D02', title:'Clothing'},
-                    {href:'/page/search.html?gb_category_code=D03', title:'Food'},
-                    {href:'/page/search.html?gb_category_code=D04', title:'Housing and construction'},
-                    {href:'/page/search.html?gb_category_code=D05', title:'Traffic'},
-                    {href:'/page/search.html?gb_category_code=D06', title:'Medicine'},
-                    {href:'/page/search.html?gb_category_code=D07', title:'Military'},
-                    {href:'/page/search.html?gb_category_code=D08', title:'Business'},
-                    {href:'/page/search.html?gb_category_code=D09', title:'Project'},
-                    {href:'/page/search.html?gb_category_code=D10', title:'Astronomy geography irrigation'},
-                    {href:'/page/search.html?gb_category_code=D99', title:'Other natural knowledge'}
+                    {href:baseUrl+'/page/search.html?gb_category_code=D', title:'the practice of nature and universe'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D01', title:'Dense forest and fishery'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D02', title:'Clothing'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D03', title:'Food'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D04', title:'Housing and construction'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D05', title:'Traffic'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D06', title:'Medicine'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D07', title:'Military'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D08', title:'Business'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D09', title:'Project'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D10', title:'Astronomy geography irrigation'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=D99', title:'Other natural knowledge'}
                 ]
             },
             {
                 list:[
-                    {href:'/page/search.html?gb_category_code=E', title:'The technical of tradition handmade'},
-                    {href:'/page/search.html?gb_category_code=E01', title:'Tool and mechanical manufacture'},
-                    {href:'/page/search.html?gb_category_code=E02', title:'Painting techniques'},
-                    {href:'/page/search.html?gb_category_code=E03', title:'Domestic animal agriculture and forestry products'},
-                    {href:'/page/search.html?gb_category_code=E04', title:'Dyeing process'},
-                    {href:'/page/search.html?gb_category_code=E05', title:'Paper printing and paperhanging'},
-                    {href:'/page/search.html?gb_category_code=E06', title:'Knit techniques'},
-                    {href:'/page/search.html?gb_category_code=E07', title:'Calligraphy and painting craft'},
-                    {href:'/page/search.html?gb_category_code=E08', title:'Smithing techniques'},
-                    {href:'/page/search.html?gb_category_code=E09', title:'Paper-cut and carve technics'},
-                    {href:'/page/search.html?gb_category_code=E10', title:'Sculpture techniques'},
-                    {href:'/page/search.html?gb_category_code=E11', title:'Barbecue technics'},
-                    {href:'/page/search.html?gb_category_code=E12', title:'Wooden techniques'},
-                    {href:'/page/search.html?gb_category_code=E99', title:'Other kind'}
+                    {href:baseUrl+'/page/search.html?gb_category_code=E', title:'The technical of tradition handmade'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E01', title:'Tool and mechanical manufacture'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E02', title:'Painting techniques'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E03', title:'Domestic animal agriculture and forestry products'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E04', title:'Dyeing process'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E05', title:'Paper printing and paperhanging'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E06', title:'Knit techniques'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E07', title:'Calligraphy and painting craft'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E08', title:'Smithing techniques'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E09', title:'Paper-cut and carve technics'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E10', title:'Sculpture techniques'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E11', title:'Barbecue technics'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E12', title:'Wooden techniques'},
+                    {href:baseUrl+'/page/search.html?gb_category_code=E99', title:'Other kind'}
                 ]
             }
         ];
@@ -414,7 +427,7 @@ var renderHtml = {
             '                <a class="zh" data-lang="zh" href="javascript:;" title="中文"><span>中文</span></a>' +
             '                <a class="en" data-lang="en" href="javascript:;" title="English"><span>EN</span></a>' +
             '            </div>' +
-            '            <div class="item search"><a href="/page/search.html"></a></div>' +
+            '            <div class="item search"><a href="'+baseUrl+'/page/search.html"></a></div>' +
             '        </div>';
         return html;
     },
