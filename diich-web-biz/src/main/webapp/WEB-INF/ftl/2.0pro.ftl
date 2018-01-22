@@ -3,7 +3,7 @@
 
 <head>
 <#--<#assign caturi="http://192.168.1.41" />-->
-<#assign caturi="http://47.95.32.236/" />
+<#assign caturi="http://www.diich.com" />
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-control" content="no-cache">
