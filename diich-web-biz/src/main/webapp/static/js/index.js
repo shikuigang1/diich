@@ -113,6 +113,10 @@ var renderProjectTemplate = function () {
     renderLiHtml(1, 0, categories);
     cation.removeClass('active');
 
+
+    $('#search').attr('href',baseUrl+'/page/search.html');
+
+
     //2.展开下拉框
     obj.on("click", ".item", function () {
         $(this).find('.cation_list').toggleClass('active');
@@ -155,6 +159,7 @@ var renderProjectTemplate = function () {
         } else {
             result.category = 'gb_category_code=';
         }
+
 
         $('#search').attr('href', searchUrl + result.category + '&' + result.area);
 
