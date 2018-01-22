@@ -1,6 +1,6 @@
 // var baseUrl = 'http://192.168.1.41/';
 // var baseUrl = 'http://47.95.32.236';
-// var baseUrl='/';
+var baseUrl='/';
 var api = {
     index:{//information.html
         banner: baseUrl + "list",
