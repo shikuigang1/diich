@@ -1,4 +1,4 @@
-var baseUrl = 'http://192.168.1.41/';
+// var baseUrl = 'http://192.168.1.41/';
 // var baseUrl = 'http://47.95.32.236';
 // var baseUrl='/';
 var api = {
@@ -19,7 +19,7 @@ var api = {
     }
 };
 
-base_url='http://47.95.32.236'
+// base_url='http://47.95.32.236'
 
 //静态数据
 var constData={
