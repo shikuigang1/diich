@@ -116,7 +116,7 @@
                 _text = (!options.text || options.text=='') ? '加载中，请稍候...' : options.text;
                 var _str='<div class="modal" id="modal">' +
                     '        <div class="content">' +
-                    '            <div class="loading"><img src="../assets/images/icon_preview_loading.gif">'+_text+'</div>' +
+                    '            <div class="loading"><img src="/assets/images/icon_preview_loading.gif">'+_text+'</div>' +
                     '        </div>' +
                     '        <div class="bg"></div>' +
                     '    </div>';
@@ -356,9 +356,9 @@
                          str+="<a class=\"edit\" href=\"javascript:refuseProject("+obj.id+")\">拒绝</a>&nbsp;&nbsp;";
                      }*/
 
-                    str+="<a class=\"edit\" href=\"javascript:preview("+obj.id+")\">查看</a></td>";
+                    str+="<a class=\"edit\" href=\"javascript:preview('"+obj.id+"')\">查看</a></td>";
                 }else{
-                    str+="<td><a class=\"edit\" href=\"javascript:preview("+obj.id+")\">查看</a></td>";
+                    str+="<td><a class=\"edit\" href=\"javascript:preview('"+obj.id+"')\">查看</a></td>";
                 }
                 str+="</tr>";
             });
@@ -393,6 +393,7 @@
             }else if(para.type=='organize'){
                 url ="/organization";
             }
+
             $.ajax({
                 type: "POST",
                 url: url+"/preview",
@@ -401,7 +402,7 @@
                 async:false,
                 complete: function () { },
                 success: function (result) {
-                    //console.log(JSON.stringify(result));
+                    console.log(JSON.stringify(result));
                     if(result.code==0){
                         //存储本地
                         modal.loading({
