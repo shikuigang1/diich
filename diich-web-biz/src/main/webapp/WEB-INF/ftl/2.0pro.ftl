@@ -376,15 +376,15 @@
                             <span id="btn_edit" project-id="${obj.id?c}">编辑词条</span>
                         </p>
                     </div>
-
-
-                <div class="idbtn" style="right: 410px;width:107px">
-                <p>
-                    <b class="active"><img src="${caturi}/images/inbtn.png" alt=""></b>
-                    <b><img src="${caturi}/images/idbtnwhi.png" alt=""></b>
-                    <span class="language" id="trans_lang"><a href="" id="trans"></a></span>
-                </p>
-            </div>
+                <#if obj.version?? && (obj.version.mainVersionId??) && (obj.version.branchVersionId??)>
+                    <div class="idbtn" style="right: 410px;width:107px">
+                        <p>
+                            <b class="active"><img src="${caturi}/images/inbtn.png" alt=""></b>
+                            <b><img src="${caturi}/images/idbtnwhi.png" alt=""></b>
+                            <span class="language" id="trans_lang"><a href="" id="trans"></a></span>
+                        </p>
+                    </div>
+                </#if>
 
                 </ul>
 
