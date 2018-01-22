@@ -208,7 +208,9 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         Works works = null;
         try{
             works = worksMapper.selectWorksByDoi(doi);
-            works = getWorks(String.valueOf(works.getId()));
+            if(works != null){
+                works = getWorks(String.valueOf(works.getId()));
+            }
         }catch(Exception e){
             e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
