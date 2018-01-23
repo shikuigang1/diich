@@ -1495,8 +1495,8 @@ define(["text!ichMasterForm/menuList.tpl", "text!ichMasterForm/basic.tpl",
 
             _onMergeObj(params);
 
-            console.log("param -- >", params);
-            console.log("objPage -- >", pageObj);
+            //console.log("param -- >", params);
+            //console.log("objPage -- >", pageObj);
 
             if(params != "" && status) {
                 _onRequest("POST", "/ichMaster/submitIchMaster", {params: JSON.stringify(pageObj)}).then(function(result) {
