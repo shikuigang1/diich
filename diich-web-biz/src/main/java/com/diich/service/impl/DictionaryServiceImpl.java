@@ -93,9 +93,11 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
         String name = "";
         try{
             Dictionary dictionary = dictionaryMapper.selectByPrimaryKey(parentId);
-            name = dictionary.getName() + name;
-            if(dictionary.getParentId() != null){
-                name = getDictionaryNameByParentId(dictionary.getParentId()) + name;
+            if(dictionary != null){
+                name = dictionary.getName() + name;
+                if(dictionary.getParentId() != null){
+                    name = getDictionaryNameByParentId(dictionary.getParentId()) + name;
+                }
             }
         }catch (Exception e){
             throw new ApplicationException(ApplicationException.INNER_ERROR);
