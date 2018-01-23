@@ -70,16 +70,14 @@ public class Open360Controller extends BaseController {
 
     @RequestMapping("getIchProjectList")
     @ResponseBody
-    public Map<String, Object> getIchProjectList(HttpServletRequest request, HttpServletResponse response) {
+    public Map getIchProjectList(HttpServletRequest request, HttpServletResponse response) {
         try {
             setHeader(request, response);
         } catch (Exception e) {
-            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
-            return putDataToMap(ae);
+            e.printStackTrace();
         }
         String loginName = request.getParameter("loginName");
-        String pageNo = request.getParameter("pageNo");
-        String pageSize = request.getParameter("pageSize");
+
         if (StringUtils.isEmpty(loginName)) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR, "用户名不能为空");
             return putDataToMap(ae);
@@ -88,21 +86,13 @@ public class Open360Controller extends BaseController {
             ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
-        Integer current = 1;
-        Integer size = 10;
-        if (!StringUtils.isEmpty(pageNo)) {
-            current = Integer.parseInt(pageNo);
-        }
-        if (!StringUtils.isEmpty(pageSize)) {
-            size = Integer.parseInt(pageSize);
-        }
-        Page<Map> page = null;
+        List<Map> list = null;
         try {
-            page = ichProjectService.getCountryIchProjectList(current, size);
+            list = ichProjectService.getCountryIchProjectList();
         } catch (Exception e) {
             return putDataToMap(e);
         }
-        return putDataToMap(page);
+        return putDataToMap(list);
     }
 
     @RequestMapping("getIchProjectById")

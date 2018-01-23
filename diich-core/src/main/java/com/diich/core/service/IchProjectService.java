@@ -58,12 +58,10 @@ public interface IchProjectService {
 
     /**
      * 分页获取国家级别的项目
-     *
-     * @param current
-     * @param size
      * @return
+     * @throws Exception
      */
-    Page<Map> getCountryIchProjectList(Integer current, Integer size) throws Exception;
+    List<Map> getCountryIchProjectList() throws Exception;
 
     Map getCountryIchProjectById(String id) throws Exception;
 

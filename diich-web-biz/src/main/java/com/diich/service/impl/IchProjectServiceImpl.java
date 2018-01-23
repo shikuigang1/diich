@@ -797,31 +797,22 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     /**
      * 获取国家级项目
      *
-     * @param current
-     * @param pageSize
      * @return
      */
     @Override
-    public Page<Map> getCountryIchProjectList(Integer current, Integer pageSize) throws Exception {
-        int offset = (current - 1) * pageSize;
-        RowBounds rowBounds = new RowBounds(offset, pageSize);
-        Page<Map> page = new Page();
+    public List<Map> getCountryIchProjectList() throws Exception {
+        List<Map> projectList = new ArrayList<>();
         try {
-            int total = ichProjectMapper.selectCountryProjectCount();
-            List<IchProject> ichProjectList = ichProjectMapper.selectCountryIchProjectList(rowBounds);//获取国家级别的项目
-            List<Map> projectList = new ArrayList<>();
+            List<IchProject> ichProjectList = ichProjectMapper.selectCountryIchProjectList();//获取国家级别的项目
             for (IchProject ichProject : ichProjectList) {
-                Map project = new HashMap();
-                project = build360Map(project, ichProject);//构建360需要的数据
-                projectList.add(project);
+                Map projectMap = getCountryIchProjectById(String.valueOf(ichProject.getId()));
+                projectList.add(projectMap);
             }
-            page.setRecords(projectList);
-            page.setTotal(total);
         } catch (Exception e) {
             e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-        return page;
+        return projectList;
     }
 
     @Override
@@ -868,6 +859,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     private Map build360Map(Map project, IchProject ichProject) throws Exception {
         project.put("uniq_key", ichProject.getId());
+        project.put("baikeurl",PropertiesUtil.getString("_project") + ichProject.getId() + ".html");
         ContentFragment c = new ContentFragment();
         c.setTargetId(ichProject.getId());
         c.setTargetType(0);//标示项目
@@ -958,12 +950,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 basics.add(dmMap);
                 continue;
             }
-            if (content.getAttributeId() == 36) {
+            if (content.getAttributeId() == 36 && content.getContent()!= null) {
                 String[] contents = content.getContent().replace("<br/>", "\n").split("\\n");
                 widgetsData.put("heritage", contents);
                 continue;
             }
-            if (content.getAttributeId() == 39) {
+            if (content.getAttributeId() == 39 && content.getContent()!= null) {
                 String[] contents = content.getContent().replace("<br/>", "\n").split("\\n");
                 widgetsData.put("endangered", contents);
                 continue;
@@ -980,7 +972,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 widgetsData.put("name", content.getContent());
                 continue;
             }
-            if (content.getAttributeId() == 113 && content.getResourceList().size() > 0) {
+            if (content.getAttributeId() == 113 && content.getResourceList() != null && content.getResourceList().size() > 0) {
                 String url = PropertiesUtil.getString("masterPic") + content.getResourceList().get(0).getUri();
                 widgetsData.put("image", url);
                 continue;
