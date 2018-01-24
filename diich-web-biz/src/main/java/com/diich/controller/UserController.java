@@ -97,6 +97,7 @@ public class UserController extends BaseController<User> {
             //验证码不存在或者已经超时 重新获取
             verifyCode = userService.getVerifyCode(phone);
             //返回成功 将验证码和当前时间存入session
+            session.setAttribute(phone,verifyCode);
             session.setAttribute("begindate"+phone,df.format(new Date()));
         }catch (Exception e){
            return  putDataToMap(e);
@@ -345,8 +346,11 @@ public class UserController extends BaseController<User> {
     @RequestMapping("resetPassword")
     @ResponseBody
     public Map<String, Object> resetPassword(HttpServletRequest request,HttpServletResponse response){
-        response.setContentType("text/html;charset=UTF-8");
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        try {
+            setHeader(request,response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Map<String, Object> result = new HashMap<>();
 
         String code = request.getParameter("code");//获取验证码
