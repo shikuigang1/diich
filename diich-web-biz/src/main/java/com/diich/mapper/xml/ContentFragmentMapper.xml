@@ -179,7 +179,7 @@
     select id,attribute_id,content from content_fragment  where target_id = #{targetId,jdbcType=LONGVARCHAR} and target_type = #{targetType,jdbcType=INTEGER} and status = 0  and attribute_id  in (4,33,41,107,36,39);
   </select>
   <select id="selectMasterContentByTargetIdAndType" resultMap="BaseResultMap" parameterType="com.diich.core.model.ContentFragment">
-    select id,attribute_id,content from content_fragment  where target_id = #{targetId,jdbcType=LONGVARCHAR} and target_type = #{targetType,jdbcType=INTEGER} and status = 0  and attribute_id  in (13,24,113);
+    select id,attribute_id,content from content_fragment  where target_id = #{targetId,jdbcType=LONGVARCHAR} and target_type = #{targetType,jdbcType=INTEGER} and status = 0  and attribute_id  in (13,113);
   </select>
   <select id="selectProjectNameByTargetIds" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select
