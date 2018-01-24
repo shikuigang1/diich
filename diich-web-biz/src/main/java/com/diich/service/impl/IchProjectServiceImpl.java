@@ -63,6 +63,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     private VersionMapper versionMapper;
     @Autowired
     private AuditMapper auditMapper;
+    @Autowired
+    private CountryProjectMapper countryProjectMapper;
 
     /**
      * 根据id获取项目信息
@@ -536,7 +538,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         TransactionStatus transactionStatus = getTransactionStatus();
         try {
             IchProject ichProject = ichProjectMapper.selectIchProjectById(id);
-            if(ichProject == null){
+            if (ichProject == null) {
                 throw new ApplicationException(ApplicationException.PARAM_ERROR, "该id对应的项目不存在");
             }
             if (ichProject != null && ichProject.getStatus() != 3) {
@@ -583,7 +585,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 //修改审核表信息
                 updateAudit(id, ichProject.getId(), user);
                 //获取项目信息
-                 ichProject = getIchProject(ichProject);
+                ichProject = getIchProject(ichProject);
             } else {//新增待审核的项目
                 //校验doi都编码是否重复
                 if (isDoiValable(doi)) {
@@ -803,10 +805,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     public List<Map> getCountryIchProjectList() throws Exception {
         List<Map> projectList = new ArrayList<>();
         try {
-            List<IchProject> ichProjectList = ichProjectMapper.selectCountryIchProjectList();//获取国家级别的项目
-            for (IchProject ichProject : ichProjectList) {
-                Map projectMap = getCountryIchProjectById(String.valueOf(ichProject.getId()));
-                projectList.add(projectMap);
+            List<CountryProject> countryProjectList = countryProjectMapper.selectCountryProjectNumList();
+            for (CountryProject countryProject : countryProjectList) {
+                Map project = new HashMap();
+                IchProject ichProject = new IchProject();
+                ichProject.setId(countryProject.getProjectNum());
+                project = build360Map(project, ichProject, countryProject);
+                projectList.add(project);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -820,7 +825,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         Map project = new HashMap();
         IchProject ichProject = new IchProject();
         ichProject.setId(Long.parseLong(id));
-        project = build360Map(project, ichProject);
+        project = build360Map(project, ichProject, null);
         return project;
     }
 
@@ -857,35 +862,49 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      * @return
      * @throws Exception
      */
-    private Map build360Map(Map project, IchProject ichProject) throws Exception {
-        project.put("uniq_key", ichProject.getId());
-        project.put("baikeurl",PropertiesUtil.getString("_project") + ichProject.getId() + ".html");
+    private Map build360Map(Map project, IchProject ichProject, CountryProject countryProject) throws Exception {
+        project.put("uniq_key", countryProject.getId());
+        project.put("baikeurl", PropertiesUtil.getString("_project") + ichProject.getId() + ".html");
         ContentFragment c = new ContentFragment();
         c.setTargetId(ichProject.getId());
         c.setTargetType(0);//标示项目
         List<ContentFragment> contentFragmentList = contentFragmentMapper.selectContentByTargetIdAndType(c);
         ichProject.setContentFragmentList(contentFragmentList);
         Map widgetsData = new HashMap();
-        widgetsData = buildProjectMap(contentFragmentList, widgetsData);//将数据封装到Map集合中
+        widgetsData = buildProjectMap(contentFragmentList, countryProject, widgetsData);//将数据封装到Map集合中
         //查询传承人
         List<IchMaster> ichMasterList = ichMasterMapper.selectByIchProjectId(ichProject.getId());
         List<Map> masterList = new ArrayList<>();
-        for (IchMaster ichMaster : ichMasterList) {
+       Loop: for (IchMaster ichMaster : ichMasterList) {
             Map master = new HashMap();
             c.setTargetId(ichMaster.getId());
             c.setTargetType(1);//标示传承人
             List<ContentFragment> masterContentFragmentList = contentFragmentMapper.selectMasterContentByTargetIdAndType(c);
+            //定义一个标记
+            int count = 0;
             for (ContentFragment contentFragment : masterContentFragmentList) {
+                if(contentFragment.getAttributeId() != 113){//判断传承人有没有图片没有图片跳出外层循环进行下次循环
+                    continue ;
+                }
                 if (contentFragment.getAttributeId() == 113) {//传承人头图
                     List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
                     if (contentFragmentResourceList.size() > 0) {
                         Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResourceList.get(0).getResourceId());
+                        if(resource.getUri() == null){//判断传承人有没有图片没有图片跳出外层循环进行下次循环
+                            continue Loop;
+                        }
                         List<Resource> resourceList = new ArrayList<>();
                         resourceList.add(resource);
                         contentFragment.setResourceList(resourceList);
+                        count ++;
+                    }else{
+                        continue Loop;
                     }
                 }
             }
+           if(count == 0){//说明传承人没有图片
+               continue ;
+           }
             ichMaster.setContentFragmentList(masterContentFragmentList);
             master = buildMasterMap(masterContentFragmentList, master);//将数据封装到Map集合中
             //将所有传承人放到list中
@@ -902,7 +921,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     }
 
 
-    private Map buildProjectMap(List<ContentFragment> contentFragmentList, Map widgetsData) throws Exception {
+    private Map buildProjectMap(List<ContentFragment> contentFragmentList, CountryProject countryProject, Map widgetsData) throws Exception {
         List<Map> basics = new ArrayList<>();
 
         for (ContentFragment content : contentFragmentList) {
@@ -936,6 +955,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
             }
             if (content.getAttributeId() == 41) {
+                if(countryProject.getIsWorld() != null && countryProject.getIsWorld() == 1){
+                    Map pcMap = new HashMap();
+                    pcMap.put("key", "遗产认定批次");
+                    pcMap.put("value", "世界级非遗");
+                    basics.add(pcMap);
+                    continue;
+                }
                 String name = dictionaryService.getTextByTypeAndCode(103, content.getContent(), "chi");
                 Map pcMap = new HashMap();
                 pcMap.put("key", "遗产认定批次");
@@ -950,12 +976,12 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 basics.add(dmMap);
                 continue;
             }
-            if (content.getAttributeId() == 36 && content.getContent()!= null) {
+            if (content.getAttributeId() == 36 && content.getContent() != null && countryProject.getIsGood() != null && countryProject.getIsGood() == 1) {
                 String[] contents = content.getContent().replace("<br/>", "\n").split("\\n");
                 widgetsData.put("heritage", contents);
                 continue;
             }
-            if (content.getAttributeId() == 39 && content.getContent()!= null) {
+            if (content.getAttributeId() == 39 && content.getContent() != null) {
                 String[] contents = content.getContent().replace("<br/>", "\n").split("\\n");
                 widgetsData.put("endangered", contents);
                 continue;
@@ -966,7 +992,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         return widgetsData;
     }
 
-    private Map buildMasterMap(List<ContentFragment> contentFragmentList, Map widgetsData) throws Exception {
+    private Map<String,Object> buildMasterMap(List<ContentFragment> contentFragmentList, Map widgetsData) throws Exception {
         for (ContentFragment content : contentFragmentList) {
             if (content.getAttributeId() == 13) {
                 widgetsData.put("name", content.getContent());
