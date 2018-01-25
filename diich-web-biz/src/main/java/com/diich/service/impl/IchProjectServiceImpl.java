@@ -811,7 +811,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 IchProject ichProject = new IchProject();
                 ichProject.setId(countryProject.getProjectNum());
                 project = build360Map(project, ichProject, countryProject);
-                projectList.add(project);
+                if(project.get("widgetsData") != null){
+                    projectList.add(project);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -869,7 +871,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         c.setTargetId(ichProject.getId());
         c.setTargetType(0);//标示项目
         List<ContentFragment> contentFragmentList = contentFragmentMapper.selectContentByTargetIdAndType(c);
-        ichProject.setContentFragmentList(contentFragmentList);
         Map widgetsData = new HashMap();
         widgetsData = buildProjectMap(contentFragmentList, countryProject, widgetsData);//将数据封装到Map集合中
         //查询传承人
@@ -916,7 +917,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             project.put("title", widgetsData.get("title"));
             widgetsData.remove("title");
         }
-        project.put("widgetsData", widgetsData);
+        if(widgetsData.size() > 0){
+            project.put("widgetsData", widgetsData);
+        }
         return project;
     }
 
@@ -987,8 +990,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 continue;
             }
         }
-        widgetsData.put("basics", basics);
-
+        if(basics.size() > 0){
+            widgetsData.put("basics", basics);
+        }
         return widgetsData;
     }
 
