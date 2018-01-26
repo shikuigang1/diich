@@ -79,32 +79,53 @@
             <div class="big-title">
                 <h3>非遗项目</h3>
             </div>
-            <div class="list" id="project-list">
-                <ul class="clear">
-                    <li class="item item1">
-                        <span>一级分类</span>
-                        <p>请选择...</p>
-                        <i><img src="../static/picture/triangle%20copy%202.png" alt=""></i>
-                        <div class="cation_list"></div>
-                    </li>
-                    <li class="item item2">
-                        <span>二级分类</span>
-                        <p>请选择...</p>
-                        <i><img src="../static/picture/triangle%20copy%202.png" alt=""></i>
-                        <div class="cation_list"></div>
-                    </li>
-                    <li class="item item3">
-                        <span>地区</span>
-                        <p>全球</p>
-                        <i><img src="../static/picture/triangle%20copy%202.png" alt=""></i>
-                        <div class="cation_list cationListAreaCode">
-                            <ul id="cation_list"></ul>
-                        </div>
-                    </li>
-                    <li class="item4">
-                        <a id="search" style="width:37px;height:37px;margin-top:0" href=""><img src="../static/images/search-icon@1x.png" alt=""></a>
-                    </li>
-                </ul>
+            <div class="bd list" id="project-list">
+                <div class="group">
+                    <div class="title" data-type="0">
+                        <span class="bd t1">选择分类</span>
+                        <p class="bd t2">请选择...</p>
+                        <i class="arrow-down"></i>
+                    </div>
+                    <div class="links" style="left:-1px">
+                        <dl class="first">
+                            <dt>一级分类</dt>
+                            <dd></dd>
+                        </dl>
+                        <dl class="second">
+                            <dt>二级分类</dt>
+                            <dd></dd>
+                        </dl>
+                    </div>
+                </div>
+                <!--//End 选择分类-->
+                <div class="group">
+                    <div class="title" data-type="1">
+                        <span class="bd t1">选择地区</span>
+                        <p class="bd t2">请选择...</p>
+                        <i class="arrow-down"></i>
+                    </div>
+                    <div class="links" style="left:-2px">
+                        <dl class="first">
+                            <dt>地区</dt>
+                            <dd></dd>
+                        </dl>
+                        <dl class="second">
+                            <dt>按照字母排序</dt>
+                            <dd></dd>
+                        </dl>
+                    </div>
+                </div>
+                <!--//End 选择地区-->
+                <div class="group">
+                    <div class="title">
+                        <span class="bd t1">关键词</span>
+                        <input class="bd t2 keyword" type="text" placeholder="请输入关键词...">
+                    </div>
+                </div>
+                <!--//End 关键词-->
+                <div class="search">
+                    <a id="search" href="javascript:;"></a>
+                </div>
             </div>
             <!--/End/-->
             <div class="slider" id="project-slider"></div>
