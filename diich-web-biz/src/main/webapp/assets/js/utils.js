@@ -569,7 +569,10 @@ var Detail = { //详情页用到的效果
         if($("#subcon").find("span").length==0){
             $("#mas").css("display","none");
         }
-
+        //2.0 非遗在中国如果没有内容  就隐藏这个div
+        if($('.active2').find('p').length == 0){
+            $(".active2").css("display","none");
+        };
     },
     code_arr:function () {//替换资源数据
         var code_arr = $('.dic');
