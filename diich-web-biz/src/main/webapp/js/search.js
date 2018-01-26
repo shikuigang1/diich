@@ -39,14 +39,6 @@ function initPage() {
         filterFixed.slideUp('fast');
     });
 
-    //自动提示
-    /*if (suggest.is(':visible')) {
-     body.css('overflow', 'hidden');
-     body.append('<div class="overbg"></div>');
-     } else {
-     body.css('overflow', '');
-     }*/
-
     $('.header .content .nav li').eq(1).addClass('active').siblings('li').removeClass('active');
     $("#ahover").hover(function(){
         $(".drop_menu").show();
@@ -116,15 +108,6 @@ function initParams() {
         $('#area_text').text(_text);
         $('#area_text').attr('data-id', area);
     }
-
-    if(global_keyword == null || global_keyword == '') {
-        if(category == null || category == '') {
-            if(area == null || area == '') {
-                showDefaultData();
-                return;
-            }
-        }
-    }
     
     searchDataFromServer();
 }
@@ -138,7 +121,7 @@ function showDefaultData() {
         success:function (data) {
             var value = JSON.parse(data);
             buildSearchResultUi(value);
-            $('#loadmore').hide();
+            $('.load_more').hide();
         },
         complete: function () {
             progress.stop();
@@ -157,7 +140,12 @@ function searchDataFromServer(is_show_progress) {
         }
     }
 
-    var condition = buildCondition();
+    var condition = {};
+
+    if(!buildCondition(condition)) {
+        showDefaultData();
+        return;
+    }
 
     $.ajax({
         type: 'post',
@@ -195,35 +183,50 @@ function getFilterKeyword() {
     return JSON.parse(value);
 }
 
-function buildCondition() {
-    var condition = {};
+function buildCondition(condition) {
+    var m_keyword = false;
+    //var m_target_type = false;
+    var m_category = false;
+    var m_area = false;
 
     var keyword = global_keyword;
     if(keyword != null && keyword != '') {
         keyword = keyword.replace(/\+/g,' ');
         condition.keyword = filterStr(keyword);
         $('#keyword').val(keyword);
+
+        m_keyword = true;
     }
 
     var target_type = $('.links .active').attr('data-id');
     if(target_type != 'all' && target_type != null) {
         condition.type = target_type;
+
+        //m_target_type = true;
     }
 
     var category = $('#attr_text').attr('data-id');
     if(category != null && category != '' && category != 0) {
         condition.category = category;
+
+        m_category = true;
     }
 
     var area = $('#area_text').attr('data-id');
     if(area != null && area != '') {
         condition.area = area;
+
+        m_area = true;
     }
 
     condition.offset = (pageNum - 1) * pageSize;
     condition.limit = pageSize;
 
-    return condition;
+    if(!m_keyword && !m_category && !m_area) {
+        return false;
+    }
+
+    return true;
 }
 
 function buildSearchResultUi(data) {
