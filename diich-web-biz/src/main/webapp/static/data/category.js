@@ -1,970 +1,1040 @@
-var category_all=[{
-    "children": [{
-        "gbCategory": "A01",
-        "name": "语言",
-        "id": 2,
-        "parentId": 1,
-        "status": 0
-    }, {
-        "gbCategory": "A02",
-        "name": "文字",
-        "id": 3,
-        "parentId": 1,
-        "status": 0
-    }, {
-        "children": [{
-            "gbCategory": "A0301",
-            "name": "神话传说",
-            "id": 5,
-            "parentId": 4,
-            "status": 0
-        }, {
-            "gbCategory": "A0302",
-            "name": "史诗",
-            "id": 6,
-            "parentId": 4,
-            "status": 0
-        }, {
-            "gbCategory": "A0303",
-            "name": "谜语",
-            "id": 7,
-            "parentId": 4,
-            "status": 0
-        }, {
-            "gbCategory": "A0304",
-            "name": "谚语",
-            "id": 8,
-            "parentId": 4,
-            "status": 0
-        }, {
-            "gbCategory": "A0399",
-            "name": "其它",
-            "id": 9,
-            "parentId": 4,
-            "status": 0
-        }, {
-            "gbCategory": "A0305",
-            "name": "故事",
-            "id": 121,
-            "parentId": 4,
-            "status": 0
-        }, {
-            "gbCategory": "A0306",
-            "name": "诗歌",
-            "id": 122,
-            "parentId": 4,
-            "status": 0
-        }, {
-            "gbCategory": "A0307",
-            "name": "歌谣（民谣、童谣、儿歌、绕口令）",
-            "id": 123,
-            "parentId": 4,
-            "status": 0
-        }, {
-            "gbCategory": "A0308",
-            "name": "笑话",
-            "id": 124,
-            "parentId": 4,
-            "status": 0
-        }, {
-            "gbCategory": "A0309",
-            "name": "祝赞词、唱词、颂词",
-            "id": 125,
-            "parentId": 4,
-            "status": 0
-        }],
-        "gbCategory": "A03",
-        "name": "口述",
-        "id": 4,
-        "parentId": 1,
-        "status": 0
-    }, {
-        "gbCategory": "A99",
-        "name": "其它口头传统及表述",
-        "id": 10,
-        "parentId": 1,
-        "status": 0
-    }],
-    "gbCategory": "A",
-    "name": "口头传统和表述",
-    "id": 1,
-    "parentId": 0,
-    "status": 0
-}, {
-    "children": [{
-        "gbCategory": "B01",
-        "name": "音乐演奏",
-        "id": 12,
-        "parentId": 11,
-        "status": 0
-    }, {
-        "children": [{
-            "gbCategory": "B0301",
-            "name": "人生礼仪舞蹈",
-            "id": 14,
-            "parentId": 13,
-            "status": 0
-        }, {
-            "gbCategory": "B0302",
-            "name": "生产习俗舞蹈",
-            "id": 15,
-            "parentId": 13,
-            "status": 0
-        }, {
-            "gbCategory": "B0303",
-            "name": "生活习俗舞蹈",
-            "id": 16,
-            "parentId": 13,
-            "status": 0
-        }, {
-            "gbCategory": "B0304",
-            "name": "岁时节令习俗舞蹈",
-            "id": 17,
-            "parentId": 13,
-            "status": 0
-        }, {
-            "gbCategory": "B0305",
-            "name": "宗教信仰舞蹈",
-            "id": 18,
-            "parentId": 13,
-            "status": 0
-        }, {
-            "gbCategory": "B0399",
-            "name": "其他",
-            "id": 19,
-            "parentId": 13,
-            "status": 0
-        }],
-        "gbCategory": "B03",
-        "name": "舞蹈",
-        "id": 13,
-        "parentId": 11,
-        "status": 0
-    }, {
-        "gbCategory": "B02",
-        "name": "民歌",
-        "id": 20,
-        "parentId": 11,
-        "status": 0
-    }, {
-        "gbCategory": "B04",
-        "name": "传统戏剧",
-        "id": 21,
-        "parentId": 11,
-        "status": 0
-    }, {
-        "gbCategory": "B05",
-        "name": "曲艺",
-        "id": 22,
-        "parentId": 11,
-        "status": 0
-    }, {
-        "children": [{
-            "gbCategory": "B0601",
-            "name": "传统体育",
-            "id": 24,
-            "parentId": 23,
-            "status": 0
-        }, {
-            "gbCategory": "B0602",
-            "name": "游艺",
-            "id": 25,
-            "parentId": 23,
-            "status": 0
-        }, {
-            "gbCategory": "B0603",
-            "name": "杂技",
-            "id": 26,
-            "parentId": 23,
-            "status": 0
-        }, {
-            "gbCategory": "B0604",
-            "name": "智能游戏",
-            "id": 126,
-            "parentId": 23,
-            "status": 0
-        }, {
-            "gbCategory": "B0605",
-            "name": "魔术",
-            "id": 127,
-            "parentId": 23,
-            "status": 0
-        }, {
-            "gbCategory": "B0699",
-            "name": "其它体育与游艺",
-            "id": 128,
-            "parentId": 23,
-            "status": 0
-        }],
-        "gbCategory": "B06",
-        "name": "传统体育、游艺与杂技",
-        "id": 23,
-        "parentId": 11,
-        "status": 0
-    }, {
-        "gbCategory": "B99",
-        "name": "其他表演艺术",
-        "id": 27,
-        "parentId": 11,
-        "status": 0
-    }],
-    "gbCategory": "B",
-    "name": "表演艺术",
-    "id": 11,
-    "parentId": 0,
-    "status": 0
-}, {
-    "children": [{
-        "children": [{
-            "gbCategory": "C0101",
-            "name": "农业",
-            "id": 30,
-            "parentId": 29,
-            "status": 0
-        }, {
-            "gbCategory": "C0102",
-            "name": "林业",
-            "id": 31,
-            "parentId": 29,
-            "status": 0
-        }, {
-            "gbCategory": "C0103",
-            "name": "渔业",
-            "id": 32,
-            "parentId": 29,
-            "status": 0
-        }, {
-            "gbCategory": "C0104",
-            "name": "狩猎",
-            "id": 33,
-            "parentId": 29,
-            "status": 0
-        }, {
-            "gbCategory": "C0105",
-            "name": "饲养和畜牧业",
-            "id": 34,
-            "parentId": 29,
-            "status": 0
-        }, {
-            "gbCategory": "C0106",
-            "name": "商贸",
-            "id": 35,
-            "parentId": 29,
-            "status": 0
-        }, {
-            "gbCategory": "C0107",
-            "name": "副业",
-            "id": 36,
-            "parentId": 29,
-            "status": 0
-        }, {
-            "gbCategory": "C0199",
-            "name": "其他生产商贸习俗",
-            "id": 37,
-            "parentId": 29,
-            "status": 0
-        }],
-        "gbCategory": "C01",
-        "name": "生产商贸习俗",
-        "id": 29,
-        "parentId": 28,
-        "status": 0
-    }, {
-        "children": [{
-            "gbCategory": "C0201",
-            "name": "饮食类习俗",
-            "id": 39,
-            "parentId": 38,
-            "status": 0
-        }, {
-            "gbCategory": "C0202",
-            "name": "服饰类习俗",
-            "id": 40,
-            "parentId": 38,
-            "status": 0
-        }, {
-            "gbCategory": "C0203",
-            "name": "居住类习俗",
-            "id": 41,
-            "parentId": 38,
-            "status": 0
-        }, {
-            "gbCategory": "C0204",
-            "name": "交通类习俗",
-            "id": 42,
-            "parentId": 38,
-            "status": 0
-        }, {
-            "gbCategory": "C0299",
-            "name": "其他生活习俗",
-            "id": 43,
-            "parentId": 38,
-            "status": 0
-        }, {
-            "gbCategory": "C0205",
-            "name": "文化类习俗",
-            "id": 129,
-            "parentId": 38,
-            "status": 0
-        }],
-        "gbCategory": "C02",
-        "name": "生活习俗",
-        "id": 38,
-        "parentId": 28,
-        "status": 0
-    }, {
-        "children": [{
-            "gbCategory": "C0301",
-            "name": "生育",
-            "id": 45,
-            "parentId": 44,
-            "status": 0
-        }, {
-            "gbCategory": "C0302",
-            "name": "诞生、命名",
-            "id": 46,
-            "parentId": 44,
-            "status": 0
-        }, {
-            "gbCategory": "C0303",
-            "name": "生日庆典",
-            "id": 47,
-            "parentId": 44,
-            "status": 0
-        }, {
-            "gbCategory": "C0304",
-            "name": "成年礼",
-            "id": 48,
-            "parentId": 44,
-            "status": 0
-        }, {
-            "gbCategory": "C0305",
-            "name": "婚礼",
-            "id": 49,
-            "parentId": 44,
-            "status": 0
-        }, {
-            "gbCategory": "C0306",
-            "name": "葬礼",
-            "id": 50,
-            "parentId": 44,
-            "status": 0
-        }, {
-            "gbCategory": "C0307",
-            "name": "祭祀",
-            "id": 51,
-            "parentId": 44,
-            "status": 0
-        }, {
-            "gbCategory": "C0399",
-            "name": "其他人生仪式",
-            "id": 52,
-            "parentId": 44,
-            "status": 0
-        }],
-        "gbCategory": "C03",
-        "name": "人生仪式",
-        "id": 44,
-        "parentId": 28,
-        "status": 0
-    }, {
-        "gbCategory": "C04",
-        "name": "节日庆典",
-        "id": 53,
-        "parentId": 28,
-        "status": 0
-    }, {
-        "gbCategory": "C99",
-        "name": "其它仪式及庆典",
-        "id": 54,
-        "parentId": 28,
-        "status": 0
-    }, {
-        "gbCategory": "C05",
-        "name": "宗教庆典",
-        "id": 130,
-        "parentId": 28,
-        "status": 0
-    }, {
-        "gbCategory": "C06",
-        "name": "文化遗存、保护区",
-        "id": 131,
-        "parentId": 28,
-        "status": 0
-    }, {
-        "gbCategory": "C07",
-        "name": "信俗",
-        "id": 132,
-        "parentId": 28,
-        "status": 0
-    }],
-    "gbCategory": "C",
-    "name": "社会风俗、礼仪、节庆",
-    "id": 28,
-    "parentId": 0,
-    "status": 0
-}, {
-    "children": [{
-        "gbCategory": "D01",
-        "name": "农林牧畜渔",
-        "id": 56,
-        "parentId": 55,
-        "status": 0
-    }, {
-        "gbCategory": "D02",
-        "name": "服装",
-        "id": 57,
-        "parentId": 55,
-        "status": 0
-    }, {
-        "gbCategory": "D03",
-        "name": "食品",
-        "id": 58,
-        "parentId": 55,
-        "status": 0
-    }, {
-        "gbCategory": "D04",
-        "name": "住房与建筑",
-        "id": 59,
-        "parentId": 55,
-        "status": 0
-    }, {
-        "gbCategory": "D05",
-        "name": "交通、旅行",
-        "id": 60,
-        "parentId": 55,
-        "status": 0
-    }, {
-        "gbCategory": "D06",
-        "name": "医、药",
-        "id": 61,
-        "parentId": 55,
-        "status": 0
-    }, {
-        "gbCategory": "D07",
-        "name": "军事防御",
-        "id": 62,
-        "parentId": 55,
-        "status": 0
-    }, {
-        "gbCategory": "D08",
-        "name": "商贸",
-        "id": 63,
-        "parentId": 55,
-        "status": 0
-    }, {
-        "gbCategory": "D09",
-        "name": "工业、工程",
-        "id": 64,
-        "parentId": 55,
-        "status": 0
-    }, {
-        "gbCategory": "D10",
-        "name": "天文、地理、水文等",
-        "id": 65,
-        "parentId": 55,
-        "status": 0
-    }, {
-        "gbCategory": "D99",
-        "name": "其它自然知识和实践",
-        "id": 66,
-        "parentId": 55,
-        "status": 0
-    }],
-    "gbCategory": "D",
-    "name": "有关自然界和宇宙的知识和实践",
-    "id": 55,
-    "parentId": 0,
-    "status": 0
-}, {
-    "children": [{
-        "children": [{
-            "gbCategory": "E0101",
-            "name": "生产工具和机械制作",
-            "id": 69,
-            "parentId": 68,
-            "status": 0
-        }, {
-            "gbCategory": "E0102",
-            "name": "日用工具和机械制作",
-            "id": 70,
-            "parentId": 68,
-            "status": 0
-        }, {
-            "gbCategory": "E0199",
-            "name": "其他工具",
-            "id": 71,
-            "parentId": 68,
-            "status": 0
-        }, {
-            "gbCategory": "E0103",
-            "name": "乐器、文具等制作",
-            "id": 133,
-            "parentId": 68,
-            "status": 0
-        }, {
-            "gbCategory": "E0104",
-            "name": "交通工具和机械制作",
-            "id": 134,
-            "parentId": 68,
-            "status": 0
-        }],
-        "gbCategory": "E01",
-        "name": "工具和机械制作",
-        "id": 68,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "children": [{
-            "gbCategory": "E0201",
-            "name": "酿造工艺",
-            "id": 73,
-            "parentId": 72,
-            "status": 0
-        }, {
-            "gbCategory": "E0202",
-            "name": "制茶工艺",
-            "id": 74,
-            "parentId": 72,
-            "status": 0
-        }, {
-            "gbCategory": "E0203",
-            "name": "肉蛋奶类加工工艺",
-            "id": 75,
-            "parentId": 72,
-            "status": 0
-        }, {
-            "gbCategory": "E0204",
-            "name": "米面糖油加工工艺",
-            "id": 76,
-            "parentId": 72,
-            "status": 0
-        }, {
-            "gbCategory": "E0299",
-            "name": "其它",
-            "id": 77,
-            "parentId": 72,
-            "status": 0
-        }, {
-            "gbCategory": "E0205",
-            "name": "皮制工艺",
-            "id": 135,
-            "parentId": 72,
-            "status": 0
-        }, {
-            "gbCategory": "E0206",
-            "name": "农林副产品加工工艺",
-            "id": 136,
-            "parentId": 72,
-            "status": 0
-        }, {
-            "gbCategory": "E0207",
-            "name": "烹饪技艺",
-            "id": 137,
-            "parentId": 72,
-            "status": 0
-        }],
-        "gbCategory": "E02",
-        "name": "家畜农林产品加工",
-        "id": 72,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "children": [{
-            "gbCategory": "E0301",
-            "name": "造纸",
-            "id": 79,
-            "parentId": 78,
-            "status": 0
-        }, {
-            "gbCategory": "E0302",
-            "name": "印刷",
-            "id": 80,
-            "parentId": 78,
-            "status": 0
-        }, {
-            "gbCategory": "E0303",
-            "name": "装裱",
-            "id": 81,
-            "parentId": 78,
-            "status": 0
-        }, {
-            "gbCategory": "E0399",
-            "name": "其他造纸相关技能",
-            "id": 82,
-            "parentId": 78,
-            "status": 0
-        }],
-        "gbCategory": "E03",
-        "name": "造纸、印刷及装裱",
-        "id": 78,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "children": [{
-            "gbCategory": "E0401",
-            "name": "金银器锻冶工艺",
-            "id": 84,
-            "parentId": 83,
-            "status": 0
-        }, {
-            "gbCategory": "E0402",
-            "name": "铜器锻冶工艺",
-            "id": 85,
-            "parentId": 83,
-            "status": 0
-        }, {
-            "gbCategory": "E0499",
-            "name": "其他金属锻冶工艺",
-            "id": 86,
-            "parentId": 83,
-            "status": 0
-        }, {
-            "gbCategory": "E0403",
-            "name": "铁器锻冶工艺",
-            "id": 138,
-            "parentId": 83,
-            "status": 0
-        }],
-        "gbCategory": "E04",
-        "name": "锻冶工艺（铜器、金银器、景泰蓝等)",
-        "id": 83,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "children": [{
-            "gbCategory": "E0501",
-            "name": "牙骨雕塑工艺",
-            "id": 88,
-            "parentId": 87,
-            "status": 0
-        }, {
-            "gbCategory": "E0502",
-            "name": "木竹雕塑工艺",
-            "id": 89,
-            "parentId": 87,
-            "status": 0
-        }, {
-            "gbCategory": "E0503",
-            "name": "石料雕塑工艺",
-            "id": 90,
-            "parentId": 87,
-            "status": 0
-        }, {
-            "gbCategory": "E0504",
-            "name": "砖、泥雕塑工艺",
-            "id": 91,
-            "parentId": 87,
-            "status": 0
-        }, {
-            "gbCategory": "E0599",
-            "name": "其他雕塑工艺",
-            "id": 92,
-            "parentId": 87,
-            "status": 0
-        }, {
-            "gbCategory": "E0505",
-            "name": "金属雕塑工艺",
-            "id": 139,
-            "parentId": 87,
-            "status": 0
-        }, {
-            "gbCategory": "E0506",
-            "name": "米面糖雕塑",
-            "id": 140,
-            "parentId": 87,
-            "status": 0
-        }],
-        "gbCategory": "E05",
-        "name": "雕塑工艺（牙骨、木竹、玉石、泥、面等材料的雕、刻或塑）",
-        "id": 87,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "children": [{
-            "gbCategory": "E0601",
-            "name": "陶",
-            "id": 94,
-            "parentId": 93,
-            "status": 0
-        }, {
-            "gbCategory": "E0602",
-            "name": "瓷",
-            "id": 95,
-            "parentId": 93,
-            "status": 0
-        }, {
-            "gbCategory": "E0603",
-            "name": "玻璃料",
-            "id": 96,
-            "parentId": 93,
-            "status": 0
-        }, {
-            "gbCategory": "E0699",
-            "name": "其他",
-            "id": 97,
-            "parentId": 93,
-            "status": 0
-        }, {
-            "gbCategory": "E0604",
-            "name": "砖瓦",
-            "id": 141,
-            "parentId": 93,
-            "status": 0
-        }],
-        "gbCategory": "E06",
-        "name": "烧造工艺（陶、瓷、玻璃料器等）",
-        "id": 93,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "gbCategory": "E07",
-        "name": "木作工艺（家具等）",
-        "id": 98,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "gbCategory": "E08",
-        "name": "髹饰工艺（漆器等）",
-        "id": 99,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "children": [{
-            "gbCategory": "E0901",
-            "name": "纺织工艺",
-            "id": 101,
-            "parentId": 100,
-            "status": 0
-        }, {
-            "gbCategory": "E0902",
-            "name": "刺绣工艺",
-            "id": 102,
-            "parentId": 100,
-            "status": 0
-        }, {
-            "gbCategory": "E0903",
-            "name": "缝纫工艺",
-            "id": 103,
-            "parentId": 100,
-            "status": 0
-        }, {
-            "gbCategory": "E0904",
-            "name": "印染工艺",
-            "id": 104,
-            "parentId": 100,
-            "status": 0
-        }, {
-            "gbCategory": "E0999",
-            "name": "其他纺织印染相关工艺",
-            "id": 105,
-            "parentId": 100,
-            "status": 0
-        }],
-        "gbCategory": "E09",
-        "name": "织染工艺（纺、织、刺绣、印染等）",
-        "id": 100,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "children": [{
-            "gbCategory": "E1001",
-            "name": "竹编织扎制",
-            "id": 107,
-            "parentId": 106,
-            "status": 0
-        }, {
-            "gbCategory": "E1002",
-            "name": "棕编织扎制",
-            "id": 108,
-            "parentId": 106,
-            "status": 0
-        }, {
-            "gbCategory": "E1003",
-            "name": "草、麻编织扎制",
-            "id": 109,
-            "parentId": 106,
-            "status": 0
-        }, {
-            "gbCategory": "E1099",
-            "name": "其它编扎工艺",
-            "id": 110,
-            "parentId": 106,
-            "status": 0
-        }, {
-            "gbCategory": "E1004",
-            "name": "布、丝类编织扎制",
-            "id": 142,
-            "parentId": 106,
-            "status": 0
-        }, {
-            "gbCategory": "E1005",
-            "name": "纸扎",
-            "id": 143,
-            "parentId": 106,
-            "status": 0
-        }, {
-            "gbCategory": "E1006",
-            "name": "毛类编织",
-            "id": 144,
-            "parentId": 106,
-            "status": 0
-        }],
-        "gbCategory": "E10",
-        "name": "编扎工艺（竹、藤、棕、草等材料的编织扎制）",
-        "id": 106,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "children": [{
-            "gbCategory": "E1101",
-            "name": "书法",
-            "id": 112,
-            "parentId": 111,
-            "status": 0
-        }, {
-            "gbCategory": "E1102",
-            "name": "国画",
-            "id": 113,
-            "parentId": 111,
-            "status": 0
-        }, {
-            "gbCategory": "E1103",
-            "name": "篆刻",
-            "id": 114,
-            "parentId": 111,
-            "status": 0
-        }, {
-            "gbCategory": "E1104",
-            "name": "年画",
-            "id": 115,
-            "parentId": 111,
-            "status": 0
-        }, {
-            "gbCategory": "E1105",
-            "name": "烫画、烙画",
-            "id": 116,
-            "parentId": 111,
-            "status": 0
-        }, {
-            "gbCategory": "E1106",
-            "name": "内画壶",
-            "id": 117,
-            "parentId": 111,
-            "status": 0
-        }, {
-            "gbCategory": "E1199",
-            "name": "其他",
-            "id": 118,
-            "parentId": 111,
-            "status": 0
-        }, {
-            "gbCategory": "E1107",
-            "name": "唐卡、热贡",
-            "id": 145,
-            "parentId": 111,
-            "status": 0
-        }, {
-            "gbCategory": "E1108",
-            "name": "板画（版画）",
-            "id": 146,
-            "parentId": 111,
-            "status": 0
-        }, {
-            "gbCategory": "E1109",
-            "name": "彩绘",
-            "id": 147,
-            "parentId": 111,
-            "status": 0
-        }],
-        "gbCategory": "E11",
-        "name": "字画工艺（书法、国画、篆刻、年画、烫画、铁画、内画壶等）",
-        "id": 111,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "children": [{
-            "gbCategory": "E1201",
-            "name": "剪纸",
-            "id": 148,
-            "parentId": 119,
-            "status": 0
-        }, {
-            "gbCategory": "E1202",
-            "name": "皮影",
-            "id": 149,
-            "parentId": 119,
-            "status": 0
-        }, {
-            "gbCategory": "E1299",
-            "name": "其他剪刻工艺",
-            "id": 150,
-            "parentId": 119,
-            "status": 0
-        }],
-        "gbCategory": "E12",
-        "name": "剪刻工艺（剪纸、皮影等）",
-        "id": 119,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "gbCategory": "E99",
-        "name": "其他传统手工艺类",
-        "id": 120,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "children": [{
-            "gbCategory": "E1301",
-            "name": "房屋",
-            "id": 152,
-            "parentId": 151,
-            "status": 0
-        }, {
-            "gbCategory": "E1302",
-            "name": "桥梁",
-            "id": 153,
-            "parentId": 151,
-            "status": 0
-        }, {
-            "gbCategory": "E1399",
-            "name": "其它建筑工艺",
-            "id": 154,
-            "parentId": 151,
-            "status": 0
-        }],
-        "gbCategory": "E13",
-        "name": "建筑工艺",
-        "id": 151,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "gbCategory": "E14",
-        "name": "火器、火药类",
-        "id": 155,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "gbCategory": "E15",
-        "name": "种植栽培工艺类",
-        "id": 156,
-        "parentId": 67,
-        "status": 0
-    }, {
-        "gbCategory": "E16",
-        "name": "传统修复技艺",
-        "id": 157,
-        "parentId": 67,
-        "status": 0
-    }],
-    "gbCategory": "E",
-    "name": "传统的手工艺技能",
-    "id": 67,
-    "parentId": 0,
-    "status": 0
-}];
-
-
+var category_all=[
+    {
+        "children": null,
+        "gbCategory": "0",
+        "id": "0",
+        "name": "所有分类",
+        "eNname": "All Category",
+        "parentId": null,
+        "status": "1"
+    },
+    {
+        "children": [
+            {
+                "children": null,
+                "gbCategory": "A01",
+                "id": "2",
+                "name": "语言",
+                "eNname": "language",
+                "parentId": "1",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "A02",
+                "id": "3",
+                "name": "文字",
+                "eNname": "written language",
+                "parentId": "1",
+                "status": "1"
+            },
+            {
+                "children": [
+                    {
+                        "children": null,
+                        "gbCategory": "A0301",
+                        "id": "5",
+                        "name": "神话传说",
+                        "eNname": "written language",
+                        "parentId": "4",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "A0302",
+                        "id": "6",
+                        "name": "史诗",
+                        "parentId": "4",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "A0303",
+                        "id": "7",
+                        "name": "谜语",
+                        "parentId": "4",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "A0304",
+                        "id": "8",
+                        "name": "谚语",
+                        "parentId": "4",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "A0399",
+                        "id": "9",
+                        "name": "其它",
+                        "parentId": "4",
+                        "status": "1"
+                    }
+                ],
+                "gbCategory": "A03",
+                "id": "4",
+                "name": "口述",
+                "eNname": "oral account",
+                "parentId": "1",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "A04",
+                "id": "10",
+                "name": "其它口头传统及表述",
+                "eNname": "other oral account",
+                "parentId": "1",
+                "status": "1"
+            }
+        ],
+        "gbCategory": "A",
+        "id": "1",
+        "name": "口头传统和表述",
+        "eNname": "legend",
+        "parentId": "0",
+        "status": "1"
+    },
+    {
+        "children": [
+            {
+                "children": null,
+                "gbCategory": "B01",
+                "id": "12",
+                "name": "音乐演奏",
+                "eNname": "music",
+                "parentId": "11",
+                "status": "1"
+            },
+            {
+                "children": [
+                    {
+                        "children": null,
+                        "gbCategory": "B0201",
+                        "id": "14",
+                        "name": "人生礼仪舞蹈",
+                        "parentId": "13",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "B0202",
+                        "id": "15",
+                        "name": "生产习俗舞蹈",
+                        "parentId": "13",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "B0203",
+                        "id": "16",
+                        "name": "生活习俗舞蹈",
+                        "parentId": "13",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "B0204",
+                        "id": "17",
+                        "name": "岁时节令习俗舞蹈",
+                        "parentId": "13",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "B0205",
+                        "id": "18",
+                        "name": "宗教信仰舞蹈",
+                        "parentId": "13",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "B0299",
+                        "id": "19",
+                        "name": "其他",
+                        "parentId": "13",
+                        "status": "1"
+                    }
+                ],
+                "gbCategory": "B02",
+                "id": "13",
+                "name": "舞蹈",
+                "eNname": "dance",
+                "parentId": "11",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "B03",
+                "id": "20",
+                "name": "民歌",
+                "eNname": "folk song",
+                "parentId": "11",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "B04",
+                "id": "21",
+                "name": "传统戏剧",
+                "eNname": "Traditional drama",
+                "parentId": "11",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "B05",
+                "id": "22",
+                "name": "曲艺",
+                "eNname": "Chinese folk art forms",
+                "parentId": "11",
+                "status": "1"
+            },
+            {
+                "children": [
+                    {
+                        "children": null,
+                        "gbCategory": "B0601",
+                        "id": "24",
+                        "name": "传统体育",
+                        "parentId": "23",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "B0602",
+                        "id": "25",
+                        "name": "游艺",
+                        "parentId": "23",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "B0603",
+                        "id": "26",
+                        "name": "杂技",
+                        "parentId": "23",
+                        "status": "1"
+                    }
+                ],
+                "gbCategory": "B06",
+                "id": "23",
+                "name": "传统体育、游艺与杂技",
+                "eNname": "Traditional sports,entertainment andacrobatics",
+                "parentId": "11",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "B99",
+                "id": "27",
+                "name": "其他表演艺术",
+                "eNname": "other   perform",
+                "parentId": "11",
+                "status": "1"
+            }
+        ],
+        "gbCategory": "B",
+        "id": "11",
+        "name": "表演艺术",
+        "eNname": "perform",
+        "parentId": "0",
+        "status": "1"
+    },
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "children": null,
+                        "gbCategory": "C0101",
+                        "id": "30",
+                        "name": "农业",
+                        "parentId": "29",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0102",
+                        "id": "31",
+                        "name": "林业",
+                        "parentId": "29",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0103",
+                        "id": "32",
+                        "name": "渔业",
+                        "parentId": "29",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0104",
+                        "id": "33",
+                        "name": "狩猎",
+                        "parentId": "29",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0105",
+                        "id": "34",
+                        "name": "饲养和畜牧业",
+                        "parentId": "29",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0106",
+                        "id": "35",
+                        "name": "商贸",
+                        "parentId": "29",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0107",
+                        "id": "36",
+                        "name": "副业",
+                        "parentId": "29",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0199",
+                        "id": "37",
+                        "name": "其他生产商贸习俗",
+                        "parentId": "29",
+                        "status": "1"
+                    }
+                ],
+                "gbCategory": "C01",
+                "id": "29",
+                "name": "生产商贸习俗",
+                "eNname": "business custom",
+                "parentId": "28",
+                "status": "1"
+            },
+            {
+                "children": [
+                    {
+                        "children": null,
+                        "gbCategory": "C0201",
+                        "id": "39",
+                        "name": "饮食类习俗",
+                        "parentId": "38",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0202",
+                        "id": "40",
+                        "name": "服饰类习俗",
+                        "parentId": "38",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0203",
+                        "id": "41",
+                        "name": "居住类习俗",
+                        "parentId": "38",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0204",
+                        "id": "42",
+                        "name": "交通类习俗",
+                        "parentId": "38",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0299",
+                        "id": "43",
+                        "name": "其他生活习俗",
+                        "parentId": "38",
+                        "status": "1"
+                    }
+                ],
+                "gbCategory": "C02",
+                "id": "38",
+                "name": "生活习俗",
+                "eNname": "Life customs",
+                "parentId": "28",
+                "status": "1"
+            },
+            {
+                "children": [
+                    {
+                        "children": null,
+                        "gbCategory": "C0301",
+                        "id": "45",
+                        "name": "生育",
+                        "parentId": "44",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0302",
+                        "id": "46",
+                        "name": "诞生、命名",
+                        "parentId": "44",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0303",
+                        "id": "47",
+                        "name": "生日庆典",
+                        "parentId": "44",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0304",
+                        "id": "48",
+                        "name": "成年礼",
+                        "parentId": "44",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0305",
+                        "id": "49",
+                        "name": "婚礼",
+                        "parentId": "44",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0306",
+                        "id": "50",
+                        "name": "葬礼",
+                        "parentId": "44",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0307",
+                        "id": "51",
+                        "name": "祭祀",
+                        "parentId": "44",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "C0399",
+                        "id": "52",
+                        "name": "其他人生仪式",
+                        "parentId": "44",
+                        "status": "1"
+                    }
+                ],
+                "gbCategory": "C03",
+                "id": "44",
+                "name": "人生仪式",
+                "eNname": "Life ritual",
+                "parentId": "28",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "C04",
+                "id": "53",
+                "name": "节日庆典",
+                "eNname": "Festival celebration",
+                "parentId": "28",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "C99",
+                "id": "54",
+                "name": "其它仪式及庆典",
+                "eNname": "other celebration",
+                "parentId": "28",
+                "status": "1"
+            }
+        ],
+        "gbCategory": "C",
+        "id": "28",
+        "name": "社会风俗、礼仪、节庆",
+        "eNname": "custom and etiquette",
+        "parentId": "0",
+        "status": "1"
+    },
+    {
+        "children": [
+            {
+                "children": null,
+                "gbCategory": "D01",
+                "id": "56",
+                "name": "农林牧畜渔",
+                "eNname": "Dense forest and fishery",
+                "parentId": "55",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "D02",
+                "id": "57",
+                "name": "服装",
+                "eNname": "clothing",
+                "parentId": "55",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "D03",
+                "id": "58",
+                "name": "食品",
+                "eNname": "Food",
+                "parentId": "55",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "D04",
+                "id": "59",
+                "name": "住房与建筑",
+                "eNname": "Housing and construction",
+                "parentId": "55",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "D05",
+                "id": "60",
+                "name": "交通、旅行",
+                "eNname": "Traffic",
+                "parentId": "55",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "D06",
+                "id": "61",
+                "name": "医、药",
+                "eNname": "Medicine",
+                "parentId": "55",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "D07",
+                "id": "62",
+                "name": "军事防御",
+                "eNname": "Military",
+                "parentId": "55",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "D08",
+                "id": "63",
+                "name": "商贸",
+                "eNname": "business",
+                "parentId": "55",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "D09",
+                "id": "64",
+                "name": "工业、工程",
+                "eNname": "Project",
+                "parentId": "55",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "D10",
+                "id": "65",
+                "name": "天文、地理、水文等",
+                "eNname": "astronomy  geography  irrigation",
+                "parentId": "55",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "D99",
+                "id": "66",
+                "name": "其它自然知识和实践",
+                "eNname": "Other natural knowledge",
+                "parentId": "55",
+                "status": "1"
+            }
+        ],
+        "gbCategory": "D",
+        "id": "55",
+        "name": "有关自然界和宇宙的知识和实践",
+        "eNname": "The practice of nature and universe",
+        "parentId": "0",
+        "status": "1"
+    },
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "children": null,
+                        "gbCategory": "E0101",
+                        "id": "69",
+                        "name": "生产工具和机械制作",
+                        "parentId": "68",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0102",
+                        "id": "70",
+                        "name": "日用工具和机械制作",
+                        "parentId": "68",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0199",
+                        "id": "71",
+                        "name": "其他工具",
+                        "parentId": "68",
+                        "status": "1"
+                    }
+                ],
+                "gbCategory": "E01",
+                "id": "68",
+                "name": "工具和机械制作",
+                "eNname": "tool and mechanical manufacture",
+                "parentId": "67",
+                "status": "1"
+            },
+            {
+                "children": [
+                    {
+                        "children": null,
+                        "gbCategory": "E0201",
+                        "id": "73",
+                        "name": "酿造工艺",
+                        "parentId": "72",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0202",
+                        "id": "74",
+                        "name": "制茶工艺",
+                        "parentId": "72",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0203",
+                        "id": "75",
+                        "name": "肉蛋奶类加工工艺",
+                        "parentId": "72",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0204",
+                        "id": "76",
+                        "name": "米面加工工艺",
+                        "parentId": "72",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0299",
+                        "id": "77",
+                        "name": "其它",
+                        "parentId": "72",
+                        "status": "1"
+                    }
+                ],
+                "gbCategory": "E02",
+                "id": "72",
+                "name": "家畜农林产品加工",
+                "eNname": "Painting techniques",
+                "parentId": "67",
+                "status": "1"
+            },
+            {
+                "children": [
+                    {
+                        "children": null,
+                        "gbCategory": "E0301",
+                        "id": "79",
+                        "name": "造纸",
+                        "parentId": "78",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0302",
+                        "id": "80",
+                        "name": "印刷",
+                        "parentId": "78",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0303",
+                        "id": "81",
+                        "name": "装裱",
+                        "parentId": "78",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0399",
+                        "id": "82",
+                        "name": "其他造纸相关技能",
+                        "parentId": "78",
+                        "status": "1"
+                    }
+                ],
+                "gbCategory": "E03",
+                "id": "78",
+                "name": "造纸、印刷及装裱",
+                "eNname": "domestic animal agriculture and forestry products",
+                "parentId": "67",
+                "status": "1"
+            },
+            {
+                "children": [
+                    {
+                        "children": null,
+                        "gbCategory": "E0401",
+                        "id": "84",
+                        "name": "金银器锻冶工艺",
+                        "parentId": "83",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0402",
+                        "id": "85",
+                        "name": "铜器锻冶工艺",
+                        "parentId": "83",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0499",
+                        "id": "86",
+                        "name": "其他金属锻冶工艺",
+                        "parentId": "83",
+                        "status": "1"
+                    }
+                ],
+                "gbCategory": "E04",
+                "id": "83",
+                "name": "锻冶工艺（铜器、金银器、景泰蓝等)",
+                "eNname": "Dyeing process",
+                "parentId": "67",
+                "status": "1"
+            },
+            {
+                "children": [
+                    {
+                        "children": null,
+                        "gbCategory": "E0501",
+                        "id": "88",
+                        "name": "牙骨雕塑工艺",
+                        "parentId": "87",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0502",
+                        "id": "89",
+                        "name": "木竹雕塑工艺",
+                        "parentId": "87",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0503",
+                        "id": "90",
+                        "name": "石料雕塑工艺",
+                        "parentId": "87",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0504",
+                        "id": "91",
+                        "name": "砖、泥雕塑工艺",
+                        "parentId": "87",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0599",
+                        "id": "92",
+                        "name": "其他雕塑工艺",
+                        "parentId": "87",
+                        "status": "1"
+                    }
+                ],
+                "gbCategory": "E05",
+                "id": "87",
+                "name": "雕塑工艺（牙骨、木竹、玉石、泥、面等材料的雕、刻或塑）",
+                "eNname": "Paper printing and paperhanging",
+                "parentId": "67",
+                "status": "1"
+            },
+            {
+                "children": [
+                    {
+                        "children": null,
+                        "gbCategory": "E0601",
+                        "id": "94",
+                        "name": "陶",
+                        "parentId": "93",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0602",
+                        "id": "95",
+                        "name": "瓷",
+                        "parentId": "93",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0603",
+                        "id": "96",
+                        "name": "玻璃料",
+                        "parentId": "93",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0699",
+                        "id": "97",
+                        "name": "其他",
+                        "parentId": "93",
+                        "status": "1"
+                    }
+                ],
+                "gbCategory": "E06",
+                "id": "93",
+                "name": "烧造工艺（陶、瓷、玻璃料器等）",
+                "eNname": "knit  techniques",
+                "parentId": "67",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "E07",
+                "id": "98",
+                "name": "木作工艺（家具等）",
+                "eNname": "Calligraphy and painting craft",
+                "parentId": "67",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "E08",
+                "id": "99",
+                "name": "髹饰工艺（漆器等）",
+                "eNname": "smithing  techniques",
+                "parentId": "67",
+                "status": "1"
+            },
+            {
+                "children": [
+                    {
+                        "children": null,
+                        "gbCategory": "E0901",
+                        "id": "101",
+                        "name": "纺织工艺",
+                        "parentId": "100",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0902",
+                        "id": "102",
+                        "name": "刺绣工艺",
+                        "parentId": "100",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0903",
+                        "id": "103",
+                        "name": "缝纫工艺",
+                        "parentId": "100",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0904",
+                        "id": "104",
+                        "name": "印染工艺",
+                        "parentId": "100",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E0999",
+                        "id": "105",
+                        "name": "其他纺织印染相关工艺",
+                        "parentId": "100",
+                        "status": "1"
+                    }
+                ],
+                "gbCategory": "E09",
+                "id": "100",
+                "name": "织染工艺（纺、织、刺绣、印染等）",
+                "eNname": "paper-cut and carve technics",
+                "parentId": "67",
+                "status": "1"
+            },
+            {
+                "children": [
+                    {
+                        "children": null,
+                        "gbCategory": "E1001",
+                        "id": "107",
+                        "name": "竹编织扎制",
+                        "parentId": "106",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E1002",
+                        "id": "108",
+                        "name": "棕编织扎制",
+                        "parentId": "106",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E1003",
+                        "id": "109",
+                        "name": "草编织扎制",
+                        "parentId": "106",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E1099",
+                        "id": "110",
+                        "name": "其它编扎工艺",
+                        "parentId": "106",
+                        "status": "1"
+                    }
+                ],
+                "gbCategory": "E10",
+                "id": "106",
+                "name": "编扎工艺（竹、藤、棕、草等材料的编织扎制）",
+                "eNname": "sculpture  techniques",
+                "parentId": "67",
+                "status": "1"
+            },
+            {
+                "children": [
+                    {
+                        "children": null,
+                        "gbCategory": "E1101",
+                        "id": "112",
+                        "name": "书法",
+                        "parentId": "111",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E1102",
+                        "id": "113",
+                        "name": "国画",
+                        "parentId": "111",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E1103",
+                        "id": "114",
+                        "name": "篆刻",
+                        "parentId": "111",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E1104",
+                        "id": "115",
+                        "name": "年画",
+                        "parentId": "111",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E1105",
+                        "id": "116",
+                        "name": "烫画",
+                        "parentId": "111",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E1106",
+                        "id": "117",
+                        "name": "内画壶",
+                        "parentId": "111",
+                        "status": "1"
+                    },
+                    {
+                        "children": null,
+                        "gbCategory": "E1199",
+                        "id": "118",
+                        "name": "其他",
+                        "parentId": "111",
+                        "status": "1"
+                    }
+                ],
+                "gbCategory": "E11",
+                "id": "111",
+                "name": "字画工艺（书法、国画、篆刻、年画、烫画、铁画、内画壶等）",
+                "eNname": "barbecue technics",
+                "parentId": "67",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "E12",
+                "id": "119",
+                "name": "剪刻工艺（剪纸、皮影等）",
+                "eNname": "wooden  techniques",
+                "parentId": "67",
+                "status": "1"
+            },
+            {
+                "children": null,
+                "gbCategory": "E99",
+                "id": "120",
+                "name": "其他类",
+                "eNname": "other kind",
+                "parentId": "67",
+                "status": "1"
+            }
+        ],
+        "gbCategory": "E",
+        "id": "67",
+        "name": "传统的手工艺技能",
+        "eNname": "the technical of tradition handmade",
+        "parentId": "0",
+        "status": "1"
+    }
+];
 
 var ich_category =
     [
