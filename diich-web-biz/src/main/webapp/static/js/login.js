@@ -489,7 +489,7 @@ function login(){
                 $('.box_layer .login').find('.error_txt').text(getMsgByCode(data.code,lang));
             }else{
                 localStorage.setItem("pid",data.data.id);
-                $('.box_layer').remove();
+                $('.box_layer').hide();
                 $(".login").hide();
                 //根据当前 语言环境判断   默认显示英文
                 $(".logined").removeClass("active");
@@ -533,11 +533,11 @@ function login(){
                     ajaxLoad({status:0,type:'project'},fillData);
                 }
 
-                if(typeof($("#backurl")) != "undefined" && $("#backurl").val() != ""){
-                    if($("#backurl").val()=="userinfoAdd.html"){
+                if($("#backurl").val().trim() != ""){
+                    if($("#backurl").val().trim()=="userinfoAdd.html"){
                         //判断该用户是否 已经选择了  机构 或者 传承人
                         if(data.data.type==1){
-                            location.href=$("#backurl").val();
+                            location.href=$("#backurl").val().trim();
                         }else{
                             location.href="ichpro.html";
                         }

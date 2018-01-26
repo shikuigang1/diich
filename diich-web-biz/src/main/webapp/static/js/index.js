@@ -104,88 +104,99 @@ renderTemplate({
 //非遗项目选择分类
 var renderProjectTemplate = function () {
     var obj = $("#project-list");
-    var cation = obj.find('.cation_list');
-    var categories = category_all; //分类
-    var city = dic_arr_city;  //地区
-    var result = {};
-    var searchUrl = api.search;
-    //1.渲染一级分类
-    renderLiHtml(1, 0, categories);
-    cation.removeClass('active');
+    var result = {
+        category:'',
+        area:'',
+        keyword:''
+    };
 
 
-    $('#search').attr('href',baseUrl+'/page/search.html');
+    //点击展开
+    obj.on('click','.title',function (e) {
+        e.stopPropagation();
+        var _data=null;
+        var group=$(this).parents('.group');
+        var type=$(this).data('type');
+        //0代表分类 1代表地区
+        _data=(type==0)?category_all:dic_arr_city;
 
-
-    //2.展开下拉框
-    obj.on("click", ".item", function () {
-        $(this).find('.cation_list').toggleClass('active');
-        if ($(this).hasClass('item3')) {
-            renderLiHtml(2, 2, city);
-        }
-    });
-
-    //3.选择分类
-    obj.on("click", ".cation_list li", function () {
-        var _index = $(this).index();
-        var _item = $(this).parents('.item');
-        _item.find('p').html($(this).text());
-
-        //如果点击的是一级分类 数据源是分类并展开二级分类
-        if (_item.hasClass('item1')) {
-            renderLiHtml(1, 1, categories[_index].children);
-        }
-
-        //如果点击的是二级分类 数据源变成区域并展开地区
-        if (_item.hasClass('item2')) {
-            renderLiHtml(2, 2, city);
-        }
-
-        //点击地区
-        if (_item.hasClass('item3')) {
-            result.area = 'area=' + $(this).data('code')
-        }
-
-
-        if ($(this).data('code')) {
-            result.area = 'area=' + $(this).data('code');
-        } else {
-            result.area = 'area=';
-        }
-
-        //获取分类id
-        if ($(this).data('id')) {
-            result.category = 'gb_category_code=' + $(this).data('id');
-        } else {
-            result.category = 'gb_category_code=';
-        }
-
-
-        $('#search').attr('href', searchUrl + result.category + '&' + result.area);
+        obj.find('.group').removeClass('active');
+        obj.find('dl').hide();
+        obj.find('dl dd').html('');
+        group.toggleClass('active');
+        group.find('dl').eq(0).find('dd').html(renderLiHtml(type,_data));
+        group.find('dl').eq(0).show();
+        group.find('input').focus();
 
     });
 
+    //点击
+    obj.on('click','.links li',function () {
+        var parent=$(this).parents('.group');
+        var type=$(this).data('type');
+        var _id=$(this).data('id'); //code
+        if(type==0){//分类
+            result.category=_id;
+        }else {//地区
+            result.area=_id;
+        }
+        parent.find('.title .t2').html($(this).text());
+        parent.find('dl').hide();
+        parent.removeClass('active')
+    });
+
+    //滑动
+    obj.on('mouseover','.links li',function () {
+        var _data=null;
+        var parent=$(this).parents('dl');
+        var type=$(this).data('type');
+        _data=(type==0)?category_all:dic_arr_city;
+
+        if(parent.hasClass('first')){
+            if(_data[$(this).index()].children.length && _data[$(this).index()].children.length!='undefined'){
+                parent.siblings('dl').find('dd').html(renderLiHtml(type,_data[$(this).index()].children));
+                parent.siblings('dl').show();
+            }else {
+                parent.siblings('dl').hide();
+            }
+        }
+    });
+
+    //关键词
+    obj.find('.keyword').blur(function () {
+        result.keyword=$(this).val();
+    });
+
+    //搜索
+    $('#search').on('click',function () {
+        var url='/page/search.html?'+'gb_category_code='+result.category+'&area='+result.area+'&keyword='+result.keyword;
+        window.location.href=url;
+    });
+
+    //点击页面关闭弹出框
+    $(document).on('click',function () {
+        var parent=$('#project-list');
+        parent.find('.group').removeClass('active');
+        parent.find('dl').hide();
+    });
 
     /**
      * 渲染li模版
-     * @param {模版类型} type
      * @param {点击的索引} index
      * @param {数据源} data
      */
-    function renderLiHtml(type, index, data) {
+    function renderLiHtml(type,data) {
         var html = '';
-        if (type == 1) {
-            for (var i = 0; i < data.length; i++) {
-                html += '<li data-id="' + data[i].gbCategory + '"><a>' + data[i].name + '</a></li>';
-            }
-            cation.eq(index).html('<ul>' + html + '</ul>').addClass('active');
-        } else if (type == 2) {
-            for (var i = 0; i < data.length; i++) {
-                html += '<li data-code="' + data[i].code + '"><a>' + data[i].name + '</a></li>';
-            }
-            cation.eq(index).html('<ul>' + html + '</ul>');
+        if(type==0){
+            $.each(data,function (i) {
+                html += '<li data-type="0" data-id="' + data[i].gbCategory + '"><a>' + data[i].name + '</a></li>';
+            });
+        }else if(type==1) {
+            $.each(data,function (i) {
+                html += '<li data-type="1" data-id="' + data[i].code + '"><a>' + data[i].name + '</a></li>';
+            });
         }
-
+        return '<ul class="scrollbar">'+html+'</ul>';
     }
 }
 
@@ -504,9 +515,6 @@ renderTemplate({
         sliderUlList('#license',3);
     }
 });
-
-
-
 
 
 $(function () {
