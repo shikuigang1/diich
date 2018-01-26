@@ -163,14 +163,19 @@ function displayEditMode() {
         $(this).hide();
         $(this).parent().children('.save').remove();
         var $save_link = $('<span class="save link">保存</span>');
+        var $cancel_link = $('<span class="cancel link">取消</span>');
         $(this).parent().append($save_link);
+        $(this).parent().append($cancel_link);
 
         $save_link.on('click', function () {
             saveProjectToClient($section);
             var item_arr;
 
+            $(this).hide();//隐藏保存按钮
+            $(this).parent().find('.cancel').hide();
+
+
             if(data_type == 'main-text') {
-                $(this).hide();
                 $save_link.parent().find('.edit').show();
                 $section.find('form').remove();
 
@@ -205,7 +210,6 @@ function displayEditMode() {
                 showProjectUi(main_item_arr);
 
                 $section.find('.read-piece').show();
-                $(this).hide();
                 $save_link.parent().find('.edit').show();
                 $section.find('form').remove();
             } else if(data_type == 'image-text') {
@@ -217,7 +221,6 @@ function displayEditMode() {
                 $section.find('.image-text').remove();
 
                 $section.find('article').show();
-                $(this).hide();
                 $save_link.parent().find('.edit').show();
 
                 adjustImageText($section, item_arr);//调整没有图片的图文展示模式
@@ -226,6 +229,20 @@ function displayEditMode() {
             has_edit = false;
         });
 
+        $cancel_link.on('click', function () {
+            has_edit = false;
+
+            var $edit_piece = $section.find('.image-text');
+            if($edit_piece.length == 0) {
+                $edit_piece = $section.find('form.bd.horizontal');
+            }
+            $edit_piece.remove();
+            $section.find('.read-piece').show();
+
+            $section.find('.save.link').hide();
+            $section.find('.cancel.link').hide();
+            $section.find('.edit.link').show();
+        });
     });
     
     $('a.albums').hide();
