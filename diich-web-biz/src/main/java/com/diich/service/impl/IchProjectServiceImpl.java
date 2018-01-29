@@ -866,7 +866,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      */
     private Map build360Map(Map project, IchProject ichProject, CountryProject countryProject) throws Exception {
         project.put("uniq_key", countryProject.getId());
-        project.put("baikeurl", PropertiesUtil.getString("_project") + ichProject.getId() + ".html");
+        project.put("url", PropertiesUtil.getString("_project") + ichProject.getId() + ".html");
         ContentFragment c = new ContentFragment();
         c.setTargetId(ichProject.getId());
         c.setTargetType(0);//标示项目
