@@ -193,7 +193,9 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         if (ichMaster.getId() == null) {
             long id = IdWorker.getId();
             ichMaster.setId(id);
-            ichMaster.setStatus(2);
+            if(ichMaster.getStatus() == null || ichMaster.getStatus() != 3){
+                ichMaster.setStatus(2);
+            }
             if (user != null && user.getType() == 0) {
                 ichMaster.setStatus(0);
             }
@@ -851,7 +853,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 for (Attribute attribute : attributeList) {
                     if (contentFragment.getAttributeId() != null && contentFragment.getAttributeId().equals(attribute.getId())) {
                         contentFragment.setAttribute(attribute);
-                        if ((attribute.getDataType() == 5 || attribute.getId() == 10 || attribute.getId() == 113)) {
+                        if ((attribute.getDataType() == 5 || attribute.getDataType() == 7)) {
                             cfrList.add(contentFragment.getId());
                         }
                         break;
