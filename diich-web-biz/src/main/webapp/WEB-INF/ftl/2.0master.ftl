@@ -2,8 +2,7 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://www.diich.com" />
-<#--<#assign caturi=".." />-->
+<#assign caturi="http://diich.efiyi.com" />
 <#--<#assign caturi="http://47.95.32.236" />-->
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
@@ -270,36 +269,48 @@
                             </div>
                         </#if>
                     </li>
+                    <div class="idbayin">
 
-                    <!--id标识码-->
+                        <!--id标识码-->
+                        <#if (obj.contentFragmentList??) &&(obj.contentFragmentList?size>0)>
+                            <#list obj.contentFragmentList as cf>
+                                <#if cf.attributeId == 11 && cf.content?? && cf.content != "">
+                                    <div class="idma">
+                                        <p>
+                                            <b><img src="${caturi}/images/Did.png" alt=""/></b>
+                                            <strong>
+                                                <span>标识码：</span>
+                                                <span data-id="11" class="data-item">${cf.content}</span>
+                                            </strong>
+                                            <em><img src="${caturi}/images/erweima.png" alt="" /></em>
+                                        </p>
+                                    </div>
+                                </#if>
+                            </#list>
+                        </#if>
 
-                    <#if (obj.contentFragmentList??) &&(obj.contentFragmentList?size>0)>
-                        <#list obj.contentFragmentList as cf>
-                            <#if cf.attributeId == 11 && cf.content?? && cf.content != "">
-                                <div class="idma">
-                                    <p>
-                                        <b><img src="${caturi}/images/Did.png" alt=""/></b>
-                                        <strong>
-                                            <span>标识码：</span>
-                                            <span data-id="11" class="data-item">${cf.content}</span>
-                                        </strong>
-                                        <em><img src="${caturi}/images/erweima.png" alt="" /></em>
-                                    </p>
-                                </div>
-                            </#if>
-                        </#list>
-                    </#if>
 
+                        <!--编辑按钮-->
+                        <div class="idbtn">
+                            <p>
+                                <b class="active"><img src="${caturi}/images/inbtn.png" alt=""></b>
+                                <b><img src="${caturi}/images/idbtnwhi.png" alt=""></b>
+                                <span id="btn_edit" master-id="${obj.id?c}">编辑词条</span>
+                            </p>
+                        </div>
 
-                    <!--编辑按钮-->
-                    <div class="idbtn">
-                        <p>
-                            <b class="active"><img src="${caturi}/images/inbtn.png" alt=""></b>
-                            <b><img src="${caturi}/images/idbtnwhi.png" alt=""></b>
-                            <span id="btn_edit" master-id="${obj.id?c}">编辑词条</span>
-                        </p>
+                        <#--认领词条-->
+                        <#if !obj.userId??>
+                            <div class="idbtn">
+                                <p>
+                                    <b class="active"><img src="${caturi}/images/inbtn.png" alt=""></b>
+                                    <b><img src="${caturi}/images/idbtnwhi.png" alt=""></b>
+                                    <span id="btn_belong" master-id="${obj.id?c}">认领词条</span>
+                                </p>
+                            </div>
+                        </#if>
+
                     </div>
-
                 </ul>
 
             </div>
@@ -520,7 +531,13 @@
 
     },2000);
 
-
+    $(function(){
+        $('.side_fixed li').each(function(i){
+            if(i>=9){
+                $(this).find('strong').html(i+1)
+            }
+        })
+    })
 
 </script>
 </html>

@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-<#--<#assign caturi="http://192.168.1.41" />-->
-<#assign caturi="http://www.diich.com" />
+<#assign caturi="http://diich.efeiyi.com" />
+<#--<#assign caturi="http://diich.com" />-->
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-control" content="no-cache">
@@ -41,7 +41,13 @@
         .card .plain_text,.card .text_img .side {
             word-wrap: break-word;
         }
-        #trans_lang a{color: #4283EA;font-size: 13px;}
+        #trans_lang a{
+            color: #4283EA;
+            font-size: 13px;
+            display: block;
+            width: 100%;
+            height:100%;
+        }
         #trans_lang a:hover {color:#fff}
     </style>
     <!--[if IE]>
@@ -342,50 +348,50 @@
                         </div>
                     </li>
 
+                    <div class="idbayin">
+                        <!--id标识码-->
+                        <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
+                            <#list obj.contentFragmentList as cf>
+                                <#if cf.attributeId == 2>
+                                    <#if cf.content?? && cf.content != "">
+                                        <div class="idma">
+                                            <p>
+                                                <b><img src="${caturi}/images/Did.png" alt=""/></b>
+                                                <strong>
+                                                    <#if obj.lang == "chi">
+                                                        <span>标识码:</span>
+                                                    </#if>
+                                                    <#if obj.lang == "eng">
+                                                        <span>IDCODE：</span>
+                                                    </#if>
 
-                    <!--id标识码-->
-                    <#if (obj.contentFragmentList??) && (obj.contentFragmentList?size>0)>
-                        <#list obj.contentFragmentList as cf>
-                            <#if cf.attributeId == 2>
-                                <#if cf.content?? && cf.content != "">
-                                    <div class="idma">
-                                        <p>
-                                            <b><img src="${caturi}/images/Did.png" alt=""/></b>
-                                            <strong>
-                                                <#if obj.lang == "chi">
-                                                    <span>标识码:</span>
-                                                </#if>
-                                                <#if obj.lang == "eng">
-                                                    <span>IDCODE：</span>
-                                                </#if>
-
-                                                <span data-id="2" class="data-item">${cf.content}</span>
-                                            </strong>
-                                            <em><img src="${caturi}/images/erweima.png" alt="" /></em>
-                                        </p>
-                                    </div>
-                                </#if >
-                            </#if>
-                        </#list>
-                    </#if>
-                    <!--编辑按钮-->
+                                                    <span data-id="2" class="data-item">${cf.content}</span>
+                                                </strong>
+                                                <em><img src="${caturi}/images/erweima.png" alt="" /></em>
+                                            </p>
+                                        </div>
+                                    </#if >
+                                </#if>
+                            </#list>
+                        </#if>
+                        <!--编辑按钮-->
                         <div class="idbtn" style="width: 81px">
-                        <p>
-                            <b class="active"><img src="${caturi}/images/inbtn.png" alt=""></b>
-                            <b><img src="${caturi}/images/idbtnwhi.png" alt=""></b>
-                            <span id="btn_edit" project-id="${obj.id?c}">编辑词条</span>
-                        </p>
-                    </div>
-                <#if obj.version?? && (obj.version.mainVersionId??) && (obj.version.branchVersionId??)>
-                    <div class="idbtn" style="right: 410px;width:107px">
-                        <p>
-                            <b class="active"><img src="${caturi}/images/inbtn.png" alt=""></b>
-                            <b><img src="${caturi}/images/idbtnwhi.png" alt=""></b>
-                            <span class="language" id="trans_lang"><a href="" id="trans"></a></span>
-                        </p>
-                    </div>
-                </#if>
-
+                            <p>
+                                <b class="active"><img src="${caturi}/images/inbtn.png" alt=""></b>
+                                <b><img src="${caturi}/images/idbtnwhi.png" alt=""></b>
+                                <span id="btn_edit" project-id="${obj.id?c}">编辑词条</span>
+                            </p>
+                        </div>
+                    <#if obj.version?? && (obj.version.mainVersionId??) && (obj.version.branchVersionId??)>
+                        <div class="idbtn" style="width:89px;">
+                            <p>
+                                <#--<b class="active"><img src="${caturi}/images/inbtn.png" alt=""></b>-->
+                                <#--<b><img src="${caturi}/images/idbtnwhi.png" alt=""></b>-->
+                                <span class="language" id="trans_lang"><a href="" id="trans"></a></span>
+                            </p>
+                        </div>
+                    </#if>
+                </div>
                 </ul>
 
             </div>
@@ -698,6 +704,14 @@
                 $(this).parent('span').css({'width':'476px'});
             }
         });
+    })
+
+    $(function(){
+        $('.side_fixed li').each(function(i){
+            if(i>=9){
+                $(this).find('strong').html(i+1)
+            }
+        })
     })
 </script>
 </html>
