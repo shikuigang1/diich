@@ -1112,7 +1112,7 @@ var ich_category =
             "id":10,
             "parent_id":1,
             "name":"其它口头传统及表述",
-            "gb_category":"A04",
+            "gb_category":"A99",
             "status":0
         },
         {
@@ -1132,56 +1132,56 @@ var ich_category =
         {
             "id":13,
             "parent_id":11,
-            "name":"舞蹈",
+            "name":"民歌",
             "gb_category":"B02",
             "status":0
         },
         {
             "id":14,
-            "parent_id":13,
+            "parent_id":20,
             "name":"人生礼仪舞蹈",
-            "gb_category":"B0201",
+            "gb_category":"B0301",
             "status":0
         },
         {
             "id":15,
-            "parent_id":13,
+            "parent_id":20,
             "name":"生产习俗舞蹈",
-            "gb_category":"B0202",
+            "gb_category":"B0302",
             "status":0
         },
         {
             "id":16,
-            "parent_id":13,
+            "parent_id":20,
             "name":"生活习俗舞蹈",
-            "gb_category":"B0203",
+            "gb_category":"B0303",
             "status":0
         },
         {
             "id":17,
-            "parent_id":13,
+            "parent_id":20,
             "name":"岁时节令习俗舞蹈",
-            "gb_category":"B0204",
+            "gb_category":"B0304",
             "status":0
         },
         {
             "id":18,
-            "parent_id":13,
+            "parent_id":20,
             "name":"宗教信仰舞蹈",
-            "gb_category":"B0205",
+            "gb_category":"B0305",
             "status":0
         },
         {
             "id":19,
-            "parent_id":13,
+            "parent_id":20,
             "name":"其他",
-            "gb_category":"B0299",
+            "gb_category":"B0399",
             "status":0
         },
         {
             "id":20,
             "parent_id":11,
-            "name":"民歌",
+            "name":"舞蹈",
             "gb_category":"B03",
             "status":0
         },
@@ -1883,6 +1883,265 @@ var ich_category =
             "parent_id":67,
             "name":"其他类",
             "gb_category":"E99",
+            "status":0
+        },
+        {
+            "id":121,
+            "parent_id":4,
+            "name":"故事",
+            "gb_category":"A0305",
+            "status":0
+        },
+        {
+            "id":122,
+            "parent_id":4,
+            "name":"诗歌",
+            "gb_category":"A0306",
+            "status":0
+        },
+        {
+            "id":123,
+            "parent_id":4,
+            "name":"歌谣（民谣、童谣、儿歌、绕口令）",
+            "gb_category":"A0307",
+            "status":0
+        },
+        {
+            "id":124,
+            "parent_id":4,
+            "name":"笑话",
+            "gb_category":"A0308",
+            "status":0
+        },
+        {
+            "id":125,
+            "parent_id":4,
+            "name":"祝赞词、唱词、颂词",
+            "gb_category":"A0309",
+            "status":0
+        },
+        {
+            "id":126,
+            "parent_id":23,
+            "name":"智能游戏",
+            "gb_category":"B0604",
+            "status":0
+        },
+        {
+            "id":127,
+            "parent_id":23,
+            "name":"魔术",
+            "gb_category":"B0605",
+            "status":0
+        },
+        {
+            "id":128,
+            "parent_id":23,
+            "name":"其它体育与游艺",
+            "gb_category":"B0699",
+            "status":0
+        },
+        {
+            "id":129,
+            "parent_id":38,
+            "name":"文化类习俗",
+            "gb_category":"C0205",
+            "status":0
+        },
+        {
+            "id":130,
+            "parent_id":28,
+            "name":"宗教庆典",
+            "gb_category":"C05",
+            "status":0
+        },
+        {
+            "id":131,
+            "parent_id":28,
+            "name":"文化遗存、保护区",
+            "gb_category":"C06",
+            "status":0
+        },
+        {
+            "id":132,
+            "parent_id":28,
+            "name":"信俗",
+            "gb_category":"C07",
+            "status":0
+        },
+        {
+            "id":133,
+            "parent_id":68,
+            "name":"乐器、文具等制作",
+            "gb_category":"E0103",
+            "status":0
+        },
+        {
+            "id":134,
+            "parent_id":68,
+            "name":"交通工具和机械制作",
+            "gb_category":"E0104",
+            "status":0
+        },
+        {
+            "id":135,
+            "parent_id":72,
+            "name":"皮制工艺",
+            "gb_category":"E0205",
+            "status":0
+        },
+        {
+            "id":136,
+            "parent_id":72,
+            "name":"农林副产品加工工艺",
+            "gb_category":"E0206",
+            "status":0
+        },
+        {
+            "id":137,
+            "parent_id":72,
+            "name":"烹饪技艺",
+            "gb_category":"E0207",
+            "status":0
+        },
+        {
+            "id":138,
+            "parent_id":83,
+            "name":"铁器锻冶工艺",
+            "gb_category":"E0403",
+            "status":0
+        },
+        {
+            "id":139,
+            "parent_id":87,
+            "name":"金属雕塑工艺",
+            "gb_category":"E0505",
+            "status":0
+        },
+        {
+            "id":140,
+            "parent_id":87,
+            "name":"米面糖雕塑",
+            "gb_category":"E0506",
+            "status":0
+        },
+        {
+            "id":141,
+            "parent_id":93,
+            "name":"砖瓦",
+            "gb_category":"E0604",
+            "status":0
+        },
+        {
+            "id":142,
+            "parent_id":106,
+            "name":"布、丝类编织扎制",
+            "gb_category":"E1004",
+            "status":0
+        },
+        {
+            "id":143,
+            "parent_id":106,
+            "name":"纸扎",
+            "gb_category":"E1005",
+            "status":0
+        },
+        {
+            "id":144,
+            "parent_id":106,
+            "name":"毛类编织",
+            "gb_category":"E1006",
+            "status":0
+        },
+        {
+            "id":145,
+            "parent_id":111,
+            "name":"唐卡、热贡",
+            "gb_category":"E1107",
+            "status":0
+        },
+        {
+            "id":146,
+            "parent_id":111,
+            "name":"板画（版画）",
+            "gb_category":"E1108",
+            "status":0
+        },
+        {
+            "id":147,
+            "parent_id":111,
+            "name":"彩绘",
+            "gb_category":"E1109",
+            "status":0
+        },
+        {
+            "id":148,
+            "parent_id":119,
+            "name":"剪纸",
+            "gb_category":"E1201",
+            "status":0
+        },
+        {
+            "id":149,
+            "parent_id":119,
+            "name":"皮影",
+            "gb_category":"E1202",
+            "status":0
+        },
+        {
+            "id":150,
+            "parent_id":119,
+            "name":"其他剪刻工艺",
+            "gb_category":"E1299",
+            "status":0
+        },
+        {
+            "id":151,
+            "parent_id":67,
+            "name":"建筑工艺",
+            "gb_category":"E13",
+            "status":0
+        },
+        {
+            "id":152,
+            "parent_id":151,
+            "name":"房屋",
+            "gb_category":"E1301",
+            "status":0
+        },
+        {
+            "id":153,
+            "parent_id":151,
+            "name":"桥梁",
+            "gb_category":"E1302",
+            "status":0
+        },
+        {
+            "id":154,
+            "parent_id":151,
+            "name":"其它建筑工艺",
+            "gb_category":"E1399",
+            "status":0
+        },
+        {
+            "id":155,
+            "parent_id":67,
+            "name":"火器、火药类",
+            "gb_category":"E14",
+            "status":0
+        },
+        {
+            "id":156,
+            "parent_id":67,
+            "name":"种植栽培工艺类",
+            "gb_category":"E15",
+            "status":0
+        },
+        {
+            "id":157,
+            "parent_id":67,
+            "name":"传统修复技艺",
+            "gb_category":"E16",
             "status":0
         }
     ];
