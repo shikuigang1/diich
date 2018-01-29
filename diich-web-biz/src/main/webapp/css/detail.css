@@ -129,12 +129,26 @@
 
 
 /*id编码*/
-.content_img ul .idma{
+.content_img ul .idbayin{
 	position: absolute;
-    right: 0;
-    top: 40px;
+	right: 0;
+	top: 40px;
+	overflow: hidden;
+}
+.content_img ul .idbayin > div{
+	margin-left: 52px;
+}
+
+
+
+
+.content_img ul .idma{
+    /*position: absolute;*/
+    /*right: 0;*/
+    /*top: 40px;*/
     margin-top: 0; 
     zoom: 1;
+	float: right;
 }
 .content_img ul .idma p{
     /*float: left;*/
@@ -224,15 +238,16 @@
 }
 
 .content_img .idbtn{
+	float: right;
 	width: 80px;
 	height: 32px;
 	border:1px solid #4283EA;
 	color: #4283EA;
 	text-align: center;
 	line-height: 32px;
-	position: absolute;
-	top: 40px;
-	right:300px;
+	/*position: absolute;*/
+	/*top: 40px;*/
+	/*right:300px;*/
 	cursor: progress;
 	font-size: 13px;
 	box-sizing: border-box;
