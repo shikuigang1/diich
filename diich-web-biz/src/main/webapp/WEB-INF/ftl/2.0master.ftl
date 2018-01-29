@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://diich.efiyi.com" />
+<#assign caturi="http://diich.efeiyi.com" />
 <#--<#assign caturi="http://47.95.32.236" />-->
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
