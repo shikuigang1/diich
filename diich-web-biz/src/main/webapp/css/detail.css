@@ -80,11 +80,11 @@
 } 
 .content_img ul li div.active1 p em{
 	float: left;
-	width: 50px;
+	min-width: 50px;
 }
 .content_img ul li div.active1 p span{
 	float: left;
-	width: 506px;
+	max-width: 506px;
 }
 
 
@@ -238,8 +238,8 @@
 }
 
 .content_img .idbtn{
+	padding: 0 5px;
 	float: right;
-	width: 80px;
 	height: 32px;
 	border:1px solid #4283EA;
 	color: #4283EA;
