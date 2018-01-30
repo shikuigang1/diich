@@ -13,14 +13,12 @@
        <#list obj.contentFragmentList as cf>
         <#if (obj.lang == "chi")>
             <#if cf.attributeId == 4>
-                <#assign proname = cf.content>
-            ${cf.content}
+                ${cf.content}
             </#if>
         </#if>
         <#if (obj.lang == "eng")>
             <#if cf.attributeId == 5>
-                <#assign proname = cf.content>
-            ${cf.content}
+                ${cf.content}
             </#if>
         </#if>
     </#list>
@@ -283,10 +281,10 @@
                                         <p>
                                             <em>
                                                 <#if obj.lang == "chi">
-                                                    地区：
+                                                    ${cf.attribute.cnName}：
                                                 </#if>
                                                 <#if obj.lang == "eng">
-                                                    District：
+                                                    ${cf.attribute.enName}：
                                                 </#if>
                                             </em>
                                             <span>
@@ -317,10 +315,10 @@
                                         <p class="active">
                                             <strong>
                                                 <#if obj.lang == "chi">
-                                                    人类非物质文化遗产编号：
+                                                    ${cf.attribute.cnName}：
                                                 </#if>
                                                 <#if obj.lang == "eng">
-                                                    Human intangible cultural heritage number：
+                                                    ${cf.attribute.enName}：
                                                 </#if>
                                             </strong>
                                             <em class="dic data-item" dic-type="${cf.attribute.dataType}" lang="${obj.lang}" data-id="106">${cf.content}</em>
@@ -334,10 +332,10 @@
                                         <p class="active">
                                             <strong>
                                                 <#if obj.lang == "chi">
-                                                    认证级别:
+                                                    ${cf.attribute.cnName}：
                                                 </#if>
                                                 <#if obj.lang == "eng">
-                                                    Rank:
+                                                    ${cf.attribute.enName}：
                                                 </#if>
                                             </strong>
                                             <em class="dic data-item" dic-type="${cf.attribute.dataType}" lang="${obj.lang}" data-id="41">${cf.content}</em>
@@ -359,10 +357,10 @@
                                                 <b><img src="${caturi}/images/Did.png" alt=""/></b>
                                                 <strong>
                                                     <#if obj.lang == "chi">
-                                                        <span>标识码:</span>
+                                                        <span>:</span>
                                                     </#if>
                                                     <#if obj.lang == "eng">
-                                                        <span>IDCODE：</span>
+                                                        <span>：</span>
                                                     </#if>
 
                                                     <span data-id="2" class="data-item">${cf.content}</span>
@@ -375,22 +373,30 @@
                             </#list>
                         </#if>
                         <!--编辑按钮-->
-                        <div class="idbtn" style="width: 81px">
+                        <div class="idbtn">
                             <p>
                                 <b class="active"><img src="${caturi}/images/inbtn.png" alt=""></b>
                                 <b><img src="${caturi}/images/idbtnwhi.png" alt=""></b>
-                                <span id="btn_edit" project-id="${obj.id?c}">编辑词条</span>
+                                <#if obj.lang == "chi">
+                                    <span id="btn_edit" project-id="${obj.id?c}">编辑词条</span>
+                                </#if>
+                                <#if obj.lang == "eng">
+                                    <span id="btn_edit" project-id="${obj.id?c}">Edit mode</span>
+                                </#if>
                             </p>
                         </div>
-                    <#if obj.version?? && (obj.version.mainVersionId??) && (obj.version.branchVersionId??)>
-                        <div class="idbtn" style="width:89px;">
-                            <p>
-                                <#--<b class="active"><img src="${caturi}/images/inbtn.png" alt=""></b>-->
-                                <#--<b><img src="${caturi}/images/idbtnwhi.png" alt=""></b>-->
-                                <span class="language" id="trans_lang"><a href="" id="trans"></a></span>
-                            </p>
-                        </div>
-                    </#if>
+                        <#if obj.version?? && (obj.version.mainVersionId??) && (obj.version.branchVersionId??)>
+                            <div class="idbtn">
+                                <p>
+                                    <#if obj.lang == "eng">
+                                        <span class="language" id="trans_lang"><a href="${obj.version.mainVersionId?c}.html">该词条中文版</a></span>
+                                    </#if>
+                                    <#if obj.lang == "chi">
+                                        <span class="language" id="trans_lang"><a href="${obj.version.branchVersionId?c}.html">English version</a></span>
+                                    </#if>
+                                </p>
+                            </div>
+                        </#if>
                 </div>
                 </ul>
 
@@ -646,66 +652,15 @@
 <!--//End 右侧悬浮-->
 
 </body>
+</html>
 <script>
     $(function() {
-
-        //控制header中英文显示
-    <#if obj.version?? && (obj.version.mainVersionId??) && (obj.version.branchVersionId??)>
-        <#if obj.lang == "eng">
-            $("#trans").text("该词条中文版");
-            $("#trans").attr('href',${obj.version.mainVersionId?c}+ ".html");
-        </#if>
-        <#if obj.lang == "chi">
-            $("#trans").text("该词条英文版");
-            $("#trans").attr('href',${obj.version.branchVersionId?c}+ ".html");
-        </#if>
-    </#if>
-    <#if !obj.version?? || (!obj.version.mainVersionId??) || (!obj.version.branchVersionId??)>
-        $("#trans_lang").hide();
-    </#if>
-
-
         //去掉头部标记
         $(".header .content .nav li").eq(0).removeClass("active");
         //给logo加首页链接
         $('.logo').attr('href','${caturi}/page/index.html');
 
     });
-
-</script>
-<script>
-    setTimeout(function () {
-        var $img = $('#detailTopic');
-        var $content = $('#detailContent');
-        var img = document.getElementById('detailTopic');
-        if(img != null){
-            img.onload = function () {
-                // 加载完成
-                var imgW = parseInt($img.width());
-                $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
-                $content.css({width:imgW+'px'});
-                $img.fadeIn(800);
-            };
-        }
-        var imgW = parseInt($img.width());
-        $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
-        $content.css({width:imgW+'px'});
-        $img.fadeIn(800);
-
-    },2000);
-
-    $(function(){
-        $('.content_img ul li div.active1 p span').each(function(){
-            if($(this).attr('data-lang')=='eng'){
-                $('#category').siblings('em').css({'width':'86px'});
-                $(this).parent('span').siblings('em').css({'width':'86px'});
-
-                $('#category').css({'width':'476px'});
-                $(this).parent('span').css({'width':'476px'});
-            }
-        });
-    })
-
     $(function(){
         $('.side_fixed li').each(function(i){
             if(i>=9){
@@ -714,4 +669,3 @@
         })
     })
 </script>
-</html>
