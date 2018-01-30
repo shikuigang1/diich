@@ -239,9 +239,17 @@
                                 <#list obj.contentFragmentList as cf>
                                     <#if cf.attributeId == 23 && cf.content?? && cf.content != "">
                                         <p>
-                                            <em>地区: </em>
+                                            <em>
+                                                <#if obj.lang == "chi">
+                                                    ${cf.attribute.cnName}：
+                                                </#if>
+                                                <#if obj.lang == "eng">
+                                                    ${cf.attribute.enName}：
+                                                </#if>
+                                            </em>
                                             <span data-id="23" class="data-item dic" dic-type="${cf.attribute.dataType}"
-                                                  lang="${obj.lang}">${cf.content}</span>
+                                                  lang="${obj.lang}">${cf.content}
+                                            </span>
                                         </p>
                                     </#if>
                                 </#list>
@@ -260,7 +268,14 @@
                                 <#list obj.contentFragmentList as cf>
                                     <#if cf.attributeId == 111 && cf.content?? && cf.content != "">
                                         <p class="active">
-                                            <strong>级别:</strong>
+                                            <strong>
+                                                <#if obj.lang == "chi">
+                                                    ${cf.attribute.cnName}：
+                                                </#if>
+                                                <#if obj.lang == "eng">
+                                                    ${cf.attribute.enName}：
+                                                </#if>
+                                            </strong>
                                             <em class="dic data-item" dic-type="${cf.attribute.dataType}"
                                                 lang="${obj.lang}">${cf.content}</em>
                                         </p>
@@ -279,7 +294,7 @@
                                         <p>
                                             <b><img src="${caturi}/images/Did.png" alt=""/></b>
                                             <strong>
-                                                <span>标识码：</span>
+                                                <span>：</span>
                                                 <span data-id="11" class="data-item">${cf.content}</span>
                                             </strong>
                                             <em><img src="${caturi}/images/erweima.png" alt="" /></em>
@@ -506,30 +521,6 @@
         //给logo加首页链接
         $('.logo').attr('href','${caturi}/page/index.html');
     });
-
-    //判断图片是否加载完成
-    setTimeout(function () {
-        var $img = $('#detailTopic');
-        var $content = $('#detailContent');
-        var img = document.getElementById('detailTopic');
-
-        if(img != null){
-            img.onload = function () {
-                // 加载完成
-                var imgW = parseInt($img.width());
-                $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
-                $content.css({width:imgW+'px'});
-                $img.fadeIn(800);
-            };
-        }
-
-
-        var imgW = parseInt($img.width());
-        $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
-        $content.css({width:imgW+'px'});
-        $img.fadeIn(800);
-
-    },2000);
 
     $(function(){
         $('.side_fixed li').each(function(i){
