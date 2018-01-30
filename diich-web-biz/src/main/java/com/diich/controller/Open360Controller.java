@@ -8,6 +8,8 @@ import com.diich.core.model.IchProject;
 import com.diich.core.model.User;
 import com.diich.core.service.IchProjectService;
 import com.diich.core.service.UserService;
+import com.diich.core.util.PropertiesUtil;
+import com.diich.core.util.SimpleUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +73,7 @@ public class Open360Controller extends BaseController {
 
     @RequestMapping("getIchProjectList")
     @ResponseBody
-    public Map getIchProjectList(HttpServletRequest request, HttpServletResponse response) {
+    public Object getIchProjectList(HttpServletRequest request, HttpServletResponse response) {
         try {
             setHeader(request, response);
         } catch (Exception e) {
@@ -92,9 +95,8 @@ public class Open360Controller extends BaseController {
         } catch (Exception e) {
             return putDataToMap(e);
         }
-        return putDataToMap(list);
+        return list;
     }
-
     @RequestMapping("getIchProjectById")
     @ResponseBody
     public Map<String, Object> getIchProject(HttpServletRequest request, HttpServletResponse response) {
