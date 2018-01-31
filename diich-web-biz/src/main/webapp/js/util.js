@@ -374,7 +374,7 @@ var newUpload =  {
             timeout : 10000,
             data : {},
             success : function(str) {
-                console.log("str -- >", str);
+                //console.log("str -- >", str);
                 if (str) {
                     try {
                         var re = JSON.parse(str);
@@ -472,7 +472,7 @@ var newUpload =  {
             data.filepath = data.key;
             path =  data.key; // 记录用户上传的图片地址
             headers['Access-Control-Allow-Origin'] = "*"
-            console.log("data -- >", data)
+            //console.log("data -- >", data)
         });
 
         // 上传成功
@@ -503,7 +503,7 @@ var newUpload =  {
             var id = $("#" + thisID).parent().parent().parent().attr("id")
             var cid = thisID.split("-").pop();
 
-            console.log(thisID)
+            //console.log(thisID)
             $("#" + cid).remove();
             $("#" + id).html(newUpload.tmp)
             newUpload.create(id, url, params, callback);

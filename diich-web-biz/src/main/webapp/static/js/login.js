@@ -677,7 +677,7 @@ function  resetPass(){
 var filterpage= ['/ichpro.html','/ichProForm.html','/ichProContent.html',
     '/ichMasterForm.html','/center.html','/userinfoAdd.html',
     '/createMastorSelect.html'
-    ,'/organization.html'];
+    ,'/organization.html', '/ichMasterClaim.html'];
 
 //登录后显示
 function loginedTemplate(data) {

@@ -1773,9 +1773,6 @@
     
                     pos = button.offset();
 
-
-                console.log(" button.outerWidth -- >",button.outerWidth(), button.width())
-    
                 width && height && shimContainer.css({
                     bottom: 'auto',
                     right: 'auto',

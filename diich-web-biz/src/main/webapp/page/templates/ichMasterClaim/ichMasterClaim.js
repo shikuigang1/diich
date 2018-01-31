@@ -1,5 +1,7 @@
 define(["text!ichMasterClaim/claim.tpl", "text!ichMasterClaim/claim-success.tpl"], function(claimTpl, claimSuccessTpl) {
     var countrys = []; // 国籍
+    var masterId = getQueryString("masterId"); // 传承人ID
+    console.log("masterId -- >", masterId);
     function _init(dic_arr_city) {
         countrys = dic_arr_city; // 接收页面传递过来的国籍
         getMasterTmp(); // 获取认领词条模板
@@ -161,12 +163,15 @@ define(["text!ichMasterClaim/claim.tpl", "text!ichMasterClaim/claim-success.tpl"
             params.push({name: "justImg", value: justImg, type: 1});
 
             var authInfo =  buildParams(params); // 构建数据
-            var masterId = "5014";
+            //var masterId = "5014";
+            //console.log("masterId -- >", masterId)
 
             // 保存数据
             $.post("/ichMaster/claimEntry", {authInfo: JSON.stringify(authInfo), masterId: masterId}, function(result) {
                 if(result.code == 0 && result.msg == "SUCCESS") {
                     successTpl();
+                } else {
+                    tipBox.init("fail", result.res.msg, 1500);
                 }
             })
 
