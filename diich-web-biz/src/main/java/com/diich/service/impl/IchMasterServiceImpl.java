@@ -196,7 +196,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             if(ichMaster.getStatus() == null || ichMaster.getStatus() != 3){
                 ichMaster.setStatus(2);
             }
-            if (user != null && user.getType() == 0) {
+            if (user != null && user.getType() != null && user.getType() == 0) {
                 ichMaster.setStatus(0);
             }
             ichMaster.setUri(id + ".html");
@@ -212,7 +212,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 contentFragmentService.saveContentFragment(contentFragment);
             }
         }
-        if (user != null && user.getType() == 0) {//管理员权限
+        if (user != null && user.getType() != null && user.getType() == 0) {//管理员权限
             ichMaster = getAttribute(ichMaster);
             List<ContentFragment> contentFragments = getContentFragmentByMasterId(ichMaster);
             if (contentFragments != null && contentFragments.size() > 0) {
@@ -1025,6 +1025,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         authInfo.setStatus(3);//待审核
 
         Version version = new Version();
+        version.setId(IdWorker.getId());
         version.setTargetType(1);
         version.setMainVersionId(masterId);
         version.setVersionType(1002);
