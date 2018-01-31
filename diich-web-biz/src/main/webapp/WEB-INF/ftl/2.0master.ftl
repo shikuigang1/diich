@@ -518,8 +518,6 @@
 <script>
     $(function() {
         $(".header .content .nav li").eq(0).removeClass("active");
-        //给logo加首页链接
-        $('.logo').attr('href','${caturi}/page/index.html');
     });
 
     $(function(){
@@ -527,7 +525,9 @@
             if(i>=9){
                 $(this).find('strong').html(i+1)
             }
-        })
+        });
+
+        $(".header .content .nav li").eq(0).removeClass("active");
     })
 
 </script>
