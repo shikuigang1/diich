@@ -1,187 +1,133 @@
-<div class="title" id="page_basic" data-id="{{clickMenuId}}">基础信息</div>
-<div class="hint"><i class="dot"></i>标有 <em>*</em> 的为必填项 · 信息越完善，申报成功的几率越高</div>
-<!--//End-->
-
-<div class="st">
-   <h2>基础信息</h2>
-</div>
-<!--//End-->
-
-<form id="basicForm" action="" class="bd horizontal">
-
-    <div class="main">
-        <!-- <div class="group inheritor">
-            <label class="label" for=""><em>*</em>是否为自己申报传承人</label>
-            <div class="control">
-                <span name="sex_1" class="radio"><i></i><input type="radio" name="">是</span>
-                <span name="sex_0" class="radio active"><i></i><input type="radio" name="">否</span>
-                <div id="isApply_err" class="errors" style="display: none" ><i></i>请选择是否为自己申报传承人</div>
-            </div>
-        </div> -->
-        <div id="inheritor"></div>
-        {{#each sonterms}}
-            {{#equal dataType 107}}
-                 <div class="group">
-                    <label class="label" for="">性别</label>
-                    <div id="sex" data-id="{{id}}" class="control">
-                        {{#if ../../pageObj.contentFragmentList}}
-                            {{#ifAttribute ../../../pageObj.contentFragmentList ../../id}}
-                                {{#each ../../../../pageObj.contentFragmentList}}
-                                    {{#equal attributeId ../../id}}
-                                        <span id="sex_1" class="radio {{#equal ../content 1}}active{{/equal}}"><i></i><input type="radio" name="">男</span>
-                                        <span id="sex_0" class="radio {{#equal ../content 0}}active{{/equal}}"><i></i><input type="radio" name="">女</span>
-                                    {{/equal}}
-                                {{/each}}
-                            {{else}}
-                                <span id="sex_1" class="radio active"><i></i><input type="radio" name="">男</span>
-                                <span id="sex_0" class="radio"><i></i><input type="radio" name="">女</span>
-                            {{/ifAttribute}}
-                        {{else}}
-                            <span id="sex_1" class="radio active"><i></i><input type="radio" name="">男</span>
-                            <span id="sex_0" class="radio"><i></i><input type="radio" name="">女</span>
-                        {{/if}}
-                        <div id="isApply_err" class="errors" style="display: none" ><i></i>请选择性别</div>
-                    </div>
-                 </div>
-            {{/equal}}
-            {{#equal dataType 0}}
-                <div class="group">
-                    <label class="label">{{#equal id 13}}<em>*</em>{{/equal}}<!-- <em>*</em> -->{{cnName}}</label>
-                    <div class="control">
-                       <input value="{{getContent ../../pageObj.contentFragmentList id}}" id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" type="text" data-maxLength="{{maxLength}}" data-minLength="{{minLength}}" class="ipt w310">
-                       <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填写姓名</div>
-                    </div>
-                </div>
-            {{/equal}}
-            {{#equal dataType 7}}
-                <div id="img" class="group" data-id="{{id}}">
-                    <label class="label" for=""><!-- <em>*</em> -->照片</label>
-                    <div class="control">
-                        <div class="file_up">
-                            <span class="text">上传题图</span>
-                            {{#each ../../pageObj.contentFragmentList}}
-                                {{#equal attributeId 10}}
-                                    {{#each resourceList}}
-                                         <img style="display: block;" class="preview" src="{{handleUrl uri 0}}">
-                                    {{/each}}
-                                {{/equal}}
+<form id="form_inof">
+    <div class="in_Basics">
+        <div>
+            <h2>基础信息</h2>
+            <div>
+                <ul class="clear">
+                    <li>
+                        <label><em>*</em>姓名</label>
+                        <input type="text" name="userName" id="userName" data-id="13" value="">
+                    </li>
+                    <li>
+                        <label style="margin-left: 16px;">用其他名字或曾用名</label>
+                        <input type="text" name="otherName" id="otherName" data-id="156" value="">
+                    </li>
+                    <li class="clear">
+                        <label><em>*</em>性别</label>
+                        <b class="active" name="sex" data-type="0" data-id="16"></b><span>男</span>
+                        <b data-type="1" name="sex" data-id="16"></b><span>女</span>
+                    </li>
+                    <li>
+                        <label><em>*</em>国籍</label>
+                        <!--<input type="text" name="areaCode" id="" value="" />-->
+                        <select style="width: 384px; margin-left: 16px;" name="areaCode" id="areaCode" class="form_select" data-id="49">
+                            <option value="">请选择...</option>
+                            {{#each countrys}}
+                                {{#if code}}
+                                    <option value="{{code}}">{{name}}</option>
+                                {{/if}}
                             {{/each}}
-                        </div>
-                        <div class="tips">建议比例：x*x，不符合的图片将进行裁剪；格式：jpg\png</div>
-                        <div id="basic_{{id}}_err" class="errors" style="display: none" ><i></i>请上传图片</div>
-                    </div>
-                </div>
-            {{/equal}}
-            {{#equal dataType 101}}
-                {{#equal id 23}}
-                     <div class="group" style="z-index: 10;position: relative;">
-                        <label class="label" for=""><!-- <em>*</em> -->{{cnName}}</label>
-                        <div class="control">
-                            <div id="declare" class="ipt w650 select" data-type="selectArea" value="" data-id="{{id}}" >请选择申报地</div>
-                            <div class="area" id="area" style="{{#ifAttribute ../../../pageObj.contentFragmentList id }}display: block;{{/ifAttribute}}" >
-                                <div class="select" id="select" style="{{#ifAttribute ../../../pageObj.contentFragmentList id }}display: none;{{/ifAttribute}}"></div>
-                                <div class="selected" id="selected">
-                                    {{#each ../../../pageObj.contentFragmentList}}
-                                        {{#equal attributeId 23}}
-                                            {{#each addressCodes}}
-                                                <li><span>{{getAddressText this}}<i class="icon"></i></span></li>
-                                            {{/each}}
-                                        {{/equal}}
-                                    {{/each}}
+                        </select>
+                    </li>
+                    <li>
+                        <label><em>*</em>民族</label>
+                        <!--<input type="text" name="nation" id="" value="" />-->
+                        <!--<label><em>*</em>民{{base.nationCode}}族</label>-->
+                        <select style="margin-left: 16px; width: 384px;" name="nation" id="nation" class="form_select" data-id="17">
+                            <option value="">请选择...</option>
+                            {{#each nations}}
+                                <option value="{{code}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </li>
+
+                    <li>
+                        <label><em>*</em>证件类型</label>
+                        <!--<input type="text" name="documentType" id="" value="" />-->
+
+                        <select style="width: 384px; margin-left: 16px;" name="documentType" id="documentType" class="form_select" data-id="127">
+                            <option value="">请选择...</option>
+                            {{#each certificates}}
+                                <option value="{{code}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </li>
+
+                    <li style="margin-bottom: 37px; margin-top: 5px;">
+                        <label><em>*</em>证件号码</label>
+                        <input type="text" name="numBer" id="numBer" data-id="128" value="">
+                    </li>
+                    <li>
+                        <div class="add_cover">
+                            <label><em>*</em>证件照片 - 正面</label>
+                            <div id="justImg" class="sDiv" data-id="153">
+                                <div style="padding-top: 20%;">
+                                    <img src="../static/images/jia.png">
+                                    <p>上传照片</p>
                                 </div>
                             </div>
-                            <div class="errors" style="display: none"><i></i>请选择申报地</div>
+                            <div id="just_img" class="clear" style="color: red; display: none; margin-left: 20px;">请上传图片</div>
                         </div>
-                     </div>
-                {{else}}
-                    <div class="group">
-                        <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
-                        <div class="control">
-                            <select id="basic_{{id}}" name= "basic_{{id}}" data-id="{{id}}" class="ipt w310">
-                                {{#each ../../../countrys}}
-                                    {{#if code}}
-                                        <option {{#onGj ../../../../pageObj.contentFragmentList code ../id }}selected="selected"{{/onGj}} code="{{code}}" value="{{code}}">{{name}}</option>
-                                    {{/if}}
-                                {{/each}}
-                            </select>
-                            <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填写国籍</div>
+                    </li>
+                    <li>
+                        <!--<label><em>*</em>证件照片 - 反面</label>-->
+                        <!--<div class="sDiv">-->
+                        <!--<p>上传照片</p>-->
+                        <!--</div>-->
+                        <div class="add_cover">
+                            <label><em>*</em>证件照片 - 反面</label>
+                            <div id="backImg" class="sDiv" data-id="154">
+                                <div style="padding-top: 20%;">
+                                    <img src="../static/images/jia.png">
+                                    <p>上传照片</p>
+                                </div>
+                            </div>
+                            <div id="back_img" class="clear" style="color: red; display: none; margin-left: 20px;">请上传图片</div>
                         </div>
-                    </div>
-                {{/equal}}
-            {{/equal}}
-              {{#equal dataType 20}}
+                    </li>
+                </ul>
+                <!--照片-->
 
-                        {{/equal}}
-            {{#equal dataType 106}}
-                 <div class="group">
-                    <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
-                        <div class="control">
-                            <select id="basic_{{id}}" name= "basic_{{id}}" data-id="{{id}}" class="ipt w310">
-                                <option code="" value="">请选择</option>
-                                {{#each ../../fyGrade}}
-                                    <option {{#onGj ../../../pageObj.contentFragmentList code ../id }}selected="selected"{{/onGj}} code="{{code}}" value="{{code}}">{{name}}</option>
-                                {{/each}}
-                            </select>
-                        <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>请填非遗等级</div>
+                    <div>
+                        <label><em>*</em>照片</label>
+                        <div id="coverImg" class="uploda-div" data-id="113">
+                            <div style="padding-top: 20%;">
+                                <img src="../static/images/jia.png">
+                                <p>上传照片</p>
+                            </div>
+                        </div>
+                        <p>格式：jpg/png, 尺寸(560*420px)以上</p>
+                        <p style="color: red; display: none">请上传图片</p>
                     </div>
-                 </div>
-            {{/equal}}
-            {{#equal dataType 105}}
-                <div class="group">
-                    <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
-                    <div class="control">
-                        <select id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" class="ipt w310" name="">
-                            <option code="" value="">请选择</option>
-                            {{#each ../../nations}}
-                                <option {{#onGj ../../../pageObj.contentFragmentList code ../id }}selected="selected"{{/onGj}} code="{{code}}" value="{{code}}" >{{name}}</option>
-                            {{/each}}
-                        </select>
-                        <div class="errors" style="display: none"><i></i>请填写证件类型</div>
-                    </div>
-                </div>
-            {{/equal}}
-            {{#equal dataType 108}}
-                <div class="group">
-                    <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
-                    <div class="control">
-                        <select id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" class="ipt w310" name="">
-                            <option code="" value="">请选择</option>
-                            {{#each ../../certificates}}
-                                <option {{#onGj ../../../pageObj.contentFragmentList code ../id }}selected="selected"{{/onGj}} code="{{code}}" value="{{code}}" >{{name}}</option>
-                            {{/each}}
-                        </select>
-                        <div class="errors" style="display: none"><i></i>请填写证件类型</div>
-                    </div>
-                </div>
-            {{/equal}}
-            {{#equal dataType 3}}
-                <div class="group">
-                    <label class="label"><!-- <em>*</em> -->{{cnName}}</label>
-                    <div class="control">
-                        <input value="{{getContent ../../pageObj.contentFragmentList id}}" validate="true" check="required" id="basic_{{id}}" name="basic_{{id}}" data-id="{{id}}" type="text" class="ipt w310">
-                        <div id="basic_{{id}}_err" class="errors" style="display: none"><i></i>出生日期</div>
-                    </div>
-                </div>
-            {{/equal}}
-        {{/each}}
-        <!-- <div class="group">
-            <label class="label"><em>*</em>项目ID</label>
-            <div class="control">
-                <input value="{{ichProjectId}}" readonly="readonly" validate="true" id="basic_pid" type="text" class="ipt w310">
-                <div id="basic_pid_err" class="errors" style="display: none"><i></i>请填写证件号码</div>
+
             </div>
-         </div> -->
-         <div class="group">
-            <label class="label"><em>*</em>所属项目</label>
-            <div class="control">
-                <input data-id="{{ichProjectId}}" value="{{ichProjectName}}" readonly="readonly" validate="true" id="basic_pid" type="text" class="ipt w310">
-                <div id="basic_pid_err" class="errors" style="display: none"><i></i>请填写证件号码</div>
+        </div>
+        <div>
+            <h2>联系方式</h2>
+            <div>
+                <ul class="clear">
+                    <li>
+                        <label><em>*</em>手机号</label>
+                        <input type="text" name="phone" id="phone" value="" data-id="152">
+                    </li>
+                    <li>
+                        <label><em>*</em>电子邮箱</label>
+                        <input  type="text" name="email" id="email" value="" data-id="59">
+                    </li>
+                    <li>
+                        <label><em>*</em>详细地址</label>
+                        <input  type="text" name="address" id="address" value="" data-id="54">
+                    </li>
+                    <li>
+                        <label><em>*</em>邮编</label>
+                        <input  type="text" name="code" id="code" value="" data-id="56">
+                    </li>
+                </ul>
             </div>
-         </div>
-    </div>
-    <div class="handle">
-        <!-- <a href="">删除此项</a> -->
-        <a id="basic_active" class="active" href="javascript:void(0);">下一步</a>
-        <!-- <a href="">跳过此项</a> -->
+        </div>
+        <div>
+            <div id="errors" style="padding-bottom: 5px;color: red;line-height: 20px;"></div>
+            <input type="button" name="" id="on_submit" value="提交">
+        </div>
     </div>
 </form>

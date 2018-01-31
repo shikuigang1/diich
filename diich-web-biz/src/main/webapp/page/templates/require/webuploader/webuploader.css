@@ -7,15 +7,17 @@
     clip: rect(1px,1px,1px,1px);
 }
 .webuploader-pick {
-	position: relative;
-	display: inline-block;
-	cursor: pointer;
-	background: #00b7ee;
-	padding: 10px 15px;
-	color: #fff;
+	/*position: relative;*/
+	/*display: inline-block;*/
+	/*cursor: pointer;*/
+	/*background: #00b7ee;*/
+	/*padding: 10px 15px;*/
+	/*color: #fff;*/
 	text-align: center;
 	border-radius: 3px;
 	overflow: hidden;
+	/*width: 100%;*/
+	height: 100%;
 }
 .webuploader-pick-hover {
 	background: #00a2d4;
@@ -26,3 +28,30 @@
 	pointer-events:none;
 }
 
+.webuploader-echo-div {
+	width: 100%;
+	height:100%;
+	position:absolute;
+}
+.webuploader-echo-div .webuploader-echo-mongolia {
+	width: 100%;
+	position:absolute;
+	top:0px;
+	text-align: center;
+	background-color: #000000;
+	opacity: 0.5;
+}
+
+.webuploader-echo-div .webuploader-echo-mongolia span {
+	font-weight: bolder;
+	font-size: 15px;
+	color: #ffffff;
+}
+
+.webuploader-echo-div .webuploader-echo-mongolia {
+	display: none;
+}
+
+.webuploader-echo-div:hover .webuploader-echo-mongolia {
+	display: block;
+}

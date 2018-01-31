@@ -1732,11 +1732,11 @@
     
                     switch ( type ) {
                         case 'mouseenter':
-                            button.addClass('webuploader-pick-hover');
+                            //button.addClass('webuploader-pick-hover');
                             break;
     
                         case 'mouseleave':
-                            button.removeClass('webuploader-pick-hover');
+                            //button.removeClass('webuploader-pick-hover');
                             break;
     
                         case 'change':
@@ -1772,6 +1772,9 @@
                             button.outerHeight() : button.height(),
     
                     pos = button.offset();
+
+
+                console.log(" button.outerWidth -- >",button.outerWidth(), button.width())
     
                 width && height && shimContainer.css({
                     bottom: 'auto',
