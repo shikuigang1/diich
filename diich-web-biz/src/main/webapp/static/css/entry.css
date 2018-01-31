@@ -1461,7 +1461,7 @@ textarea.active::-webkit-scrollbar-track {/*滚动条里面轨道*/
 .in_Basics > div > div ul li{
     width: 50%;
     float: left;
-    margin-bottom: 36px;
+    margin-bottom: 35px;
 }
 .in_Basics > div:nth-child(1) > div ul li:nth-child(3){
     width: 100%;

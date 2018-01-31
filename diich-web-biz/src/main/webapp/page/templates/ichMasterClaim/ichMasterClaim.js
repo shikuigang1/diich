@@ -171,7 +171,7 @@ define(["text!ichMasterClaim/claim.tpl", "text!ichMasterClaim/claim-success.tpl"
                 if(result.code == 0 && result.msg == "SUCCESS") {
                     successTpl();
                 } else {
-                    tipBox.init("fail", result.res.msg, 1500);
+                    tipBox.init("fail", result.msg, 1500);
                 }
             })
 
