@@ -1,10 +1,67 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
+<head>
     <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+    <meta name="renderer" content="webkit"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta property="wb:webmaster" content="cb5cc5c20f10165d"/>
+    <title>非遗大数据平台-非遗资讯</title>
+    <!--STYLES-->
+    <link rel="stylesheet" href="../static/css/base.css">
+    <link rel="stylesheet" href="../static/css/entry.css">
+    <link rel="stylesheet" href="../page/templates/require/webuploader/webuploader.css">
+    <!--SCRIPT-->
+    <script type="text/javascript" src="../static/js/jquery.min.js"></script>
+    <script src="../page/templates/require/webuploader/webuploader.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.validate.js"></script>
+    <script src="../page/templates/require/require.js"></script>
+    <script src="../page/templates/require/handlebars.js"></script>
 
+    <script src="../js/util.js"></script>
+    <script src="../data/dictionary.js"></script>
+    <script type="text/javascript" src="../static/data/category.js"></script>
+    <script type="text/javascript" src="../static/data/citys.js"></script>
+    <script type="text/javascript" src="../static/js/base.js"></script>
+    <script type="text/javascript" src="/js/base-url.js"></script>
+    <script type="text/javascript" src="../static/js/login.js"></script>
+   <style type="text/css">
+       li div.error {
+           color: red;
+           margin-left: 16px;
+           margin-top: 5px;
+       }
+   </style>
+</head>
+<body class="entry">
+<div class="header normal"></div>
+<!--/End/--header-->
+
+<div class="project_content">
+    <div class="content_infor">
+        <div>
+            <h3>土家银器 - 传承人词条认领</h3>
+            <!--<span id="Preservation">保存</span>-->
+            <span style="display: none">上一步</span>
+        </div>
+    </div>
+
+    <div id="content"></div>
+
+</div>
+
+
+
+<div class="bd footer" id="footer"></div>
+<!--//End--footer-->
 </body>
+<script language="javascript" type="text/javascript">
+    $(function() {
+        $('.header .content .nav li').eq(2).addClass('active').siblings('li').removeClass('active');
+            require(["ichMasterClaim/ichMasterClaim"], function (ichMasterClaim) {
+                ichMasterClaim.init(dic_arr_city); // 初始化
+        })
+    });
+</script>
 </html>
