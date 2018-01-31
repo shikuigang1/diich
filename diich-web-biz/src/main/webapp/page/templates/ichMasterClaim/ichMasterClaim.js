@@ -59,68 +59,68 @@ define(["text!ichMasterClaim/claim.tpl", "text!ichMasterClaim/claim-success.tpl"
                 userName: {
                     required: true
                 },
-                //otherName: {
-                //    required: true
-                //},
-                //areaCode: {
-                //    required: true
-                //},
-                //nation: {
-                //    required: true
-                //},
-                //documentType: {
-                //    required: true
-                //},
-                //numBer: {
-                //    required: true
-                //},
-                //phone: {
-                //    required: true,
-                //    isMobile: true
-                //},
-                //email: {
-                //    required: true,
-                //    email: true
-                //},
-                //address: {
-                //    required: true
-                //},
-                //code: {
-                //    required: true
-                //}
+                otherName: {
+                    required: true
+                },
+                areaCode: {
+                    required: true
+                },
+                nation: {
+                    required: true
+                },
+                documentType: {
+                    required: true
+                },
+                numBer: {
+                    required: true
+                },
+                phone: {
+                    required: true,
+                    isMobile: true
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                address: {
+                    required: true
+                },
+                code: {
+                    required: true
+                }
             },
             messages: {
                 userName: {
                     required: "姓名不能为空"
                 },
-                //otherName: {
-                //    required: "曾用名不能为空"
-                //},
-                //areaCode: {
-                //    required: "国籍不能为空"
-                //},
-                //nation: {
-                //    required: "民族不能为空"
-                //},
-                //documentType: {
-                //    required: "证件类型不能为空"
-                //},
-                //numBer: {
-                //    required: "证件号码不能为空"
-                //},
-                //phone: {
-                //    required: "手机号码不能为空"
-                //},
-                //email: {
-                //    required: "邮箱不能为空",
-                //    email: "请输入正确的邮箱格式"
-                //},
-                //address: {
-                //    required: "详细地址不能为空"
-                //},
-                //code: {
-                //    required: "邮编不能为空"
-                //}
+                otherName: {
+                    required: "曾用名不能为空"
+                },
+                areaCode: {
+                    required: "国籍不能为空"
+                },
+                nation: {
+                    required: "民族不能为空"
+                },
+                documentType: {
+                    required: "证件类型不能为空"
+                },
+                numBer: {
+                    required: "证件号码不能为空"
+                },
+                phone: {
+                    required: "手机号码不能为空"
+                },
+                email: {
+                    required: "邮箱不能为空",
+                    email: "请输入正确的邮箱格式"
+                },
+                address: {
+                    required: "详细地址不能为空"
+                },
+                code: {
+                    required: "邮编不能为空"
+                }
             }
         })
 
