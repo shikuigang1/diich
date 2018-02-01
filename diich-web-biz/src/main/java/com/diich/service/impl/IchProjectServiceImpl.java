@@ -1194,6 +1194,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      * @param contentFragmentList
      * @throws Exception
      */
+    @SuppressWarnings("all")
     private void checkSubmitField(Attribute attribute, List<ContentFragment> contentFragmentList) throws Exception {
 
         int count = 0;
@@ -1202,7 +1203,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 continue;
             }
             if (attribute.getMaxLength() != null && (attribute.getId() == contentFragment.getAttributeId())) {
-                if (contentFragment.getContent() != null && contentFragment.getContent().trim().length() > attribute.getMaxLength()) {
+                if(attribute.getDataType() >= 100 && contentFragment.getContent() != null){
+                    String[] arr = contentFragment.getContent().split(",");
+                    if(arr.length > attribute.getMaxLength()){
+                        throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
+                    }
+                }
+                if (attribute.getDataType() < 100 && contentFragment.getContent() != null && contentFragment.getContent().trim().length() > attribute.getMaxLength()) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
                 }
             }
