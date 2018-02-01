@@ -566,7 +566,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                     contentFragment.setTargetId(mainVersionId);
                     contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
                 }
-                project.setStatus(1);//作废状态
+                project.setStatus(5);//作废状态
                 project.setLastEditDate(new Date());
                 for (ContentFragment contentFragment : contentFragments) {
                     contentFragment.setTargetId(id);

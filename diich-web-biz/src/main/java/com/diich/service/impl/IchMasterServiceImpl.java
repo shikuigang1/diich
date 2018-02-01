@@ -193,7 +193,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         if (ichMaster.getId() == null) {
             long id = IdWorker.getId();
             ichMaster.setId(id);
-            if(ichMaster.getStatus() == null || ichMaster.getStatus() != 3){
+            if (ichMaster.getStatus() == null || ichMaster.getStatus() != 3) {
                 ichMaster.setStatus(2);
             }
             if (user != null && user.getType() != null && user.getType() == 0) {
@@ -232,6 +232,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
 
     /**
      * 生成传承人页面
+     *
      * @param ichMaster
      * @throws Exception
      */
@@ -252,6 +253,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
 
     /**
      * 生成项目详情页
+     *
      * @param ichProject
      * @throws Exception
      */
@@ -297,9 +299,23 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         ichMaster.setStatus(2);
         ichMaster.setUri(branchId + ".html");
         ichMasterMapper.insertSelective(ichMaster);
-        List<ContentFragment> ichProjectContentFragmentList = ichMaster.getContentFragmentList();
-        if (ichProjectContentFragmentList != null && ichProjectContentFragmentList.size() > 0) {
-            for (ContentFragment contentFragment : ichProjectContentFragmentList) {
+        copyContentFragment(ichMaster, branchId);
+        //保存version表
+        Version version = new Version();
+        version.setId(IdWorker.getId());
+        version.setStatus(0);
+        version.setTargetType(1);
+        version.setMainVersionId(mainId);
+        version.setBranchVersionId(branchId);
+        version.setVersionType(1000);//版本  修改中, 已过期
+        versionMapper.insertSelective(version);
+        return ichMaster;
+    }
+
+    private void copyContentFragment(IchMaster ichMaster, Long branchId) throws Exception {
+        List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
+        if (contentFragmentList != null && contentFragmentList.size() > 0) {
+            for (ContentFragment contentFragment : contentFragmentList) {
                 contentFragment.setId(null);
                 contentFragment.setTargetId(branchId);
                 if (contentFragment.getAttributeId() != null) {
@@ -323,16 +339,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 contentFragmentService.saveContentFragment(contentFragment);
             }
         }
-        //保存version表
-        Version version = new Version();
-        version.setId(IdWorker.getId());
-        version.setStatus(0);
-        version.setTargetType(1);
-        version.setMainVersionId(mainId);
-        version.setBranchVersionId(branchId);
-        version.setVersionType(1000);//版本  修改中, 已过期
-        versionMapper.insertSelective(version);
-        return ichMaster;
     }
 
     /**
@@ -524,11 +530,11 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
      * @param doi
      */
     @Override
-    public void audit(Long id, User user, String doi) {
+    public void audit(Long id, User user, String doi) throws Exception{
         TransactionStatus transactionStatus = getTransactionStatus();
         try {
-            IchMaster ichMaster = ichMasterMapper.selectByPrimaryKey(id);
-            if(ichMaster == null){
+            IchMaster ichMaster = ichMasterMapper.selectMasterById(id);
+            if (ichMaster == null) {
                 throw new ApplicationException(ApplicationException.PARAM_ERROR, "该id对应的传承人不存在");
             }
             if (ichMaster != null && ichMaster.getStatus() != null && ichMaster.getStatus() != 3) {
@@ -537,13 +543,13 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             //根据id查询版本
             Version version = new Version();
             version.setBranchVersionId(id);
-            version.setTargetType(0);
+            version.setTargetType(1);
             version.setVersionType(1000);
             List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
             //查询是否为词条认领
             Version entver = new Version();
             entver.setBranchVersionId(id);
-            entver.setTargetType(0);
+            entver.setTargetType(1);
             entver.setVersionType(1002);
             List<Version> verList = versionMapper.selectVersionByVersionIdAndTargetType(entver);
             //判断是否有其他版本
@@ -563,7 +569,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                     contentFragment.setTargetId(mainVersionId);
                     contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
                 }
-                master.setStatus(1);//作废状态
+                master.setStatus(5);//作废状态
                 master.setLastEditDate(new Date());
                 for (ContentFragment contentFragment : contentFragments) {
                     contentFragment.setTargetId(id);
@@ -581,26 +587,26 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 ichMasterMapper.updateByPrimaryKeySelective(master);
                 //修改审核表信息
                 updateAudit(id, ichMaster.getId(), user);
-                if(ichMaster.getIchProjectId() != null){
+                if (ichMaster.getIchProjectId() != null) {
                     IchProject ichProject = ichProjectService.getIchProject(String.valueOf(ichMaster.getIchProjectId()));
-                    if(ichProject != null){
+                    if (ichProject != null) {
                         ichMaster.setIchProject(ichProject);
                         buildAndUploadProject(ichProject);//生成项目详情页并上传
                     }
                 }
                 //生成静态页并上传
-                buildAndUpload(ichMaster);
+//                buildAndUpload(ichMaster);
             } else if (verList.size() > 0) {
                 //审核词条认领
-                IchMaster master = auditEntry(ichMaster, user, verList);
-                if(master.getIchProjectId() != null){
+                IchMaster master = auditEntry(ichMaster, user, verList, doi);
+                if (master.getIchProjectId() != null) {
                     IchProject ichProject = ichProjectService.getIchProjectById(master.getIchProjectId());
-                    if(ichProject != null){
-                        ichMaster.setIchProject(ichProject);
+                    if (ichProject != null) {
+                        master.setIchProject(ichProject);
                     }
                 }
                 //生成静态页并上传
-              buildAndUpload(master);
+//                buildAndUpload(master);
             } else {//新增待审核的机构
                 //校验doi都编码是否重复
                 if (isDoiValable(doi)) {
@@ -621,19 +627,26 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 //获取项目其他信息用以生成静态页面
                 List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);
                 ichMaster.setContentFragmentList(contentFragmentList);
-                if(ichMaster.getIchProjectId() != null){
+                if (ichMaster.getIchProjectId() != null) {
                     IchProject ichProject = ichProjectService.getIchProject(String.valueOf(ichMaster.getIchProjectId()));
-                    if(ichProject != null){
+                    if (ichProject != null) {
                         ichMaster.setIchProject(ichProject);
                         buildAndUploadProject(ichProject);//生成项目详情页并上传
                     }
                 }
                 //生成静态页并上传
-                buildAndUpload(ichMaster);
+//                buildAndUpload(ichMaster);
             }
             commit(transactionStatus);
         } catch (Exception e) {
-
+            rollback(transactionStatus);
+            if (e instanceof ApplicationException) {
+                ApplicationException ae = (ApplicationException) e;
+                if (ae.getCode() == 2) {
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR, ae.getDetailMsg());
+                }
+            }
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
     }
 
@@ -648,46 +661,110 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         return false;
     }
 
-    private IchMaster auditEntry(IchMaster ichMaster, User user, List<Version> verList) throws Exception {
-        Version version = verList.get(0);
-        Long mainVersionId = version.getMainVersionId();
-        ichMaster.setStatus(1);
-        List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);//认领人信息
-        ichMaster.setLastEditDate(new Date());
-        IchMaster master = ichMasterMapper.selectByPrimaryKey(mainVersionId);//主版本内容
-        master.setUserId(user.getId());//认领人id
-        List<ContentFragment> contentFragments = getContentFragmentByMasterId(master);
-        //对外循环做个标记
-        Loop:
-        for (ContentFragment contentFragment : contentFragmentList) {
+    private IchMaster auditEntry(IchMaster ichMaster, User user, List<Version> verList, String doi) throws Exception {
+        try{
+            Version version = verList.get(0);
+            Long mainVersionId = version.getMainVersionId();
+            ichMaster.setStatus(0);
+            List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);//认领人信息
+            ichMaster.setLastEditDate(new Date());
+            IchMaster master = ichMasterMapper.selectByPrimaryKey(mainVersionId);//主版本内容
+            master.setUserId(user.getId());//认领人id
+            List<ContentFragment> contentFragments = getContentFragmentByMasterId(master);
+            //对外循环做个标记
+            List<ContentFragment> newList = new ArrayList<>();
+            Loop:
             for (ContentFragment content : contentFragments) {
-                if (content.getAttributeId() != null && contentFragment.getAttributeId() != null && content.getAttributeId().equals(contentFragment.getAttributeId())) {//相同属性
-                    content.setContent(contentFragment.getContent());
-                    if (contentFragment.getResourceList() != null && contentFragment.getResourceList().size() > 0) {
-                        //查询中间表获取图片信息
-                        List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
-                        for (ContentFragmentResource contentFragmentResource : contentFragmentResourceList) {
-                            contentFragmentResource.setContentFragmentId(content.getId());
-                            contentFragmentResourceMapper.updateByPrimaryKeySelective(contentFragmentResource);//图片直接追加
-                        }
-
+                for (ContentFragment contentFragment : contentFragmentList) {
+                    if (content.getAttributeId() != null && contentFragment.getAttributeId() != null && content.getAttributeId().equals(contentFragment.getAttributeId())) {//相同属性
+                        continue Loop;
                     }
-                    continue Loop;//跳出里层循环继续外层循环
-                } else {//如果不是同一属性
-                    contentFragment.setTargetId(mainVersionId);
-                    contentFragmentMapper.insertSelective(contentFragment);
                 }
 
+                //不是同一属性 当前传承人新加一条内容
+                ContentFragment contentFragment = getContentFragment(content, ichMaster.getId());
+                newList.add(contentFragment);
             }
+            if (newList.size() > 0) {//将新加的contentFragment添加到原contentFragment列表
+                contentFragmentList.addAll(newList);
+            }
+            //交换主副版本内容
+            for (ContentFragment contentFragment : contentFragmentList) {
+                if (contentFragment.getAttributeId() == 11 && StringUtils.isNotEmpty(doi)) {
+                    contentFragment.setContent(doi);
+                }
+                contentFragment.setTargetId(mainVersionId);
+                contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+            }
+            master.setStatus(5);//作废状态
+            master.setLastEditDate(new Date());
+            for (ContentFragment contentFragment : contentFragments) {
+                contentFragment.setTargetId(ichMaster.getId());
+                contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+            }
+            ichMaster.setId(mainVersionId);
+            ichMaster.setLastEditorId(master.getLastEditorId());
+            ichMaster.setUri(master.getUri());
+            master.setId(version.getBranchVersionId());
+            master.setLastEditorId(ichMaster.getLastEditorId());
+            master.setUri(ichMaster.getUri());
+
+            ichMasterMapper.updateByPrimaryKeySelective(ichMaster);//更新项目表
+            ichMasterMapper.updateByPrimaryKeySelective(master);//更新主版本项目的userId
+            version.setVersionType(1003);//认领结束
+            versionMapper.updateByPrimaryKeySelective(version);//更新版本表
+            updateAudit(ichMaster.getId(), mainVersionId, user);//更新审核表
+            contentFragments = getContentFragmentByMasterId(master);
+            master.setContentFragmentList(contentFragments);
+            return master;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
-        ichMasterMapper.updateByPrimaryKeySelective(ichMaster);//更新项目表
-        ichMasterMapper.updateByPrimaryKeySelective(master);//更新主版本项目的userId
-        version.setVersionType(1003);//认领结束
-        versionMapper.updateByPrimaryKeySelective(version);//更新版本表
-        updateAudit(ichMaster.getId(), mainVersionId, user);//更新审核表
-        contentFragments = getContentFragmentByMasterId(master);
-        master.setContentFragmentList(contentFragments);
-        return master;
+
+    }
+
+    private ContentFragment getContentFragment(ContentFragment content, Long targetId) throws Exception {
+        ContentFragment contentFragment = new ContentFragment();
+        contentFragment.setId(null);
+        contentFragment.setTargetId(targetId);
+        contentFragment.setContent(content.getContent());
+        contentFragment.setAttributeId(content.getAttributeId());
+        contentFragment.setTargetType(1);
+        Attribute attribute = content.getAttribute();
+        contentFragment.setAttribute(attribute);
+        if (attribute != null && attribute.getTargetType() != null && attribute.getTargetType() == 11) {
+            long id = IdWorker.getId();
+            Attribute attr = new Attribute();
+            attr.setId(id);
+            attr.setTargetId(targetId);
+            attr.setTargetType(11);
+            attr.setCnName(attribute.getCnName());
+            attr.setSeq(999);
+            attr.setStatus(0);
+            attr.setDataType(attribute.getDataType());
+            attributeMapper.insertSelective(attribute);
+            contentFragment.setAttribute(attribute);
+            contentFragment.setAttributeId(id);
+        }
+        List<Resource> resourceList = content.getResourceList();
+        if (resourceList != null && resourceList.size() > 0) {
+            List<Resource> resList = new ArrayList<>();
+            for (int i = 0; i < resourceList.size(); i++) {
+                Resource resource = resourceList.get(i);
+                Resource res = new Resource();
+                res.setUri(resource.getUri());
+                res.setStatus(0);
+                res.setDescription(resource.getDescription());
+                res.setType(resource.getType());
+                resList.add(res);
+            }
+            contentFragment.setResourceList(resList);
+        }
+        contentFragmentService.saveContentFragment(contentFragment);
+
+        return contentFragment;
+
     }
 
     private void updateAudit(Long id, Long targetId, User user) throws Exception {
@@ -1047,30 +1124,30 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
 
     @Override
     public Page<IchMaster> getEntryByUserId(Map<String, Object> params) throws Exception {
-            Integer current = 1;
-            Integer pageSize = 50;
-            if (params != null && params.containsKey("current")) {
-                current = (Integer) params.get("current");
+        Integer current = 1;
+        Integer pageSize = 50;
+        if (params != null && params.containsKey("current")) {
+            current = (Integer) params.get("current");
+        }
+        if (params != null && params.containsKey("pageSize")) {
+            pageSize = (Integer) params.get("pageSize");
+        }
+        int offset = (current - 1) * pageSize;
+        RowBounds rowBounds = new RowBounds(offset, pageSize);
+        Page<IchMaster> page = new Page();
+        try {
+            List<IchMaster> ichMasterList = ichMasterMapper.selectEntryByUserAndStatus(params, rowBounds);
+            for (IchMaster ichMaster : ichMasterList) {
+                List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);
+                ichMaster.setContentFragmentList(contentFragmentList);
             }
-            if (params != null && params.containsKey("pageSize")) {
-                pageSize = (Integer) params.get("pageSize");
-            }
-            int offset = (current - 1) * pageSize;
-            RowBounds rowBounds = new RowBounds(offset, pageSize);
-            Page<IchMaster> page = new Page();
-            try {
-                List<IchMaster> ichMasterList = ichMasterMapper.selectEntryByUserAndStatus(params, rowBounds);
-                for (IchMaster ichMaster : ichMasterList) {
-                    List<ContentFragment> contentFragmentList = getContentFragmentByMasterId(ichMaster);
-                    ichMaster.setContentFragmentList(contentFragmentList);
-                }
-                page.setRecords(ichMasterList);
-                int total = ichMasterMapper.selectEntryCountByUserAndStatus(params);
-                page.setTotal(total);//查询数量
-            } catch (Exception e) {
-                throw new ApplicationException(ApplicationException.INNER_ERROR);
-            }
-            return page;
+            page.setRecords(ichMasterList);
+            int total = ichMasterMapper.selectEntryCountByUserAndStatus(params);
+            page.setTotal(total);//查询数量
+        } catch (Exception e) {
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return page;
     }
 
     public boolean isClaimed(Long masterId) throws Exception {
