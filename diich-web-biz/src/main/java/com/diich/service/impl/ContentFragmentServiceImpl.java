@@ -200,8 +200,14 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
                 }
             }
             if (attribute != null && attribute.getMaxLength() != null) {
+                if(attribute.getDataType() >= 100 && contentFragment.getContent() != null){
+                    String[] arr = contentFragment.getContent().split(",");
+                    if(arr.length > attribute.getMaxLength()){
+                        throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
+                    }
+                }
                 String content = contentFragment.getContent().trim();
-                if (content != null && content.trim().length() > attribute.getMaxLength()) {
+                if (attribute.getDataType() < 100 && content != null && content.trim().length() > attribute.getMaxLength()) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
                 }
             }
