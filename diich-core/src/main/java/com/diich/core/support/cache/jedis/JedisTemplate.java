@@ -7,13 +7,12 @@ import org.apache.logging.log4j.Logger;
 import com.diich.core.util.InstanceUtil;
 import com.diich.core.util.PropertiesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.stereotype.Component;
 
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.*;
 import redis.clients.jedis.JedisShardInfo;
-import redis.clients.jedis.ShardedJedis;
-import redis.clients.jedis.ShardedJedisPool;
 
 /**
  */
@@ -41,6 +40,46 @@ public class JedisTemplate {
         }
         return shardedJedisPool.getResource();
     }
+
+    public void  setCrud(String key, String value) {
+        ShardedJedis jedis = getJedis();
+        if (jedis == null) {
+            return ;
+        }
+
+        try {
+            //if (!jedis.exists(key)) {
+                 jedis.set(key,value);
+            //}
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+
+    }
+
+
+    public String  getCrud(String key) {
+        ShardedJedis jedis = getJedis();
+        if (jedis == null) {
+            return "";
+        }
+        try {
+                return jedis.get(key);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return "";
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+
+    }
+
 
     public <K> K run(String key, Executor<K> executor, Integer... expire) {
         ShardedJedis jedis = getJedis();
