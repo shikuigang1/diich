@@ -324,7 +324,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
     public void audit(Long id, User user, String doi) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
         try {
-            Organization organization = organizationMapper.selectByPrimaryKey(id);
+            Organization organization = organizationMapper.selectOrganizationById(id);
             if(organization == null){
                 throw new ApplicationException(ApplicationException.PARAM_ERROR, "该id对应的机构不存在");
             }
@@ -334,7 +334,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             //根据id查询版本
             Version version = new Version();
             version.setBranchVersionId(id);
-            version.setTargetType(0);
+            version.setTargetType(3);
             version.setVersionType(1000);
             List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
             //判断是否有其他版本
@@ -354,7 +354,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
                     contentFragment.setTargetId(mainVersionId);
                     contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
                 }
-                organ.setStatus(1);//作废状态
+                organ.setStatus(5);//作废状态
                 organ.setLastEditDate(new Date());
                 for (ContentFragment contentFragment : contentFragments) {
                     contentFragment.setTargetId(id);
@@ -555,6 +555,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
      * @param contentFragmentList
      * @throws Exception
      */
+    @SuppressWarnings("all")
     private void checkSubmitField(Attribute attribute, List<ContentFragment> contentFragmentList) throws Exception {
 
         int count = 0;
@@ -563,7 +564,14 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
                 continue;
             }
             if (attribute.getMaxLength() != null && (attribute.getId() == contentFragment.getAttributeId())) {
-                if (contentFragment.getContent() != null && contentFragment.getContent().trim().length() > attribute.getMaxLength()) {
+
+                if(attribute.getDataType() >= 100 && contentFragment.getContent() != null){
+                    String[] arr = contentFragment.getContent().split(",");
+                    if(arr.length > attribute.getMaxLength()){
+                        throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
+                    }
+                }
+                if (attribute.getDataType() < 100 && contentFragment.getContent() != null && contentFragment.getContent().trim().length() > attribute.getMaxLength()) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
                 }
             }

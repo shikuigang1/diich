@@ -2,7 +2,7 @@ if(typeof base_url == 'undefined') {
     base_url = '';
 }
 
-base_url='http://47.95.32.236/'
+// base_url='http://47.95.32.236/'
 
 //引入其他js 文件
  document.write("<script type=\"text/javascript\" src=\""+base_url+"/data/error_message.js\"></script>");
@@ -677,7 +677,7 @@ function  resetPass(){
 var filterpage= ['/ichpro.html','/ichProForm.html','/ichProContent.html',
     '/ichMasterForm.html','/center.html','/userinfoAdd.html',
     '/createMastorSelect.html'
-    ,'/organization.html'];
+    ,'/organization.html', '/ichMasterClaim.html'];
 
 //登录后显示
 function loginedTemplate(data) {

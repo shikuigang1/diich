@@ -654,18 +654,14 @@
 </body>
 </html>
 <script>
-    $(function() {
-        //去掉头部标记
-        $(".header .content .nav li").eq(0).removeClass("active");
-        //给logo加首页链接
-        $('.logo').attr('href','${caturi}/page/index.html');
-
-    });
     $(function(){
         $('.side_fixed li').each(function(i){
             if(i>=9){
                 $(this).find('strong').html(i+1)
             }
-        })
+        });
+
+        //去掉头部标记
+        $(".header .content .nav li").eq(0).removeClass("active");
     })
 </script>

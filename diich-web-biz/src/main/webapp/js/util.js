@@ -350,3 +350,163 @@ var myDialog = {
     }
 
 }
+
+// 认领词条上传
+var newUpload =  {
+    // 模板
+    tmp: '<div style="padding-top: 20%;">' +
+        '<img src="../static/images/jia.png">' +
+        '<p>上传照片</p>' +
+        '</div>',
+
+    // 创建上传
+    create: function(id, url, params, callback) {
+        var path = "";
+        var objdata = {
+            upfile_endpoint: "",//上传地址
+            upfile_nametype:'random_name',//local_name random_name  上传文件的文件名类型
+            upfile_defaltdir: url//上传路径 多层  格式  upload/floder1/floder2
+        };
+        // 获取oss 相关参数
+        $.ajax({
+            type : "post",
+            url : base_url + '/file/getPolicy',
+            timeout : 10000,
+            data : {},
+            success : function(str) {
+                //console.log("str -- >", str);
+                if (str) {
+                    try {
+                        var re = JSON.parse(str);
+                        // 构建上传oss参数
+                        objdata.osssignature = {
+                            'key' : url + re["filename"],//生成文件路径,
+                            'policy': re["policy"],
+                            'OSSAccessKeyId': re["accessid"],
+                            'success_action_status' : '200', //让服务端返回200,不然，默认会返回204
+                            'signature': re["signature"]
+                        };
+                        objdata.upfile_endpoint = re["host"];
+                    } catch (e) {
+                        alert("系统错误");
+                    }
+                } else {
+                    alert("结果为空");
+                }
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("ajax error");
+            },
+            complete : function(XMLHttpRequest,status){ //请求完成后最终执行参数
+                if(status == 'timeout'){
+                    alert('请求超时，请稍后再试！');
+                }
+            },
+            async : false
+        });
+
+        //console.log("objdata.osssignature -- >", objdata)
+        // 初始化上传
+        var uploader = WebUploader.create({
+
+            // 选完文件后，是否自动上传。
+            auto: true,
+
+            // swf文件路径
+            swf:  + '../require/webuploader/Uploader.swf',
+
+            // 文件接收服务端。
+            server: objdata.upfile_endpoint,
+
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#' + id,
+
+            // 只允许选择图片文件。
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                //mimeTypes: 'image/*'
+                mimeTypes: 'image/jpg,image/jpeg,image/png'
+            }
+        });
+
+        // 当有文件添加进来的时候
+        uploader.on( 'fileQueued', function( file ) {
+            file["width"] = params["width"] ? params["width"] : "244px";
+            file["height"] = params["height"] ? params["height"] : "172px";
+            var mheight = $("#" + id).height();
+
+            var $li = $(
+                    '<div id="' + file.id + '" class="webuploader-echo-div">' +
+                    '<img style="width: 100%; height:' + mheight + 'px">' +
+                    '<div class="webuploader-echo-mongolia" style="line-height:' + mheight + 'px;"><span id="delete-' + file.id + '" >删除</span></div>' +
+                    '</div>'
+                ),
+                $img = $li.find('img');
+
+            $("#" + id).html($li);
+
+            // 创建缩略图
+            // 如果为非图片文件，可以不用调用此方法。
+            // thumbnailWidth x thumbnailHeight 为 100 x 100
+            uploader.makeThumb(file, function (error, src) {
+                if (error) {
+                    $img.replaceWith('<span>不能预览</span>');
+                    return;
+                }
+                $img.attr('src', src);
+            }, file.width.replace("px", ""), file.width.replace("px", ""));
+
+            // 监听删除
+            newUpload.delete(url, params, callback);
+
+        })
+
+        // 处理访问前参数
+        uploader.on('uploadBeforeSend', function(obj, data, headers) {
+
+            // 赋值参数
+            data = $.extend(data, objdata.osssignature);
+            data.key = data.key + "." + obj.file.ext;
+            data.filepath = data.key;
+            path =  data.key; // 记录用户上传的图片地址
+            headers['Access-Control-Allow-Origin'] = "*"
+            //console.log("data -- >", data)
+        });
+
+        // 上传成功
+        uploader.on("uploadSuccess", function(file) {
+            var res = {
+                path: path,
+                msg: "上传成功",
+                code: "1"
+            }
+            callback(res);
+        });
+
+        // 上传失败
+        uploader.on("uploadError", function(file) {
+            var res = {
+                path: path,
+                msg: "上传失败",
+                code: "0"
+            }
+            callback(res);
+        });
+    },
+
+    // 删除插件
+    delete: function(url, params, callback) {
+        $("[id^='delete-']").off().on("click", function() {
+            var thisID = $(this).attr("id");
+            var id = $("#" + thisID).parent().parent().parent().attr("id")
+            var cid = thisID.split("-").pop();
+
+            //console.log(thisID)
+            $("#" + cid).remove();
+            $("#" + id).html(newUpload.tmp)
+            newUpload.create(id, url, params, callback);
+        })
+    }
+}
