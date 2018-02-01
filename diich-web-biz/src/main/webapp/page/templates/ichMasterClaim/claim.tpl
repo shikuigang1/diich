@@ -90,7 +90,7 @@
 
                     <div>
                         <label><em>*</em>照片</label>
-                        <div id="coverImg" class="uploda-div" data-id="113">
+                        <div id="coverImg" class="uploda-div" data-id="155">
                             <div style="padding-top: 20%;">
                                 <img src="../static/images/jia.png">
                                 <p>上传照片</p>
