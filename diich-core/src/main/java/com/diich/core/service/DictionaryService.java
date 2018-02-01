@@ -14,4 +14,11 @@ public interface DictionaryService {
 
     List<Dictionary> getAllDictionary() throws Exception;
 
+    List<Dictionary> getDictionaryListByParentID(Long parent_id,int type) throws Exception;
+
+    String getJSONStrByParentID(String parentId,int type);
+
+
+    //void updateService(Dictionary dictionary);
+
 }
