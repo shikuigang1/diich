@@ -1,10 +1,14 @@
 package com.diich.service.impl;
 
+import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.Dictionary;
 import com.diich.core.service.DictionaryService;
+import com.diich.core.support.cache.JedisHelper;
+import com.diich.core.support.cache.RedisHelper;
 import com.diich.mapper.DictionaryMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +27,9 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
 
     @Autowired
     private DictionaryMapper dictionaryMapper;
+
+    @Autowired
+    private JedisHelper jedisHelper;
 
 
     public List<Dictionary> getDictionaryListByType(Integer type, String language) throws Exception {
@@ -115,6 +122,38 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
         }
 
         return dictionaryList;
+    }
+
+    @Override
+    public List<Dictionary> getDictionaryListByParentID(Long parent_id,int type)throws Exception {
+
+        Map<String,Object> params = new HashMap<String,Object>();
+
+        params.put("parentId",parent_id);
+        params.put("type",type);
+        params.put("language",Constants.LANGUAGE_CHINA);//默认只获取中文
+
+        List<Dictionary> chidrenList = null;
+        try {
+             chidrenList =  dictionaryMapper.selectByParentId(params);
+        } catch (Exception e) {
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+
+        return chidrenList;
+    }
+
+    @Override
+    public String getJSONStrByParentID(String parentId,int type) {
+
+        String  res = "";
+        if(parentId == null){
+            res = jedisHelper.getCrud(Constants.DICTIONARY_KEY);
+        }else{
+            res = jedisHelper.getCrud(Constants.DICTIONARY_KEY+parentId);
+        }
+
+        return res;
     }
 
 
