@@ -43,6 +43,14 @@ public interface Constants {
     public static final String ALLUSER_NUMBER = "SYSTEM:" + CACHE_NAMESPACE + "ALLUSER_NUMBER";
     /** TOKEN */
     public static final String TOKEN_KEY = CACHE_NAMESPACE + "TOKEN_KEY";
+    /**字典表数据 redis key */
+    public static final String DICTIONARY_KEY = "DIC_";
+
+    /**中文 标记 */
+    public static final String LANGUAGE_CHINA = "chi";
+    /**英文 标记 */
+    public static final String LANGUAGE_ENGLISH = "eng";
+
 
     /** 日志表状态 */
     public interface JOBSTATE {
