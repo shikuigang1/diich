@@ -30,6 +30,7 @@ import redis.clients.jedis.Tuple;
 public class JedisHelper implements CacheManager {
 
 
+	@Autowired
 	JedisTemplate jedisTemplate;
 
 	@Autowired
@@ -70,6 +71,14 @@ public class JedisHelper implements CacheManager {
 				return jedis.set(key, JSON.toJSONString(value));
 			}
 		});
+	}
+
+	public void setCrud(String key , String value){
+		jedisTemplate.setCrud(key,value);
+	}
+
+	public String getCrud(String key){
+		return jedisTemplate.getCrud(key);
 	}
 
 	public final void set(final String key, final Serializable value, final int seconds) {
