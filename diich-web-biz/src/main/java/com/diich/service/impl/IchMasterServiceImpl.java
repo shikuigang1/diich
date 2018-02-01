@@ -595,7 +595,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                     }
                 }
                 //生成静态页并上传
-//                buildAndUpload(ichMaster);
+                buildAndUpload(ichMaster);
             } else if (verList.size() > 0) {
                 //审核词条认领
                 IchMaster master = auditEntry(ichMaster, user, verList, doi);
@@ -606,7 +606,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                     }
                 }
                 //生成静态页并上传
-//                buildAndUpload(master);
+                buildAndUpload(master);
             } else {//新增待审核的机构
                 //校验doi都编码是否重复
                 if (isDoiValable(doi)) {
@@ -635,7 +635,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                     }
                 }
                 //生成静态页并上传
-//                buildAndUpload(ichMaster);
+                buildAndUpload(ichMaster);
             }
             commit(transactionStatus);
         } catch (Exception e) {
