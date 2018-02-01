@@ -1,9 +1,11 @@
 package com.diich.controller;
 
+import com.diich.core.Constants;
 import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.Dictionary;
 import com.diich.core.service.DictionaryService;
+import com.diich.core.support.cache.RedisHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,8 @@ public class DictionaryController extends BaseController<Dictionary> {
 
     @Autowired
     private DictionaryService dictionaryService;
+
+
 
     @RequestMapping("getDictionariesByType")
     @ResponseBody
@@ -111,5 +115,30 @@ public class DictionaryController extends BaseController<Dictionary> {
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(list);
     }
+
+
+    //获取当前地区子地区接口
+    @RequestMapping("getChildenByParentId")
+    @ResponseBody
+    public Map<String,Object> getChildenByParentId(String parentId,int type,HttpServletResponse response){
+
+        String  childen = null;
+        try {
+            childen = dictionaryService.getJSONStrByParentID(parentId,type);
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(childen);
+    }
+
+    //主动 区域数据初始化
+    @RequestMapping("initData")
+    @ResponseBody
+    public void initData(String parentID,HttpServletResponse response){
+
+    }
+
 
 }
