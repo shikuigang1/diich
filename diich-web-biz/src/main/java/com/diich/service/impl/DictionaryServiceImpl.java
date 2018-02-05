@@ -1,5 +1,7 @@
 package com.diich.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.diich.core.Constants;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
@@ -155,6 +157,54 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
 
         return res;
     }
+
+    @Override
+    public String getJSONStrByID(String Id) {
+        String  res = "";
+        if(Id == null){
+            //res = jedisHelper.getCrud(Constants.DICTIONARY_KEY);
+        }else{
+            res = jedisHelper.getCrud(Constants.DICTIONARY_KEY_SINGLE+Id);
+        }
+        return res;
+    }
+
+    @Override
+    public String getTextByTypeAndCodeFromRedis(Integer type, String code, String language) throws Exception {
+
+        String jsonStr = jedisHelper.getCrud(Constants.DICTIONARY_CODE+type+"_"+code);
+
+        String name = "";
+
+        if(jsonStr != null && !jsonStr.equals("")){
+            Dictionary dictionary = JSON.parseObject(jsonStr, new TypeReference<Dictionary>() {});
+            name = getDicParentNameById(String.valueOf(dictionary.getId()));
+        }
+
+        return name;
+    }
+
+    @Override
+    public String getDicParentNameById(String id){
+
+        String parentName="";
+
+        String json = getJSONStrByID(id);
+        //json 转换成对象
+        if(null != json  && !json.equals("") ){
+            Dictionary dictionary = JSON.parseObject(json, new TypeReference<Dictionary>() {});
+            //parentName =dictionary.getName()+parentName;
+            if(dictionary.getParentId() != null){
+                parentName = dictionary.getName() + parentName;
+                return getDicParentNameById(String.valueOf(dictionary.getParentId()))+parentName;
+            }else{
+                return parentName;
+            }
+        }
+        return parentName;
+
+    }
+
 
 
     public String getText(int type, String code) throws Exception {
