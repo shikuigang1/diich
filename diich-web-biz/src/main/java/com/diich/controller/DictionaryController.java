@@ -1,5 +1,7 @@
 package com.diich.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.diich.core.Constants;
 import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
@@ -25,8 +27,6 @@ public class DictionaryController extends BaseController<Dictionary> {
 
     @Autowired
     private DictionaryService dictionaryService;
-
-
 
     @RequestMapping("getDictionariesByType")
     @ResponseBody
@@ -86,6 +86,42 @@ public class DictionaryController extends BaseController<Dictionary> {
         return putDataToMap(name);
     }
 
+
+    @RequestMapping("getTextByTypeAndCodeFromRedis")
+    @ResponseBody
+    public Map<String, Object> getTextByTypeAndCodeFromRedis(HttpServletRequest request,HttpServletResponse response) {
+        String code = request.getParameter("code");
+        String language = request.getParameter("language");
+        Integer type = null;
+        String name = null;
+
+        if(language == null) {
+            language = "chi";
+        }
+
+        try {
+            type = Integer.parseInt(request.getParameter("type"));
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+
+        if(code == null || "".equals(code)) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+
+        try {
+            name = dictionaryService.getTextByTypeAndCodeFromRedis(type, code, language);
+
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(name);
+    }
+
+
+
     @RequestMapping("getAllDictionary")
     @ResponseBody
     public Map<String, Object> getAllDictionary(HttpServletResponse response) {
@@ -133,6 +169,22 @@ public class DictionaryController extends BaseController<Dictionary> {
         return putDataToMap(childen);
     }
 
+    //获取当前地区子地区接口
+    @RequestMapping("getParentNameById")
+    @ResponseBody
+    public Map<String,Object> getParentNameById(String id,int type,HttpServletResponse response){
+
+        String parentName = null;
+
+        //dictionaryService.getJSONStrByParentID
+        if(type == 101){
+            parentName =dictionaryService.getDicParentNameById(id);
+        }
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(parentName);
+    }
+
     //主动 区域数据初始化
     @RequestMapping("initData")
     @ResponseBody
@@ -140,5 +192,24 @@ public class DictionaryController extends BaseController<Dictionary> {
 
     }
 
+/*    public String getDicParentName(String id){
+
+        String parentName="";
+
+        String json = dictionaryService.getJSONStrByID(id);
+        //json 转换成对象
+        if(null != json  && !json.equals("") ){
+            Dictionary dictionary = JSON.parseObject(json, new TypeReference<Dictionary>() {});
+            //parentName =dictionary.getName()+parentName;
+            if(dictionary.getParentId() != null){
+                parentName = dictionary.getName() + parentName;
+                return getDicParentName(String.valueOf(dictionary.getParentId()))+parentName;
+            }else{
+                return parentName;
+            }
+        }
+        return parentName;
+
+    }*/
 
 }
