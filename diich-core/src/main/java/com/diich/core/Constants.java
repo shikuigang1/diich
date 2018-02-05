@@ -45,6 +45,10 @@ public interface Constants {
     public static final String TOKEN_KEY = CACHE_NAMESPACE + "TOKEN_KEY";
     /**字典表数据 redis key */
     public static final String DICTIONARY_KEY = "DIC_";
+    public static final String DICTIONARY_KEY_SINGLE = "D_";
+
+    public static final String DICTIONARY_CODE = "C_";
+    //public static final String DICTIONARY_KEY_SINGLE = "D_";
 
     /**中文 标记 */
     public static final String LANGUAGE_CHINA = "chi";
