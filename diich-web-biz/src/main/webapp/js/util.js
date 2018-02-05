@@ -17,6 +17,12 @@ function getTextByTypeAndCode(type, code, lang) {
 
     var text = '';
 
+    if(type == 101 ){
+       text =  getDicByCodeTypeAndLanguage(type,code,lang);
+        return text != '' ? text : code;
+    }
+
+
     for (var i = 0; i < dic_arr.length; i++) {
         var dic_obj = dic_arr[i];
         if (dic_obj.type == type && dic_obj.code == code
@@ -25,7 +31,7 @@ function getTextByTypeAndCode(type, code, lang) {
             if (dic_obj.parent_id == null) {
                 break;
             } else {
-                var parent_text = getDictionaryById(dic_obj.parent_id);
+                var parent_text = getDictionaryById(dic_obj.parent_id,type);
                 text = parent_text + text;
             }
             break;
@@ -43,33 +49,60 @@ function getTextByTypeAndCode(type, code, lang) {
         }
     }
 
+
+
+
     return text != '' ? text : code;
 }
 /**
- * 根据id查询字典表数据
+ * 根据id查询字典表数据  (获取地区父类名称)
  * @param id
  * @returns {string}
  */
-function getDictionaryById(id) {
+function getDictionaryById(id,type) {
+    
     var text = '';
 
-    for (var i = 0; i < dic_arr.length; i++) {
-        var dic_obj = dic_arr[i];
-        if (dic_obj.id != id) {
-            continue;
-        }
+    if(type == 101){
+        $.ajax({
+            type: 'post',
+            url: base_url+'/dictionary/getParentNameById',
+            data: {'parentId':id},
+            dataType: 'json',
+            async:false,
+            beforeSend:function() {
+            },
+            success: function(data) {
+                if(data.code==0){
+                    text = data.data
+                }
+            },
+            error: function () {
+            },
+            complete: function () {
+            }
+        });
+    }else {
+        for (var i = 0; i < dic_arr.length; i++) {
+            var dic_obj = dic_arr[i];
+            if (dic_obj.id != id) {
+                continue;
+            }
 
-        text = dic_obj.name + text;
+            text = dic_obj.name + text;
 
-        if (dic_obj.parent_id == null) {
-            break;
-        } else {
-            var parent_text = getDictionaryById(dic_obj.parent_id);
-            text = parent_text + text;
+            if (dic_obj.parent_id == null) {
+                break;
+            } else {
+                var parent_text = getDictionaryById(dic_obj.parent_id,type);
+                text = parent_text + text;
+            }
         }
     }
 
     return text;
+
+   // return text;
 }
 /**
  * 获取同一类型的字典数据
@@ -141,7 +174,7 @@ function getCategoryById(id) {
         if (category.parent_id == null) {
             break;
         } else {
-            var parent_text = getCategoryById(category.parent_id);
+             var parent_text = getCategoryById(category.parent_id);
             text = parent_text + text;
         }
     }
@@ -233,9 +266,61 @@ function getMsgByCode(code, lang) {
     } else {
         return error_message[code].enMsg;
     }
-
-
 }
+/**
+ *
+ */
+function  getDicData(parentId) {
+
+    var data =[];
+    $.ajax({
+        type: 'post',
+        url:base_url+ '/dictionary/getChildenByParentId',
+        data: {'parentId':parentId},
+        dataType: 'json',
+        async:false,
+        beforeSend:function() {
+        },
+        success: function(data) {
+                if(data.code==0){
+                    data = data.data
+                }
+        },
+        error: function () {
+        },
+        complete: function () {
+        }
+    });
+    return data;
+}
+
+function  getDicByCodeTypeAndLanguage(type,code,language) {
+
+    var text ="";
+    $.ajax({
+        type: 'post',
+        url: base_url+'/dictionary/getTextByTypeAndCodeFromRedis',
+        data: {type:type,code:code,language:language},
+        dataType: 'json',
+        async:false,
+        beforeSend:function() {
+        },
+        success: function(data) {
+           // console.log(data);
+            if(data.code==0){
+                text = data.data
+            }
+        },
+        error: function () {
+        },
+        complete: function () {
+        }
+    });
+    return text;
+}
+
+
+
 
 function generateMathRand(num) {
     var v = "";
