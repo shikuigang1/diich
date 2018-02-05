@@ -18,6 +18,11 @@ public interface DictionaryService {
 
     String getJSONStrByParentID(String parentId,int type);
 
+    String getJSONStrByID(String Id);
+
+    String getDicParentNameById(String Id);
+
+    String getTextByTypeAndCodeFromRedis(Integer type, String code, String language) throws Exception;
 
     //void updateService(Dictionary dictionary);
 
