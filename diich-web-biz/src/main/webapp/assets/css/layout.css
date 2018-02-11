@@ -684,8 +684,9 @@
     height:440px;
     position: absolute;
     top: 0;
-    left: 50%;
+    left: 0;
     z-index: 1;
+    height: 100%;
 }
 .detail .mainbg .mask_left {
     width:200px;
