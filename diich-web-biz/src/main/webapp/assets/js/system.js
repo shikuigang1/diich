@@ -15,7 +15,7 @@ var renderHhtml = {
             '<div class="nav">' +
             '<ul>' +
             '<li class="active"><a href="' + renderHhtml.uri + '/" id="home">首页</a></li>' +
-            '<li><a href="#" id="ich_directory">非遗名录</a></li>' +
+            '<li><a href="' + renderHhtml.uri + '/page/search.html" id="ich_directory">非遗名录</a></li>' +
             // '<li><a href="' + renderHhtml.uri + '/page/masters.html?lang=' + language + '\" id=\"ich_master\">代表性传承人</a></li>' +
             '<li><a href="' + renderHhtml.uri + '/page/selected_content.html?lang=' + language + '\" id=\"selected_content\">精选内容</a></li>' +
             '<li><a href="' + renderHhtml.uri + '/page/information.html?lang=' + language + '\" id=\"information\">非遗资讯</a></li>' +
@@ -211,30 +211,8 @@ var renderHhtml = {
         this.base('.header', htmlStr);
     },
     footer: function () { //底部
-        var htmlStr = '<div class="diich">' +
-            '<div class="hd">' +
-            '<div class="logo"><a href="http://diich.efeiyi.com/page/index.html"></a></div>' +
-            '</div>' +
-            '</div>' +
-            '<div class="main">' +
-            '<div class="hd">' +
-            '<div class="lbox">' +
-            '<div><em>TEL：400-876-8766</em></div>' +
-            '<div><em>EMAIL：efeiyi@efeiyi.com</em></div>' +
-            '<div><em>地址：北京市东城区前门大街72&74号二层</em></div>' +
-            '<div><em>ADD：2Floor，72&74,Qian Men ST.Dongcheng District,Beijing,China</em></div>' +
-            '</div>' +
-            '<div class="rbox">' +
-            '<div class="share">' +
-            '<!-- <a href="" class="facebook" title="facebook"></a>' +
-            '<a href="" class="twitter" title="twitter"></a>' +
-            '<a href="" class="instagram" title="instagram"></a>' +
-            '<a href="" class="linkedin" title="linkedin"></a>-->' +
-            '<span class="code"><img src="' + renderHhtml.uri + '/assets/images/footer_code.png" alt=""></span>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</div>';
+        var htmlStr = '<div class="diich"><div class="hd"><div class="logo"><a href="http://diich.efeiyi.com/"></a></div></div></div>'+
+            '<div class="main"><div class="hd"><div class="lbox"><div><em>tel：400-876-8766</em></div><div><em>email：efeiyi@efeiyi22.com</em><em>email：efeiyi@efeiyi22.com</em></div><div><em>地址：北京市东城区前门大街72&amp;74号二层</em></div>           <div><em>add：2Floor，72&amp;74,Qian Men ST.Dongcheng District,Beijing,China</em></div>       </div>       <div class="rbox">           <div class="links">               <a target="_blank" href="/page/protocol/copyright.html">版权声明</a>               <a>|</a>               <a target="_blank" href="/page/protocol/disclaimer.html">免责声明</a>               <a>|</a>               <a target="_blank" href="/page/protocol/privacy.html" style="margin-right:0;">隐私保护政策</a>           </div>           <div class="share"><!-- <a href="" class="twitter" title="twitter"></a><a href="" class="instagram" title="instagram"></a><a href="" class="linkedin" title="linkedin"></a>-->               <div class="code"><div class="lang"><a class="en" data-lang="en">ENGLISH</a><a class="line">|</a><a class="zh" data-lang="zh">中文</a></div><img src="'+renderHhtml.uri+'/static/images/footer-wechat@1x.png" alt=""></div>           </div>       </div>   </div></div>';
         this.base('.footer', htmlStr);
     },
     base: function (obj, html) {
@@ -980,5 +958,3 @@ var tipBox={
         },speed)
     }
 };
-
-
