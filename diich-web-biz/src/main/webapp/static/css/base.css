@@ -183,6 +183,18 @@ textarea {
     right:-30px;
 }
 /*--/End/--slider-btn--*/
+.mask_over {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #000;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    z-index: 3;
+}
+/*--//End--mask_over*/
 .header {
     background-image: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6));
     width: 100%;
@@ -438,7 +450,7 @@ textarea {
 .header.fixed {
     position: fixed;
     top:0;
-    z-index: 5;
+    z-index: 6;
 }
 .header.fixed.normal {
     padding: 18px 0;
@@ -492,14 +504,6 @@ textarea {
 .header.normal .info .item .avatar {
     background-position: -18px -23px;
 }
-/*首页去掉导航上的搜索*/
-.home .header.normal .login:after,
-.home .header.normal .logined:after {
-    width: 0;
-}
-.home .header .search {
-    display: none;
-}
 /*--//End--*/
 .footer {
     /*background: #161616 url(../images/footer_bg.png) top center no-repeat;*/
@@ -523,10 +527,10 @@ textarea {
 }
 .footer .diich .logo {
     background: url(../images/footer-logo@2x.png) 0 0 no-repeat;
-    -webkit-background-size: 178px auto;
-    background-size: 178px auto;
-    width: 178px;
-    height: 96px;
+    -webkit-background-size: 126px auto;
+    background-size: 126px auto;
+    width: 126px;
+    height: 59px;
     float: left;
 }
 .footer .diich .logo a {
@@ -798,7 +802,7 @@ textarea {
     background: #fff;
     -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
     box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
-    position: absolute;
+    position: fixed;
     top: 140px;
     z-index: 9;
     display: none;
