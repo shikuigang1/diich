@@ -4,7 +4,13 @@ if(baseUrl!='diich.efeiyi.com'){
 }else {
     baseUrl=''
 }
-// var baseUrl = 'http://47.95.32.236';
+baseUrl = 'http://diich.efeiyi.com' //测试用地址
+
+//常量
+var SEARCH_URL = baseUrl + '/page/search.html'
+var SEARCH_KEYWORD = '请输入关键词'
+var SEARCH_RESULT = {}  //搜索条件
+
 //
 var api = {
     index:{//information.html
@@ -30,7 +36,7 @@ var constData={
     nav:function () {
         var zh=[
             {link: baseUrl+'/', title: '首页'},
-            {link: 'javascript:;', title: '非遗名录'},
+            {link: baseUrl+'/page/search.html', title: '非遗名录'},
             {link: baseUrl+'/page/selected_content.html', title: '精品内容'},
             {link: baseUrl+'/page/information.html', title: '非遗资讯'},
             {link: baseUrl+'/page/official_service.html', title: '非遗保护计划'},
@@ -287,7 +293,6 @@ var manageLanguageDate = function (params) {
     return result;
 }
 
-
 /**
  * 多余文字截取
  * @param { el }  dom元素
@@ -303,6 +308,47 @@ var textCut = function (el, num) {
         $(el[i]).html(s);
     }
 }
+
+
+/**
+ * 封装
+ * @type {{param: utils.param}} json数据拼&key=value类型数据
+ */
+var utils = {
+    param:function (url, data) {
+        var params = '';
+        var _url = '';
+        for(var k in data){
+            var value = data[k] !== undefined ? data[k] : ''
+            params = params + '&' + k + '=' + encodeURIComponent(value)
+        }
+
+        //去掉第一个"&"
+        params ? params.substring(1) : ''
+
+        //2.拼接完成URL
+        url += params
+        return url.replace(/\&/,'?')
+    }
+}
+
+/**
+ * 鼠标相关
+ * @type stop  阻止鼠标滚动
+ * @type off   清除阻止鼠标滚动
+ */
+var mouseWheel = {
+    stop:function () {
+        $(document).on('wheel',function () {
+            return false
+        })
+    },
+    off:function () {
+        $(document).off('wheel')
+    }
+}
+
+
 
 
 /**
@@ -414,7 +460,7 @@ var renderHtml = {
             '                <a class="zh" data-lang="zh" href="javascript:;" title="中文"><span>中文</span></a>' +
             '                <a class="en" data-lang="en" href="javascript:;" title="English"><span>EN</span></a>' +
             '            </div>' +
-            '            <div class="item search" id="top-search"><a href="'+baseUrl+'/page/search.html"></a></div>' +
+            '            <div class="item search" id="top-search"><a href="'+baseUrl+'/page/search.html "></a></div>' +
             '        </div>';
         return html;
     },
@@ -578,11 +624,13 @@ var searchPage={
     },
     slide:function () {
         var _this=this;
-        var url='/page/search.html?keyword=';
+        var url=baseUrl + '/page/search.html?keyword=';
         var elIcon=$('#top-search'); //导航搜索icon
         elIcon.on('click',function (e) {
             e.preventDefault();
             e.stopPropagation();
+
+            console.log(SEARCH_URL)
 
             if($('div').hasClass('filter')){
                 $('body').find('#filter').slideUp();
@@ -593,7 +641,7 @@ var searchPage={
 
             var filter=$('#filter');
 
-            filter.stop(true).slideToggle(200);
+            filter.css('top',$('.header').outerHeight()+'px').stop(true).slideToggle(200);
 
             filter.on('click',function (e) {
                 e.preventDefault();
@@ -602,6 +650,14 @@ var searchPage={
             _this.form.bind(url);
             _this.select.init(filter,url);
 
+            var oldTop=$(window).scrollTop()
+            //滚动消失
+            $(window).scroll(function () {
+                var newTop=$(window).scrollTop();
+                if(oldTop-newTop < 0){
+                    filter.hide()
+                }
+            })
         });
     },
     form:{//搜索部分

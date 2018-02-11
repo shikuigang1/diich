@@ -21,6 +21,55 @@ var homeData={
     ]
 };
 
+
+/**
+ * 搜索
+ * @type {{focus: FORM.focus, blur: FORM.blur, search: FORM.search}}
+ */
+var FORM = {
+    focus:function (el, className, callback) {
+        el.focus(function () {
+            if($(this).val()===SEARCH_KEYWORD){
+                $(this).val('').addClass(className)
+            }
+            if(callback && callback !==undefined){
+                callback()
+            }
+        })
+    },
+    blur:function (el, className, callback) {
+        el.blur(function () {
+            if($(this).val()===''){
+                $(this).val(SEARCH_KEYWORD).removeClass(className)
+            }
+
+            SEARCH_RESULT.keyword = $(this).val()
+            if(callback && callback !==undefined){
+                callback()
+            }
+        })
+    },
+    search:function (el) {
+        el.on('click',function () {
+            var _url = ''
+            if(JSON.stringify(SEARCH_RESULT)== '{}' || SEARCH_RESULT.keyword === SEARCH_KEYWORD){
+                console.log('111')
+               _url = SEARCH_URL.replace(/\?/, '')
+            } else {
+                console.log('222')
+                _url = utils.param(SEARCH_URL, SEARCH_RESULT)
+            }
+
+            window.location.href = _url
+        })
+    }
+}
+
+
+
+
+
+
 /**
  * 列表滚动
  * @param { el } 目标元素
@@ -44,7 +93,7 @@ var sliderUlList = function (el,num) {
     //2.下一页
     parent.on('click','.next',function () {
         if(cur<total) cur++;
-        _ul.stop(true).animate({'margin-left':-cur*1200+'px'},speed);
+        _ul.stop(true).animate({'margin-left':-cur*1224+'px'},speed);
     });
 
     //3.上一页
@@ -59,58 +108,72 @@ renderTemplate({
     url: api.index.banner,
     el: '#banner',
     success: function (res) {
-        var parent = $('#banner');
-        //截取字数
-        textCut(parent.find('dd'), 100);
+        //1.轮播图效果
+        (function () {
+            var parent = $('#banner');
+            textCut(parent.find('dd'), 78);
+            var imgLi = parent.find('ul.img li'); //图片
+            var imgLen = imgLi.length;
+            var numLi = parent.find('ul.num li'); //索引
+            var text = parent.find('.text dl'); //索引
+            var cur = 0;
+            var speed = 5000;
+            var timer = null;
+            numLi.mousedown(function () {
+                clearInterval(timer);
+                cur = $(this).index();
+                $(this).addClass('active').siblings('li').removeClass('active');
+                imgLi.eq(cur).stop(true, true).fadeIn().siblings('li').fadeOut();
+                text.eq(cur).stop(true, true).fadeIn().siblings('dl').fadeOut();
+            });
 
-        //轮播图效果
-        var imgLi = parent.find('ul.img li'); //图片
-        var imgLen = imgLi.length;
-        var numLi = parent.find('ul.num li'); //索引
-        var text = parent.find('.text dl'); //索引
-        var cur = 0;
-        var speed = 5000;
-        var timer = null;
-        numLi.mousedown(function () {
-            clearInterval(timer);
-            cur = $(this).index();
-            $(this).addClass('active').siblings('li').removeClass('active');
-            imgLi.eq(cur).stop(true, true).fadeIn().siblings('li').fadeOut();
-            text.eq(cur).stop(true, true).fadeIn().siblings('dl').fadeOut();
-        });
+            numLi.mouseup(function () {
+                timer = setInterval(slider, speed);
+            });
 
-        numLi.mouseup(function () {
+            //轮播
             timer = setInterval(slider, speed);
-        });
 
-        //轮播
-        timer = setInterval(slider, speed);
-
-        function slider() {
-            if (cur < imgLen - 1) {
-                cur++;
-            } else {
-                cur = 0;
+            function slider() {
+                if (cur < imgLen - 1) {
+                    cur++;
+                } else {
+                    cur = 0;
+                }
+                numLi.eq(cur).addClass('active').siblings('li').removeClass('active');
+                imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
+                text.eq(cur).stop(true).fadeIn().siblings('dl').fadeOut();
             }
-            numLi.eq(cur).addClass('active').siblings('li').removeClass('active');
-            imgLi.eq(cur).stop(true).fadeIn().siblings('li').fadeOut();
-            text.eq(cur).stop(true).fadeIn().siblings('dl').fadeOut();
-        }
+        })();
+
+        //2.搜索
+        (function () {
+            var parent = $('.m-search');
+            var keyword=parent.find('input.ipt')
+            var search=parent.find('input.glass')
+            var speed = 400;
+
+            FORM.focus(keyword, 'active',function () {
+                mouseWheel.stop()
+                $('body').append('<div class="mask_over"></div>')
+                $('.mask_over').animate({'opacity':'0.55'}, speed)
+            })
+            FORM.blur(keyword, 'active',function () {
+                mouseWheel.off()
+                $('.mask_over').animate({'opacity':'0'}, speed)
+                setTimeout(function () {
+                    $('.mask_over').remove()
+                },speed)
+            })
+            FORM.search(search)
+        })();
 
     }
 })
 
-
 //非遗项目选择分类
 var renderProjectTemplate = function () {
     var obj = $("#project-list");
-    var result = {
-        category:'',
-        area:'',
-        keyword:''
-    };
-
-
     //点击展开
     obj.on('click','.title',function (e) {
         e.stopPropagation();
@@ -136,13 +199,15 @@ var renderProjectTemplate = function () {
         var type=$(this).data('type');
         var _id=$(this).data('id'); //code
         if(type==0){//分类
-            result.category=_id;
+            SEARCH_RESULT.gb_category_code=_id;
         }else {//地区
-            result.area=_id;
+            SEARCH_RESULT.area=_id;
         }
         parent.find('.title .t2').html($(this).text());
         parent.find('dl').hide();
         parent.removeClass('active')
+
+        console.log('SEARCH_RESULT->',SEARCH_RESULT)
     });
 
     //滑动
@@ -162,16 +227,22 @@ var renderProjectTemplate = function () {
         }
     });
 
-    //关键词
-    obj.find('.keyword').blur(function () {
-        result.keyword=$(this).val();
-    });
+    //关键词'
+    var keyword = obj.find('.keyword')
+    FORM.focus(keyword,'')
+    FORM.blur(keyword,'')
+    FORM.search($('#search'))
 
     //搜索
-    $('#search').on('click',function () {
-        var url='/page/search.html?'+'gb_category_code='+result.category+'&area='+result.area+'&keyword='+result.keyword;
-        window.location.href=url;
-    });
+
+
+    // $('#search').on('click',function () {
+    //     var url='/page/search.html?'+'gb_category_code='+result.category+'&area='+result.area+'&keyword='+result.keyword;
+    //
+    //     result.search =keyword.val()
+    //     console.log(result)
+    //     // window.location.href=url;
+    // });
 
     //点击页面关闭弹出框
     $(document).on('click',function () {
@@ -211,6 +282,8 @@ renderTemplate({
             en:homeData.column[0].enTitle,
         }));
         sliderUlList('#project-slider',4);
+
+        textCut($('#project-slider li .text'), 18);
     }
 })
 
