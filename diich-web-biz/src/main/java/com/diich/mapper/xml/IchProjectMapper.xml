@@ -220,6 +220,8 @@
         <if test="params.status != null">
             and status = #{params.status,jdbcType=INTEGER}
         </if>
+
+        order by last_edit_date desc
     </select>
     <select id="selectIchProjectCountByUserAndStatus" resultType="java.lang.Integer" parameterType="java.util.Map">
         select

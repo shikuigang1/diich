@@ -238,6 +238,8 @@
     <if test="params.status != null" >
       and  status = #{params.status,jdbcType=INTEGER}
     </if>
+
+    ORDER BY  last_edit_date
   </select>
   <select id="selectMasterByName" resultMap="BaseResultMap" parameterType="java.lang.String">
     SELECT i.id, i.ich_project_id FROM ich_master i
