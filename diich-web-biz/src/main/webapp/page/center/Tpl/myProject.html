@@ -63,7 +63,7 @@
                         },
                         cancelValue: "取消",
                         cancel: function () {},
-                        content:"<b style='font-size: 10px'>确认删除？<br/>删除后不可回复!</b>"
+                        content:"<b style='font-size: 10px'>确认删除？<br/>删除后不可恢复!</b>"
                     });
                 });
 
@@ -202,10 +202,10 @@
                         ajaxLoad(para,fillData);
                     });
                 });
-               /* //绑定移出效果
+               //绑定移出效果
                 $(this).on("mouseleave", function () {
                     $(this).find(".tab").hide();
-                });*/
+                });
             });
             ajaxLoad({status:0,type:'project'},fillData);
             $("#protectList").html('<div class="loader-inner ball-pulse hide">' +
