@@ -30,6 +30,12 @@
     <div class="banner" id="banner"></div>
     <!--/End/--轮播图-->
 
+    <div class="m-search">
+        <input type="text" value="请输入关键词" class="ipt">
+        <input type="button" value="搜索" class="glass">
+    </div>
+    <!--//End 轮播图上的搜索-->
+
     <div class="cate">
         <ul>
             <li>
@@ -58,9 +64,7 @@
                 <a href="/page/search.html?gb_category_code=D">
                     <i class="icon4"></i>
                     <p class="zh">自然界、宇宙知识和实践</p>
-                    <p class="en">Knowledge and practices
-                        <br> concerning nature and the
-                        <br> universe</p>
+                    <p class="en">Knowledge and practices<br> concerning nature and the<br> universe</p>
                 </a>
             </li>
             <li>
@@ -82,7 +86,7 @@
             <div class="bd list" id="project-list">
                 <div class="group">
                     <div class="title" data-type="0">
-                        <span class="bd t1">选择分类</span>
+                        <span class="bd t1">分类</span>
                         <p class="bd t2">请选择...</p>
                         <i class="arrow-down"></i>
                     </div>
@@ -100,7 +104,7 @@
                 <!--//End 选择分类-->
                 <div class="group">
                     <div class="title" data-type="1">
-                        <span class="bd t1">选择地区</span>
+                        <span class="bd t1">地区</span>
                         <p class="bd t2">请选择...</p>
                         <i class="arrow-down"></i>
                     </div>
@@ -119,12 +123,12 @@
                 <div class="group">
                     <div class="title">
                         <span class="bd t1">关键词</span>
-                        <input class="bd t2 keyword" type="text" placeholder="请输入关键词...">
+                        <input class="bd t2 keyword" type="text" value="请输入关键词">
                     </div>
                 </div>
                 <!--//End 关键词-->
                 <div class="search">
-                    <a id="search" href="javascript:;"></a>
+                    <a id="search" href="javascript:;">高级搜索</a>
                 </div>
             </div>
             <!--/End/-->
@@ -172,45 +176,47 @@
         <div class="big-title">
             <h3>非遗保护计划</h3>
         </div>
-        <ul class="clear">
-            <li>
-                <a href="javascript:;">
-                    <div class="pic"><img src="/static/images/home-plan-1@2x.png" alt=""></div>
-                    <p class="pic_h3">互联网促进计划</p>
-                    <div class="name">
-                        <p>针对非遗领域相关项目、传承人及作品进行新媒体分发及传播，并通过互联网电商服务落地产品转化及提供技术支持。</p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <div class="pic"><img src="/static/images/home-plan-2@2x.png" alt=""></div>
-                    <p class="pic_h3">非遗/青年设计师培训计划</p>
-                    <div class="name">
-                        <p>针对传人进行技艺技能培训，培养年轻技艺传人，延续文化发展；联合设计院校，进行设计师教育及引导，促进文创事业发展。</p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <div class="pic"><img src="/static/images/home-plan-3@2x.png" alt=""></div>
-                    <p class="pic_h3">IP保护计划</p>
-                    <div class="name">
-                        <p>打造防伪溯源体系，从创作源头出发，承载作品生产、备案、运输及销售的各个环节，提升和保护非遗文化价值。</p>
+        <div class="hd">
+            <ul class="clear">
+                <li>
+                    <a href="javascript:;">
+                        <div class="pic"><img src="/static/images/home-plan-1@2x.png" alt=""></div>
+                        <p class="pic_h3">互联网促进计划</p>
+                        <div class="name">
+                            <p>针对非遗领域相关项目、传承人及作品进行新媒体分发及传播，并通过互联网电商服务落地产品转化及提供技术支持。</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <div class="pic"><img src="/static/images/home-plan-2@2x.png" alt=""></div>
+                        <p class="pic_h3">非遗/青年设计师培训计划</p>
+                        <div class="name">
+                            <p>针对传人进行技艺技能培训，培养年轻技艺传人，延续文化发展；联合设计院校，进行设计师教育及引导，促进文创事业发展。</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <div class="pic"><img src="/static/images/home-plan-3@2x.png" alt=""></div>
+                        <p class="pic_h3">IP保护计划</p>
+                        <div class="name">
+                            <p>打造防伪溯源体系，从创作源头出发，承载作品生产、备案、运输及销售的各个环节，提升和保护非遗文化价值。</p>
 
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <div class="pic"><img src="/static/images/home-plan-4@2x.png" alt=""></div>
-                    <p class="pic_h3">公益慈善计划</p>
-                    <div class="name">
-                        <p>建设国际非遗公益慈善基金，以公益之力集全民大众的力量，助力非遗文化发展，保护非遗永久流传。</p>
-                    </div>
-                </a>
-            </li>
-        </ul>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <div class="pic"><img src="/static/images/home-plan-4@2x.png" alt=""></div>
+                        <p class="pic_h3">公益慈善计划</p>
+                        <div class="name">
+                            <p>建设国际非遗公益慈善基金，以公益之力集全民大众的力量，助力非遗文化发展，保护非遗永久流传。</p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
     <!--/End/--非遗保护计划-->
 
@@ -254,30 +260,25 @@
         </dl>
         {{?}}
         {{~}}
-        <ul class="num">
-            {{~ it.data : value : index }}
-            {{? index==0}}
-            <li class="active">0{{=index+1}}</li>
-            {{??}}
-            <li>0{{=index+1}}</li>
-            {{?}}
-            {{~}}
-        </ul>
     </div>
+
+    <ul class="num">
+        {{~ it.data : value : index }}
+        {{? index==0}}
+        <li class="active">0{{=index+1}}</li>
+        {{??}}
+        <li>0{{=index+1}}</li>
+        {{?}}
+        {{~}}
+    </ul>
 
     <ul class="img">
         {{~ it.data : value : index }}
-        {{? index==0}}
-        <li class="bd" style="display: block;">
-            <a><img src="http://diich-v2.oss-cn-beijing.aliyuncs.com/{{=value.imgAds}}?x-oss-process=style/diich2_home_banner"
-                    alt=""></a>
+        <li class="bd" {{? index==0}} style="display: block" {{??}} style="display: none;" {{?}}>
+            <a href="http://project.diich.com/p/{{? value.title=='马术'}}20185{{??}}20037{{?}}.html?lang=zh-CN&random=28479.79884864582" target="_blank">
+                <img src="http://diich-v2.oss-cn-beijing.aliyuncs.com/{{=value.imgAds}}?x-oss-process=style/diich2_home_banner" alt="">
+            </a>
         </li>
-        {{??}}
-        <li class="bd">
-            <a><img src="http://diich-v2.oss-cn-beijing.aliyuncs.com/{{=value.imgAds}}?x-oss-process=style/diich2_home_banner"
-                    alt=""></a>
-        </li>
-        {{?}}
         {{~}}
     </ul>
 </script>
@@ -295,7 +296,6 @@
                     {{? value.title=='昆曲'}} <a class="link" href="http://project.diich.com/p/11703.html"> {{?}}
                     {{? value.title=='山西民居砖雕艺术'}} <a class="link" href="http://project.diich.com/p/67572.html"> {{?}}
                     {{? value.title=='苏绣（南通仿真绣）'}} <a class="link" href="http://project.diich.com/p/52718.html"> {{?}}
-
                         <div class="pic">
                             <img src="http://diich-v2.oss-cn-beijing.aliyuncs.com/{{=value.cover}}?1=1&x-oss-process=style/diich2_project" alt="">
                         </div>
