@@ -30,6 +30,11 @@ public class SearchController extends BaseController {
     @RequestMapping("search")
     @ResponseBody
     public Map<String, Object> search(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            setHeader(request,response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         String conditionStr = request.getParameter("condition");
 
         Map<String, Object> condition = null;
@@ -49,9 +54,6 @@ public class SearchController extends BaseController {
         } catch (Exception e) {
             return putDataToMap(e);
         }
-
-        response.setHeader("Access-Control-Allow-Origin", "*");
-
         Page page = new Page();
         page.setRecords(list);
         page.setTotal(total);
