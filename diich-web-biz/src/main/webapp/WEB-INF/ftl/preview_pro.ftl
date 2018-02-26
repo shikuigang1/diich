@@ -88,7 +88,7 @@
 </head>
 
 <body class="js-project">
-<div class="header header_detail"></div>
+<#--<div class="header header_detail"></div>-->
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
     <div class="content">
@@ -610,7 +610,7 @@
 
 
 
-<div class="bd footer"></div>
+<#--<div class="bd footer"></div>-->
 <!--//End--footer-->
 
 <div class="side_fixed">
@@ -629,7 +629,5 @@
             }
         });
 
-        //去掉头部标记
-        $(".header .content .nav li").eq(0).removeClass("active");
     })
 </script>

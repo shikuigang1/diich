@@ -74,7 +74,7 @@
 </head>
 
 <body class="js-master">
-<div class="header header_detail"></div>
+<#--<div class="header header_detail"></div>-->
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
     <div class="content">
@@ -477,7 +477,7 @@
     <!--//End detail -->
 </div>
 
-<div class="bd footer"></div>
+<#--<div class="bd footer"></div>-->
 <!--//End--footer-->
 
 <div class="side_fixed">
@@ -489,9 +489,6 @@
 </body>
 
 <script>
-    $(function() {
-        $(".header .content .nav li").eq(0).removeClass("active");
-    });
 
     $(function(){
         $('.side_fixed li').each(function(i){
@@ -499,8 +496,6 @@
                 $(this).find('strong').html(i+1)
             }
         });
-
-        $(".header .content .nav li").eq(0).removeClass("active");
     })
 
 </script>
