@@ -208,7 +208,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             ichProject.setLang("chi");
         }
         //如果不是提交待审核的状态改为草稿状态
-        if (ichProject.getStatus() != null && ichProject.getStatus() != 3) {
+        if (ichProject.getStatus() == null || ichProject.getStatus() != 3) {
             ichProject.setStatus(2);
         }
         //如果是管理员操作直接是已审核的状态

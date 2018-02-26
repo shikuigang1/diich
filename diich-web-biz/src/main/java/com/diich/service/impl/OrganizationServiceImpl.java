@@ -108,7 +108,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             organization.setUserId(user.getId());
         }
         //如果不是提交待审核的状态改为草稿状态
-        if (organization.getStatus() != null && organization.getStatus() != 3) {
+        if (organization.getStatus() == null || organization.getStatus() != 3) {
             organization.setStatus(2);
         }
         //如果是管理员操作直接是已审核的状态
