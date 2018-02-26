@@ -207,13 +207,18 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         if (StringUtils.isEmpty(ichProject.getLang())) {
             ichProject.setLang("chi");
         }
+        //如果不是提交待审核的状态改为草稿状态
+        if (ichProject.getStatus() != null && ichProject.getStatus() != 3) {
+            ichProject.setStatus(2);
+        }
+        //如果是管理员操作直接是已审核的状态
+        if (user != null && user.getType() != null && user.getType() == 0) {
+            ichProject.setStatus(0);
+        }
+
         if (ichProject.getId() == null) {//保存
             long proID = IdWorker.getId();
             ichProject.setId(proID);
-            ichProject.setStatus(2);
-            if (user != null && user.getType() == 0) {
-                ichProject.setStatus(0);
-            }
             ichProject.setCreatorId(user.getId());
             ichProject.setUri(proID + ".html");
             ichProjectMapper.insertSelective(ichProject);
@@ -811,7 +816,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 IchProject ichProject = new IchProject();
                 ichProject.setId(countryProject.getProjectNum());
                 project = build360Map(project, ichProject, countryProject);
-                if(project.get("widgetsData") != null){
+                if (project.get("widgetsData") != null) {
                     projectList.add(project);
                 }
             }
@@ -876,7 +881,8 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         //查询传承人
         List<IchMaster> ichMasterList = ichMasterMapper.selectByIchProjectId(ichProject.getId());
         List<Map> masterList = new ArrayList<>();
-       Loop: for (IchMaster ichMaster : ichMasterList) {
+        Loop:
+        for (IchMaster ichMaster : ichMasterList) {
             Map master = new HashMap();
             c.setTargetId(ichMaster.getId());
             c.setTargetType(1);//标示传承人
@@ -884,28 +890,28 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             //定义一个标记
             int count = 0;
             for (ContentFragment contentFragment : masterContentFragmentList) {
-                if(contentFragment.getAttributeId() != 113){//判断传承人有没有图片没有图片跳出外层循环进行下次循环
-                    continue ;
+                if (contentFragment.getAttributeId() != 113) {//判断传承人有没有图片没有图片跳出外层循环进行下次循环
+                    continue;
                 }
                 if (contentFragment.getAttributeId() == 113) {//传承人头图
                     List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
                     if (contentFragmentResourceList.size() > 0) {
                         Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResourceList.get(0).getResourceId());
-                        if(resource.getUri() == null){//判断传承人有没有图片没有图片跳出外层循环进行下次循环
+                        if (resource.getUri() == null) {//判断传承人有没有图片没有图片跳出外层循环进行下次循环
                             continue Loop;
                         }
                         List<Resource> resourceList = new ArrayList<>();
                         resourceList.add(resource);
                         contentFragment.setResourceList(resourceList);
-                        count ++;
-                    }else{
+                        count++;
+                    } else {
                         continue Loop;
                     }
                 }
             }
-           if(count == 0){//说明传承人没有图片
-               continue ;
-           }
+            if (count == 0) {//说明传承人没有图片
+                continue;
+            }
             ichMaster.setContentFragmentList(masterContentFragmentList);
             master = buildMasterMap(masterContentFragmentList, master);//将数据封装到Map集合中
             //将所有传承人放到list中
@@ -917,7 +923,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             project.put("title", widgetsData.get("title"));
             widgetsData.remove("title");
         }
-        if(widgetsData.size() > 0){
+        if (widgetsData.size() > 0) {
             project.put("widgetsData", widgetsData);
         }
         return project;
@@ -958,7 +964,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
             }
             if (content.getAttributeId() == 41) {
-                if(countryProject.getIsWorld() != null && countryProject.getIsWorld() == 1){
+                if (countryProject.getIsWorld() != null && countryProject.getIsWorld() == 1) {
                     Map pcMap = new HashMap();
                     pcMap.put("key", "遗产认定批次");
                     pcMap.put("value", "世界级非遗");
@@ -990,13 +996,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 continue;
             }
         }
-        if(basics.size() > 0){
+        if (basics.size() > 0) {
             widgetsData.put("basics", basics);
         }
         return widgetsData;
     }
 
-    private Map<String,Object> buildMasterMap(List<ContentFragment> contentFragmentList, Map widgetsData) throws Exception {
+    private Map<String, Object> buildMasterMap(List<ContentFragment> contentFragmentList, Map widgetsData) throws Exception {
         for (ContentFragment content : contentFragmentList) {
             if (content.getAttributeId() == 13) {
                 widgetsData.put("name", content.getContent());
@@ -1203,9 +1209,9 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 continue;
             }
             if (attribute.getMaxLength() != null && (attribute.getId() == contentFragment.getAttributeId())) {
-                if(attribute.getDataType() >= 100 && contentFragment.getContent() != null){
+                if (attribute.getDataType() >= 100 && contentFragment.getContent() != null) {
                     String[] arr = contentFragment.getContent().split(",");
-                    if(arr.length > attribute.getMaxLength()){
+                    if (arr.length > attribute.getMaxLength()) {
                         throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
                     }
                 }

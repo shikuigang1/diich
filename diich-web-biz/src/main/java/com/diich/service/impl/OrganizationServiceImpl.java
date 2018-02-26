@@ -107,6 +107,14 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         if (user.getType() != null && user.getType() == 3) {//0管理员账户 1普通用户 2传承人用户  3 机构用户
             organization.setUserId(user.getId());
         }
+        //如果不是提交待审核的状态改为草稿状态
+        if (organization.getStatus() != null && organization.getStatus() != 3) {
+            organization.setStatus(2);
+        }
+        //如果是管理员操作直接是已审核的状态
+        if (user != null && user.getType() != null && user.getType() == 0) {
+            organization.setStatus(0);
+        }
         if (organization.getId() == null) {
             //校验该用户是否申报过机构信息
             List<Organization> organizationList = organizationMapper.selectOrganizationByUserId(user.getId());
@@ -117,10 +125,6 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             organization.setId(id);
             organization.setLastEditorId(user.getId());
             organization.setUri(id + ".html");
-            organization.setStatus(2);//草稿状态
-            if (user != null && user.getType() == 0) {
-                organization.setStatus(0);
-            }
             organizationMapper.insertSelective(organization);
         } else {
             organizationMapper.updateByPrimaryKeySelective(organization);

@@ -190,15 +190,16 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         if (user.getType() != null && user.getType() == 2) {//0管理员账户 1普通用户 2传承人用户  3 机构用户
             ichMaster.setUserId(ichMaster.getLastEditorId());
         }
+
+        if (ichMaster.getStatus() == null || ichMaster.getStatus() != 3) {
+            ichMaster.setStatus(2);
+        }
+        if (user != null && user.getType() != null && user.getType() == 0) {
+            ichMaster.setStatus(0);
+        }
         if (ichMaster.getId() == null) {
             long id = IdWorker.getId();
             ichMaster.setId(id);
-            if (ichMaster.getStatus() == null || ichMaster.getStatus() != 3) {
-                ichMaster.setStatus(2);
-            }
-            if (user != null && user.getType() != null && user.getType() == 0) {
-                ichMaster.setStatus(0);
-            }
             ichMaster.setUri(id + ".html");
             ichMasterMapper.insertSelective(ichMaster);
         } else {
