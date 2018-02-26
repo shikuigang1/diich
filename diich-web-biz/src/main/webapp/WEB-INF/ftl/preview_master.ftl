@@ -2,23 +2,34 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://www.diich.com" />
+<#assign caturi="http://diich.efeiyi.com" />
+<#--<#assign caturi="http://47.95.32.236" />-->
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title id="title">
     <#if (obj.contentFragmentList?size>0)>
-               <#list obj.contentFragmentList as cf>
-                    <#if cf.attributeId == 13>
-                        ${cf.content}
-                    </#if>
-                </#list>
+       <#list obj.contentFragmentList as cf>
+        <#if cf.attributeId == 13>
+        ${cf.content}
+        </#if>
+    </#list>
      </#if>
     </title>
     <link rel="shortcut icon" type="image/x-icon" href="${caturi}/assets/images/logo.png" media="screen" />
     <link rel="stylesheet" href="${caturi}/assets/css/common.css">
     <link rel="stylesheet" href="${caturi}/assets/css/layout.css">
+
+    <link rel="stylesheet" href="${caturi}/css/icon.min.css">
+    <link rel="stylesheet" href="${caturi}/css/button.min.css">
+    <link rel="stylesheet" href="${caturi}/assets/css/inputs.css">
+    <link rel="stylesheet" href="${caturi}/css/loader.min.css">
+    <link rel="stylesheet" href="${caturi}/css/dropdown.min.css">
+    <link rel="stylesheet" href="${caturi}/css/transition.min.css">
+    <link rel="stylesheet" href="${caturi}/css/jHsDate.css">
     <link rel="stylesheet" href="${caturi}/css/master-edit.css">
+
     <!--[if IE]>
     <link rel="stylesheet" href="${caturi}/assets/css/ie.css">
     <script src="${caturi}/assets/js/html5.js"></script>
@@ -27,13 +38,22 @@
         .card .plain_text,.card .text_img .side {
             word-wrap: break-word;
         }
+        .detail_title .edit{top:-50px}
     </style>
     <script src="${caturi}/js/base-url.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="${caturi}/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="${caturi}/ueditor/_examples/editor_api.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="${caturi}/ueditor/lang/zh-cn/zh-cn.js"></script>
+
     <script src="${caturi}/assets/js/jquery.min.js"></script>
+    <script src="${caturi}/assets/js/jQuery.Form.js"></script>
     <script src="${caturi}/assets/js/system.js"></script>
     <script src="${caturi}/assets/js/utils.js"></script>
     <script src="${caturi}/assets/js/detail-master.js"></script>
-    <#--<script src="${caturi}/assets/js/login.js"></script>-->
+    <script src="${caturi}/assets/js/login.js"></script>
     <script src="${caturi}/data/keyword.js"></script>
     <script src="${caturi}/data/category.js"></script>
     <script src="${caturi}/js/citys.js"></script>
@@ -41,6 +61,7 @@
     <script src="${caturi}/js/i18n.js"></script>
     <script src="${caturi}/data/dictionary.js"></script>
     <script src="${caturi}/js/util.js"></script>
+
     <script>
         var json = ${json.json};
         var jsonAll = ${json.jsonAll};
@@ -53,10 +74,11 @@
 </head>
 
 <body class="js-master">
+<div class="header header_detail"></div>
 <!--//End header -->
 <div class="filter_search filter_search_fixed">
     <div class="content">
-        <form class="form" action="http://diich.efeiyi.com/page/search.html">
+        <form class="form" action="${caturi}/page/search.html">
             <input class="ipt" type="text" id="keyword" name="keyword" value="" autocomplete="off">
             <input type="hidden" id="area_code" name="area_code" value=""/>
             <input type="hidden" id="gb_category_code" name="gb_category_code" value=""/>
@@ -145,26 +167,51 @@
 <#assign workspage = "http://works.diich.com/w/"/>
 <#assign prouri="http://resource.efeiyi.com/image/project/" />
 <#assign masteruri="http://resource.efeiyi.com/image/master/" />
-<#assign mastervuri="http://resource.efeiyi.com/video/master/" />
 <#assign str="http:" />
 <#assign strs="https:" />
+<link rel="stylesheet" type="text/css" href="${caturi}/css/detail.css"/>
 <div class="container">
     <div class="bd detail">
         <div class="mainbg">
-            <div class="content" id="detailContent">
-                <div class="mask_left"></div>
-                   <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/head.png">
+            <div class="content" style="width: 100%;">
+            <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/default.jpg">
+            <#if (obj.contentFragmentList?size>0)>
+                <#list obj.contentFragmentList as cf>
+                    <#if cf.attributeId == 10>
+                        <#if (cf.resourceList??) && (cf.resourceList?size>0)>
+                            <#list cf.resourceList as res>
+                                <#if res.type==0 && res.status==0 && res.uri?? && res.uri != "">
+                                    <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
+                                        <#assign backImgUrl="${masteruri}${res.uri}">
+                                    </#if>
+                                    <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
+                                        <#assign backImgUrl="${res.uri}">
+                                    </#if>
+                                </#if>
+                            </#list>
+                        </#if>
+                    </#if>
+                </#list>
+            </#if>
+                <img class="bg-image" src="${backImgUrl}" style="width: 100%;">
+                <div class="cover"></div>
+            </div>
+            <!--基本内容-->
+            <div class="content_img">
+                <ul>
+                    <li class="active">
+                    <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/default.jpg">
                     <#if (obj.contentFragmentList?size>0)>
                         <#list obj.contentFragmentList as cf>
                             <#if cf.attributeId == 10>
-                                <#if (cf.resourceList?size>0)>
+                                <#if (cf.resourceList??) && (cf.resourceList?size>0)>
                                     <#list cf.resourceList as res>
                                         <#if res.type==0 && res.status==0 && res.uri?? && res.uri != "">
                                             <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                                <img src="${masteruri}${res.uri}" alt="" id="detailTopic" style="display:none">
+                                                <#assign backImgUrl="${masteruri}${res.uri}">
                                             </#if>
                                             <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
-                                                <img src="${res.uri}" alt="" id="detailTopic" style="display:none">
+                                                <#assign backImgUrl="${res.uri}">
                                             </#if>
                                         </#if>
                                     </#list>
@@ -172,188 +219,107 @@
                             </#if>
                         </#list>
                     </#if>
-                   <#if (obj.contentFragmentList?size>0)>
-                       <#list obj.contentFragmentList as cf>
-                           <#if cf.attributeId == 10>
-                               <#if (cf.resourceList?size>0)>
-                                   <#list cf.resourceList as res>
-                                       <#if res.type==1 && res.status==0 && res.uri?? && res.uri != "">
-                                           <#if !(res.uri?contains("${str}")) && !(res.uri?contains("${strs}"))>
-                                               <video poster="${backImgUrl}" src="${mastervuri}${res.uri}"> </video>
-                                           </#if>
-                                           <#if (res.uri?contains("${str}")) || (res.uri?contains("${strs}"))>
-                                               <video poster="${backImgUrl}" src="${res.uri}"> </video>
-                                           </#if>
-                                           <span data-type="1" class="play_big"> </span>
-                                       </#if>
-                                   </#list>
-                               </#if>
-                           </#if>
-                       </#list>
-                   </#if>
-            <div class="mask_right"></div>
+                        <img class="bg-image" src="${backImgUrl}"/>
+                    </li>
+                    <li class="padd">
+                        <div class="active1">
+                        <#if (obj.contentFragmentList?size>0)>
+                            <#list obj.contentFragmentList as cf>
+                                <#if cf.attributeId == 13>
+                                    <h2 data-id="13" class="data-item">${cf.content}</h2>
+                                </#if>
+                            </#list>
+                        </#if>
+                        <#if (obj.contentFragmentList?size>0)>
+                            <#list obj.contentFragmentList as cf>
+                                <#if cf.attributeId == 23 && cf.content?? && cf.content != "">
+                                    <p>
+                                        <em>
+                                            <#if obj.lang == "chi">
+                                            ${cf.attribute.cnName}：
+                                            </#if>
+                                            <#if obj.lang == "eng">
+                                            ${cf.attribute.enName}：
+                                            </#if>
+                                        </em>
+                                        <span data-id="23" class="data-item dic" dic-type="${cf.attribute.dataType}"
+                                              lang="${obj.lang}">${cf.content}
+                                            </span>
+                                    </p>
+                                </#if>
+                            </#list>
+                        </#if>
+                        </div>
+                    <#if (obj.contentFragmentList??) &&(obj.contentFragmentList?size>0)>
+                        <div class="active2">
+                            <div>
+                                <h3>非遗在中国<b><img src="${caturi}/images/{973D998B-2E8E-65E0-061C-70A1F70B051B}.png"/></b></h3>
+                            </div>
+
+                            <!--<p class="active">
+                                <strong>人类非物质文化遗产编号:&nbsp;</strong>
+                                <em>IV-1</em>
+                            </p>-->
+                            <#list obj.contentFragmentList as cf>
+                                <#if cf.attributeId == 111 && cf.content?? && cf.content != "">
+                                    <p class="active">
+                                        <strong>
+                                            <#if obj.lang == "chi">
+                                            ${cf.attribute.cnName}：
+                                            </#if>
+                                            <#if obj.lang == "eng">
+                                            ${cf.attribute.enName}：
+                                            </#if>
+                                        </strong>
+                                        <em class="dic data-item" dic-type="${cf.attribute.dataType}"
+                                            lang="${obj.lang}">${cf.content}</em>
+                                    </p>
+                                </#if>
+                            </#list>
+                        </div>
+                    </#if>
+                    </li>
+                    <div class="idbayin">
+
+                        <!--id标识码-->
+                    <#if (obj.contentFragmentList??) &&(obj.contentFragmentList?size>0)>
+                        <#list obj.contentFragmentList as cf>
+                            <#if cf.attributeId == 11 && cf.content?? && cf.content != "">
+                                <div class="idma">
+                                    <p>
+                                        <b><img src="${caturi}/images/Did.png" alt=""/></b>
+                                        <strong>
+                                            <span>：</span>
+                                            <span data-id="11" class="data-item">${cf.content}</span>
+                                        </strong>
+                                        <em><img src="${caturi}/images/erweima.png" alt="" /></em>
+                                    </p>
+                                </div>
+                            </#if>
+                        </#list>
+                    </#if>
+                    </div>
+                </ul>
+
+            </div>
         </div>
-         </div>
         <!--//End main-->
 
         <!--//End crumbs-->
 
         <div class="card">
-            <div class="card_main">
-                <div class="floor">
-                    <a class="album albums" data-id="all"><i class="icon_img"></i>
-                    </a>
-
-                </div>
-                <!--//End -->
-                <div class="detail_title">
-                <#if (obj.contentFragmentList?size>0)>
-                    <#list obj.contentFragmentList as cf>
-                        <#if cf.attributeId == 13>
-                            <#assign mastername = cf.content>
-                        <h2>${cf.content}</h2>
-                        </#if>
-                    </#list>
-                </#if>
-                <#--获取所属项目的名称-->
-                <#assign pname = "" />
-                <#if obj.ichProject?? && (obj.ichProject.contentFragmentList??) && (obj.ichProject.contentFragmentList?size>0)>
-                    <#list (obj.ichProject.contentFragmentList) as cf>
-                        <#if cf.attributeId == 4>
-                            <#assign pname = "${cf.content}" />
-                        </#if>
-                    </#list>
-                </#if>
-                    <div class="doi_code">
-                        <i class="icon">ID</i>
-                        <span>：<em id="doi_code"><#if (obj.contentFragmentList?size>0)>
-                                        <#list obj.contentFragmentList as cf>
-                                            <#if cf.attributeId == 11>
-                                                ${cf.content}
-                                            </#if>
-                                        </#list>
-                        </#if></em></span>
-                        <em class="icon"></em>
-                        <div class="drop">
-                            <img src="" alt="">
-                        </div>
-                    </div>
-                </div>
-                <!--//End title-->
-
-                <div class="bd subtxt">
-                        <span>
-                            <em><#if (obj.contentFragmentList?size>0)>
-                                <#list obj.contentFragmentList as cf>
-                                    <#if cf.attributeId == 23 && cf.content?? && cf.content != "">
-                                        <strong>申报地区：</strong>
-                                        <#assign codeList = cf.content?split(",")>
-                                        <#list codeList as s>
-                                            <em class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${s}</em>
-                                            <#if s_index+1 < (codeList?size)>
-                                                <i>|</i>
-                                            </#if>
-                                        </#list>
-                                    </#if>
-                                </#list>
-                            </#if></em>
-                        </span>
-                </div>
-                <!--//End-->
-
-        <#if obj.ichProject??>
-                <div class="bd inheritor">
-                    <div class="tname">传承项目</div>
-                    <div class="pro">
-                        <div class="img">
-                            <#assign proPic="http://resource.efeiyi.com/image/uploads/head.png"/>
-                            <#if (obj.ichProject.contentFragmentList?size>0)>
-                                <#list (obj.ichProject.contentFragmentList) as cf>
-                                    <#if cf.attributeId == 1>
-                                        <#if (cf.resourceList??)&&(cf.resourceList?size>0)>
-                                            <#list cf.resourceList as r>
-                                                <#if r.type==0 && r.status==0>
-                                                    <#if r.uri??>
-                                                        <#assign proPic="${prouri}${r.uri}?x-oss-process=style/head-image-style" />
-                                                    </#if>
-                                                </#if>
-                                            </#list>
-                                        </#if>
-                                    </#if>
-                                </#list>
-                            </#if>
-                            <a href="${propage}${obj.ichProject.id?c}.html"><img src="${proPic}" width="94" height="70" alt=""></a>
-                        </div>
-                        <div class="txt">
-                            <p class="t">
-                                <#if (obj.ichProject.contentFragmentList?size>0)>
-                                    <#list (obj.ichProject.contentFragmentList) as cf>
-                                        <#if cf.attributeId == 4>
-                                        <a href="${propage}${obj.ichProject.id?c}.html">${cf.content}</a>
-                                        </#if>
-                                    </#list>
-                                </#if>
-                            </p>
-                            <p><#if (obj.ichProject??)>
-                                <#if (obj.ichProject.ichCategoryId??)>
-                                    类别：<em style="font-size: 12px" id="category" category-id="${obj.ichProject.ichCategoryId}"></em>
-                                </#if>
-                                <#if !(obj.ichProject.ichCategoryId??)>
-                                    类别：<em  style="font-size: 12px" id="category" category-id=""></em>
-                                </#if>
-                            </#if>
-                                 <#if (obj.ichProject.contentFragmentList?size>0)>
-                                                 <#list (obj.ichProject.contentFragmentList) as cf>
-                                                            <#if cf.attributeId == 33 && cf.content?? && cf.content !="" >
-                                                                | 地域： <em style="font-size: 12px" class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em>
-                                                            </#if>
-                                                </#list>
-                                            </#if>
-                            </p>
-                            <p><#if (obj.ichProject.contentFragmentList?size>0)>
-                                        <#list obj.ichProject.contentFragmentList as cf>
-                                            <#if cf.attributeId == 2 && cf.content?? && cf.content !="">
-                                                ID：${cf.content}
-                                            </#if>
-                                        </#list>
-                                     </#if>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-        </#if>
-                <!--//ENd-->
-            <#if (obj.contentFragmentList??) &&(obj.contentFragmentList?size>0)>
-                <div class="bd batch" id="mas">
-                    <div class="tname">非遗在中国<i></i></div>
-                    <div class="subcon" id="subcon">
-                            <#list obj.contentFragmentList as cf>
-                                <#if cf.attributeId == 12 && cf.content?? && cf.content != "" >
-                                    <span>非遗编码：${cf.content}</span>
-                                </#if>
-                                <#if cf.attributeId == 111 && cf.content?? && cf.content != "">
-                                    <span>非遗等级：<em  style="font-size: 12px" class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</em></span>
-                                </#if>
-                            </#list>
-                    </div>
-                </div>
-            </#if>
-                <!--//ENd-->
-
-            </div>
-
-            <div class="card_base">
-                <duv class="detail_title">
-                    <h2>基础信息</h2>
+            <div class="card_base section" data-type="short-text">
+                <duv class="detail_title handle-button">
+                    <h2 class="title">基础信息</h2>
                 </duv>
-                <div class="info" id="info">
+                <div class="info read-piece" id="info">
                     <ul>
                     <#if (obj.contentFragmentList?size>0)>
-                        <#list obj.contentFragmentList as cf>
-                            <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.attribute.dataType !=7 && cf.content?? && cf.content !="" && cf.attributeId != 11 && cf.attributeId != 12 && cf.attributeId != 111 && cf.attributeId != 23>
+                        <#list (obj.contentFragmentList)?sort_by(["attribute""seq"]) as cf>
+                            <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.content !="" && cf.attributeId != 11 && cf.attributeId != 12 && cf.attributeId != 111 && cf.attributeId != 23 && cf.attribute.isOpen == 1>
                                 <li data-open="${cf.attribute.isOpen}">
-                                        <span class="key">${cf.attribute.cnName}：</span>
-                                        <span class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
+                                    <span class="key">${cf.attribute.cnName}：</span>
+                                    <span class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
                                 </li>
                             </#if>
                         </#list>
@@ -414,20 +380,20 @@
         <!--//主内容-->
 
     <#if (obj.contentFragmentList?size>0)>
-        <#list obj.contentFragmentList as cf>
+        <#list (obj.contentFragmentList)?sort_by(["attribute""seq"]) as cf>
             <#if (cf.attribute??) &&(cf.attribute.dataType == 5) && (cf.resourceList??) && (cf.resourceList?size>0)>
 
-                <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
-                    <div class="card" data-id="${cf.id?c}">
-                        <header><h4>${cf.attribute.cnName} </h4></header>
-                        <article class="text_img">
-                            <#if cf.content?? && cf.content != "">
+                <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>" data-type="image-text">
+                    <div class="card" data-id="${cf.attributeId?c}">
+                        <header class="title handle-button"><h4>${cf.attribute.cnName} </h4></header>
+                        <article class="text_img read-piece">
+                            <#if cf.content??>
                                 <div class="side" style="margin-right:30px;">
-                                    <div class="item">
-                                        <p>
-                                            <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<p></p>") />
-                                                 ${content}
-                                        </p>
+                                    <div class="item data-item item-content" data-id="${cf.attributeId?c}">
+
+                                        <#assign content =cf.content?replace(" ","&nbsp;")?replace("\n","<br/>") />
+                                             ${content}
+
                                     </div>
                                 </div>
                             </#if>
@@ -455,7 +421,7 @@
                                                         </video>
                                                     </#if>
                                                     <#if (r.uri?contains("${str}")) || (r.uri?contains("${strs}"))>
-                                                        <video poster="" controls src="${r.uri}" type="video/mp4" style="width: 100%;">
+                                                        <video poster=""  src="${r.uri}" type="video/mp4" style="width: 100%;">
                                                         </video>
                                                     </#if>
                                                 </div>
@@ -471,7 +437,7 @@
                                     </#list>
                                 </ul>
 
-                                <#if (cf.resourceList?size > 2) >
+                                <#if (cf.resourceList?size > 0) >
                                     <div class="more">
                                         <a class="albums arrow_right" data-id="${cf.id?c}" href="javascript:;">查看完整图集</a>
                                     </div>
@@ -486,17 +452,16 @@
 
             <#if ((cf.attribute??) && (cf.attribute.dataType == 5 || cf.attribute.dataType == 1) && (!cf.resourceList?? || cf.resourceList?size==0)) && cf.content?? && cf.content != "">
 
-                <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>">
-                    <div class="card" data-id="${cf.id?c}">
-                        <header><h4>${cf.attribute.cnName}  </h4></header>
-                        <article class="plain_text">
-                            <p>
+                <section class="bd floor <#if odd_even%2 == 0 >odd</#if><#if odd_even%2 != 0 >even</#if>"  data-type="image-text">
+                    <div class="card" data-id="${cf.attributeId?c}">
+                        <header class="title handle-button"><h4>${cf.attribute.cnName}  </h4></header>
+                        <article class="plain_text read-piece">
+                            <div class="data-item item-content" data-id="${cf.attributeId?c}">
                                 <#if cf.content??>
-                                 <#assign content =cf.content?replace("<", "&lt;")?replace(" ","&nbsp;")?replace("\n","<p></p>") />
+                                    <#assign content =cf.content?replace(" ","&nbsp;")?replace("\n","<br/>") />
                                      ${content}
                                 </#if>
-                            </p>
-
+                            </div>
                         </article>
                     </div>
                 </section>
@@ -512,6 +477,8 @@
     <!--//End detail -->
 </div>
 
+<div class="bd footer"></div>
+<!--//End--footer-->
 
 <div class="side_fixed">
     <ul></ul>
@@ -524,36 +491,17 @@
 <script>
     $(function() {
         $(".header .content .nav li").eq(0).removeClass("active");
-        //给logo加首页链接
-        $('.logo').attr('href','${caturi}/page/index.html');
     });
 
-    //判断图片是否加载完成
-    setTimeout(function () {
-        var $img = $('#detailTopic');
-        var $content = $('#detailContent');
-        var img = document.getElementById('detailTopic');
+    $(function(){
+        $('.side_fixed li').each(function(i){
+            if(i>=9){
+                $(this).find('strong').html(i+1)
+            }
+        });
 
-        if(img != null){
-            img.onload = function () {
-                // 加载完成
-                var imgW = parseInt($img.width());
-                $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
-                $content.css({width:imgW+'px'});
-                $img.fadeIn(800);
-            };
-        }
-
-
-        var imgW = parseInt($img.width());
-        $img.css({width:imgW+'px','margin-left':-parseInt(imgW/2)+'px'});
-        $content.css({width:imgW+'px'});
-        $img.fadeIn(800);
-
-    },2000);
-
-
-
+        $(".header .content .nav li").eq(0).removeClass("active");
+    })
 
 </script>
 </html>
