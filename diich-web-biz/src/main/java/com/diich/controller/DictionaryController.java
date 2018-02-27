@@ -120,8 +120,6 @@ public class DictionaryController extends BaseController<Dictionary> {
         return putDataToMap(name);
     }
 
-
-
     @RequestMapping("getAllDictionary")
     @ResponseBody
     public Map<String, Object> getAllDictionary(HttpServletResponse response) {
@@ -184,6 +182,21 @@ public class DictionaryController extends BaseController<Dictionary> {
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(parentName);
     }
+
+    //获取所有地区接口
+    @RequestMapping("getAllDis")
+    @ResponseBody
+    public Map<String,Object> getAllDistricts(int type,HttpServletResponse response){
+
+        List<Dictionary> allDic = null;
+        if(type == 101){
+            allDic  = dictionaryService.getAllDictionaryFromRedis();
+        }
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return putDataToMap(allDic);
+    }
+
 
     //主动 区域数据初始化
     @RequestMapping("initData")
