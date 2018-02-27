@@ -24,6 +24,8 @@ public interface DictionaryService {
 
     String getTextByTypeAndCodeFromRedis(Integer type, String code, String language) throws Exception;
 
+    List<Dictionary> getAllDictionaryFromRedis() ;
+
     //void updateService(Dictionary dictionary);
 
 }
