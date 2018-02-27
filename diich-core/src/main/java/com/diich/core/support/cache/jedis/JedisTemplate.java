@@ -1,6 +1,7 @@
 package com.diich.core.support.cache.jedis;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +27,9 @@ public class JedisTemplate {
     @Autowired
     private JedisConnectionFactory jedisConnectionFactory;
 
+    @Autowired
+    private JedisPool jedisPool;
+
     // 获取线程
     private ShardedJedis getJedis() {
         if (shardedJedisPool == null) {
@@ -40,6 +44,43 @@ public class JedisTemplate {
         }
         return shardedJedisPool.getResource();
     }
+
+    @Bean
+    public JedisPool redisPoolFactory() {
+        /*LOG.info("JedisPool注入成功！！");
+        LOG.info("redis地址：" + host + ":" + port);*/
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        jedisPoolConfig.setMaxIdle(PropertiesUtil.getInt("redis.maxIdle"));
+        jedisPoolConfig.setMaxWaitMillis(PropertiesUtil.getInt("redis.maxWaitMillis"));
+        ;
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, PropertiesUtil.getString("redis.host"),
+                PropertiesUtil.getInt("redis.port"),3000,PropertiesUtil.getString("redis.password"));
+
+        return jedisPool;
+    }
+
+
+    public Set<String> getAllByPattern(String pattern){
+
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            return jedis.keys(pattern);
+        }catch (Exception e){
+            logger.error("Jedis lpush 异常 ：" + e.getMessage());
+            return null;
+        }finally {
+            if (jedis != null){
+                try {
+                    jedis.close();
+                }catch (Exception e){
+                    logger.error(e.getMessage());
+                }
+            }
+        }
+
+    }
+
 
     public void  setCrud(String key, String value) {
         ShardedJedis jedis = getJedis();
@@ -60,6 +101,30 @@ public class JedisTemplate {
         }
 
     }
+
+/*
+
+    public void  getKeys(String key) {
+        ShardedJedis jedis = getJedis();
+        if (jedis == null) {
+            return ;
+        }
+
+        try {
+
+            jedis.keys()
+
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+
+    }
+*/
+
 
 
     public String  getCrud(String key) {
