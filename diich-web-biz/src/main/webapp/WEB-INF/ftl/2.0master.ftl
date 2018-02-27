@@ -318,8 +318,8 @@
                         <#if !obj.userId??>
                             <div class="idbtn">
                                 <p>
-                                    <b class="active"><img src="${caturi}/images/inbtn.png" alt=""></b>
-                                    <b><img src="${caturi}/images/idbtnwhi.png" alt=""></b>
+                                    <#--<b class="active"><img src="${caturi}/images/inbtn.png" alt=""></b>-->
+                                    <#--<b><img src="${caturi}/images/idbtnwhi.png" alt=""></b>-->
                                     <span id="btn_belong" master-id="${obj.id?c}">认领词条</span>
                                 </p>
                             </div>
