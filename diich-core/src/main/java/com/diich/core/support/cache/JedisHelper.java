@@ -1271,8 +1271,12 @@ public class JedisHelper implements CacheManager {
 		});
 	}
 
-	public Set<Object> getAll(String pattern) {
-		return  null;
+	public Set<Object> getAll(final String pattern) {
+		return null;
+	}
+
+	public Set<String> getAllString(final String pattern) {
+		return  jedisTemplate.getAllByPattern(pattern);
 	}
 
 	public void delAll(final String pattern) {
