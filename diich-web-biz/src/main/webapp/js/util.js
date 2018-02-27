@@ -22,7 +22,6 @@ function getTextByTypeAndCode(type, code, lang) {
         return text != '' ? text : code;
     }
 
-
     for (var i = 0; i < dic_arr.length; i++) {
         var dic_obj = dic_arr[i];
         if (dic_obj.type == type && dic_obj.code == code
@@ -48,9 +47,6 @@ function getTextByTypeAndCode(type, code, lang) {
             }
         }
     }
-
-
-
 
     return text != '' ? text : code;
 }
@@ -122,6 +118,30 @@ function getDictionaryArrayByType(type, lang) {
 
     var array = [];
 
+    if(type == 101){
+
+        $.ajax({
+            type: 'post',
+            url: base_url+'/dictionary/getAllDis',
+            data: {'type':type},
+            dataType: 'json',
+            async:false,
+            beforeSend:function() {
+            },
+            success: function(data) {
+                if(data.code==0){
+                    array = data.data;
+                }
+            },
+            error: function () {
+            },
+            complete: function () {
+            }
+        });
+
+        return array;
+    }
+
     for (var i = 0; i < dic_arr.length; i++) {
         var dic_obj = dic_arr[i];
         if (dic_obj.type == type && dic_obj.lang == lang) {
@@ -131,8 +151,52 @@ function getDictionaryArrayByType(type, lang) {
 
     return array;
 }
+
+function getDictionaryArrayByTypeAndParentID(type,parentId, lang) {
+    if (typeof dic_arr == 'undefined') {
+        alert('请引入dictionary.js文件');
+        return;
+    }
+
+    if (typeof lang == 'undefined') {
+        lang = 'chi';
+    }
+
+    var array = [];
+
+    if(type== 101){
+        $.ajax({
+            type: 'post',
+            url: base_url+'/dictionary/getChildenByParentId',
+            data: {'parentId':parentId},
+            dataType: 'json',
+            async:false,
+            beforeSend:function() {
+            },
+            success: function(data) {
+                if(data.code==0){
+                   array = data.data;
+                }
+            },
+            error: function () {
+            },
+            complete: function () {
+            }
+        });
+    }else{
+        for (var i = 0; i < dic_arr.length; i++) {
+            var dic_obj = dic_arr[i];
+            if (dic_obj.type == type && dic_obj.lang == lang) {
+                array.push(dic_obj);
+            }
+        }
+    }
+    return array;
+}
+
+
 function getCategoryTextById(id) {
-    if (typeof id == 'undefined' || id == null || id == '') {
+    if (typeof id == '' || id == null || id == '') {
         return '非遗项目';
     }
 

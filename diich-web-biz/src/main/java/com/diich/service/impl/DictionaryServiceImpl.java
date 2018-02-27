@@ -13,11 +13,10 @@ import com.diich.mapper.DictionaryMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.zip.DeflaterInputStream;
 
 /**
@@ -149,7 +148,7 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
     public String getJSONStrByParentID(String parentId,int type) {
 
         String  res = "";
-        if(parentId == null){
+        if(parentId == null || parentId.equals("")){
             res = jedisHelper.getCrud(Constants.DICTIONARY_KEY);
         }else{
             res = jedisHelper.getCrud(Constants.DICTIONARY_KEY+parentId);
@@ -182,6 +181,28 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
         }
 
         return name;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public List<Dictionary> getAllDictionaryFromRedis()  {
+
+        String dataAll = jedisHelper.getCrud(Constants.DICTIONARY_ALL);
+        List<Dictionary> lsAll = new ArrayList<Dictionary>();
+        if(dataAll== null || dataAll.equals("")){
+            Set<String> keys = jedisHelper.getAllString(Constants.DICTIONARY_CODE+"*");
+            if(keys != null){
+                for (String key : keys) {
+                    lsAll.add(JSON.parseObject(jedisHelper.getCrud(key), new TypeReference<Dictionary>() {}));
+                }
+            }
+            jedisHelper.setCrud(Constants.DICTIONARY_ALL,JSON.toJSONString(lsAll));
+        }else{
+            lsAll = JSON.parseObject(dataAll, new TypeReference<List<Dictionary>>() {});
+        }
+
+
+        return lsAll;
     }
 
     @Override

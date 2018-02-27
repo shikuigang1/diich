@@ -48,7 +48,7 @@ public interface Constants {
     public static final String DICTIONARY_KEY_SINGLE = "D_";
 
     public static final String DICTIONARY_CODE = "C_";
-    //public static final String DICTIONARY_KEY_SINGLE = "D_";
+    public static final String DICTIONARY_ALL = "All_";
 
     /**中文 标记 */
     public static final String LANGUAGE_CHINA = "chi";
