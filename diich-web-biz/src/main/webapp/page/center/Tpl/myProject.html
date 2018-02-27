@@ -30,6 +30,9 @@
                 // 监听删除
                 $("body").delegate("a[id^='del_']", "click", function(){
                     var $this = $(this);
+
+                    $(".mask_over").show();
+
                     $.EU.dialog_create({
                         id: "listIndex",
                         width: 250,
@@ -39,7 +42,7 @@
                         hide:true,
                         okValue: "确认",
                         ok: function () {
-
+                            $(".mask_over").hide();
                             var id = $this.attr("id").split("_").pop();
                             var status = $("#audit_nav .active").attr("data-status");
                             var type = $("#search_select").children(".select").children("h2").attr("data-type");
@@ -62,7 +65,9 @@
                             })
                         },
                         cancelValue: "取消",
-                        cancel: function () {},
+                        cancel: function () {
+                            $(".mask_over").hide();
+                        },
                         content:"<b style='font-size: 10px'>确认删除？<br/>删除后不可恢复!</b>"
                     });
                 });
@@ -202,7 +207,7 @@
                         ajaxLoad(para,fillData);
                     });
                 });
-               //绑定移出效果
+                //绑定移出效果
                 $(this).on("mouseleave", function () {
                     $(this).find(".tab").hide();
                 });
@@ -217,6 +222,7 @@
 
         function ajaxLoad(para,callback) {
 
+            console.log(para);
             var url_ ="";
             if(para.type=='project'){
                 url_ =url.project;
@@ -228,29 +234,29 @@
             }
             var para_ = {status:para.status};
 
-            // $.ajax({
-            //     type: "POST",
-            //     url: url_,
-            //     data: {params: JSON.stringify(para_)},
-            //     dataType: "json",
-            //     async: true,
-            //     success: function (data) {
-            //         //console.log(data.data);
-            //         if (data.code == 0) {
-            //             //$('#content').find('.loading').remove();
-            //             $("#protectList").empty();
-            //             if (callback || callback != 'undefinied') {
-            //                 callback(data.data, para.type);
-            //             }
-            //             //数据为空
-            //             if (data.data.length == 0) {
-            //                 $('#protectList').html('<div style="line-height: 51px;text-align: center;font-size:20px;background: #fff;">暂无数据</div>');
-            //             }
-            //         }else{
-            //             $('.header .content .info li em').click();
-            //         }
-            //     }
-            // });
+             $.ajax({
+                 type: "POST",
+                 url: url_,
+                 data: {params: JSON.stringify(para_)},
+                 dataType: "json",
+                 async: true,
+                 success: function (data) {
+                     //console.log(data.data);
+                     if (data.code == 0) {
+                         //$('#content').find('.loading').remove();
+                         $("#protectList").empty();
+                         if (callback || callback != 'undefinied') {
+                             callback(data.data, para.type);
+                         }
+                         //数据为空
+                         if (data.data.length == 0) {
+                             $('#protectList').html('<div style="line-height: 51px;text-align: center;font-size:20px;background: #fff;">暂无数据</div>');
+                         }
+                     }else{
+                         $('.header .content .info li em').click();
+                     }
+                 }
+             });
         }
 
         function fillData(data,type){
@@ -297,30 +303,35 @@
                     str+="<td>";
                     var flag = false;
                     $.each(contentFragementList,function (j,o) {
-                        if(o.attributeId == 2 && type=='project'){
+                        if(o.attributeId == 2 && type=='project' && currentUser.type==0 && o.content !=""){
                             str+="<a  class=\"edit\" href=\"javascript:checkProject('"+obj.id+"','"+o.content+"')\">审核</a>&nbsp;&nbsp;";
                             flag = true;
                             //return false;
                         }
-                        if(o.attributeId == 11 && type=='inheritor'){
+                        if(o.attributeId == 11 && type=='inheritor' && currentUser.type==0 && o.content !=""){
                             str+="<a  class=\"edit\" href=\"javascript:checkProject('"+obj.id+"','"+o.content+"')\">审核</a>&nbsp;&nbsp;";
                             flag = true;
                             //return false;
                         }
-                        if(o.attributeId == 137 && type=='organize'){
+                        if(o.attributeId == 137 && type=='organize' && currentUser.type==0 && o.content !=""){
                             str+="<a  class=\"edit\" href=\"javascript:checkProject('"+obj.id+"','"+o.content+"')\">审核</a>&nbsp;&nbsp;";
                             flag = true;
                             //return false;
                         }
                     });
 
-                    if(!flag){
+                    if(!flag && currentUser.type==0){
                         str+="<a  class=\"edit\" href=\"javascript:checkProject('"+obj.id+"','')\">审核</a>&nbsp;&nbsp;";
                     }
-                        str+="<a class=\"edit\" href=\"javascript:refuseProject("+obj.id+")\">拒绝</a>&nbsp;&nbsp;";
-                        str+="<a class=\"edit\" href=\"javascript:preview("+obj.id+")\">查看</a></td>";
+                    if(currentUser.type==0){
+                        str+="<a class=\"edit\" href=\"javascript:refuseProject('"+obj.id+"')\">拒绝</a>&nbsp;&nbsp;";
+                    }
+
+                    flag = false;
+
+                    str+="<a class=\"edit\" href=\"javascript:preview('"+obj.id+"')\">查看</a></td>";
                 }else{
-                    str+="<td><a class=\"edit\" href=\"javascript:preview("+obj.id+")\">查看</a></td>";
+                    str+="<td><a class=\"edit\" href=\"javascript:preview('"+obj.id+"')\">查看</a></td>";
                 }
                 str+="</tr>";
             });
@@ -339,7 +350,8 @@
             var para={
                 status:status,
                 type:type
-            }
+            };
+
             ajaxLoad(para,fillData);
         }
 
@@ -363,7 +375,7 @@
                 async:false,
                 complete: function () { },
                 success: function (result) {
-                    //console.log(JSON.stringify(result));
+                    console.log(JSON.stringify(result));
                     if(result.code==0){
                         //存储本地
                         modal.loading({
@@ -461,7 +473,7 @@
                 async:false,
                 complete: function () { },
                 success: function (result) {
-                    //console.log(result);
+                    console.log(result);
                     $("#refbtn").attr("href","javascript:refuse_confire()");
                     if(result.code==0){
                         $("#refuse").hide();
