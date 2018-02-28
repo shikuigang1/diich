@@ -18,7 +18,7 @@ function getTextByTypeAndCode(type, code, lang) {
     var text = '';
 
     if(type == 101 ){
-       text =  getDicByCodeTypeAndLanguage(type,code,lang);
+        text =  getDicByCodeTypeAndLanguage(type,code,lang);
         return text != '' ? text : code;
     }
 
@@ -56,7 +56,7 @@ function getTextByTypeAndCode(type, code, lang) {
  * @returns {string}
  */
 function getDictionaryById(id,type) {
-    
+
     var text = '';
 
     if(type == 101){
@@ -98,7 +98,7 @@ function getDictionaryById(id,type) {
 
     return text;
 
-   // return text;
+    // return text;
 }
 /**
  * 获取同一类型的字典数据
@@ -168,14 +168,18 @@ function getDictionaryArrayByTypeAndParentID(type,parentId, lang) {
         $.ajax({
             type: 'post',
             url: base_url+'/dictionary/getChildenByParentId',
-            data: {'parentId':parentId},
+            data: {'type':type,'parentId':parentId},
             dataType: 'json',
             async:false,
             beforeSend:function() {
             },
             success: function(data) {
                 if(data.code==0){
-                   array = data.data;
+                    if($.type(data.data) == 'string') {
+                        array = JSON.parse(data.data);
+                    } else {
+                        array = data.data;
+                    }
                 }
             },
             error: function () {
@@ -238,7 +242,7 @@ function getCategoryById(id) {
         if (category.parent_id == null) {
             break;
         } else {
-             var parent_text = getCategoryById(category.parent_id);
+            var parent_text = getCategoryById(category.parent_id);
             text = parent_text + text;
         }
     }
@@ -346,9 +350,9 @@ function  getDicData(parentId) {
         beforeSend:function() {
         },
         success: function(data) {
-                if(data.code==0){
-                    data = data.data
-                }
+            if(data.code==0){
+                data = data.data
+            }
         },
         error: function () {
         },
@@ -370,7 +374,7 @@ function  getDicByCodeTypeAndLanguage(type,code,language) {
         beforeSend:function() {
         },
         success: function(data) {
-           // console.log(data);
+            // console.log(data);
             if(data.code==0){
                 text = data.data
             }
@@ -504,9 +508,9 @@ var myDialog = {
 var newUpload =  {
     // 模板
     tmp: '<div style="padding-top: 20%;">' +
-        '<img src="../static/images/jia.png">' +
-        '<p>上传照片</p>' +
-        '</div>',
+    '<img src="../static/images/jia.png">' +
+    '<p>上传照片</p>' +
+    '</div>',
 
     // 创建上传
     create: function(id, url, params, callback) {
@@ -587,10 +591,10 @@ var newUpload =  {
             var mheight = $("#" + id).height();
 
             var $li = $(
-                    '<div id="' + file.id + '" class="webuploader-echo-div">' +
-                    '<img style="width: 100%; height:' + mheight + 'px">' +
-                    '<div class="webuploader-echo-mongolia" style="line-height:' + mheight + 'px;"><span id="delete-' + file.id + '" >删除</span></div>' +
-                    '</div>'
+                '<div id="' + file.id + '" class="webuploader-echo-div">' +
+                '<img style="width: 100%; height:' + mheight + 'px">' +
+                '<div class="webuploader-echo-mongolia" style="line-height:' + mheight + 'px;"><span id="delete-' + file.id + '" >删除</span></div>' +
+                '</div>'
                 ),
                 $img = $li.find('img');
 
