@@ -542,7 +542,9 @@ function addMainInfoCompListener($section) {
         $comb.siblings('.item').animate({height:'hide'},50);
 
         var opts = {};
-        opts.data = area_all;
+        //opts.data = area_all;
+        opts.type=101;
+        opts.data = getDictionaryArrayByTypeAndParentID(101, '', 'chi');
         opts.callback = function (data_code, name) {
             _this.attr('data-value', data_code);
             _this.text(name);
@@ -841,11 +843,16 @@ function editShortTextUi($section) {
 
         $ui.find('.label').append(attr.cnName);
 
-        if(attr.dataType > 100) {
+        if(attr.dataType > 101) {
             var $select = $('<select></select>');
             $select.addClass('ipt').addClass('w310').addClass('data-item');
+            var dicArr = [];
+            if(attr.dataType == 101){
+                dicArr = getDictionaryArrayByTypeAndParentID(101, '', 'chi');
+            }else{
+                dicArr = getDictionaryArrayByType(attr.dataType, 'chi');
+            }
 
-            var dicArr = getDictionaryArrayByType(attr.dataType, 'chi');
             for(var t = 0; t < dicArr.length; t++) {
                 var $option = $('<option></option>');
                 $option.attr('value', dicArr[t].code);
@@ -1283,7 +1290,17 @@ function buildCombLiUi(area, opts) {
 
     $li.hover(function () {
         var _this = $(this);
-        buildNextCombLiUi(_this, opts);
+
+        if(opts.type != null && opts.type == 101) {
+            opts.data = getDictionaryArrayByTypeAndParentID(opts.type, _this.attr('data-id'), 'chi');
+        }
+
+        if(opts.type == 101){
+            buildNextCombLiUi_(_this, opts);
+        }else{
+            buildNextCombLiUi(_this, opts);
+        }
+
     });
 
     $li.on('click', function () {
@@ -1298,6 +1315,7 @@ function buildCombLiUi(area, opts) {
     return $li;
 }
 
+
 function buildNextCombLiUi(_this, opts) {
     var next = _this.parent().parent().parent().next('dl');
     removeNextLevel(next);
@@ -1309,6 +1327,39 @@ function buildNextCombLiUi(_this, opts) {
 
         if(area.parent_id == _this.attr('data-id')) {
             var $li = buildCombLiUi(area, opts);
+            $ul.append($li);
+        }
+    }
+
+    if($ul.find('li').length > 0) {
+        var $dl = $('<dl></dl>');
+        var $dd = $('<dd></dd>');
+
+        $dd.append($ul);
+        $dl.append($dd);
+        $(_this).parent().parent().parent().parent().append($dl);
+    }
+}
+
+function buildNextCombLiUi_(_this, opts) {
+    var next = _this.parent().parent().parent().next('dl');
+    removeNextLevel(next);
+
+    var $ul = $('<ul></ul>');
+
+    for(var i = 0; opts.data != null && i < opts.data.length; i++) {
+        var v_data = opts.data[i];
+
+        var v_id = null;
+
+        if(v_data.parent_id != null) {
+            v_id = v_data.parent_id;
+        } else if(v_data.parentId != null) {
+            v_id = v_data.parentId;
+        }
+
+        if(v_id == _this.attr('data-id')) {
+            var $li = buildCombLiUi(v_data, opts);
             $ul.append($li);
         }
     }
