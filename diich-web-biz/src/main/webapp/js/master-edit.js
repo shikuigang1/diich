@@ -138,7 +138,7 @@ function displayEditMode() {
         var data_type = $section.attr('data-type');
 
         if(data_type == 'main-text') {
-            eidtMainInfoUi($section);
+            //eidtMainInfoUi($section);
         } else if(data_type == 'short-text') {
             editShortTextUi($section);
         } else if(data_type == 'image-text') {
@@ -542,9 +542,9 @@ function addMainInfoCompListener($section) {
         $comb.siblings('.item').animate({height:'hide'},50);
 
         var opts = {};
+        opts.type = 101;
+        opts.data = getDictionaryArrayByTypeAndParentID(opts.type, '', 'chi');
         //opts.data = area_all;
-        opts.type=101;
-        opts.data = getDictionaryArrayByTypeAndParentID(101, '', 'chi');
         opts.callback = function (data_code, name) {
             _this.attr('data-value', data_code);
             _this.text(name);
@@ -843,16 +843,13 @@ function editShortTextUi($section) {
 
         $ui.find('.label').append(attr.cnName);
 
-        if(attr.dataType > 101) {
+        if(attr.dataType == 101) {
+            buildAreaUi($ui, attr);
+        } else if(attr.dataType > 101) {
             var $select = $('<select></select>');
             $select.addClass('ipt').addClass('w310').addClass('data-item');
-            var dicArr = [];
-            if(attr.dataType == 101){
-                dicArr = getDictionaryArrayByTypeAndParentID(101, '', 'chi');
-            }else{
-                dicArr = getDictionaryArrayByType(attr.dataType, 'chi');
-            }
 
+            var dicArr = getDictionaryArrayByType(attr.dataType, 'chi');
             for(var t = 0; t < dicArr.length; t++) {
                 var $option = $('<option></option>');
                 $option.attr('value', dicArr[t].code);
@@ -874,6 +871,27 @@ function editShortTextUi($section) {
             }
         }
     }
+}
+
+function buildAreaUi($ui, attr) {
+    if(attr.id == 49 || attr.id == 57 || attr.id == 55) {
+        //国家
+        var $select = $('<select></select>');
+        $select.addClass('ipt').addClass('w310').addClass('data-item');
+
+        var dicArr = getDictionaryArrayByTypeAndParentID(101, '', 'chi');
+        for(var t = 0; t < dicArr.length; t++) {
+            var $option = $('<option></option>');
+            $option.attr('value', dicArr[t].code);
+            $option.text(dicArr[t].name);
+
+            $select.append($option);
+        }
+
+        $ui.find('input').replaceWith($select);
+        $ui.find('select').attr('data-id', attr.id);
+    }
+
 }
 
 function editImageTextUi($section) {
@@ -1290,17 +1308,10 @@ function buildCombLiUi(area, opts) {
 
     $li.hover(function () {
         var _this = $(this);
-
-        if(opts.type != null && opts.type == 101) {
+        if(opts.type != null) {
             opts.data = getDictionaryArrayByTypeAndParentID(opts.type, _this.attr('data-id'), 'chi');
         }
-
-        if(opts.type == 101){
-            buildNextCombLiUi_(_this, opts);
-        }else{
-            buildNextCombLiUi(_this, opts);
-        }
-
+        buildNextCombLiUi(_this, opts);
     });
 
     $li.on('click', function () {
@@ -1315,33 +1326,7 @@ function buildCombLiUi(area, opts) {
     return $li;
 }
 
-
 function buildNextCombLiUi(_this, opts) {
-    var next = _this.parent().parent().parent().next('dl');
-    removeNextLevel(next);
-
-    var $ul = $('<ul></ul>');
-
-    for(var i = 0; opts.data != null && i < opts.data.length; i++) {
-        var area = opts.data[i];
-
-        if(area.parent_id == _this.attr('data-id')) {
-            var $li = buildCombLiUi(area, opts);
-            $ul.append($li);
-        }
-    }
-
-    if($ul.find('li').length > 0) {
-        var $dl = $('<dl></dl>');
-        var $dd = $('<dd></dd>');
-
-        $dd.append($ul);
-        $dl.append($dd);
-        $(_this).parent().parent().parent().parent().append($dl);
-    }
-}
-
-function buildNextCombLiUi_(_this, opts) {
     var next = _this.parent().parent().parent().next('dl');
     removeNextLevel(next);
 
