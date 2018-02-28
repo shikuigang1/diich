@@ -1482,7 +1482,7 @@ textarea.active::-webkit-scrollbar-track {/*滚动条里面轨道*/
     text-align: center;
     box-sizing: border-box;
     margin-left: 16px;
-    padding-top: 108px;
+    /*padding-top: 108px;*/
     cursor: pointer;
 }
 .in_Basics > div:nth-child(1) > div ul li div img{
@@ -1500,7 +1500,7 @@ textarea.active::-webkit-scrollbar-track {/*滚动条里面轨道*/
 .in_Basics > div:nth-child(1) > div > div{
     float: right;
 }
-.in_Basics > div:nth-child(1) > div > div div{
+.in_Basics > div:nth-child(1) > div > div .uploda-div{
     width: 244px;
     height: 172px;
     border: 1px solid #E4E6EA;
@@ -1508,7 +1508,7 @@ textarea.active::-webkit-scrollbar-track {/*滚动条里面轨道*/
     text-align: center;
     box-sizing: border-box;
     margin-left: 16px;
-    padding-top: 54px;
+    /*padding-top: 54px;*/
     cursor: pointer;
 }
 .in_Basics > div:nth-child(1) > div > div div img{
