@@ -289,3 +289,15 @@ section .item-content:after {
 .card_video video {
     object-fit: contain;
 }
+
+.dropbox {
+    width: 100%;
+    width: 1310px;
+    margin-top: 45px;
+    position: relative;
+    top: 60px;
+}
+
+.dropbox .item{
+    max-width:1210px;
+}
