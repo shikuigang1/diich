@@ -244,11 +244,11 @@ function displayEditMode() {
             $section.find('.edit.link').show();
         });
     });
-    
+
     $('a.albums').hide();
     $('a.share').hide();
     $('a.praise').hide();
-    
+
     $('.add.button').on('click', function () {
         if(has_edit == true) {
             alert('已经有模块处于编辑状态，请保存后再进行此操作。');
@@ -897,7 +897,8 @@ function addMainInfoCompListener($section) {
         $comb.siblings('.item').animate({height:'hide'},50);
 
         var opts = {};
-        opts.data = area_all;
+        opts.type = 101;
+        opts.data = getDictionaryArrayByTypeAndParentID(101, '', 'chi');
         opts.callback = function (data_code, name) {
             _this.attr('data-value', data_code);
             _this.text(name);
@@ -1032,6 +1033,9 @@ function buildCombLiUi(area, opts) {
 
     $li.hover(function () {
         var _this = $(this);
+        if(opts.type != null) {
+            opts.data = getDictionaryArrayByTypeAndParentID(opts.type, _this.attr('data-id'), 'chi');
+        }
         buildNextCombLiUi(_this, opts);
     });
 
@@ -1054,10 +1058,18 @@ function buildNextCombLiUi(_this, opts) {
     var $ul = $('<ul></ul>');
 
     for(var i = 0; opts.data != null && i < opts.data.length; i++) {
-        var area = opts.data[i];
+        var v_data = opts.data[i];
 
-        if(area.parent_id == _this.attr('data-id')) {
-            var $li = buildCombLiUi(area, opts);
+        var v_id = null;
+
+        if(v_data.parent_id != null) {
+            v_id = v_data.parent_id;
+        } else if(v_data.parentId != null) {
+            v_id = v_data.parentId;
+        }
+
+        if(v_id == _this.attr('data-id')) {
+            var $li = buildCombLiUi(v_data, opts);
             $ul.append($li);
         }
     }
