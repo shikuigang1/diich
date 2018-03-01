@@ -18,7 +18,15 @@ var inheritorlPage = {
 
 $(function () {
     inheritorlPage.init();
+    
+    $('#btn_belong').on('click', function () {
+        var _this = $(this);
+        var masterId = _this.attr('master-id');
+        window.location = base_url + '/page/ichMasterClaim.html?masterId=' + masterId;
+    });
 });
+
+
 
 
 
