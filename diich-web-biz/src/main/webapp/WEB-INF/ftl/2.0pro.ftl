@@ -77,7 +77,6 @@
 
     <script src="${caturi}/assets/js/Ecalendar.jquery.min.js"></script>
     <script src="${caturi}/js/semantic.min.js"></script>
-    <script src="${caturi}/data/area.js"></script>
     <script src="${caturi}/js/project-edit-template.js"></script>
     <script src="${caturi}/js/project-edit.js?3"></script>
 
