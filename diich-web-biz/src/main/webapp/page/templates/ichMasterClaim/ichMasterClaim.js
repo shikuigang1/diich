@@ -1,7 +1,7 @@
 define(["text!ichMasterClaim/claim.tpl", "text!ichMasterClaim/claim-success.tpl"], function(claimTpl, claimSuccessTpl) {
     var countrys = []; // 国籍
     var masterId = getQueryString("masterId"); // 传承人ID
-    console.log("masterId -- >", masterId);
+    //console.log("masterId -- >", masterId);
     function _init(dic_arr_city) {
         countrys = dic_arr_city; // 接收页面传递过来的国籍
         getMasterTmp(); // 获取认领词条模板
@@ -21,25 +21,33 @@ define(["text!ichMasterClaim/claim.tpl", "text!ichMasterClaim/claim-success.tpl"
             countrys: countrys
         })); // 更新页面模板
 
+        // 性别
+        $("[name='sex']").on("click", function() {
+            //console.log()
+            $("[name='sex']").each(function() {
+                $(this).removeClass("active");
+            })
+            $(this).addClass("active");
+        })
 
         // 初始化上传
         newUpload.create("coverImg", "image/master/", {width: "244px", height: "172px"}, function(res) {
             if(res.code == "1") {
                 coverImg = res.path;
             }
-            console.log("coverImg == ", coverImg, res)
+            //console.log("coverImg == ", coverImg, res)
         }); // 图片
         newUpload.create("justImg", "image/master/", {width: "382px", height: "286px"}, function(res) {
             if(res.code == "1") {
                 justImg = res.path;
             }
-            console.log("justImg == ", justImg, res)
+            //console.log("justImg == ", justImg, res)
         });
         newUpload.create("backImg", "image/master/", {width: "382px", height: "286px"}, function(res) {
             if(res.code == "1") {
                 backImg = res.path;
             }
-            console.log("backImg == ", backImg, res)
+            //console.log("backImg == ", backImg, res)
         });
 
         // 监听提交
