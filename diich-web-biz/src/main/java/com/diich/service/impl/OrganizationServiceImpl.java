@@ -132,6 +132,11 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         List<ContentFragment> contentFragmentList = organization.getContentFragmentList();
         if (contentFragmentList != null && contentFragmentList.size() > 0) {
             for (ContentFragment contentFragment : contentFragmentList) {
+                //判断短文本的content是否为空
+                boolean flag = contentIsNull(contentFragment);
+                if (flag) {
+                    continue;
+                }
                 contentFragment.setTargetId(organization.getId());
                 contentFragment.setTargetType(3);
                 //新增内容片断
@@ -142,6 +147,18 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             organization = getAttribute(organization);//获取attribute
             buildAndUpload(organization);
         }
+    }
+
+    private boolean contentIsNull(ContentFragment contentFragment) {
+        boolean flag = false;
+        if (contentFragment != null) {
+            String content = contentFragment.getContent();
+            List<Resource> resourceList = contentFragment.getResourceList();
+            if (content == null && (resourceList == null || resourceList.size() == 0)) {
+                flag = true;
+            }
+        }
+        return flag;
     }
 
     private void buildAndUpload(Organization organization) throws Exception {
@@ -330,7 +347,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         TransactionStatus transactionStatus = getTransactionStatus();
         try {
             Organization organization = organizationMapper.selectOrganizationById(id);
-            if(organization == null){
+            if (organization == null) {
                 throw new ApplicationException(ApplicationException.PARAM_ERROR, "该id对应的机构不存在");
             }
             if (organization != null && organization.getStatus() != null && organization.getStatus() != 3) {
@@ -570,9 +587,9 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             }
             if (attribute.getMaxLength() != null && (attribute.getId() == contentFragment.getAttributeId())) {
 
-                if(attribute.getDataType() >= 100 && contentFragment.getContent() != null){
+                if (attribute.getDataType() >= 100 && contentFragment.getContent() != null) {
                     String[] arr = contentFragment.getContent().split(",");
-                    if(arr.length > attribute.getMaxLength()){
+                    if (arr.length > attribute.getMaxLength()) {
                         throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
                     }
                 }

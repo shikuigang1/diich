@@ -228,6 +228,11 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
         if (contentFragmentList != null && contentFragmentList.size() > 0) {
             for (ContentFragment contentFragment : contentFragmentList) {
+                //判断短文本的content是否为空
+                boolean flag = contentIsNull(contentFragment);
+                if(flag){
+                    continue;
+                }
                 contentFragment.setTargetId(ichProject.getId());
                 contentFragment.setTargetType(0);
                 //新增内容片断
@@ -239,6 +244,18 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             buildAndUpload(ichProject);
         }
         return ichProject;
+    }
+
+    private boolean contentIsNull(ContentFragment contentFragment) {
+        boolean flag = false;
+        if (contentFragment != null) {
+            String content = contentFragment.getContent();
+            List<Resource> resourceList = contentFragment.getResourceList();
+            if (content == null && (resourceList == null || resourceList.size() == 0)) {
+                flag = true;
+            }
+        }
+        return flag;
     }
 
     private void buildAndUpload(IchProject ichProject) throws Exception {
