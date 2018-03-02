@@ -229,6 +229,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         if (contentFragmentList != null && contentFragmentList.size() > 0) {
             for (ContentFragment contentFragment : contentFragmentList) {
                 contentFragment.setTargetId(ichProject.getId());
+                contentFragment.setTargetType(0);
                 //新增内容片断
                 contentFragmentService.saveContentFragment(contentFragment);
             }

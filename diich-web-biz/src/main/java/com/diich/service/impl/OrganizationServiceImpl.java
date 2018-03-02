@@ -133,6 +133,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         if (contentFragmentList != null && contentFragmentList.size() > 0) {
             for (ContentFragment contentFragment : contentFragmentList) {
                 contentFragment.setTargetId(organization.getId());
+                contentFragment.setTargetType(3);
                 //新增内容片断
                 contentFragmentService.saveContentFragment(contentFragment);
             }

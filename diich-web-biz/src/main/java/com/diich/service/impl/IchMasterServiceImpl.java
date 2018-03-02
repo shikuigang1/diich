@@ -210,6 +210,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             for (ContentFragment contentFragment : contentFragmentList) {
                 //添加内容片断
                 contentFragment.setTargetId(ichMaster.getId());
+                contentFragment.setTargetType(1);
                 contentFragmentService.saveContentFragment(contentFragment);
             }
         }
@@ -317,6 +318,9 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
         if (contentFragmentList != null && contentFragmentList.size() > 0) {
             for (ContentFragment contentFragment : contentFragmentList) {
+                if(contentFragment.getAttribute() != null && contentFragment.getAttribute().getIsOpen() != null && contentFragment.getAttribute().getIsOpen() == 0){
+                    continue;
+                }
                 contentFragment.setId(null);
                 contentFragment.setTargetId(branchId);
                 if (contentFragment.getAttributeId() != null) {
