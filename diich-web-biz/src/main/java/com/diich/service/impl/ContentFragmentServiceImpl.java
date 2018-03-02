@@ -194,9 +194,15 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
             }
 
             if (attribute != null && attribute.getMinLength() != null) {
-                String content = contentFragment.getContent().trim();
-                if (content == null || (content.trim().length() < attribute.getMinLength())) {
+                String content = contentFragment.getContent();
+                if (attribute.getDataType() != 7 && (content == null || (content.trim().length() < attribute.getMinLength()))) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
+                }
+                if(attribute.getDataType() == 7){
+                    List<Resource> resourceList = contentFragment.getResourceList();
+                    if(resourceList != null && resourceList.size() < attribute.getMinLength()){
+                        throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
+                    }
                 }
             }
             if (attribute != null && attribute.getMaxLength() != null) {
@@ -206,7 +212,7 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
                         throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
                     }
                 }
-                String content = contentFragment.getContent().trim();
+                String content = contentFragment.getContent();
                 if (attribute.getDataType() < 100 && content != null && content.trim().length() > attribute.getMaxLength()) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
                 }
