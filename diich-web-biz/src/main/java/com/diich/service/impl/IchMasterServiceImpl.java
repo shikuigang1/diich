@@ -208,8 +208,14 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
         if (contentFragmentList != null && contentFragmentList.size() > 0) {
             for (ContentFragment contentFragment : contentFragmentList) {
+                //判断短文本的content是否为空
+                boolean flag = contentIsNull(contentFragment);
+                if(flag){
+                    continue;
+                }
                 //添加内容片断
                 contentFragment.setTargetId(ichMaster.getId());
+                contentFragment.setTargetType(1);
                 contentFragmentService.saveContentFragment(contentFragment);
             }
         }
@@ -229,6 +235,18 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             buildAndUpload(ichMaster);
         }
         return ichMaster;
+    }
+
+    private boolean contentIsNull(ContentFragment contentFragment) {
+        boolean flag = false;
+        if (contentFragment != null) {
+            String content = contentFragment.getContent();
+            List<Resource> resourceList = contentFragment.getResourceList();
+            if (content == null && (resourceList == null || resourceList.size() == 0)) {
+                flag = true;
+            }
+        }
+        return flag;
     }
 
     /**
@@ -317,6 +335,9 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         List<ContentFragment> contentFragmentList = ichMaster.getContentFragmentList();
         if (contentFragmentList != null && contentFragmentList.size() > 0) {
             for (ContentFragment contentFragment : contentFragmentList) {
+                if (contentFragment.getAttribute() != null && contentFragment.getAttribute().getIsOpen() != null && contentFragment.getAttribute().getIsOpen() == 0) {
+                    continue;
+                }
                 contentFragment.setId(null);
                 contentFragment.setTargetId(branchId);
                 if (contentFragment.getAttributeId() != null) {
@@ -531,7 +552,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
      * @param doi
      */
     @Override
-    public void audit(Long id, User user, String doi) throws Exception{
+    public void audit(Long id, User user, String doi) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
         try {
             IchMaster ichMaster = ichMasterMapper.selectMasterById(id);
@@ -663,7 +684,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     }
 
     private IchMaster auditEntry(IchMaster ichMaster, User user, List<Version> verList, String doi) throws Exception {
-        try{
+        try {
             Version version = verList.get(0);
             Long mainVersionId = version.getMainVersionId();
             ichMaster.setStatus(0);
@@ -718,7 +739,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             contentFragments = getContentFragmentByMasterId(master);
             master.setContentFragmentList(contentFragments);
             return master;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
@@ -1073,9 +1094,9 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             }
             if (attribute.getMaxLength() != null && (attribute.getId() == contentFragment.getAttributeId())) {
 
-                if(attribute.getDataType() >= 100 && contentFragment.getContent() != null){
+                if (attribute.getDataType() >= 100 && contentFragment.getContent() != null) {
                     String[] arr = contentFragment.getContent().split(",");
-                    if(arr.length > attribute.getMaxLength()){
+                    if (arr.length > attribute.getMaxLength()) {
                         throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
                     }
                 }
