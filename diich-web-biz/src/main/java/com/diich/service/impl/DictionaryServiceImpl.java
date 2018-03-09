@@ -179,7 +179,6 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
             Dictionary dictionary = JSON.parseObject(jsonStr, new TypeReference<Dictionary>() {});
             name = getDicParentNameById(String.valueOf(dictionary.getId()));
         }
-
         return name;
     }
 
@@ -219,7 +218,7 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
                 parentName = dictionary.getName() + parentName;
                 return getDicParentNameById(String.valueOf(dictionary.getParentId()))+parentName;
             }else{
-                return parentName;
+                return dictionary.getName();
             }
         }
         return parentName;
