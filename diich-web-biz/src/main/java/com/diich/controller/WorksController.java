@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
+import com.diich.core.model.User;
 import com.diich.core.model.Works;
 import com.diich.core.service.WorksService;
+import com.diich.core.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,5 +69,73 @@ public class WorksController extends BaseController<Works> {
         response.setHeader("Access-Control-Allow-Origin", "*");
         return putDataToMap(page);
     }
+
+    @RequestMapping("saveWorks")
+    @ResponseBody
+    public Map<String, Object> saveWorks(HttpServletRequest request,HttpServletResponse response)  {
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
+        User user = (User) WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        String params = request.getParameter("params");
+        Works works = null;
+        try {
+            works = parseObject(params, Works.class);
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+
+        works.setLastEditorId(user.getId());
+
+        try {
+            works = worksService.saveWorks(works,user);
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+        return putDataToMap(works);
+    }
+
+    @RequestMapping("submitWorks")
+    @ResponseBody
+    public Map<String, Object> submitIchProject(HttpServletRequest request,HttpServletResponse response)  {
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        String params = request.getParameter("params");
+        Works works = null;
+        try {
+            works = parseObject(params, Works.class);
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+
+        works.setLastEditorId(user.getId());
+
+        try {
+            works.setStatus(3);
+            works = worksService.saveWorks(works,user);
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+        return putDataToMap(works);
+    }
+
 
 }

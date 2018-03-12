@@ -1056,7 +1056,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 for (Attribute attribute : attributeList) {
                     if (contentFragment.getAttributeId() != null && contentFragment.getAttributeId().equals(attribute.getId())) {
                         contentFragment.setAttribute(attribute);
-                        if ((attribute.getDataType() == 5 || attribute.getId() == 1 || attribute.getId() == 112)) {
+                        if ((attribute.getDataType() == 5 || attribute.getDataType() == 7)) {
                             cfrList.add(contentFragment.getId());
                         }
                         break;

@@ -21,6 +21,7 @@ import java.util.*;
  * Created by Administrator on 2017/5/19.
  */
 @Service("worksService")
+@SuppressWarnings("all")
 public class WorksServiceImpl extends BaseService<Works> implements WorksService{
 
     @Autowired
@@ -144,35 +145,82 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
      * @throws Exception
      */
     @Override
-    public void saveWorks(Works works) throws Exception {
+    public Works saveWorks(Works works,User user) throws Exception {
         TransactionStatus transactionStatus = getTransactionStatus();
-        try{
-            if(works.getId() == null){//新增
-                Long worksId = IdWorker.getId();
-                works .setId(worksId);
-                works.setStatus(0);
-                works.setIsRepresent(1);
-                works.setUri(worksId + ".html");
-                worksMapper.insertSelective(works);
-            }else{
-                //更新
-                works.setUri(works.getId() + ".html");
-                worksMapper.updateByPrimaryKeySelective(works);
-            }
-            List<ContentFragment> contentFragmentList = works.getContentFragmentList();
-            if(contentFragmentList != null && contentFragmentList.size()>0){
-                for (ContentFragment contentFragment:contentFragmentList) {
-                    contentFragment.setTargetId(works.getId());
-                    contentFragmentService.saveContentFragment(contentFragment);
+        try {
+            if (works.getStatus() != null && works.getStatus() == 3) {
+                //检查属性是否符合条件
+                checkAttribute(works, 3);
+                if (user != null && user.getType() == 0) {//如果当前修改者不是admin type 代表权限 0 代表admin  1代表普通用户
+                    works.setStatus(0);
                 }
             }
+            works.setLastEditDate(new Date());
+            saveWork(works, user);//保存项目
             commit(transactionStatus);
-        }catch (Exception e){
+        } catch (Exception e) {
             rollback(transactionStatus);
+            if (e instanceof ApplicationException) {
+                ApplicationException ae = (ApplicationException) e;
+                if (ae.getCode() == 2) {
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR, ae.getDetailMsg());
+                }
+            }
+            e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
+        return works;
     }
 
+    private Works saveWork(Works works, User user)throws Exception {
+        if (StringUtils.isEmpty(works.getLang())) {
+            works.setLang("chi");
+        }
+        //如果不是提交待审核的状态改为草稿状态
+        if (works.getStatus() == null || works.getStatus() != 3) {
+            works.setStatus(2);
+        }
+        //如果是管理员操作直接是已审核的状态
+        if (user != null && user.getType() != null && user.getType() == 0) {
+            works.setStatus(0);
+        }
+
+        if (works.getId() == null) {//保存
+            long workId = IdWorker.getId();
+            works.setId(workId);
+            works.setUri(workId + ".html");
+            worksMapper.insertSelective(works);
+        } else {//修改
+            worksMapper.updateByPrimaryKeySelective(works);
+        }
+        List<ContentFragment> contentFragmentList = works.getContentFragmentList();
+        if (contentFragmentList != null && contentFragmentList.size() > 0) {
+            for (ContentFragment contentFragment : contentFragmentList) {
+                //判断短文本的content是否为空
+                boolean flag = contentIsNull(contentFragment);
+                if(flag){
+                    continue;
+                }
+                contentFragment.setTargetId(works.getId());
+                contentFragment.setTargetType(2);
+                //新增内容片断
+                contentFragmentService.saveContentFragment(contentFragment);
+            }
+        }
+        return works;
+    }
+
+    private boolean contentIsNull(ContentFragment contentFragment) {
+        boolean flag = false;
+        if (contentFragment != null) {
+            String content = contentFragment.getContent();
+            List<Resource> resourceList = contentFragment.getResourceList();
+            if (content == null && (resourceList == null || resourceList.size() == 0)) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
     /**
      * 生成静态页面
      * @param templateName
@@ -275,7 +323,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 for (Attribute attribute : attributeList) {
                     if(contentFragment.getAttributeId() != null && contentFragment.getAttributeId().equals(attribute.getId())){
                         contentFragment.setAttribute(attribute);
-                        if((attribute.getDataType() == 5 || attribute.getId() == 25 || attribute.getId() == 114)){
+                        if((attribute.getDataType() == 5 || attribute.getDataType() == 7)){
                             cfrList.add(contentFragment.getId());
                         }
                         break;
@@ -307,5 +355,71 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
             }
         }
         return contentFragmentList;
+    }
+
+    /**
+     * 检查属性是否符合条件
+     *
+     * @param ichProject
+     */
+    private void checkAttribute(Works works, Integer status) throws Exception {
+        List<ContentFragment> contentFragmentList = works.getContentFragmentList();
+        if (status == 3) {//提交
+            List<Attribute> attributeList = null;
+            try {
+                //根据targetType获取属性列表
+                Attribute attribute = new Attribute();
+                attribute.setTargetType(2);
+                attributeList = attributeMapper.selectAttrListByCatIdAndTarType(attribute);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new ApplicationException(ApplicationException.INNER_ERROR);
+            }
+
+            for (Attribute attr : attributeList) {
+                checkSubmitField(attr, contentFragmentList);
+            }
+        }
+    }
+    /**
+     * 提交时对字段校验 项目
+     *
+     * @param attribute
+     * @param contentFragmentList
+     * @throws Exception
+     */
+    private void checkSubmitField(Attribute attribute, List<ContentFragment> contentFragmentList) throws Exception {
+
+        int count = 0;
+        for (ContentFragment contentFragment : contentFragmentList) {
+            if (contentFragment.getAttributeId() == 0 || contentFragment.getAttributeId() == null) {
+                continue;
+            }
+            if (attribute.getMaxLength() != null && (attribute.getId() == contentFragment.getAttributeId())) {
+                if (attribute.getDataType() >= 100 && contentFragment.getContent() != null) {
+                    String[] arr = contentFragment.getContent().split(",");
+                    if (arr.length > attribute.getMaxLength()) {
+                        throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
+                    }
+                }
+                if (attribute.getDataType() < 100 && contentFragment.getContent() != null && contentFragment.getContent().trim().length() > attribute.getMaxLength()) {
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
+                }
+            }
+            if ((attribute.getMinLength() != null) && (attribute.getMinLength() > 0)) {//检查必填项是否已填
+                if (contentFragment.getAttributeId() != attribute.getId()) {
+                    continue;
+                }
+                String content = contentFragment.getContent();
+                count++;
+                if (content == null || (content.trim().length() < attribute.getMinLength())) {
+                    throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
+                }
+            }
+            if ((attribute.getMinLength() != null) && (count == 0)) {
+                throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
+            }
+
+        }
     }
 }
