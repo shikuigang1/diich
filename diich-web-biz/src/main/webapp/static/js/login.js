@@ -219,6 +219,7 @@ var loginPage = {
             '                <div class="name">&nbsp;</div>'+
             '                 <div class="area">'+
             '                    <label for="policy"><input id="policy" type="checkbox" checked="">我已仔细阅读并接受<a target="_blank" href="/page/protocol/copyright.html">《版权声明》</a>及<a target="_blank" href="/page/protocol/privacy.html">《隐私保护政策》</a></label>'+
+            '                    <div class="error_txt"></div>'+
             '                </div>'+
             '            </div>'+
             '            <div class="group" style="margin-bottom: 0">'+
@@ -594,6 +595,17 @@ function registForm(){
         $("#registForm input[name=phone]").parent().parent().removeClass("error");
         $("#registForm input[name=phone]").next().text("");
     }
+    //过滤是否选中过滤协议
+    //var $isChecked = $("#id").is(":checked");
+    if(!$("#policy").is(":checked")){
+       /* $("#policy").parent().parent().addClass("error");
+        $("#policy").parent().next().text("请勾选双方协议");*/
+        flag = false;
+    }else{
+        /*$("#policy").parent().parent().removeClass("error");
+        $("#policy").parent().next().text("");*/
+    }
+
 
     if(!flag){
         return ;
