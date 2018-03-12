@@ -19,4 +19,6 @@ public interface IchCategoryMapper extends BaseMapper<IchCategory> {
     int updateByPrimaryKey(IchCategory record);
 
     List<IchCategory> selectByParentId(Long parentId) throws Exception;
+
+    List<IchCategory> selectAll() throws Exception;
 }

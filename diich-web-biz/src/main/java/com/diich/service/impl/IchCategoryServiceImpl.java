@@ -13,10 +13,7 @@ import com.diich.mapper.IchCategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/5/10.
@@ -37,29 +34,52 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
         List<IchCategory> categoryList = null;
 
         try {
-            categoryList = getCategoryListByParentId(0L);
+            categoryList = ichCategoryMapper.selectAll();
         } catch (Exception e) {
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
 
-        return categoryList;
+        List<IchCategory> result = new ArrayList<>();
+
+        Iterator<IchCategory> it = categoryList.iterator();
+        while (it.hasNext()) {
+            IchCategory ichCategory = it.next();
+            if(ichCategory.getParentId() == null) {
+                result.add(ichCategory);
+                it.remove();
+                assembleCategories(categoryList, result);
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    public void assembleCategories(List<IchCategory> source, List<IchCategory> destination) {
+
+        for(IchCategory ichCategory : destination) {
+            ichCategory.setChildren(getCategoryListByParentId(ichCategory.getId(), source));
+
+            if(source.size() > 0) {
+                assembleCategories(source, ichCategory.getChildren());
+            }
+        }
     }
 
     //通过父id找到它的子集合
-    private List<IchCategory> getCategoryListByParentId(Long parentId) throws Exception {
-        List<IchCategory> childList = ichCategoryMapper.selectByParentId(parentId);
+    private List<IchCategory> getCategoryListByParentId(Long parentId, List<IchCategory> source) {
+        List<IchCategory> result = new ArrayList<>();
 
-        for(IchCategory category : childList) {
-            List<IchCategory> categoryList = getCategoryListByParentId(category.getId());
-
-            if(categoryList.size() == 0) {
-                continue;
+        Iterator<IchCategory> it = source.iterator();
+        while(it.hasNext()) {
+            IchCategory ichCategory = it.next();
+            if(parentId.equals(ichCategory.getParentId())) {
+                result.add(ichCategory);
+                it.remove();
             }
-
-            category.setChildren(categoryList);
         }
 
-        return childList;
+        return result;
     }
 
     public IchCategory getCategoryById(Long id) throws Exception {

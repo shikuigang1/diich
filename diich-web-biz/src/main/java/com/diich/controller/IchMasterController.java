@@ -418,7 +418,7 @@ public class IchMasterController extends BaseController<IchMaster> {
      */
     @RequestMapping("getEntryByUserId")
     @ResponseBody
-    public Map<String, Object> getgetEntryByUserId(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> getEntryByUserId(HttpServletRequest request, HttpServletResponse response) {
         try {
             setHeader(request,response);
         } catch (Exception e) {
