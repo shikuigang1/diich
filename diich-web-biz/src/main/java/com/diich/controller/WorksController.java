@@ -105,7 +105,7 @@ public class WorksController extends BaseController<Works> {
 
     @RequestMapping("submitWorks")
     @ResponseBody
-    public Map<String, Object> submitIchProject(HttpServletRequest request,HttpServletResponse response)  {
+    public Map<String, Object> submitWorks(HttpServletRequest request,HttpServletResponse response)  {
         try{
             setHeader(request,response);
         }catch (Exception e){
