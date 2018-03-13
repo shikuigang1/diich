@@ -28,6 +28,7 @@ import java.util.*;
  */
 @Service("ichMasterService")
 @Transactional
+@SuppressWarnings("all")
 public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchMasterService {
 
     @Autowired
@@ -952,7 +953,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 for (Attribute attribute : attributeList) {
                     if (contentFragment.getAttributeId() != null && contentFragment.getAttributeId().equals(attribute.getId())) {
                         contentFragment.setAttribute(attribute);
-                        if ((attribute.getDataType() == 5 || attribute.getDataType() == 7)) {
+                        if ((attribute.getDataType() >= 5 && attribute.getDataType() < 100)) {//包含资源文件
                             cfrList.add(contentFragment.getId());
                         }
                         break;
