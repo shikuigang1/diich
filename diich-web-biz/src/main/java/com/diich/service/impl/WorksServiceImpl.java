@@ -411,10 +411,16 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                     continue;
                 }
                 String content = contentFragment.getContent();
-                count++;
-                if (content == null || (content.trim().length() < attribute.getMinLength())) {
+                if (attribute.getDataType() != 7 && attribute.getDataType() != 8 && attribute.getDataType() != 9 && (content == null || (content.trim().length() < attribute.getMinLength()))) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
                 }
+                if(attribute.getDataType() == 7 || attribute.getDataType() == 8 || attribute.getDataType() == 9){
+                    List<Resource> resourceList = contentFragment.getResourceList();
+                    if(resourceList != null && resourceList.size() < attribute.getMinLength()){
+                        throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
+                    }
+                }
+                count++;
             }
             if ((attribute.getMinLength() != null) && (count == 0)) {
                 throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");

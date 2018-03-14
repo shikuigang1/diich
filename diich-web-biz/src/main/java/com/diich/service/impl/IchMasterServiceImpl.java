@@ -211,7 +211,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
             for (ContentFragment contentFragment : contentFragmentList) {
                 //判断短文本的content是否为空
                 boolean flag = contentIsNull(contentFragment);
-                if(flag){
+                if (flag) {
                     continue;
                 }
                 //添加内容片断
@@ -1094,7 +1094,6 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                 continue;
             }
             if (attribute.getMaxLength() != null && (attribute.getId() == contentFragment.getAttributeId())) {
-
                 if (attribute.getDataType() >= 100 && contentFragment.getContent() != null) {
                     String[] arr = contentFragment.getContent().split(",");
                     if (arr.length > attribute.getMaxLength()) {
@@ -1105,15 +1104,21 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
                 }
             }
-            if (attribute.getMinLength() != null && attribute.getMinLength() > 0) {//检查必填项是否已填
+            if ((attribute.getMinLength() != null) && (attribute.getMinLength() > 0)) {//检查必填项是否已填
                 if (contentFragment.getAttributeId() != attribute.getId()) {
                     continue;
                 }
-                String content = contentFragment.getContent().trim();
-                count++;
-                if (content == null || (content.length() < attribute.getMinLength())) {
+                String content = contentFragment.getContent();
+                if (attribute.getDataType() != 7 && attribute.getDataType() != 8 && attribute.getDataType() != 9 && (content == null || (content.trim().length() < attribute.getMinLength()))) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
                 }
+                if (attribute.getDataType() == 7 || attribute.getDataType() == 8 || attribute.getDataType() == 9) {
+                    List<Resource> resourceList = contentFragment.getResourceList();
+                    if (resourceList != null && resourceList.size() < attribute.getMinLength()) {
+                        throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
+                    }
+                }
+                count++;
             }
             if ((attribute.getMinLength() != null) && (count == 0)) {
                 throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");

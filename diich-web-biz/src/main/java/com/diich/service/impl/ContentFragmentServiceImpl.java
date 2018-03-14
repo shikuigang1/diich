@@ -22,6 +22,7 @@ import java.util.Map;
  */
 @Service("contentFragmentService")
 @Transactional
+@SuppressWarnings("all")
 public class ContentFragmentServiceImpl extends BaseService<ContentFragment> implements ContentFragmentService  {
 
     @Autowired
@@ -195,10 +196,10 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
 
             if (attribute != null && attribute.getMinLength() != null) {
                 String content = contentFragment.getContent();
-                if (attribute.getDataType() != 7 && (content == null || (content.trim().length() < attribute.getMinLength()))) {
+                if (attribute.getDataType() != 7 && attribute.getDataType() != 8 && attribute.getDataType() != 9 && (content == null || (content.trim().length() < attribute.getMinLength()))) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
                 }
-                if(attribute.getDataType() == 7){
+                if(attribute.getDataType() == 7 || attribute.getDataType() == 8 || attribute.getDataType() == 9){
                     List<Resource> resourceList = contentFragment.getResourceList();
                     if(resourceList != null && resourceList.size() < attribute.getMinLength()){
                         throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
