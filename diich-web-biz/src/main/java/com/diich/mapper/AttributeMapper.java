@@ -27,4 +27,6 @@ public interface AttributeMapper extends BaseMapper<Attribute>{
     List<Attribute> selectAttrByNameAndTargetType(Map map);
 
     List<Attribute> selectAttrListByIds(@Param("list") List list);
+
+    List<Attribute> selectByAuthorityId(Long authorityId);
 }

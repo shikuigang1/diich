@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.diich.mapper.TargetAuthorityMapper" >
+  <resultMap id="BaseResultMap" type="com.diich.core.model.TargetAuthority" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="authority_id" property="authorityId" jdbcType="BIGINT" />
+    <result column="target_id" property="targetId" jdbcType="BIGINT" />
+    <result column="target_table" property="targetTable" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, authority_id, target_id, target_table, status
+  </sql>
+
+  <insert id="insert" parameterType="com.diich.core.model.TargetAuthority" >
+    insert into resource (id, authority_id, target_id, target_table, status)
+    values (#{id,jdbcType=BIGINT}, #{authority_id,jdbcType=BIGINT}, #{target_id,jdbcType=BIGINT},
+    #{target_table,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+  </insert>
+
+</mapper>

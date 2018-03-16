@@ -44,24 +44,24 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
         Iterator<IchCategory> it = categoryList.iterator();
         while (it.hasNext()) {
             IchCategory ichCategory = it.next();
-            if(ichCategory.getParentId() == null) {
+            if(ichCategory.getParentId().equals(0L)) {
                 result.add(ichCategory);
                 it.remove();
-                assembleCategories(categoryList, result);
-                break;
             }
         }
+
+        assembleResult(categoryList, result);
 
         return result;
     }
 
-    public void assembleCategories(List<IchCategory> source, List<IchCategory> destination) {
+    public void assembleResult(List<IchCategory> source, List<IchCategory> destination) {
 
         for(IchCategory ichCategory : destination) {
             ichCategory.setChildren(getCategoryListByParentId(ichCategory.getId(), source));
 
             if(source.size() > 0) {
-                assembleCategories(source, ichCategory.getChildren());
+                assembleResult(source, ichCategory.getChildren());
             }
         }
     }

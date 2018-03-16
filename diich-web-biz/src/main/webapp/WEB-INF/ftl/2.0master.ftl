@@ -2,7 +2,8 @@
 <html lang="en">
 
 <head>
-<#assign caturi="http://diich.efeiyi.com" />
+<#--<#assign caturi="http://diich.efeiyi.com" />-->
+<#assign caturi="http://www.diich.com" />
 <#--<#assign caturi="http://47.95.32.236" />-->
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
@@ -247,9 +248,7 @@
                                                     ${cf.attribute.enName}：
                                                 </#if>
                                             </em>
-                                            <span data-id="23" class="data-item dic" dic-type="${cf.attribute.dataType}"
-                                                  lang="${obj.lang}">${cf.content}
-                                            </span>
+                                            <span data-id="23" class="data-item dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
                                         </p>
                                     </#if>
                                 </#list>
