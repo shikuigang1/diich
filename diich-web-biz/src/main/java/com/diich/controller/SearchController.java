@@ -30,11 +30,6 @@ public class SearchController extends BaseController {
     @RequestMapping("search")
     @ResponseBody
     public Map<String, Object> search(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            setHeader(request,response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         String conditionStr = request.getParameter("condition");
 
         Map<String, Object> condition = null;
@@ -54,12 +49,60 @@ public class SearchController extends BaseController {
         } catch (Exception e) {
             return putDataToMap(e);
         }
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
         Page page = new Page();
         page.setRecords(list);
         page.setTotal(total);
 
         return putDataToMap(page);
     }
+
+    @RequestMapping("searchByName")
+    @ResponseBody
+    public Map<String, Object> searchByName(HttpServletRequest request, HttpServletResponse response) {
+        String name = request.getParameter("name");
+
+        List<IchObject> list = new ArrayList<>();
+
+        try {
+            list = searchService.searchByName(name);
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        Page page = new Page();
+        page.setRecords(list);
+        page.setTotal(list.size());
+
+        return putDataToMap(page);
+    }
+
+    @RequestMapping("searchMasterByName")
+    @ResponseBody
+    public Map<String, Object> searchMasterByName(HttpServletRequest request, HttpServletResponse response) {
+        String name = request.getParameter("name");
+
+        List<IchObject> list = new ArrayList<>();
+
+        try {
+            list = searchService.searchMasterByName(name);
+        } catch (Exception e) {
+            return putDataToMap(e);
+        }
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+        Page page = new Page();
+        page.setRecords(list);
+        page.setTotal(list.size());
+
+        return putDataToMap(page);
+    }
+
 
     @RequestMapping("clearAllKey")
     @ResponseBody

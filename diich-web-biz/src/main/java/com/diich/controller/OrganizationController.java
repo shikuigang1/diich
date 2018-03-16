@@ -56,6 +56,29 @@ public class OrganizationController extends BaseController<Organization>{
         return putDataToMap(organization);
     }
 
+    @RequestMapping("getCurrent")
+    @ResponseBody
+    public Map<String, Object> getCurrentOrganization(HttpServletRequest request,HttpServletResponse response) {
+        try{
+            setHeader(request,response);
+        }catch (Exception e){
+            ApplicationException ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
+        User user = (User)WebUtil.getCurrentUser(request);
+        if(user == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
+            return putDataToMap(ae);
+        }
+        Organization organization = null;
+        try{
+            organization = organizationService.getOrganizationByUser(user);
+        }catch (Exception e){
+            return putDataToMap(e);
+        }
+        return putDataToMap(organization);
+    }
+
     /**
      * 获取的只有项目的信息  对status不做限制
      * @param request

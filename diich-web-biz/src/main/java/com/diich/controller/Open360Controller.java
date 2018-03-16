@@ -10,7 +10,6 @@ import com.diich.core.service.IchProjectService;
 import com.diich.core.service.UserService;
 import com.diich.core.util.PropertiesUtil;
 import com.diich.core.util.SimpleUpload;
-import com.diich.core.util.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -80,10 +79,14 @@ public class Open360Controller extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String ip = WebUtil.getHost(request);
-        boolean ipIsHave = isHave(ip);//判断ip是否为指定的ip
-        if(ipIsHave){
-            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR, "你的ip不在白名单");
+        String loginName = request.getParameter("loginName");
+
+        if (StringUtils.isEmpty(loginName)) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR, "用户名不能为空");
+            return putDataToMap(ae);
+        }
+        if (request.getSession().getAttribute(loginName) == null) {
+            ApplicationException ae = new ApplicationException(ApplicationException.NO_LOGIN);
             return putDataToMap(ae);
         }
         List<Map> list = null;
@@ -94,20 +97,6 @@ public class Open360Controller extends BaseController {
         }
         return list;
     }
-
-    private boolean isHave(String ip){
-        boolean flag = true;
-        String ip360 = PropertiesUtil.getString("360IP");
-        String[] ips = ip360.split(",");
-        for (String ip1 : ips) {
-            if(ip1.equals(ip)){
-                flag=false;
-                break;
-            }
-        }
-        return flag;
-    }
-
     @RequestMapping("getIchProjectById")
     @ResponseBody
     public Map<String, Object> getIchProject(HttpServletRequest request, HttpServletResponse response) {
