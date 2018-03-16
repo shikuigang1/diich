@@ -31,6 +31,8 @@ public class User extends BaseModel {
 
     private Integer status;
 
+    private Role role;
+
     public Long getId() {
         return id;
     }
@@ -133,5 +135,13 @@ public class User extends BaseModel {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

@@ -54,4 +54,12 @@ public class IchObject extends BaseModel{
     public void setTargetType(int targetType) {
         this.targetType = targetType;
     }
+
+
+    public static void main(String[] args) {
+        Integer i1 = 20;
+        Integer i2 = 20;
+
+        System.out.println(i1 == i2);
+    }
 }
