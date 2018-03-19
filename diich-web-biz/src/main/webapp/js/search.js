@@ -108,7 +108,7 @@ function initParams() {
         $('#area_text').text(_text);
         $('#area_text').attr('data-id', area);
     }
-    
+
     searchDataFromServer();
 }
 
@@ -313,7 +313,7 @@ function fillMasterData(master, template) {
             }
         }
         $ich_project.parent().attr('href', 'http://project.diich.com/p/'+
-         master.ichProjectId +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
+            master.ichProjectId +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
     }
 
     return $ui;
@@ -354,11 +354,11 @@ function fillCommonByContentList(object, type, attrMap, $ui) {
 
             if($(_attr).hasClass('head-image')) {
                 $ui.find('#' + attr_name).attr('src', map[attr_name]);
-                $ui.find('#' + attr_name).parent().attr('href','http://'+ target_type +'.diich.com/test'+ type.substring(0,1)+'/'+
+                $ui.find('#' + attr_name).parent().attr('href','http://'+ target_type +'.diich.com/'+ type.substring(0,1)+'/'+
                     object.targetId +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
             } else if($(_attr).is('a')) {
                 $ui.find('#' + attr_name).html(map[attr_name]);
-                $ui.find('#' + attr_name).attr('href', 'http://' + target_type + '.diich.com/test'+ type.substring(0,1)+'/'+
+                $ui.find('#' + attr_name).attr('href', 'http://' + target_type + '.diich.com/'+ type.substring(0,1)+'/'+
                     object.targetId +'.html?lang=' + getCurrentLanguage()+"&random="+(Math.random()*1000000));
             } else {
                 var $div = $('<div></div>');
