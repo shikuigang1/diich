@@ -33,6 +33,8 @@ public class Attribute extends BaseModel {
 
     private String description;
 
+    private Authority authority;
+
     public String getValue() {
         return value;
     }
@@ -161,5 +163,13 @@ public class Attribute extends BaseModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Authority getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
     }
 }

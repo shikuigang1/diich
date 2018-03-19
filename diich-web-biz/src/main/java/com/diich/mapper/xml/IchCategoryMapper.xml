@@ -109,6 +109,6 @@
     select
     <include refid="Base_Column_List"/>
     from ich_category
-    where status = 0
+    where status = 0 and parent_id is not null
   </select>
 </mapper>

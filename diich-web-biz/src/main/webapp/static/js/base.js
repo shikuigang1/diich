@@ -1,10 +1,10 @@
 var baseUrl=window.location.host;
-if(baseUrl!='diich.efeiyi.com'){
-    baseUrl='http://diich.efeiyi.com'
+if(baseUrl!='http://www.diich.com'){
+    baseUrl='http://www.diich.com'
 }else {
     baseUrl=''
 }
-baseUrl = 'http://diich.efeiyi.com' //测试用地址
+baseUrl = 'http://www.diich.com' //测试用地址
 
 //常量
 var SEARCH_URL = baseUrl + '/page/search.html'

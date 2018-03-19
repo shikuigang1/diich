@@ -249,4 +249,13 @@
       #{id}
     </foreach>
   </select>
+
+  <select id="selectByAuthorityId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select at.*
+    from attribute at
+    left join attribute_authority aa on at.id = aa.target_id
+    left join authority au on aa.authority_id = au.id
+    where aa.target_table = 'attribute' and at.status = 0 and au.id = #{id,jdbcType=BIGINT}
+  </select>
+
 </mapper>
