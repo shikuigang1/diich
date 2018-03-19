@@ -72,7 +72,7 @@ public class OrganizationController extends BaseController<Organization>{
         }
         Organization organization = null;
         try{
-            organization = organizationService.getOrganizationByUser(user);
+//            organization = organizationService.getOrganizationByUser(user);
         }catch (Exception e){
             return putDataToMap(e);
         }
@@ -134,6 +134,10 @@ public class OrganizationController extends BaseController<Organization>{
             organization = parseObject(params, Organization.class);
         } catch (Exception e) {
             ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        if(organization.getStatus() == 3){
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR,"该机构信息是待审核状态,请耐心等待...");
             return putDataToMap(ae);
         }
         try {
