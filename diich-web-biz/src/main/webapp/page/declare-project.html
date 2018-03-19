@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <title>申报新项目</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/logo.png" media="screen" />
+    <link rel="stylesheet" href="../assets/css/common.css?4888">
+    <link rel="stylesheet" href="../assets/css/layout.css">
+    <link rel="stylesheet" href="../css/semantic.min.css">
+
+    <link rel="stylesheet" href="../css/declare-project.css?264">
+
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/jQuery.Form.js"></script>
+    <script src="../js/semantic.min.js"></script>
+
+    <script src="../js/base-url.js"></script>
+    <script src="../js/util.js?6"></script>
+    <script src="../data/dictionary.js?1"></script>
+    <script src="../assets/js/system.js?1"></script>
+    <script src="../assets/js/login.js"></script>
+    <script src="../js/doT.min.js"></script>
+    <script src="../js/city-selector.js?92"></script>
+    <script src="../js/declare-project.js?542"></script>
+    <script src="../js/plupload.full.min.js"></script>
+    <script src="../js/dropdown.js?59"></script>
+
+
+</head>
+<body>
+<div class="header fixed header_detail" id="top-header"></div>
+<div class="tool bar">
+    <div class="inner">
+        <h1 class="title">非遗大数据平台</h1>
+            <div class="handle">
+            <div class="ui large save button">保存</div>
+            <div class="ui primary large submit button">提交</div>
+        </div>
+    </div>
+</div>
+<div class="main panel">
+    <div class="attr-list ui mini loading segment">
+
+    </div>
+
+    <div class="ui form">
+        <div class="content active card">
+            <header>
+                <h2>基础信息</h2>
+            </header>
+            <div class="ui basic segment">
+                <div class="ui  inverted dimmer">
+                    <div class="ui text small loader">正在加载数据</div>
+                </div>
+                <div class="fieldset">
+
+                </div>
+
+                <div class="group">
+                    <div class="ui save button">保存</div>
+                    <div class="ui next primary button">下一步</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<div class="footer">
+
+
+</div>
+
+<script id="attr-navi-tmpl" type="text/template">
+    {{ for (var i = 0, l = it.length; i < l; i++) { }}
+        <li data-id="{{=it[i].id}}" class="attr-{{=it[i].id}}"><i class="radio circle icon"></i>{{=it[i].cnName}}</li>
+    {{ } }}
+</script>
+
+<script id="attr-sub-tmpl" type="text/template">
+    {{ for (var i = 0, l = it.length; i < l; i++) { }}
+    <li data-id="{{=it[i].id}}" class="attr-{{=it[i].id}}"><i class="radio circle icon"></i>{{=it[i].cnName}}</li>
+    {{ } }}
+</script>
+
+<script id="content-form-tmpl" type="text/template">
+    {{ for (var i = 0, l = it.length; i < l; i++) { }}
+
+        {{ if(it[i].dataType == 101 || it[i].dataType == 1 || it[i].dataType == 7 || it[i].dataType == 8 || it[i].dataType == 9 ){ }}
+            <div class="cross attr-{{=it[i].id}} type-{{=it[i].dataType}} field" data-id="{{=it[i].id}}" data-type="{{=it[i].dataType}}">
+        {{} else {}}
+            <div class="attr-{{=it[i].id}} type-{{=it[i].dataType}} field" data-id="{{=it[i].id}}" data-type="{{=it[i].dataType}}">
+        {{ } }}
+
+        {{if(it[i].minLength > 0){}}
+            <label>{{=it[i].cnName}}<span class="necessary">（必填）</span>:</label>
+         {{}else{}}
+            <label>{{=it[i].cnName}}:</label>
+         {{}}}
+
+         {{ if(it[i].dataType == 7 || it[i].dataType == 8 || it[i].dataType == 9) { }}
+
+            <div class="ui images empty" data-blocked-count="0">
+                <ul class="num"></ul>
+            </div>
+            <a class="ui massive basic button uploader" id="upload-{{=it[i].id }}" data-id="{{=it[i].id}}">
+                <i class="cloud green upload alternate icon"></i>
+                {{ if(it[i].dataType == 7){ }}点击上传图片
+                {{ } else if(it[i].dataType == 8){ }}点击上传图片或视频
+                {{ }else{ }}点击上传视频
+                {{ } }}
+            </a>
+            {{ if(it[i].description != '') { }}
+                <div class="ui info message">{{=it[i].description}}</div>
+            {{ } }}
+         {{ } else if(it[i].dataType >= 100) { }}
+            <a class="ui selection multiple dropdown focusable" data-id="{{=it[i].id}}" data-max="{{=it[i].maxLength}}"
+                    data-min="{{=it[i].minLength}}" data-type="{{=it[i].dataType}}">
+                <div class="default text">{{=it[i].description}}</div><i class="dropdown icon"></i>
+                <div class="menu">
+                </div>
+            </a>
+        {{ } else if(it[i].dataType == 1) { }}
+            <textarea tabindex="{{=i+1}}" class="focusable" placeholder="请输入{{=it[i].cnName}}"></textarea>
+        {{ } else if(it[i].dataType == 5) { }}
+
+            <div class="text-image">
+                <div class="text">
+                    <textarea tabindex="{{=i+1}}" class="focusable" placeholder="请输入{{=it[i].cnName}}"></textarea>
+                    <div class="expand"><i class="angle down icon"></i></div>
+                </div>
+                <div class="ui right rail">
+                    <div class="ui images empty" data-blocked-count="0">
+                        <i class="up angle icon"></i>
+                        <i class="down angle icon"></i>
+                    </div>
+                    <a class="ui massive basic button uploader" id="upload-{{=it[i].id}}" data-id="{{=it[i].id}}">
+                        <i class="cloud green upload alternate icon"></i>点击上传图片或视频
+                    </a>
+                </div>
+
+            </div>
+            <div class="ui primary next button">下一步</div>
+
+        {{} else if(it[i].dataType == 3) {}}
+            <div class="ui tiny input">
+                {{ if(it[i].description != "") { }}
+                <input  type="date" placeholder="{{=it[i].description}}" tabindex="{{=i+1}}" class="focusable">
+                {{ } else { }}
+                <input  type="date" placeholder="请输入{{=it[i].cnName}}" tabindex="{{=i+1}}" class="focusable">
+                {{ } }}
+            </div>
+        {{ } else { }}
+            <div class="ui tiny input">
+            {{ if(it[i].description != "") { }}
+            <input  type="text" placeholder="{{=it[i].description}}" tabindex="{{=i+1}}" class="focusable">
+            {{ } else { }}
+            <input  type="text" placeholder="请输入{{=it[i].cnName}}" tabindex="{{=i+1}}" class="focusable">
+            {{ } }}
+            </div>
+        {{ } }}
+        </div>
+    {{ } }}
+</script>
+
+<script id="base-object-tmpl" type="text/template">
+    <div class="attr-0 field" data-id="0">
+
+    <label>选择非遗分类</label>
+        <ul class="focusable">
+        {{ for(var i = 0; i < it.length; i++) { }}
+            <li id="category-{{=it[i].id}}" data-id="{{=it[i].id}}" value="{{=it[i].id}}"><i class="radio circle thin icon"></i>({{=it[i].gbCategory}}){{=it[i].name}}</li>
+        {{ } }}
+        </ul>
+        <input type="hidden">
+    </div>
+</script>
+
+<script type="text/template" id="select-project-tmpl">
+    <div class="cross attr-0 type-0 field" data-id="0" data-type="-1">
+        <label>选择非遗项目</label>
+        <div class="ui fluid search selection dropdown">
+            <input type="hidden" class="value" name="value" value="">
+            <input class="search">
+            <div class="default text">搜索名称...</div>
+            <div class="menu">
+
+            </div>
+        </div>
+    </div>
+
+</script>
+
+<script type="text/template" id="select-master-tmpl">
+    <div class="cross attr-0 type-0 field" data-id="0" data-type="-1">
+        <label>选择所属传承人</label>
+        <div class="ui fluid search selection dropdown">
+            <input type="hidden" class="value" name="value" value="">
+            <input class="search">
+            <div class="default text">搜索姓名...</div>
+            <div class="menu">
+            </div>
+        </div>
+    </div>
+
+</script>
+
+
+</body>
+</html>
