@@ -20,7 +20,7 @@ public interface WorksService {
 
     List<Works> getWorksList(Page<Works> page) throws Exception;
     //保存
-    Works saveWorks(Works works,User user) throws Exception;
+    Works saveWorks(Works works, User user) throws Exception;
     //根据项目id或者传承人id获取作品列表
     List<Works> getWorksByIchProjectId(Long id) throws Exception;
 

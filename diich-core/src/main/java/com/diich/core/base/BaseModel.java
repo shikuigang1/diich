@@ -11,6 +11,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @SuppressWarnings("serial")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class BaseModel implements Serializable {
+    private char dataStatus;
 
+    public char getDataStatus() {
+        return dataStatus;
+    }
+
+    public void setDataStatus(char dataStatus) {
+        this.dataStatus = dataStatus;
+    }
+
+    public void setDefaultDataStatus() {
+        this.dataStatus = (char)0;
+    }
 
 }

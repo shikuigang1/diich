@@ -13,5 +13,5 @@ public interface ContentFragmentService {
 
     ContentFragment deleteContentFragment(ContentFragment contentFragment)throws Exception;
 
-    void deleteContentFragmentByAttrIdAndTargetId(Long targetId,Integer targetType,Long attributeId) throws Exception;
+    void deleteContentFragmentByAttrIdAndTargetId(Long targetId, Integer targetType, Long attributeId) throws Exception;
 }
