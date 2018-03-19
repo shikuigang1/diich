@@ -7,6 +7,7 @@ import com.diich.core.base.BaseController;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.Dictionary;
 import com.diich.core.service.DictionaryService;
+import com.diich.core.support.cache.JedisHelper;
 import com.diich.core.support.cache.RedisHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -120,6 +121,8 @@ public class DictionaryController extends BaseController<Dictionary> {
         return putDataToMap(name);
     }
 
+
+
     @RequestMapping("getAllDictionary")
     @ResponseBody
     public Map<String, Object> getAllDictionary(HttpServletResponse response) {
@@ -198,11 +201,46 @@ public class DictionaryController extends BaseController<Dictionary> {
     }
 
 
+
     //主动 区域数据初始化
     @RequestMapping("initData")
     @ResponseBody
     public void initData(String parentID,HttpServletResponse response){
 
+    }
+
+    @RequestMapping("getDictionaryByTypeAndParentId")
+    @ResponseBody
+    public Map<String, Object> getDictionaryByTypeAndParentId(HttpServletRequest request,HttpServletResponse response) {
+        String type = request.getParameter("type");
+        String parentId = request.getParameter("parentId");
+        String language = request.getParameter("language");
+        int typeNumber;
+        try {
+            typeNumber = Integer.parseInt(type);
+        } catch (Exception e) {
+            ApplicationException ae = new ApplicationException(ApplicationException.PARAM_ERROR);
+            return putDataToMap(ae);
+        }
+        long parentIdNumber;
+        try {
+            parentIdNumber = Long.parseLong(parentId);
+        } catch (Exception e) {
+            parentIdNumber = 0;
+        }
+
+        if(language == null) {
+            language = "chi";
+        }
+
+        List<Dictionary> dictionaryList = null;
+        try {
+            dictionaryList = dictionaryService.getDictionaryListByParentId(typeNumber, language, parentIdNumber);
+        } catch (Exception e) {
+            Exception ae = new ApplicationException(ApplicationException.INNER_ERROR);
+            return putDataToMap(ae);
+        }
+        return putDataToMap(dictionaryList);
     }
 
 /*    public String getDicParentName(String id){
@@ -224,5 +262,22 @@ public class DictionaryController extends BaseController<Dictionary> {
         return parentName;
 
     }*/
+
+    @Autowired
+    private JedisHelper jedisHelper;
+
+    @RequestMapping("setRedis")
+    public void setRedis() throws Exception {
+        /*List<Dictionary> ls = dictionaryService.getAllDictionary();
+        for(int i=0;i<ls.size();i++){
+            Dictionary d = ls.get(i);
+            jedisHelper.setCrud(Constants.DICTIONARY_CODE+d.getType()+"_"+d.getCode(),JSON.toJSONString(d));
+            jedisHelper.setCrud(Constants.DICTIONARY_KEY_SINGLE+d.getId(),JSON.toJSONString(d));
+            //redisHelper.hset("t_"+d.getType(),d);.getDictionaryListByParentId()
+        }*/
+
+        jedisHelper.getCrud("");
+
+    }
 
 }
