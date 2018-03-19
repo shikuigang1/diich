@@ -15,13 +15,16 @@ public interface OrganizationService {
 
     Organization saveOrganization(Organization organization, User user)throws Exception;
 
-    String buildHTML(String templateName, Organization organization,String fileName) throws Exception;
+    String buildHTML(String templateName, Organization organization, String fileName) throws Exception;
 
     String preview(long id) throws Exception;
 
     Organization getOrganizationByIdAndIUser(long id, User user) throws Exception;
 
     Page<Organization> getOrganizationByUserId(Map<String, Object> params) throws Exception;
+
+    Organization getOrganizationByUser(User user) throws Exception;
+
 
     /**
      * 拒绝审核

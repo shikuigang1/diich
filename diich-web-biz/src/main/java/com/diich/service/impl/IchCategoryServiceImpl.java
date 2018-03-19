@@ -2,6 +2,7 @@ package com.diich.service.impl;
 
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
+import com.diich.core.exception.IllegalParameterException;
 import com.diich.core.model.Attribute;
 import com.diich.core.model.ContentFragment;
 import com.diich.core.model.IchCategory;
@@ -172,6 +173,12 @@ public class IchCategoryServiceImpl extends BaseService<IchCategory> implements 
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
         return attrSet;
+    }
+
+
+    @Override
+    public List<Attribute> getAttributeList(int targetType, long categoryId, long targetId) throws Exception {
+        return null;
     }
 
     //通过父id找到父对象

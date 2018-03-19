@@ -21,6 +21,17 @@ public class Dictionary extends BaseModel {
 
     private List<Dictionary> children;
 
+
+    private int childCount;
+
+    public int getChildCount() {
+        return childCount;
+    }
+
+    public void setChildCount(int childCount) {
+        this.childCount = childCount;
+    }
+
     public Long getId() {
         return id;
     }

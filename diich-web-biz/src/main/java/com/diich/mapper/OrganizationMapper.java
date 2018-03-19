@@ -27,6 +27,8 @@ public interface OrganizationMapper extends BaseMapper<Organization> {
 
     List<Organization> selectOrganizationByUserAndStatus(@Param("params") Map<String, Object> params, RowBounds rowBounds);
 
-    int selectOrganizationCountByUserAndStatus( @Param("params") Map<String, Object> params);
+    int selectOrganizationCountByUserAndStatus(@Param("params") Map<String, Object> params);
+
+    Organization selectByUserId(@Param("userId") long userId);
 
 }

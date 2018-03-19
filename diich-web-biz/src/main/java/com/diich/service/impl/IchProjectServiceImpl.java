@@ -28,7 +28,6 @@ import java.util.*;
  */
 @Service("ichProjectService")
 @Transactional
-@SuppressWarnings("all")
 public class IchProjectServiceImpl extends BaseService<IchProject> implements IchProjectService {
 
     @Autowired
@@ -229,11 +228,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         List<ContentFragment> contentFragmentList = ichProject.getContentFragmentList();
         if (contentFragmentList != null && contentFragmentList.size() > 0) {
             for (ContentFragment contentFragment : contentFragmentList) {
-                //判断短文本的content是否为空
-                boolean flag = contentIsNull(contentFragment);
-                if (flag) {
-                    continue;
-                }
                 contentFragment.setTargetId(ichProject.getId());
                 contentFragment.setTargetType(0);
                 //新增内容片断
@@ -245,18 +239,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             buildAndUpload(ichProject);
         }
         return ichProject;
-    }
-
-    private boolean contentIsNull(ContentFragment contentFragment) {
-        boolean flag = false;
-        if (contentFragment != null) {
-            String content = contentFragment.getContent();
-            List<Resource> resourceList = contentFragment.getResourceList();
-            if (content == null && (resourceList == null || resourceList.size() == 0)) {
-                flag = true;
-            }
-        }
-        return flag;
     }
 
     private void buildAndUpload(IchProject ichProject) throws Exception {
@@ -835,7 +817,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 IchProject ichProject = new IchProject();
                 ichProject.setId(countryProject.getProjectNum());
                 project = build360Map(project, ichProject, countryProject);
-                if (project.get("widgetsData") != null) {
+                if(project.get("widgetsData") != null){
                     projectList.add(project);
                 }
             }
@@ -900,8 +882,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
         //查询传承人
         List<IchMaster> ichMasterList = ichMasterMapper.selectByIchProjectId(ichProject.getId());
         List<Map> masterList = new ArrayList<>();
-        Loop:
-        for (IchMaster ichMaster : ichMasterList) {
+       Loop: for (IchMaster ichMaster : ichMasterList) {
             Map master = new HashMap();
             c.setTargetId(ichMaster.getId());
             c.setTargetType(1);//标示传承人
@@ -909,28 +890,28 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             //定义一个标记
             int count = 0;
             for (ContentFragment contentFragment : masterContentFragmentList) {
-                if (contentFragment.getAttributeId() != 113) {//判断传承人有没有图片没有图片跳出外层循环进行下次循环
-                    continue;
+                if(contentFragment.getAttributeId() != 113){//判断传承人有没有图片没有图片跳出外层循环进行下次循环
+                    continue ;
                 }
                 if (contentFragment.getAttributeId() == 113) {//传承人头图
                     List<ContentFragmentResource> contentFragmentResourceList = contentFragmentResourceMapper.selectByContentFragmentId(contentFragment.getId());
                     if (contentFragmentResourceList.size() > 0) {
                         Resource resource = resourceMapper.selectByPrimaryKey(contentFragmentResourceList.get(0).getResourceId());
-                        if (resource.getUri() == null) {//判断传承人有没有图片没有图片跳出外层循环进行下次循环
+                        if(resource.getUri() == null){//判断传承人有没有图片没有图片跳出外层循环进行下次循环
                             continue Loop;
                         }
                         List<Resource> resourceList = new ArrayList<>();
                         resourceList.add(resource);
                         contentFragment.setResourceList(resourceList);
-                        count++;
-                    } else {
+                        count ++;
+                    }else{
                         continue Loop;
                     }
                 }
             }
-            if (count == 0) {//说明传承人没有图片
-                continue;
-            }
+           if(count == 0){//说明传承人没有图片
+               continue ;
+           }
             ichMaster.setContentFragmentList(masterContentFragmentList);
             master = buildMasterMap(masterContentFragmentList, master);//将数据封装到Map集合中
             //将所有传承人放到list中
@@ -942,7 +923,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
             project.put("title", widgetsData.get("title"));
             widgetsData.remove("title");
         }
-        if (widgetsData.size() > 0) {
+        if(widgetsData.size() > 0){
             project.put("widgetsData", widgetsData);
         }
         return project;
@@ -983,7 +964,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 }
             }
             if (content.getAttributeId() == 41) {
-                if (countryProject.getIsWorld() != null && countryProject.getIsWorld() == 1) {
+                if(countryProject.getIsWorld() != null && countryProject.getIsWorld() == 1){
                     Map pcMap = new HashMap();
                     pcMap.put("key", "遗产认定批次");
                     pcMap.put("value", "世界级非遗");
@@ -1015,13 +996,13 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
                 continue;
             }
         }
-        if (basics.size() > 0) {
+        if(basics.size() > 0){
             widgetsData.put("basics", basics);
         }
         return widgetsData;
     }
 
-    private Map<String, Object> buildMasterMap(List<ContentFragment> contentFragmentList, Map widgetsData) throws Exception {
+    private Map<String,Object> buildMasterMap(List<ContentFragment> contentFragmentList, Map widgetsData) throws Exception {
         for (ContentFragment content : contentFragmentList) {
             if (content.getAttributeId() == 13) {
                 widgetsData.put("name", content.getContent());
@@ -1220,6 +1201,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
      * @throws Exception
      */
     @SuppressWarnings("all")
+
     private void checkSubmitField(Attribute attribute, List<ContentFragment> contentFragmentList) throws Exception {
 
         int count = 0;
@@ -1260,5 +1242,6 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
 
         }
     }
+
 
 }

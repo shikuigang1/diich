@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.toolkit.StringUtils;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
+import com.diich.core.model.Resource;
 import com.diich.core.service.ContentFragmentService;
 import com.diich.core.service.OrganizationService;
 import com.diich.core.service.VersionService;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 
+import javax.annotation.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.*;
@@ -28,7 +30,6 @@ import java.util.*;
  * Created by Administrator on 2017/8/21.
  */
 @Service("organizationService")
-@SuppressWarnings("all")
 public class OrganizationServiceImpl extends BaseService<Organization> implements OrganizationService {
 
 
@@ -50,6 +51,18 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
     private VersionMapper versionMapper;
     @Autowired
     private AuditMapper auditMapper;
+
+
+
+    @Override
+    public Organization getOrganizationByUser(User user) throws Exception{
+        Organization org = organizationMapper.selectByUserId(user.getId());
+        if(org != null) {
+            List<ContentFragment> contentList = getContentFragmentListByOrganization(org);
+            org.setContentFragmentList(contentList);
+        }
+        return org;
+    }
 
     /**
      * 根据id获取机构信息
@@ -115,7 +128,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         }
         if (organization.getId() == null) {
             if (user.getType() != null && (user.getType() != 3 || user.getType() != 0 )) {//0管理员账户 1普通用户 2传承人用户  3 机构用户  只允许管理员用户和机构用户申报机构信息
-                throw new ApplicationException(ApplicationException.PARAM_ERROR, "当前用户不是机构用户,不能申报机构信息");
+                throw new ApplicationException(ApplicationException.PARAM_ERROR, "当前用户不是机构用户不能申报机构信息");
             }
             organization.setUserId(user.getId());
             //校验该用户是否申报过机构信息
@@ -134,11 +147,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         List<ContentFragment> contentFragmentList = organization.getContentFragmentList();
         if (contentFragmentList != null && contentFragmentList.size() > 0) {
             for (ContentFragment contentFragment : contentFragmentList) {
-                //判断短文本的content是否为空
-                boolean flag = contentIsNull(contentFragment);
-                if (flag) {
-                    continue;
-                }
+
                 contentFragment.setTargetId(organization.getId());
                 contentFragment.setTargetType(3);
                 //新增内容片断
@@ -149,18 +158,6 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
             organization = getAttribute(organization);//获取attribute
             buildAndUpload(organization);
         }
-    }
-
-    private boolean contentIsNull(ContentFragment contentFragment) {
-        boolean flag = false;
-        if (contentFragment != null) {
-            String content = contentFragment.getContent();
-            List<Resource> resourceList = contentFragment.getResourceList();
-            if (content == null && (resourceList == null || resourceList.size() == 0)) {
-                flag = true;
-            }
-        }
-        return flag;
     }
 
     private void buildAndUpload(Organization organization) throws Exception {
@@ -349,7 +346,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         TransactionStatus transactionStatus = getTransactionStatus();
         try {
             Organization organization = organizationMapper.selectOrganizationById(id);
-            if (organization == null) {
+            if(organization == null){
                 throw new ApplicationException(ApplicationException.PARAM_ERROR, "该id对应的机构不存在");
             }
             if (organization != null && organization.getStatus() != null && organization.getStatus() != 3) {
@@ -556,6 +553,13 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
     private void checkOrganization(Organization organization) throws Exception {
         List<ContentFragment> contentFragmentList = organization.getContentFragmentList();
 
+        for(ContentFragment content: organization.getContentFragmentList()) {
+            if((content.getContent() == "" || content.getContent() == null)
+                    && content.getResourceList().size() == 0 ) {
+                contentFragmentList.remove(content);
+            }
+        }
+
         List<Attribute> attributeList = null;
         try {
             //根据targetType获取属性列表
@@ -606,10 +610,10 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
                 if (attribute.getDataType() != 7 && attribute.getDataType() != 8 && attribute.getDataType() != 9 && (content == null || (content.trim().length() < attribute.getMinLength()))) {
                     throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
                 }
-                if(attribute.getDataType() == 7 || attribute.getDataType() == 8 || attribute.getDataType() == 9){
+                if (attribute.getDataType() == 7 || attribute.getDataType() == 8 || attribute.getDataType() == 9) {
                     List<Resource> resourceList = contentFragment.getResourceList();
-                    if(resourceList != null && resourceList.size() < attribute.getMinLength()){
-                        throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString()+" 字段不符合要求");
+                    if (resourceList != null && resourceList.size() < attribute.getMinLength()) {
+                        throw new ApplicationException(ApplicationException.PARAM_ERROR, attribute.getCnName().toString() + " 字段不符合要求");
                     }
                 }
                 count++;
@@ -628,6 +632,10 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         con.setTargetType(3);
         List<ContentFragment> contentFragmentList = contentFragmentMapper.selectByTargetIdAndType(con);
         contentFragmentList = getContentFragmentList(contentFragmentList);
+        for(int i = 0; i < contentFragmentList.size(); i++) {
+            List<Resource> resourceList = resourceMapper.selectByContentFragmentId(contentFragmentList.get(i).getId());
+            contentFragmentList.get(i).setResourceList(resourceList);
+        }
         return contentFragmentList;
     }
 

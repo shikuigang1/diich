@@ -22,6 +22,6 @@ public interface UserMapper extends BaseMapper<User>{
 
     List<User> selectByLogName(String loginName);
 
-    List<User> selectByPhone( String phone);
+    List<User> selectByPhone(String phone);
 
 }

@@ -26,4 +26,6 @@ public interface ContentFragmentResourceMapper extends BaseMapper<ContentFragmen
     int deleteByContentFragmentId(Long contentFragmentId);
 
     int deleteByResourceId(Long resourceId);
+
+    void deleteByContentFragmentIdResourceId(@Param("contentFragmentId") Long contentFragmentId, @Param("resourceId") Long resourceId);
 }

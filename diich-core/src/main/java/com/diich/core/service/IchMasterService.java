@@ -22,10 +22,10 @@ public interface IchMasterService {
     //根据条件查询查询传承人列表信息
     List<IchMaster> getIchMasterList(Page<IchMaster> page) throws Exception;
 
-    Page<IchMaster> getIchMasterPage(Map<String, Object>  params) throws Exception;
+    Page<IchMaster> getIchMasterPage(Map<String, Object> params) throws Exception;
 
     //保存传承人
-    IchMaster  saveIchMaster(IchMaster ichMaster,User user) throws Exception;
+    IchMaster  saveIchMaster(IchMaster ichMaster, User user) throws Exception;
 
     String  preview(Long id) throws Exception;//预览
 
@@ -36,13 +36,13 @@ public interface IchMasterService {
     //生成静态页面
     String buildHTML(String templateName, IchMaster ichMaster, String fileName) throws Exception;
 
-    IchMaster getIchMasterByIdAndUser(Long id , User user) throws Exception;
+    IchMaster getIchMasterByIdAndUser(Long id, User user) throws Exception;
 
-    Page<IchMaster> getIchMasterByUserId(Map<String, Object>  params) throws Exception;
+    Page<IchMaster> getIchMasterByUserId(Map<String, Object> params) throws Exception;
 
     int deleteIchMaster(long id) throws Exception;
 
-    List<IchMaster> getIchMaster(String masterName,String worksName) throws Exception;
+    List<IchMaster> getIchMaster(String masterName, String worksName) throws Exception;
     //拒绝审核
     void refuseAudit(Long id, User user, String reason) throws Exception;
 

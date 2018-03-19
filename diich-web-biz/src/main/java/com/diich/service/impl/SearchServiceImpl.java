@@ -6,6 +6,7 @@ import com.diich.core.model.IchObject;
 import com.diich.core.model.IchProject;
 import com.diich.core.service.SearchService;
 import com.diich.mapper.IchObjectMapper;
+import com.diich.mapper.SearchMapper;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -27,6 +28,9 @@ public class SearchServiceImpl implements SearchService {
 
     @Autowired
     private IchObjectMapper ichObjectMapper;
+
+    @Autowired
+    private SearchMapper searchMapper;
 
     @Autowired
     private RedisTemplate<Serializable, Serializable> redisTemplate;
@@ -137,6 +141,15 @@ public class SearchServiceImpl implements SearchService {
             redisTemplate.delete(it.next().toString());
         }
         return true;
+    }
+
+    public List<IchObject> searchByName(String name) throws Exception {
+        return searchMapper.searchByName(name);
+    }
+
+    public List<IchObject> searchMasterByName(String name) throws Exception {
+        return searchMapper.searchMasterByName(name);
+
     }
 
 }

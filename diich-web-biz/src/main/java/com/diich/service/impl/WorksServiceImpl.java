@@ -215,7 +215,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
         if (contentFragment != null) {
             String content = contentFragment.getContent();
             List<Resource> resourceList = contentFragment.getResourceList();
-            if (content == null && (resourceList == null || resourceList.size() == 0)) {
+            if (content == null && (resourceList == null || resourceList.size() == 0) && contentFragment.getDataStatus() != 'd') {
                 flag = true;
             }
         }

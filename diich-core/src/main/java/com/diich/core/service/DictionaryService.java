@@ -14,9 +14,9 @@ public interface DictionaryService {
 
     List<Dictionary> getAllDictionary() throws Exception;
 
-    List<Dictionary> getDictionaryListByParentID(Long parent_id,int type) throws Exception;
+    List<Dictionary> getDictionaryListByParentID(Long parent_id, int type) throws Exception;
 
-    String getJSONStrByParentID(String parentId,int type);
+    String getJSONStrByParentID(String parentId, int type);
 
     String getJSONStrByID(String Id);
 
@@ -27,5 +27,5 @@ public interface DictionaryService {
     List<Dictionary> getAllDictionaryFromRedis() ;
 
     //void updateService(Dictionary dictionary);
-
+    List<Dictionary> getDictionaryListByParentId(Integer type, String language, Long parentId) throws Exception;
 }

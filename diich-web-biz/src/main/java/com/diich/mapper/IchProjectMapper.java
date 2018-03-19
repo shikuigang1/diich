@@ -24,17 +24,17 @@ public interface IchProjectMapper extends BaseMapper<IchProject>{
 
     List<IchProject> selectIchProjectList(Page<IchProject> page, @Param("params") Map<String, Object> params);
 
-    List<Map> selectIchProjectByName( Map<String, Object> params);
+    List<Map> selectIchProjectByName(Map<String, Object> params);
 
     IchProject selectIchProjectById(Long id);
 
     List<IchProject> selectIchProjectByUserId(Long userId);
 
-    List<IchProject> selectIchProjectByUserAndStatus( @Param("params") Map<String, Object> params, RowBounds rowBounds) throws Exception;
+    List<IchProject> selectIchProjectByUserAndStatus(@Param("params") Map<String, Object> params, RowBounds rowBounds) throws Exception;
 
-    int selectIchProjectCountByUserAndStatus( @Param("params") Map<String, Object> params) throws Exception;
+    int selectIchProjectCountByUserAndStatus(@Param("params") Map<String, Object> params) throws Exception;
 
-    List<IchProject> selectIchProjectByProjectName( String projectName) throws Exception;
+    List<IchProject> selectIchProjectByProjectName(String projectName) throws Exception;
 
     List<Map> selectCertifications(Map<String, Object> params) throws Exception;
 

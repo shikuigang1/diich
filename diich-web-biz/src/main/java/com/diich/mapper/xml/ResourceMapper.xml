@@ -21,6 +21,7 @@
     delete from resource
     where id = #{id,jdbcType=BIGINT}
   </delete>
+
   <insert id="insert" parameterType="com.diich.core.model.Resource" >
     insert into resource (id, type, uri,
     status, description)
@@ -95,8 +96,16 @@
     select
     r.uri,r.id
     from content_fragment_resource cf  LEFT JOIN resource r ON r.id = cf.resource_id
+    where cf.content_fragment_id = #{contentFragmentId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByContentFragmentId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    *
+    from content_fragment_resource cf  LEFT JOIN resource r ON r.id = cf.resource_id
     where cf.content_fragment_id = #{id,jdbcType=BIGINT}
   </select>
+
 
   <select id="selectByids" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select

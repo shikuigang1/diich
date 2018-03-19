@@ -29,4 +29,9 @@ public interface AttributeMapper extends BaseMapper<Attribute>{
     List<Attribute> selectAttrListByIds(@Param("list") List list);
 
     List<Attribute> selectByAuthorityId(Long authorityId);
+
+    //List<Attribute> selectAttributeList(@Param("targetType")int targetType, @Param("categoryId")long categoryId, @Param("targetId")long targetId);
+    List<Attribute> selectAttributeList(int targetType, long categoryId, long targetId);
+
+
 }

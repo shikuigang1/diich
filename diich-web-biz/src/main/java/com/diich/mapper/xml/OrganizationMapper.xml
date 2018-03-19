@@ -15,6 +15,9 @@
   <sql id="Base_Column_List" >
     id, last_edit_date, last_editor_id, user_id, edit_rank, type, status, uri, lang
   </sql>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    SELECT * FROM organization WHERE user_id =  #{userId,jdbcType=BIGINT}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
     <include refid="Base_Column_List" />
@@ -159,7 +162,6 @@
     <if test="params.status != null" >
       and  status = #{params.status,jdbcType=INTEGER}
     </if>
-
     order by last_edit_date desc
   </select>
   <select id="selectOrganizationCountByUserAndStatus" resultType="java.lang.Integer" parameterType="java.util.Map" >

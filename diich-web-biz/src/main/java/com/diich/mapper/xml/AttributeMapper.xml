@@ -22,6 +22,22 @@
     id, ich_category_id, cn_name, en_name, priority, target_id, target_type, status,
     data_type, is_open, lable, seq, min_length, max_length, description
   </sql>
+  <select id="selectAttributeList" resultMap="BaseResultMap" >
+
+    <![CDATA[
+    SELECT *
+    from attribute a
+    WHERE a.target_type = #{arg0}
+    AND ((#{arg1} <> 0 AND (a.ich_category_id = #{arg1} OR a.ich_category_id = 0 OR a.ich_category_id is NULL ))
+    OR (#{arg1} = 0 AND (a.ich_category_id = 0 OR a.ich_category_id is NULL)))
+    AND (a.target_id = #{arg2} OR #{arg2} = 0)
+    AND a.status = 0
+    ORDER BY seq;
+    ]]>
+
+
+  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
     <include refid="Base_Column_List" />
@@ -249,13 +265,11 @@
       #{id}
     </foreach>
   </select>
-
   <select id="selectByAuthorityId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select at.*
-    from attribute at
-    left join attribute_authority aa on at.id = aa.target_id
-    left join authority au on aa.authority_id = au.id
-    where aa.target_table = 'attribute' and at.status = 0 and au.id = #{id,jdbcType=BIGINT}
+      select at.*
+      from attribute at
+      left join attribute_authority aa on at.id = aa.target_id
+      left join authority au on aa.authority_id = au.id
+      where aa.target_table = 'attribute' and at.status = 0 and au.id = #{id,jdbcType=BIGINT}
   </select>
-
 </mapper>

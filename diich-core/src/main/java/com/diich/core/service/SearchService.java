@@ -12,5 +12,9 @@ public interface SearchService {
 
     int search(Map<String, Object> condition, List<IchObject> ichObjectList) throws Exception;
 
+    List<IchObject> searchByName(String name) throws Exception;
+
+    List<IchObject> searchMasterByName(String name) throws Exception;
+
     boolean clearAllKey() throws Exception;
 }

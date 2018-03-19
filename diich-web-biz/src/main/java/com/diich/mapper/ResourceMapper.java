@@ -21,5 +21,8 @@ public interface ResourceMapper extends BaseMapper<Resource> {
 
     Resource selectByContentFramentID(Long id);
 
+    List<Resource> selectByContentFragmentId(@Param("contentFragmentId") Long contentFragmentId);
+
     List<Resource> selectByids(@Param("list") List list);
+
 }

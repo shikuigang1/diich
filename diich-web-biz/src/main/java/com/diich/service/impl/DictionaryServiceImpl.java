@@ -45,7 +45,7 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
         return dictionaryList;
     }
 
-    private List<Dictionary> getDictionaryListByParentId(Integer type, String language, Long parentId) throws Exception {
+    /*private List<Dictionary> getDictionaryListByParentId(Integer type, String language, Long parentId) throws Exception {
         Map<String, Object> params = new HashMap<>();
         params.put("type", type);
         params.put("parentId", parentId);
@@ -65,7 +65,7 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
         }
 
         return dictionaryList;
-    }
+    }*/
 
     public String getTextByTypeAndCode(Integer type, String code, String language) throws Exception {
         Map<String, Object> params = new HashMap<>();
@@ -148,7 +148,7 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
     public String getJSONStrByParentID(String parentId,int type) {
 
         String  res = "";
-        if(parentId == null || parentId.equals("")){
+        if(parentId == null){
             res = jedisHelper.getCrud(Constants.DICTIONARY_KEY);
         }else{
             res = jedisHelper.getCrud(Constants.DICTIONARY_KEY+parentId);
@@ -179,6 +179,7 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
             Dictionary dictionary = JSON.parseObject(jsonStr, new TypeReference<Dictionary>() {});
             name = getDicParentNameById(String.valueOf(dictionary.getId()));
         }
+
         return name;
     }
 
@@ -239,4 +240,23 @@ public class DictionaryServiceImpl extends BaseService<Dictionary> implements Di
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
     }
+
+    //------------------------------
+
+
+
+    public List<Dictionary> getDictionaryListByParentId(Integer type, String language, Long parentId) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("type", type);
+        params.put("parentId", parentId);
+        params.put("language", language);
+
+        List<Dictionary> dictionaryList = dictionaryMapper.selectList(type, parentId, language);
+
+        return dictionaryList;
+    }
+
+
+
+
 }
