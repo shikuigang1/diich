@@ -115,7 +115,7 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         }
         if (organization.getId() == null) {
             if (user.getType() != null && (user.getType() != 3 || user.getType() != 0 )) {//0管理员账户 1普通用户 2传承人用户  3 机构用户  只允许管理员用户和机构用户申报机构信息
-                throw new ApplicationException(ApplicationException.PARAM_ERROR, "当前用户不是机构用户不能申报机构信息");
+                throw new ApplicationException(ApplicationException.PARAM_ERROR, "当前用户不是机构用户,不能申报机构信息");
             }
             organization.setUserId(user.getId());
             //校验该用户是否申报过机构信息
