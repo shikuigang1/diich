@@ -4,7 +4,7 @@ if(baseUrl!='http://www.diich.com'){
 }else {
     baseUrl=''
 }
-baseUrl = 'http://www.diich.com' //测试用地址
+baseUrl='http://www.diich.com';//测试用地址
 
 //常量
 var SEARCH_URL = baseUrl + '/page/search.html'

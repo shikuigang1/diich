@@ -15,7 +15,6 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.3.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.3.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-solr:2.1.0.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework.data:spring-data-commons:1.13.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.apache.solr:solr-solrj:5.5.0" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpmime:4.4.1" />
           <element id="library" level="project" name="Maven: org.noggit:noggit:0.6" />
@@ -81,6 +80,8 @@
           <element id="library" level="project" name="Maven: junit:junit:4.8.1" />
           <element id="library" level="project" name="Maven: com.google.zxing:core:3.2.0" />
           <element id="library" level="project" name="Maven: com.google.zxing:javase:3.2.0" />
+          <element id="library" level="project" name="Maven: com.aliyun:aliyun-java-sdk-core:3.2.2" />
+          <element id="library" level="project" name="Maven: com.aliyun:aliyun-java-sdk-vod:2.2.0" />
           <element id="library" level="project" name="Maven: commons-net:commons-net:3.4" />
           <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.4" />
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.9" />
@@ -152,6 +153,9 @@
           <element id="library" level="project" name="Maven: org.jdom:jdom:1.1" />
           <element id="library" level="project" name="Maven: net.sf.json-lib:json-lib:jdk15:2.4" />
           <element id="library" level="project" name="Maven: net.sf.ezmorph:ezmorph:1.0.6" />
+          <element id="library" level="project" name="Maven: org.mongodb:mongo-java-driver:3.0.0" />
+          <element id="library" level="project" name="Maven: org.springframework.data:spring-data-mongodb:1.7.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.data:spring-data-commons:1.10.0.RELEASE" />
         </element>
       </element>
       <element id="directory" name="META-INF">

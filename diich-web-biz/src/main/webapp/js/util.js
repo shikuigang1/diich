@@ -591,10 +591,10 @@ var newUpload =  {
             var mheight = $("#" + id).height();
 
             var $li = $(
-                '<div id="' + file.id + '" class="webuploader-echo-div">' +
-                '<img style="width: 100%; height:' + mheight + 'px">' +
-                '<div class="webuploader-echo-mongolia" style="line-height:' + mheight + 'px;"><span id="delete-' + file.id + '" >删除</span></div>' +
-                '</div>'
+                    '<div id="' + file.id + '" class="webuploader-echo-div">' +
+                    '<img style="width: 100%; height:' + mheight + 'px">' +
+                    '<div class="webuploader-echo-mongolia" style="line-height:' + mheight + 'px;"><span id="delete-' + file.id + '" >删除</span></div>' +
+                    '</div>'
                 ),
                 $img = $li.find('img');
 
@@ -663,3 +663,57 @@ var newUpload =  {
         })
     }
 }
+
+function getExtName(filename) {
+    var d=/\.[^\.]+$/.exec(filename);
+    return d;
+}
+
+
+
+(function($){
+    $.getUri = function(url) {
+        var strRegex = "/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?(\/\w+)*.\w{3}$/";
+        var reg = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?(\/\w+)*.\w{3}$/;
+
+        var result = reg.exec(url); //result中存储分解下来的结果
+        alert(RegExp.$1 + ',' + RegExp.$2 + ',' + RegExp.$3 + ',' + RegExp.$4+ ',' + RegExp.$5);
+        // console.log(result);
+        // var output = {}; //返回的结果
+        // var item =["scheme","host","port","path","queries","q","p","hash"]; //由于得到的键值对需要单独处理，所以先赋值前四项
+        // for(var i=1;i<5;i++){
+        //     output[item[i-1]] = result[i];
+        // }
+        // console.log(output);
+        // //分解键值对
+        // var queries = result[5]; //queries存储得到的键值对
+        // var keyValues = queries.split("&"); //keyValues存储进一步分解结果 ["q=234", "p=abc"]
+        // var querySplit = {}; //存储得到的键和值对象 {q: "234", p:"abc"}
+        // for(var j=0;j<keyValues.length;j++){
+        //     querySplit[keyValues[j].split("=")[0]] = keyValues[j].split("=")[1];
+        // }
+        // output["queries"] = querySplit;//将id加到对象中
+        // output["hash"] = result[6];
+        // console.log(output);
+    }
+})(jQuery);
+
+(function($){
+    $.getUrlParam
+        = function(name)
+    {
+        var reg
+            = new RegExp("(^|&)"+
+            name +"=([^&]*)(&|$)");
+        var r
+            = window.location.search.substr(1).match(reg);
+        if (r!=null) return decodeURI(r[2]); return null;
+    }
+})(jQuery);
+
+(function($){
+    $.getRandomId
+        = function() {
+        return parseInt(Math.random() * Math.pow(10, 16));
+    }
+})(jQuery);

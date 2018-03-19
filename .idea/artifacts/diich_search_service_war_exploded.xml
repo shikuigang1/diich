@@ -177,6 +177,8 @@
           <element id="library" level="project" name="Maven: org.jdom:jdom:1.1" />
           <element id="library" level="project" name="Maven: net.sf.json-lib:json-lib:jdk15:2.4" />
           <element id="library" level="project" name="Maven: net.sf.ezmorph:ezmorph:1.0.6" />
+          <element id="library" level="project" name="Maven: org.mongodb:mongo-java-driver:3.0.0" />
+          <element id="library" level="project" name="Maven: org.springframework.data:spring-data-mongodb:1.7.0.RELEASE" />
         </element>
       </element>
       <element id="directory" name="META-INF">
