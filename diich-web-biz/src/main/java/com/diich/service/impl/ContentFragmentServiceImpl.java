@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.diich.core.base.BaseService;
 import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.*;
+import com.diich.core.service.ContentFragmentResourceService;
 import com.diich.core.service.ContentFragmentService;
 import com.diich.core.service.ResourceService;
 import com.diich.mapper.*;
@@ -13,16 +14,13 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2017/7/18.
  */
 @Service("contentFragmentService")
 @Transactional
-@SuppressWarnings("all")
 public class ContentFragmentServiceImpl extends BaseService<ContentFragment> implements ContentFragmentService  {
 
     @Autowired
@@ -37,6 +35,8 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
     private ResourceService resourceService;
     @Autowired
     private IchProjectMapper ichProjectMapper;
+    @Autowired
+    private ContentFragmentResourceService contentFragmentResourceService;
 
     @Override
     public ContentFragment getContentFragment(String id) throws Exception {
@@ -81,39 +81,75 @@ public class ContentFragmentServiceImpl extends BaseService<ContentFragment> imp
                 contentFragment.setStatus(0);
                 contentFragmentMapper.insertSelective(contentFragment);
             }else{
-                contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
-                Attribute attribute = contentFragment.getAttribute();
-                if(attribute != null && (attribute.getTargetType() ==10 || attribute.getTargetType() ==11 || attribute.getTargetType() ==12 || attribute.getTargetType() ==13)){//更新自定义属性的名称
-                    attributeMapper.updateByPrimaryKeySelective(contentFragment.getAttribute());
+                if(contentFragment.getDataStatus() == 'd'){
+                    if(contentFragment.getResourceList() == null || contentFragment.getResourceList().size() == 0){
+                        contentFragmentMapper.deleteByPrimaryKey(contentFragment.getId());
+                        return null;
+                    }else{//删除中间表
+
+                    }
+
+                }else{
+                    contentFragmentMapper.updateByPrimaryKeySelective(contentFragment);
+                    Attribute attribute = contentFragment.getAttribute();
+                    if(attribute != null && (attribute.getTargetType() ==10 || attribute.getTargetType() ==11
+                            || attribute.getTargetType() ==12 || attribute.getTargetType() ==13)){//更新自定义属性的名称
+                        attributeMapper.updateByPrimaryKeySelective(contentFragment.getAttribute());
+                    }
                 }
             }
             //保存资源文件
-            if(contentFragment.getResourceList() != null && contentFragment.getResourceList().size() > 0){
-                for (int i=0; i<  contentFragment.getResourceList().size();i++) {
-                    Resource resource = contentFragment.getResourceList().get(i);
-                    Long resourceId = resource.getId();
+            if(contentFragment.getResourceList() == null) {
+                return contentFragment;
+            }
+            for (int i=0; i<  contentFragment.getResourceList().size();i++) {
+                Resource resource = contentFragment.getResourceList().get(i);
+                if(contentFragment.getDataStatus() == 'a') {
+                    //添加资源数据
+                    resource.setDataStatus('a');
                     resourceService.save(resource);
-                    if(resourceId == null){
-                        ContentFragmentResource cfr = new ContentFragmentResource();
-                        cfr.setId(IdWorker.getId());
-                        cfr.setContentFragmentId(contentFragment.getId());
-                        cfr.setResourceId(resource.getId());
-                        if(resource.getResOrder() !=null && !"".equals(resource.getResOrder())){
-                            cfr.setResOrder(resource.getResOrder());
-                        }else{
-                            cfr.setResOrder(i+1);
-                        }
-                        cfr.setStatus(0);
-                        //保存中间表
-                        contentFragmentResourceMapper.insertSelective(cfr);
+
+                    //添加中间表数据
+                    ContentFragmentResource contentFragmentResource = new ContentFragmentResource();
+                    contentFragmentResource.setId(IdWorker.getId());
+                    contentFragmentResource.setContentFragmentId(contentFragment.getId());
+                    contentFragmentResource.setResourceId(resource.getId());
+                    contentFragmentResource.setDataStatus('a');
+                    contentFragmentResource.setStatus(0);
+                    contentFragmentResourceService.save(contentFragmentResource);
+                } else if(contentFragment.getDataStatus() == 'd') {
+                    contentFragmentResourceService.delete(contentFragment.getId(), resource.getId());
+                    resource.setDataStatus('d');
+                    resourceService.save(resource);
+                    contentFragment.getResourceList().remove(resource);
+                    i--;
+
+                } else {
+                    if(resource.getDataStatus() == 'a') {
+                        //添加中间表数据
+                        resourceService.save(resource);
+                        ContentFragmentResource contentFragmentResource = new ContentFragmentResource();
+                        contentFragmentResource.setId(IdWorker.getId());
+                        contentFragmentResource.setContentFragmentId(contentFragment.getId());
+                        contentFragmentResource.setResourceId(resource.getId());
+                        contentFragmentResource.setDataStatus('a');
+                        contentFragmentResource.setStatus(0);
+                        contentFragmentResourceService.save(contentFragmentResource);
+                    } else if(resource.getDataStatus() == 'd') {
+                        contentFragmentResourceService.delete(contentFragment.getId(), resource.getId());
+                        resourceService.save(resource);
+                        contentFragment.getResourceList().remove(resource);
+                        i--;
+                    }else{
+                        resourceService.save(resource);
                     }
                 }
-
             }
         }catch (Exception e){
             e.printStackTrace();
             throw new ApplicationException(ApplicationException.INNER_ERROR);
         }
+        contentFragment.setDefaultDataStatus();
         return contentFragment;
     }
 
