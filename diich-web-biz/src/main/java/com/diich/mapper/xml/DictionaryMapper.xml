@@ -119,6 +119,7 @@
     select *
     from dictionary
     where type = #{type,jdbcType=INTEGER} and status = 0
+    order by code
   </select>
 
   <select id="selectByTypeAndCode" resultMap="BaseResultMap" parameterType="java.util.Map">
@@ -147,11 +148,16 @@
     <if test="params.language != null">
       and lang = #{params.language,jdbcType=CHAR}
     </if>
+    order BY code
   </select>
 
   <select id="selectAllDictionary" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from dictionary where status = 0
+  </select>
+
+  <select id="selectList" resultMap="BaseResultMap">
+    {call selectDictionaryByTypeParentIdLang(#{type}, #{parentId}, #{lang})}
   </select>
 </mapper>

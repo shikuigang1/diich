@@ -27,7 +27,7 @@ public interface ContentFragmentMapper extends BaseMapper<ContentFragment> {
     List<ContentFragment> selectAllAttrByTargetIdAndType(ContentFragment record);
 
     //根据项目名称获取相关信息
-    List<ContentFragment> selectByProjectId(long  projectID);
+    List<ContentFragment> selectByProjectId(long projectID);
 
     List<ContentFragment> selectByAttIdAndContent(ContentFragment record);
 

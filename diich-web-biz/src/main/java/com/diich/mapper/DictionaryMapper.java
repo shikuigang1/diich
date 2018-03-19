@@ -27,4 +27,6 @@ public interface DictionaryMapper extends BaseMapper<Dictionary> {
     List<Dictionary> selectByParentId(@Param("params") Map<String, Object> params) throws Exception;
 
     List<Dictionary> selectAllDictionary() throws Exception;
+
+    List<Dictionary> selectList(@Param("type") Integer type, @Param("parentId") Long parentId, @Param("lang") String lang);
 }
