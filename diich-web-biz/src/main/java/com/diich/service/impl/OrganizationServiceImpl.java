@@ -429,6 +429,38 @@ public class OrganizationServiceImpl extends BaseService<Organization> implement
         }
     }
 
+    /**
+     * 删除 假删 修改状态为1
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public int deleteOrganization(Long id) throws Exception {
+        TransactionStatus transactionStatus = getTransactionStatus();
+        int i = -1;
+        try {
+            Organization organization = organizationMapper.selectOrganizationById(id);
+            organization.setStatus(1);
+            organization.setLastEditDate(new Date());
+            i = organizationMapper.updateByPrimaryKeySelective(organization);
+            Version version = new Version();
+            version.setBranchVersionId(id);
+            version.setTargetType(3);
+            version.setVersionType(1000);
+            List<Version> versionList = versionMapper.selectVersionByVersionIdAndTargetType(version);
+            if (versionList.size() > 0) {
+                versionList.get(0).setVersionType(1001);//过期
+                versionMapper.updateByPrimaryKeySelective(versionList.get(0));
+            }
+            commit(transactionStatus);
+        } catch (Exception e) {
+            rollback(transactionStatus);
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+        return i;
+    }
+
     private boolean isDoiValable(String doi) throws Exception {
         ContentFragment contentFragment = new ContentFragment();
         contentFragment.setAttributeId(137L);

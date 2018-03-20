@@ -42,4 +42,6 @@ public interface OrganizationService {
      * @throws Exception
      */
     void audit(Long id, User user, String doi) throws Exception;
+
+    int deleteOrganization(Long id) throws Exception;
 }
