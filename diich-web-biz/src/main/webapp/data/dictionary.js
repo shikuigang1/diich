@@ -649,7 +649,7 @@ var dic_arr = [
     },
     {
         "id":109003,
-        "code":"2",
+        "code":"3",
         "name":"第三批",
         "type":109,
         "parent_id":null,
