@@ -776,7 +776,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         try {
             //添加信息到审核表
             Audit audit = new Audit();
-            audit.setTargetType(0);
+            audit.setTargetType(1);
             audit.setTargetId(id);
             audit.setStatus(1);
             Audit selaudit = auditMapper.selectAuditBytargetIdAndTargetType(audit);
@@ -804,7 +804,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
         try {
             //添加拒绝信息到审核表
             Audit audit = new Audit();
-            audit.setTargetType(0);
+            audit.setTargetType(1);
             audit.setTargetId(id);
             audit.setId(IdWorker.getId());
             audit.setAuditDate(new Date());

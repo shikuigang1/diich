@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="${h5uri}/links/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="${h5uri}/css/swiper.min.css"/>
     <script src="${h5uri}/links/js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="${caturi}/js/base-url.js"></script>
     <script src="${caturi}/data/dictionary.js"></script>
     <script src="${caturi}/data/category.js"></script>
     <script src="${caturi}/js/util.js"></script>
