@@ -6,16 +6,19 @@
         <li>·</li>
         <li data-status="3" class="">审核中</li>
     </ul>
-    <div class="status_list"><table>
-        <tbody><tr class="title">
-            <th>名称</th>
-            <th>最近修改时间</th>
-        </tr>
-        <tr>
-            <th colspan="2" style="text-align: center;height: 200px;line-height: 200px;">暂无数据</th>
-        </tr>
+    <div class="status_list">
+        <!--<table>-->
+        <!--<tbody><tr class="title">-->
+            <!--<th>名称</th>-->
+            <!--<th>最近修改时间</th>-->
+            <!--<th>操作</th>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<th colspan="2" style="text-align: center;height: 200px;line-height: 200px;">暂无数据</th>-->
+        <!--</tr>-->
 
-        </tbody></table>
+        <!--</tbody>-->
+        <!--</table>-->
         <script>
             $(function() {
                 /**
@@ -58,6 +61,9 @@
         </script></div>
     <script type="text/javascript">
         (function () {
+        var para_ = {status:0};
+        ajaxPost(para_);
+
             //绑定导航项
             $("#audit_nav").delegate("li", "click", function () {
                 var status = $(this).attr("data-status");
@@ -73,17 +79,37 @@
                         '</div>');
 
                     var para_ = {status:status};
-                    $.post("/ichMaster/getEntryByUserId", {params: JSON.stringify(para_)}, function (data) {
-                        console.log(data);
-                        if(data.code == 0){
-                            fillWords(data.data)
-                        }
-                        //console.log(data);
-                        //$(".status_list").html(data.html);
-                    });
+                    ajaxPost(para_);
                 }
             });
+
+
+            function ajaxPost(para_) {
+                $.post("/ichMaster/getEntryByUserId", {params: JSON.stringify(para_)}, function (data) {
+                    console.log(data);
+                    if(data.code == 0){
+                        if (data.data.length == 0) {
+                            $('.status_list').html('<div style="line-height: 51px;text-align: center;font-size:20px;background: #fff;">暂无数据</div>');
+                            return;
+                        }
+                        fillWords(data.data)
+                    }
+                    //console.log(data);
+                    //$(".status_list").html(data.html);
+                });
+            }
+
+
+
         })();
+
+
+
+
+
+
+
+
         function  fillWords(data) {
 
             var str = "<table><tbody><tr class=\"title\"><th>名称<th>最近修改时间</th><th>操作</th></tr>";
