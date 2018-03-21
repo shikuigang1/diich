@@ -21,6 +21,11 @@ var homeData={
     ]
 };
 
+$(function () {
+    if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
+        window.location = 'http://m.diich.com';
+    }
+});
 
 /**
  * 搜索
