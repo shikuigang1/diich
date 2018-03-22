@@ -181,3 +181,21 @@ var upload_form_template =
     '</div>' +
     '<input class="file" type="file" name="file">'+
     '</form>';
+
+var living_city =
+    '<div class="group"> '+
+    '    <label class="label" for=""><em>*</em>居住城市</label> '+
+    '        <div class="control">'+
+    '            <div class="ipt w650 select editListen data-item dic" data-id="55" dic-type="101" id="living_city" value="">请选择居住城市</div> '+
+    '            <div class="errors" style="display: none"><i></i>请填写居住城市</div> '+
+    '        </div> '+
+    '        <div class="dropbox">'+
+    '            <div class="item"> '+
+    '                <dl class="level"> '+
+    '                    <dd> '+
+    '                        <ul></ul> '+
+    '                    </dd> '+
+    '                </dl> '+
+    '            </div> '+
+    '        </div> '+
+    '    </div> ';
