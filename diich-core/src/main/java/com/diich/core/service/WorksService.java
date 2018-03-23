@@ -31,4 +31,12 @@ public interface WorksService {
     List<Works> getWorksByName(String worksName)throws Exception;
 
     Works getWorksByDoi(String doi)throws Exception;
+
+    Page<Works> getWorksByUserId(Map<String, Object> params)throws Exception;
+
+    void audit(Long id, User user, String doi) throws Exception;
+
+    void refuseAudit(Long id, User user, String reason) throws Exception;
+
+    int deleteWorks(Long id) throws Exception;
 }
