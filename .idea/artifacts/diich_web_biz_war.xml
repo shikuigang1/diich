@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="diich-web-biz:war">
     <output-path>$PROJECT_DIR$/diich-web-biz/target</output-path>
-    <root id="archive" name="diich-web-biz-1.0-SNAPSHOT.war">
+    <root id="archive" name="ROOT.war">
       <element id="artifact" artifact-name="diich-web-biz:war exploded" />
     </root>
   </artifact>

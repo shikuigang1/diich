@@ -244,11 +244,11 @@ function displayEditMode() {
             $section.find('.edit.link').show();
         });
     });
-
+    
     $('a.albums').hide();
     $('a.share').hide();
     $('a.praise').hide();
-
+    
     $('.add.button').on('click', function () {
         if(has_edit == true) {
             alert('已经有模块处于编辑状态，请保存后再进行此操作。');
@@ -429,7 +429,6 @@ function displayEditMode() {
             resource.status = 0;
             resource.uri = file_name;
             resource.description = '';
-            resource.dataStatus = 'a';
             resourceList_tmp.push(resource);
         }
     });
@@ -759,7 +758,6 @@ function editImageTextUi($section) {
                 resource.type = dataType == 'image' ? 0 : 1;
                 resource.uri = file_name;
                 resource.description = '';
-                resource.dataStatus = 'a';
 
                 contentFragment.resourceList.push(resource);
             }
@@ -984,7 +982,6 @@ function addMainInfoCompListener($section) {
                     resource.status = 0;
                     resource.type = 0;
                     resource.uri = uri_str;
-                    resource.dataStatus = 'a';
                     resourceList.push(resource);
                 } else {
                     resourceList[0].uri = uri_str;
@@ -1005,7 +1002,6 @@ function addMainInfoCompListener($section) {
             resource.type = 0;
             resource.status = 0;
             resource.uri = uri_str;
-            resource.dataStatus = 'a';
 
             var resourceList = [];
             resourceList.push(resource);

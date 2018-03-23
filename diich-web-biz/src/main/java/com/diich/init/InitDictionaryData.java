@@ -33,13 +33,13 @@ public class InitDictionaryData  implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
 
         //获取整个全部国家数据
-        List<Dictionary> countryData =  dictionaryService.getDictionaryListByParentID(null,101);
+        /*List<Dictionary> countryData =  dictionaryService.getDictionaryListByParentID(null,101);
 
         if(countryData != null && countryData.size() >0){
             jedisHelper.setCrud(Constants.DICTIONARY_KEY,JSON.toJSONString(countryData));
-        }
+        }*/
 
-       /* List<Dictionary> ls = dictionaryService.getAllDictionary();
+        List<Dictionary> ls = dictionaryService.getAllDictionary();
         //System.out.println(ls.size());
         //redis key 分类规则：跟进type 类型
         for(int i=0;i<ls.size();i++){
@@ -51,6 +51,6 @@ public class InitDictionaryData  implements InitializingBean {
                 //redisHelper.set(Constants.DICTIONARY_KEY+d.getId(),(Serializable)childen);
             }
             //redisHelper.hset("t_"+d.getType(),d);.getDictionaryListByParentId()
-        }*/
+        }
     }
 }

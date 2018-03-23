@@ -177,7 +177,7 @@ function displayEditMode() {
                         if($(item).attr('data-id') == contentFragment.attributeId) {
                             var $show_short_text_ui = $(show_short_text_template);
                             $show_short_text_ui.find('.key').text(attr.cnName + ': ');
-                            if($(item).is('select')) {
+                            if($(item).is('select') || $(item).hasClass('dic')) {
                                 $show_short_text_ui.find('.value').text(getTextByTypeAndCode(attr.dataType,contentFragment.content,'chi'));
                             } else {
                                 $show_short_text_ui.find('.value').text(contentFragment.content);
@@ -433,6 +433,7 @@ function displayEditMode() {
             resource.status = 0;
             resource.uri = file_name;
             resource.description = '';
+            resource.dataStatus = 'a';
             resourceList_tmp.push(resource);
         }
     });
@@ -610,6 +611,7 @@ function addMainInfoCompListener($section) {
                     resource.status = 0;
                     resource.type = 0;
                     resource.uri = uri_str;
+                    resource.dataStatus = 'a';
                     resourceList.push(resource);
                 } else {
                     resourceList[0].uri = uri_str;
@@ -630,6 +632,7 @@ function addMainInfoCompListener($section) {
             resource.type = 0;
             resource.status = 0;
             resource.uri = uri_str;
+            resource.dataStatus = 'a';
 
             var resourceList = [];
             resourceList.push(resource);
@@ -874,7 +877,7 @@ function editShortTextUi($section) {
 }
 
 function buildAreaUi($ui, attr) {
-    if(attr.id == 49 || attr.id == 57 || attr.id == 55) {
+    if(attr.id == 49 || attr.id == 57) {
         //国家
         var $select = $('<select></select>');
         $select.addClass('ipt').addClass('w310').addClass('data-item');
@@ -890,6 +893,40 @@ function buildAreaUi($ui, attr) {
 
         $ui.find('input').replaceWith($select);
         $ui.find('select').attr('data-id', attr.id);
+    } else if(attr.id == 55) {
+        var $livingCity = $(living_city);
+        $ui.replaceWith($livingCity);
+
+        for(var j = 0; j < master.contentFragmentList.length; j++) {
+            var contentFragment = master.contentFragmentList[j];
+            if(attr.id == contentFragment.attributeId) {
+                $livingCity.find('.data-item').text(getTextByTypeAndCode(101, contentFragment.content, 'chi'));
+                break;
+            }
+        }
+
+        $livingCity.find('#living_city').on('click', function () {
+            var _this = $(this);
+            var $comb = _this.parent().parent().find('.item');
+            $comb.css('left', parseInt(_this.position().left) + 'px');
+            $comb.animate({height:'toggle'}, 150);
+            $comb.siblings('.item').animate({height:'hide'},50);
+
+            var opts = {};
+            opts.type = 101;
+            opts.data = getDictionaryArrayByTypeAndParentID(opts.type, '', 'chi');
+            opts.callback = function (data_code, name) {
+                _this.attr('data-value', data_code);
+                _this.text(name);
+            };
+
+            buildComboUi($comb, opts);
+        });
+
+        $livingCity.find('#living_city').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
     }
 
 }
@@ -1029,6 +1066,7 @@ function editImageTextUi($section) {
                 resource.type = dataType == 'image' ? 0 : 1;
                 resource.uri = file_name;
                 resource.description = '';
+                resource.dataStatus = 'a';
 
                 contentFragment.resourceList.push(resource);
             }

@@ -20,41 +20,228 @@
 </body>
 <script>
 
-    $('#button').on('click', function () {
-        $.ajaxFileUpload({
-            url : '../user/uploadFile',
-            secureuri : false,
-            fileElementId : 'file_upload',
-            dataType : 'JSON',
-            success : function(data) {
-                if(typeof data == 'string') {
-                    data = JSON.parse(data);
-                }
-
-                if(data.code != 0) {
-                    alert(data.msg);
-                    return;
-                }
-
-                var arr = data.data;
-                for(var i = 0; i < arr.length; i ++) {
-                    var $img = $('<img style="width: 50px;"/>');
-                    $img.attr('src', arr[i]);
-                    $('#img_block').append($img);
-                }
+    var organization =  {
+        "contentFragmentList": [{
+            "attribute": {
+                "cnName": "机构名称",
+                "dataType": "0",
+                "description": "请输入机构名称(1-20)字",
+                "enName": "Name of organization",
+                "ichCategoryId": null,
+                "id": "132",
+                "isOpen": "1",
+                "lable": "",
+                "maxLength": "20",
+                "minLength": "1",
+                "priority": "0",
+                "seq": "0",
+                "status": "0",
+                "targetId": null,
+                "targetType": "3",
+                "value": ""
             },
-            error : function(e) {
-                alert('上传失败');
-            }
+            "attributeId": "132",
+            "content": "34234",
+            "id": "907199143621197824",
+            "resourceList": [],
+            "status": "0",
+            "targetId": "907199143583449088",
+            "targetType": "3"
+        }, {
+            "attribute": {
+                "cnName": "机构负责人",
+                "dataType": "0",
+                "description": "",
+                "enName": "Head of organization",
+                "ichCategoryId": null,
+                "id": "133",
+                "isOpen": "1",
+                "lable": "",
+                "maxLength": null,
+                "minLength": null,
+                "priority": "99",
+                "seq": "20",
+                "status": "0",
+                "targetId": null,
+                "targetType": "3",
+                "value": ""
+            },
+            "attributeId": "133",
+            "content": "2234",
+            "id": "907199143654752256",
+            "resourceList": [],
+            "status": "0",
+            "targetId": "907199143583449088",
+            "targetType": "3"
+        }, {
+            "attribute": {
+                "cnName": "机构网站",
+                "dataType": "0",
+                "description": "",
+                "enName": "Organization web",
+                "ichCategoryId": null,
+                "id": "135",
+                "isOpen": "1",
+                "lable": "",
+                "maxLength": null,
+                "minLength": null,
+                "priority": "99",
+                "seq": "40",
+                "status": "0",
+                "targetId": null,
+                "targetType": "3",
+                "value": ""
+            },
+            "attributeId": "135",
+            "content": "",
+            "id": "907199143717666816",
+            "resourceList": [],
+            "status": "0",
+            "targetId": "907199143583449088",
+            "targetType": "3"
+        }, {
+            "attribute": {
+                "cnName": "背景图片",
+                "dataType": "7",
+                "description": "",
+                "enName": "Topic image",
+                "ichCategoryId": null,
+                "id": "136",
+                "isOpen": "1",
+                "lable": "",
+                "maxLength": null,
+                "minLength": null,
+                "priority": "99",
+                "seq": "54",
+                "status": "0",
+                "targetId": null,
+                "targetType": "3",
+                "value": ""
+            },
+            "attributeId": "136",
+            "content": "",
+            "id": "907199143751221248",
+            "resourceList": [{
+                "description": "",
+                "id": "907206865691377664",
+                "resOrder": "1",
+                "status": "0",
+                "type": "0",
+                "uri": "1505129942729.jpg"
+            }],
+            "status": "0",
+            "targetId": "907199143583449088",
+            "targetType": "3"
+        }, {
+            "attribute": {
+                "cnName": "机构简介",
+                "dataType": "1",
+                "description": "",
+                "enName": "Introduction of organization",
+                "ichCategoryId": null,
+                "id": "134",
+                "isOpen": "1",
+                "lable": "",
+                "maxLength": null,
+                "minLength": null,
+                "priority": "2",
+                "seq": "55",
+                "status": "0",
+                "targetId": null,
+                "targetType": "3",
+                "value": ""
+            },
+            "attributeId": "134",
+            "content": "",
+            "id": "907199143684112384",
+            "resourceList": [],
+            "status": "0",
+            "targetId": "907199143583449088",
+            "targetType": "3"
+        }, {
+            "attribute": {
+                "cnName": "2234",
+                "dataType": "5",
+                "description": "",
+                "enName": "",
+                "ichCategoryId": null,
+                "id": "907199241293955072",
+                "isOpen": "1",
+                "lable": "",
+                "maxLength": null,
+                "minLength": null,
+                "priority": "99",
+                "seq": "999",
+                "status": "0",
+                "targetId": "907199143583449088",
+                "targetType": "13",
+                "value": ""
+            },
+            "attributeId": "907199241293955072",
+            "content": "234",
+            "id": "907199241310732288",
+            "resourceList": [{
+                "description": "434",
+                "id": "907199241331703808",
+                "resOrder": "1",
+                "status": "0",
+                "type": "1",
+                "uri": "1505128118906.mp4"
+            }, {
+                "description": "234",
+                "id": "907199241373646848",
+                "resOrder": "2",
+                "status": "0",
+                "type": "0",
+                "uri": "1505128125320.jpg"
+            }],
+            "status": "0",
+            "targetId": "907199143583449088",
+            "targetType": "3"
+        }, {
+            "attribute": {
+                "cnName": "23423",
+                "dataType": "5",
+                "description": "",
+                "enName": "",
+                "ichCategoryId": null,
+                "id": "907206777149620224",
+                "isOpen": "1",
+                "lable": "",
+                "maxLength": null,
+                "minLength": null,
+                "priority": "99",
+                "seq": "999",
+                "status": "0",
+                "targetId": "907199143583449088",
+                "targetType": "13",
+                "value": ""
+            },
+            "attributeId": "907206777149620224",
+            "content": "234",
+            "id": "907206777166397440",
+            "resourceList": [],
+            "status": "0",
+            "targetId": "907199143583449088",
+            "targetType": "3"
+        }],
+        "editRank": null,
+        "id": "907199143583449088",
+        "lang": "chi",
+        "lastEditDate": "2017-09-11 19:39:06",
+        "lastEditorId": "879254100457402368",
+        "status": "2",
+        "type": null,
+        "uri": "907199143583449088.html",
+        "userId": null
+    };
+
+    $('#button').on('click', function () {
+        $.ajax({
+            type:'post',
+
         });
     });
-
-    //getTemplateUi('declare.html');
-
-    //getDictionaryArrayByType(103, 'eng');
-
-    var text = getCategoryTextById(2);
-    console.log(text);
 
 </script>
 </html>
