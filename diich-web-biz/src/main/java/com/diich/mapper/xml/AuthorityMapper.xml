@@ -3,12 +3,93 @@
 <mapper namespace="com.diich.mapper.AuthorityMapper" >
   <resultMap id="BaseResultMap" type="com.diich.core.model.Authority" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="readonly" property="readonly" jdbcType="INTEGER" />
+    <result column="readwrite" property="readwrite" jdbcType="INTEGER" />
+    <result column="audit" property="audit" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, status
+    id, readonly, readwrite, audit, status
   </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from authority
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from authority
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.diich.core.model.Authority" >
+    insert into authority (id, readonly, readwrite,
+    audit, status)
+    values (#{id,jdbcType=BIGINT}, #{readonly,jdbcType=INTEGER}, #{readwrite,jdbcType=INTEGER},
+    #{audit,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.diich.core.model.Authority" >
+    insert into authority
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="readonly != null" >
+        readonly,
+      </if>
+      <if test="readwrite != null" >
+        readwrite,
+      </if>
+      <if test="audit != null" >
+        audit,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="readonly != null" >
+        #{readonly,jdbcType=INTEGER},
+      </if>
+      <if test="readwrite != null" >
+        #{readwrite,jdbcType=INTEGER},
+      </if>
+      <if test="audit != null" >
+        #{audit,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.Authority" >
+    update authority
+    <set >
+      <if test="readonly != null" >
+        readonly = #{readonly,jdbcType=INTEGER},
+      </if>
+      <if test="readwrite != null" >
+        readwrite = #{readwrite,jdbcType=INTEGER},
+      </if>
+      <if test="audit != null" >
+        audit = #{audit,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.diich.core.model.Authority" >
+    update authority
+    set readonly = #{readonly,jdbcType=INTEGER},
+    readwrite = #{readwrite,jdbcType=INTEGER},
+    audit = #{audit,jdbcType=INTEGER},
+    status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
 
   <select id="selectByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select a.*
@@ -17,6 +98,5 @@
     left join authority a on ra.authority_id = a.id
     where r.id = #{id,jdbcType=BIGINT} and ra.target_table = 'role'
   </select>
-
 
 </mapper>

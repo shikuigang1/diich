@@ -9,7 +9,9 @@ import java.util.List;
  */
 public class Role extends BaseModel {
     private Long id;
+
     private String name;
+
     private Integer status;
 
     private List<Authority> authorities;//权限组

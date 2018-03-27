@@ -2,12 +2,15 @@ package com.diich.core.model;
 
 import com.diich.core.base.BaseModel;
 
-/**
- * Created by Administrator on 2018/3/12.
- */
 public class Authority extends BaseModel {
     private Long id;
-    private String name;
+
+    private Integer readonly;
+
+    private Integer readwrite;
+
+    private Integer audit;
+
     private Integer status;
 
     public Long getId() {
@@ -18,12 +21,28 @@ public class Authority extends BaseModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getReadonly() {
+        return readonly;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setReadonly(Integer readonly) {
+        this.readonly = readonly;
+    }
+
+    public Integer getReadwrite() {
+        return readwrite;
+    }
+
+    public void setReadwrite(Integer readwrite) {
+        this.readwrite = readwrite;
+    }
+
+    public Integer getAudit() {
+        return audit;
+    }
+
+    public void setAudit(Integer audit) {
+        this.audit = audit;
     }
 
     public Integer getStatus() {
@@ -33,5 +52,4 @@ public class Authority extends BaseModel {
     public void setStatus(Integer status) {
         this.status = status;
     }
-
 }
