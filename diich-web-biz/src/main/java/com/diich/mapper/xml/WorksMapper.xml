@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.diich.mapper.WorksMapper" >
-  <resultMap id="BaseResultMap" type="com.diich.core.model.Works" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="last_editor_id" property="lastEditorId" jdbcType="BIGINT" />
-    <result column="ich_project_id" property="ichProjectId" jdbcType="BIGINT" />
-    <result column="ich_master_id" property="ichMasterId" jdbcType="BIGINT" />
-    <result column="last_edit_date" property="lastEditDate" jdbcType="TIMESTAMP" />
-    <result column="edit_rank" property="editRank" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="uri" property="uri" jdbcType="VARCHAR" />
-    <result column="lang" property="lang" jdbcType="CHAR" />
-    <result column="is_represent" property="isRepresent" jdbcType="INTEGER" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.diich.mapper.WorksMapper">
+    <resultMap id="BaseResultMap" type="com.diich.core.model.Works">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="last_editor_id" property="lastEditorId" jdbcType="BIGINT"/>
+        <result column="ich_project_id" property="ichProjectId" jdbcType="BIGINT"/>
+        <result column="ich_master_id" property="ichMasterId" jdbcType="BIGINT"/>
+        <result column="last_edit_date" property="lastEditDate" jdbcType="TIMESTAMP"/>
+        <result column="edit_rank" property="editRank" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="uri" property="uri" jdbcType="VARCHAR"/>
+        <result column="lang" property="lang" jdbcType="CHAR"/>
+        <result column="is_represent" property="isRepresent" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, last_editor_id, ich_project_id, ich_master_id, last_edit_date, edit_rank, type,
     status, uri, lang, is_represent
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
-    <include refid="Base_Column_List" />
-    from works
-    where id = #{id,jdbcType=BIGINT} and (status = 0 or status=10)
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from works
+        where id = #{id,jdbcType=BIGINT} and (status = 0 or status=10)
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from works
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.diich.core.model.Works" >
+    <insert id="insert" parameterType="com.diich.core.model.Works">
     insert into works (id, last_editor_id, ich_project_id,
       ich_master_id, last_edit_date, edit_rank,
       type, status, uri,
@@ -38,116 +38,116 @@
       #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR},
       #{lang,jdbcType=CHAR}, #{isRepresent,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.diich.core.model.Works" >
+  <insert id="insertSelective" parameterType="com.diich.core.model.Works">
     insert into works
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="lastEditorId != null" >
-        last_editor_id,
-      </if>
-      <if test="ichProjectId != null" >
-        ich_project_id,
-      </if>
-      <if test="ichMasterId != null" >
-        ich_master_id,
-      </if>
-      <if test="lastEditDate != null" >
-        last_edit_date,
-      </if>
-      <if test="editRank != null" >
-        edit_rank,
-      </if>
-      <if test="type != null" >
-        type,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="uri != null" >
-        uri,
-      </if>
-      <if test="lang != null" >
-        lang,
-      </if>
-      <if test="isRepresent != null" >
-        is_represent,
-      </if>
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            id,
+        </if>
+        <if test="lastEditorId != null">
+            last_editor_id,
+        </if>
+        <if test="ichProjectId != null">
+            ich_project_id,
+        </if>
+        <if test="ichMasterId != null">
+            ich_master_id,
+        </if>
+        <if test="lastEditDate != null">
+            last_edit_date,
+        </if>
+        <if test="editRank != null">
+            edit_rank,
+        </if>
+        <if test="type != null">
+            type,
+        </if>
+        <if test="status != null">
+            status,
+        </if>
+        <if test="uri != null">
+            uri,
+        </if>
+        <if test="lang != null">
+            lang,
+        </if>
+        <if test="isRepresent != null">
+            is_represent,
+        </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="lastEditorId != null" >
-        #{lastEditorId,jdbcType=BIGINT},
-      </if>
-      <if test="ichProjectId != null" >
-        #{ichProjectId,jdbcType=BIGINT},
-      </if>
-      <if test="ichMasterId != null" >
-        #{ichMasterId,jdbcType=BIGINT},
-      </if>
-      <if test="lastEditDate != null" >
-        #{lastEditDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="editRank != null" >
-        #{editRank,jdbcType=INTEGER},
-      </if>
-      <if test="type != null" >
-        #{type,jdbcType=INTEGER},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="uri != null" >
-        #{uri,jdbcType=VARCHAR},
-      </if>
-      <if test="lang != null" >
-        #{lang,jdbcType=CHAR},
-      </if>
-      <if test="isRepresent != null" >
-        #{isRepresent,jdbcType=INTEGER},
-      </if>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+            #{id,jdbcType=BIGINT},
+        </if>
+        <if test="lastEditorId != null">
+            #{lastEditorId,jdbcType=BIGINT},
+        </if>
+        <if test="ichProjectId != null">
+            #{ichProjectId,jdbcType=BIGINT},
+        </if>
+        <if test="ichMasterId != null">
+            #{ichMasterId,jdbcType=BIGINT},
+        </if>
+        <if test="lastEditDate != null">
+            #{lastEditDate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="editRank != null">
+            #{editRank,jdbcType=INTEGER},
+        </if>
+        <if test="type != null">
+            #{type,jdbcType=INTEGER},
+        </if>
+        <if test="status != null">
+            #{status,jdbcType=INTEGER},
+        </if>
+        <if test="uri != null">
+            #{uri,jdbcType=VARCHAR},
+        </if>
+        <if test="lang != null">
+            #{lang,jdbcType=CHAR},
+        </if>
+        <if test="isRepresent != null">
+            #{isRepresent,jdbcType=INTEGER},
+        </if>
     </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.Works" >
+</insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.diich.core.model.Works">
     update works
-    <set >
-      <if test="lastEditorId != null" >
-        last_editor_id = #{lastEditorId,jdbcType=BIGINT},
-      </if>
-      <if test="ichProjectId != null" >
-        ich_project_id = #{ichProjectId,jdbcType=BIGINT},
-      </if>
-      <if test="ichMasterId != null" >
-        ich_master_id = #{ichMasterId,jdbcType=BIGINT},
-      </if>
-      <if test="lastEditDate != null" >
-        last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="editRank != null" >
-        edit_rank = #{editRank,jdbcType=INTEGER},
-      </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="uri != null" >
-        uri = #{uri,jdbcType=VARCHAR},
-      </if>
-      <if test="lang != null" >
-        lang = #{lang,jdbcType=CHAR},
-      </if>
-      <if test="isRepresent != null" >
-        is_represent = #{isRepresent,jdbcType=INTEGER},
-      </if>
+    <set>
+        <if test="lastEditorId != null">
+            last_editor_id = #{lastEditorId,jdbcType=BIGINT},
+        </if>
+        <if test="ichProjectId != null">
+            ich_project_id = #{ichProjectId,jdbcType=BIGINT},
+        </if>
+        <if test="ichMasterId != null">
+            ich_master_id = #{ichMasterId,jdbcType=BIGINT},
+        </if>
+        <if test="lastEditDate != null">
+            last_edit_date = #{lastEditDate,jdbcType=TIMESTAMP},
+        </if>
+        <if test="editRank != null">
+            edit_rank = #{editRank,jdbcType=INTEGER},
+        </if>
+        <if test="type != null">
+            type = #{type,jdbcType=INTEGER},
+        </if>
+        <if test="status != null">
+            status = #{status,jdbcType=INTEGER},
+        </if>
+        <if test="uri != null">
+            uri = #{uri,jdbcType=VARCHAR},
+        </if>
+        <if test="lang != null">
+            lang = #{lang,jdbcType=CHAR},
+        </if>
+        <if test="isRepresent != null">
+            is_represent = #{isRepresent,jdbcType=INTEGER},
+        </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.diich.core.model.Works" >
+</update>
+  <update id="updateByPrimaryKey" parameterType="com.diich.core.model.Works">
     update works
     set last_editor_id = #{lastEditorId,jdbcType=BIGINT},
       ich_project_id = #{ichProjectId,jdbcType=BIGINT},
@@ -162,60 +162,91 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectWorks" parameterType="com.diich.core.model.Works" resultMap="BaseResultMap">
-  select
-    <include refid="Base_Column_List" />
+    select
+    <include refid="Base_Column_List"/>
     from works where status = 0
-    <if test="ichProjectId != null" >
-    and ich_project_id = #{ichProjectId,jdbcType=BIGINT}
+    <if test="ichProjectId != null">
+        and ich_project_id = #{ichProjectId,jdbcType=BIGINT}
     </if>
-    <if test="ichMasterId != null" >
-      and ich_master_id = #{ichMasterId,jdbcType=BIGINT}
+    <if test="ichMasterId != null">
+        and ich_master_id = #{ichMasterId,jdbcType=BIGINT}
     </if>
-    <if test="isRepresent != null" >
-      and is_represent = #{isRepresent,jdbcType=INTEGER}
+    <if test="isRepresent != null">
+        and is_represent = #{isRepresent,jdbcType=INTEGER}
     </if>
   </select>
   <select id="selectWorksList" parameterType="java.util.Map" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from works where status = 0
-    <if test="params.lastEditorId != null" >
-      last_editor_id = #{params.lastEditorId,jdbcType=BIGINT}
-    </if>
-    <if test="params.ichProjectId != null" >
-      ich_project_id = #{params.ichProjectId,jdbcType=BIGINT}
-    </if>
-    <if test="params.ichMasterId != null" >
-      ich_master_id = #{params.ichMasterId,jdbcType=BIGINT}
-    </if>
-    <if test="params.lastEditDate != null" >
-      last_edit_date = #{params.lastEditDate,jdbcType=TIMESTAMP}
-    </if>
-    <if test="params.editRank != null" >
-      edit_rank = #{params.editRank,jdbcType=INTEGER}
-    </if>
-    <if test="params.uri != null" >
-      uri = #{params.uri,jdbcType=VARCHAR}
-    </if>
-    <if test="params.lang != null" >
-      lang = #{params.lang,jdbcType=CHAR}
-    </if>
-    <if test="params.isRepresent != null" >
-      is_represent = #{params.isRepresent,jdbcType=INTEGER}
-    </if>
+        select
+        <include refid="Base_Column_List"/>
+        from works where status = 0
+        <if test="params.lastEditorId != null">
+            last_editor_id = #{params.lastEditorId,jdbcType=BIGINT}
+        </if>
+        <if test="params.ichProjectId != null">
+            ich_project_id = #{params.ichProjectId,jdbcType=BIGINT}
+        </if>
+        <if test="params.ichMasterId != null">
+            ich_master_id = #{params.ichMasterId,jdbcType=BIGINT}
+        </if>
+        <if test="params.lastEditDate != null">
+            last_edit_date = #{params.lastEditDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="params.editRank != null">
+            edit_rank = #{params.editRank,jdbcType=INTEGER}
+        </if>
+        <if test="params.uri != null">
+            uri = #{params.uri,jdbcType=VARCHAR}
+        </if>
+        <if test="params.lang != null">
+            lang = #{params.lang,jdbcType=CHAR}
+        </if>
+        <if test="params.isRepresent != null">
+            is_represent = #{params.isRepresent,jdbcType=INTEGER}
+        </if>
   </select>
   <select id="selectWorksByName" resultMap="BaseResultMap" parameterType="java.lang.String">
-    SELECT i.id, i.ich_project_id, i.ich_master_id FROM works i
-    LEFT JOIN content_fragment cf on cf.target_id = i.id
+        SELECT i.id, i.ich_project_id, i.ich_master_id FROM works i
+        LEFT JOIN content_fragment cf on cf.target_id = i.id
 
-    WHERE cf.attribute_id=28 and (i.status= 0 or i.status=10) and cf.target_type = 2
-    AND cf.content = #{worksName,jdbcType=VARCHAR}
+        WHERE cf.attribute_id=28 and (i.status= 0 or i.status=10) and cf.target_type = 2
+        AND cf.content = #{worksName,jdbcType=VARCHAR}
   </select>
   <select id="selectWorksByDoi" resultMap="BaseResultMap" parameterType="java.lang.String">
-    SELECT i.id, i.ich_project_id, i.ich_master_id FROM works i
-    LEFT JOIN content_fragment cf on cf.target_id = i.id
+        SELECT i.id, i.ich_project_id, i.ich_master_id FROM works i
+        LEFT JOIN content_fragment cf on cf.target_id = i.id
 
-    WHERE cf.attribute_id=26 and (i.status= 0 or i.status=10) and cf.target_type = 2
-    AND cf.content = #{doi,jdbcType=VARCHAR}
+        WHERE cf.attribute_id=26 and (i.status= 0 or i.status=10) and cf.target_type = 2
+        AND cf.content = #{doi,jdbcType=VARCHAR}
+  </select>
+  <select id="selectWorksByUserAndStatus" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from works
+        where 1 = 1
+        <if test="params.userId != null">
+            and last_editor_id = #{params.userId,jdbcType=BIGINT}
+        </if>
+        <if test="params.status != null">
+            and status = #{params.status,jdbcType=INTEGER}
+        </if>
+        order by last_edit_date desc
+  </select>
+  <select id="selectWorksCountByUserAndStatus" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select
+        count(1)
+        from works
+        where 1 = 1
+        <if test="params.userId != null">
+            and last_editor_id = #{params.userId,jdbcType=BIGINT}
+        </if>
+        <if test="params.status != null">
+            and status = #{params.status,jdbcType=INTEGER}
+        </if>
+  </select>
+  <select id="selectWorksById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from works
+        where id = #{id,jdbcType=BIGINT} and status != 1
   </select>
 </mapper>

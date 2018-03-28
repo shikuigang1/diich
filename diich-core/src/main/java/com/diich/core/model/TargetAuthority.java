@@ -7,9 +7,13 @@ import com.diich.core.base.BaseModel;
  */
 public class TargetAuthority extends BaseModel {
     private Long id;
+
     private Long authorityId;
+
     private Long targetId;
+
     private String targetTable;
+
     private Integer status;
 
     public Long getId() {

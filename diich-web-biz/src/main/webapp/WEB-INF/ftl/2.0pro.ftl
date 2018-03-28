@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="${caturi}/css/dropdown.min.css">
     <link rel="stylesheet" href="${caturi}/css/transition.min.css">
     <link rel="stylesheet" href="${caturi}/css/project-edit.css?7">
+    <link rel="stylesheet" href="${caturi}/swiper/swiper.min.css">
     <style>
         .card .plain_text,.card .text_img .side {
             word-wrap: break-word;
@@ -75,6 +76,7 @@
     <script src="${caturi}/js/i18n.js"></script>
     <script src="${caturi}/data/dictionary.js"></script>
     <script src="${caturi}/js/util.js"></script>
+    <script src="${caturi}/swiper/swiper.min.js"></script>
 
     <script src="${caturi}/assets/js/Ecalendar.jquery.min.js"></script>
     <script src="${caturi}/js/semantic.min.js"></script>
@@ -240,7 +242,7 @@
                         </#list>
                     </#if>
                     <li class="active">
-                        <img src="${backImgUrl}" data-id="1" class="bg-image data-item"/>
+                        <img src="${backImgUrl}?x-oss-process=style/diich_560_420_titu" data-id="1" class="bg-image data-item"/>
                     </li>
                     <li class="padd">
                         <div class="active1">
@@ -411,7 +413,7 @@
             <!--//End 主内容-->
 
             <div class="card_base section" data-type="short-text">
-                <duv class="detail_title handle-button">
+                <div class="detail_title handle-button">
                     <h2 class="title">
                     <#if obj.lang == "chi">
                         基础信息
@@ -420,7 +422,7 @@
                         Basic information
                     </#if>
                     </h2>
-                </duv>
+                </div>
                 <div class="info read-piece" id="info">
                     <ul>
                     <#if (obj.contentFragmentList?size>0)>
@@ -435,13 +437,107 @@
                                         ${cf.attribute.enName}：
                                         </#if>
                                     </span>
-                                    <span class="value dic data-item" dic-type="${cf.attribute.dataType}" lang="${obj.lang}" data-id="${cf.attributeId}">${cf.content}</span>
+                                    <span class="value dic data-item" dic-type="${cf.attribute.dataType?c}" lang="${obj.lang}" data-id="${cf.attributeId}">${cf.content}</span>
                                 </li>
                             </#if>
                         </#list>
                     </#if>
                     </ul>
                 </div>
+            <#if obj.ichMasterList?? && (obj.ichMasterList?size > 0)>
+                <h2 class="inith2">
+                    <#if obj.lang == "chi">
+                        代表性传承人
+                    </#if>
+                    <#if obj.lang == "eng">
+                        Representativeness
+                    </#if>
+                </h2>
+                <div id="herfor">
+
+                    <div class="swiper-container-enterprise">
+                        <div class="swiper-wrapper">
+                        <#list obj.ichMasterList as master>
+                            <#assign masterPic="http://resource.efeiyi.com/image/uploads/default_avatar2.png?x-oss-process=style/head-image-style">
+                            <#if master.contentFragmentList??>
+                                <#list master.contentFragmentList as cf>
+                                    <#if cf.attributeId == 113 && cf.targetType == 1>
+
+                                        <#if (cf.resourceList??) && (cf.resourceList?size>0)>
+                                            <#list cf.resourceList as r>
+                                                <#if r?? &&(r.uri??)>
+                                                    <#assign masterPic="${masteruri}${r.uri}?x-oss-process=style/head-image-style">
+                                                </#if>
+                                            </#list>
+                                        </#if>
+                                    <#---->
+                                    </#if>
+
+                                </#list>
+                                <div class="swiper-slide swiper-no-swiping">
+
+                                    <a href="${masterpage}${master.id?c }.html">
+                                    <span>
+                                        <img src="${masterPic}" alt="" class="data-item" data-id="113"/>
+                                    </span>
+                                        <p>
+                                        <#list master.contentFragmentList as cf>
+                                            <#if obj.lang == "chi">
+                                                <#if cf.attributeId == 13 && cf.targetType == 1>
+                                                    <span>${cf.content}</span>
+                                                </#if>
+                                            </#if>
+                                            <#if obj.lang == "eng">
+                                                <#if cf.attributeId == 14 && cf.targetType == 1>
+                                                    <span>${cf.content}</span>
+                                                </#if>
+                                            </#if>
+                                            <#if cf.attributeId == 50 && cf.targetType == 1>
+                                                <strong>${cf.content}</strong>
+                                            </#if>
+
+                                            <#if cf.attributeId == 111 && cf.targetType == 1>
+                                                <strong class="dic data-item" dic-type="${cf.attribute.dataType}" lang="${obj.lang}" data-id="111">${cf.content}</strong>
+                                            </#if>
+                                        </#list>
+                                        </p>
+                                    </a>
+
+                                </div>
+                            </#if>
+                        </#list>
+                        </div>
+                        <!--按钮-->
+                        <#if (obj.ichMasterList?size>4)>
+                            <div class="swiper-button-prev swiper-button-black" style="margin-top: -35px; left: -65px;z-index: 0;"></div>
+                            <div class="swiper-button-next swiper-button-black" style="margin-top: -35px; right: -65px;z-index: 0;"></div>
+                        </#if>
+                    </div>
+                    <script type="text/javascript">
+                        (function(){
+                            var mySwiper = new Swiper('.swiper-container-enterprise',{
+                                //默认是左右的普通效果
+                                cube: {
+                                    slideShadows: true,
+                                    shadow: true,
+                                    shadowOffset: 100,
+                                    shadowScale: 0.6
+                                },
+                                prevButton:'.swiper-button-prev',
+                                nextButton:'.swiper-button-next',
+                                slidesPerView : 4,
+                                slidesPerGroup : 1,
+                                spaceBetween : 5,
+                                //持续时间
+                                speed:500
+                            })
+                        })()
+                    </script>
+                </div>
+            </#if>
+
+
+
             </div>
             <!--//End 基本信息-->
         </div>

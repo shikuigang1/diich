@@ -581,6 +581,8 @@ var Detail = { //详情页用到的效果
             var _type = $(code_arr[i]).attr('dic-type');
             if(_type<100){
                 $(code_arr[i]).text(_code);
+            }else{
+                _type = _type.substring(0,3);
             }
             var _lang = $(code_arr[i]).attr('lang');
             var _value = getTextByTypeAndCode(_type, _code, _lang);
