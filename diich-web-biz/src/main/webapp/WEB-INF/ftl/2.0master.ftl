@@ -183,7 +183,7 @@
             <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/default.jpg">
             <#if (obj.contentFragmentList?size>0)>
                 <#list obj.contentFragmentList as cf>
-                    <#if cf.attributeId == 10>
+                    <#if cf.attributeId == 113>
                         <#if (cf.resourceList??) && (cf.resourceList?size>0)>
                             <#list cf.resourceList as res>
                                 <#if res.type==0 && res.status==0 && res.uri?? && res.uri != "">
@@ -209,7 +209,7 @@
                         <#assign backImgUrl="http://resource.efeiyi.com/image/uploads/default.jpg">
                         <#if (obj.contentFragmentList?size>0)>
                             <#list obj.contentFragmentList as cf>
-                                <#if cf.attributeId == 10>
+                                <#if cf.attributeId == 113>
                                     <#if (cf.resourceList??) && (cf.resourceList?size>0)>
                                         <#list cf.resourceList as res>
                                             <#if res.type==0 && res.status==0 && res.uri?? && res.uri != "">
@@ -333,28 +333,90 @@
 
         <!--//End crumbs-->
 
-        <div class="card">
-            <div class="card_base section" data-type="short-text">
-                <duv class="detail_title handle-button">
-                    <h2 class="title">基础信息</h2>
-                </duv>
-                <div class="info read-piece" id="info">
-                    <ul>
-                    <#if (obj.contentFragmentList?size>0)>
-                        <#list (obj.contentFragmentList)?sort_by(["attribute""seq"]) as cf>
-                            <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.content !="" && cf.attributeId != 11 && cf.attributeId != 12 && cf.attributeId != 111 && cf.attributeId != 23 && cf.attribute.isOpen == 1>
-                                <li data-open="${cf.attribute.isOpen}">
-                                        <span class="key">${cf.attribute.cnName}：</span>
-                                        <span class="value dic" dic-type="${cf.attribute.dataType}" lang="${obj.lang}">${cf.content}</span>
-                                </li>
+            <div class="card">
+                <div class="card_base section" data-type="short-text">
+                    <div class="detail_title handle-button">
+                        <h2 class="title">基础信息</h2>
+                    </div>
+                    <div class="info read-piece" id="info">
+                        <ul>
+                        <#if (obj.contentFragmentList?size>0)>
+                            <#list (obj.contentFragmentList)?sort_by(["attribute""seq"]) as cf>
+                                <#if cf.attribute?? && cf.attribute.dataType !=1 &&cf.attribute.dataType !=5 && cf.content?? && cf.content !="" && cf.attributeId != 11 && cf.attributeId != 12 && cf.attributeId != 111 && cf.attributeId != 23 && cf.attribute.isOpen == 1>
+                                    <li data-open="${cf.attribute.isOpen}">
+                                            <span class="key">${cf.attribute.cnName}：</span>
+                                            <span class="value dic" dic-type="${cf.attribute.dataType?c}" lang="${obj.lang}">${cf.content}</span>
+                                    </li>
+                                </#if>
+                            </#list>
+                        </#if>
+                        </ul>
+                    </div>
+                </div>
+                <!--//End 基本信息-->
+        </div>
+        <#if obj.ichProject??>
+        <div class="init_center">
+            <div class="enter">
+                <div>
+                    <h2>传承项目</h2>
+                    <div class="enter_content">
+                        <#assign proPic="http://resource.efeiyi.com/image/uploads/head.png?x-oss-process=style/head-image-style"/>
+                        <#if (obj.ichProject.contentFragmentList?size>0)>
+                            <#list (obj.ichProject.contentFragmentList) as cf>
+                                <#if cf.attributeId == 1>
+                                    <#if (cf.resourceList??)&&(cf.resourceList?size>0)>
+                                        <#list cf.resourceList as r>
+                                            <#if r.type?? && r.type==0 && r.status?? && r.status==0>
+                                                <#if r.uri??>
+                                                    <#assign proPic="${prouri}${r.uri}?x-oss-process=style/head-image-style" />
+                                                </#if>
+                                            </#if>
+                                        </#list>
+                                    </#if>
+                                </#if>
+                            </#list>
+                        </#if>
+                        <div class="clear" onclick="window.location.href='${propage}${obj.ichProject.id?c}.html'">
+                            <a href="javascript:;">
+                                <img src="${proPic}"/>
+                            </a>
+                            <#if (obj.ichProject.contentFragmentList?size>0)>
+                                <#list (obj.ichProject.contentFragmentList) as cf>
+                                    <#if cf.attributeId == 4>
+                                        <h3>${cf.content}</h3>
+                                    </#if>
+                                </#list>
                             </#if>
-                        </#list>
-                    </#if>
-                    </ul>
+                            <p>
+                                <#if (obj.ichProject??)>
+                                    <span>类别：</span>
+                                    <#if (obj.ichProject.ichCategoryId??)>
+                                        <span style="font-size: 12px" id="category" category-id="${obj.ichProject.ichCategoryId}"></span>
+                                    </#if>
+                                    <#if !(obj.ichProject.ichCategoryId??)>
+                                        <span style="font-size: 12px" id="category" category-id=""></span>
+                                    </#if>
+                                </#if>
+                            </p >
+                            <#if (obj.ichProject.contentFragmentList??) && (obj.ichProject.contentFragmentList?size>0)>
+                                <#list (obj.ichProject.contentFragmentList) as cf>
+                                    <#if cf.attributeId == 2>
+                                        <#if cf.content?? && cf.content != "">
+                                            <p>
+                                                <span>ID：</span>
+                                                <span>${cf.content}</span>
+                                            </p >
+                                        </#if>
+                                    </#if>
+                                </#list>
+                            </#if>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!--//End 基本信息-->
         </div>
+        </#if>
     <#assign odd_even =0 />
 
     <#if (obj.worksList??) && (obj.worksList?size>0)>
@@ -401,10 +463,7 @@
             </div>
         </section>
     </#if>
-
-
-        <!--//主内容-->
-
+    <!--//主内容-->
     <#if (obj.contentFragmentList?size>0)>
         <#list (obj.contentFragmentList)?sort_by(["attribute""seq"]) as cf>
             <#if (cf.attribute??) &&(cf.attribute.dataType == 5) && (cf.resourceList??) && (cf.resourceList?size>0)>

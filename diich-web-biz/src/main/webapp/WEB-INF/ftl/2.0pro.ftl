@@ -437,7 +437,7 @@
                                         ${cf.attribute.enName}：
                                         </#if>
                                     </span>
-                                    <span class="value dic data-item" dic-type="${cf.attribute.dataType}" lang="${obj.lang}" data-id="${cf.attributeId}">${cf.content}</span>
+                                    <span class="value dic data-item" dic-type="${cf.attribute.dataType?c}" lang="${obj.lang}" data-id="${cf.attributeId}">${cf.content}</span>
                                 </li>
                             </#if>
                         </#list>

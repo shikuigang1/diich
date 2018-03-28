@@ -414,3 +414,89 @@
     width: 181px;
     word-break: break-word;
 }
+
+.init_center {
+    width: 100%;
+    overflow: hidden;
+    float: left;
+    box-sizing: border-box;
+    padding-bottom: 36px;
+}
+
+.enter {
+
+    width: 1170px;
+    margin: 0 auto;
+    margin-top: 36px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.enter > div {
+    width: 100%;
+    min-height: 224px;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    padding: 48px 68px 48px 64px;
+}
+
+.enter > div h2 {
+    font-size: 24px;
+    color: #1B1B1B;
+    margin-bottom: 24px;
+}
+
+.enter > div .enter_content {
+    width: 100%;
+}
+
+.enter > div .enter_content > div {
+    display: none;
+    zoom: 1;
+    width: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.enter > div .enter_content > div:after {
+    display: block;
+    clear: both;
+    content: '';
+}
+
+.enter > div .enter_content > div:nth-child(1) {
+    display: block;
+}
+
+.enter > div .enter_content > div:nth-child(2) {
+    display: block;
+}
+
+.enter > div .enter_content > div a {
+    display: block;
+    float: left;
+    margin-right: 20px;
+    width: 120px;
+    height: 80px;
+    overflow: hidden;
+}
+
+.enter > div .enter_content > div a img {
+    width: 100%;
+}
+
+.enter > div .enter_content > div h3 {
+    font-size: 16px;
+    color: #1B1B1B;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.enter > div .enter_content > div p {
+    line-height: 24px;
+}
+
+.enter > div .enter_content > div p span {
+    font-size: 12px;
+    color: #777777;
+}
