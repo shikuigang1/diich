@@ -242,7 +242,7 @@
                         </#list>
                     </#if>
                     <li class="active">
-                        <img src="${backImgUrl}" data-id="1" class="bg-image data-item"/>
+                        <img src="${backImgUrl}?x-oss-process=style/diich_560_420_titu" data-id="1" class="bg-image data-item"/>
                     </li>
                     <li class="padd">
                         <div class="active1">

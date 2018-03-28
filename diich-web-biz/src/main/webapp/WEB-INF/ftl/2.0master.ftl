@@ -225,7 +225,7 @@
                                 </#if>
                             </#list>
                         </#if>
-                        <img class="bg-image" src="${backImgUrl}"/>
+                        <img class="bg-image" src="${backImgUrl}?x-oss-process=style/diich_560_420_titu"/>
                     </li>
                     <li class="padd">
                         <div class="active1">
