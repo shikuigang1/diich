@@ -266,7 +266,7 @@
 
             $.each(data,function (index,obj) {
                 //获取项目名称
-                //var _name ='';
+                var _name ='';
                 var contentFragementList = obj.contentFragmentList;
                 if(type=='project' && contentFragementList.length>0){
                         $.each(contentFragementList,function (j,o) {
@@ -362,9 +362,9 @@
 
             if(type=='project'){
                 url ="/ichProject";
-            }else if(para.type=='inheritor'){
+            }else if(type=='inheritor'){
                 url ="/ichMaster";
-            }else if(para.type=='organize'){
+            }else if(type=='organize'){
                 url ="/organization";
             }
             $.ajax({
