@@ -23,89 +23,10 @@
             </div>
         </li>
     </ul>
-    <div class="status_list" id="protectList"><table id="table">
-     </table>
-        <script>
-            $(function() {
-                // 监听删除
-                $("body").delegate("a[id^='del_']", "click", function(){
-                    var $this = $(this);
-
-                    $(".mask_over").show();
-
-                    $.EU.dialog_create({
-                        id: "listIndex",
-                        width: 250,
-                        height: 30,
-                        title: "[删除] 提示",
-                        fixed: true,
-                        hide:true,
-                        okValue: "确认",
-                        ok: function () {
-                            $(".mask_over").hide();
-                            var id = $this.attr("id").split("_").pop();
-                            var status = $("#audit_nav .active").attr("data-status");
-                            var type = $("#search_select").children(".select").children("h2").attr("data-type");
-
-                            var url = "";
-                            if(type=='project'){
-                                url ="/ichProject/delete";
-                            }else if(type=='inheritor'){
-                                url ="/ichMaster/delete";
-                            }else if(type=='organize'){
-                                url ="/organization/delete";
-                            }
-
-                          $.post(url, {params: id}, function(data) {
-                              var para ={
-                                  status:status,
-                                  type:type
-                              }
-                              ajaxLoad(para,fillData);
-                            })
-                        },
-                        cancelValue: "取消",
-                        cancel: function () {
-                            $(".mask_over").hide();
-                        },
-                        content:"<b style='font-size: 10px'>确认删除？<br/>删除后不可恢复!</b>"
-                    });
-                });
-
-                /**
-                 * 分页
-                 */
-                $("#a_load_more").on("click", function() {
-                    $(this).text("Loading…");
-                    pageNo = parseInt($(this).attr("data-pageno")) + 1;
-                    var status = $("#audit_nav .active").attr("data-status");
-                    var type = $("#search_select").children(".select").children("h2").attr("data-type");
-                    // 构建参数
-                    var params = {
-                        pageNo: pageNo,
-                        status: status
-                    }
-                    if(type) {
-                        params["type"] = type
-                    }
-
-                    $.post("/user/toPgae", params, function (data) {
-                        console.log("data --- >", data)
-                        var index = parseInt($("#protectList").children("table").find("tr").length) - 1;
-                        $("#protectList").children("table").find("tr:eq(" + index + ")").after(data.html);
-                        // 更新pegeNo
-                        $("#a_load_more").attr("data-pageno", parseInt($("#a_load_more").attr("data-pageno")) + 1);
-                        $("#a_load_more").text("Load More");
-                        if(!data.hasNaxtPage) {
-                            $("#a_load_more").hide();
-                        } else {
-                            $("#a_load_more").show();
-                        }
-                        console.log("data", data.hasNaxtPage)
-                    });
-                })
-            })
-        </script></div>
+    <div class="status_list" id="protectList"><table id="table"></table></div>
+    <div class="load_more" style="display: none">
+        <a id="a_load_more" data-pageno="1" href="javascript:void(0);">Load More</a>
+    </div>
     <script type="text/javascript">
 
         var baseUrl='';
@@ -138,9 +59,11 @@
             }
         };
 
+        var pageSize = 10;
         (function () {
             //绑定导航项
             $("#audit_nav").delegate("li", "click", function () {
+                $("#a_load_more").attr("data-pageno", 1);
                 var status = $(this).attr("data-status"),
                     type = $("#search_select").find("h2").attr("data-type");
 
@@ -148,6 +71,7 @@
                     $("#audit_nav").find("li").removeClass("active");
                     $(this).addClass("active");
                     $("#protectList").html('<div class="loader-inner ball-pulse hide">' +
+                            '<span style="font-size: 10px;color: #b4b4b4;">加载中</span>' +
                         '<div></div>' +
                         '<div></div>' +
                         '<div></div>' +
@@ -195,10 +119,11 @@
                             type = $("#search_select").find("h2").attr("data-type");
 
                         $("#protectList").html('<div class="loader-inner ball-pulse hide">' +
-                            '<div></div>' +
-                            '<div></div>' +
-                            '<div></div>' +
-                            '</div>');
+                                '<span style="font-size: 10px;color: #b4b4b4;">加载中</span>' +
+                                '<div></div>' +
+                                '<div></div>' +
+                                '<div></div>' +
+                                '</div>');
 
                        var para={
                            status:status,
@@ -212,12 +137,82 @@
                     $(this).find(".tab").hide();
                 });
             });
-            ajaxLoad({status:0,type:'project'},fillData);
+            ajaxLoad({status:0,type:'project',current: 1, pageSize: pageSize},fillData);
             $("#protectList").html('<div class="loader-inner ball-pulse hide">' +
+                    '<span style="font-size: 10px;color: #b4b4b4;">加载中</span>' +
                 '<div></div>' +
                 '<div></div>' +
                 '<div></div>' +
                 '</div>');
+
+
+
+            // 监听删除
+            $("body").delegate("a[id^='del_']", "click", function(){
+                var $this = $(this);
+
+                $(".mask_over").show();
+
+                $.EU.dialog_create({
+                    id: "listIndex",
+                    width: 250,
+                    height: 30,
+                    title: "[删除] 提示",
+                    fixed: true,
+                    hide:true,
+                    okValue: "确认",
+                    ok: function () {
+                        $(".mask_over").hide();
+                        var id = $this.attr("id").split("_").pop();
+                        var status = $("#audit_nav .active").attr("data-status");
+                        var type = $("#search_select").children(".select").children("h2").attr("data-type");
+
+                        var url = "";
+                        if(type=='project'){
+                            url ="/ichProject/delete";
+                        }else if(type=='inheritor'){
+                            url ="/ichMaster/delete";
+                        }else if(type=='organize'){
+                            url ="/organization/delete";
+                        }
+
+                        $.post(url, {params: id}, function(data) {
+                            var para ={
+                                status:status,
+                                type:type
+                            }
+                            ajaxLoad(para,fillData);
+                        })
+                    },
+                    cancelValue: "取消",
+                    cancel: function () {
+                        $(".mask_over").hide();
+                    },
+                    content:"<b style='font-size: 10px'>确认删除？<br/>删除后不可恢复!</b>"
+                });
+            });
+
+            /**
+             * 分页
+             */
+            $("#a_load_more").on("click", function() {
+                $(this).text("Loading…");
+                var pageNo = parseInt($(this).attr("data-pageno")) + 1;
+                $("#a_load_more").attr("data-pageno", pageNo )
+                var status = $("#audit_nav .active").attr("data-status");
+                var type = $("#search_select").children(".select").children("h2").attr("data-type");
+                // 构建参数
+                var params = {
+                    current: pageNo,
+                    status: status,
+                    pageSize: pageSize
+                }
+                if(type) {
+                    params["type"] = type
+                }
+
+                ajaxLoad(params,fillData);
+            })
         })();
 
         function ajaxLoad(para,callback) {
@@ -232,21 +227,22 @@
             }else if(para.type=='organize'){
                 url_ =url.organize;
             }
-            var para_ = {status:para.status};
+//            var para_ = {status:para.status};
+
 
              $.ajax({
                  type: "POST",
                  url: url_,
-                 data: {params: JSON.stringify(para_)},
+                 data: {params: JSON.stringify(para)},
                  dataType: "json",
                  async: true,
                  success: function (data) {
-                     //console.log(data.data);
+                     console.log("--->", data);
                      if (data.code == 0) {
                          //$('#content').find('.loading').remove();
                          $("#protectList").empty();
                          if (callback || callback != 'undefinied') {
-                             callback(data.data, para.type);
+                             callback(data.data, para.type, data.total);
                          }
                          //数据为空
                          if (data.data.length == 0) {
@@ -259,7 +255,7 @@
              });
         }
 
-        function fillData(data,type){
+        function fillData(data,type,count){
 
             var str = "<table><tbody><tr class=\"title\"><th>名称<th>最近修改时间</th><th>操作</th></tr>";
             var status = $("#audit_nav .active").attr("data-status");
@@ -340,12 +336,23 @@
             $("#protectList").empty();
             $("#protectList").html(str);
 
+            // 处理分页
+            var pageNo = parseInt($("#a_load_more").attr("data-pageno"));
+            var countNum = pageNo * pageSize;
+            console.log("countNum --- >", countNum);
+
+            if(count-countNum < 0) {
+                $(".load_more").hide();
+            } else {
+                $(".load_more").show();
+            }
+            $("#a_load_more").text("Load More");
+
         }
 
         function reload(){
             var status = $("#audit_nav").find("li[class='active']").attr("data-status"),
                 type = $("#search_select").find("h2").attr("data-type");
-
 
             var para={
                 status:status,
@@ -489,6 +496,8 @@
                 }
             });
         }
+
+
 
     </script>
 </div>

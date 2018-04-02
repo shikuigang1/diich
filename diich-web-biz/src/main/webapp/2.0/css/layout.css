@@ -2015,7 +2015,7 @@ section.odd {
     width: 100%;
     text-align: center;
     float: left;
-    margin-bottom: 110px;
+    /*margin-bottom: 110px;*/
     margin-top: 60px;
 }
 .load_more a {
