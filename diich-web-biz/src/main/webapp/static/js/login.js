@@ -2,8 +2,6 @@ if(typeof base_url == 'undefined') {
     base_url = '';
 }
 
-//base_url='http://47.95.32.236/'
-
 //引入其他js 文件
  document.write("<script type=\"text/javascript\" src=\""+base_url+"/data/error_message.js\"></script>");
 // document.write("<script type=\"text/javascript\" src=\""+base_url+"/js/util.js\"></script>");
