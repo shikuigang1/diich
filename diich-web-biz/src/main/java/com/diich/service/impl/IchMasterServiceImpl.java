@@ -28,6 +28,7 @@ import java.util.*;
  */
 @Service("ichMasterService")
 @Transactional
+@SuppressWarnings("all")
 public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchMasterService {
 
     @Autowired
@@ -450,7 +451,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     @Override
     public Page<IchMaster> getIchMasterByUserId(Map<String, Object> params) throws Exception {
         Integer current = 1;
-        Integer pageSize = 50;
+        Integer pageSize = 10;
         if (params != null && params.containsKey("current")) {
             current = (Integer) params.get("current");
         }
@@ -1143,7 +1144,7 @@ public class IchMasterServiceImpl extends BaseService<IchMaster> implements IchM
     @Override
     public Page<IchMaster> getEntryByUserId(Map<String, Object> params) throws Exception {
         Integer current = 1;
-        Integer pageSize = 50;
+        Integer pageSize = 10;
         if (params != null && params.containsKey("current")) {
             current = (Integer) params.get("current");
         }

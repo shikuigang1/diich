@@ -263,7 +263,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
     @Override
     public Page<Works> getWorksByUserId(Map<String, Object> params) throws Exception {
         Integer current = 1;
-        Integer pageSize = 50;
+        Integer pageSize = 10;
         if (params != null && params.containsKey("current")) {
             current = (Integer) params.get("current");
         }
