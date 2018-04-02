@@ -2,6 +2,7 @@ package com.diich.mapper;
 
 import com.diich.core.base.BaseMapper;
 import com.diich.core.model.Authority;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,5 +22,5 @@ public interface AuthorityMapper extends BaseMapper<Authority> {
 
     int updateByPrimaryKey(Authority record);
 
-    List<Authority> selectByRoleId(Long roleId) throws Exception;
+    Authority selectAuthority(@Param("targetId") Long targetId, @Param("targetTable") String targetTable) throws Exception;
 }

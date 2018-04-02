@@ -431,7 +431,7 @@ public class IchProjectServiceImpl extends BaseService<IchProject> implements Ic
     @Override
     public Page<IchProject> getIchProjectByUserId(Map<String, Object> params) throws Exception {
         Integer current = 1;
-        Integer pageSize = 50;
+        Integer pageSize = 10;
         if (params != null && params.containsKey("current")) {
             current = (Integer) params.get("current");
         }

@@ -16,4 +16,6 @@ public interface AuthorityService {
     void addAuthority(String tableName, Long targetId, List<Long> authorityIds) throws Exception;
 
     boolean deleteAuthority(Long authorityId) throws Exception;
+
+    Authority getAuthority(Long targetId, String targetTable) throws Exception;
 }

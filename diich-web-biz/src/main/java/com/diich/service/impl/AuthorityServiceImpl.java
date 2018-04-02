@@ -1,6 +1,7 @@
 package com.diich.service.impl;
 
 import com.baomidou.mybatisplus.toolkit.IdWorker;
+import com.diich.core.exception.ApplicationException;
 import com.diich.core.model.Authority;
 import com.diich.core.model.TargetAuthority;
 import com.diich.core.model.User;
@@ -16,7 +17,8 @@ import java.util.List;
 /**
  * Created by Administrator on 2018/3/12.
  */
-@Service
+@Service("authorityService")
+@SuppressWarnings("all")
 public class AuthorityServiceImpl implements AuthorityService {
 
     @Autowired
@@ -57,6 +59,18 @@ public class AuthorityServiceImpl implements AuthorityService {
     @Override
     public boolean deleteAuthority(Long authorityId) throws Exception {
         return false;
+    }
+
+    @Override
+    public Authority getAuthority(Long targetId, String targetTable) throws Exception {
+        Authority authority = null;
+        try{
+            authority = authorityMapper.selectAuthority(targetId, targetTable);
+        }catch (Exception e){
+            throw new ApplicationException(ApplicationException.INNER_ERROR);
+        }
+
+        return authority;
     }
 
 
