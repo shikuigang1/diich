@@ -485,7 +485,7 @@
                             </#if>
                             <#if cf.content?? && cf.content != "">
                                 <div class="For_content2">
-                                    <#assign content =cf.content?replace(" ","&nbsp;")?replace("\n","<br>") />
+                                    <#assign content =cf.content?replace("\n","<br>") />
                                     ${content}
                                 </div>
                             </#if>
