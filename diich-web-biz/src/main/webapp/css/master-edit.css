@@ -300,3 +300,11 @@ section .item-content:after {
 .dropbox .item{
     max-width:1210px;
 }
+
+.item-content table, .item-content td, .item-content th {
+    border:1px solid #eee;
+}
+
+.item-content table td {
+    padding-left: 10px;
+}
