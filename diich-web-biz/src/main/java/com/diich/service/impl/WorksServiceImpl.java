@@ -353,7 +353,7 @@ public class WorksServiceImpl extends BaseService<Works> implements WorksService
                 ContentFragment contentFragment = new ContentFragment();
                 contentFragment.setContent(doi);
                 contentFragment.setId(IdWorker.getId());
-                contentFragment.setTargetType(0);
+                contentFragment.setTargetType(2);
                 contentFragment.setTargetId(id);
                 contentFragment.setStatus(0);
                 contentFragment.setAttributeId(2L);
