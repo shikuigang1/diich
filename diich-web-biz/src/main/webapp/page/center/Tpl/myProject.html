@@ -176,6 +176,8 @@
                             url ="/ichMaster/delete";
                         }else if(type=='organize'){
                             url ="/organization/delete";
+                        }else if(type=='project') {
+                            url = "/works/delete";
                         }
 
                         $.post(url, {params: id}, function(data) {
@@ -333,6 +335,11 @@
                             flag = true;
                             //return false;
                         }
+                        if(o.attributeId == 26 && type=='product' && currentUser.type==0 && o.content !=""){
+                            str+="<a  class=\"edit\" href=\"javascript:checkProject('"+obj.id+"','"+o.content+"')\">审核</a>&nbsp;&nbsp;";
+                            flag = true;
+                            //return false;
+                        }
                     });
 
                     if(!flag && currentUser.type==0){
@@ -392,6 +399,8 @@
                 url ="/ichMaster";
             }else if(type=='organize'){
                 url ="/organization";
+            }else if(type=='product'){
+                url ="/works";
             }
             $.ajax({
                 type: "POST",
@@ -442,10 +451,12 @@
 
             if(type=='project'){
                 url ="/ichProject";
-            }else if(para.type=='inheritor'){
+            }else if(type=='inheritor'){
                 url ="/ichMaster";
-            }else if(para.type=='organize'){
+            }else if(type=='organize'){
                 url ="/organization";
+            }else if(type=='product'){
+                url ="/works";
             }
 
             var para = {id:$("#confirmID").val().trim(),doi:$("#idcode").val()};
@@ -464,8 +475,9 @@
                         $("#confirmID").val("");
                         //$("#idcode").attr("disabled","false");
                         $("#idcode").removeAttr("disabled");
+                        $("#idcode").val("");
                         $("#checkPro").hide();
-
+                        reload();
                     }else{
                         $("#id_error").text(result.msg+":"+result.detailMsg);
                     }
@@ -485,10 +497,12 @@
 
             if(type=='project'){
                 url ="/ichProject";
-            }else if(para.type=='inheritor'){
+            }else if(type=='inheritor'){
                 url ="/ichMaster";
-            }else if(para.type=='organize'){
+            }else if(type=='organize'){
                 url ="/organization";
+            }else if(type=='product'){
+                url ="/works";
             }
             $("#refbtn").attr("href","javascript:void(0)");
             //console.log( url+"/refuseAudit");
