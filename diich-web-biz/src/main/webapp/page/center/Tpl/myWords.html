@@ -19,30 +19,42 @@
 
         <!--</tbody>-->
         <!--</table>-->
+
         <script>
+
+        </script>
+    </div>
+    <div class="load_more" style="display: none">
+        <a id="a_load_more" data-pageno="1" href="javascript:void(0);">Load More</a>
+    </div>
+    <script type="text/javascript">
+        (function () {
+            var pageSize = 10;
             $(function () {
                 /**
                  * 分页
                  */
                 $("#a_load_more").on("click", function () {
                     $(this).text("Loading…");
-                    pageNo = parseInt($(this).attr("data-pageno")) + 1;
+                    var pageNo = parseInt($(this).attr("data-pageno")) + 1;
+                    $("#a_load_more").attr("data-pageno", pageNo )
                     var status = $("#audit_nav .active").attr("data-status");
                     // var type = 'words';
                     // 构建参数
                     var params = {
-                        //pageNo: pageNo,
-                        status: status
+                        current: pageNo,
+                        status: status,
+                        pageSize: pageSize
                     }
                     /*  if(type) {
                      params["type"] = type
                      }*/
 
-                    $.post("/ichMaster/getEntryByUserId", params, function (data) {
+                    $.post("/ichMaster/getEntryByUserId", {params: JSON.stringify(params)}, function (data) {
                         console.log("data --- >", data)
 
                         if (data.code == 0) {
-                            fillWords(data.data)
+                            fillWords(data.data, data.total)
                         }
 
                         /*       var index = parseInt($(".status_list").children("table").find("tr").length) - 1;
@@ -58,15 +70,13 @@
                     });
                 })
             })
-        </script>
-    </div>
-    <script type="text/javascript">
-        (function () {
-            var para_ = {status: 0};
+
+            var para_ = {status: 0, pageSize: pageSize, current: 1};
             ajaxPost(para_);
 
             //绑定导航项
             $("#audit_nav").delegate("li", "click", function () {
+                $("#a_load_more").attr("data-pageno", 1);
                 var status = $(this).attr("data-status");
                 //type = 'words';
 
@@ -74,12 +84,13 @@
                     $("#audit_nav").find("li").removeClass("active");
                     $(this).addClass("active");
                     $(".status_list").html('<div class="loader-inner ball-pulse hide">' +
+                            '<span style="font-size: 10px;color: #b4b4b4;">加载中</span>' +
                             '<div></div>' +
                             '<div></div>' +
                             '<div></div>' +
                             '</div>');
 
-                    var para_ = {status: status};
+                    var para_ = {status: status, pageSize: pageSize, current: 1};
                     ajaxPost(para_);
                 }
             });
@@ -87,13 +98,13 @@
 
             function ajaxPost(para_) {
                 $.post("/ichMaster/getEntryByUserId", {params: JSON.stringify(para_)}, function (data) {
-                    console.log(data);
+                    console.log("..... >", data);
                     if (data.code == 0) {
                         if (data.data.length == 0) {
                             $('.status_list').html('<div style="line-height: 51px;text-align: center;font-size:20px;background: #fff;">暂无数据</div>');
                             return;
                         }
-                        fillWords(data.data)
+                        fillWords(data.data, data.total)
                     }
                     //console.log(data);
                     //$(".status_list").html(data.html);
@@ -104,7 +115,7 @@
         })();
 
 
-        function fillWords(data) {
+        function fillWords(data, count) {
 
             var str = "<table><tbody><tr class=\"title\"><th>名称<th>最近修改时间</th><th>操作</th></tr>";
             var status = $("#audit_nav .active").attr("data-status");
@@ -133,8 +144,18 @@
 
             $(".status_list").empty();
             $(".status_list").html(str);
+            console.log(" ---- >", data, count)
 
+            // 处理分页
+            var pageNo = parseInt($("#a_load_more").attr("data-pageno"));
+            var countNum = pageNo * pageSize;
 
+            if(count-countNum < 0) {
+                $(".load_more").hide();
+            } else {
+                $(".load_more").show();
+            }
+            $("#a_load_more").text("Load More");
         }
 
     </script>

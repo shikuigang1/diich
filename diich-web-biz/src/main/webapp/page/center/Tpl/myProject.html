@@ -17,7 +17,7 @@
                 <ul class="tab" style="display: none;">
                     <li data-type="project">项目</li>
                     <li data-type="inheritor">传承人</li>
-                  <!--  <li data-type="product">作品</li>-->
+                    <li data-type="product">作品</li>
                     <li data-type="organize" style="z-index: 9999;">机构</li>
                 </ul>
             </div>
@@ -33,7 +33,8 @@
         var url = {//获取链接地址
             project: baseUrl + '/ichProject/getIchProjectByUserId',
             master: baseUrl + '/ichMaster/getIchMasterByUserId',
-            organize: baseUrl + '/organization/getOrganizationByUserId'
+            organize: baseUrl + '/organization/getOrganizationByUserId',
+            product: baseUrl + "/works/getWorksByUserId"
         };
         var modal={
             loading:function (options) {
@@ -129,6 +130,7 @@
                            status:status,
                            type:type
                        }
+                        console.log("para === ", para)
                         ajaxLoad(para,fillData);
                     });
                 });
@@ -226,6 +228,8 @@
 
             }else if(para.type=='organize'){
                 url_ =url.organize;
+            }else if(para.type=="product") {
+                url_ =url.product;
             }
 //            var para_ = {status:para.status};
 
@@ -257,7 +261,7 @@
 
         function fillData(data,type,count){
 
-            var str = "<table><tbody><tr class=\"title\"><th>名称<th>最近修改时间</th><th>操作</th></tr>";
+            var str = "<table><tbody><tr class=\"title\"><th>名称<th>最近修改时间</th>" + (type == "product" ? "" : "<th>操作</th>") + "</tr>";
             var status = $("#audit_nav .active").attr("data-status");
 
             $.each(data,function (index,obj) {
@@ -282,6 +286,13 @@
                 }else if(type=='organize'){
                     $.each(contentFragementList,function (j,o) {
                         if(o.attributeId == 132){
+                            _name=o.content;
+                            return false;
+                        }
+                    })
+                }else if(type == "product") {
+                    $.each(contentFragementList,function (j,o) {
+                        if(o.attributeId == 28){
                             _name=o.content;
                             return false;
                         }
@@ -325,9 +336,9 @@
 
                     flag = false;
 
-                    str+="<a class=\"edit\" href=\"javascript:preview('"+obj.id+"')\">查看</a></td>";
+                    str+= type == "product" ? "" : "<a class=\"edit\" href=\"javascript:preview('"+obj.id+"')\">查看</a></td>";
                 }else{
-                    str+="<td><a class=\"edit\" href=\"javascript:preview('"+obj.id+"')\">查看</a></td>";
+                    str+= type == "product" ? "" : "<td><a class=\"edit\" href=\"javascript:preview('"+obj.id+"')\">查看</a></td>";
                 }
                 str+="</tr>";
             });
