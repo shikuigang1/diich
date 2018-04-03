@@ -260,9 +260,17 @@
         }
 
         function fillData(data,type,count){
-
-            var str = "<table><tbody><tr class=\"title\"><th>名称<th>最近修改时间</th>" + (type == "product" ? "" : "<th>操作</th>") + "</tr>";
             var status = $("#audit_nav .active").attr("data-status");
+            var str = "<table><tbody><tr class=\"title\"><th>名称<th>最近修改时间</th>";
+            if(type == "product" ) {
+                if(status != 0) {
+                    str+= "<th>操作</th></tr>";
+                } else {
+                    str+= "</tr>"
+                }
+            } else {
+                str+= "<th>操作</th></tr>";
+            }
 
             $.each(data,function (index,obj) {
                 //获取项目名称
@@ -362,9 +370,9 @@
         }
 
         function reload(){
+            $("#reason").val(""); // 清空
             var status = $("#audit_nav").find("li[class='active']").attr("data-status"),
                 type = $("#search_select").find("h2").attr("data-type");
-
             var para={
                 status:status,
                 type:type
@@ -471,6 +479,7 @@
         function refuse_confire(){
             var rid = $("#refuse_id").val().trim();
             var reason = $("#reason").val().trim();
+            var url= "";
 
             var type = $("#search_select").find("h2").attr("data-type");
 
@@ -491,7 +500,7 @@
                 async:false,
                 complete: function () { },
                 success: function (result) {
-                    console.log(result);
+//                    console.log(result);
                     $("#refbtn").attr("href","javascript:refuse_confire()");
                     if(result.code==0){
                         $("#refuse").hide();
@@ -507,9 +516,6 @@
                 }
             });
         }
-
-
-
     </script>
 </div>
 
@@ -537,8 +543,8 @@
         <input type="hidden" id ="refuse_id" value="">
         <ul class="user_props">
             <li>
-                <h2 style="top: -100px;position: relative;">拒绝理由</h2>
-                <textarea id="reason" name="reason" id="reason" style="height: 100px;width: 500px;"  placeholder="请输入拒绝理由" />
+                <h2 style="display: block;">拒绝理由</h2>
+                <textarea id="reason" name="reason" id="reason" style="height: 100px;width: 500px; border: 1px solid #868686;padding: 10px;"  placeholder="请输入拒绝理由" />
             </li>
         </ul>
     </form>
