@@ -44,11 +44,10 @@ public class InitDictionaryData  implements InitializingBean {
         //redis key 分类规则：跟进type 类型
         for(int i=0;i<ls.size();i++){
             Dictionary d = ls.get(i);
+            jedisHelper.setCrud(Constants.DICTIONARY_CODE+d.getType()+"_"+d.getCode(),JSON.toJSONString(d));
             List<Dictionary> childen = dictionaryService.getDictionaryListByParentID(d.getId(),101);
             if(childen != null && childen.size() > 0){
-                //jedisHelper.set(Constants.DICTIONARY_KEY+d.getId(),  (Serializable)childen);
                 jedisHelper.setCrud(Constants.DICTIONARY_KEY+d.getId(),JSON.toJSONString(childen));
-                //redisHelper.set(Constants.DICTIONARY_KEY+d.getId(),(Serializable)childen);
             }
             //redisHelper.hset("t_"+d.getType(),d);.getDictionaryListByParentId()
         }
